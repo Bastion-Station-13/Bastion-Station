@@ -142,6 +142,8 @@
 #define BODYTYPE_ALIEN (1<<7)
 ///The limb fits a modular custom shape
 #define BODYTYPE_CUSTOM (1<<8)
+//The limb is a peg limb
+#define BODYTYPE_PEG (1<<9)
 
 #define BODYTYPE_LIST_PROSTHETIC (BODYTYPE_ROBOTIC | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
 

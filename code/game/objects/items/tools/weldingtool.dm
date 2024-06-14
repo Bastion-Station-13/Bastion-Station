@@ -176,7 +176,7 @@
 		use_delay = 5 SECONDS
 	if(!use_tool(attacked_humanoid, user, use_delay, volume = 50, amount = 1))
 		return ITEM_INTERACT_BLOCKING
-	if(!item_heal_robotic(attacked_humanoid, user, brute_heal = 15, burn_heal = 0))
+	if(!attacked_humanoid.item_heal(user, brute_heal = 15, burn_heal = 0, heal_message_brute = "dents", heal_message_burn = "burnt wires", required_bodytype = BODYTYPE_ROBOTIC))
 		return ITEM_INTERACT_BLOCKING
 	INVOKE_ASYNC(src, PROC_REF(try_heal_loop), interacting_with, user, TRUE)
 	return ITEM_INTERACT_SUCCESS
