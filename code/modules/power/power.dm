@@ -544,7 +544,7 @@
 
 			victim.visible_message(
 				span_danger("[victim] starts glowing wildly, you feel like you should back up!"),
-				span_userdanger("Electricity courses through as your body contracts wildly!"),
+				span_userdanger("Electricity courses through you as your body contracts wildly!"),
 				)
 
 			if(ishuman(victim)) // for SHOCK value.... ha
