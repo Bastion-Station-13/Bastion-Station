@@ -535,7 +535,6 @@
 			tesla_zap(victim, 7, surplus)
 			drained_hp = surplus * 0.01
 		else // we are over 250MW
-			var/obj/item/organ/internal/brain/carbon_brain = victim.get_organ_slot(ORGAN_SLOT_BRAIN)
 			var/turf/turf = get_turf(victim)
 			var/turf/source_turf = get_turf(source)
 			playsound(victim.loc, 'sound/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
