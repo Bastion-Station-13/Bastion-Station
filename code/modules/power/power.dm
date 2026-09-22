@@ -28,7 +28,6 @@
 	if(isturf(loc))
 		var/turf/turf_loc = loc
 		turf_loc.add_blueprints_preround(src)
-	connect_to_network()
 
 /obj/machinery/power/Destroy()
 	disconnect_from_network()
@@ -75,8 +74,6 @@
 		return ITEM_INTERACT_BLOCKING
 
 	cable_layer = GLOB.cable_name_to_layer[choice]
-	disconnect_from_network()
-	connect_to_network()
 	balloon_alert(user, "now operating on the [choice]")
 	return ITEM_INTERACT_SUCCESS
 
@@ -503,12 +500,19 @@
 	var/obj/item/stock_parts/power_store/cell/cell = powernet_info["cell"]
 
 	// MONKESTATION ADDITION -- This whole proc is basically polluted because long ago we didnt care for modularization
-	if(!victim.should_electrocute(power_source) && !always_shock)
+	if(victim.wearing_shock_proof_gloves() && (PN && PN?.netexcess < 100 MW) && !always_shock)
 		SEND_SIGNAL(victim, COMSIG_LIVING_SHOCK_PREVENTED, power_source, source, siemens_coeff, dist_check)
 		return FALSE //to avoid spamming with insulated gloves on
 
 	var/drained_hp = 0
-	if(!PN || (PN?.netexcess < 150 MW))
+
+	// PN.netexcess is shoddy, and does not seem to work randomly at some moments.
+	var/surplus = 0
+
+	if(PN)
+		surplus = clamp(PN.avail - PN.load, 0, PN.avail) // copied from /obj/structure/cable/proc/surplus()
+
+	if(!PN || (surplus < 150 MW)) // shocks for non-powernet related things
 		var/PN_damage = 0
 		var/cell_damage = 0
 		if (PN)
@@ -523,13 +527,49 @@
 			power_source = cell
 			shock_damage = cell_damage
 		drained_hp = victim.electrocute_act(shock_damage, source, siemens_coeff) //zzzzzzap!
-	else if(PN && (PN?.netexcess < 250 MW))
-		tesla_zap(victim, 7, PN.netexcess)
-		drained_hp = PN.netexcess * 0.01
-	else
-		drained_hp = victim.electrocute_act(600, source, siemens_coeff) //OUCH!
-		playsound(victim.loc, 'sound/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
-		victim.visible_message(span_danger("[victim]'s skin turns to ash from the electrical shock!"))
+	else if(PN) // shocks for powernet related things
+		if(surplus < 250 MW) // zaps ya.
+			tesla_zap(victim, 7, surplus)
+			drained_hp = surplus * 0.01
+		else // we are over 250MW
+			var/obj/item/organ/internal/brain/carbon_brain = victim.get_organ_slot(ORGAN_SLOT_BRAIN)
+			var/turf/turf = get_turf(victim)
+			var/turf/source_turf = get_turf(source)
+			playsound(victim.loc, 'sound/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
+			do_sparks(rand(3,6), FALSE, victim)
+
+			source_turf.Beam(victim, icon_state="lightning[rand(1,12)]", time = 15)
+
+			victim.Paralyze(30)
+
+			victim.visible_message(
+				span_danger("[victim] starts glowing wildly, you feel like you should back up!"),
+				span_userdanger("Electricity courses through as your body contracts wildly!"),
+				)
+
+			if(ishuman(victim)) // for SHOCK value.... ha
+				var/mob/living/carbon/human/Person = victim
+				Person.electrocution_animation(30)
+
+			drained_hp = PN.netexcess * 0.1
+
+			spawn(15)
+				source_turf.Beam(victim, icon_state="lightning[rand(1,12)]", time = 4)
+				playsound(victim, 'sound/magic/lightningshock.ogg', 50, TRUE, extrarange = 30)
+				victim.death(FALSE, "electrocution")
+				dyn_explosion(turf, 1, 0, 0, TRUE, FALSE, FALSE, FALSE, source)
+
+				victim.do_jitter_animation(300)
+				victim.adjust_jitter(20 SECONDS)
+				victim.adjust_stutter(4 SECONDS)
+
+				victim.apply_damage(500, BURN, null, 0, TRUE, TRUE)
+				victim.adjust_fire_stacks(8)
+				victim.ignite_mob()
+
+
+
+
 
 	log_combat(source, victim, "electrocuted")
 
