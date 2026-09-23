@@ -1115,7 +1115,7 @@
 
 /obj/item/toy/plush/expie/spinny_hat
 	name = "spinny expie plushie"
-	desc = "A normal expie plushie which has been given a bright lolipop and a spinny propeller hat."
+	desc = "A normal expie plushie which has been given a bright lolipop and a spinny propeller hat. Somehow, you feel compelled to squeeze it."
 	icon_state = "expie_spinny_hat"
 
 /obj/item/toy/plush/expie/dune
