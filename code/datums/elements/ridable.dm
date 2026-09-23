@@ -184,9 +184,11 @@
 
 /obj/item/riding_offhand/Destroy()
 	var/atom/movable/AM = parent
-	if(selfdeleting)
+	if(selfdeleting && rider && AM && ismob(rider))
 		if(rider in AM.buckled_mobs)
 			AM.unbuckle_mob(rider)
+	parent = null
+	rider = null
 	. = ..()
 
 /obj/item/riding_offhand/on_thrown(mob/living/carbon/user, atom/target)

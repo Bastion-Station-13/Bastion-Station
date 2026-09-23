@@ -405,6 +405,14 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 	return ..()
 
 /obj/item/mecha_parts/mecha_equipment/ejector/seccage/container_resist_act(mob/living/user)
+	// If you're a carbon, not handcuffed, and have access to the mech you can just walk out
+	if (iscarbon(user))
+		var/mob/living/carbon/carbon_user = user
+		if (!carbon_user.handcuffed && carbon_user.check_access_list(chassis.accesses))
+			to_chat(carbon_user, span_notice("You unlock and get out of the [src]."))
+			carbon_user.forceMove(drop_location())
+			return
+
 	var/breakout_time = 1 MINUTES
 	if (user.mob_size > MOB_SIZE_HUMAN)
 		breakout_time = 6 SECONDS
