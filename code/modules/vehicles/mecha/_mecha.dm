@@ -37,6 +37,7 @@
 	mouse_pointer = 'icons/effects/mouse_pointers/mecha_mouse.dmi'
 	// Tank desant
 	can_buckle = TRUE
+	buckle_prevents_pull = TRUE
 	max_buckled_mobs = 3
 	/// Mob who is riding on the back
 	var/mob/living/back_desant
@@ -413,6 +414,8 @@
 /obj/vehicle/sealed/mecha/is_buckle_possible(mob/living/target, force = FALSE, check_loc = TRUE)
 	if(!..())
 		return FALSE
+	if(target.IsParalyzed() || target.IsKnockdown() || target.body_position == LYING_DOWN || !(target.mobility_flags & MOBILITY_MOVE))
+		return FALSE
 	if(!length(target.get_empty_held_indexes()))
 		return FALSE
 	return TRUE
@@ -433,6 +436,9 @@
 	return null
 
 /obj/vehicle/sealed/mecha/post_buckle_mob(mob/living/buckled_mob)
+	if(buckled_mob.IsParalyzed() || buckled_mob.IsKnockdown() || buckled_mob.body_position == LYING_DOWN)
+		unbuckle_mob(buckled_mob, force = TRUE, can_fall = FALSE)
+		return
 	occupy_desant_hand(buckled_mob)
 	if(!left_desant)
 		left_desant = buckled_mob
@@ -454,6 +460,7 @@
 	for(var/obj/item/riding_offhand/offhand in unbuckled_mob.contents)
 		if(offhand.parent == src)
 			qdel(offhand)
+	unbuckled_mob.forceMove(get_turf(src))
 	if(left_desant == unbuckled_mob)
 		left_desant = null
 		unbuckled_mob.pixel_x = unbuckled_mob.base_pixel_x
