@@ -39,7 +39,7 @@
 		to_chat(user, span_notice("Please add a description to your tape before submitting it, you can't change this later!"))
 		return ITEM_INTERACT_BLOCKING
 
-	var/choice = tgui_alert(user, "Are you sure? This costs 5k Monkecoins", "Mailbox", list("Yes", "No"))
+	var/choice = tgui_alert(user, "Are you sure?", "Mailbox", list("Yes", "No"))
 	if(choice != "Yes")
 		return ITEM_INTERACT_BLOCKING
 
