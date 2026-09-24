@@ -7746,7 +7746,6 @@
 #include "monkestation\code\modules\interiors\interior_spawner.dm"
 #include "monkestation\code\modules\interiors\multitile.dm"
 #include "monkestation\code\modules\interiors\vehicle_chairs.dm"
-#include "monkestation\code\modules\interiors\vehicles\ambulance.dm"
 #include "monkestation\code\modules\job_xp\job_xp_menu.dm"
 #include "monkestation\code\modules\job_xp\milestones\_milestones.dm"
 #include "monkestation\code\modules\job_xp\milestones\botany_milestones.dm"
