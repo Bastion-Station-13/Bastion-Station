@@ -53,9 +53,9 @@
 	)
 	/// Data of north seat positions on desant
 	var/list/seat_data_north = list(
-		"left" = list(-14, 6, 1),
+		"left" = list(-14, 6, 0),
 		"back" = list(0, 12, 1),
-		"right" = list(14, 6, 1),
+		"right" = list(14, 6, 0),
 	)
 	/// Data of south seat positions on desant
 	var/list/seat_data_south = list(
