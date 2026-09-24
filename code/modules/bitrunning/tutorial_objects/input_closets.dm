@@ -2,13 +2,13 @@
 	name = "Input Closet"
 	desc = "Please deposit the requested item to complete the tutorial!"
 	resistance_flags = INDESTRUCTIBLE
-	var/datum/tutorial_reward/reward
+	//var/datum/tutorial_reward/reward
 	var/obj/item/item_to_be_checked = /obj/item/flashlight
 
 /obj/structure/closet/tutorial/Initialize(mapload)
 	. = ..()
 	set_light(l_outer_range = 3, l_power = 1.4, l_color = LIGHT_COLOR_BLUE)
-	reward = new(TUTORIAL_REWARD_LOW)
+	//reward = new(TUTORIAL_REWARD_LOW)
 
 /obj/structure/closet/tutorial/after_close(mob/living/user, force)
 	. = ..()
@@ -28,7 +28,7 @@
  */
 /obj/structure/closet/tutorial/proc/check_stuff(mob/living/user, obj/item/stuff)
 	if(istype(stuff, item_to_be_checked))
-		reward.award(user)
+		//reward.award(user)
 		return TRUE
 
 	return FALSE

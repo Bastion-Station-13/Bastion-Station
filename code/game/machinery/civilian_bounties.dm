@@ -100,8 +100,6 @@
 		var/obj/item/bounty_cube/reward = new /obj/item/bounty_cube(drop_location())
 		reward.set_up(curr_bounty, inserted_scan_id)
 
-		usr.client?.prefs?.adjust_metacoins(usr.ckey, round(curr_bounty.reward * 0.1), "Completed a bounty", respects_roundcap = TRUE)
-
 	pad.visible_message(span_notice("[pad] activates!"))
 	flick(pad.sending_state,pad)
 	pad.icon_state = pad.idle_state
@@ -158,9 +156,6 @@
 			data["id_bounty_infos"] = list(inserted_scan_id.registered_account.bounties[1].description,
 											inserted_scan_id.registered_account.bounties[2].description,
 											inserted_scan_id.registered_account.bounties[3].description)
-			data["id_bounty_values"] = list(inserted_scan_id.registered_account.bounties[1].reward * (CIV_BOUNTY_SPLIT/100),
-											inserted_scan_id.registered_account.bounties[2].reward * (CIV_BOUNTY_SPLIT/100),
-											inserted_scan_id.registered_account.bounties[3].reward * (CIV_BOUNTY_SPLIT/100))
 		else
 			data["picking"] = FALSE
 
