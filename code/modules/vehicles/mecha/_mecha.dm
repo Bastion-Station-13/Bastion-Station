@@ -47,21 +47,21 @@
 	var/mob/living/right_desant
 	/// Data of current seat positions on desant
 	var/list/seat_data = list(
-		"left" = list(-12, 6, 1),
-		"back" = list(0, -6, -1),
-		"right" = list(12, 6, 1),
+		"left" = list(0, 0, 0),
+		"back" = list(0, 0, 0),
+		"right" = list(0, 0, 0),
 	)
 	/// Data of north seat positions on desant
 	var/list/seat_data_north = list(
-		"left" = list(-14, 6, -1),
+		"left" = list(-14, 6, 1),
 		"back" = list(0, 12, 1),
-		"right" = list(14, 6, -1),
+		"right" = list(14, 6, 1),
 	)
 	/// Data of south seat positions on desant
 	var/list/seat_data_south = list(
-		"left" = list(14, 6, 1),
+		"left" = list(14, 6, -1),
 		"back" = list(0, 12, -1),
-		"right" = list(-14, 6, 1),
+		"right" = list(-14, 6, -1),
 	)
 	/// Data of east seat positions on desant
 	var/list/seat_data_east = list(
@@ -427,6 +427,8 @@
 	handhold.rider = buckled_mob
 	handhold.parent = src
 	var/hand_index = buckled_mob.get_empty_held_index_for_side(LEFT_HANDS) || buckled_mob.get_empty_held_index_for_side(RIGHT_HANDS)
+	if(buckled_mob == left_desant) // FOr aesthetic reasons, you would logically grab it with right hand
+		hand_index = buckled_mob.get_empty_held_index_for_side(RIGHT_HANDS) || buckled_mob.get_empty_held_index_for_side(LEFT_HANDS)
 	if(hand_index)
 		buckled_mob.put_in_hand(handhold, hand_index)
 		return handhold
@@ -439,21 +441,23 @@
 	if(buckled_mob.IsParalyzed() || buckled_mob.IsKnockdown() || buckled_mob.body_position == LYING_DOWN)
 		unbuckle_mob(buckled_mob, force = TRUE, can_fall = FALSE)
 		return
-	occupy_desant_hand(buckled_mob)
 	if(!left_desant)
 		left_desant = buckled_mob
 		buckled_mob.setDir(dir)
 		update_desant_positions()
+		occupy_desant_hand(buckled_mob)
 		return
 	if(!back_desant)
 		back_desant = buckled_mob
 		buckled_mob.setDir(dir)
 		update_desant_positions()
+		occupy_desant_hand(buckled_mob)
 		return
 	if(!right_desant)
 		right_desant = buckled_mob
 		buckled_mob.setDir(dir)
 		update_desant_positions()
+		occupy_desant_hand(buckled_mob)
 		return
 
 /obj/vehicle/sealed/mecha/post_unbuckle_mob(mob/living/unbuckled_mob)
