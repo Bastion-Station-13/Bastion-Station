@@ -673,7 +673,6 @@
 	if(!action_checks(target))
 		return
 	if(isliving(target))
-		. = ..()
 		var/mob/living/mobtarget = target
 		if(mobtarget.move_resist == MOVE_FORCE_OVERPOWERING) //No megafauna or bolted AIs, please.
 			balloon_alert(source, "too strong!")
@@ -681,6 +680,7 @@
 		if(secmech.cargo_hold.contents.len >= secmech.cargo_hold.cargo_capacity)
 			balloon_alert(source, "no room!")
 			return
+		. = ..()
 
 		playsound(chassis, clampsound, 50, FALSE, -6)
 		mobtarget.visible_message(span_notice("[chassis] lifts [mobtarget] into its internal holding cell."),span_userdanger("[chassis] grips you with [src] and prepares to load you into [secmech.cargo_hold]!"))
@@ -692,7 +692,10 @@
 		to_chat(mobtarget, "[span_warning("You have been moved into [secmech.cargo_hold]. You can attempt to resist out if you wish.")]")
 		if(autocuff && iscarbon(target))
 			var/mob/living/carbon/carbontarget = target
+			if(!carbontarget.canBeHandcuffed())
+				return
 			carbontarget.set_handcuffed(new cuff_type(carbontarget))
+			carbontarget.update_handcuffed()
 		return
 
 	if(istype(target, /obj/machinery/door))
