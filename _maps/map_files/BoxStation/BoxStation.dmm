@@ -55024,7 +55024,7 @@
 /turf/open/floor/plating,
 /area/station/science/ordnance/testlab)
 "rIx" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/wood,
 /area/station/service/library)
 "rIC" = (

@@ -118,7 +118,7 @@ ALTER TABLE `death`
 COMMIT;
 
 ALTER TABLE `library`
- CHANGE COLUMN `category` `category` ENUM('Any', 'Fiction', 'Non-Fiction', 'Adult', 'Reference', 'Religion') NOT NULL
+ CHANGE COLUMN `category` `category` ENUM('Any', 'Fiction', 'Non-Fiction', 'Poetry', 'Reference', 'Religion') NOT NULL
 , CHANGE COLUMN `ckey` `ckey` VARCHAR(32) NOT NULL DEFAULT 'LEGACY'
 , CHANGE COLUMN `datetime` `datetime` DATETIME NOT NULL
 , CHANGE COLUMN `deleted` `deleted` TINYINT(1) UNSIGNED NULL DEFAULT NULL;

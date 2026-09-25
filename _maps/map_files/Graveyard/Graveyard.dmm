@@ -56694,7 +56694,7 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "wbr" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/wood,
 /area/station/service/library)
 "wbs" = (

@@ -26091,7 +26091,7 @@
 /turf/open/floor/iron/dark,
 /area/station/service/library/lounge)
 "cln" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/iron/dark,
 /area/station/service/library/lounge)
 "clp" = (
@@ -49606,7 +49606,7 @@
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/monastery)
 "txB" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/service/library/lounge)
@@ -51246,7 +51246,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
 "uIv" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/station/service/library/artgallery)
