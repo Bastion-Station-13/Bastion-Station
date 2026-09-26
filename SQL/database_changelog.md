@@ -18,6 +18,16 @@ In any query remember to add a prefix to the table names if you use one.
 
 ---
 
+Version 6.2 26 September, 2026, by Mantlecrawler
+Rename `Adult` catergory in the library books to `Poetry`
+
+```sql
+ALTER TABLE `library` MODIFY `category` ENUM('Any','Fiction','Non-Fiction','Adult','Poetry','Reference','Religion') NOT NULL;
+UPDATE `library` SET `category` = 'Poetry' WHERE `category` = 'Adult';
+ALTER TABLE `library` MODIFY `category` ENUM('Any','Fiction','Non-Fiction','Poetry','Reference','Religion') NOT NULL;
+INSERT INTO `schema_revision` (`major`, `minor`) VALUES (6, 2);
+```
+
 Version 6.1 6 January 2026, by iliyaxox
 Add `cassette_purchases` table
 
@@ -34,6 +44,7 @@ CREATE TABLE `cassette_purchases` (
   KEY `idx_purchase_date` (`purchase_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; COLLATE=utf8mb4_general_ci;
 ```
+
 ---
 
 Version 6.0 6 October 2025, by Flleeppyy
@@ -46,6 +57,7 @@ DROP TABLE IF EXISTS `stickyban_matched_ckey`;
 DROP TABLE IF EXISTS `stickyban_matched_ip`;
 DROP TABLE IF EXISTS `stickyban_matched_cid`;
 ```
+
 ---
 
 Version 5.28 1 July 2025, by Flleeppyy
