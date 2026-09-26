@@ -87,9 +87,9 @@
 	name = "bookcase (Religion)"
 	random_category = "Religion"
 
-/obj/structure/bookcase/random/adult
-	name = "bookcase (Adult)"
-	random_category = "Adult"
+/obj/structure/bookcase/random/poetry
+	name = "bookcase (Poetry)"
+	random_category = "Poetry"
 
 /obj/structure/bookcase/random/reference
 	name = "bookcase (Reference)"

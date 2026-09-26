@@ -7805,7 +7805,7 @@
 /turf/open/floor/iron/textured_large,
 /area/station/engineering/atmos)
 "cst" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/wood,
 /area/station/security/prison/garden)
 "csL" = (
@@ -31527,7 +31527,7 @@
 /turf/open/floor/iron/small,
 /area/station/hallway/primary/central)
 "iWA" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/structure/sign/painting/library{
 	pixel_y = 32
 	},

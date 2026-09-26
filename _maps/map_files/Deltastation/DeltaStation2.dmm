@@ -80304,7 +80304,7 @@
 /turf/open/floor/iron/dark,
 /area/station/service/theater)
 "sRT" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
@@ -89563,7 +89563,7 @@
 /area/station/command/heads_quarters/captain)
 "vdT" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/iron/dark,
 /area/station/service/library/abandoned)
 "vdU" = (
