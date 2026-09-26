@@ -414,6 +414,8 @@
 /obj/vehicle/sealed/mecha/is_buckle_possible(mob/living/target, force = FALSE, check_loc = TRUE)
 	if(!..())
 		return FALSE
+	if(!target.mind || !target.client)
+		return FALSE
 	if(target.IsParalyzed() || target.IsKnockdown() || target.body_position == LYING_DOWN || !(target.mobility_flags & MOBILITY_MOVE))
 		return FALSE
 	if(!length(target.get_empty_held_indexes()))
