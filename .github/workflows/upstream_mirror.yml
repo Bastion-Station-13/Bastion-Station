@@ -1,0 +1,68 @@
+# Opens a PR for every PR merged in Monkestation, so we can pick which ones to take.
+name: Upstream Mirror
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+concurrency: upstream-mirror
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    if: github.repository == 'Bastion-Station-13/Bastion-Station'
+    env:
+      UPSTREAM: Monkestation/Monkestation2.0
+      SINCE: "2026-09-21T00:00:00Z"
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Mirror merged PRs
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "upstream-mirror-bot"
+          git config user.email "upstream-mirror-bot@users.noreply.github.com"
+
+          prs=$(gh api "repos/$UPSTREAM/pulls?state=closed&sort=updated&direction=desc&per_page=100" \
+            --jq "[.[] | select(.merged_at > \"$SINCE\")] | sort_by(.merged_at) | .[].number")
+
+          for num in $prs; do
+            branch="upstream-mirror-$num"
+
+            if [ "$(gh pr list --state all --head "$branch" --json number --jq length)" != 0 ]; then
+              continue
+            fi
+
+            pr=$(gh api "repos/$UPSTREAM/pulls/$num")
+            sha=$(jq -r .merge_commit_sha <<< "$pr")
+            title=$(jq -r .title <<< "$pr")
+            author=$(jq -r .user.login <<< "$pr")
+            # Credit the upstream author in the changelog if the :cl: has no name
+            body=$(jq -r '.body // ""' <<< "$pr" | sed -E "s/^:cl:\s*\r?$/:cl: $author/")
+
+            git fetch -q --depth 2 "https://github.com/$UPSTREAM.git" "$sha"
+            git checkout -q -B "$branch" origin/master
+
+            note=""
+            if ! git cherry-pick -x "$sha"; then
+              git add -A
+              git commit -q --no-edit || { git cherry-pick --abort; continue; }
+              note="**Has merge conflicts, fix them before merging.**"
+            fi
+
+            git push -q -f origin "$branch"
+            gh pr create --base master --head "$branch" --title "[MIRROR] $title" \
+              --body "Mirrored from https://github.com/$UPSTREAM/pull/$num
+          $note
+
+          $body"
+          done
