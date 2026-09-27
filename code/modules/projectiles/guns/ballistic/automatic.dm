@@ -111,9 +111,10 @@
 	w_class = WEIGHT_CLASS_BULKY
 	inhand_icon_state = "arg"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/wt550m9
-	fire_delay = 2
+	fire_delay = 0.1 SECONDS
 	can_suppress = FALSE
 	burst_size = 1
+	spread = 10
 	actions_types = list()
 	mag_display = TRUE
 	mag_display_ammo = TRUE
@@ -124,7 +125,7 @@
 
 /obj/item/gun/ballistic/automatic/wt550/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.3 SECONDS)
+	AddComponent(/datum/component/automatic_fire, fire_delay, allow_akimbo = FALSE)
 
 /obj/item/gun/ballistic/automatic/wt550/no_mag
 	spawnwithmagazine = FALSE
@@ -137,7 +138,7 @@
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	icon_state = "fss550"
 	inhand_icon_state = "fss"
-	spread = 2
+	spread = 12.5
 	projectile_damage_multiplier = 0.9
 	///How long does it take to add or remove a magazine from this gun.
 	var/magazine_time = 4 SECONDS
