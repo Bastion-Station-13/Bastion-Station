@@ -566,9 +566,14 @@
  * [this byond forum post](https://secure.byond.com/forum/?post=1326139&page=2#comment8198716)
  * for why this isn't atom/verb/examine()
  */
+<<<<<<< HEAD
 /mob/verb/examinate(atom/examinify as mob|obj|turf in view()) //It used to be oview(12), but I can't really say why
 	set name = "Examine"
 	set category = "IC"
+=======
+GAME_VERB_CONTEXT(/mob, examinate, "Examine", "", "IC", /atom)
+	VERB_ARG_TYPED(examinify, VERB_ARG_TYPE_MOB | VERB_ARG_TYPE_OBJ | VERB_ARG_TYPE_TURF, VERB_ARG_SOURCE_VIEW, /atom)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	DEFAULT_QUEUE_OR_CALL_VERB(VERB_CALLBACK(src, PROC_REF(run_examinate), examinify))
 
@@ -861,6 +866,7 @@
 	unset_machine()
 
 //suppress the .click/dblclick macros so people can't use them to identify the location of items or aimbot
+<<<<<<< HEAD
 /mob/verb/DisClick(argu = null as anything, sec = "" as text, number1 = 0 as num  , number2 = 0 as num)
 	set name = ".click"
 	set hidden = TRUE
@@ -871,6 +877,12 @@
 	set name = ".dblclick"
 	set hidden = TRUE
 	set category = null
+=======
+GAME_VERB_NATIVE(/mob, DisClick, ".click", null, argu = null as anything, sec = "" as text, number1 = 0 as num, number2 = 0 as num)
+	return
+
+GAME_VERB_NATIVE(/mob, DisDblClick, ".dblclick", null, argu = null as anything, sec = "" as text, number1 = 0 as num, number2 = 0 as num)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 	return
 
 /**
@@ -1209,7 +1221,6 @@
 		log_message("[src] failed name change as the new name was the same as the old one: [oldname]", LOG_OWNERSHIP)
 		return FALSE
 	if(!istext(newname) && !isnull(newname))
-		stack_trace("[src] attempted to change its name from [oldname] to the non string value [newname]")
 		return FALSE
 
 	log_message("[src] name changed from [oldname] to [newname]", LOG_OWNERSHIP)

@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 /client/proc/makepAI(turf/target in GLOB.mob_list)
 	set category = "Admin.Fun"
 	set name = "Make pAI"
 	set desc = "Specify a location to spawn a pAI device, then specify a key to play that pAI"
+=======
+ADMIN_VERB(makepAI, R_FUN, FALSE, "Make pAI", "Specify a location to spawn a pAI device, then specify a key to play that pAI", ADMIN_CATEGORY_FUN)
+	VERB_ARG_TYPED(target, VERB_ARG_TYPE_TURF, VERB_ARG_SOURCE_VIEW, /turf)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	var/list/available = list()
 	for(var/mob/player as anything in GLOB.player_list)

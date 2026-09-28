@@ -93,9 +93,14 @@
  *
  * overridden here and in /mob/dead/observer for different point span classes and sanity checks
  */
+<<<<<<< HEAD
 /mob/verb/pointed(atom/A as mob|obj|turf in view())
 	set name = "Point To"
 	set category = "Object"
+=======
+GAME_VERB_CONTEXT(/mob, pointed, "Point To", "Object", null, /atom)
+	VERB_ARG_TYPED(A, VERB_ARG_TYPE_MOB | VERB_ARG_TYPE_OBJ | VERB_ARG_TYPE_TURF, VERB_ARG_SOURCE_VIEW, /atom)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(istype(A, /obj/effect/temp_visual/point))
 		return FALSE

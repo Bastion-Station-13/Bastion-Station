@@ -29,9 +29,14 @@
 	)
 	return embed
 
+<<<<<<< HEAD
 /client/verb/mentorhelp(message as text)
 	set category = "Mentor"
 	set name = "Mentorhelp"
+=======
+GAME_VERB(/client, mentorhelp, "Mentorhelp", "Mentor")
+	VERB_ARG(message, VERB_ARG_TYPE_TEXT, VERB_ARG_SOURCE_INPUT)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(usr?.client?.prefs.muted & MUTE_ADMINHELP)
 		to_chat(src,

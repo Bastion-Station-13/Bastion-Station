@@ -855,10 +855,15 @@ GLOBAL_DATUM_INIT(admin_help_ui_handler, /datum/admin_help_ui_handler, new)
 
 	new /datum/admin_help(message, user_client, FALSE, urgent)
 
+<<<<<<< HEAD
 /client/verb/no_tgui_adminhelp(message as message)
 	set name = "NoTguiAdminhelp"
 	set hidden = TRUE
 
+=======
+GAME_VERB_HIDDEN(/client, no_tgui_adminhelp, "NoTguiAdminhelp")
+	VERB_ARG(message, VERB_ARG_TYPE_MESSAGE, VERB_ARG_SOURCE_INPUT)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 	if(adminhelptimerid)
 		return
 

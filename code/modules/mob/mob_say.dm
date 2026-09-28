@@ -1,10 +1,15 @@
 //Speech verbs.
 
 ///what clients use to speak. when you type a message into the chat bar in say mode, this is the first thing that goes off serverside.
+<<<<<<< HEAD
 /mob/verb/say_verb(message as text)
 	set name = "Say"
 	set category = "IC"
 	set instant = TRUE
+=======
+GAME_VERB(/mob, say_verb, "Say", "IC")
+	VERB_ARG(message, VERB_ARG_TYPE_TEXT, VERB_ARG_SOURCE_INPUT)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(GLOB.say_disabled) //This is here to try to identify lag problems
 		to_chat(usr, span_danger("Speech is currently admin-disabled."))
@@ -16,10 +21,15 @@
 		QUEUE_OR_CALL_VERB_FOR(VERB_CALLBACK(src, TYPE_PROC_REF(/atom/movable, say), message), SSspeech_controller)
 
 ///Whisper verb
+<<<<<<< HEAD
 /mob/verb/whisper_verb(message as text)
 	set name = "Whisper"
 	set category = "IC"
 	set instant = TRUE
+=======
+GAME_VERB(/mob, whisper_verb, "Whisper", "IC")
+	VERB_ARG(message, VERB_ARG_TYPE_TEXT, VERB_ARG_SOURCE_INPUT)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(GLOB.say_disabled) //This is here to try to identify lag problems
 		to_chat(usr, span_danger("Speech is currently admin-disabled."))
@@ -39,9 +49,14 @@
 	say(message, language = language)
 
 ///The me emote verb
+<<<<<<< HEAD
 /mob/verb/me_verb(message as text)
 	set name = "Me"
 	set category = "IC"
+=======
+GAME_VERB(/mob, me_verb, "Me", "IC")
+	VERB_ARG(message, VERB_ARG_TYPE_TEXT, VERB_ARG_SOURCE_INPUT)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(GLOB.say_disabled) //This is here to try to identify lag problems
 		to_chat(usr, span_danger("Speech is currently admin-disabled."))

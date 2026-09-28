@@ -146,9 +146,14 @@
 	mode.handle_click(user.client, params, object)
 	return TRUE // no doing underlying actions
 
+<<<<<<< HEAD
 /proc/togglebuildmode(mob/M as mob in GLOB.player_list)
 	set name = "Toggle Build Mode"
 	set category = "Event"
+=======
+GAME_VERB_GLOBAL_PROC(togglebuildmode, "Toggle Build Mode", "", "Event")
+	VERB_ARG_TYPED(M, VERB_ARG_TYPE_MOB, VERB_ARG_SOURCE_WORLD, /mob)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(M.client)
 		if(istype(M.client.click_intercept,/datum/buildmode))

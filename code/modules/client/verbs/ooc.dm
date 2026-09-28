@@ -2,10 +2,15 @@ GLOBAL_VAR_INIT(OOC_COLOR, null)//If this is null, use the CSS for OOC. Otherwis
 GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 
 ///talking in OOC uses this
+<<<<<<< HEAD
 /client/verb/ooc(msg as text)
 	set name = "OOC" //Gave this shit a shorter name so you only have to time out "ooc" rather than "ooc message" to use it --NeoFite
 	set category = "OOC"
 
+=======
+GAME_VERB(/client, ooc, "OOC", "OOC")
+	VERB_ARG(msg, VERB_ARG_TYPE_TEXT, VERB_ARG_SOURCE_INPUT)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 	if(GLOB.say_disabled) //This is here to try to identify lag problems
 		to_chat(usr, span_danger("Speech is currently admin-disabled."))
 		return
