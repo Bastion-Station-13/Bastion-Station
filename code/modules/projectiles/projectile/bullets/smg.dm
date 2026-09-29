@@ -45,34 +45,24 @@
 	wound_bonus = 0
 	bare_wound_bonus = 5
 	embed_falloff_tile = -4
-	armour_penetration = 40
-	armour_penetration_falloff_tile = -10
+	armour_penetration = 50
+	armour_penetration_falloff_tile = -7.5
 
-/obj/projectile/bullet/c46x30mm/ap
-	name = "4.6x30mm armor-piercing bullet"
-	damage = 15
-	armour_penetration = 80
-	embed_type = null
-
-/obj/projectile/bullet/incendiary/c46x30mm
-	name = "4.6x30mm incendiary bullet"
-	damage = 10
-	fire_stacks = 1
-	leaves_fire_trail = FALSE
-
-/obj/projectile/bullet/c46x30mm/salt
-	name = "4.6x30mm saltshot bullet"
-	damage = 0
-	stamina = 15
-	embed_type = null
-	sharpness = NONE
-
-/obj/projectile/bullet/c46x30mm/rub
-	name = "4.6x30mm rubber bullet"
+/obj/projectile/bullet/c46x30mm/stingball
+	name = "4.6x30mm stingball bullet"
 	damage = 4
-	stamina = 25
-	embed_type = null
-	sharpness = NONE
+	stamina = 15
+	damage_falloff_tile = -0.5
+	ricochets_max = 4
+	ricochet_chance = 75
+	ricochet_decay_chance = 1
+	ricochet_decay_damage = 0.9
+	ricochet_auto_aim_angle = 10
+	ricochet_auto_aim_range = 2
+	ricochet_incidence_leeway = 0
+	embed_falloff_tile = -2
+	shrapnel_type = /obj/item/shrapnel/stingball
+	embed_type = /datum/embedding/stingball
 
 
 // .27-54 Cesarzowa

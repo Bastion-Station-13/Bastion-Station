@@ -53,27 +53,15 @@
 	caliber = CALIBER_46X30MM
 	projectile_type = /obj/projectile/bullet/c46x30mm
 
-/obj/item/ammo_casing/c46x30mm/ap
-	name = "4.6x30mm armor-piercing bullet casing"
-	desc = "A 4.6x30mm armor-piercing bullet casing."
-	projectile_type = /obj/projectile/bullet/c46x30mm/ap
+/obj/item/ammo_casing/c46x30mm/laser
+	name = "4.6x30mm laser bullet casing"
+	desc = "A 4.6x30mm laser bullet casing."
+	projectile_type = /obj/projectile/beam/scatter/rapidfire
 
-/obj/item/ammo_casing/c46x30mm/inc
-	name = "4.6x30mm incendiary bullet casing"
-	desc = "A 4.6x30mm incendiary bullet casing."
-	projectile_type = /obj/projectile/bullet/incendiary/c46x30mm
-
-/obj/item/ammo_casing/c46x30mm/rub
-	name = "4.6x30mm rubber bullet casing"
-	desc = "A 4.6x30mm rubber bullet casing."
-	projectile_type = /obj/projectile/bullet/c46x30mm/rub
-
-/obj/item/ammo_casing/c46x30mm/salt
-	name = "4.6x30mm saltshot bullet casing"
-	desc = "A 4.6x30mm saltshot bullet casing."
-	projectile_type = /obj/projectile/bullet/c46x30mm/salt
-
-
+/obj/item/ammo_casing/c46x30mm/stingball
+	name = "4.6x30mm stingball bullet casing"
+	desc = "A 4.6x30mm stingball bullet casing."
+	projectile_type = /obj/projectile/bullet/c46x30mm/stingball
 
 // .27-54 Cesarzowa
 // Low-caliber crew SMG round

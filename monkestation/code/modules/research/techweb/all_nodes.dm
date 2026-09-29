@@ -202,18 +202,6 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_2_POINTS, TECHWEB_POINT_TYPE_NANITES = 5000)
 	announce_channels = list(RADIO_CHANNEL_SCIENCE)
 
-/datum/techweb_node/adv_ballistics
-	id = "adv_ballistics"
-	display_name = "Advanced Ballistics"
-	description = "The most sophisticated methods of shooting people."
-	prereq_ids = list("adv_weaponry")
-	design_ids = list(
-		"mag_autorifle_ap",
-		"mag_autorifle_ic",
-	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_2_POINTS)
-	announce_channels = list(RADIO_CHANNEL_SECURITY)
-
 /datum/techweb_node/linked_surgery
 	id = "linked_surgery"
 	display_name = "Surgical Serverlink Brain Implant"

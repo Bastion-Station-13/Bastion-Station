@@ -139,6 +139,16 @@
 	bare_wound_bonus = 5
 	wound_falloff_tile = -3
 
+// Used by WT laser rounds
+/obj/projectile/beam/scatter/rapidfire
+	name = "laser pellet"
+	icon_state = "scatterlaser"
+	damage = 15
+	wound_bonus = 5
+	bare_wound_bonus = 5
+	armour_penetration = 50
+	armour_penetration_falloff_tile = -10
+
 /obj/projectile/beam/scatter/pathetic
 	name = "extremely weak laser pellet"
 	damage = 1
