@@ -115,6 +115,7 @@
 	can_suppress = FALSE
 	burst_size = 1
 	spread = 10
+	wield_recoil = 0.3
 	actions_types = list()
 	mag_display = TRUE
 	mag_display_ammo = TRUE

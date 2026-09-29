@@ -492,8 +492,8 @@
 	desc = "A supply of spare and exotic lethal ammunition for the WT-550 autorifle."
 	cost = CARGO_CRATE_VALUE * 6
 	contains = list(
-		/obj/item/ammo_box/magazine/wt550m9 = 6,
-		/obj/item/ammo_box/magazine/wt550m9/wtic = 3,
+		/obj/item/ammo_box/magazine/wt550m9 = 4,
+		/obj/item/ammo_box/magazine/wt550m9/laser = 4,
 	)
 	crate_name = "wt-550 ammo crate"
 	crate_type = /obj/structure/closet/crate/secure/weapon
