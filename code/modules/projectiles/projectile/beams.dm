@@ -144,6 +144,7 @@
 	name = "laser pellet"
 	icon_state = "scatterlaser"
 	damage = 15
+	wound_falloff_tile = 0
 	wound_bonus = 5
 	bare_wound_bonus = 5
 	armour_penetration = 50
