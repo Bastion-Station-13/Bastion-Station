@@ -1197,8 +1197,8 @@
 			to_chat(user, span_warning("[crusher] is already enhanced!"))
 			return
 		crusher.armour_penetration += 10
-		crusher.detonation_damage += 15
-		crusher.backstab_bonus += 30
+		crusher.detonation_damage += 10
+		crusher.backstab_bonus += 20
 		crusher.name = "Ashen [crusher.name]"
 		crusher.enhanced = TRUE
 	else if(istype(attacking_item, /obj/item/gun/energy/recharge/kinetic_accelerator))
@@ -1206,7 +1206,7 @@
 		if(pka.enhanced)
 			to_chat(user, span_warning("[pka] is already enhanced!"))
 			return
-		pka.max_mod_capacity += 60
+		pka.max_mod_capacity += 40
 		pka.name = "Ashen [pka.name]"
 		pka.enhanced = TRUE
 	else
