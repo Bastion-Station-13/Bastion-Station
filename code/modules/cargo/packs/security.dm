@@ -472,7 +472,7 @@
 	cost = CARGO_CRATE_VALUE * 20
 	contains = list(
 		/obj/item/gun/ballistic/automatic/wt550/no_mag = 3,
-		/obj/item/ammo_box/magazine/wt550m9/wtrub = 6,
+		/obj/item/ammo_box/magazine/wt550m9/stingball = 6,
 	)
 	crate_name = "autorifle crate"
 	crate_type = /obj/structure/closet/crate/secure/weapon
@@ -482,8 +482,7 @@
 	desc = "A supply of non-lethal ammunition for the WT-550 autorifle."
 	cost = CARGO_CRATE_VALUE * 5
 	contains = list(
-		/obj/item/ammo_box/magazine/wt550m9/wtrub = 3,
-		/obj/item/ammo_box/magazine/wt550m9/wtsalt = 3,
+		/obj/item/ammo_box/magazine/wt550m9/stingball = 6,
 	)
 	crate_name = "wt-550 non-lethal ammo crate"
 	crate_type = /obj/structure/closet/crate/secure/weapon
@@ -493,9 +492,8 @@
 	desc = "A supply of spare and exotic lethal ammunition for the WT-550 autorifle."
 	cost = CARGO_CRATE_VALUE * 6
 	contains = list(
-		/obj/item/ammo_box/magazine/wt550m9 = 3,
-		/obj/item/ammo_box/magazine/wt550m9/wtap = 3,
-		/obj/item/ammo_box/magazine/wt550m9/wtic = 3,
+		/obj/item/ammo_box/magazine/wt550m9 = 4,
+		/obj/item/ammo_box/magazine/wt550m9/laser = 4,
 	)
 	crate_name = "wt-550 ammo crate"
 	crate_type = /obj/structure/closet/crate/secure/weapon
