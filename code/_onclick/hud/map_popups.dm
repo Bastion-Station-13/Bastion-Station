@@ -128,7 +128,11 @@
 /**
  * When the popup closes in any way (player or proc call) it calls this.
  */
+<<<<<<< HEAD
 /client/verb/handle_popup_close(window_id as text)
 	set hidden = TRUE
+=======
+GAME_VERB_NATIVE(/client, handle_popup_close, "handle popup close", null, window_id as text)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 	clear_map("[window_id]_map")
 	SEND_SIGNAL(src, COMSIG_POPUP_CLEARED, window_id)

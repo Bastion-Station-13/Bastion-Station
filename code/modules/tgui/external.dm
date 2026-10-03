@@ -168,10 +168,14 @@
  *
  * required uiref ref The UI that was closed.
  */
+<<<<<<< HEAD
 /client/verb/uiclose(window_id as text)
 	// Name the verb, and hide it from the user panel.
 	set name = "uiclose"
 	set hidden = TRUE
+=======
+GAME_VERB_NATIVE(/client, uiclose, "uiclose", null, window_id as text)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 	var/mob/user = src?.mob
 	if(!user)
 		return

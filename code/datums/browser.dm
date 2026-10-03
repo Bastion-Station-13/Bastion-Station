@@ -472,6 +472,7 @@
 
 	winset(user, windowid, "on-close=\".windowclose [param]\"")
 
+<<<<<<< HEAD
 
 
 // the on-close client verb
@@ -482,6 +483,13 @@
 /client/verb/windowclose(atomref as text)
 	set hidden = TRUE // hide this verb from the user's panel
 	set name = ".windowclose" // no autocomplete on cmd line
+=======
+/// the on-close client verb
+/// called when a browser popup window is closed after registering with proc/onclose()
+/// if a valid atom reference is supplied, call the atom's Topic() with "close=1"
+/// otherwise, just reset the client mob's machine var.
+GAME_VERB_NATIVE(/client, windowclose, ".windowclose", null, atomref as text)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	if(atomref != "null") // if passed a real atomref
 		var/hsrc = locate(atomref) // find the reffed atom

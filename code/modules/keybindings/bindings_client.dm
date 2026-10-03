@@ -1,8 +1,12 @@
 // Clients aren't datums so we have to define these procs indpendently.
 // These verbs are called for all key press and release events
+<<<<<<< HEAD
 /client/verb/keyDown(_key as text)
 	set instant = TRUE
 	set hidden = TRUE
+=======
+GAME_VERB_NATIVE_INSTANT(/client, keyDown, "keyDown", null, _key as text)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	client_keysend_amount += 1
 
@@ -81,9 +85,13 @@
 	mob.focus?.key_down(_key, src, full_key)
 	mob.update_mouse_pointer()
 
+<<<<<<< HEAD
 /client/verb/keyUp(_key as text)
 	set instant = TRUE
 	set hidden = TRUE
+=======
+GAME_VERB_NATIVE_INSTANT(/client, keyUp, "keyUp", null, _key as text)
+>>>>>>> f3f8c560 ([PORT] verb serialization, tgui command bar and admin verb panel (gmod style) (#12625))
 
 	var/key_combo = key_combos_held[_key]
 	if(key_combo)
