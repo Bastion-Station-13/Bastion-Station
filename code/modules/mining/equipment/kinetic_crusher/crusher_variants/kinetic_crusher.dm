@@ -59,6 +59,8 @@
 	var/override_light_overlay_sprite = FALSE
 	/// What destabilizier we shoot
 	var/crusher_destabilizer = /obj/projectile/destabilizer
+	/// If this crusher has been enhanced by a ashen whetstone
+	var/enhanced = FALSE
 
 /obj/item/kinetic_crusher/Initialize(mapload)
 	. = ..()
@@ -95,6 +97,8 @@
 		. += span_notice("Does <b>[force + detonation_damage + backstab_bonus]</b> damage if the target is backstabbed, instead of <b>[force + detonation_damage]</b>.")
 		for(var/obj/item/crusher_trophy/crusher_trophy as anything in trophies)
 			. += span_notice("It has \a [crusher_trophy] attached, which causes [crusher_trophy.effect_desc()].")
+		if(enhanced)
+			. += span_boldholoparasite("It's edge glows like brimstone, and is caked in ash.")
 
 /obj/item/kinetic_crusher/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(attacking_item, /obj/item/crusher_trophy))
