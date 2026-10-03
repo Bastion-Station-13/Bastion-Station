@@ -64,9 +64,17 @@
 		var/datum/poll_question/poll = locate(href_list["votepollref"]) in GLOB.polls
 		vote_on_poll_handler(poll, href_list)
 
+<<<<<<< HEAD
 /mob/dead/new_player/verb/_join_game()
 	set name = "Join Game"
 	set category = "IC"
+=======
+// This gets called both when the client disconnects and when the client is shoved into their spawn mob.
+/mob/dead/new_player/become_uncliented()
+	SSstatpanels.remove_job_estimation(src)
+
+GAME_VERB(/mob/dead/new_player, _join_game, "Join Game", "IC")
+>>>>>>> bfad4540 ([PORT] Adds job estimations to the stat panel (#12620))
 	join_game(FALSE)
 
 /mob/dead/new_player/verb/observe()
