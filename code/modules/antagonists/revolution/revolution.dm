@@ -6,7 +6,7 @@
 #define REVOLUTION_VICTORY 1
 #define STATION_VICTORY 2
 
-#define REVOLUTION_GPS_MARK_TIME (30 SECONDS)
+#define REVOLUTION_GPS_MARK_TIME (35 MINUTES)
 
 /datum/antagonist/rev
 	name = "\improper Revolutionary"
