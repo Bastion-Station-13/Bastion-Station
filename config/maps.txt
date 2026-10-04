@@ -73,7 +73,6 @@ map voidraptor
 endmap
 
 map ouroboros
-	votable
 endmap
 
 map pubbystation

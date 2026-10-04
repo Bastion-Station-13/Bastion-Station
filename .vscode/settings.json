@@ -36,5 +36,8 @@
 	"Lua.diagnostics.enable": false,
 	"git.branchProtection": [
 		"master"
-	]
+	],
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

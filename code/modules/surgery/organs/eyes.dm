@@ -704,6 +704,13 @@
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
 
+/obj/item/organ/internal/eyes/shadekin
+	name = "shadekin eyes"
+	desc = "mar eyes"
+	eye_icon_state = "shadekin_eyes"
+	icon_state = "eyeballs-shadekin"
+	overlay_ignore_lighting = TRUE
+
 /obj/item/organ/internal/eyes/lizard
 	name = "lizard eyes"
 	desc = "These eyes seem to glow."
