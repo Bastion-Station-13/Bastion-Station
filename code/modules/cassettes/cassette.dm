@@ -58,11 +58,12 @@ GLOBAL_LIST_INIT(cassette_icons, list(
 
 /obj/item/cassette_tape/attack_self(mob/user)
 	. = ..()
-	flipped = !flipped
-	user.balloon_alert(user, "flipped cassette")
-	playsound(src, SFX_CASSETTE_ASMR, 50, FALSE)
+	// flipped = !flipped
+	// user.balloon_alert(user, "flipped cassette")
+	// playsound(src, SFX_CASSETTE_ASMR, 50, FALSE)
 
-	update_appearance(UPDATE_ICON_STATE)
+	// update_appearance(UPDATE_ICON_STATE)
+	// Disables flipping so that cassetes can only hold 7 songs
 
 /obj/item/cassette_tape/update_name(updates)
 	name = cassette_data.name || src::name

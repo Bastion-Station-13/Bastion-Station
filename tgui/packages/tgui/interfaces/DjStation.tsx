@@ -271,16 +271,12 @@ export const DjStation = () => {
                   </LabeledList.Item>
                 </LabeledList>
               </Section>
-              <Section
-                fill
-                scrollable
-                title={`Track list - Side ${side !== null ? (side === 0 ? 'A' : 'B') : '?'}`}
-              >
+              <Section fill scrollable title={`Track list`}>
                 {songs?.length ? (
                   <AvailableTracks songs={songs} currentSong={currentSong} />
                 ) : (
                   <Box color="bad">
-                    {cassette ? 'No songs on this side.' : 'No tape inserted'}
+                    {cassette ? 'No songs' : 'No tape inserted'}
                   </Box>
                 )}
               </Section>
