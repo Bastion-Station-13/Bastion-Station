@@ -101,6 +101,12 @@
 	credit_book_to_reader(user)
 	display_content(user)
 
+/obj/item/book/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+	if(burn_paper_product_attackby_check(attacking_item, user))
+		SStgui.close_uis(src)
+		return
+	. = ..()
+
 /obj/item/book/proc/is_carving_tool(obj/item/tool)
 	PRIVATE_PROC(TRUE)
 	if(tool.get_sharpness() & SHARP_EDGED)

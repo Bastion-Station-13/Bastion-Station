@@ -11,16 +11,14 @@
 	page_link = "Space_law"
 	attack_verb_continuous = list("prosecutes", "disciplines", "sues")
 	attack_verb_simple = list("prosecute", "discipline", "sue")
-	attack_speed = CLICK_CD_STUN
+	attack_speed = CLICK_CD_SPACE_LAW
 	/// The law that gets beamed into the criminal's mind
 	var/law = "211 Insubordination! To knowingly disobey a lawful order from a superior."
 
 /obj/item/book/manual/wiki/security_space_law/examine(mob/user)
 	. = ..()
-	var/obj/item/organ/internal/liver/liver = user.get_organ_slot(ORGAN_SLOT_LIVER)
-	if(HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM))
-		. += span_notice("Use <b>Help</b> intent to propose someone to swear on it.")
 	if(HAS_TRAIT(user, TRAIT_JUSTICE))
+		. += span_notice("Use <b>Help</b> intent to propose someone to swear on it.")
 		. += span_notice("Use <b>Harm</b> to beat sense into Security personnel. <b>Alt-Click</b> the book to change what law to beat into their mind.")
 
 /obj/item/book/manual/wiki/security_space_law/click_alt(mob/user)
@@ -31,74 +29,105 @@
 /obj/item/book/manual/wiki/security_space_law/afterattack(mob/living/carbon/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!iscarbon(target))
 		return FALSE
-	if(user.istate == ISTATE_HARM)
+	if(!HAS_TRAIT(user, TRAIT_JUSTICE))
+		return FALSE
+	if(user.istate & ISTATE_HARM)
 		discipline(target, user)
 	else
 		swear_in(target, user)
 
+/obj/item/book/manual/wiki/security_space_law/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	var/mob/living/thrower = throwingdatum.thrower
+	if(prob(50))
+		if(HAS_TRAIT(thrower, TRAIT_JUSTICE))
+			var/mob/living/carbon/hit_carbon = hit_atom
+			if(hit_carbon && iscarbon(hit_carbon))
+				discipline(hit_carbon, thrower)
+	return ..()
+
 /obj/item/book/manual/wiki/security_space_law/proc/swear_in(mob/living/carbon/target, mob/user)
-	// Only Heads of Staff and Lawyers can offer a swear-in
-	if(!(target.mind.assigned_role?.job_flags & JOB_HEAD_OF_STAFF) || user.job != JOB_LAWYER)
+	if(!HAS_TRAIT(user, TRAIT_JUSTICE))
 		return
 
-	// Lawyers cannot swear on the Space Law
-	if(target.job == JOB_LAWYER)
-		return
-
+	balloon_alert(user, "swearing-in...")
 	var/obj/item/organ/internal/liver/liver = target.get_organ_slot(ORGAN_SLOT_LIVER)
-	// Security and Command cannot double swear on the Space Law
+	// Security and Command cannot swear on the Space Law
 	if(HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM) || HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM) || HAS_TRAIT(liver, TRAIT_PRETENDER_ROYAL_METABOLISM))
 		return
 
 	var/failText = span_warning("You hesitate and retract your hand from the Space Law! Maybe harmbatoning is not that evil?")
-	to_chat(target, span_notice("You put your hand down on the book and start reading the Security oath..."))
-	if(do_after(target, 4 SECONDS, target = user))
+	to_chat(target, span_usernotice("You put your hand down on the book and start reading the Security oath..."))
+	if(do_after(target, 6 SECONDS, target = user, hidden = TRUE)) // Hidden to prevent fake-sec checks
 		target.say("I [target] swear by the Corporate that I will honestly and effectively serve the Nanotrasen and [GLOB.station_name] according to the law", forced = "Space Law")
 	else
 		to_chat(target, failText)
 		return
-	if(do_after(target, 3 SECONDS, target = user))
+	if(do_after(target, 4 SECONDS, target = user))
 		target.say("That I will obey the Space Law of Nanotrasen and I will execute the powers and duties of my office honestly without fear or ill-malice.", forced = "Space Law")
 	else
 		to_chat(target, failText)
 		return
-	if(do_after(target, 3 SECONDS, target = user))
+	if(do_after(target, 4 SECONDS, target = user))
 		target.say("And that I will obey all lawful orders of my higher-ups.", forced = "Space Law")
 	else
 		to_chat(target, failText)
 		return
-	if(do_after(target, 1 SECONDS, target = user))
+	if(do_after(target, 3 SECONDS, target = user))
 		target.say("So help me Corporate.", forced = "Space Law")
 	else
 		to_chat(target, failText)
 		return
-	to_chat(target, span_notice("After finishing the oath you feel extreme hunger for donuts..."))
-	liver.add_organ_trait(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	to_chat(target, span_notice("After finishing the oath you feel extreme hunger for justice and donuts..."))
+	liver.add_traits(list(TRAIT_LAW_ENFORCEMENT_METABOLISM), SPACE_LAW_TRAIT)
 
 /obj/item/book/manual/wiki/security_space_law/proc/discipline(mob/living/carbon/target, mob/user)
 	if(!HAS_TRAIT(user, TRAIT_JUSTICE))
-		return FALSE
+		return
 
 	var/obj/item/organ/internal/liver/liver = target.get_organ_slot(ORGAN_SLOT_LIVER)
-	// Only Captain or CentCom high-ranks can beat command members
-	if(HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM) && user.job != (JOB_CAPTAIN|JOB_CENTCOM_ADMIRAL|JOB_CENTCOM_COMMANDER))
+	if(HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM) && target != user)
 		to_chat(user, span_warning("[target]'s authority is too powerful for you!"))
-		return FALSE
+		return
+	else if(HAS_TRAIT(liver, TRAIT_PRETENDER_ROYAL_METABOLISM)) // Lol
+		target.visible_message(span_warning("[target] pretends to resist \the [src] hitting [target.p_their()] face."), span_warning("You uselessly pretend to resist getting hit by \the [src]!"))
 
 	// Applying the law to Security members is the most painful
 	if(HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
-		target.Paralyze(1 SECONDS)
-		target.Knockdown(3 SECONDS)
-		target.set_confusion_if_lower(5 SECONDS)
+		target.Paralyze(2 SECONDS)
+		target.Knockdown(4 SECONDS)
+		target.set_eye_blur_if_lower(12 SECONDS)
+		target.set_confusion_if_lower(12 SECONDS)
+		target.adjust_stutter(12 SECONDS)
+		target.set_jitter_if_lower(12 SECONDS)
+	else
+		target.Stun(2 SECONDS)
+		target.set_eye_blur_if_lower(6 SECONDS)
+		target.set_confusion_if_lower(6 SECONDS)
+		target.adjust_stutter(6 SECONDS)
+		target.set_jitter_if_lower(6 SECONDS)
 
-	target.set_eye_blur_if_lower(3 SECONDS)
-	target.set_confusion_if_lower(1.5 SECONDS)
-	target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
 	target.visible_message(span_danger("[target] looks extremely guilty!"))
-
-	to_chat(target, span_userdanger(law))
+	target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
+	to_chat(target, span_cultlarge(law))
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
-	return FALSE
+	return
+
+/obj/item/book/manual/wiki/security_space_law/burn_paper_product_attackby_check(obj/item/attacking_item, mob/living/user, bypass_clumsy)
+	// The skillchip prohibits you from disrepecting the law
+	if(HAS_TRAIT(user, TRAIT_JUSTICE))
+		user.playsound_local(user, 'sound/voice/beepsky/justice.ogg', 100)
+		user.Paralyze(4 SECONDS)
+		to_chat(user, span_cultlarge("YOU CANNOT DISHONOR THE LAW"))
+		lightningbolt(user)
+		return FALSE
+	. = ..()
+	if(. && (resistance_flags & ON_FIRE))
+		var/obj/item/organ/internal/liver/liver = user.get_organ_slot(ORGAN_SLOT_LIVER)
+		if(!HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+			return
+		// FUCK THE LAW, FUCK THE DONUTS
+		to_chat(user, span_warning("You no longer feel like serving the law."))
+		liver.remove_traits(list(TRAIT_LAW_ENFORCEMENT_METABOLISM), SPACE_LAW_TRAIT)
 
 /obj/item/book/manual/wiki/security_space_law/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] pretends to read \the [src] intently... then promptly dies of laughter!"))
