@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 /datum/ai_project/camera_tracker
 	name = "Camera Memory Tracker"
 	description = "Using complex LSTM nodes it is possible to automatically detect when a tagged individual enters camera visibility."
+=======
+#define MAXIMUM_TARGET_TRACKING 2
+/datum/ai_project/advanced_tracking
+	name = "Advanced Tracking"
+	description = "Sets aside processing power to asynchronously track multiple targets at once off the central view. Requires Human Examination to research."
+>>>>>>> 099e75b3 (Typo, removes unused define (#12678))
 	research_cost = 2500
 	ram_required = 3
 	research_requirements = list(/datum/ai_project/examine_humans)
