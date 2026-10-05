@@ -12,6 +12,7 @@
 	resistance_flags = FLAMMABLE
 	drop_sound = 'sound/items/handling/book_drop.ogg'
 	pickup_sound = 'sound/items/handling/book_pickup.ogg'
+	grind_results = list(/datum/reagent/cellulose = 15)
 	/// Maximum icon state number
 	var/maximum_book_state = 8
 	/// Game time in 1/10th seconds

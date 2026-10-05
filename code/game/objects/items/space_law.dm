@@ -11,6 +11,7 @@
 	page_link = "Space_law"
 	attack_verb_continuous = list("prosecutes", "disciplines", "sues")
 	attack_verb_simple = list("prosecute", "discipline", "sue")
+	grind_results = list(/datum/reagent/cellulose = 15, /datum/reagent/the_law = 5)
 	attack_speed = CLICK_CD_SPACE_LAW
 	/// The law that gets beamed into the criminal's mind
 	var/law = "211 Insubordination! To knowingly disobey a lawful order from a superior."
@@ -19,12 +20,12 @@
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_JUSTICE))
 		. += span_notice("Use <b>Help</b> intent to propose someone to swear on it.")
-		. += span_notice("Use <b>Harm</b> to beat sense into Security personnel. <b>Alt-Click</b> the book to change what law to beat into their mind.")
+		. += span_notice("Use <b>Harm</b> to beat sense into Security personnel. <b>Alt-Click</b> the book to change what page to beat into their mind.")
 
 /obj/item/book/manual/wiki/security_space_law/click_alt(mob/user)
 	if(!HAS_TRAIT(user, TRAIT_JUSTICE))
 		return
-	law = tgui_input_text(user, "What law page to prime for attack?", "Space Law", law, CHAT_MESSAGE_MAX_LENGTH)
+	law = tgui_input_text(user, "What page to prime for attack?", src, law, CHAT_MESSAGE_MAX_LENGTH)
 
 /obj/item/book/manual/wiki/security_space_law/afterattack(mob/living/carbon/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!iscarbon(target))
@@ -91,20 +92,15 @@
 	else if(HAS_TRAIT(liver, TRAIT_PRETENDER_ROYAL_METABOLISM)) // Lol
 		target.visible_message(span_warning("[target] pretends to resist \the [src] hitting [target.p_their()] face."), span_warning("You uselessly pretend to resist getting hit by \the [src]!"))
 
-	// Applying the law to Security members is the most painful
+	// Applying the law to Security members is painful to them
 	if(HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
-		target.Paralyze(2 SECONDS)
-		target.Knockdown(4 SECONDS)
-		target.set_eye_blur_if_lower(12 SECONDS)
-		target.set_confusion_if_lower(12 SECONDS)
-		target.adjust_stutter(12 SECONDS)
-		target.set_jitter_if_lower(12 SECONDS)
-	else
-		target.Stun(2 SECONDS)
-		target.set_eye_blur_if_lower(6 SECONDS)
-		target.set_confusion_if_lower(6 SECONDS)
-		target.adjust_stutter(6 SECONDS)
-		target.set_jitter_if_lower(6 SECONDS)
+		law_stun(target, 1)
+	else // But hitting non-security will hurt YOU TOO!
+		law_stun(user, 1)
+		law_stun(target, 2)
+		user.visible_message(span_warning("\The [src]'s immense power has deflected back from [target] into [user]!"), span_userdanger("\The [src] zaps you back!"))
+		user.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
+		user.emote("scream")
 
 	target.visible_message(span_danger("[target] looks extremely guilty!"))
 	target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
@@ -112,15 +108,37 @@
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
 	return
 
+/// SPACE LAW STUN
+/// * target - Who is getting hit
+/// * power - How strong is the stun? 1 is strong, 2 is weak
+/obj/item/book/manual/wiki/security_space_law/proc/law_stun(mob/living/carbon/target, power)
+	if(!target || !iscarbon(target))
+		return
+	switch(power)
+		if(1)
+			target.Paralyze(2 SECONDS)
+			target.Knockdown(4 SECONDS)
+			target.set_eye_blur_if_lower(12 SECONDS)
+			target.set_confusion_if_lower(12 SECONDS)
+			target.adjust_stutter(12 SECONDS)
+			target.set_jitter_if_lower(12 SECONDS)
+		if(2)
+			target.Knockdown(1 SECONDS)
+			target.set_eye_blur_if_lower(6 SECONDS)
+			target.set_confusion_if_lower(6 SECONDS)
+			target.adjust_stutter(6 SECONDS)
+			target.set_jitter_if_lower(6 SECONDS)
+
 /obj/item/book/manual/wiki/security_space_law/burn_paper_product_attackby_check(obj/item/attacking_item, mob/living/user, bypass_clumsy)
+	. = ..()
 	// The skillchip prohibits you from disrepecting the law
 	if(HAS_TRAIT(user, TRAIT_JUSTICE))
 		user.playsound_local(user, 'sound/voice/beepsky/justice.ogg', 100)
 		user.Paralyze(4 SECONDS)
-		to_chat(user, span_cultlarge("YOU CANNOT DISHONOR THE LAW"))
+		to_chat(user, span_cultlarge("DO NOT DISRESPECT THE LAW"))
 		lightningbolt(user)
+		extinguish() // Pretend you never lit it up in the first place
 		return FALSE
-	. = ..()
 	if(. && (resistance_flags & ON_FIRE))
 		var/obj/item/organ/internal/liver/liver = user.get_organ_slot(ORGAN_SLOT_LIVER)
 		if(!HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
