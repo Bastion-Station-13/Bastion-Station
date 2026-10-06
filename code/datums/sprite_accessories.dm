@@ -2620,6 +2620,31 @@ MONKESTATION EDIT
 	icon_state = SPRITE_ACCESSORY_NONE
 	color_src = FALSE
 
+/datum/sprite_accessory/tails/shadekin
+	icon = 'icons/mob/species/shadekin/shadekin_tails.dmi'
+	color_src = MUTANT_COLOR
+
+/datum/sprite_accessory/tails/shadekin/shadekin_large
+	name = "Shadekin Large"
+	icon_state = "m_tail_shadekin_large"
+
+/datum/sprite_accessory/tails/shadekin/shadekin_long
+	name = "Shadekin Long"
+	icon_state = "m_tail_shadekinlong_large"
+
+/datum/sprite_accessory/tails/shadekin/shadekin_long_striped
+	name = "Shadekin Long Stripe"
+	icon_state = "m_tail_shadekinlongstriped_large"
+
+/datum/sprite_accessory/tails/shadekin/shadekin
+	name = "Shadekin"
+	icon_state = "m_tail_shadekin"
+
+/datum/sprite_accessory/tails/shadekin/shadekinshort
+	name = "Shadekin"
+	icon_state = "m_tail_shadekinshort"
+
+
 /datum/sprite_accessory/pod_hair
 	icon = 'icons/mob/species/podperson_hair.dmi'
 	em_block = TRUE

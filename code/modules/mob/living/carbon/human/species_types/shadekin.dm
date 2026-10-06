@@ -5,29 +5,23 @@
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	mutantbrain = /obj/item/organ/internal/brain/shadekin
 	mutanteyes = /obj/item/organ/internal/eyes/shadekin
-	eyes_icon = 'icons/mob/species/shadekin/shadekin_eyes.dmi' // i dont know how else to do this son
+//	eyes_icon = 'icons/mob/species/shadekin/shadekin_eyes.dmi' // i dont know how else to do this son
 
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_LITERATE,
 		TRAIT_MUTANT_COLORS,
+		TRAIT_MUTANT_COLORS_SECONDARY,
 		TRAIT_NIGHT_VISION,
 		TRAIT_NOBREATH,
 	)
 
-
-	// later
-	mutant_bodyparts = list(
-		"ears" = "Shadekin",
-		"tail" = "Shadekin",
-	)
-
 	external_organs = list(
+		/obj/item/organ/external/tail/shadekin = "Shadekin",
 	)
 
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
-
 
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/shadekin,
@@ -91,6 +85,7 @@
 	id = "shadekin_regeneration"
 	duration = 2 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
+	alert_type = /atom/movable/screen/alert/status_effect/shadekin_regeneration
 
 /datum/status_effect/shadekin_regeneration/on_apply()
 	. = ..()
@@ -105,3 +100,9 @@
 
 /datum/status_effect/shadekin_regeneration/proc/heal_owner()
 	owner.heal_overall_damage(brute = 0.5, burn = 0.5, required_bodytype = BODYTYPE_ORGANIC)
+
+/atom/movable/screen/alert/status_effect/shadekin_regeneration
+	name = "Dark Regeneration"
+	desc = "Darkness passes through your body, slowly healing your wounds!"
+	icon_state = "regenerative_core" // for now
+	var/datum/status_effect/shadekin_regeneration
