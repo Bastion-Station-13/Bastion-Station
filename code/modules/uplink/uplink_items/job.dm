@@ -559,7 +559,7 @@
 	desc = "A marvel of modern syndicate technology; a syndicate cyborg jack. \
 		Fitting as much utility that both saboteur and medical models have to offer, great for any agent looking for a reliable cyborg. \
 		Due to its experimental and compact nature, you'll need to find a cyborg that has already been jailbroken by an electromagnetic sequencer for it to work."
-	cost = 8
+	cost = 7
 	surplus = 0
 	item = /obj/item/borg/upgrade/transform/syndicate_compact
 	restricted_roles = list(JOB_ROBOTICIST)
