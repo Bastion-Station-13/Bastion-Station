@@ -1257,6 +1257,7 @@
 
 /obj/item/borg/upgrade/transform/syndicate_compact/action(mob/living/silicon/robot/borg, user)
 	if(!borg.emagged)
+		borg.balloon_alert(user, "not emagged!")
 		return FALSE
 	. = ..() // Model and skin is applied here.
 	if(!.)
