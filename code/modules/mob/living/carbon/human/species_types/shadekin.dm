@@ -5,20 +5,19 @@
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	mutantbrain = /obj/item/organ/internal/brain/shadekin
 	mutanteyes = /obj/item/organ/internal/eyes/shadekin
-//	eyes_icon = 'icons/mob/species/shadekin/shadekin_eyes.dmi' // i dont know how else to do this son
+	mutantears = /obj/item/organ/internal/ears/shadekin
 
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_LITERATE,
 		TRAIT_MUTANT_COLORS,
-		TRAIT_MUTANT_COLORS_SECONDARY,
 		TRAIT_NIGHT_VISION,
 		TRAIT_NOBREATH,
 	)
 
 	external_organs = list(
-		/obj/item/organ/external/tail/shadekin = "Shadekin",
+		/obj/item/organ/external/tail/shadekin = "Shadekin Classic", /obj/item/organ/external/ears/shadekin = "Shadekin Classic Ears"
 	)
 
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
@@ -68,7 +67,7 @@
 
 /obj/item/organ/internal/brain/shadekin
 	name = "shadekin brain"
-	desc = "bla bla bla placeholder text here"
+	desc = "The brain of a shadekin. It leaves a weird tar residue on the hands when touched."
 	icon = 'icons/obj/medical/organs/organs.dmi'
 	icon_state = "brain-x-d"
 
@@ -106,3 +105,15 @@
 	desc = "Darkness passes through your body, slowly healing your wounds!"
 	icon_state = "regenerative_core" // for now
 	var/datum/status_effect/shadekin_regeneration
+
+/obj/item/organ/external/ears/shadekin
+	name = "shadekin ears"
+	desc = "Large protruding shadekin ears."
+	preference = "feature_shadekin_ears"
+	bodypart_overlay = /datum/bodypart_overlay/mutant/ears/shadekin
+
+/datum/bodypart_overlay/mutant/ears/shadekin
+	feature_key = "ears_shadekin"
+
+/datum/bodypart_overlay/mutant/ears/shadekin/get_global_feature_list()
+	return GLOB.ears_list_shadekin
