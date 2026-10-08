@@ -123,7 +123,7 @@
 		"paddyupgrade",
 		"mech_hydraulic_claw"
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS)
 	discount_experiments = list(/datum/experiment/scanning/points/machinery_tiered_scan/tier3_mechbay = 5000)
 
 /datum/techweb_node/gygax
