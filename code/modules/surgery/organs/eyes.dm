@@ -706,10 +706,11 @@
 
 /obj/item/organ/internal/eyes/shadekin
 	name = "shadekin eyes"
-	desc = "The eyes of a shadekin, Their glow suggests they seem to be adapted to darkness better than most other species..."
+	desc = "The eyes of a shadekin, you heard they are adapted to darkness better than most other species, however they are also more sensitive to light."
 	eye_icon_state = "shadekin_eyes"
 	icon_state = "eyeballs-shadekin"
 	lighting_cutoff = LIGHTING_CUTOFF_MEDIUM
+	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
 
 /obj/item/organ/internal/eyes/lizard

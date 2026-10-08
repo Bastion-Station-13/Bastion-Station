@@ -360,6 +360,7 @@ ROUNDSTART_RACES apid
 ROUNDSTART_RACES satyr
 ROUNDSTART_RACES ornithid
 ROUNDSTART_RACES oni
+ROUNDSTART_RACES shadekin
 
 ## Races that are better than humans in some ways, but worse in others
 ROUNDSTART_RACES ethereal

@@ -6,6 +6,7 @@
 	mutantbrain = /obj/item/organ/internal/brain/shadekin
 	mutanteyes = /obj/item/organ/internal/eyes/shadekin
 	mutantears = /obj/item/organ/internal/ears/shadekin
+	mutanttongue = /obj/item/organ/internal/tongue/shadekin
 
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,
@@ -31,10 +32,6 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/shadekin,
 	)
 
-/datum/species/shadekin/randomize_features()
-	var/list/features = ..()
-	// empty for now
-	return features
 
 /datum/species/shadekin/create_pref_unique_perks()
 	var/list/to_add = list()
@@ -57,6 +54,12 @@
 		SPECIES_PERK_NAME = "Damage Vulnerability",
 		SPECIES_PERK_DESC = "Shadekin are more vulnerable to physical injury, and will take 20% more brute and burn damage.",
 	),
+	list(
+		SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
+		SPECIES_PERK_ICON = "sun",
+		SPECIES_PERK_NAME = "Darkness Adapted Eyes",
+		SPECIES_PERK_DESC = "Shadekin are adapted to darkness, and see better in the dark, however their eyes are sensitive to bright lights, and they will suffer from flashbangs and flashes.",
+		)
 	)
 	return to_add
 
@@ -79,6 +82,14 @@
 
 	if(GET_SIMPLE_LUMCOUNT(owner_turf) < SHADOW_SPECIES_DIM_LIGHT)
 		owner.apply_status_effect(/datum/status_effect/shadekin_regeneration)
+		owner.clear_mood_event("shadekin_light")
+
+	else if(GET_SIMPLE_LUMCOUNT(owner_turf) > SHADOW_SPECIES_DIM_LIGHT)
+		owner.add_mood_event("shadekin_light", /datum/mood_event/shadekin_light)
+
+/datum/mood_event/shadekin_light
+	description = "The light is uncomfortable..."
+	mood_change = -3
 
 /datum/status_effect/shadekin_regeneration
 	id = "shadekin_regeneration"
@@ -103,12 +114,14 @@
 /atom/movable/screen/alert/status_effect/shadekin_regeneration
 	name = "Dark Regeneration"
 	desc = "Darkness passes through your body, slowly healing your wounds!"
-	icon_state = "regenerative_core" // for now
+	icon_state = "shaderegen"
 	var/datum/status_effect/shadekin_regeneration
 
 /obj/item/organ/external/ears/shadekin
-	name = "shadekin ears"
-	desc = "Large protruding shadekin ears."
+	name = "Protruding shadekin ears"
+	desc = "The external, protruding part of the shadekin's ears. doesn't seem to affect their hearing."
+	icon = 'icons/obj/medical/organs/organs.dmi'
+	icon_state = "shadekin-visual-ears"
 	preference = "feature_shadekin_ears"
 	bodypart_overlay = /datum/bodypart_overlay/mutant/ears/shadekin
 
