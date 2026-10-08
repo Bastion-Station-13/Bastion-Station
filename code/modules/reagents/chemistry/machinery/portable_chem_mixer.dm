@@ -1,12 +1,12 @@
 /obj/item/storage/portable_chem_mixer
 	name = "portable chemical mixer"
-	desc = "A portable device that dispenses and mixes chemicals using reagents inside containers. The letters 'S&T' are imprinted on the side."
+	desc = "A portable device that dispenses and mixes chemicals using the beakers inserted inside."
 	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "portablechemicalmixer_open"
 	worn_icon_state = "portable_chem_mixer"
+	equip_sound = 'sound/items/equip/toolbelt_equip.ogg'
 	w_class = WEIGHT_CLASS_HUGE
 	slot_flags = ITEM_SLOT_BELT
-	equip_sound = 'sound/items/equip/toolbelt_equip.ogg'
 	custom_price = PAYCHECK_CREW * 10
 	custom_premium_price = PAYCHECK_CREW * 14
 	interaction_flags_click = FORBID_TELEKINESIS_REACH
@@ -18,8 +18,6 @@
 	var/amount = 30
 	///List in which all currently dispensable reagents go
 	var/list/dispensable_reagents = list()
-	///If the UI has the pH meter shown
-	var/show_ph = TRUE
 
 /obj/item/storage/portable_chem_mixer/Initialize(mapload)
 	. = ..()
@@ -32,7 +30,6 @@
 		/obj/item/reagent_containers/cup/glass/waterbottle,
 		/obj/item/reagent_containers/condiment,
 	))
-
 	register_context()
 	AddElement(/datum/element/drag_pickup)
 
@@ -67,11 +64,49 @@
 	if(QDELETED(beaker))
 		. += span_notice("A beaker can be inserted to dispense reagents after it is locked.")
 	else
-		. += span_notice("The stored beaker can be ejected with [EXAMINE_HINT("Alt Click")].")
+		. += span_notice("A beaker of [beaker.reagents.maximum_volume]u capacity is inserted.")
+		. += span_notice("It can be ejected with [EXAMINE_HINT("Alt Click")].")
+
+/obj/item/storage/portable_chem_mixer/update_icon_state()
+	if(!atom_storage.locked)
+		icon_state = "portablechemicalmixer_open"
+		return ..()
+	if(!QDELETED(beaker))
+		icon_state = "portablechemicalmixer_full"
+		return ..()
+	icon_state = "portablechemicalmixer_empty"
+	return ..()
+
+/obj/item/storage/portable_chem_mixer/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	. = ..()
+	if(!atom_storage.locked)
+		update_contents()
+
+/// Reload dispensable reagents from new contents
+/obj/item/storage/portable_chem_mixer/proc/update_contents()
+	PRIVATE_PROC(TRUE)
+
+	dispensable_reagents.Cut()
+	for (var/obj/item/reagent_containers/container in contents)
+		var/datum/reagent/key = container.reagents.get_master_reagent()
+		if(isnull(key)) //no reagent inside container
+			continue
+
+		var/key_type = key.type
+		if (!(key_type in dispensable_reagents))
+			dispensable_reagents[key_type] = list()
+			dispensable_reagents[key_type]["reagents"] = list()
+		dispensable_reagents[key_type]["reagents"] += container.reagents
+
+/obj/item/storage/portable_chem_mixer/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == beaker)
+		beaker = null
+	else
+		update_contents()
 
 /obj/item/storage/portable_chem_mixer/ex_act(severity, target)
-	if(severity > EXPLODE_LIGHT)
-		return ..()
+	return severity > EXPLODE_LIGHT ? ..() : FALSE
 
 /obj/item/storage/portable_chem_mixer/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if (!atom_storage.locked || \
@@ -85,52 +120,11 @@
 	ui_interact(user)
 	return ITEM_INTERACT_SUCCESS
 
-/**
- * Updates the contents of the portable chemical mixer
- *
- * A list of dispensable reagents is created by iterating through each source beaker in the portable chemical beaker and reading its contents
- */
-/obj/item/storage/portable_chem_mixer/proc/update_contents()
-	PRIVATE_PROC(TRUE)
-
-	dispensable_reagents.Cut()
-
-	//MONKESTATION EDIT STAT
-	for (var/obj/item/reagent_containers/B in contents)
-		if(beaker && B == beaker)
-			continue
-		for(var/datum/reagent/reagent in B.reagents.reagent_list)
-			var/key = reagent.type
-			if (!(key in dispensable_reagents))
-				dispensable_reagents[key] = list()
-				dispensable_reagents[key]["reagents"] = list()
-			dispensable_reagents[key]["reagents"] += B.reagents
-	//MONKESTATION EDIT END
-	return
-
-/obj/item/storage/portable_chem_mixer/Exited(atom/movable/gone, direction)
-	. = ..()
-	if(gone == beaker)
-		beaker = null
-
-/obj/item/storage/portable_chem_mixer/update_icon_state()
-	if(!atom_storage.locked)
-		icon_state = "portablechemicalmixer_open"
-		return ..()
-	if(!QDELETED(beaker))
-		icon_state = "portablechemicalmixer_full"
-		return ..()
-	icon_state = "portablechemicalmixer_empty"
+/obj/item/storage/portable_chem_mixer/attack_hand(mob/user, list/modifiers)
+	if(atom_storage.locked && loc == user) // loc check because the balloon alert will show up on pickup otherwise
+		ui_interact(user)
 	return ..()
 
-
-/obj/item/storage/portable_chem_mixer/click_alt(mob/living/user)
-	if(!atom_storage.locked)
-		balloon_alert(user, "lock first to use alt eject!")
-		return CLICK_ACTION_BLOCKING
-	replace_beaker(user)
-	update_appearance()
-	return CLICK_ACTION_SUCCESS
 
 /**
  * Replaces the beaker of the portable chemical mixer with another beaker, or simply adds the new beaker if none is in currently
@@ -143,148 +137,144 @@
 /obj/item/storage/portable_chem_mixer/proc/replace_beaker(mob/living/user, obj/item/reagent_containers/new_beaker)
 	PRIVATE_PROC(TRUE)
 
-	if(!user)
-		return
-
 	if(!QDELETED(beaker))
 		user.put_in_hands(beaker)
+
 	if(!QDELETED(new_beaker))
-		if(user.transferItemToLoc(new_beaker, src))
-			beaker = new_beaker
-			to_chat(user, span_notice("You add \the [new_beaker] to \the [src]."))
+		if(!user.transferItemToLoc(new_beaker, src))
+			return
+		beaker = new_beaker
 	update_appearance()
 
-/obj/item/storage/portable_chem_mixer/attack_hand(mob/user, list/modifiers)
-	if (loc != user)
-		return ..()
-	else
-		if (!atom_storage.locked)
-			return ..()
-	if(atom_storage?.locked)
-		ui_interact(user)
+/obj/item/storage/portable_chem_mixer/ui_interact(mob/user, datum/tgui/ui)
+	if(loc != user)
+		balloon_alert(user, "hold it in your hand!")
+		return
+	if(!atom_storage.locked)
+		balloon_alert(user, "lock it first!")
 		return
 
-/obj/item/storage/portable_chem_mixer/attack_self(mob/user)
-	if(loc == user)
-		if (atom_storage.locked)
-			ui_interact(user)
-/*MONKESTATION REMOVAL START
-			return
-		else
-			to_chat(user, span_notice("It looks like this device can be worn as a belt for increased accessibility. A label indicates that the 'CTRL'-button on the device may be used to close it after it has been filled with bottles and beakers of chemicals."))
-			return
-	return
-MONKESTATION REMOVAL END */
-
-/obj/item/storage/portable_chem_mixer/ui_status(mob/user, datum/ui_state/state)
-	if(loc != user)
-		return UI_CLOSE
-	if(!atom_storage.locked) //MONKESTATION ADDITION
-		return UI_DISABLED
-	return ..()
-
-/obj/item/storage/portable_chem_mixer/ui_interact(mob/user, datum/tgui/ui)
-	update_contents()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "PortableChemMixer", name)
 		ui.open()
 
-		var/is_hallucinating = FALSE
-		if(isliving(user))
-			var/mob/living/living_user = user
-			is_hallucinating = !!living_user.has_status_effect(/datum/status_effect/hallucination)
-		ui.set_autoupdate(!is_hallucinating) // to not ruin the immersion by constantly changing the fake chemicals
+	var/is_hallucinating = FALSE
+	if(isliving(user))
+		var/mob/living/living_user = user
+		is_hallucinating = !!living_user.has_status_effect(/datum/status_effect/hallucination)
+	ui.set_autoupdate(!is_hallucinating) // to not ruin the immersion by constantly changing the fake chemicals
 
 /obj/item/storage/portable_chem_mixer/ui_data(mob/user)
-	var/list/data = list()
-	data["amount"] = amount
-	data["isBeakerLoaded"] = beaker ? 1 : 0
-	data["beakerCurrentVolume"] = beaker ? beaker.reagents.total_volume : null
-	data["beakerMaxVolume"] = beaker ? beaker.volume : null
-	data["beakerTransferAmounts"] = beaker ? list(1,5,10,30,50,100) : null
-	data["showpH"] = show_ph
-	var/chemicals[0]
+	. = list()
+	.["amount"] = amount
+
 	var/is_hallucinating = FALSE
 	if(isliving(user))
 		var/mob/living/living_user = user
 		is_hallucinating = !!living_user.has_status_effect(/datum/status_effect/hallucination)
 
+	.["chemicals"] = list()
 	for(var/datum/reagent/reagent_type as anything in dispensable_reagents)
 		var/datum/reagent/temp = GLOB.chemical_reagents_list[reagent_type]
 		if(temp)
 			var/chemname = temp.name
 			var/total_volume = 0
-			//MONKESTATION EDIT START
-			for (var/datum/reagents/rs in dispensable_reagents[reagent_type]["reagents"])
-				var/datum/reagent/RG = rs.has_reagent(reagent_type)
-				if(RG)
-					total_volume += RG.volume
+			var/total_ph = 0
+			for (var/datum/reagents/rs as anything in dispensable_reagents[reagent_type]["reagents"])
+				total_volume += rs.total_volume
+				total_ph = rs.ph
+			if(istype(reagent_type, /datum/reagent/ammonia/urine) && user.client?.prefs.read_preference(/datum/preference/toggle/prude_mode))
+				chemname = "Ammonia?"
 			if(is_hallucinating && prob(5))
 				chemname = "[pick_list_replacements("hallucination.json", "chemicals")]"
-			chemicals.Add(list(list("title" = chemname, "id" = ckey(temp.name), "volume" = total_volume, "pH" = reagent_type.ph)))
-			//MONKESTATION EDIT END
-	data["chemicals"] = chemicals
-	var/beakerContents[0]
+			.["chemicals"] += list(list("title" = chemname, "id" = temp.name, "volume" = total_volume, "pH" = total_ph))
+
+	var/list/beaker_data = null
 	if(!QDELETED(beaker))
+<<<<<<< HEAD:code/game/objects/items/devices/portable_chem_mixer.dm
 		for(var/datum/reagent/R in beaker.reagents.reagent_list)
 			var/chem_name = R.name
 			beakerContents.Add(list(list("name" = chem_name, "id" = ckey(R.name), "volume" = R.volume, "pH" = R.ph))) // list in a list because Byond merges the first list...
 		data["beakerCurrentpH"] = round(beaker.reagents.ph, 0.01)
 	data["beakerContents"] = beakerContents
+=======
+		beaker_data = list()
+		beaker_data["maxVolume"] = beaker.volume
+		beaker_data["transferAmounts"] = beaker.possible_transfer_amounts
+		beaker_data["pH"] = round(beaker.reagents.ph, 0.01)
+		beaker_data["currentVolume"] = round(beaker.reagents.total_volume, 0.01)
+		var/list/beakerContents = list()
+		if(length(beaker.reagents.reagent_list))
+			for(var/datum/reagent/reagent in beaker.reagents.reagent_list)
+				beakerContents += list(list("name" = reagent.name, "volume" = round(reagent.volume, 0.01))) // list in a list because Byond merges the first list...
+		beaker_data["contents"] = beakerContents
+	.["beaker"] = beaker_data
+>>>>>>> 7c6d39df (Ports the portable chemical mixer fixes from TG (#12572)):code/modules/reagents/chemistry/machinery/portable_chem_mixer.dm
 
-	return data
-
-/obj/item/storage/portable_chem_mixer/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+/obj/item/storage/portable_chem_mixer/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
+
 	switch(action)
 		if("amount")
-			var/target = text2num(params["target"])
+			var/target = params["target"]
+			if(isnull(target))
+				return
+
+			target = text2num(target)
+			if(isnull(target))
+				return
+
 			amount = target
-			. = TRUE
+			return TRUE
+
 		if("dispense")
 			var/datum/reagent/reagent = GLOB.name2reagent[params["reagent"]]
 			if(isnull(reagent))
 				return
 
 			if(!QDELETED(beaker))
-				var/datum/reagents/R = beaker.reagents
-				var/actual = min(amount, 1000, R.maximum_volume - R.total_volume)
-				for (var/datum/reagents/source in dispensable_reagents[reagent]["reagents"])
-					actual -= source.trans_id_to(beaker, reagent, min(source.total_volume, actual)) //MONKESTATION EDIT
+				var/datum/reagents/container = beaker.reagents
+				var/actual = min(amount, container.maximum_volume - container.total_volume)
+				for(var/datum/reagents/source as anything in dispensable_reagents[reagent]["reagents"])
+					actual -= source.trans_to(beaker, min(source.total_volume, actual), transferred_by = ui.user)
 					if(actual <= 0)
 						break
-			. = TRUE
+				return TRUE
+
 		if("remove")
-			var/amount = text2num(params["amount"])
-			beaker.reagents.remove_all(amount)
-			. = TRUE
-		if("eject")
-			replace_beaker(usr)
-			update_appearance()
+			var/target = params["amount"]
+			if(isnull(target))
+				return
+
+			target = text2num(target)
+			if(isnull(target))
+				return
+
+			beaker.reagents.remove_all(target)
 			return TRUE
 
-/obj/item/storage/portable_chem_mixer/mouse_drop_dragged(atom/over_object)
-	if(ismob(loc))
-		var/mob/M = loc
-		if(istype(over_object, /atom/movable/screen/inventory/hand))
-			var/atom/movable/screen/inventory/hand/H = over_object
-			M.putItemFromInventoryInHandIfPossible(src, H.held_index)
+		if("eject")
+			replace_beaker(ui.user)
+			return TRUE
 
 /obj/item/storage/portable_chem_mixer/click_alt(mob/living/user)
 	if(!atom_storage.locked)
 		balloon_alert(user, "lock first to use alt eject!")
 		return CLICK_ACTION_BLOCKING
+	if(!can_interact(user))
+		return
 
 	replace_beaker(user)
-	update_appearance()
 	return CLICK_ACTION_SUCCESS
 
 /obj/item/storage/portable_chem_mixer/item_ctrl_click(mob/user)
+	. = ..()
 	if(atom_storage.locked == STORAGE_FULLY_LOCKED)
 		replace_beaker(user)
 		SStgui.close_uis(src)
 	atom_storage.set_locked(atom_storage.locked ? STORAGE_NOT_LOCKED : STORAGE_FULLY_LOCKED)
+	atom_storage.click_alt_open = !atom_storage.locked
 	return CLICK_ACTION_SUCCESS
