@@ -17,7 +17,6 @@
 
 /datum/challenge/paranoia
 	challenge_name = "Paranoia"
-	challenge_payout = 600
 	difficulty = "Hellish"
 	applied_trait = TRAIT_PARANOIA
 	var/added = FALSE
