@@ -1880,19 +1880,6 @@ SUBSYSTEM_DEF(ticker)
 		else
 			queue[ckey] += list(list(200, "Mentor Bonus"))
 
-	var/list/applied_challenges = details?.applied_challenges
-	if(LAZYLEN(applied_challenges))
-		var/mob/living/client_mob = details?.mob
-		if(!istype(client_mob) || QDELING(client_mob) || client_mob?.stat == DEAD)
-			return
-		var/total_payout = 0
-		for(var/datum/challenge/listed_challenge as anything in applied_challenges)
-			if(listed_challenge.failed)
-				continue
-			total_payout += listed_challenge.challenge_payout
-		if(total_payout)
-			queue[ckey] += list(list(total_payout, "Challenge Rewards"))
-
 /datum/controller/subsystem/ticker/proc/refund_cassette()
 	if(!length(GLOB.cassette_reviews))
 		return
