@@ -553,3 +553,14 @@
 	item = /obj/item/chromosome/energy
 	restricted_roles = list(JOB_GENETICIST)
 	illegal_tech = FALSE
+
+/datum/uplink_item/role_restricted/justice_skillchip
+	name = "JU571C3 skillchip"
+	desc = "An skillchip autosurgeon with a JU571C3 (justice) skillchip produced by Nanotrasen itself. It is given to Head of Securities \
+		to deal with unruly Security Officers by allowing to stun them with a hit of a Space Law book, and for you any Security Officer is 'unruly'. \
+		Do not smell the skillchip."
+	cost = 11
+	surplus = 20
+	item = /obj/item/autosurgeon/skillchip/syndicate/lawyer
+	// Security jobs listed here in case we turn off Sec antag protections for some reason
+	restricted_roles = list(JOB_LAWYER, JOB_SECURITY_ASSISTANT, JOB_SECURITY_OFFICER, JOB_BRIG_PHYSICIAN, JOB_WARDEN, JOB_HEAD_OF_SECURITY)

@@ -11,7 +11,7 @@
 	page_link = "Space_law"
 	attack_verb_continuous = list("prosecutes", "disciplines", "sues")
 	attack_verb_simple = list("prosecute", "discipline", "sue")
-	grind_results = list(/datum/reagent/cellulose = 15, /datum/reagent/the_law = 5)
+	grind_results = list(/datum/reagent/cellulose = 15, /datum/reagent/the_law = 2)
 	attack_speed = CLICK_CD_SPACE_LAW
 	/// The law that gets beamed into the criminal's mind
 	var/law = "211 Insubordination! To knowingly disobey a lawful order from a superior."
@@ -94,40 +94,26 @@
 
 	// Applying the law to Security members is painful to them
 	if(HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
-		law_stun(target, 1)
-	else // But hitting non-security will hurt YOU TOO!
-		law_stun(user, 1)
-		law_stun(target, 2)
-		user.visible_message(span_warning("\The [src]'s immense power has deflected back from [target] into [user]!"), span_userdanger("\The [src] zaps you back!"))
-		user.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
+		target.visible_message(span_danger("[target] looks extremely guilty!"))
+		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
+		law_stun(target)
+		to_chat(target, span_cultlarge(law))
+	else
+		user.visible_message(span_warning("\The [src]'s immense power has deflected back from [target] into [user]!"), span_cultlarge("DO NOT HARM THE INNOCENT"))
+		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
 		user.emote("scream")
-
-	target.visible_message(span_danger("[target] looks extremely guilty!"))
-	target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
-	to_chat(target, span_cultlarge(law))
+		law_stun(user)
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
-	return
 
-/// SPACE LAW STUN
-/// * target - Who is getting hit
-/// * power - How strong is the stun? 1 is strong, 2 is weak
-/obj/item/book/manual/wiki/security_space_law/proc/law_stun(mob/living/carbon/target, power)
+/obj/item/book/manual/wiki/security_space_law/proc/law_stun(mob/living/carbon/target)
 	if(!target || !iscarbon(target))
 		return
-	switch(power)
-		if(1)
-			target.Paralyze(2 SECONDS)
-			target.Knockdown(4 SECONDS)
-			target.set_eye_blur_if_lower(12 SECONDS)
-			target.set_confusion_if_lower(12 SECONDS)
-			target.adjust_stutter(12 SECONDS)
-			target.set_jitter_if_lower(12 SECONDS)
-		if(2)
-			target.Knockdown(1 SECONDS)
-			target.set_eye_blur_if_lower(6 SECONDS)
-			target.set_confusion_if_lower(6 SECONDS)
-			target.adjust_stutter(6 SECONDS)
-			target.set_jitter_if_lower(6 SECONDS)
+	target.Paralyze(2 SECONDS)
+	target.Knockdown(4 SECONDS)
+	target.set_eye_blur_if_lower(12 SECONDS)
+	target.set_confusion_if_lower(12 SECONDS)
+	target.adjust_stutter(12 SECONDS)
+	target.set_jitter_if_lower(12 SECONDS)
 
 /obj/item/book/manual/wiki/security_space_law/burn_paper_product_attackby_check(obj/item/attacking_item, mob/living/user, bypass_clumsy)
 	. = ..()

@@ -46,7 +46,6 @@
 
 	chameleon_extras = /obj/item/stamp/law
 	accessory = /obj/item/clothing/accessory/badge/lawyer
-	skillchips = list(/obj/item/skillchip/job/security)
 
 /datum/outfit/job/lawyer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
