@@ -134,3 +134,17 @@
   - bugfix: Omnilathe no longer tries to take materials from the ore silo then delete
       the ones that don't fit when repacking a linked one
   - refactor: Omnilathe uses item_interaction instead of attackby
+2026-10-08:
+  JohnFulpWillard:
+  - qol: Borgs can now unlock their cover in their self-examine text.
+  LettuceGuardian:
+  - rscadd: SWAT crates now come with differently styled gas masks. Total amount of
+      gas masks doesn't change, though.
+  Longestarmlonglaw:
+  - bugfix: fixed an issue where you couldn't interact with modular computers and
+      guns with chunky fingers from a distance when using telekinesis
+  Mantlecrawler:
+  - bugfix: Kinetic Hellhound now correctly states its mag size
+  - bugfix: Quartermaster's office is now spelled correctly on Deltastation
+  - rscadd: Ian can now randomly roll two new variants of himself, on rare occasions
+  - rscadd: Dinosaur Ian, Expie Ian
