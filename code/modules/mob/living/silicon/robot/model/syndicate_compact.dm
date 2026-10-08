@@ -22,7 +22,7 @@
 		/obj/item/borg/apparatus/sheet_manipulator,
 		/obj/item/borg/charger,
 		/obj/item/healthanalyzer/cyborg/advanced,
-		/obj/item/reagent_containers/borghypo/syndicate,
+		/obj/item/reagent_containers/borghypo/syndicate/compact,
 		/obj/item/shockpaddles/syndicate/cyborg,
 		/obj/item/borg/cyborg_omnitool/medical/upgraded,
 		/obj/item/borg/cyborg_omnitool/medical/upgraded,

@@ -347,7 +347,10 @@
 		to produce more advanced and complex medical reagents."
 	icon_state = "module_medical"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/medical)
+	model_type = list(
+		/obj/item/robot_model/medical,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_MEDICAL
 	var/list/additional_reagents = list()
 
