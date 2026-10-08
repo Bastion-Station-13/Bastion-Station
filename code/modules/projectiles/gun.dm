@@ -518,6 +518,8 @@
 				else
 					var/atom/movable/item_to_shoot = new bullet_override(user.loc)
 					item_to_shoot.throw_at(target, 12, 2)
+					fire_sounds()
+					return
 
 			if(HAS_TRAIT(user, TRAIT_PACIFISM)) // If the user has the pacifist trait, then they won't be able to fire [src] if the round chambered inside of [src] is lethal.
 				if(chambered.harmful) // Is the bullet chambered harmful?
