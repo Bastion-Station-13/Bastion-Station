@@ -100,7 +100,7 @@
 		to_chat(target, span_cultlarge(law))
 	else
 		user.visible_message(span_warning("\The [src]'s immense power has deflected back from [target] into [user]!"), span_cultlarge("DO NOT HARM THE INNOCENT"))
-		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
+		target.playsound_local(user, 'sound/items/gavel.ogg', 100, TRUE)
 		user.emote("scream")
 		law_stun(user)
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
