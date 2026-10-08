@@ -101,22 +101,22 @@
 
 
 #define BASE_SYNDICATE_COMPACT_REAGENTS list(\
-	/datum/reagent/medicine/epinephrine,\
-	/datum/reagent/medicine/inacusiate,\
-	/datum/reagent/medicine/painkiller/morphine,\
-	/datum/reagent/medicine/c2/multiver,\
-	/datum/reagent/medicine/potass_iodide,\
-	/datum/reagent/medicine/salglu_solution,\
-	/datum/reagent/medicine/antipathogenic/spaceacillin,\
-	/datum/reagent/medicine/syndicate_nanites,\
+		/datum/reagent/medicine/epinephrine,\
+		/datum/reagent/medicine/inacusiate,\
+		/datum/reagent/medicine/painkiller/morphine,\
+		/datum/reagent/medicine/c2/multiver,\
+		/datum/reagent/medicine/potass_iodide,\
+		/datum/reagent/medicine/salglu_solution,\
+		/datum/reagent/medicine/antipathogenic/spaceacillin,\
+		/datum/reagent/medicine/syndicate_nanites,\
 )
 
 #define EXPANDED_SYNDICATE_COMPACT_REAGENTS list(\
-	/datum/reagent/medicine/haloperidol,\
-    /datum/reagent/medicine/mutadone,\
-    /datum/reagent/medicine/oculine,\
-	/datum/reagent/medicine/pen_acid,\
-    /datum/reagent/medicine/rezadone,\
+		/datum/reagent/medicine/haloperidol,\
+		/datum/reagent/medicine/mutadone,\
+		/datum/reagent/medicine/oculine,\
+		/datum/reagent/medicine/pen_acid,\
+		/datum/reagent/medicine/rezadone,\
 )
 
 #define BASE_CENTCOM_REAGENTS list(\
