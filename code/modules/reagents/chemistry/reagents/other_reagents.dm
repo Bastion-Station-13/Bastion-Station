@@ -2977,3 +2977,23 @@
 		exposed_mob.adjustBruteLoss(20)
 		exposed_mob.AddElement(/datum/element/squish, reac_volume * 5 SECONDS)
 		exposed_mob.visible_message(span_warning("[exposed_mob] is violently compacted for no apparent reason!"), span_warning("Your flesh and bone suddenly collapse inwards, scrunching you flat!"))
+
+/datum/reagent/the_law
+	name = "Law Concentrate"
+	description = "Pure concentrate of various laws, glossaries, addendums, and other sleep-inducing stuff Lawyers unironically read."
+	color = "#ff0000" // Red like the book
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
+	taste_description = "the law"
+
+/datum/reagent/the_law/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
+	. = ..()
+	var/obj/item/organ/internal/liver/liver = affected_mob.get_organ_slot(ORGAN_SLOT_LIVER)
+	if(!liver || !HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+		if(prob(50))
+			affected_mob.SetSleeping(2 SECONDS)
+			affected_mob.emote("snore")
+			to_chat(affected_mob, span_userdanger("You feel extremely bored and daze off!"))
+			return
+		liver.add_traits(list(TRAIT_LAW_ENFORCEMENT_METABOLISM), SPACE_LAW_TRAIT)
+		to_chat(affected_mob, span_notice("You feel extreme hunger for justice and donuts..."))
+		return
