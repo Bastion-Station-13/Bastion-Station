@@ -148,3 +148,21 @@
   - bugfix: Quartermaster's office is now spelled correctly on Deltastation
   - rscadd: Ian can now randomly roll two new variants of himself, on rare occasions
   - rscadd: Dinosaur Ian, Expie Ian
+2026-10-09:
+  AberrantQuerist:
+  - rscadd: Beepsky once again will drop a paragraph of swears and insults.
+  - rscadd: Emagged Compli-o-Nator is uncensored.
+  Runian:
+  - rscadd: 'Standard-model cyborgs, upon conversion to Clockwork Cult, now get a
+      brass spear and the following scriptures: Abscond, Kindle, and Vanguard.'
+  ThePooba:
+  - balance: Balanced PTL cash at high levels to be lower- it already had an asymptote
+      but it was too high because we are insane people
+  notghosti:
+  - rscdel: Removed blessed ckey, monkestation ai display, and streamer related twitch
+      events
+  - bugfix: Think fast chucklenuts and hypno will effect 1 person not 0.
+  - bugfix: Restored boy, girl, boy malf, girl malf, box fort, hotdog, terminal, and
+      yes man displays to ai display
+  ori-disillusion-mirnov:
+  - rscadd: admins may now override the bullets fired by a gun
