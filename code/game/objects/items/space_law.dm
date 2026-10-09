@@ -17,7 +17,7 @@
 	/// Used interally, you don't want to modify
 	var/cooldown_check = 0
 	/// Default wait time until can stun again.
-	var/cooldown = (5.2 SECONDS)
+	var/cooldown = (2.5 SECONDS)
 
 /obj/item/book/manual/wiki/security_space_law/examine(mob/user)
 	. = ..()
@@ -37,6 +37,7 @@
 		return FALSE
 	if(cooldown_check > world.time)
 		to_chat(user, span_danger("Skillchip is still charging!"))
+		return FALSE
 	if(user.istate & ISTATE_HARM)
 		discipline(target, user)
 	else
@@ -46,6 +47,8 @@
 	var/mob/living/thrower = throwingdatum.thrower
 	if(prob(50))
 		if(HAS_TRAIT(thrower, TRAIT_JUSTICE))
+			if(cooldown_check > world.time)
+				return FALSE
 			var/mob/living/carbon/hit_carbon = hit_atom
 			if(hit_carbon && iscarbon(hit_carbon))
 				discipline(hit_carbon, thrower)
@@ -90,7 +93,10 @@
 	if(!HAS_TRAIT(user, TRAIT_JUSTICE))
 		return
 
+	cooldown_check = world.time + cooldown
 	var/obj/item/organ/internal/liver/liver = target.get_organ_slot(ORGAN_SLOT_LIVER)
+	if(!liver)
+		return
 	if(HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM) && target != user)
 		to_chat(user, span_warning("[target]'s authority is too powerful for you!"))
 		return
@@ -112,7 +118,6 @@
 		user.dropItemToGround(src)
 		law_stun(user, 2)
 		law_stun(target, 2)
-	cooldown_check = world.time + cooldown
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
 
 /obj/item/book/manual/wiki/security_space_law/proc/law_stun(mob/living/carbon/target, type)
@@ -144,7 +149,7 @@
 		return FALSE
 	if(. && (resistance_flags & ON_FIRE))
 		var/obj/item/organ/internal/liver/liver = user.get_organ_slot(ORGAN_SLOT_LIVER)
-		if(!HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+		if(!liver || !HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
 			return
 		// FUCK THE LAW, FUCK THE DONUTS
 		to_chat(user, span_warning("You no longer feel like serving the law."))
