@@ -85,6 +85,7 @@
 		owner.clear_mood_event("shadekin_light")
 
 	else if(GET_SIMPLE_LUMCOUNT(owner_turf) > SHADOW_SPECIES_DIM_LIGHT)
+		owner.remove_status_effect(/datum/status_effect/shadekin_regeneration)
 		owner.add_mood_event("shadekin_light", /datum/mood_event/shadekin_light)
 
 /datum/mood_event/shadekin_light
@@ -93,23 +94,12 @@
 
 /datum/status_effect/shadekin_regeneration
 	id = "shadekin_regeneration"
-	duration = 2 SECONDS
+	duration = 5 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
 	alert_type = /atom/movable/screen/alert/status_effect/shadekin_regeneration
 
-/datum/status_effect/shadekin_regeneration/on_apply()
-	. = ..()
-	if(!.)
-		return FALSE
-	heal_owner()
-	return TRUE
-
-/datum/status_effect/shadekin_regeneration/refresh(effect)
-	. = ..()
-	heal_owner()
-
-/datum/status_effect/shadekin_regeneration/proc/heal_owner()
-	owner.heal_overall_damage(brute = 0.5, burn = 0.5, required_bodytype = BODYTYPE_ORGANIC)
+/datum/status_effect/shadekin_regeneration/tick(seconds_per_tick)
+	owner.heal_overall_damage(brute = 0.5 * seconds_per_tick, burn = 0.5 * seconds_per_tick, required_bodytype = BODYTYPE_ORGANIC)
 
 /atom/movable/screen/alert/status_effect/shadekin_regeneration
 	name = "Dark Regeneration"
