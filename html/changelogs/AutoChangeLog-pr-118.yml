@@ -1,0 +1,4 @@
+author: "ori-disillusion-mirnov"
+delete-after: True
+changes:
+  - rscadd: "admins may now override the bullets fired by a gun"
