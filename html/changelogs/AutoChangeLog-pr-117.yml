@@ -1,0 +1,5 @@
+author: "notghosti"
+delete-after: True
+changes:
+  - rscdel: "Removed blessed ckey, monkestation ai display, and streamer related twitch events"
+  - bugfix: "Think fast chucklenuts and hypno will effect 1 person not 0."
