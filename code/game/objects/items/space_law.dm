@@ -109,6 +109,7 @@
 		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
 		target.playsound_local(user, 'sound/items/gavel.ogg', 100, TRUE)
 		user.emote("scream")
+		user.dropItemToGround(src)
 		law_stun(user, 2)
 		law_stun(target, 2)
 	cooldown_check = world.time + cooldown
@@ -125,8 +126,7 @@
 			target.set_confusion_if_lower(12 SECONDS)
 			target.adjust_stutter(12 SECONDS)
 			target.set_jitter_if_lower(12 SECONDS)
-		if(2) // 8 seconds of confusion + dropping the book
-			target.dropItemToGround(src)
+		if(2) // 8 seconds of confusion
 			target.set_eye_blur_if_lower(8 SECONDS)
 			target.set_confusion_if_lower(8 SECONDS)
 			target.adjust_stutter(8 SECONDS)
