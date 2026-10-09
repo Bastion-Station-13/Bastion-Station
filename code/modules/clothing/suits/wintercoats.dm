@@ -345,6 +345,28 @@
 	desc = "A white winter coat hood."
 	icon_state = "hood_chemistry"
 
+// Coroner
+/obj/item/clothing/suit/hooded/wintercoat/medical/coroner
+	name = "coroner winter coat"
+	desc = "A winter coat made with acid resistant polymers, used when the cold dead bodies are too much."
+	icon_state = "coatcoroner"
+	inhand_icon_state = null
+	hoodtype = /obj/item/clothing/head/hooded/winterhood/medical/coroner
+
+/obj/item/clothing/suit/hooded/wintercoat/medical/coroner/Initialize(mapload)
+	. = ..()
+	allowed += list(
+		/obj/item/autopsy_scanner,
+		/obj/item/scythe,
+		/obj/item/shovel,
+		/obj/item/shovel/serrated,
+		/obj/item/trench_tool,
+	)
+
+/obj/item/clothing/head/hooded/winterhood/medical/coroner
+	desc = "A white winter coat hood."
+	icon_state = "hood_coroner"
+
 // Virologist
 /obj/item/clothing/suit/hooded/wintercoat/medical/viro
 	name = "virology winter coat"

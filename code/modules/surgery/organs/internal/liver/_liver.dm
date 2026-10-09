@@ -94,6 +94,8 @@
 			. += "Marks of stress and a faint whiff of medicinal alcohol, imply that this is the liver of a <em>medical worker</em>."
 		if(HAS_TRAIT(src, TRAIT_ENGINEER_METABOLISM))
 			. += "Signs of radiation exposure and space adaption, implies that this is the liver of an <em>engineer</em>."
+		if(HAS_TRAIT(src, TRAIT_CORONER_METABOLISM))
+			. += span_info("An aroma of pickles and sea water, along with being remarkably well-preserved, imply this is what remains of a <em>coroner</em>'s liver.")
 
 		// royal trumps pretender royal
 		if(HAS_TRAIT(src, TRAIT_ROYAL_METABOLISM))

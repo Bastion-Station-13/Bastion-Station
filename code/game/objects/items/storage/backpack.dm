@@ -178,6 +178,12 @@
 	icon_state = "deforest-backpack"
 	inhand_icon_state = "deforest_backpack"
 
+/obj/item/storage/backpack/coroner
+	name = "coroner backpack"
+	desc = "It's a backpack especially designed for use in an undead environment."
+	icon_state = "backpack-coroner"
+	inhand_icon_state = "coronerpack"
+
 /obj/item/storage/backpack/security
 	name = "security backpack"
 	desc = "It's a very robust backpack."
@@ -601,6 +607,12 @@
 	desc = "A large duffel bag for holding extra viral bottles."
 	icon_state = "duffel-virology"
 	inhand_icon_state = "duffel-virology"
+
+/obj/item/storage/backpack/duffelbag/coroner
+	name = "coroner duffel bag"
+	desc = "A large duffel bag for holding large amounts of organs at once."
+	icon_state = "duffel-coroner"
+	inhand_icon_state = "duffel-coroner"
 
 /obj/item/storage/backpack/duffelbag/med/surgery/PopulateContents()
 	new /obj/item/scalpel(src)

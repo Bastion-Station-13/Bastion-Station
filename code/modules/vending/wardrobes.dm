@@ -337,6 +337,53 @@
 /obj/item/vending_refill/wardrobe/curator_wardrobe
 	machine_name = "CuraDrobe"
 
+/obj/machinery/vending/wardrobe/coroner_wardrobe
+	name = "MortiDrobe"
+	desc = "A favorite among nihilists."
+	icon_state = "coroner_drobe"
+	product_ads = "Any day above ground is a good one!;My day starts when yours ends!;And they call this a dying business!;See you when you're dead!"
+	vend_reply = "Don't forget your \"Buy one get one free\" burial deal!"
+	products = list(
+		/obj/item/clothing/head/utility/surgerycap/black = 1,
+		/obj/item/clothing/mask/surgical = 1,
+		/obj/item/clothing/suit/apron/surgical = 1,
+		/obj/item/clothing/suit/hooded/wintercoat/medical/coroner = 1,
+		/obj/item/clothing/suit/toggle/labcoat/coroner = 1,
+		/obj/item/clothing/under/rank/medical/coroner = 1,
+		/obj/item/clothing/under/rank/medical/coroner/skirt = 1,
+		/obj/item/clothing/under/rank/medical/scrubs/coroner = 1,
+		/obj/item/clothing/shoes/sneakers/black = 1,
+		/obj/item/clothing/gloves/latex/coroner = 1,
+		/obj/item/cautery/cruel = 1,
+		/obj/item/hemostat/cruel = 1,
+		/obj/item/retractor/cruel = 1,
+		/obj/item/scalpel/cruel = 1,
+		/obj/item/surgicaldrill/cruel = 1,
+		/obj/item/circular_saw/cruel = 1,
+		/obj/item/bonesetter/cruel = 1,
+		/obj/item/blood_filter/cruel = 1,
+		/obj/item/storage/backpack/coroner = 1,
+		/obj/item/storage/backpack/duffelbag/coroner = 1,
+		/obj/item/storage/box/bodybags = 3,
+		/obj/item/radio/headset/headset_srvmed = 2,
+		/obj/item/toy/crayon/white = 2,
+	)
+	contraband = list(
+		/obj/item/knife/ritual = 1,
+		/obj/item/scythe = 1,
+		/obj/item/storage/fancy/pickles_jar = 1,
+	)
+	premium = list(
+		/obj/item/autopsy_scanner = 1,
+		/obj/item/storage/medkit/coroner = 1,
+	)
+	refill_canister = /obj/item/vending_refill/wardrobe/coroner_wardrobe
+	payment_department = ACCOUNT_MED
+
+/obj/item/vending_refill/wardrobe/coroner_wardrobe
+	machine_name = "MortiDrobe"
+
+
 /obj/machinery/vending/wardrobe/bar_wardrobe
 	name = "BarDrobe"
 	desc = "A stylish vendor to dispense the most stylish bar clothing!"

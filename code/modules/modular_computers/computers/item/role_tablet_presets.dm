@@ -326,6 +326,14 @@
 	for(var/datum/computer_file/program/messenger/messenger_app in stored_files)
 		messenger_app.spam_mode = TRUE
 
+/obj/item/modular_computer/pda/coroner
+	name = "coroner PDA"
+	SETUP_MAP_ICONS("pda", "/obj/item/modular_computer/pda/coroner")
+	greyscale_config = /datum/greyscale_config/tablet/stripe_thick
+	greyscale_colors = "#FAFAFA#000099#1f2026"
+	starting_programs = list(
+		/datum/computer_file/program/records/medical,
+	)
 /**
  * Supply
  */

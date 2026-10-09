@@ -25,6 +25,19 @@
 	greyscale_colors = "#eeeeee#eeeeee#40992e#eeeeee#40992e#40992e#003300"
 	sleek_greyscale_colors = "#eeeeee#39393f#40992e#39393f#eeeeee"
 
+/obj/item/clothing/under/plasmaman/coroner
+	name = "coroner plasma envirosuit"
+	desc = "A suit designed for the station's more plasma-based doctors."
+	SETUP_MAP_ICONS("cross", "/obj/item/clothing/under/plasmaman/coroner")
+	worn_icon_state = "cross_w"
+	inhand_icon_state = "cross"
+	greyscale_config = /datum/greyscale_config/plasmaman_suit/symbol
+	greyscale_config_worn = /datum/greyscale_config/plasmaman_suit/worn/symbol
+	greyscale_config_inhand_left = /datum/greyscale_config/plasmaman_suit/inhand_left/symbol
+	greyscale_config_inhand_right = /datum/greyscale_config/plasmaman_suit/inhand_right/symbol
+	greyscale_colors = "#eeeeee#eeeeee#5fa4cc#eeeeee#eeeeee#5fa4cc#747182"
+	sleek_greyscale_colors = "#6eb3dd#39393f#6eb3dd#39393f#6eb3dd"
+
 /obj/item/clothing/under/plasmaman/paramedic
 	name = "paramedic envirosuit"
 	desc = "A suit designed for the station's plasmaman paramedics."

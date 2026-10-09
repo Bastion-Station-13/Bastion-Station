@@ -45,6 +45,7 @@
 		/datum/job/paramedic,
 		/datum/job/psychologist,
 		/datum/job/chemist,
+		/datum/job/coroner,
 		// Service
 		/datum/job/clown,
 		/datum/job/botanist,
