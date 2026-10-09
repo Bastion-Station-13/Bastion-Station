@@ -19,8 +19,8 @@
 /obj/item/book/manual/wiki/security_space_law/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_JUSTICE))
-		. += span_notice("Use <b>Help</b> intent to propose someone to swear on it.")
-		. += span_notice("Use <b>Harm</b> to beat sense into Security personnel. <b>Alt-Click</b> the book to change what page to beat into their mind.")
+		. += span_notice("Use <b>Help</b> intent to swear someone in with the oath of security.")
+		. += span_notice("Use <b>Harm</b> intent to beat some sense into Security personnel. <b>Alt-Click</b> the book to change what page to beat into their mind.")
 
 /obj/item/book/manual/wiki/security_space_law/click_alt(mob/user)
 	if(!HAS_TRAIT(user, TRAIT_JUSTICE))
@@ -53,13 +53,13 @@
 	balloon_alert(user, "swearing-in...")
 	var/obj/item/organ/internal/liver/liver = target.get_organ_slot(ORGAN_SLOT_LIVER)
 	// Security and Command cannot swear on the Space Law
-	if(HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM) || HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM) || HAS_TRAIT(liver, TRAIT_PRETENDER_ROYAL_METABOLISM))
+	if(!liver || HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM) || HAS_TRAIT(liver, TRAIT_ROYAL_METABOLISM) || HAS_TRAIT(liver, TRAIT_PRETENDER_ROYAL_METABOLISM))
 		return
 
-	var/failText = span_warning("You hesitate and retract your hand from the Space Law! Maybe harmbatoning is not that evil?")
+	var/failText = span_warning("You hesitate and retract your hand from the book! Maybe harmbatoning is not that evil?")
 	to_chat(target, span_usernotice("You put your hand down on the book and start reading the Security oath..."))
 	if(do_after(target, 6 SECONDS, target = user, hidden = TRUE)) // Hidden to prevent fake-sec checks
-		target.say("I [target] swear by the Corporate that I will honestly and effectively serve the Nanotrasen and [GLOB.station_name] according to the law", forced = "Space Law")
+		target.say("I, [target], hereby swear by Corporate that I will honestly and effectively serve Nanotrasen and [GLOB.station_name] according to the Law.", forced = "Space Law")
 	else
 		to_chat(target, failText)
 		return
@@ -134,6 +134,6 @@
 		liver.remove_traits(list(TRAIT_LAW_ENFORCEMENT_METABOLISM), SPACE_LAW_TRAIT)
 
 /obj/item/book/manual/wiki/security_space_law/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] pretends to read \the [src] intently... then promptly dies of laughter!"))
+	user.visible_message(span_suicide("[user] pretends to read [src] intently... then promptly dies of laughter!"))
 	user.emote("laugh")
 	return OXYLOSS

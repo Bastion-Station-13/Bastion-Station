@@ -556,10 +556,10 @@
 
 /datum/uplink_item/role_restricted/justice_skillchip
 	name = "JU571C3 skillchip"
-	desc = "An skillchip autosurgeon with a JU571C3 (justice) skillchip produced by Nanotrasen itself. It is given to Head of Securities \
-		to deal with unruly Security Officers by allowing to stun them with a hit of a Space Law book, and for you any Security Officer is 'unruly'. \
+	desc = "An skillchip autosurgeon with a JU571C3 (justice) skillchip produced by Nanotrasen itself. It is given to the Head of Security \
+		to deal with unruly Security Officers by stunning them with a hit of any Space Law book, and for you any Security Officer is 'unruly'. \
 		Do not smell the skillchip."
-	cost = 11
+	cost = 8
 	surplus = 20
 	item = /obj/item/autosurgeon/skillchip/syndicate/lawyer
 	// Security jobs listed here in case we turn off Sec antag protections for some reason
