@@ -17,7 +17,7 @@
 	/// Used interally, you don't want to modify
 	var/cooldown_check = 0
 	/// Default wait time until can stun again.
-	var/cooldown = (2.5 SECONDS)
+	var/cooldown = (5 SECONDS)
 
 /obj/item/book/manual/wiki/security_space_law/examine(mob/user)
 	. = ..()
