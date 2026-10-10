@@ -184,8 +184,6 @@
 			for (var/datum/reagents/rs as anything in dispensable_reagents[reagent_type]["reagents"])
 				total_volume += rs.total_volume
 				total_ph = rs.ph
-			if(istype(reagent_type, /datum/reagent/ammonia/urine) && user.client?.prefs.read_preference(/datum/preference/toggle/prude_mode))
-				chemname = "Ammonia?"
 			if(is_hallucinating && prob(5))
 				chemname = "[pick_list_replacements("hallucination.json", "chemicals")]"
 			.["chemicals"] += list(list("title" = chemname, "id" = temp.name, "volume" = total_volume, "pH" = total_ph))
