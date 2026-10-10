@@ -21,15 +21,8 @@
 			if(trackable_mob in mobs_to_track)
 				hit_mobs += trackable_mob
 
-<<<<<<< HEAD
-/mob/living/silicon/ai/verb/choose_camera_target()
-	set name = "Choose Camera Memory Target"
-	set category = "AI Commands"
-	set desc = "Select a target for the camera memory tracker. Case sensitive."
-=======
 	//send bingo hit mobs to AI, and spawns arrows to them
 	ai.target_list = hit_mobs
->>>>>>> ffcaf655 (More AI Projects Service Pack 1 (#12481))
 
 	if(!hit_mobs)
 		return
