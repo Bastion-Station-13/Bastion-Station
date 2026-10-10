@@ -347,7 +347,10 @@
 		to produce more advanced and complex medical reagents."
 	icon_state = "module_medical"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/medical)
+	model_type = list(
+		/obj/item/robot_model/medical,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_MEDICAL
 	var/list/additional_reagents = list()
 
@@ -445,7 +448,11 @@
 	desc = "An upgrade to the Medical model, installing a surgical databank that can record available surgeries and gives instructions on how to perform surgical procedures."
 	icon_state = "module_medical"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/medical, /obj/item/robot_model/syndicate/medical)
+	model_type = list(
+		/obj/item/robot_model/medical,
+		/obj/item/robot_model/syndicate/medical,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_MEDICAL
 	/// Action that looks for nearby objects to load new surgeries from.
 	var/datum/action/database_scanner
@@ -596,7 +603,12 @@
 	desc = "A bluespace rapid part exchange device for the engineering cyborg."
 	icon_state = "module_engineer"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/engineering, /obj/item/robot_model/syndicate/saboteur, /obj/item/robot_model/science)
+	model_type = list(
+		/obj/item/robot_model/engineering,
+		/obj/item/robot_model/science,
+		/obj/item/robot_model/syndicate/saboteur,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_ENGINEERING
 
 /obj/item/borg/upgrade/bs_rped/action(mob/living/silicon/robot/borg, user = usr)
@@ -645,7 +657,11 @@
 	desc = "A crew pinpointer module for the medical cyborg. Permits remote access to the crew monitor."
 	icon_state = "module_medical"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/medical, /obj/item/robot_model/syndicate/medical)
+	model_type = list(
+		/obj/item/robot_model/medical,
+		/obj/item/robot_model/syndicate/medical,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_MEDICAL
 	items_to_add = list(/obj/item/pinpointer/crew)
 	var/datum/action/crew_monitor
@@ -701,7 +717,11 @@
 	desc = "A supplementary apparatus for carrying, deploying, and manipulating sheets of material. The device can also carry custom floor tiles."
 	icon_state = "module_engineer"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/engineering, /obj/item/robot_model/syndicate/saboteur)
+	model_type = list(
+		/obj/item/robot_model/engineering,
+		/obj/item/robot_model/syndicate/saboteur,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_ENGINEERING
 	items_to_add = list(/obj/item/borg/apparatus/sheet_manipulator/extra)
 
@@ -719,7 +739,11 @@
 	desc = "An upgrade that improves the standard built-in gas analyzer's range."
 	icon_state = "module_engineer"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/engineering, /obj/item/robot_model/syndicate/saboteur) // Engineering-exclusive. Do not give this to science cyborgs.
+	model_type = list(
+		/obj/item/robot_model/engineering,
+		/obj/item/robot_model/syndicate/saboteur,
+		/obj/item/robot_model/syndicate/compact,
+	) // Engineering-exclusive. Do not give this to science cyborgs.
 	model_flags = BORG_MODEL_ENGINEERING
 
 /obj/item/borg/upgrade/ranged_analyzer/action(mob/living/silicon/robot/borg, user = usr)
@@ -749,7 +773,12 @@
 	desc = "An upgrade to fit the self-replenishing tank of an experimental welding tool to a cyborg."
 	icon_state = "module_engineer"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/engineering, /obj/item/robot_model/syndicate/saboteur, /obj/item/robot_model/science)
+	model_type = list(
+		/obj/item/robot_model/engineering,
+		/obj/item/robot_model/science,
+		/obj/item/robot_model/syndicate/saboteur,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_ENGINEERING
 
 /obj/item/borg/upgrade/experimental_weldingtool/action(mob/living/silicon/robot/borg, user = usr)
@@ -1052,7 +1081,11 @@
 	desc = "An upgrade that replaces the standard built-in syringe."
 	icon_state = "module_medical"
 	require_model = TRUE
-	model_type = list(/obj/item/robot_model/medical, /obj/item/robot_model/syndicate/medical)
+	model_type = list(
+		/obj/item/robot_model/medical,
+		/obj/item/robot_model/syndicate/medical,
+		/obj/item/robot_model/syndicate/compact,
+	)
 	model_flags = BORG_MODEL_MEDICAL
 	/// The typepath of the syringe to copy.
 	var/obj/item/reagent_containers/syringe/upgraded_syringe_typepath = null
@@ -1218,3 +1251,31 @@
 		/obj/item/storage/bag/xeno,
 		/obj/item/construction/plumbing/research
 	)
+
+/obj/item/borg/upgrade/transform/syndicate_compact
+	name = "borg module picker (Syndicate Compact)"
+	desc = "Allows you to to turn a jailbroken cyborg into an experimental syndicate cyborg."
+	icon_state = "module_illegal"
+	new_model = /obj/item/robot_model/syndicate/compact
+
+/obj/item/borg/upgrade/transform/syndicate_compact/action(mob/living/silicon/robot/borg, user)
+	if(!borg.emagged)
+		borg.balloon_alert(user, "not emagged!")
+		return FALSE
+	. = ..() // Model and skin is applied here.
+	if(!.)
+		return
+	borg.UnlinkSelf()
+
+/obj/item/borg/upgrade/transform/syndicate_compact/deactivate(mob/living/silicon/robot/borg, user)
+	. = ..()
+	if(!.)
+		return
+	borg.scrambledcodes = FALSE
+	if(!QDELETED(borg.builtInCamera))
+		return
+	borg.builtInCamera = new(borg)
+	borg.builtInCamera.c_tag = borg.real_name
+	borg.builtInCamera.network = list(CAMERANET_NETWORK_SS13)
+	if(borg.wires.is_cut(WIRE_CAMERA))
+		borg.builtInCamera.toggle_cam(null, displaymessage = FALSE)

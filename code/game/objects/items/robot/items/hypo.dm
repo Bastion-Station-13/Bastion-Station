@@ -99,6 +99,26 @@
 		/datum/reagent/medicine/syndicate_nanites\
 	)
 
+
+#define BASE_SYNDICATE_COMPACT_REAGENTS list(\
+		/datum/reagent/medicine/epinephrine,\
+		/datum/reagent/medicine/inacusiate,\
+		/datum/reagent/medicine/painkiller/morphine,\
+		/datum/reagent/medicine/c2/multiver,\
+		/datum/reagent/medicine/potass_iodide,\
+		/datum/reagent/medicine/salglu_solution,\
+		/datum/reagent/medicine/antipathogenic/spaceacillin,\
+		/datum/reagent/medicine/syndicate_nanites,\
+)
+
+#define EXPANDED_SYNDICATE_COMPACT_REAGENTS list(\
+		/datum/reagent/medicine/haloperidol,\
+		/datum/reagent/medicine/mutadone,\
+		/datum/reagent/medicine/oculine,\
+		/datum/reagent/medicine/pen_acid,\
+		/datum/reagent/medicine/rezadone,\
+)
+
 #define BASE_CENTCOM_REAGENTS list(\
 		/datum/reagent/consumable/icetea, /datum/reagent/consumable/melon_soda, /datum/reagent/consumable/bogril,\
 		/datum/reagent/consumable/ethanol/absinthe, /datum/reagent/consumable/ethanol/coconut_rum, /datum/reagent/consumable/ethanol/curacao,\
@@ -473,6 +493,12 @@
 	recharge_time = 2 SECONDS
 	default_reagent_types = BASE_SYNDICATE_REAGENTS
 	bypass_protection = TRUE
+
+/// Syndicate compact cyborg hypospray.
+/obj/item/reagent_containers/borghypo/syndicate/compact
+	name = "syndicate compact cyborg hypospray"
+	default_reagent_types = BASE_SYNDICATE_COMPACT_REAGENTS
+	expanded_reagent_types = EXPANDED_SYNDICATE_COMPACT_REAGENTS
 
 /// Paramedic toolset hypospray.
 /obj/item/reagent_containers/borghypo/paramedic
