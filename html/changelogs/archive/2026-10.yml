@@ -47,3 +47,131 @@
   hry-gh:
   - code_imp: the backend to all verbs in the game has been played with, please report
       any issues to github
+2026-10-06:
+  Absolucy:
+  - bugfix: Fixed voice barks being too quiet (or even inaudible) sometimes.
+  - bugfix: fixed stacks of 10 iron/glass (and other exact sheet amounts) getting
+      rejected by lathes, the silo, and flatpackers after boulder machines had been
+      used
+  Absolucy, PapaMichael:
+  - bugfix: Fixed Runechat having a 1/256 chance of being dark and almost unreadable
+  JohnFulpWillard:
+  - code_imp: Optimized sprinting again, report any issues that may arise out of this.
+      thanks.
+  LettuceGuardian:
+  - bugfix: CIN and NRI webbing being able to be reskinned and turned invisible
+  - bugfix: revolver silencers being unable to be taken off
+  - image: Modified takbok suppressor sprites
+  - bugfix: fixed paco suppressors sometimes being invisible
+  - image: updated the paco suppressor sprite
+  PotatoTomahto:
+  - rscadd: ai core displays have an internal camera for AIs to use
+  Runian:
+  - rscadd: Roundstart / latejoin cyborgs are now given their unusual hat. This overrides
+      their loadout hat.
+  - bugfix: Heads with an active mind now drop all of their organs, including their
+      brain, onto the floor instead of being deleted when deconstructed, burnt, gutted,
+      etc.
+  TheColorCyan:
+  - qol: (vinylspiders) adds lobby job estimations to statpanel, so you can see what
+      jobs others are prioritizing
+  Tractor-Maam:
+  - balance: Lowered Chameleon Bomb's price to 2TC (down from 4TC)
+  - balance: Chameleon Bombs can no longer be discounted (because anything under 4TC
+      isnt eligible for discount in the uplink)
+  notghosti:
+  - bugfix: ' Borer egg outside of host now deals 50 damage as intended, instead of
+      all but 50 of your health at high health pools'
+2026-10-07:
+  00-Steven:
+  - bugfix: Books no longer cut off valid paper inputs when they are under the character
+      limit.
+  AberrantQuerist:
+  - image: Resprited several floor tiles (Minor changes.)
+  - image: Resprites NTRep, Blueshield, and Barber lockers.
+  - image: Resprites wooden and corporate doors.
+  Absolucy:
+  - config: Allow 'required_enemies' (and other /datum/round_event_control/ settings)
+      to be set by events.json
+  - bugfix: Fixed oozeling core revives (and other DNA updates) sometimes changing
+      your gender.
+  Gboster-0:
+  - rscadd: The Rod of Asclepius can now rarelly spawn instead of an immovable rod
+  JohnFulpWillard:
+  - balance: Vampires aren't forced to be Albino anymore.
+  Longestarmlonglaw:
+  - qol: 'Ink cartridges are smaller and  decal printers start with higher capacity
+
+      :cl:
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - bugfix: Tracking someone via crew suit monitor as an AI now always tracks that
+      specific person rather than someone with a similar name.
+  - bugfix: You can no longer teleport living beings via a cargo teleporter by teleporting
+      whatever they're buckled to.
+  ValuedEmployee:
+  - rscadd: moffers clown shoes
+  - sound: new moffers footstep sound effect
+  - image: moffers icons
+  - spellcheck: tiny empty space changes
+  - refactor: added crafting and autodrobe entries for the moffers
+  ashallaryn:
+  - image: modified twintail long hairstyle sprites
+  - image: modified hime cut hairstyle sprites
+  - image: modified hime cut 2 hairstyle sprites
+  - image: modified hime updo hairstyle sprites
+  cheese, kiaroh:
+  - rscadd: adds the pickle lighter to the cigarette vendors
+  hexakats:
+  - balance: Nerfs the innate armor tribal claw gives
+  - bugfix: Omnilathe no longer tries to take materials from the ore silo then delete
+      the ones that don't fit when repacking a linked one
+  - refactor: Omnilathe uses item_interaction instead of attackby
+2026-10-08:
+  JohnFulpWillard:
+  - qol: Borgs can now unlock their cover in their self-examine text.
+  LettuceGuardian:
+  - rscadd: SWAT crates now come with differently styled gas masks. Total amount of
+      gas masks doesn't change, though.
+  Longestarmlonglaw:
+  - bugfix: fixed an issue where you couldn't interact with modular computers and
+      guns with chunky fingers from a distance when using telekinesis
+  Mantlecrawler:
+  - bugfix: Kinetic Hellhound now correctly states its mag size
+  - bugfix: Quartermaster's office is now spelled correctly on Deltastation
+  - rscadd: Ian can now randomly roll two new variants of himself, on rare occasions
+  - rscadd: Dinosaur Ian, Expie Ian
+2026-10-09:
+  AberrantQuerist:
+  - rscadd: Beepsky once again will drop a paragraph of swears and insults.
+  - rscadd: Emagged Compli-o-Nator is uncensored.
+  Runian:
+  - rscadd: 'Standard-model cyborgs, upon conversion to Clockwork Cult, now get a
+      brass spear and the following scriptures: Abscond, Kindle, and Vanguard.'
+  ThePooba:
+  - balance: Balanced PTL cash at high levels to be lower- it already had an asymptote
+      but it was too high because we are insane people
+  notghosti:
+  - rscdel: Removed blessed ckey, monkestation ai display, and streamer related twitch
+      events
+  - bugfix: Think fast chucklenuts and hypno will effect 1 person not 0.
+  - bugfix: Restored boy, girl, boy malf, girl malf, box fort, hotdog, terminal, and
+      yes man displays to ai display
+  ori-disillusion-mirnov:
+  - rscadd: admins may now override the bullets fired by a gun
+2026-10-10:
+  Runian:
+  - rscadd: 'Medical cyborgs can now select a new cyborg skin: Medical Kerfus.'
+  - image: Adds cyborg Medical Kerfus icon.
+  hry-gh, johnfulpwillard:
+  - refactor: the backend for verbs has been changed ... again, please report any
+      issues on the bug tracker
+  - qol: the command bar is now a bit prettier, and also autocompletes things like
+      typepaths and mob targets (primarily useful for admins)

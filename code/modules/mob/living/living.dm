@@ -486,8 +486,8 @@
 
 //mob verbs are a lot faster than object verbs
 //for more info on why this is not atom/pull, see examinate() in mob.dm
-GAME_VERB(/mob/living, pulled, "Pull", "Object", atom/movable/thing_pulled as mob|obj in oview(1))
-
+GAME_VERB_CONTEXT(/mob/living, pulled, "Pull", "", "Object", /atom/movable)
+	VERB_ARG_TYPED(thing_pulled, VERB_ARG_TYPE_MOB | VERB_ARG_TYPE_OBJ, VERB_ARG_SOURCE_VIEW, /atom/movable)
 	if(istype(thing_pulled) && Adjacent(thing_pulled))
 		start_pulling(thing_pulled)
 	else if(!(istate & ISTATE_HARM)) //Don;'t cancel pulls if misclicking in combat mode.
@@ -519,7 +519,8 @@ GAME_VERB(/mob/living, stop_pulling1, "Stop Pulling", "IC")
 	log_message("points at [pointing_at]", LOG_EMOTE)
 	visible_message("<span class='infoplain'>[span_name("[src]")] points at [pointing_at].</span>", span_notice("You point at [pointing_at]."))
 
-GAME_VERB_HIDDEN(/mob/living, succumb, "succumb", whispered as null)
+GAME_VERB_HIDDEN(/mob/living, succumb, "succumb")
+	VERB_ARG(whispered, VERB_ARG_TYPE_NUM, VERB_ARG_SOURCE_INPUT)
 
 	if (!CAN_SUCCUMB(src))
 		if(HAS_TRAIT(src, TRAIT_SUCCUMB_OVERRIDE))
@@ -1091,8 +1092,7 @@ GAME_VERB_PROC(/mob/living, toggle_resting, "Rest", "IC")
 		return FALSE
 	return TRUE
 
-GAME_VERB(/mob/living, resist, "Resist", "IC")
-
+/mob/living/proc/resist()
 	DEFAULT_QUEUE_OR_CALL_VERB(VERB_CALLBACK(src, PROC_REF(execute_resist)))
 
 ///proc extender of [/mob/living/verb/resist] meant to make the process queable if the server is overloaded when the verb is called
@@ -1373,7 +1373,7 @@ GAME_VERB(/mob/living, resist, "Resist", "IC")
 	if(G.trigger_guard != TRIGGER_GUARD_ALLOW_ALL && (!ISADVANCEDTOOLUSER(src) && !HAS_TRAIT(src, TRAIT_GUN_NATURAL)))
 		to_chat(src, span_warning("You try to fire [G], but can't use the trigger!"))
 		return FALSE
-	if(G.trigger_guard == TRIGGER_GUARD_NORMAL && HAS_TRAIT(src, TRAIT_CHUNKYFINGERS))
+	if(G.trigger_guard == TRIGGER_GUARD_NORMAL && HAS_TRAIT(src, TRAIT_CHUNKYFINGERS) && is_holding(G)) // not in our hands means telekinesis, so no fingers involved
 		balloon_alert(src, "fingers are too big!")
 		return FALSE
 	return TRUE
