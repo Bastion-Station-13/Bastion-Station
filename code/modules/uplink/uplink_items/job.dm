@@ -554,7 +554,7 @@
 	restricted_roles = list(JOB_GENETICIST)
 	illegal_tech = FALSE
 
-/datum/uplink_item/role_restricted/syndicate_jack
+/datum/uplink_item/role_restricted/syndicate_cyborg_jack
 	name = "Syndicate Cyborg Jack"
 	desc = "A marvel of modern syndicate technology; a syndicate cyborg jack. \
 		Fitting as much utility that both saboteur and medical models have to offer, great for any agent looking for a reliable cyborg. \
@@ -563,3 +563,4 @@
 	surplus = 0
 	item = /obj/item/borg/upgrade/transform/syndicate_compact
 	restricted_roles = list(JOB_ROBOTICIST)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SPY) // Excluded from spy to give them a special bundle.
