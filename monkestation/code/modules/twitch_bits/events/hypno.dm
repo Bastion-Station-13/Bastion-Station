@@ -4,6 +4,7 @@
 	event_flags = TWITCH_AFFECTS_RANDOM | CLEAR_TARGETS_ON_END_EVENT
 	id_tag = T_EVENT_HYPNO_RANDOM
 	announce = FALSE //MMMM, ME SEE VALID
+	random_count = 0
 
 /datum/twitch_event/hypno/apply_effects()
 	for(var/mob/living/carbon/target in targets)
@@ -17,12 +18,6 @@
 	for(var/mob/living/carbon/target in targets)
 		target.cure_trauma_type(/datum/brain_trauma/hypnosis, TRAUMA_RESILIENCE_SURGERY)
 	return ..()
-
-/datum/twitch_event/hypno/ook
-	event_name = "Hypnotize Ook"
-	event_flags = TWITCH_AFFECTS_STREAMER | CLEAR_TARGETS_ON_END_EVENT
-	id_tag = T_EVENT_HYPNO_OOK
-	token_cost = 1000
 
 /datum/twitch_event/hypno/everyone
 	event_name = "Hypnotize Everyone"
