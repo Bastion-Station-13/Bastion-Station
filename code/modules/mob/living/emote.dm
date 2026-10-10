@@ -191,8 +191,6 @@
 	key_third_person = "mars"
 	message = "lets out a mar!"
 	emote_type = EMOTE_AUDIBLE
-	muzzle_ignore = TRUE
-	hands_use_check = TRUE
 	vary = TRUE
 	mob_type_allowed_typecache = list(/mob/living/carbon, /mob/living/silicon/pai)
 

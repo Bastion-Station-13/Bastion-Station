@@ -99,7 +99,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/shadekin_regeneration
 
 /datum/status_effect/shadekin_regeneration/tick(seconds_per_tick)
-	owner.heal_overall_damage(brute = 0.5 * seconds_per_tick, burn = 0.5 * seconds_per_tick, required_bodytype = BODYTYPE_ORGANIC)
+	owner.heal_overall_damage(brute = 0.8 * seconds_per_tick, burn = 0.8 * seconds_per_tick, required_bodytype = BODYTYPE_ORGANIC)
 
 /atom/movable/screen/alert/status_effect/shadekin_regeneration
 	name = "Dark Regeneration"
