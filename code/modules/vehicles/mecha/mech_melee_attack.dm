@@ -58,6 +58,13 @@
 		to_chat(mecha_attacker, span_danger("You push [src] out of the way."))
 		return 0
 
+	// Shakes off any desant if hit
+	if(buckled == mecha_attacker)
+		var/turf/shaketarget = get_edge_target_turf(src, pick(NORTH, SOUTH, EAST, WEST))
+		mecha_attacker.unbuckle_mob(src, TRUE)
+		Knockdown(1 SECONDS)
+		src.throw_at(shaketarget, 1, 2, src)
+
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("You don't want to harm other living beings!"))
 		return 0
