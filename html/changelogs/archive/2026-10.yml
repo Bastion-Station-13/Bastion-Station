@@ -166,3 +166,12 @@
       yes man displays to ai display
   ori-disillusion-mirnov:
   - rscadd: admins may now override the bullets fired by a gun
+2026-10-10:
+  Runian:
+  - rscadd: 'Medical cyborgs can now select a new cyborg skin: Medical Kerfus.'
+  - image: Adds cyborg Medical Kerfus icon.
+  hry-gh, johnfulpwillard:
+  - refactor: the backend for verbs has been changed ... again, please report any
+      issues on the bug tracker
+  - qol: the command bar is now a bit prettier, and also autocompletes things like
+      typepaths and mob targets (primarily useful for admins)
