@@ -82,8 +82,8 @@
 	description = "Weapons using electric technology"
 	prereq_ids = list("weaponry", "adv_power", "emp_basic")
 	design_ids = list(
-		"ioncarbine",
-		"stunrevolver",
+		"cargo_ion_carbine",
+		"cargo_tesla_cannon",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS)
 	announce_channels = list(RADIO_CHANNEL_SECURITY)
@@ -94,8 +94,8 @@
 	description = "Various basic beam weapons"
 	prereq_ids = list("adv_weaponry")
 	design_ids = list(
-		"temp_gun",
-		"lasercannon",
+		"cargo_temp_gun",
+		"cargo_laser_cannon",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS)
 	announce_channels = list(RADIO_CHANNEL_SECURITY)
@@ -106,8 +106,8 @@
 	description = "Weapons using radioactive technology."
 	prereq_ids = list("adv_engi", "adv_weaponry")
 	design_ids = list(
-		"nuclear_gun",
-		"xray_laser",
+		"cargo_advanced_egun",
+		"cargo_xray_laser",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS)
 	announce_channels = list(RADIO_CHANNEL_SECURITY)
