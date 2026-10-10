@@ -192,13 +192,6 @@
 
 	var/list/beaker_data = null
 	if(!QDELETED(beaker))
-<<<<<<< HEAD:code/game/objects/items/devices/portable_chem_mixer.dm
-		for(var/datum/reagent/R in beaker.reagents.reagent_list)
-			var/chem_name = R.name
-			beakerContents.Add(list(list("name" = chem_name, "id" = ckey(R.name), "volume" = R.volume, "pH" = R.ph))) // list in a list because Byond merges the first list...
-		data["beakerCurrentpH"] = round(beaker.reagents.ph, 0.01)
-	data["beakerContents"] = beakerContents
-=======
 		beaker_data = list()
 		beaker_data["maxVolume"] = beaker.volume
 		beaker_data["transferAmounts"] = beaker.possible_transfer_amounts
@@ -210,7 +203,6 @@
 				beakerContents += list(list("name" = reagent.name, "volume" = round(reagent.volume, 0.01))) // list in a list because Byond merges the first list...
 		beaker_data["contents"] = beakerContents
 	.["beaker"] = beaker_data
->>>>>>> 7c6d39df (Ports the portable chemical mixer fixes from TG (#12572)):code/modules/reagents/chemistry/machinery/portable_chem_mixer.dm
 
 /obj/item/storage/portable_chem_mixer/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
