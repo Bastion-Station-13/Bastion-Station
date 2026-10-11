@@ -764,7 +764,7 @@
 	else if(isobj(target))
 		cost = 40
 	var/level = arcfiend.get_power_level(/datum/action/cooldown/arcfiend/electric_emag)
-	return round(cost * by_level(list(1, 0.75, 0.5)))
+	return round(cost * list(1, 0.75, 0.5)[clamp(level, 1, 3)])
 
 /obj/item/card/emag/arcfiend/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(SHOULD_SKIP_INTERACTION(interacting_with, src, user))
