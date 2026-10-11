@@ -30,6 +30,10 @@
 	//This is intentionally before we call the parent proc
 	default_choices = SSgamemode.storyteller_vote_choices()
 	. = ..()
+
+	//We set this TRUE here in case an admin calls this vote before the game automatically tries to set the storyteller.
+	SSticker.storytellered = TRUE
+
 	if((length(choices) == 1)) // Only one choice, no need to vote. Let's just auto-rotate it to the only remaining storyteller because it would just happen anyways.
 		var/de_facto_winner = choices[1]
 		SSgamemode.storyteller_vote_result(de_facto_winner)
