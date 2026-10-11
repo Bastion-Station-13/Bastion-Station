@@ -14,6 +14,79 @@
 		return FALSE
 	return TRUE
 
+/// Every sprite the arcfiend code points at has to exist in its file, or the item or button is invisible
+/datum/unit_test/arcfiend/icons_exist/Run()
+	for(var/power_type in subtypesof(/datum/action/cooldown/arcfiend))
+		var/datum/action/cooldown/arcfiend/power = allocate(power_type)
+		if(power.is_passive || ispath(power_type, /datum/action/cooldown/arcfiend/passive) || power_type == /datum/action/cooldown/arcfiend/toggle)
+			continue
+		if(power.button_icon_state == "lightning" && power.button_icon == 'icons/mob/actions/actions_spells.dmi')
+			continue // still a placeholder
+		TEST_ASSERT(power.button_icon_state in icon_states(power.button_icon), "[power_type] has no [power.button_icon_state] button icon")
+		if(ispath(power_type, /datum/action/cooldown/arcfiend/toggle))
+			TEST_ASSERT("[power.button_icon_state]_on" in icon_states(power.button_icon), "[power_type] has no [power.button_icon_state]_on button icon")
+		TEST_ASSERT(power.background_icon_state in icon_states(power.background_icon), "[power_type] has no [power.background_icon_state] button background")
+
+	var/obj/item/gun/energy/arcfiend_coilgun/coilgun = allocate(/obj/item/gun/energy/arcfiend_coilgun)
+	var/obj/item/gun/energy/arcfiend_lateral_laser/laser = allocate(/obj/item/gun/energy/arcfiend_lateral_laser)
+	var/obj/item/melee/arcfiend_prod/prod = allocate(/obj/item/melee/arcfiend_prod)
+	var/obj/item/card/emag/arcfiend/emag = allocate(/obj/item/card/emag/arcfiend)
+	for(var/obj/item/held as anything in list(coilgun, laser, prod, emag))
+		TEST_ASSERT(held.inhand_icon_state in icon_states(held.lefthand_file), "[held.type] has no [held.inhand_icon_state] left-hand sprite")
+		TEST_ASSERT(held.inhand_icon_state in icon_states(held.righthand_file), "[held.type] has no [held.inhand_icon_state] right-hand sprite")
+	TEST_ASSERT("galvanic_prod_drained" in icon_states(prod.icon), "The prod has no drained sprite")
+	TEST_ASSERT("biometal_slug" in icon_states(/obj/projectile/bullet/arcfiend_slug::icon), "The slug has no sprite")
+	TEST_ASSERT("power_counter" in icon_states(/atom/movable/screen/arcfiend_power::icon), "The power counter has no sprite")
+	TEST_ASSERT(/obj/effect/arcfiend_spark::icon_state in icon_states(/obj/effect/arcfiend_spark::icon), "The lightning ball has no sprite")
+	TEST_ASSERT(/datum/antagonist/arcfiend::antag_hud_name in icon_states(/datum/antagonist/arcfiend::hud_icon), "The antag HUD marker has no sprite")
+	TEST_ASSERT("thunderclap_release" in icon_states(/obj/effect/temp_visual/arcfiend_thunderclap::icon), "The Thunderclap shockwave has no sprite")
+
+	// The sprites each power shows on the arcfiend and the people around them
+	for(var/toggle_type in subtypesof(/datum/action/cooldown/arcfiend/toggle))
+		var/datum/action/cooldown/arcfiend/toggle/toggle = allocate(toggle_type)
+		if(!toggle.effect_icon)
+			continue
+		for(var/suffix in list("", "_on", "_off"))
+			TEST_ASSERT("[toggle.effect_state][suffix]" in icon_states(toggle.effect_icon), "[toggle_type] has no [toggle.effect_state][suffix] sprite")
+	var/list/effect_sprites = list(
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_overdrive.dmi' = list("overdrive_activate", "overdrive_trail"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi' = list("smash_hit", "smash_chain"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi' = list("sap_power_aura", "sap_power_link", "sap_power_source"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_surge_reflex.dmi' = list("surge_reflex"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap.dmi' = list("thunderclap_charge"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_struck.dmi' = list("thunderclap_struck"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_hook.dmi' = list("hook"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag.dmi' = list("arcfiend_emag"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun.dmi' = list("arcfiend_coilgun"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_injector.dmi' = list("arcfiend_injector"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser.dmi' = list("lateral_laser"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_fx.dmi' = list("lateral_laser_beam", "lateral_laser_rupture"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi' = list("biometal_tether", "biometal_tether_hook", "biometal_tether_beam"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_lefthand.dmi' = list("biometal_tether"),
+		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_righthand.dmi' = list("biometal_tether"),
+	)
+	for(var/sprite_file in effect_sprites)
+		for(var/sprite_state in effect_sprites[sprite_file])
+			TEST_ASSERT(sprite_state in icon_states(sprite_file), "[sprite_file] has no [sprite_state] sprite")
+
+/// A toggle that is on shows its sprites on the arcfiend, and takes them off again when it is switched off or taken away
+/datum/unit_test/arcfiend/toggle_visuals/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 1000
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/toggle/overdrive_sprint), "Could not buy Overdrive Sprint")
+	var/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/overdrive = locate() in user.actions
+	var/overlays_before = length(user.overlays)
+	overdrive.switch_on()
+	TEST_ASSERT_NOTNULL(overdrive.visuals?["body"], "Switching on should show the body sprite")
+	TEST_ASSERT(length(user.overlays) > overlays_before, "The body sprite should be on the arcfiend")
+	overdrive.switch_off()
+	TEST_ASSERT_NOTNULL(overdrive.visuals?["body"], "Switching off should play the off sprite")
+	overdrive.remove_visual("body")
+	overdrive.remove_visual("activate")
+	TEST_ASSERT(!length(overdrive.visuals), "A removed sprite should be forgotten")
+	TEST_ASSERT_EQUAL(length(user.overlays), overlays_before, "A removed sprite should come off the arcfiend")
+
 /// The starting kit, the passives that come with the antag, and taking the antag away again
 /datum/unit_test/arcfiend/core/Run()
 	if(!make_arcfiend())
@@ -1055,6 +1128,28 @@
 	arc.zap(user, immune, 20)
 	TEST_ASSERT_EQUAL(immune.getFireLoss(), 0, "Arc Discharge should not burn someone shock immune")
 	TEST_ASSERT_EQUAL(immune.stamina.loss, 0, "Arc Discharge should not drain the stamina of someone shock immune")
+
+/// Powers that need a person to be clicked on ignore a click on anything else, and don't waste the power
+/datum/unit_test/arcfiend/mob_target_only/Run()
+	if(!make_arcfiend())
+		return
+	antag.bonus_minds_drained = 3
+	var/list/power_types = list(
+		/datum/action/cooldown/arcfiend/brain_scramble,
+		/datum/action/cooldown/arcfiend/arc_discharge,
+		/datum/action/cooldown/arcfiend/jolt,
+	)
+	var/turf/floor = get_turf(user)
+	for(var/power_type in power_types)
+		antag.power = 2500
+		TEST_ASSERT(antag.purchase_power(power_type), "Could not buy [power_type]")
+		var/datum/action/cooldown/arcfiend/power = antag.get_power_instance(power_type)
+		TEST_ASSERT(power.needs_mob_target, "[power_type] should need a person to be clicked on")
+		antag.power = 2500
+		TEST_ASSERT(power.InterceptClickOn(user, null, floor), "[power_type] should swallow a click on the floor")
+		TEST_ASSERT(!power.Activate(floor), "[power_type] should do nothing to the floor")
+		TEST_ASSERT_EQUAL(antag.power, 2500, "[power_type] should not cost power when the floor is clicked")
+		TEST_ASSERT(power.next_use_time <= world.time, "[power_type] should not go on cooldown when the floor is clicked")
 
 /// Thunderclap throws those who are close, and hurts those further out less and less the further they are
 /datum/unit_test/arcfiend/thunderclap/Run()

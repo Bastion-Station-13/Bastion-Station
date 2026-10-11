@@ -3,8 +3,9 @@
 //////////////////////////////////////////////////////////////////////////
 /obj/projectile/bullet/arcfiend_slug
 	name = "biometal slug"
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_projectile.dmi'
+	icon_state = "biometal_slug"
 	damage = 20
-	color = "#ffe94d"
 	embed_type = null
 	shrapnel_type = null
 
@@ -23,7 +24,11 @@
 /obj/item/gun/energy/arcfiend_coilgun
 	name = "biometal coilgun"
 	desc = "A lumpy biometal gun grown from an arcfiend's hand. It fires slugs using its owner's electricity."
-	color = "#ffe94d"
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun.dmi'
+	icon_state = "arcfiend_coilgun"
+	inhand_icon_state = "arcfiend_coilgun"
+	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_lefthand.dmi'
+	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_righthand.dmi'
 	item_flags = ABSTRACT | DROPDEL
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_slug)
 	can_select = FALSE
@@ -112,7 +117,8 @@
 /datum/action/cooldown/arcfiend/manifest_coilgun
 	name = "Manifest Coilgun"
 	desc = "Grow a coilgun in your hand. Growing it and putting it away is free. Each shot costs power and a slug from its magazine, which holds 4 and rebuilds one every 8 seconds, even while the gun is away."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_manifest_coilgun.dmi'
+	button_icon_state = "manifest_coilgun"
 	cooldown_time = 1 SECONDS
 	shop_tier = 2
 	unlock_cost = 600
@@ -227,10 +233,16 @@
 /datum/action/cooldown/arcfiend/biometal_tether
 	name = "Biometal Tether"
 	desc = "Fire a biometal hook and reel yourself to where it lands. Costs power each time."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_biometal_tether.dmi'
+	button_icon_state = "biometal_tether"
 	click_to_activate = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Click where you want to go, or use the power again to cancel."
+	hand_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi'
+	hand_icon_state = "biometal_tether"
+	hand_inhand_state = "biometal_tether"
+	hand_lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_lefthand.dmi'
+	hand_righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_righthand.dmi'
 	cooldown_time = 6 SECONDS
 	power_cost = 50
 	shop_tier = 2
@@ -272,7 +284,9 @@
 		return FALSE
 
 	playsound(user, 'sound/magic/lightningbolt.ogg', 40, TRUE)
-	user.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 5)
+	user.Beam(target, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi', icon_state = "biometal_tether_beam", time = 5)
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(target), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi', "biometal_tether_hook", 5, get_dir(user, target))
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(user), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_hook.dmi', "hook", 14, get_dir(user, target))
 	user.visible_message(
 		span_danger("[user] flings a crackling hook of biometal at [target] and [pull_item ? "yanks it back" : "is reeled through the air"]!"),
 		span_notice("You fling a biometal hook at [target]."),
@@ -294,11 +308,26 @@
  * rupture and detonate, which is where nearly all of the damage comes from. Before that the beam only scorches
  * what it passes through, and past that there is nothing left of it.
  */
+/// The beam of a lateral laser: a thin line of crackling electricity
+/obj/effect/projectile/tracer/arcfiend_lateral
+	name = "lateral beam"
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_fx.dmi'
+	icon_state = "lateral_laser_beam"
+
+/// The burst of ruptured nanites where the beam reaches the end of its range
+/obj/effect/projectile/impact/arcfiend_lateral
+	name = "ruptured nanites"
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_fx.dmi'
+	icon_state = "lateral_laser_rupture"
+
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral
 	name = "lateral beam"
 	damage = 6
 	damage_type = BURN
 	hitscan_light_color_override = "#ffe94d"
+	tracer_type = /obj/effect/projectile/tracer/arcfiend_lateral
+	muzzle_type = null
+	impact_type = /obj/effect/projectile/impact/arcfiend_lateral
 	impact_light_color_override = "#ffe94d"
 	// Hits people on the floor, however far away they are
 	hit_prone_targets = TRUE
@@ -365,7 +394,11 @@
 /obj/item/gun/energy/arcfiend_lateral_laser
 	name = "lateral laser"
 	desc = "A thin biometal lance that fires a beam of flash-boiled nanites. The beam passes through everything and only scorches what it touches, until the nanites rupture at the very end of their range. Use it in hand to change the range."
-	color = "#ffe94d"
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser.dmi'
+	icon_state = "lateral_laser"
+	inhand_icon_state = "lateral_laser"
+	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_lefthand.dmi'
+	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_righthand.dmi'
 	item_flags = ABSTRACT | DROPDEL
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_lateral_beam)
 	can_select = FALSE
@@ -460,7 +493,8 @@
 /datum/action/cooldown/arcfiend/lateral_laser
 	name = "Lateral Laser"
 	desc = "Grow a lance in your hand that fires a beam of superheated nanites. The beam passes through everything, including walls and people lying down, and stops at the range you set, 4 tiles at most. It does little damage along the way, but the nanites rupture at the very end of their range and do heavy damage there. Use the gun in your hand to change the range. Growing it and putting it away is free. Each shot costs power and a charge from its magazine, which holds 3 and rebuilds one every 10 seconds, even while the gun is away."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_lateral_laser.dmi'
+	button_icon_state = "lateral_laser"
 	cooldown_time = 1 SECONDS
 	shop_tier = 2
 	unlock_cost = 650
@@ -609,11 +643,11 @@
 /obj/item/melee/arcfiend_prod
 	name = "galvanic prod"
 	desc = "A biometal prod grown from an arcfiend's arm. Left-click to hit with it, right-click to zap someone."
-	icon = 'icons/obj/weapons/spear.dmi'
-	icon_state = "stunprod"
-	inhand_icon_state = "prod"
-	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod.dmi'
+	icon_state = "galvanic_prod"
+	inhand_icon_state = "galvanic_prod"
+	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod_lefthand.dmi'
+	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod_righthand.dmi'
 	item_flags = ABSTRACT | DROPDEL
 	w_class = WEIGHT_CLASS_BULKY
 	// A plain hit is ordinary melee, so anything that reacts to melee hits, like Electrokinetic Smash, reacts to it
@@ -621,7 +655,6 @@
 	damtype = BURN
 	hitsound = SFX_SPARKS
 	throwforce = 0
-	color = ARCFIEND_YELLOW_TINT
 	light_outer_range = 2
 	light_power = 1
 	light_color = "#ffe94d"
@@ -645,7 +678,8 @@
 /datum/action/cooldown/arcfiend/shock_prod
 	name = "Galvanic Prod"
 	desc = "Grow a prod from your arm. Growing it and putting it away is free. Left-click is a normal hit that burns for 15 and costs nothing. Right-click zaps like an emagged defibrillator: it drains stamina, knocks the target down and makes them drop what they hold. A full zap takes 2 of the prod's 4 charges and costs power. With only 1 charge left the zap is weaker and costs half as much. A charge comes back every 40 seconds, even while the prod is away."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_galvanic_prod.dmi'
+	button_icon_state = "galvanic_prod"
 	cooldown_time = 1 SECONDS
 	shop_tier = 1
 	unlock_cost = 0
@@ -686,6 +720,7 @@
 /datum/action/cooldown/arcfiend/shock_prod/proc/charge_recharged()
 	charge_timer = null
 	zap_charges = min(get_charges() + 1, ARCFIEND_PROD_MAX_CHARGES)
+	update_prod_look()
 	if(owner && (locate(/obj/item/melee/arcfiend_prod) in owner.held_items))
 		owner.balloon_alert(owner, "prod charged ([zap_charges]/[ARCFIEND_PROD_MAX_CHARGES])")
 		playsound(owner, 'sound/machines/defib_ready.ogg', 30, TRUE)
@@ -695,11 +730,35 @@
 /datum/action/cooldown/arcfiend/shock_prod/on_upgraded()
 	start_charge_timer()
 
+/// Whether the prod has too little charge to zap at all, which is how it looks drained
+/datum/action/cooldown/arcfiend/shock_prod/proc/is_drained()
+	return get_charges() < 1
+
+/// The prod in the arcfiend's hand and the power's button look drained when it is out of charge
+/datum/action/cooldown/arcfiend/shock_prod/proc/update_prod_look()
+	var/look = is_drained() ? "galvanic_prod_drained" : "galvanic_prod"
+	if(owner)
+		for(var/obj/item/melee/arcfiend_prod/prod in owner.held_items)
+			prod.icon_state = look
+			prod.inhand_icon_state = look
+		owner.update_held_items()
+	build_all_button_icons(UPDATE_BUTTON_ICON)
+
+/datum/action/cooldown/arcfiend/shock_prod/apply_button_icon(atom/movable/screen/movable/action_button/current_button, force = FALSE)
+	if(QDELETED(current_button) || !button_icon || !button_icon_state)
+		return
+	var/shown_state = is_drained() ? "[button_icon_state]_drained" : button_icon_state
+	if(current_button.icon_state == shown_state && current_button.icon == button_icon && !force)
+		return
+	current_button.icon = button_icon
+	current_button.icon_state = shown_state
+
 /datum/action/cooldown/arcfiend/shock_prod/Destroy()
 	if(charge_timer)
 		deltimer(charge_timer)
 		charge_timer = null
 	return ..()
+
 /datum/action/cooldown/arcfiend/shock_prod/Remove(mob/remove_from)
 	if(remove_from)
 		put_away(remove_from)
@@ -742,6 +801,7 @@
 		return FALSE
 	var/obj/item/melee/arcfiend_prod/prod = new(user)
 	user.put_in_hands(prod)
+	update_prod_look()
 	do_sparks(2, FALSE, user)
 	playsound(user, SFX_SPARKS, 30, TRUE)
 	user.visible_message(span_warning("A crackling prod of biometal grows out of [user]'s arm!"), span_notice("You grow a galvanic prod. Left-click to hit with it, or right-click someone to zap them."))
@@ -773,6 +833,7 @@
 	zap_charges = get_charges() - charges_used
 	prod_ready_time = world.time + ARCFIEND_PROD_ZAP_DELAY
 	start_charge_timer()
+	update_prod_look()
 	user.balloon_alert(user, "[zap_charges]/[ARCFIEND_PROD_MAX_CHARGES] charges left")
 
 	if(full_zap)

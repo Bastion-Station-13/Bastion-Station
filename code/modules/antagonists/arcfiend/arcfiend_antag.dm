@@ -9,6 +9,9 @@
 	ui_name = "AntagInfoArcfiend"
 	can_assign_self_objectives = TRUE
 	default_custom_objective = "Drain the station dry."
+	hud_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_antag_hud.dmi'
+	antag_hud_name = "arcfiend"
+	show_to_ghosts = TRUE
 
 	/// Power currently stored. Spent on both abilities and upgrades.
 	var/power = 0
@@ -99,6 +102,8 @@
 	current_mob.add_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE), ARCFIEND_TRAIT)
 	// Their heart can't be stopped, but they still need it: if it takes enough damage to fail, it stops like anyone's would
 	ADD_TRAIT(current_mob, TRAIT_HEART_ATTACK_IMMUNE, ARCFIEND_TRAIT)
+	// Other arcfiends and ghosts see the marker above their head
+	add_team_hud(current_mob)
 	// Being so attuned to machines, an arcfiend sees how they work, and can feel every cable nearby (see reveal_cables)
 	current_mob.add_traits(list(TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
@@ -376,8 +381,8 @@
 
 /atom/movable/screen/arcfiend_power
 	name = "power"
-	icon = 'code/modules/antagonists/arcfiend/icons/arcfiend_hud.dmi'
-	icon_state = ""
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_power_counter.dmi'
+	icon_state = "power_counter"
 	screen_loc = ui_lingchemdisplay
 	invisibility = INVISIBILITY_ABSTRACT
 
@@ -402,8 +407,8 @@
 /obj/item/antag_granter/arcfiend
 	name = "unmarked injector"
 	desc = "An injector of shimmering fluid that crackles faintly when shaken. It has no markings."
-	icon_state = "changeling_injector"
-	color = ARCFIEND_YELLOW_TINT
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_injector.dmi'
+	icon_state = "arcfiend_injector"
 	antag_datum = /datum/antagonist/arcfiend
 	user_message = "You inject the fluid. Your skin starts to crackle, and you can feel the wires in the walls humming."
 

@@ -17,6 +17,14 @@
 	var/active = FALSE
 	/// Timer that drains power each second while we are on
 	var/upkeep_timer
+	/// The sprites that show this is on, if it has them: the icon file and the base state. Each needs a "_on" and "_off" version too, which play once.
+	var/effect_icon
+	var/effect_state
+	/// How long the "_on" and "_off" sprites play for, in ticks
+	var/effect_on_time = 0
+	var/effect_off_time = 0
+	/// The timer that switches from the "_on" sprite to the looping one
+	var/effect_timer
 
 /// How much power this costs every second while on. Override this.
 /datum/action/cooldown/arcfiend/toggle/proc/get_upkeep()
@@ -38,14 +46,33 @@
 /datum/action/cooldown/arcfiend/toggle/proc/get_off_message(mob/living/user)
 	return null
 
-/// A faint pulsing yellow glow around the user, so people can see that they are charged up
+/// Shows that the user is charged up: this power's own sprites if it has them, otherwise a faint pulsing yellow glow
 /datum/action/cooldown/arcfiend/toggle/proc/add_glow(mob/living/user, glow_name)
+	if(effect_icon)
+		add_visual(user, "body", effect_icon, "[effect_state]_on", effect_on_time)
+		if(effect_timer)
+			deltimer(effect_timer)
+		effect_timer = addtimer(CALLBACK(src, PROC_REF(loop_body_effect), user), effect_on_time, TIMER_STOPPABLE)
+		return
 	user.add_filter(glow_name, 2, list("type" = "outline", "color" = "#ffe94d", "alpha" = 30, "size" = 1))
 	var/filter = user.get_filter(glow_name)
 	animate(filter, alpha = 120, time = 0.6 SECONDS, loop = -1)
 	animate(alpha = 30, time = 0.6 SECONDS)
 
+/// Once the "_on" sprite has played, the looping one takes over for as long as this stays on
+/datum/action/cooldown/arcfiend/toggle/proc/loop_body_effect(mob/living/user)
+	effect_timer = null
+	if(active)
+		add_visual(user, "body", effect_icon, effect_state)
+
 /datum/action/cooldown/arcfiend/toggle/proc/remove_glow(mob/living/user, glow_name)
+	if(effect_icon)
+		if(effect_timer)
+			deltimer(effect_timer)
+			effect_timer = null
+		// The "_off" sprite plays once and then takes itself off
+		add_visual(user, "body", effect_icon, "[effect_state]_off", effect_off_time)
+		return
 	var/filter = user.get_filter(glow_name)
 	if(filter)
 		animate(filter)
@@ -53,6 +80,18 @@
 
 /datum/action/cooldown/arcfiend/toggle/is_action_active(atom/movable/screen/movable/action_button/current_button)
 	return active
+
+/// A toggle that is on shows its "_on" icon, if its icon file has one. A power with no sprite of its own yet keeps its placeholder.
+/datum/action/cooldown/arcfiend/toggle/apply_button_icon(atom/movable/screen/movable/action_button/current_button, force = FALSE)
+	if(QDELETED(current_button) || !button_icon || !button_icon_state)
+		return
+	var/shown_state = button_icon_state
+	if(active && (("[button_icon_state]_on") in icon_states(button_icon)))
+		shown_state = "[button_icon_state]_on"
+	if(current_button.icon_state == shown_state && current_button.icon == button_icon && !force)
+		return
+	current_button.icon = button_icon
+	current_button.icon_state = shown_state
 
 /datum/action/cooldown/arcfiend/toggle/Activate(atom/target)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
@@ -81,7 +120,7 @@
 	playsound(owner, SFX_SPARKS, 30, TRUE)
 	apply_effect(owner)
 	upkeep_timer = addtimer(CALLBACK(src, PROC_REF(upkeep_tick)), 1 SECONDS, TIMER_LOOP | TIMER_STOPPABLE)
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	build_all_button_icons(UPDATE_BUTTON_STATUS | UPDATE_BUTTON_ICON)
 
 /datum/action/cooldown/arcfiend/toggle/proc/switch_off()
 	active = FALSE
@@ -94,7 +133,7 @@
 		if(off_message)
 			owner.visible_message(span_notice(off_message), ignored_mobs = list(owner))
 		remove_effect(owner)
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	build_all_button_icons(UPDATE_BUTTON_STATUS | UPDATE_BUTTON_ICON)
 
 /datum/action/cooldown/arcfiend/toggle/proc/upkeep_tick()
 	if(!active)
@@ -122,6 +161,9 @@
 	if(upkeep_timer)
 		deltimer(upkeep_timer)
 		upkeep_timer = null
+	if(effect_timer)
+		deltimer(effect_timer)
+		effect_timer = null
 	return ..()
 
 //////////////////////////////////////////////////////////////////////////
@@ -133,7 +175,8 @@
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint
 	name = "Overdrive Sprint"
 	desc = "Move much faster and don't slip on wet floors. Drains power every second."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_overdrive_sprint.dmi'
+	button_icon_state = "overdrive_sprint"
 	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 250
@@ -142,6 +185,10 @@
 		"Faster, and cheaper to run.",
 		"Faster again, and cheaper again.",
 	)
+	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_overdrive.dmi'
+	effect_state = "overdrive_legs"
+	effect_on_time = 7
+	effect_off_time = 9
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/get_upkeep()
 	return list(3, 2.5, 2)[clamp(get_level(), 1, 3)]
@@ -151,11 +198,21 @@
 	user.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive, multiplicative_slowdown = -speed_bonus)
 	ADD_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
 	add_glow(user, "arcfiend_overdrive_glow")
+	// A burst as it starts, and sparks left on every tile they run over
+	add_visual(user, "activate", effect_icon, "overdrive_activate", 6)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_overdrive_move))
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/remove_effect(mob/living/user)
 	user.remove_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive)
 	REMOVE_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 	remove_glow(user, "arcfiend_overdrive_glow")
+
+/// Leaves a trail of sparks on the tile they just left
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/proc/on_overdrive_move(mob/living/source, atom/old_loc, movement_dir, forced, list/old_locs)
+	SIGNAL_HANDLER
+	if(isturf(old_loc) && movement_dir)
+		new /obj/effect/temp_visual/arcfiend_flash(old_loc, effect_icon, "overdrive_trail", 9, movement_dir)
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/get_on_message(mob/living/user)
 	return "[user] crackles with energy, sparks trailing behind [user.p_them()]!"
@@ -169,8 +226,10 @@
 /datum/action/cooldown/arcfiend/brain_scramble
 	name = "Brain Scramble"
 	desc = "Touch someone to scramble their nerves. It burns a little and drains some stamina, and for 8 seconds their screen shakes and they're confused, dizzy and slurring."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_brain_scramble.dmi'
+	button_icon_state = "brain_scramble"
 	click_to_activate = TRUE
+	needs_mob_target = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Touch someone next to you, or use the power again to cancel."
 	cooldown_time = 12 SECONDS
@@ -220,8 +279,10 @@
 /datum/action/cooldown/arcfiend/arc_discharge
 	name = "Arc Discharge"
 	desc = "Fire a bolt of lightning at someone. It burns, drains stamina, briefly blinds, and arcs to others nearby. Anyone shock immune takes nothing."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_arc_discharge.dmi'
+	button_icon_state = "arc_discharge"
 	click_to_activate = TRUE
+	needs_mob_target = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Click someone you can see to fire, or use the power again to cancel."
 	cooldown_time = 8 SECONDS
@@ -240,7 +301,7 @@
 
 /datum/action/cooldown/arcfiend/arc_discharge/Activate(atom/target)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
-	if(!arcfiend || target == owner)
+	if(!arcfiend || !isliving(target) || target == owner)
 		return FALSE
 	if(!can_see(owner, target, bolt_range))
 		owner.balloon_alert(owner, "can't reach that!")
@@ -310,8 +371,6 @@
 //////////////////////////////////////////////////////////////////////////
 //-------------------------------Thunderclap----------------------------//
 //////////////////////////////////////////////////////////////////////////
-/// The name of the glow an arcfiend has while charging a thunderclap
-#define ARCFIEND_THUNDERCLAP_GLOW "arcfiend_thunderclap_glow"
 
 /**
  * A burst of electricity around the arcfiend, after a short and very obvious windup.
@@ -322,7 +381,8 @@
 /datum/action/cooldown/arcfiend/thunderclap
 	name = "Thunderclap"
 	desc = "After a short windup that everyone around you will notice, release a burst of electricity. Everyone near you takes a little burn damage and some stamina damage, and is flashed. The further away they are, the weaker it is. Anyone within 2 tiles is also thrown away."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_thunderclap.dmi'
+	button_icon_state = "thunderclap"
 	cooldown_time = 30 SECONDS
 	power_cost = 120
 	shop_tier = 2
@@ -375,16 +435,10 @@
 	)
 	user.balloon_alert_to_viewers("charging!")
 	playsound(user, 'sound/magic/lightning_chargeup.ogg', 80, TRUE, extrarange = 8)
-	user.add_filter(ARCFIEND_THUNDERCLAP_GLOW, 2, list("type" = "outline", "color" = "#ffe94d", "alpha" = 100, "size" = 3))
-	var/filter = user.get_filter(ARCFIEND_THUNDERCLAP_GLOW)
-	animate(filter, alpha = 255, time = 0.2 SECONDS, loop = -1)
-	animate(alpha = 100, time = 0.2 SECONDS)
+	add_visual(user, "charge", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap.dmi', "thunderclap_charge")
 	// Moving doesn't interrupt it, being stunned or knocked out does
 	var/finished = do_after(user, get_windup(), progress = FALSE, timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_thunderclap")
-	filter = user.get_filter(ARCFIEND_THUNDERCLAP_GLOW)
-	if(filter)
-		animate(filter)
-		user.remove_filter(ARCFIEND_THUNDERCLAP_GLOW)
+	remove_visual("charge")
 	winding_up = FALSE
 	if(!finished)
 		user.balloon_alert(user, "interrupted!")
@@ -415,6 +469,7 @@
 /datum/action/cooldown/arcfiend/thunderclap/proc/hit_victim(mob/living/user, mob/living/victim, distance)
 	// Everyone in range is hurt and flashed, and the further away they are the weaker it is
 	var/falloff = get_falloff(distance)
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_struck.dmi', "thunderclap_struck", 5)
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		victim.apply_damage(get_burn() * falloff, BURN)
 		victim.apply_damage(get_stamina() * falloff, STAMINA)
@@ -430,11 +485,10 @@
 		var/turf/away = get_edge_target_turf(victim, get_dir(user, victim) || victim.dir)
 		victim.throw_at(away, get_throw_distance(), 2, user, spin = FALSE)
 
-#undef ARCFIEND_THUNDERCLAP_GLOW
 
 /// The ring of lightning that spreads out from an arcfiend when Thunderclap goes off. The sprite is 160x160 and is scaled up to the range of the burst.
 /obj/effect/temp_visual/arcfiend_thunderclap
-	icon = 'code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_160.dmi'
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_160.dmi'
 	icon_state = "thunderclap_release"
 	duration = 1 SECONDS // The frames add up to this
 	randomdir = FALSE
@@ -456,7 +510,8 @@
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash
 	name = "Electrokinetic Smash"
 	desc = "Your punches and the weapons you swing hit harder. In combat mode every hit also burns for extra damage and can arc to others nearby. Costs power every second, and a little more per hit."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electrokinetic_smash.dmi'
+	button_icon_state = "electrokinetic_smash"
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 500
@@ -465,6 +520,10 @@
 		"Hits 30% harder, more burn damage, and arcs more often.",
 		"Hits 40% harder, more burn damage, and arcs can reach two others.",
 	)
+	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi'
+	effect_state = "smash_arms"
+	effect_on_time = 7
+	effect_off_time = 9
 	/// Power each hit costs, on top of the upkeep
 	var/hit_cost = 8
 	/// How far an arc can jump
@@ -531,6 +590,7 @@
 		return
 	if(!arcfiend.spend_power(hit_cost))
 		return
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), effect_icon, "smash_hit", 7)
 	var/level = clamp(get_level(), 1, 3)
 	var/damage = list(8, 12, 16)[level]
 	shock(victim, damage, "[owner]'s electrified blow shocks you!")
@@ -548,7 +608,7 @@
 			return
 		var/mob/living/next_victim = pick(candidates)
 		already_hit += next_victim
-		source.Beam(next_victim, icon_state = "lightning[rand(1, 12)]", time = 5)
+		source.Beam(next_victim, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi', icon_state = "smash_chain", time = 5)
 		damage = round(damage * 0.6)
 		shock(next_victim, damage, "A stray arc of electricity shocks you!")
 		source = next_victim
@@ -571,7 +631,8 @@
 /datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation
 	name = "Myoelectric Stimulation"
 	desc = "Stimulate the muscles in your arms. Do-afters take less time, and you hit, shoot and click faster. Drains power every second."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_myoelectric_stimulation.dmi'
+	button_icon_state = "myoelectric_stimulation"
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 500
@@ -580,6 +641,10 @@
 		"Do-afters take 35% less time and attacks are 30% faster. Cheaper to run.",
 		"Do-afters take 45% less time and attacks are 40% faster. Cheaper again.",
 	)
+	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_myoelectric.dmi'
+	effect_state = "myoelectric_arms"
+	effect_on_time = 7
+	effect_off_time = 12
 	/// What the click and gun delay multipliers were multiplied by when this was switched on, so we can divide it out exactly
 	var/applied_speed_factor = 1
 
@@ -619,7 +684,8 @@
 /datum/action/cooldown/arcfiend/toggle/jamming_field
 	name = "Jamming Field"
 	desc = "Radios, PDAs, GPS and suit sensors near you stop working. You glow while it's on, so everyone can tell it's you. Drains power every second."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jamming_field.dmi'
+	button_icon_state = "jamming_field"
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 450
@@ -630,8 +696,12 @@
 	)
 	/// The jammer we carry while on
 	var/obj/item/jammer/arcfiend/field
-	/// The aura filter's name
+	/// The aura's name
 	var/aura_name = "arcfiend_jamming_aura"
+	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_jamming.dmi'
+	effect_state = "jamming_aura"
+	effect_on_time = 8
+	effect_off_time = 5
 
 /datum/action/cooldown/arcfiend/toggle/jamming_field/get_upkeep()
 	return list(2, 1.5, 1)[clamp(get_level(), 1, 3)]
@@ -647,10 +717,7 @@
 	field.range = list(6, 9, 12)[clamp(get_level(), 1, 3)]
 	field.active = TRUE
 	GLOB.active_jammers |= field
-	user.add_filter(aura_name, 2, list("type" = "outline", "color" = "#ffe94d", "alpha" = 60, "size" = 2))
-	var/filter = user.get_filter(aura_name)
-	animate(filter, alpha = 230, time = 0.4 SECONDS, loop = -1)
-	animate(alpha = 60, time = 0.4 SECONDS)
+	add_glow(user, aura_name)
 	user.set_light_range_power_color(3, 1.5, "#ffe94d")
 	user.set_light_on(TRUE)
 
@@ -658,10 +725,7 @@
 	if(field)
 		GLOB.active_jammers -= field
 		QDEL_NULL(field)
-	var/filter = user.get_filter(aura_name)
-	if(filter)
-		animate(filter)
-		user.remove_filter(aura_name)
+	remove_glow(user, aura_name)
 	user.set_light_on(FALSE)
 
 //////////////////////////////////////////////////////////////////////////
@@ -671,7 +735,11 @@
 /obj/item/card/emag/arcfiend
 	name = "electric emag"
 	desc = "A card of biometal grown from an arcfiend's hand. It hacks what it touches, and the arcfiend pays for it in power."
-	color = "#ffe94d"
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag.dmi'
+	icon_state = "arcfiend_emag"
+	inhand_icon_state = "arcfiend_emag"
+	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag_lefthand.dmi'
+	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag_righthand.dmi'
 	item_flags = NO_MAT_REDEMPTION | NOBLUDGEON | ABSTRACT | DROPDEL
 	slot_flags = NONE
 	microwaveable = FALSE
@@ -720,7 +788,8 @@
 /datum/action/cooldown/arcfiend/electric_emag
 	name = "Electric Emag"
 	desc = "Grow an emag in your hand. Growing it and putting it away is free, using it costs power. Doors are cheap, consoles aren't, and cyborgs cost a fortune."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electric_emag.dmi'
+	button_icon_state = "electric_emag"
 	cooldown_time = 1 SECONDS
 	shop_tier = 2
 	unlock_cost = 500
@@ -784,7 +853,8 @@
 /datum/action/cooldown/arcfiend/emp_burst
 	name = "EMP Burst"
 	desc = "Spend a third of your stored power on an EMP. The more power you have, the bigger it is. It doesn't hurt you or what you carry, but it does hurt other arcfiends."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_emp_burst.dmi'
+	button_icon_state = "emp_burst"
 	cooldown_time = 30 SECONDS
 	power_cost = 100
 	shop_tier = 3
@@ -823,8 +893,10 @@
 /datum/action/cooldown/arcfiend/jolt
 	name = "Jolt"
 	desc = "After a long windup, send a huge jolt through someone you're touching. In combat mode it stops their heart and burns them badly. Out of combat mode it restarts a stopped heart like a defibrillator, and can revive the dead, even without a soul in them. If they can't be revived the power is still spent, but your instincts tell you why."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jolt.dmi'
+	button_icon_state = "jolt"
 	click_to_activate = TRUE
+	needs_mob_target = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Click someone next to you to jolt them, or use the power again to cancel. In combat mode it stops their heart, otherwise it restarts it."
 	cooldown_time = 45 SECONDS

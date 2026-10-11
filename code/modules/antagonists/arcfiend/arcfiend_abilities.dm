@@ -4,6 +4,8 @@
 	panel = "Arcfiend"
 	button_icon = 'icons/mob/actions/actions_spells.dmi'
 	button_icon_state = "lightning"
+	background_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_action_background.dmi'
+	background_icon_state = "bg_arcfiend"
 	check_flags = AB_CHECK_CONSCIOUS | AB_CHECK_HANDS_BLOCKED | AB_CHECK_IMMOBILE
 	/// Power spent each time this is used
 	var/power_cost = 0
@@ -23,14 +25,72 @@
 
 	/// Whether a glowing hand appears in the owner's hand while this power is ready to be aimed, so everyone can see it
 	var/shows_hand = FALSE
+	/// Whether this only works when clicking on a mob directly. A click on anything else, a wall or vent or the floor, does nothing: it isn't wasted and the power stays ready.
+	var/needs_mob_target = FALSE
 	/// What the owner is told when the hand appears
 	var/hand_message = "Your hand is charged. Click something to use it, or use the power again to cancel."
 	/// The glowing hand we are showing right now
 	var/obj/item/melee/touch_attack/arcfiend_hand/hand
+	/// What the hand looks like in the owner's hand, if this power has sprites of its own for it. Otherwise it is the plain glowing hand.
+	var/hand_inhand_state
+	/// And what it looks like in the inventory slot
+	var/hand_icon
+	var/hand_icon_state
+	var/hand_lefthand_file
+	var/hand_righthand_file
+	/// The overlays this power has put on things, assoc of key to a list of the thing and the overlay, so they can be taken off again
+	var/list/visuals
 
 /datum/action/cooldown/arcfiend/Destroy()
 	QDEL_NULL(hand)
+	for(var/key in visuals?.Copy())
+		remove_visual(key)
 	return ..()
+
+/// Puts an overlay on something, replacing any this power already put there under the same key. If it is given a time, it comes off again by itself.
+/datum/action/cooldown/arcfiend/proc/add_visual(atom/target, key, visual_icon, visual_state, lasts_for, bright = FALSE, visual_scale = 1)
+	if(QDELETED(target))
+		return
+	remove_visual(key)
+	var/mutable_appearance/overlay = mutable_appearance(visual_icon, visual_state)
+	if(bright)
+		// Drawn above the lighting, so it glows even in the dark
+		SET_PLANE_EXPLICIT(overlay, ABOVE_LIGHTING_PLANE, target)
+	if(visual_scale != 1)
+		overlay.transform = overlay.transform.Scale(visual_scale, visual_scale)
+	target.add_overlay(overlay)
+	LAZYSET(visuals, key, list(target, overlay))
+	if(lasts_for)
+		addtimer(CALLBACK(src, PROC_REF(expire_visual), key, overlay), lasts_for)
+
+/// Takes an overlay off once its time is up, unless something has replaced it since
+/datum/action/cooldown/arcfiend/proc/expire_visual(key, mutable_appearance/overlay)
+	var/list/current = visuals?[key]
+	if(current && current[2] == overlay)
+		remove_visual(key)
+
+/// Takes an overlay this power put on something off again
+/datum/action/cooldown/arcfiend/proc/remove_visual(key)
+	var/list/current = visuals?[key]
+	if(!current)
+		return
+	var/atom/target = current[1]
+	if(!QDELETED(target))
+		target.cut_overlay(current[2])
+	LAZYREMOVE(visuals, key)
+
+/// A short one-shot sprite from one of the powers, left on a tile for as long as it plays
+/obj/effect/temp_visual/arcfiend_flash
+	randomdir = FALSE
+	plane = ABOVE_LIGHTING_PLANE
+	layer = FLY_LAYER
+
+/obj/effect/temp_visual/arcfiend_flash/Initialize(mapload, flash_icon, flash_state, flash_duration = 1 SECONDS, flash_dir = SOUTH)
+	icon = flash_icon
+	icon_state = flash_state
+	duration = flash_duration
+	. = ..()
+	setDir(flash_dir)
 
 /datum/action/cooldown/arcfiend/set_click_ability(mob/on_who)
 	. = ..()
@@ -42,6 +102,13 @@
 	// If we're being refunded, then the owner cancelled it rather than using it
 	lower_hand(on_who, refund_cooldown)
 
+/// A click on anything that isn't a mob is swallowed by powers that need one, so a missclick never wastes the power or does something else
+/datum/action/cooldown/arcfiend/InterceptClickOn(mob/living/user, params, atom/target)
+	if(needs_mob_target && target && !isliving(target))
+		user.balloon_alert(user, "click on a person!")
+		return TRUE
+	return ..()
+
 /// Puts a glowing hand in the owner's hand, as a sign that the power is ready
 /datum/action/cooldown/arcfiend/proc/raise_hand(mob/on_who)
 	if(hand || !isliving(on_who))
@@ -49,6 +116,15 @@
 	var/mob/living/user = on_who
 	hand = new(user)
 	hand.name = "crackling hand ([name])"
+	if(hand_inhand_state)
+		// This power has a look of its own for the hand, so it isn't tinted like the plain one
+		if(hand_icon)
+			hand.icon = hand_icon
+			hand.icon_state = hand_icon_state
+		hand.inhand_icon_state = hand_inhand_state
+		hand.lefthand_file = hand_lefthand_file
+		hand.righthand_file = hand_righthand_file
+		hand.color = null
 	if(!user.put_in_hands(hand, del_on_fail = TRUE))
 		hand = null
 		user.balloon_alert(user, "no free hand to use!")
@@ -142,7 +218,8 @@
 /datum/action/cooldown/arcfiend/sap_power
 	name = "Sap Power"
 	desc = "Drain power from something next to you. APCs, SMES units, cables and machines all work, but people and cyborgs give far more, and they get hurt. It's loud and bright. Sapping also feeds you, but never makes you fat, or overcharges you if you're an ethereal."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_sap_power.dmi'
+	button_icon_state = "sap_power"
 	click_to_activate = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Click something next to you to sap it, or use the power again to cancel."
@@ -200,24 +277,21 @@
 	StartCooldown()
 	return TRUE
 
-/// The name of the glow an arcfiend has while they are sapping
-#define ARCFIEND_SAP_GLOW "arcfiend_sap_glow"
-
 /// Makes it obvious to everyone nearby that something is being sapped, from the very start
 /datum/action/cooldown/arcfiend/sap_power/proc/start_sap_effects(atom/target)
-	// A bright, fast-pulsing glow around the arcfiend
-	owner.add_filter(ARCFIEND_SAP_GLOW, 2, list("type" = "outline", "color" = "#ffe94d", "alpha" = 80, "size" = 2))
-	var/filter = owner.get_filter(ARCFIEND_SAP_GLOW)
-	animate(filter, alpha = 255, time = 0.25 SECONDS, loop = -1)
-	animate(alpha = 80, time = 0.25 SECONDS)
+	// Electricity crawls over the arcfiend, and over whatever they are draining
+	add_visual(owner, "sap_aura", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', "sap_power_aura")
+	add_visual(target, "sap_source", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', "sap_power_source")
 	// A beam straight from the source to them, and a flash of light and thunder as it starts
-	owner.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 1.2 SECONDS)
+	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
+	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	owner.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
 	playsound(target, 'sound/magic/lightningshock.ogg', 60, TRUE, extrarange = 12)
 
 /// Keeps it obvious for as long as it goes on: a beam, loud crackling, flashes of light, flickering lights, and the odd warning
 /datum/action/cooldown/arcfiend/sap_power/proc/sap_tick_effects(atom/target, ticks)
-	owner.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 1.2 SECONDS)
+	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
+	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	do_sparks(3, FALSE, target)
 	do_sparks(2, FALSE, owner)
 	playsound(target, SFX_SPARKS, 100, TRUE, extrarange = 10)
@@ -235,16 +309,10 @@
 		)
 		owner.balloon_alert_to_viewers("sapping power!")
 
-/// Takes the glow away
+/// Takes the electricity off again
 /datum/action/cooldown/arcfiend/sap_power/proc/stop_sap_effects()
-	if(!owner)
-		return
-	var/filter = owner.get_filter(ARCFIEND_SAP_GLOW)
-	if(filter)
-		animate(filter)
-		owner.remove_filter(ARCFIEND_SAP_GLOW)
-
-#undef ARCFIEND_SAP_GLOW
+	remove_visual("sap_aura")
+	remove_visual("sap_source")
 
 //////////////////////////////////////////////////////////////////////////
 //----------------------------------Charge------------------------------//
@@ -252,7 +320,8 @@
 /datum/action/cooldown/arcfiend/charge
 	name = "Charge"
 	desc = "Use your own power to refill the cells of whatever you're holding, or of a cyborg you're pulling. Doesn't work on anything magical."
-	button_icon_state = "charge"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_charge.dmi'
+	button_icon_state = "arcfiend_charge"
 	cooldown_time = 3 SECONDS
 	power_cost = 1
 	upgrade_costs = list(100, 300)
@@ -420,7 +489,8 @@
 /datum/action/cooldown/arcfiend/ride_lightning
 	name = "Ride the Lightning"
 	desc = "Dive into the cable under you and ride it. You can only move along connected cables, and getting in or out takes a moment. It costs power to enter, per tile and per second. If someone cuts the cable you're on, you're thrown out and stunned."
-	button_icon_state = "jaunt"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_ride_the_lightning.dmi'
+	button_icon_state = "ride_the_lightning"
 	// You have to be able to use this while riding, to get out again
 	check_flags = AB_CHECK_CONSCIOUS
 	cooldown_time = 3 SECONDS
@@ -520,8 +590,8 @@
 /obj/effect/arcfiend_spark
 	name = "ball of lightning"
 	desc = "A ball of electricity racing through the wires."
-	icon = 'code/modules/antagonists/arcfiend/icons/arcfiend_effects.dmi'
-	icon_state = ""
+	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lightning_riding.dmi'
+	icon_state = "arcfiend_lightning_ball_ride_lightning"
 	anchored = TRUE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	plane = ABOVE_LIGHTING_PLANE
@@ -761,7 +831,8 @@
 /datum/action/cooldown/arcfiend/surge_reflex
 	name = "Surge Reflex"
 	desc = "Instantly clears your stuns and stamina damage and heals some of your wounds. Works while stunned."
-	button_icon_state = "lightning"
+	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_surge_reflex.dmi'
+	button_icon_state = "surge_reflex"
 	// This has to work while stunned, that is the point of it
 	check_flags = AB_CHECK_CONSCIOUS
 	cooldown_time = 60 SECONDS
@@ -789,6 +860,11 @@
 	var/heal_amount = 5 + 10 * level
 	user.heal_overall_damage(brute = heal_amount, burn = heal_amount, stamina = 100)
 	do_sparks(4, FALSE, user)
+	// A big, bright burst that plays three times over, with a flash of light, so everyone nearby sees it
+	var/surge_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_surge_reflex.dmi'
+	for(var/repeat in 0 to 2)
+		addtimer(CALLBACK(src, PROC_REF(add_visual), user, "surge", surge_icon, "surge_reflex", 9, TRUE, 1.7), repeat * 9)
+	user.flash_lighting_fx(5, 4, "#ffe94d", 2 SECONDS)
 	playsound(user, SFX_SPARKS, 60, TRUE)
 	user.visible_message(span_danger("[user] convulses as a surge of electricity crackles over [user.p_their()] body!"), span_notice("You shake off the blow as the nanites surge through you."))
 	StartCooldown(list(60 SECONDS, 40 SECONDS, 25 SECONDS)[clamp(level, 1, 3)])
