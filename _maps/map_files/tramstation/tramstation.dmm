@@ -26714,7 +26714,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atm/directional/north,
 /obj/effect/landmark/navigate_destination/common/dorms,
 /turf/open/floor/iron,
 /area/station/commons/dorms)
@@ -29719,13 +29718,6 @@
 	},
 /turf/open/floor/glass,
 /area/station/command/meeting_room)
-"imG" = (
-/obj/effect/turf_decal/trimline/neutral/filled/line{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/escapepodbay)
 "imY" = (
 /obj/machinery/duct,
 /obj/effect/decal/cleanable/dirt,
@@ -30964,16 +30956,6 @@
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
 /area/station/commons/fitness)
-"iFX" = (
-/obj/effect/turf_decal/trimline/brown/filled/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/neutral/filled/warning{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/tram/right)
 "iGg" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/closet/crate/trashcart,
@@ -49186,7 +49168,6 @@
 	dir = 9
 	},
 /obj/effect/turf_decal/trimline/dark_blue/corner,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/hop)
 "omT" = (
@@ -56276,13 +56257,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
-"qvc" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/dark,
-/area/station/commons/fitness/recreation/entertainment)
 "qvt" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 8
@@ -63164,13 +63138,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/security/prison)
-"szY" = (
-/obj/effect/turf_decal/trimline/neutral/filled/line{
-	dir = 9
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/secondary/service)
 "szZ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -71519,7 +71486,6 @@
 /area/station/security/office)
 "uYR" = (
 /obj/effect/turf_decal/trimline/neutral/filled/line,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron/smooth,
 /area/station/hallway/primary/tram/center)
 "uYX" = (
@@ -96282,7 +96248,7 @@ aaa
 pZW
 pZW
 pZW
-imG
+abI
 abf
 aca
 ach
@@ -103765,7 +103731,7 @@ oTA
 oTA
 oTA
 oTA
-qvc
+xXf
 byx
 oTA
 oTA
@@ -113746,7 +113712,7 @@ dQt
 iRL
 snQ
 iRL
-szY
+pjC
 twg
 dWn
 cWZ
@@ -193947,7 +193913,7 @@ oQm
 aDv
 wfF
 fgi
-iFX
+rEB
 tTu
 xYV
 brm

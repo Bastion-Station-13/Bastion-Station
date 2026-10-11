@@ -29701,11 +29701,6 @@
 /obj/effect/turf_decal/tile/yellow/opposingcorners,
 /turf/open/floor/iron,
 /area/station/engineering/atmos/office)
-"lDG" = (
-/obj/effect/turf_decal/tile/neutral/half/contrasted,
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron,
-/area/station/commons/dorms)
 "lDQ" = (
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
@@ -38177,10 +38172,6 @@
 /obj/effect/spawner/random/techstorage/service_all,
 /turf/open/floor/iron/dark,
 /area/station/engineering/storage/tech)
-"oNo" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
-/area/station/maintenance/starboard/central)
 "oNx" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -39084,9 +39075,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base)
-"piJ" = (
-/turf/open/floor/cult,
-/area/station/service/chapel/funeral)
 "piT" = (
 /obj/effect/turf_decal/tile/dark_purple/half/contrasted,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
@@ -41006,14 +40994,6 @@
 /obj/effect/spawner/random/engineering/tracking_beacon,
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
-"pWQ" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/obj/machinery/atm/directional/east,
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/iron,
-/area/station/commons/fitness/recreation)
 "pWR" = (
 /turf/closed/wall,
 /area/station/maintenance/aft)
@@ -50933,7 +50913,6 @@
 "tSC" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/neutral/half/contrasted,
-/obj/machinery/atm/directional/south,
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
 	dir = 1
@@ -168047,7 +168026,7 @@ aWZ
 aWZ
 aWZ
 aWZ
-lDG
+qZd
 frC
 cvs
 jup
@@ -168826,7 +168805,7 @@ rlL
 tAq
 frC
 agg
-pWQ
+phm
 rMs
 phm
 phm
@@ -174913,7 +174892,7 @@ lCF
 tDW
 xcT
 qsX
-oNo
+eck
 bgB
 eWW
 xQi
@@ -181612,7 +181591,7 @@ iub
 bcj
 qSc
 dBI
-piJ
+oAB
 wDQ
 qSc
 iGu
@@ -181870,7 +181849,7 @@ xQZ
 qSc
 mlr
 oAB
-piJ
+oAB
 qSc
 iGu
 iGu
@@ -182127,7 +182106,7 @@ itG
 qSc
 rvQ
 tYF
-piJ
+oAB
 qSc
 iGu
 iGu
@@ -182382,9 +182361,9 @@ sba
 rqZ
 rAm
 qSc
-piJ
+oAB
 rvQ
-piJ
+oAB
 qSc
 iGu
 iGu

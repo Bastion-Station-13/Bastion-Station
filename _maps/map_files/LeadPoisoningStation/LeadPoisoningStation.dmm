@@ -5712,7 +5712,6 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
-/obj/machinery/atm/directional/east,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
 /area/station/hallway/floor2/fore)
@@ -8698,11 +8697,6 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron/dark/textured_half,
 /area/station/medical/morgue)
-"epQ" = (
-/obj/effect/turf_decal/trimline/blue/filled/line,
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron/diagonal,
-/area/station/medical/medbay/lobby)
 "epR" = (
 /obj/effect/turf_decal/tile/dark/diagonal_centre,
 /obj/effect/turf_decal/tile/dark/diagonal_edge,
@@ -9048,11 +9042,6 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/greater)
-"exO" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron/diagonal,
-/area/station/commons/dorms)
 "eyl" = (
 /obj/structure/dresser,
 /obj/machinery/light/small/directional/north,
@@ -9792,11 +9781,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/station/science/lab)
-"ePm" = (
-/obj/machinery/door/firedoor,
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron,
-/area/station/hallway/floor2/fore)
 "ePn" = (
 /obj/structure/railing{
 	dir = 4
@@ -10956,7 +10940,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
 "frp" = (
-/obj/machinery/atm/directional/east,
 /obj/structure/chair/sofa/bench/left{
 	dir = 8
 	},
@@ -10980,13 +10963,6 @@
 	},
 /turf/closed/wall,
 /area/station/medical/morgue)
-"frZ" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron,
-/area/station/hallway/floor2/fore)
 "fsh" = (
 /obj/structure/closet/secure_closet/nanotrasen_representative,
 /turf/open/floor/carpet/green,
@@ -27344,14 +27320,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/station/maintenance/port/greater)
-"naC" = (
-/obj/machinery/atm/directional/north,
-/obj/machinery/portable_atmospherics/scrubber,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "naH" = (
 /obj/effect/turf_decal/trimline/purple/filled/corner{
 	dir = 4
@@ -33040,7 +33008,6 @@
 /turf/open/floor/iron/half,
 /area/station/commons/lounge)
 "pPL" = (
-/obj/machinery/atm/directional/east,
 /obj/item/kirbyplants/random,
 /obj/effect/turf_decal/siding/dark{
 	dir = 1
@@ -33367,10 +33334,6 @@
 /obj/machinery/shower/directional/north,
 /turf/open/floor/iron,
 /area/station/engineering/main)
-"pZS" = (
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron/diagonal,
-/area/station/commons/dorms)
 "pZT" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -41414,7 +41377,6 @@
 /turf/open/floor/iron/diagonal,
 /area/station/medical/office)
 "tNw" = (
-/obj/machinery/atm/directional/north,
 /obj/effect/turf_decal/trimline/dark_blue/arrow_ccw,
 /obj/effect/turf_decal/trimline/dark_red/arrow_cw{
 	dir = 1
@@ -41467,10 +41429,6 @@
 /obj/item/reagent_containers/cup/watering_can,
 /turf/open/floor/iron/diagonal,
 /area/station/service/hydroponics/garden)
-"tOK" = (
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron,
-/area/station/hallway/floor2/fore)
 "tOT" = (
 /obj/machinery/computer/nanite_cloud_controller,
 /obj/structure/window/spawner/directional/north,
@@ -45704,11 +45662,6 @@
 	},
 /turf/open/floor/iron/diagonal,
 /area/station/security/prison)
-"vQX" = (
-/obj/machinery/atm/directional/south,
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
 "vRj" = (
 /obj/structure/lattice,
 /obj/effect/spawner/random/structure/grille,
@@ -48137,7 +48090,6 @@
 /area/station/commons/dorms)
 "xaz" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/atm/directional/north,
 /obj/structure/window/spawner/directional/south,
 /obj/structure/flora/bush/flowers_pp/style_random,
 /obj/structure/flora/bush/flowers_br/style_random,
@@ -68714,7 +68666,7 @@ pAa
 rLh
 nXM
 tKw
-naC
+gHE
 bks
 egP
 jzB
@@ -77985,7 +77937,7 @@ erH
 tPj
 upb
 pJB
-vQX
+kaR
 wtY
 wtY
 jqr
@@ -91635,7 +91587,7 @@ joV
 joV
 joV
 joV
-epQ
+oSt
 sXq
 gAl
 gSy
@@ -135776,7 +135728,7 @@ aWl
 uNF
 wXE
 qER
-ePm
+mWN
 uuQ
 uuQ
 wXE
@@ -137584,7 +137536,7 @@ iIp
 kLr
 kLr
 kcm
-tOK
+uuQ
 iut
 iut
 iut
@@ -139107,7 +139059,7 @@ byk
 tLD
 jxF
 kis
-frZ
+hIM
 dkU
 hIM
 kiW
@@ -154605,7 +154557,7 @@ rgF
 rgF
 trb
 hAW
-exO
+tKc
 cTp
 cTp
 cTp
@@ -158975,7 +158927,7 @@ oja
 oja
 oja
 oja
-pZS
+oja
 tdc
 mlF
 oja

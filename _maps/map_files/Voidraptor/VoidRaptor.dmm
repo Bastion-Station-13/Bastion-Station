@@ -10685,7 +10685,6 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/textured_edge,
 /area/station/hallway/secondary/command)
 "dlb" = (
@@ -40510,7 +40509,6 @@
 	dir = 8
 	},
 /obj/effect/landmark/start/assistant,
-/obj/machinery/atm/directional/east,
 /turf/open/floor/iron/cafeteria,
 /area/station/service/cafeteria)
 "lsQ" = (
@@ -57860,7 +57858,6 @@
 	},
 /area/station/science/xenobiology)
 "qgT" = (
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/white,
 /area/station/hallway/primary/fore)
 "qhe" = (
@@ -69257,7 +69254,6 @@
 /area/station/hallway/primary/fore)
 "tnm" = (
 /obj/effect/turf_decal/siding/wood,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/wood/large,
 /area/station/service/theater)
 "tnv" = (
@@ -78601,7 +78597,6 @@
 	dir = 4
 	},
 /obj/effect/landmark/start/hangover,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron/textured_edge{
 	dir = 1
 	},

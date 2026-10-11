@@ -3389,7 +3389,6 @@
 "baC" = (
 /obj/structure/table/glass,
 /obj/item/reagent_containers/cup/glass/mug/tea,
-/obj/machinery/atm/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/effect/turf_decal/tile/dark/half/contrasted{
 	dir = 1
@@ -32497,14 +32496,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/brig/entrance)
-"jCm" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1
-	},
-/obj/machinery/atm/directional/east,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/wood,
-/area/station/hallway/secondary/exit/departure_lounge)
 "jCp" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -37310,15 +37301,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/starboard/upper)
-"kVS" = (
-/obj/machinery/atm/directional/north,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/turf_decal/tile/gray/half/contrasted{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "kWc" = (
 /turf/closed/wall,
 /area/station/service/bar)
@@ -57006,7 +56988,6 @@
 "qEG" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atm/directional/west,
 /obj/structure/chair{
 	dir = 1
 	},
@@ -62081,7 +62062,6 @@
 /obj/structure/table/wood,
 /obj/effect/spawner/random/entertainment/coin,
 /obj/effect/spawner/random/entertainment/musical_instrument,
-/obj/machinery/atm/directional/west,
 /obj/effect/turf_decal/tile/darkest_green{
 	dir = 1
 	},
@@ -69631,7 +69611,6 @@
 /obj/effect/turf_decal/tile/dark/half{
 	dir = 1
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
 "uiF" = (
@@ -75593,11 +75572,6 @@
 /obj/effect/decal/cleanable/blood/gibs/old,
 /turf/open/floor/iron/freezer,
 /area/station/maintenance/port/lesser)
-"vSH" = (
-/obj/machinery/atm/directional/east,
-/obj/effect/turf_decal/tile/dark_green/half/contrasted,
-/turf/open/floor/iron,
-/area/station/hallway/primary/upper)
 "vSQ" = (
 /obj/effect/spawner/random/structure/grille,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -115799,7 +115773,7 @@ sCZ
 cUV
 sXx
 rLO
-kVS
+hFt
 nPO
 hwI
 kBB
@@ -124885,7 +124859,7 @@ lXV
 vyP
 gMi
 cXM
-jCm
+vcF
 tQK
 bbn
 hVA
@@ -131478,7 +131452,7 @@ vBl
 iZi
 cGF
 uHF
-vSH
+nJh
 oJA
 bPI
 faU

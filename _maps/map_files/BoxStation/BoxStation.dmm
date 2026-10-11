@@ -516,7 +516,6 @@
 	dir = 1
 	},
 /obj/machinery/camera/autoname/directional/south,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/fore)
 "aiG" = (
@@ -1219,7 +1218,6 @@
 	dir = 4
 	},
 /obj/machinery/light/small/directional/south,
-/obj/machinery/atm/directional/south,
 /obj/structure/table/wood,
 /obj/item/newspaper{
 	pixel_x = -5
@@ -32127,7 +32125,6 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 5
 	},
-/obj/machinery/atm/directional/north,
 /obj/structure/table/glass,
 /obj/item/storage/medkit/regular{
 	pixel_x = 6;
@@ -32401,14 +32398,6 @@
 /obj/machinery/vending/wardrobe/sec_wardrobe,
 /turf/open/floor/iron/dark,
 /area/station/security/lockers)
-"kvC" = (
-/obj/effect/turf_decal/trimline/red/filled/line,
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 1
-	},
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron/dark,
-/area/station/hallway/secondary/entry)
 "kvL" = (
 /obj/machinery/camera/autoname/directional/west,
 /turf/open/floor/iron/dark,
@@ -32919,11 +32908,6 @@
 /obj/structure/railing,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/central)
-"kFc" = (
-/obj/effect/turf_decal/tile/purple/fourcorners,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/dark,
-/area/station/hallway/primary/starboard)
 "kFe" = (
 /obj/structure/chair{
 	dir = 1
@@ -45143,14 +45127,6 @@
 /obj/structure/cable/layer3,
 /turf/open/floor/iron,
 /area/station/engineering/storage)
-"oAa" = (
-/obj/effect/turf_decal/trimline/dark_blue/filled/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/dark_blue/line,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/dark,
-/area/station/hallway/primary/central)
 "oAe" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -48773,7 +48749,6 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/north,
-/obj/machinery/atm/directional/north,
 /obj/effect/spawner/random/vending/colavend,
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/exit/departure_lounge)
@@ -62098,18 +62073,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/storage)
-"tYz" = (
-/obj/effect/turf_decal/trimline/yellow/filled/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
-	},
-/obj/machinery/atm/directional/east,
-/turf/open/floor/iron/dark/side{
-	dir = 4
-	},
-/area/station/hallway/primary/aft)
 "tYG" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -65574,7 +65537,6 @@
 /obj/effect/turf_decal/trimline/brown/filled/line{
 	dir = 8
 	},
-/obj/machinery/atm/directional/west,
 /turf/open/floor/iron/dark/side{
 	dir = 8
 	},
@@ -70104,14 +70066,6 @@
 /obj/machinery/status_display/evac/directional/west,
 /turf/open/floor/wood,
 /area/station/service/chapel/office)
-"wtn" = (
-/obj/effect/turf_decal/trimline/neutral/line,
-/obj/effect/turf_decal/trimline/neutral/filled/line{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/dark,
-/area/station/hallway/primary/port)
 "wtt" = (
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -73307,7 +73261,6 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/trimline/purple/line,
-/obj/machinery/atm/directional/north,
 /obj/machinery/vending/modularpc,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/central)
@@ -73496,7 +73449,6 @@
 "xzd" = (
 /obj/effect/turf_decal/trimline/neutral/filled/line,
 /obj/machinery/light/directional/south,
-/obj/machinery/atm/directional/south,
 /obj/structure/chair/sofa/bench{
 	dir = 1
 	},
@@ -87905,7 +87857,7 @@ jmh
 jmh
 fGO
 xxP
-kvC
+sNf
 vRV
 vRV
 vRV
@@ -90991,7 +90943,7 @@ lKw
 mgQ
 xMb
 ezf
-wtn
+pzt
 jZY
 nQm
 dyk
@@ -101814,7 +101766,7 @@ xdw
 xdw
 lFc
 lFc
-oAa
+oKy
 aIn
 hxV
 eNs
@@ -105690,7 +105642,7 @@ hKX
 jWT
 ufs
 xeH
-tYz
+fyA
 gKN
 uaf
 rAO
@@ -107982,7 +107934,7 @@ noo
 gVB
 shq
 uCB
-oAa
+oKy
 nTS
 phj
 blC
@@ -112847,7 +112799,7 @@ fsE
 fsE
 fsE
 fsE
-kFc
+nVy
 cHJ
 wxL
 aBz

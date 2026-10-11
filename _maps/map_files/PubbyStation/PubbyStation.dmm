@@ -17801,14 +17801,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/lab)
-"bvS" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/landmark/start/hangover,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "bvT" = (
 /obj/structure/window/reinforced/spawner/directional/east{
 	layer = 2.9
@@ -40676,14 +40668,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/engineering)
-"mCH" = (
-/obj/effect/turf_decal/tile/brown{
-	dir = 1
-	},
-/obj/structure/cable,
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "mDl" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
@@ -43444,7 +43428,6 @@
 "oRl" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
 "oRP" = (
@@ -48525,18 +48508,6 @@
 	},
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet/restrooms)
-"sPZ" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/white/corner{
-	dir = 1
-	},
-/area/station/hallway/secondary/entry)
 "sQx" = (
 /obj/machinery/door/poddoor/preopen{
 	id = "bridgespace";
@@ -75256,7 +75227,7 @@ aQu
 aOf
 duQ
 hXW
-sPZ
+nJB
 bop
 hXW
 hXW
@@ -88860,7 +88831,7 @@ aEL
 aAH
 aGt
 axi
-bvS
+uNL
 ilz
 fei
 aKZ
@@ -91444,7 +91415,7 @@ rpB
 aUi
 aVo
 hKX
-mCH
+sZb
 sZb
 lYE
 bar
