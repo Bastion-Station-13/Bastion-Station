@@ -514,10 +514,10 @@ ADMIN_VERB(forceGamemode, R_FUN, FALSE, "Open Gamemode Panel", "Opens the gamemo
 	event_tracks[EVENT_TRACK_MAJOR].threshold = CONFIG_GET(number/major_point_threshold)
 	event_tracks[EVENT_TRACK_ROLESET].threshold = CONFIG_GET(number/roleset_point_threshold)
 
-/datum/controller/subsystem/gamemode/proc/handle_picking_storyteller()
+/datum/controller/subsystem/gamemode/proc/handle_picking_storyteller(disable_vote = FALSE)
 	if(CONFIG_GET(flag/disable_storyteller))
 		return
-	if(length(GLOB.clients) > MAX_POP_FOR_STORYTELLER_VOTE)
+	if(disable_vote || length(GLOB.clients) > MAX_POP_FOR_STORYTELLER_VOTE)
 		secret_storyteller = TRUE
 		selected_storyteller = pick_weight(get_valid_storytellers(TRUE))
 		return
