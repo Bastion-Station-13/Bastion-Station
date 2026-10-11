@@ -197,7 +197,11 @@
 /// Our upgrade level, 1 is the base power
 /datum/action/cooldown/arcfiend/proc/get_level()
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
-	return arcfiend?.get_power_level(type) || 1
+	return clamp(arcfiend?.get_power_level(type) || 1, 1, ARCFIEND_MAX_POWER_LEVEL)
+
+/// Picks the value for our upgrade level out of a list with one entry per level, for powers whose numbers scale with upgrades
+/datum/action/cooldown/arcfiend/proc/by_level(list/values)
+	return values[get_level()]
 
 /datum/action/cooldown/arcfiend/IsAvailable(feedback = FALSE)
 	. = ..()
@@ -867,5 +871,5 @@
 	user.flash_lighting_fx(5, 4, "#ffe94d", 2 SECONDS)
 	playsound(user, SFX_SPARKS, 60, TRUE)
 	user.visible_message(span_danger("[user] convulses as a surge of electricity crackles over [user.p_their()] body!"), span_notice("You shake off the blow as the nanites surge through you."))
-	StartCooldown(list(60 SECONDS, 40 SECONDS, 25 SECONDS)[clamp(level, 1, 3)])
+	StartCooldown(by_level(list(60 SECONDS, 40 SECONDS, 25 SECONDS)))
 	return TRUE

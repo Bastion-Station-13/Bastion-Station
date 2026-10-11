@@ -191,10 +191,10 @@
 	effect_off_time = 9
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/get_upkeep()
-	return list(3, 2.5, 2)[clamp(get_level(), 1, 3)]
+	return by_level(list(3, 2.5, 2))
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/apply_effect(mob/living/user)
-	var/speed_bonus = list(0.35, 0.5, 0.65)[clamp(get_level(), 1, 3)]
+	var/speed_bonus = by_level(list(0.35, 0.5, 0.65))
 	user.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive, multiplicative_slowdown = -speed_bonus)
 	ADD_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
 	add_glow(user, "arcfiend_overdrive_glow")
@@ -252,13 +252,13 @@
 	if(!arcfiend.spend_power(power_cost))
 		return FALSE
 	var/mob/living/victim = target
-	var/duration = list(8 SECONDS, 12 SECONDS, 16 SECONDS)[clamp(get_level(), 1, 3)]
+	var/duration = by_level(list(8 SECONDS, 12 SECONDS, 16 SECONDS))
 	victim.adjust_confusion(duration)
 	victim.adjust_slurring(duration)
 	victim.set_dizzy_if_lower(duration)
 	// A little burn and a fair amount of stamina damage, more with upgrades
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
-		var/level = clamp(get_level(), 1, 3)
+		var/level = get_level()
 		victim.apply_damage(list(3, 4, 5)[level], BURN)
 		victim.apply_damage(list(25, 30, 35)[level], STAMINA)
 	if(victim.client)
@@ -309,7 +309,7 @@
 	if(!arcfiend.spend_power(power_cost))
 		return FALSE
 
-	var/level = clamp(get_level(), 1, 3)
+	var/level = get_level()
 	var/damage = list(15, 20, 25)[level]
 	var/arcs_left = level
 	var/mob/living/victim = isliving(target) ? target : locate(/mob/living) in get_turf(target)
@@ -397,27 +397,27 @@
 
 /// How long the windup takes
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_windup()
-	return list(1.5 SECONDS, 1.25 SECONDS, 1 SECONDS)[clamp(get_level(), 1, 3)]
+	return by_level(list(1.5 SECONDS, 1.25 SECONDS, 1 SECONDS))
 
 /// How far people within 2 tiles are thrown
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_throw_distance()
-	return list(3, 4, 5)[clamp(get_level(), 1, 3)]
+	return by_level(list(3, 4, 5))
 
 /// How far away the burn, stamina damage and flash reach
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_outer_range()
-	return list(7, 8, 9)[clamp(get_level(), 1, 3)]
+	return by_level(list(7, 8, 9))
 
 /// The burn damage right next to the edge of the throwing range, before falloff
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_burn()
-	return list(4, 5, 6)[clamp(get_level(), 1, 3)]
+	return by_level(list(4, 5, 6))
 
 /// The stamina damage right next to the edge of the throwing range, before falloff
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_stamina()
-	return list(30, 40, 50)[clamp(get_level(), 1, 3)]
+	return by_level(list(30, 40, 50))
 
 /// How long it takes to recharge
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_recharge_time()
-	return list(30 SECONDS, 25 SECONDS, 20 SECONDS)[clamp(get_level(), 1, 3)]
+	return by_level(list(30 SECONDS, 25 SECONDS, 20 SECONDS))
 
 /// How much of the full effect someone this many tiles away gets. It never drops to nothing within range.
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_falloff(distance)
@@ -536,7 +536,7 @@
 
 /// How much harder the weapons we swing and our punches hit
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/get_hit_multiplier()
-	return list(1.2, 1.3, 1.4)[clamp(get_level(), 1, 3)]
+	return by_level(list(1.2, 1.3, 1.4))
 
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/apply_effect(mob/living/user)
 	RegisterSignal(user, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_item_attack))
@@ -591,7 +591,7 @@
 	if(!arcfiend.spend_power(hit_cost))
 		return
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), effect_icon, "smash_hit", 7)
-	var/level = clamp(get_level(), 1, 3)
+	var/level = get_level()
 	var/damage = list(8, 12, 16)[level]
 	shock(victim, damage, "[owner]'s electrified blow shocks you!")
 	if(!prob(list(25, 40, 55)[level]))
@@ -649,10 +649,10 @@
 	var/applied_speed_factor = 1
 
 /datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/get_upkeep()
-	return list(2, 1.5, 1)[clamp(get_level(), 1, 3)]
+	return by_level(list(2, 1.5, 1))
 
 /datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/apply_effect(mob/living/user)
-	var/level = clamp(get_level(), 1, 3)
+	var/level = get_level()
 	user.add_or_update_variable_actionspeed_modifier(/datum/actionspeed_modifier/arcfiend_stimulation, multiplicative_slowdown = -list(0.25, 0.35, 0.45)[level])
 	applied_speed_factor = list(0.8, 0.7, 0.6)[level]
 	user.next_move_modifier *= applied_speed_factor
@@ -704,7 +704,7 @@
 	effect_off_time = 5
 
 /datum/action/cooldown/arcfiend/toggle/jamming_field/get_upkeep()
-	return list(2, 1.5, 1)[clamp(get_level(), 1, 3)]
+	return by_level(list(2, 1.5, 1))
 
 /datum/action/cooldown/arcfiend/toggle/jamming_field/get_on_message(mob/living/user)
 	return "[user] is wrapped in a pulsing field of static!"
@@ -714,7 +714,7 @@
 
 /datum/action/cooldown/arcfiend/toggle/jamming_field/apply_effect(mob/living/user)
 	field = new(user)
-	field.range = list(6, 9, 12)[clamp(get_level(), 1, 3)]
+	field.range = by_level(list(6, 9, 12))
 	field.active = TRUE
 	GLOB.active_jammers |= field
 	add_glow(user, aura_name)
@@ -764,7 +764,7 @@
 	else if(isobj(target))
 		cost = 40
 	var/level = arcfiend.get_power_level(/datum/action/cooldown/arcfiend/electric_emag)
-	return round(cost * list(1, 0.75, 0.5)[clamp(level, 1, 3)])
+	return round(cost * by_level(list(1, 0.75, 0.5)))
 
 /obj/item/card/emag/arcfiend/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(SHOULD_SKIP_INTERACTION(interacting_with, src, user))
@@ -875,7 +875,7 @@
 	if(spent < power_cost || !arcfiend.spend_power(spent))
 		return FALSE
 	// 120 power buys a tile of radius, and upgrades make that go further
-	var/power_per_tile = 120 * (1 - 0.15 * (clamp(get_level(), 1, 3) - 1))
+	var/power_per_tile = 120 * (1 - 0.15 * (get_level() - 1))
 	var/heavy_range = clamp(round(spent / power_per_tile), 1, 7)
 	var/light_range = heavy_range + 2
 	owner.visible_message(span_danger("[owner] releases a thunderous electromagnetic pulse!"), span_notice("You release an electromagnetic pulse, spending [spent] power."))
@@ -929,7 +929,7 @@
 	// Anyone who is dead can be tried, whether or not there is a soul in them and whether or not it will work.
 	// You only find out why it didn't after the charge is spent, as your intuition tells you.
 
-	var/level = clamp(get_level(), 1, 3)
+	var/level = get_level()
 	user.visible_message(
 		span_danger("[user] grips [victim] as a huge charge begins to build between them!"),
 		span_notice("You gather a massive charge, ready to [lethal ? "stop [victim]'s heart" : "restart [victim]'s heart"]."),

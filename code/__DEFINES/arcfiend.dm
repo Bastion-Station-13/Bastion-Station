@@ -4,6 +4,9 @@
 /// How much nutrition an arcfiend gets for every unit of power they sap, up to being full but never fat
 #define ARCFIEND_NUTRITION_PER_POWER 0.25
 
+/// The highest upgrade level any power has. Level 1 is the base power.
+#define ARCFIEND_MAX_POWER_LEVEL 3
+
 /// How many charges the galvanic prod holds
 #define ARCFIEND_PROD_MAX_CHARGES 4
 /// How many charges a full zap with the galvanic prod takes. With fewer than that left the zap is weaker.

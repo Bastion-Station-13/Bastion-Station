@@ -134,11 +134,11 @@
 
 /// How many slugs the magazine holds
 /datum/action/cooldown/arcfiend/manifest_coilgun/proc/get_magazine_size()
-	return list(4, 5, 6)[clamp(get_level(), 1, 3)]
+	return by_level(list(4, 5, 6))
 
 /// How long it takes to rebuild one slug
 /datum/action/cooldown/arcfiend/manifest_coilgun/proc/get_slug_recharge_time()
-	return list(8 SECONDS, 6 SECONDS, 4 SECONDS)[clamp(get_level(), 1, 3)]
+	return by_level(list(8 SECONDS, 6 SECONDS, 4 SECONDS))
 
 /// The slugs in the magazine. The first time anyone asks, it is full.
 /datum/action/cooldown/arcfiend/manifest_coilgun/proc/get_magazine()
@@ -258,7 +258,7 @@
 	if(!arcfiend || !isliving(owner) || target == owner)
 		return FALSE
 	var/mob/living/user = owner
-	var/level = clamp(get_level(), 1, 3)
+	var/level = get_level()
 	var/tether_range = list(6, 8, 10)[level]
 	if(!can_see(user, target, tether_range))
 		user.balloon_alert(user, "can't reach that!")
@@ -512,11 +512,11 @@
 
 /// How many charges the magazine holds
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_magazine_size()
-	return list(3, 4, 5)[clamp(get_level(), 1, 3)]
+	return by_level(list(3, 4, 5))
 
 /// How long it takes to rebuild one charge
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_charge_recharge_time()
-	return list(10 SECONDS, 8 SECONDS, 6 SECONDS)[clamp(get_level(), 1, 3)]
+	return by_level(list(10 SECONDS, 8 SECONDS, 6 SECONDS))
 
 /// The charges in the magazine. The first time anyone asks, it is full.
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_magazine()
@@ -559,7 +559,7 @@
 
 /// How far the beam can be set to reach
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_max_range()
-	return list(4, 5, 6)[clamp(get_level(), 1, 3)]
+	return by_level(list(4, 5, 6))
 
 /// The range the beam is set to, never further than it can go
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_selected_range()
@@ -568,15 +568,15 @@
 
 /// The damage along the way
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_weak_damage()
-	return list(6, 8, 10)[clamp(get_level(), 1, 3)]
+	return by_level(list(6, 8, 10))
 
 /// The damage at exactly the end of the beam
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_power_damage()
-	return list(45, 60, 80)[clamp(get_level(), 1, 3)]
+	return by_level(list(45, 60, 80))
 
 /// The power a shot costs
 /datum/action/cooldown/arcfiend/lateral_laser/proc/get_shot_cost()
-	return list(30, 25, 20)[clamp(get_level(), 1, 3)]
+	return by_level(list(30, 25, 20))
 
 /// Goes to the next range, and back to the shortest after the longest
 /datum/action/cooldown/arcfiend/lateral_laser/proc/cycle_range(mob/user)
@@ -698,11 +698,11 @@
 
 /// How much power a full zap costs
 /datum/action/cooldown/arcfiend/shock_prod/proc/get_zap_cost()
-	return list(40, 32, 25)[clamp(get_level(), 1, 3)]
+	return by_level(list(40, 32, 25))
 
 /// How long it takes to bring back one charge
 /datum/action/cooldown/arcfiend/shock_prod/proc/get_charge_time()
-	return list(40 SECONDS, 30 SECONDS, 20 SECONDS)[clamp(get_level(), 1, 3)]
+	return by_level(list(40 SECONDS, 30 SECONDS, 20 SECONDS))
 
 /// The charges the prod has. The first time anyone asks, it is full.
 /datum/action/cooldown/arcfiend/shock_prod/proc/get_charges()
