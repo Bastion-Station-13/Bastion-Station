@@ -4,6 +4,13 @@
 /// How much nutrition an arcfiend gets for every unit of power they sap, up to being full but never fat
 #define ARCFIEND_NUTRITION_PER_POWER 0.25
 
+/// How many charges the galvanic prod holds
+#define ARCFIEND_PROD_MAX_CHARGES 4
+/// How many charges a full zap with the galvanic prod takes. With fewer than that left the zap is weaker.
+#define ARCFIEND_PROD_FULL_ZAP_CHARGES 2
+/// The pause between two zaps with the galvanic prod
+#define ARCFIEND_PROD_ZAP_DELAY (2 SECONDS)
+
 /// How much charge an ethereal loses for every unit of power an arcfiend drains out of them
 #define ARCFIEND_ETHEREAL_CHARGE_PER_POWER 0.5
 

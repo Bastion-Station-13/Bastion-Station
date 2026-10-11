@@ -376,8 +376,8 @@
 
 /atom/movable/screen/arcfiend_power
 	name = "power"
-	icon = 'icons/hud/screen_gen.dmi'
-	icon_state = "psi_counter"
+	icon = 'code/modules/antagonists/arcfiend/icons/arcfiend_hud.dmi'
+	icon_state = ""
 	screen_loc = ui_lingchemdisplay
 	invisibility = INVISIBILITY_ABSTRACT
 

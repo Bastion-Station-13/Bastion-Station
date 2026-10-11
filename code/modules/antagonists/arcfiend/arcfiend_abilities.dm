@@ -520,24 +520,16 @@
 /obj/effect/arcfiend_spark
 	name = "ball of lightning"
 	desc = "A ball of electricity racing through the wires."
-	icon = 'icons/obj/engine/energy_ball.dmi'
-	icon_state = "energy_ball"
+	icon = 'code/modules/antagonists/arcfiend/icons/arcfiend_effects.dmi'
+	icon_state = ""
 	anchored = TRUE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	plane = ABOVE_LIGHTING_PLANE
 	layer = FLY_LAYER
-	// The sprite is 64x64, so center it on the tile and shrink it down
-	pixel_x = -32
-	pixel_y = -32
-	color = "#ffe94d"
 	light_outer_range = 3
 	light_power = 1.5
 	light_color = "#ffe94d"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
-
-/obj/effect/arcfiend_spark/Initialize(mapload)
-	. = ..()
-	transform = transform.Scale(0.4, 0.4)
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning
 	name = "electric arc"

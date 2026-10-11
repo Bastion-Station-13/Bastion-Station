@@ -644,27 +644,62 @@
 
 /datum/action/cooldown/arcfiend/shock_prod
 	name = "Galvanic Prod"
-	desc = "Grow a prod from your arm. Growing it and putting it away is free. Left-click is a normal hit that burns for 15 and costs nothing. Right-click zaps like an emagged defibrillator: it drains stamina, knocks the target down and makes them drop what they hold. Zaps cost power, and the prod needs a few seconds to recharge between them."
+	desc = "Grow a prod from your arm. Growing it and putting it away is free. Left-click is a normal hit that burns for 15 and costs nothing. Right-click zaps like an emagged defibrillator: it drains stamina, knocks the target down and makes them drop what they hold. A full zap takes 2 of the prod's 4 charges and costs power. With only 1 charge left the zap is weaker and costs half as much. A charge comes back every 40 seconds, even while the prod is away."
 	button_icon_state = "lightning"
 	cooldown_time = 1 SECONDS
 	shop_tier = 1
 	unlock_cost = 0
 	upgrade_costs = list(200, 450)
 	upgrade_descriptions = list(
-		"Zaps cost less power, and the prod recharges in 4 seconds.",
-		"Zaps cost less power again, and the prod recharges in 3 seconds.",
+		"Zaps cost less power. A charge comes back every 30 seconds.",
+		"Zaps cost less power again. A charge comes back every 20 seconds.",
 	)
-	/// The time at which the prod is ready to zap again. This lives here and not on the prod, so putting it away doesn't reset it.
+	/// The time at which the prod can zap again. This only stops zaps being spammed. This lives here and not on the prod, so putting it away doesn't reset it.
 	var/prod_ready_time = 0
+	/// The charges the prod has right now. It starts out full, see get_charges().
+	var/zap_charges
+	/// The timer that brings back the next charge, while the prod isn't full
+	var/charge_timer
 
-/// How much power a zap costs
+
+/// How much power a full zap costs
 /datum/action/cooldown/arcfiend/shock_prod/proc/get_zap_cost()
 	return list(40, 32, 25)[clamp(get_level(), 1, 3)]
 
-/// How long the prod takes to recharge after a zap. The same as a defibrillator unit.
-/datum/action/cooldown/arcfiend/shock_prod/proc/get_zap_cooldown()
-	return list(5 SECONDS, 4 SECONDS, 3 SECONDS)[clamp(get_level(), 1, 3)]
+/// How long it takes to bring back one charge
+/datum/action/cooldown/arcfiend/shock_prod/proc/get_charge_time()
+	return list(40 SECONDS, 30 SECONDS, 20 SECONDS)[clamp(get_level(), 1, 3)]
 
+/// The charges the prod has. The first time anyone asks, it is full.
+/datum/action/cooldown/arcfiend/shock_prod/proc/get_charges()
+	if(isnull(zap_charges))
+		zap_charges = ARCFIEND_PROD_MAX_CHARGES
+	return zap_charges
+
+/// Starts bringing back a charge, if the prod isn't full and one isn't coming back already
+/datum/action/cooldown/arcfiend/shock_prod/proc/start_charge_timer()
+	if(charge_timer || get_charges() >= ARCFIEND_PROD_MAX_CHARGES)
+		return
+	charge_timer = addtimer(CALLBACK(src, PROC_REF(charge_recharged)), get_charge_time(), TIMER_STOPPABLE)
+
+/// A charge has come back
+/datum/action/cooldown/arcfiend/shock_prod/proc/charge_recharged()
+	charge_timer = null
+	zap_charges = min(get_charges() + 1, ARCFIEND_PROD_MAX_CHARGES)
+	if(owner && (locate(/obj/item/melee/arcfiend_prod) in owner.held_items))
+		owner.balloon_alert(owner, "prod charged ([zap_charges]/[ARCFIEND_PROD_MAX_CHARGES])")
+		playsound(owner, 'sound/machines/defib_ready.ogg', 30, TRUE)
+	start_charge_timer()
+
+/// A faster recharge applies to the next charge, and the prod may have room for one now
+/datum/action/cooldown/arcfiend/shock_prod/on_upgraded()
+	start_charge_timer()
+
+/datum/action/cooldown/arcfiend/shock_prod/Destroy()
+	if(charge_timer)
+		deltimer(charge_timer)
+		charge_timer = null
+	return ..()
 /datum/action/cooldown/arcfiend/shock_prod/Remove(mob/remove_from)
 	if(remove_from)
 		put_away(remove_from)
@@ -713,16 +748,20 @@
 	StartCooldown()
 	return TRUE
 
-/// Zaps someone with the prod. Returns TRUE if they were zapped.
+/// Zaps someone with the prod. A full zap takes 2 charges, and with only 1 left the zap is weaker and costs half. Returns TRUE if they were zapped.
 /datum/action/cooldown/arcfiend/shock_prod/proc/try_zap(mob/living/target, mob/living/user, obj/item/melee/arcfiend_prod/prod)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
 	if(!arcfiend || !istype(target) || target == user)
 		return FALSE
 	if(prod_ready_time > world.time)
-		user.balloon_alert(user, "recharging!")
-		to_chat(user, span_warning("[prod] is still recharging. Give it another [round((prod_ready_time - world.time) / 10, 0.1)] seconds."))
 		return FALSE
-	var/cost = get_zap_cost()
+	var/charges_used = min(get_charges(), ARCFIEND_PROD_FULL_ZAP_CHARGES)
+	if(charges_used < 1)
+		user.balloon_alert(user, "no charge!")
+		to_chat(user, span_warning("[prod] has no charge left. Another comes back in time."))
+		return FALSE
+	var/full_zap = charges_used >= ARCFIEND_PROD_FULL_ZAP_CHARGES
+	var/cost = full_zap ? get_zap_cost() : round(get_zap_cost() / 2)
 	if(!arcfiend.has_power(cost))
 		user.balloon_alert(user, "need [cost] power!")
 		return FALSE
@@ -731,29 +770,33 @@
 		return FALSE
 
 	arcfiend.spend_power(cost)
-	var/recharge_time = get_zap_cooldown()
-	prod_ready_time = world.time + recharge_time
-	addtimer(CALLBACK(src, PROC_REF(announce_ready)), recharge_time)
+	zap_charges = get_charges() - charges_used
+	prod_ready_time = world.time + ARCFIEND_PROD_ZAP_DELAY
+	start_charge_timer()
+	user.balloon_alert(user, "[zap_charges]/[ARCFIEND_PROD_MAX_CHARGES] charges left")
 
-	// The same effect as the right-click of an emagged defibrillator
-	target.visible_message(
-		span_danger("[user] touches [target] with [prod]!"),
-		span_userdanger("[user] touches you with [prod], and a huge jolt of electricity floods through your body!"),
-	)
-	target.stamina.adjust(-80)
-	target.Knockdown(75)
-	target.set_jitter_if_lower(100 SECONDS)
-	target.apply_status_effect(/datum/status_effect/convulsing)
-	playsound(user, 'sound/machines/defib_zap.ogg', 50, TRUE, -1)
+	if(full_zap)
+		// The same effect as the right-click of an emagged defibrillator
+		target.visible_message(
+			span_danger("[user] touches [target] with [prod]!"),
+			span_userdanger("[user] touches you with [prod], and a huge jolt of electricity floods through your body!"),
+		)
+		target.stamina.adjust(-80)
+		target.Knockdown(75)
+		target.set_jitter_if_lower(100 SECONDS)
+		target.apply_status_effect(/datum/status_effect/convulsing)
+	else
+		// All that is left is a weak jolt: it hurts and trips them, but doesn't make them drop things
+		target.visible_message(
+			span_danger("[user] touches [target] with [prod], and a weak jolt runs through them!"),
+			span_userdanger("[user] touches you with [prod], and a jolt of electricity runs through your body!"),
+		)
+		target.stamina.adjust(-35)
+		target.Knockdown(25)
+		target.set_jitter_if_lower(10 SECONDS)
+	playsound(user, 'sound/machines/defib_zap.ogg', full_zap ? 50 : 30, TRUE, -1)
 	do_sparks(2, FALSE, target)
 	if(target.mob_biotypes & MOB_ORGANIC)
 		target.emote("gasp")
-	log_combat(user, target, "zapped", prod)
+	log_combat(user, target, full_zap ? "zapped" : "weakly zapped", prod)
 	return TRUE
-
-/// Tells the arcfiend that the prod can zap again
-/datum/action/cooldown/arcfiend/shock_prod/proc/announce_ready()
-	if(!owner || !(locate(/obj/item/melee/arcfiend_prod) in owner.held_items))
-		return
-	to_chat(owner, span_notice("Your galvanic prod finishes recharging."))
-	playsound(owner, 'sound/machines/defib_ready.ogg', 30, TRUE)

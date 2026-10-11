@@ -397,7 +397,7 @@
 
 /// The burst itself
 /datum/action/cooldown/arcfiend/thunderclap/proc/burst(mob/living/user)
-	new /obj/effect/temp_visual/emp/pulse(get_turf(user))
+	new /obj/effect/temp_visual/arcfiend_thunderclap(get_turf(user), get_outer_range())
 	do_sparks(6, FALSE, user)
 	playsound(user, 'sound/magic/lightningshock.ogg', 100, TRUE, extrarange = 15)
 	user.flash_lighting_fx(7, 5, "#ffe94d", 1 SECONDS)
@@ -431,6 +431,24 @@
 		victim.throw_at(away, get_throw_distance(), 2, user, spin = FALSE)
 
 #undef ARCFIEND_THUNDERCLAP_GLOW
+
+/// The ring of lightning that spreads out from an arcfiend when Thunderclap goes off. The sprite is 160x160 and is scaled up to the range of the burst.
+/obj/effect/temp_visual/arcfiend_thunderclap
+	icon = 'code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_160.dmi'
+	icon_state = "thunderclap_release"
+	duration = 1 SECONDS // The frames add up to this
+	randomdir = FALSE
+	plane = ABOVE_LIGHTING_PLANE
+	layer = FLY_LAYER
+	// Centers the 160x160 sprite on the tile
+	pixel_x = -64
+	pixel_y = -64
+
+/obj/effect/temp_visual/arcfiend_thunderclap/Initialize(mapload, outer_range = 7)
+	. = ..()
+	// The ring is about 150 pixels across, and should reach the edge of the burst
+	var/ring_scale = (outer_range * 2 * 32) / 150
+	transform = transform.Scale(ring_scale, ring_scale)
 
 //////////////////////////////////////////////////////////////////////////
 //---------------------------Electrokinetic Smash-----------------------//
