@@ -6769,11 +6769,6 @@
 /obj/item/toy/figure/scientist,
 /turf/open/floor/iron,
 /area/station/science/lab)
-"bBY" = (
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
-/obj/effect/spawner/random/structure/crate,
-/turf/open/floor/plating,
-/area/station/maintenance/starboard/fore)
 "bCb" = (
 /obj/machinery/growing/tray,
 /obj/effect/turf_decal/tile/blue{
@@ -14445,6 +14440,7 @@
 /obj/effect/spawner/random/trash/soap,
 /turf/open/floor/plating,
 /area/station/medical/abandoned)
+<<<<<<< HEAD
 "dsM" = (
 /obj/structure/table/glass,
 /obj/item/storage/backpack/duffelbag/med/surgery,
@@ -14454,6 +14450,8 @@
 /obj/item/clothing/suit/apron/surgical,
 /turf/open/floor/iron/dark,
 /area/station/medical/surgery/theatre)
+=======
+>>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "dsN" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -17243,6 +17241,19 @@
 /obj/structure/rack,
 /turf/open/floor/iron/dark,
 /area/station/engineering/supermatter/room)
+"eaS" = (
+/obj/item/surgery_tray,
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 5
+	},
+/obj/structure/table/reinforced/rglass,
+/obj/structure/window/reinforced/spawner/directional/east,
+/obj/effect/turf_decal/siding/thinplating/dark{
+	dir = 4
+	},
+/obj/item/autopsy_scanner,
+/turf/open/floor/iron/dark,
+/area/station/medical/morgue)
 "ebb" = (
 /obj/structure/chair{
 	dir = 4
@@ -22553,6 +22564,7 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
+<<<<<<< HEAD
 "fno" = (
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/effect/turf_decal/trimline/blue/filled/line{
@@ -22566,6 +22578,8 @@
 /obj/item/autopsy_scanner,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
+=======
+>>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "fnx" = (
 /obj/effect/landmark/secequipment,
 /obj/effect/turf_decal/bot,
@@ -35676,6 +35690,11 @@
 /obj/effect/turf_decal/trimline/neutral/filled/corner,
 /turf/open/floor/iron,
 /area/station/commons/fitness/recreation)
+"ipd" = (
+/obj/effect/decal/cleanable/blood/splatter/oil,
+/obj/effect/spawner/random/structure/crate,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/fore)
 "ipg" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -47347,6 +47366,15 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
+"lbe" = (
+/obj/structure/table/glass,
+/obj/item/surgery_tray,
+/obj/structure/window/reinforced/spawner/directional/west,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/item/clothing/gloves/latex,
+/obj/item/clothing/suit/apron/surgical,
+/turf/open/floor/iron/dark,
+/area/station/medical/surgery/theatre)
 "lbi" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/transit_tube/curved/flipped{
@@ -70840,6 +70868,14 @@
 /obj/machinery/space_heater,
 /turf/open/floor/iron/textured_large,
 /area/station/engineering/atmos/project)
+"qHK" = (
+/obj/structure/table/glass,
+/obj/item/surgery_tray,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/item/clothing/gloves/latex,
+/obj/item/clothing/suit/apron/surgical,
+/turf/open/floor/iron/dark,
+/area/station/medical/surgery/theatre)
 "qHL" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/stripes/line,
@@ -82120,6 +82156,7 @@
 /obj/item/t_scanner,
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos)
+<<<<<<< HEAD
 "tsx" = (
 /obj/structure/table/glass,
 /obj/item/storage/backpack/duffelbag/med/surgery,
@@ -82128,6 +82165,8 @@
 /obj/item/clothing/suit/apron/surgical,
 /turf/open/floor/iron/dark,
 /area/station/medical/surgery/theatre)
+=======
+>>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "tsz" = (
 /turf/open/floor/plating,
 /area/station/service/abandoned_gambling_den/gaming)
@@ -142110,7 +142149,7 @@ vdU
 iGr
 dBn
 qYL
-fno
+eaS
 nRX
 pdL
 bPe
@@ -143133,10 +143172,10 @@ pdl
 fOJ
 kuU
 tOS
-tsx
+qHK
 jqJ
 jqJ
-dsM
+lbe
 qYL
 uwZ
 aiF
@@ -146653,7 +146692,7 @@ bGT
 tpZ
 oKC
 pgT
-bBY
+ipd
 tpZ
 lDY
 tpZ
