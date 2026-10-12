@@ -12,6 +12,8 @@
 	hud_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_antag_hud.dmi'
 	antag_hud_name = "arcfiend"
 	show_to_ghosts = TRUE
+	// Plays for whoever is made an arcfiend, when the greeting is shown
+	stinger_sound = ARCFIEND_SOUND_STINGER
 
 	/// Power currently stored. Spent on both abilities and upgrades.
 	var/power = 0

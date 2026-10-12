@@ -70,6 +70,7 @@
 #define ARCFIEND_EMP_LIGHT_POWER_LOSS 0.1
 
 // The sounds of the arcfiend powers. Anything missing here has no sound of its own and uses a stock one.
+#define ARCFIEND_SOUND_STINGER 'monkestation/code/modules/antagonists/arcfiend/sound/arcfiend_stinger.ogg'
 #define ARCFIEND_SOUND_TOGGLE_ON 'monkestation/code/modules/antagonists/arcfiend/sound/toggle_on.ogg'
 #define ARCFIEND_SOUND_TOGGLE_OFF 'monkestation/code/modules/antagonists/arcfiend/sound/toggle_off.ogg'
 #define ARCFIEND_SOUND_ITEM_GROW 'monkestation/code/modules/antagonists/arcfiend/sound/item_grow.ogg'
