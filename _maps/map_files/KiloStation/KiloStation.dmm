@@ -2843,6 +2843,7 @@
 	icon_state = "plant-10"
 	},
 /obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/warden)
 "aSr" = (
@@ -3138,6 +3139,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
 "aYh" = (
@@ -7862,7 +7864,6 @@
 	pixel_x = 6;
 	pixel_y = 1
 	},
-/obj/structure/sign/warning/electric_shock/directional/south,
 /obj/effect/turf_decal/siding/red/corner{
 	dir = 4
 	},
@@ -7871,6 +7872,7 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 1
 	},
+/obj/structure/sign/warning/no_smoking/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/security/lockers)
 "csW" = (
@@ -35693,6 +35695,12 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
+"kXZ" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
+/turf/open/floor/iron/showroomfloor,
+/area/station/security/warden)
 "kYa" = (
 /obj/effect/landmark/event_spawn,
 /obj/effect/landmark/start/hangover,
@@ -42760,6 +42768,10 @@
 "nkN" = (
 /turf/closed/wall/r_wall,
 /area/station/science/ordnance/bomb)
+"nkV" = (
+/obj/structure/sign/warning/vacuum,
+/turf/closed/wall/r_wall,
+/area/station/ai_monitored/security/armory)
 "nlp" = (
 /obj/structure/flora/bush/flowers_yw/style_random,
 /turf/open/floor/grass,
@@ -44485,6 +44497,7 @@
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
 "nLT" = (
@@ -62878,6 +62891,7 @@
 /obj/effect/turf_decal/bot,
 /obj/structure/filingcabinet/chestdrawer,
 /obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/structure/sign/warning/electric_shock/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/security/warden)
 "tEE" = (
@@ -66076,6 +66090,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/warden)
 "uGh" = (
@@ -69410,6 +69425,7 @@
 "vGw" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
 "vGA" = (
@@ -77533,6 +77549,11 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/space/nearstation)
+"yfs" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
+/turf/open/floor/iron/showroomfloor,
+/area/station/security/warden)
 "yfx" = (
 /obj/structure/sign/departments/medbay/alt,
 /turf/closed/wall/r_wall,
@@ -100290,7 +100311,7 @@ aka
 aka
 aka
 aka
-nVx
+nkV
 cok
 pdf
 qJs
@@ -102590,9 +102611,9 @@ eih
 kDO
 lfg
 lfg
-vvs
-vvs
-vvs
+xRu
+xRu
+xRu
 lfg
 aYf
 rDL
@@ -102852,10 +102873,10 @@ ket
 nLR
 uGe
 vGw
-snp
-qJP
+kXZ
+yfs
 aSb
-vvs
+xRu
 aaa
 aaa
 acm
