@@ -1,4 +1,4 @@
-/obj/item/robot_model/syndicate/compact
+/obj/item/robot_model/syndicate_compact
 	name = "Syndicate Compact"
 	hud_icon_state = "malf"
 	default_skin = /datum/robot_skin/syndicate_compact/default
@@ -38,7 +38,7 @@
 	)
 	traits = list(TRAIT_PUSHIMMUNE, TRAIT_NEGATES_GRAVITY, TRAIT_KNOW_ENGI_WIRES, TRAIT_KNOW_ROBO_WIRES, TRAIT_CAN_CLIMB_DISPOSALS)
 
-/obj/item/robot_model/syndicate/compact/Initialize(mapload)
+/obj/item/robot_model/syndicate_compact/Initialize(mapload)
 	. = ..()
 	if(!cyborg_owner)
 		return

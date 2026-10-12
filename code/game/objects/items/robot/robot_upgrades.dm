@@ -349,7 +349,7 @@
 	require_model = TRUE
 	model_type = list(
 		/obj/item/robot_model/medical,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_MEDICAL
 	var/list/additional_reagents = list()
@@ -451,7 +451,7 @@
 	model_type = list(
 		/obj/item/robot_model/medical,
 		/obj/item/robot_model/syndicate/medical,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_MEDICAL
 	/// Action that looks for nearby objects to load new surgeries from.
@@ -607,7 +607,7 @@
 		/obj/item/robot_model/engineering,
 		/obj/item/robot_model/science,
 		/obj/item/robot_model/syndicate/saboteur,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_ENGINEERING
 
@@ -660,7 +660,7 @@
 	model_type = list(
 		/obj/item/robot_model/medical,
 		/obj/item/robot_model/syndicate/medical,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_MEDICAL
 	items_to_add = list(/obj/item/pinpointer/crew)
@@ -720,7 +720,7 @@
 	model_type = list(
 		/obj/item/robot_model/engineering,
 		/obj/item/robot_model/syndicate/saboteur,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_ENGINEERING
 	items_to_add = list(/obj/item/borg/apparatus/sheet_manipulator/extra)
@@ -742,7 +742,7 @@
 	model_type = list(
 		/obj/item/robot_model/engineering,
 		/obj/item/robot_model/syndicate/saboteur,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	) // Engineering-exclusive. Do not give this to science cyborgs.
 	model_flags = BORG_MODEL_ENGINEERING
 
@@ -777,7 +777,7 @@
 		/obj/item/robot_model/engineering,
 		/obj/item/robot_model/science,
 		/obj/item/robot_model/syndicate/saboteur,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_ENGINEERING
 
@@ -1084,7 +1084,7 @@
 	model_type = list(
 		/obj/item/robot_model/medical,
 		/obj/item/robot_model/syndicate/medical,
-		/obj/item/robot_model/syndicate/compact,
+		/obj/item/robot_model/syndicate_compact,
 	)
 	model_flags = BORG_MODEL_MEDICAL
 	/// The typepath of the syringe to copy.
@@ -1256,7 +1256,7 @@
 	name = "borg module picker (Syndicate Compact)"
 	desc = "Allows you to to turn a jailbroken cyborg into an experimental syndicate cyborg."
 	icon_state = "module_illegal"
-	new_model = /obj/item/robot_model/syndicate/compact
+	new_model = /obj/item/robot_model/syndicate_compact
 
 /obj/item/borg/upgrade/transform/syndicate_compact/action(mob/living/silicon/robot/borg, user)
 	if(!borg.emagged)
@@ -1271,7 +1271,7 @@
 	. = ..()
 	if(!.)
 		return
-	borg.scrambledcodes = FALSE
+	borg.scrambledcodes = initial(borg.scrambledcodes)
 	if(!QDELETED(borg.builtInCamera))
 		return
 	borg.builtInCamera = new(borg)
