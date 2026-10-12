@@ -1,0 +1,4 @@
+author: "Mantlecrawler"
+delete-after: True
+changes:
+  - admin: "Cassettes are now limited to 7 songs and cannot be flipped to a second side."
