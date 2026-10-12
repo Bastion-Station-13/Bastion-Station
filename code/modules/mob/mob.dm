@@ -881,7 +881,10 @@ GAME_VERB_NATIVE(/mob, DisDblClick, ".dblclick", null, argu = null as anything, 
 
 	if (persistent_client)
 		if (stat == DEAD && !persistent_client.has_observed && !isnewplayer(src))
-			. += "Respawn Timer: [floor(COOLDOWN_TIMELEFT(src.persistent_client, respawn_timer) / 10)] seconds remain."
+			if(COOLDOWN_FINISHED(src.persistent_client, respawn_timer))
+				. += list(list("Respawn Timer: ", "(RESPAWN)", "action=pressRespawn"))
+			else
+				. += "Respawn Timer: [floor(COOLDOWN_TIMELEFT(src.persistent_client, respawn_timer) / 10)] seconds remain."
 	return
 
 /**
