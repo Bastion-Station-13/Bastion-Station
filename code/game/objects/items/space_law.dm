@@ -110,13 +110,8 @@
 		law_stun(target, 1)
 		to_chat(target, span_cultlarge(law))
 	else
-		user.visible_message(span_warning("\The [src]'s immense power has deflected back from [target] into [user]!"), span_cultlarge("WRONG JUDGEMENT"))
-		target.visible_message(span_danger("[target] looks guilty!"), span_cultlarge(law))
+		target.visible_message(span_danger("[target] looks very guilty!"), span_cultlarge(law))
 		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
-		target.playsound_local(user, 'sound/items/gavel.ogg', 100, TRUE)
-		user.emote("scream")
-		user.dropItemToGround(src)
-		law_stun(user, 2)
 		law_stun(target, 2)
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
 
