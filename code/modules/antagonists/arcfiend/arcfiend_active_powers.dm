@@ -117,7 +117,7 @@
 	if(on_message)
 		owner.visible_message(span_warning(on_message), ignored_mobs = list(owner))
 	do_sparks(2, FALSE, owner)
-	playsound(owner, SFX_SPARKS, 30, TRUE)
+	playsound(owner, ARCFIEND_SOUND_TOGGLE_ON, 30, TRUE)
 	apply_effect(owner)
 	upkeep_timer = addtimer(CALLBACK(src, PROC_REF(upkeep_tick)), 1 SECONDS, TIMER_LOOP | TIMER_STOPPABLE)
 	build_all_button_icons(UPDATE_BUTTON_STATUS | UPDATE_BUTTON_ICON)
@@ -129,6 +129,7 @@
 	if(owner)
 		owner.balloon_alert(owner, "[name] off")
 		to_chat(owner, span_notice("You switch off [name]."))
+		playsound(owner, ARCFIEND_SOUND_TOGGLE_OFF, 30, TRUE)
 		var/off_message = get_off_message(owner)
 		if(off_message)
 			owner.visible_message(span_notice(off_message), ignored_mobs = list(owner))
@@ -264,7 +265,7 @@
 	if(victim.client)
 		shake_camera(victim, duration, 3)
 	do_sparks(2, FALSE, victim)
-	playsound(victim, SFX_SPARKS, 60, TRUE)
+	playsound(victim, ARCFIEND_SOUND_BRAIN_SCRAMBLE, 60, TRUE)
 	owner.visible_message(
 		span_danger("[owner] touches [victim], and [victim.p_their()] whole body jolts with static!"),
 		span_notice("You scramble [victim]'s nerves."),
@@ -316,7 +317,7 @@
 	if(victim == owner)
 		victim = null
 
-	playsound(owner, 'sound/magic/lightningbolt.ogg', 50, TRUE)
+	playsound(owner, ARCFIEND_SOUND_ARC_DISCHARGE, 50, TRUE)
 	owner.Beam(victim || target, icon_state = "lightning[rand(1, 12)]", time = 5)
 	owner.visible_message(
 		span_danger("[owner] flings a bolt of lightning at [victim || target]!"),
@@ -434,7 +435,7 @@
 		span_notice("You gather the charge in your body. Anyone close will be thrown, and everyone nearby will feel it."),
 	)
 	user.balloon_alert_to_viewers("charging!")
-	playsound(user, 'sound/magic/lightning_chargeup.ogg', 80, TRUE, extrarange = 8)
+	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_WINDUP, 80, TRUE, extrarange = 8)
 	add_visual(user, "charge", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap.dmi', "thunderclap_charge")
 	// Moving doesn't interrupt it, being stunned or knocked out does
 	var/finished = do_after(user, get_windup(), progress = FALSE, timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_thunderclap")
@@ -453,7 +454,7 @@
 /datum/action/cooldown/arcfiend/thunderclap/proc/burst(mob/living/user)
 	new /obj/effect/temp_visual/arcfiend_thunderclap(get_turf(user), get_outer_range())
 	do_sparks(6, FALSE, user)
-	playsound(user, 'sound/magic/lightningshock.ogg', 100, TRUE, extrarange = 15)
+	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_BOOM, 100, TRUE, extrarange = 15)
 	user.flash_lighting_fx(7, 5, "#ffe94d", 1 SECONDS)
 	user.visible_message(span_danger("[user] releases a burst of electricity!"), span_notice("You release the charge."))
 	var/outer_range = get_outer_range()
@@ -618,7 +619,7 @@
 		return
 	victim.apply_damage(damage, BURN, spread_damage = TRUE)
 	do_sparks(2, FALSE, victim)
-	playsound(victim, SFX_SPARKS, 40, TRUE)
+	playsound(victim, ARCFIEND_SOUND_SMASH_HIT, 40, TRUE)
 	to_chat(victim, span_userdanger(victim_message))
 
 //////////////////////////////////////////////////////////////////////////
@@ -818,7 +819,7 @@
 /datum/action/cooldown/arcfiend/electric_emag/proc/dismiss(mob/living/user)
 	if(!put_away(user))
 		return FALSE
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
 	user.visible_message(span_notice("[user]'s electric emag crumbles away."), span_notice("You let the electric emag crumble away."))
 	StartCooldown()
 	return TRUE
@@ -835,14 +836,13 @@
 	var/mob/living/user = owner
 	if(dismiss(user))
 		return TRUE
-	var/obj/item/held = user.get_active_held_item()
-	if(held && !user.dropItemToGround(held))
-		user.balloon_alert(user, "hand occupied!")
+	if(!free_active_hand(user))
 		return FALSE
 	var/obj/item/card/emag/arcfiend/emag = new(user)
-	user.put_in_hands(emag)
+	if(!give_item(user, emag))
+		return FALSE
 	do_sparks(2, FALSE, user)
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
 	user.visible_message(span_warning("A card of crackling biometal grows out of [user]'s hand!"), span_notice("You grow an electric emag."))
 	StartCooldown()
 	return TRUE
@@ -879,7 +879,7 @@
 	var/heavy_range = clamp(round(spent / power_per_tile), 1, 7)
 	var/light_range = heavy_range + 2
 	owner.visible_message(span_danger("[owner] releases a thunderous electromagnetic pulse!"), span_notice("You release an electromagnetic pulse, spending [spent] power."))
-	playsound(owner, 'sound/magic/lightningshock.ogg', 70, TRUE)
+	playsound(owner, ARCFIEND_SOUND_EMP_BURST, 70, TRUE)
 	// Our own pulse never hurts us, but it does hurt anyone else, including other arcfiends
 	arcfiend.emitting_emp = TRUE
 	empulse(get_turf(owner), heavy_range, light_range, TRUE)
@@ -934,7 +934,7 @@
 		span_danger("[user] grips [victim] as a huge charge begins to build between them!"),
 		span_notice("You gather a massive charge, ready to [lethal ? "stop [victim]'s heart" : "restart [victim]'s heart"]."),
 	)
-	playsound(user, 'sound/magic/lightning_chargeup.ogg', 60, TRUE)
+	playsound(user, ARCFIEND_SOUND_JOLT_WINDUP, 60, TRUE)
 	var/datum/callback/still_valid = CALLBACK(src, PROC_REF(still_valid), victim, lethal)
 	if(!do_after(user, list(6 SECONDS, 5 SECONDS, 4 SECONDS)[level], victim, extra_checks = still_valid))
 		user.balloon_alert(user, "interrupted!")
@@ -943,7 +943,7 @@
 		return FALSE
 
 	do_sparks(5, FALSE, victim)
-	playsound(victim, 'sound/magic/lightningshock.ogg', 70, TRUE)
+	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
 	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
 	if(lethal)
 		stop_heart(victim, list(40, 50, 60)[level])

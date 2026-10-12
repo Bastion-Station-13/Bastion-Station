@@ -47,10 +47,6 @@
 
 	/// Set while we are casting our own EMP, so that it doesn't hurt us
 	var/emitting_emp = FALSE
-	/// Multiplier to burn damage taken, a small natural resistance
-	var/burn_resistance = 0.85
-	/// Multiplier to stamina damage taken, a small natural resistance to batons and the like
-	var/stamina_resistance = 0.85
 
 /datum/antagonist/arcfiend/New(give_objectives = TRUE)
 	. = ..()
@@ -108,15 +104,11 @@
 	current_mob.add_traits(list(TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.show_to(current_mob)
-	// A small resistance to burns and stamina damage
-	if(ishuman(current_mob))
-		var/mob/living/carbon/human/human_mob = current_mob
-		human_mob.physiology.burn_mod *= burn_resistance
-		human_mob.physiology.stamina_mod *= stamina_resistance
 	// We act as a faraday cage for everything we carry, but not for ourselves
 	RegisterSignal(current_mob, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
 	// Pressing the drop key dispels the things we grow, instead of trying to drop them
 	RegisterSignal(current_mob, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(on_drop_key))
+	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))
 
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.SetInvisibility(INVISIBILITY_NONE, id = type)
@@ -133,11 +125,7 @@
 	current_mob.remove_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE, TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD, TRAIT_HEART_ATTACK_IMMUNE), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.hide_from(current_mob)
-	if(ishuman(current_mob))
-		var/mob/living/carbon/human/human_mob = current_mob
-		human_mob.physiology.burn_mod /= burn_resistance
-		human_mob.physiology.stamina_mod /= stamina_resistance
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH))
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.RemoveInvisibility(type)
 		current_mob.hud_used.arcfiend_counter.maptext = ""
@@ -293,6 +281,13 @@
 		spend_power(power_lost)
 	to_chat(source, span_userdanger("An electromagnetic pulse sears through your body[power_lost > 0 ? ", scattering [power_lost] of your stored power" : ""]!"))
 	return EMP_PROTECT_CONTENTS | EMP_PROTECT_WIRES
+
+/// Signal proc for COMSIG_LIVING_DEATH. Whatever the arcfiend had grown out of their hands crumbles away, so a body isn't left holding it.
+/datum/antagonist/arcfiend/proc/on_owner_death(mob/living/source, gibbed)
+	SIGNAL_HANDLER
+	for(var/obj/item/held in source.held_items)
+		if(is_arcfiend_item(held))
+			source.temporarilyRemoveItemFromInventory(held, TRUE) // DROPDEL deletes it
 
 /// Signal proc for COMSIG_KB_MOB_DROPITEM_DOWN. Returning COMSIG_KB_ACTIVATED stops the item from being dropped.
 /datum/antagonist/arcfiend/proc/on_drop_key(mob/living/source)

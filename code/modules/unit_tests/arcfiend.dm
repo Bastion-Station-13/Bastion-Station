@@ -97,8 +97,8 @@
 	TEST_ASSERT(HAS_TRAIT(user, TRAIT_DIAGNOSTIC_HUD), "An arcfiend should have the diagnostic HUD trait")
 	TEST_ASSERT_EQUAL(user.electrocute_act(50, "test shock"), FALSE, "An arcfiend should not take electric shocks")
 	TEST_ASSERT_EQUAL(user.getFireLoss(), 0, "An arcfiend that was shocked shouldn't be burned")
-	TEST_ASSERT(user.physiology.burn_mod < 1, "An arcfiend should resist burns a little")
-	TEST_ASSERT(user.physiology.stamina_mod < 1, "An arcfiend should resist stamina damage a little")
+	TEST_ASSERT_EQUAL(user.physiology.burn_mod, 1, "An arcfiend should take burn damage like anyone else")
+	TEST_ASSERT_EQUAL(user.physiology.stamina_mod, 1, "An arcfiend should take stamina damage like anyone else")
 	TEST_ASSERT_EQUAL(user.physiology.brute_mod, 1, "An arcfiend should not resist brute damage")
 
 	for(var/power_type in list(/datum/action/cooldown/arcfiend/sap_power, /datum/action/cooldown/arcfiend/ride_lightning, /datum/action/cooldown/arcfiend/charge, /datum/action/cooldown/arcfiend/shock_prod))
@@ -672,12 +672,12 @@
 	TEST_ASSERT(victim.IsKnockdown(), "A zap should knock the victim down")
 	TEST_ASSERT(victim.has_status_effect(/datum/status_effect/convulsing), "A zap should make the victim's hands shake")
 	TEST_ASSERT_EQUAL(antag.power, 500 - 40, "A zap should cost 40 power")
-	TEST_ASSERT_EQUAL(prod_action.get_charges(), 2, "A full zap should take 2 of the 4 charges")
+	TEST_ASSERT_EQUAL(prod_action.get_charges(), 3, "A zap should take one of the 4 charges")
 
 	// There is a short pause between zaps, and a failed zap costs nothing
 	TEST_ASSERT(!prod_action.try_zap(victim, user, prod), "The prod should be recharging")
 	TEST_ASSERT_EQUAL(antag.power, 460, "A zap that was refused should be free")
-	TEST_ASSERT_EQUAL(prod_action.get_charges(), 2, "A zap that was refused should keep its charges")
+	TEST_ASSERT_EQUAL(prod_action.get_charges(), 3, "A zap that was refused should keep its charges")
 	// Putting it away and growing it again doesn't reset the recharge
 	TEST_ASSERT(prod_action.dismiss(user), "Could not dismiss the prod")
 	prod_action.next_use_time = 0
@@ -696,25 +696,27 @@
 	TEST_ASSERT_EQUAL(antag.power, 500, "Zapping someone shock immune should be free")
 	TEST_ASSERT(!prod_action.try_zap(user, user, prod), "The prod should not zap its owner")
 
-	// A second full zap uses the rest of the charges, then there are none left
-	prod_action.prod_ready_time = 0
-	var/mob/living/carbon/human/second_victim = allocate(/mob/living/carbon/human/consistent)
-	TEST_ASSERT(prod_action.try_zap(second_victim, user, prod), "A second full zap should work")
-	TEST_ASSERT_EQUAL(prod_action.get_charges(), 0, "Two full zaps should empty the prod")
-	TEST_ASSERT_EQUAL(antag.power, 500 - 40, "The second zap should cost 40 power too")
+	// Each zap takes one charge and costs the same, until the prod is empty
+	for(var/zap in 1 to 3)
+		prod_action.prod_ready_time = 0
+		var/mob/living/carbon/human/next_victim = allocate(/mob/living/carbon/human/consistent)
+		TEST_ASSERT(prod_action.try_zap(next_victim, user, prod), "Zap [zap + 1] should work")
+		TEST_ASSERT(next_victim.has_status_effect(/datum/status_effect/convulsing), "Zap [zap + 1] should make the victim's hands shake")
+		TEST_ASSERT_EQUAL(prod_action.get_charges(), 3 - zap, "Zap [zap + 1] should take one charge")
+	TEST_ASSERT_EQUAL(antag.power, 500 - 40 * 3, "Every zap should cost 40 power")
 	prod_action.prod_ready_time = 0
 	TEST_ASSERT(!prod_action.try_zap(victim, user, prod), "An empty prod should not zap")
-	TEST_ASSERT_EQUAL(antag.power, 500 - 40, "An empty prod should not cost power")
+	TEST_ASSERT_EQUAL(antag.power, 500 - 40 * 3, "An empty prod should not cost power")
 
-	// One charge back gives a weaker zap that costs half, and doesn't make them drop things
+	// One charge coming back is enough for another full zap
 	prod_action.charge_recharged()
 	TEST_ASSERT_EQUAL(prod_action.get_charges(), 1, "A charge should come back")
-	var/mob/living/carbon/human/third_victim = allocate(/mob/living/carbon/human/consistent)
-	TEST_ASSERT(prod_action.try_zap(third_victim, user, prod), "A weak zap should work with 1 charge")
-	TEST_ASSERT(third_victim.IsKnockdown(), "A weak zap should still knock the victim down")
-	TEST_ASSERT(!third_victim.has_status_effect(/datum/status_effect/convulsing), "A weak zap should not make the victim's hands shake")
-	TEST_ASSERT_EQUAL(antag.power, 500 - 40 - 20, "A weak zap should cost half")
-	TEST_ASSERT_EQUAL(prod_action.get_charges(), 0, "A weak zap should use the last charge")
+	var/mob/living/carbon/human/last_victim = allocate(/mob/living/carbon/human/consistent)
+	TEST_ASSERT(prod_action.try_zap(last_victim, user, prod), "One charge should be enough to zap")
+	TEST_ASSERT(last_victim.IsKnockdown(), "A zap with the last charge should knock the victim down")
+	TEST_ASSERT(last_victim.has_status_effect(/datum/status_effect/convulsing), "A zap with the last charge should be as strong as any other")
+	TEST_ASSERT_EQUAL(antag.power, 500 - 40 * 4, "A zap with the last charge should cost the same")
+	TEST_ASSERT_EQUAL(prod_action.get_charges(), 0, "The last zap should use the last charge")
 	TEST_ASSERT_NOTNULL(prod_action.charge_timer, "A charge should be on its way back")
 
 	// The drop key puts it away
@@ -1128,6 +1130,44 @@
 	arc.zap(user, immune, 20)
 	TEST_ASSERT_EQUAL(immune.getFireLoss(), 0, "Arc Discharge should not burn someone shock immune")
 	TEST_ASSERT_EQUAL(immune.stamina.loss, 0, "Arc Discharge should not drain the stamina of someone shock immune")
+
+/// Powers that need a hand always use the active hand, whatever is in it, and what they grow goes away when the arcfiend dies
+/datum/unit_test/arcfiend/full_hands/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 2500
+	antag.bonus_minds_drained = 3
+	var/obj/item/pen/main_item = allocate(/obj/item/pen)
+	var/obj/item/pen/off_item = allocate(/obj/item/pen)
+	user.put_in_active_hand(main_item)
+	user.put_in_hands(off_item)
+	TEST_ASSERT_EQUAL(user.get_active_held_item(), main_item, "The active hand should be holding the first item")
+	TEST_ASSERT(off_item in user.held_items, "The other hand should be holding the second item")
+
+	// With both hands full, a power that grows something takes the active hand, and the other hand is left alone
+	var/datum/action/cooldown/arcfiend/shock_prod/prod_action = locate() in user.actions
+	TEST_ASSERT(prod_action.Activate(user), "The prod should be grown with both hands full")
+	var/obj/item/melee/arcfiend_prod/prod = user.get_active_held_item()
+	TEST_ASSERT(istype(prod), "The prod should be in the active hand")
+	TEST_ASSERT(!(main_item in user.held_items), "The item in the active hand should have been dropped")
+	TEST_ASSERT(off_item in user.held_items, "The item in the other hand should be kept")
+
+	// A power that shows a hand takes over from the prod, which crumbles instead of blocking it
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/brain_scramble), "Could not buy Brain Scramble")
+	var/datum/action/cooldown/arcfiend/brain_scramble/scramble = antag.get_power_instance(/datum/action/cooldown/arcfiend/brain_scramble)
+	scramble.set_click_ability(user)
+	TEST_ASSERT(QDELETED(prod), "The prod should have crumbled to make room")
+	TEST_ASSERT(istype(user.get_active_held_item(), /obj/item/melee/touch_attack/arcfiend_hand), "The glowing hand should be in the active hand")
+	TEST_ASSERT(off_item in user.held_items, "The item in the other hand should still be kept")
+
+	// When the arcfiend dies, what they grew out of their hands is gone, even though it can't be dropped
+	TEST_ASSERT(prod_action.Activate(user), "Could not grow the prod again")
+	var/obj/item/melee/arcfiend_prod/last_prod = user.get_active_held_item()
+	TEST_ASSERT(istype(last_prod), "The prod should be in the active hand")
+	TEST_ASSERT(QDELETED(scramble.hand) || !scramble.hand, "The glowing hand should have crumbled to make room for the prod")
+	user.death()
+	TEST_ASSERT(QDELETED(last_prod), "A dead arcfiend should not be left holding the prod")
+	TEST_ASSERT(!locate(/obj/item/melee/arcfiend_prod) in user.held_items, "A dead arcfiend should not be holding any prod")
 
 /// Powers that need a person to be clicked on ignore a click on anything else, and don't waste the power
 /datum/unit_test/arcfiend/mob_target_only/Run()

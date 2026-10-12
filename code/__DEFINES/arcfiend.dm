@@ -9,8 +9,6 @@
 
 /// How many charges the galvanic prod holds
 #define ARCFIEND_PROD_MAX_CHARGES 4
-/// How many charges a full zap with the galvanic prod takes. With fewer than that left the zap is weaker.
-#define ARCFIEND_PROD_FULL_ZAP_CHARGES 2
 /// The pause between two zaps with the galvanic prod
 #define ARCFIEND_PROD_ZAP_DELAY (2 SECONDS)
 
@@ -70,3 +68,34 @@
 #define ARCFIEND_EMP_HEAVY_POWER_LOSS 0.25
 /// Fraction of its stored power an arcfiend loses to a light EMP
 #define ARCFIEND_EMP_LIGHT_POWER_LOSS 0.1
+
+// The sounds of the arcfiend powers. Anything missing here has no sound of its own and uses a stock one.
+#define ARCFIEND_SOUND_TOGGLE_ON 'monkestation/code/modules/antagonists/arcfiend/sound/toggle_on.ogg'
+#define ARCFIEND_SOUND_TOGGLE_OFF 'monkestation/code/modules/antagonists/arcfiend/sound/toggle_off.ogg'
+#define ARCFIEND_SOUND_ITEM_GROW 'monkestation/code/modules/antagonists/arcfiend/sound/item_grow.ogg'
+#define ARCFIEND_SOUND_ITEM_CRUMBLE 'monkestation/code/modules/antagonists/arcfiend/sound/item_crumble.ogg'
+#define ARCFIEND_SOUND_SAP_START 'monkestation/code/modules/antagonists/arcfiend/sound/sap_start.ogg'
+#define ARCFIEND_SOUND_SAP_LOOP 'monkestation/code/modules/antagonists/arcfiend/sound/sap_loop.ogg'
+#define ARCFIEND_SOUND_CHARGE 'monkestation/code/modules/antagonists/arcfiend/sound/charge_refill.ogg'
+#define ARCFIEND_SOUND_RIDE_ENTER 'monkestation/code/modules/antagonists/arcfiend/sound/ride_enter.ogg'
+#define ARCFIEND_SOUND_RIDE_EXIT 'monkestation/code/modules/antagonists/arcfiend/sound/ride_exit.ogg'
+#define ARCFIEND_SOUND_RIDE_EJECTED 'monkestation/code/modules/antagonists/arcfiend/sound/ride_ejected.ogg'
+#define ARCFIEND_SOUND_SURGE_REFLEX 'monkestation/code/modules/antagonists/arcfiend/sound/surge_reflex.ogg'
+#define ARCFIEND_SOUND_BRAIN_SCRAMBLE 'monkestation/code/modules/antagonists/arcfiend/sound/brain_scramble.ogg'
+#define ARCFIEND_SOUND_ARC_DISCHARGE 'monkestation/code/modules/antagonists/arcfiend/sound/arc_discharge.ogg'
+#define ARCFIEND_SOUND_THUNDERCLAP_WINDUP 'monkestation/code/modules/antagonists/arcfiend/sound/thunderclap_windup.ogg'
+#define ARCFIEND_SOUND_THUNDERCLAP_BOOM 'monkestation/code/modules/antagonists/arcfiend/sound/thunderclap_boom.ogg'
+#define ARCFIEND_SOUND_SMASH_HIT 'monkestation/code/modules/antagonists/arcfiend/sound/smash_hit.ogg'
+#define ARCFIEND_SOUND_EMP_BURST 'monkestation/code/modules/antagonists/arcfiend/sound/emp_burst.ogg'
+#define ARCFIEND_SOUND_JOLT_WINDUP 'monkestation/code/modules/antagonists/arcfiend/sound/jolt_windup.ogg'
+#define ARCFIEND_SOUND_JOLT_STOP 'monkestation/code/modules/antagonists/arcfiend/sound/jolt_stop.ogg'
+#define ARCFIEND_SOUND_JOLT_RESTART 'monkestation/code/modules/antagonists/arcfiend/sound/jolt_restart.ogg'
+#define ARCFIEND_SOUND_COILGUN_FIRE 'monkestation/code/modules/antagonists/arcfiend/sound/coilgun_fire.ogg'
+#define ARCFIEND_SOUND_COILGUN_RELOAD 'monkestation/code/modules/antagonists/arcfiend/sound/coilgun_reload.ogg'
+#define ARCFIEND_SOUND_TETHER_FIRE 'monkestation/code/modules/antagonists/arcfiend/sound/tether_fire.ogg'
+#define ARCFIEND_SOUND_LASER_FIRE 'monkestation/code/modules/antagonists/arcfiend/sound/lateral_laser_fire.ogg'
+#define ARCFIEND_SOUND_LASER_RELOAD 'monkestation/code/modules/antagonists/arcfiend/sound/laser_reload.ogg'
+#define ARCFIEND_SOUND_LASER_MODE 'monkestation/code/modules/antagonists/arcfiend/sound/laser_mode_click.ogg'
+#define ARCFIEND_SOUND_PROD_HIT 'monkestation/code/modules/antagonists/arcfiend/sound/prod_hit.ogg'
+#define ARCFIEND_SOUND_PROD_ZAP 'monkestation/code/modules/antagonists/arcfiend/sound/prod_zap.ogg'
+#define ARCFIEND_SOUND_PROD_RECHARGED 'monkestation/code/modules/antagonists/arcfiend/sound/prod_recharged.ogg'

@@ -11,7 +11,7 @@
 
 /obj/item/ammo_casing/energy/arcfiend_slug
 	projectile_type = /obj/projectile/bullet/arcfiend_slug
-	fire_sound = 'sound/magic/lightningbolt.ogg'
+	fire_sound = ARCFIEND_SOUND_COILGUN_FIRE
 	select_name = "slug"
 	e_cost = 0
 	delay = 0.8 SECONDS
@@ -166,7 +166,7 @@
 	magazine = min(get_magazine() + 1, get_magazine_size())
 	if(owner && (locate(/obj/item/gun/energy/arcfiend_coilgun) in owner.held_items))
 		owner.balloon_alert(owner, "slug rebuilt ([magazine]/[get_magazine_size()])")
-		playsound(owner, 'sound/weapons/gun/general/chunkyrack.ogg', 20, TRUE)
+		playsound(owner, ARCFIEND_SOUND_COILGUN_RELOAD, 20, TRUE)
 	start_slug_recharge()
 
 /// A bigger magazine means there may be room to rebuild again
@@ -198,7 +198,7 @@
 /datum/action/cooldown/arcfiend/manifest_coilgun/proc/dismiss(mob/living/user)
 	if(!put_away(user))
 		return FALSE
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
 	user.visible_message(span_notice("[user]'s biometal coilgun crumbles away."), span_notice("You let the biometal coilgun crumble away."))
 	StartCooldown()
 	return TRUE
@@ -215,14 +215,13 @@
 	var/mob/living/user = owner
 	if(dismiss(user))
 		return TRUE
-	var/obj/item/held = user.get_active_held_item()
-	if(held && !user.dropItemToGround(held))
-		user.balloon_alert(user, "hand occupied!")
+	if(!free_active_hand(user))
 		return FALSE
 	var/obj/item/gun/energy/arcfiend_coilgun/gun = new(user)
-	user.put_in_hands(gun)
+	if(!give_item(user, gun))
+		return FALSE
 	do_sparks(2, FALSE, user)
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
 	user.visible_message(span_warning("A crude gun of lumpy biometal grows out of [user]'s hand!"), span_notice("You grow a biometal coilgun."))
 	StartCooldown()
 	return TRUE
@@ -283,7 +282,7 @@
 	if(!arcfiend.spend_power(power_cost))
 		return FALSE
 
-	playsound(user, 'sound/magic/lightningbolt.ogg', 40, TRUE)
+	playsound(user, ARCFIEND_SOUND_TETHER_FIRE, 40, TRUE)
 	user.Beam(target, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi', icon_state = "biometal_tether_beam", time = 5)
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(target), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi', "biometal_tether_hook", 5, get_dir(user, target))
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(user), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_hook.dmi', "hook", 14, get_dir(user, target))
@@ -380,7 +379,7 @@
 
 /obj/item/ammo_casing/energy/arcfiend_lateral_beam
 	projectile_type = /obj/projectile/beam/laser/hitscan/arcfiend_lateral
-	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	fire_sound = ARCFIEND_SOUND_LASER_FIRE
 	select_name = "lateral beam"
 	firing_effect_type = null
 	e_cost = 0
@@ -544,7 +543,7 @@
 	magazine = min(get_magazine() + 1, get_magazine_size())
 	if(owner && (locate(/obj/item/gun/energy/arcfiend_lateral_laser) in owner.held_items))
 		owner.balloon_alert(owner, "charge rebuilt ([magazine]/[get_magazine_size()])")
-		playsound(owner, 'sound/weapons/gun/general/chunkyrack.ogg', 20, TRUE)
+		playsound(owner, ARCFIEND_SOUND_LASER_RELOAD, 20, TRUE)
 	start_charge_recharge()
 
 /// A bigger magazine means there may be room to rebuild again
@@ -583,7 +582,7 @@
 	selected_range = (get_selected_range() % get_max_range()) + 1
 	to_chat(user, span_notice("You set the lateral laser to [selected_range] tile[selected_range == 1 ? "" : "s"]. Only what is exactly [selected_range] tile[selected_range == 1 ? "" : "s"] away takes its full damage."))
 	user.balloon_alert(user, "range: [selected_range]")
-	playsound(user, 'sound/items/click.ogg', 40, TRUE)
+	playsound(user, ARCFIEND_SOUND_LASER_MODE, 40, TRUE)
 
 /datum/action/cooldown/arcfiend/lateral_laser/Remove(mob/remove_from)
 	if(remove_from)
@@ -604,7 +603,7 @@
 /datum/action/cooldown/arcfiend/lateral_laser/proc/dismiss(mob/living/user)
 	if(!put_away(user))
 		return FALSE
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
 	user.visible_message(span_notice("[user]'s lateral laser crumbles away."), span_notice("You let the lateral laser crumble away."))
 	StartCooldown()
 	return TRUE
@@ -621,14 +620,13 @@
 	var/mob/living/user = owner
 	if(dismiss(user))
 		return TRUE
-	var/obj/item/held = user.get_active_held_item()
-	if(held && !user.dropItemToGround(held))
-		user.balloon_alert(user, "hand occupied!")
+	if(!free_active_hand(user))
 		return FALSE
 	var/obj/item/gun/energy/arcfiend_lateral_laser/gun = new(user)
-	user.put_in_hands(gun)
+	if(!give_item(user, gun))
+		return FALSE
 	do_sparks(2, FALSE, user)
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
 	user.visible_message(span_warning("A thin lance of glowing biometal grows out of [user]'s hand!"), span_notice("You grow a lateral laser. It is set to [get_selected_range()] tile[get_selected_range() == 1 ? "" : "s"]. Use it in your hand to change that."))
 	StartCooldown()
 	return TRUE
@@ -653,7 +651,7 @@
 	// A plain hit is ordinary melee, so anything that reacts to melee hits, like Electrokinetic Smash, reacts to it
 	force = 15
 	damtype = BURN
-	hitsound = SFX_SPARKS
+	hitsound = ARCFIEND_SOUND_PROD_HIT
 	throwforce = 0
 	light_outer_range = 2
 	light_power = 1
@@ -677,7 +675,7 @@
 
 /datum/action/cooldown/arcfiend/shock_prod
 	name = "Galvanic Prod"
-	desc = "Grow a prod from your arm. Growing it and putting it away is free. Left-click is a normal hit that burns for 15 and costs nothing. Right-click zaps like an emagged defibrillator: it drains stamina, knocks the target down and makes them drop what they hold. A full zap takes 2 of the prod's 4 charges and costs power. With only 1 charge left the zap is weaker and costs half as much. A charge comes back every 40 seconds, even while the prod is away."
+	desc = "Grow a prod from your arm. Growing it and putting it away is free. Left-click is a normal hit that burns for 15 and costs nothing. Right-click zaps like an emagged defibrillator: it drains stamina, knocks the target down and makes them drop what they hold. The prod holds 4 charges. Every zap takes one charge and costs power. A charge comes back every 40 seconds, even while the prod is away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_galvanic_prod.dmi'
 	button_icon_state = "galvanic_prod"
 	cooldown_time = 1 SECONDS
@@ -723,7 +721,7 @@
 	update_prod_look()
 	if(owner && (locate(/obj/item/melee/arcfiend_prod) in owner.held_items))
 		owner.balloon_alert(owner, "prod charged ([zap_charges]/[ARCFIEND_PROD_MAX_CHARGES])")
-		playsound(owner, 'sound/machines/defib_ready.ogg', 30, TRUE)
+		playsound(owner, ARCFIEND_SOUND_PROD_RECHARGED, 30, TRUE)
 	start_charge_timer()
 
 /// A faster recharge applies to the next charge, and the prod may have room for one now
@@ -778,7 +776,7 @@
 /datum/action/cooldown/arcfiend/shock_prod/proc/dismiss(mob/living/user)
 	if(!put_away(user))
 		return FALSE
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
 	user.visible_message(span_notice("[user]'s galvanic prod crumbles away."), span_notice("You let the galvanic prod crumble away."))
 	StartCooldown()
 	return TRUE
@@ -795,33 +793,30 @@
 	var/mob/living/user = owner
 	if(dismiss(user))
 		return TRUE
-	var/obj/item/held = user.get_active_held_item()
-	if(held && !user.dropItemToGround(held))
-		user.balloon_alert(user, "hand occupied!")
+	if(!free_active_hand(user))
 		return FALSE
 	var/obj/item/melee/arcfiend_prod/prod = new(user)
-	user.put_in_hands(prod)
+	if(!give_item(user, prod))
+		return FALSE
 	update_prod_look()
 	do_sparks(2, FALSE, user)
-	playsound(user, SFX_SPARKS, 30, TRUE)
+	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
 	user.visible_message(span_warning("A crackling prod of biometal grows out of [user]'s arm!"), span_notice("You grow a galvanic prod. Left-click to hit with it, or right-click someone to zap them."))
 	StartCooldown()
 	return TRUE
 
-/// Zaps someone with the prod. A full zap takes 2 charges, and with only 1 left the zap is weaker and costs half. Returns TRUE if they were zapped.
+/// Zaps someone with the prod, using up one charge. Returns TRUE if they were zapped.
 /datum/action/cooldown/arcfiend/shock_prod/proc/try_zap(mob/living/target, mob/living/user, obj/item/melee/arcfiend_prod/prod)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
 	if(!arcfiend || !istype(target) || target == user)
 		return FALSE
 	if(prod_ready_time > world.time)
 		return FALSE
-	var/charges_used = min(get_charges(), ARCFIEND_PROD_FULL_ZAP_CHARGES)
-	if(charges_used < 1)
+	if(is_drained())
 		user.balloon_alert(user, "no charge!")
 		to_chat(user, span_warning("[prod] has no charge left. Another comes back in time."))
 		return FALSE
-	var/full_zap = charges_used >= ARCFIEND_PROD_FULL_ZAP_CHARGES
-	var/cost = full_zap ? get_zap_cost() : round(get_zap_cost() / 2)
+	var/cost = get_zap_cost()
 	if(!arcfiend.has_power(cost))
 		user.balloon_alert(user, "need [cost] power!")
 		return FALSE
@@ -830,34 +825,24 @@
 		return FALSE
 
 	arcfiend.spend_power(cost)
-	zap_charges = get_charges() - charges_used
+	zap_charges = get_charges() - 1
 	prod_ready_time = world.time + ARCFIEND_PROD_ZAP_DELAY
 	start_charge_timer()
 	update_prod_look()
 	user.balloon_alert(user, "[zap_charges]/[ARCFIEND_PROD_MAX_CHARGES] charges left")
 
-	if(full_zap)
-		// The same effect as the right-click of an emagged defibrillator
-		target.visible_message(
-			span_danger("[user] touches [target] with [prod]!"),
-			span_userdanger("[user] touches you with [prod], and a huge jolt of electricity floods through your body!"),
-		)
-		target.stamina.adjust(-80)
-		target.Knockdown(75)
-		target.set_jitter_if_lower(100 SECONDS)
-		target.apply_status_effect(/datum/status_effect/convulsing)
-	else
-		// All that is left is a weak jolt: it hurts and trips them, but doesn't make them drop things
-		target.visible_message(
-			span_danger("[user] touches [target] with [prod], and a weak jolt runs through them!"),
-			span_userdanger("[user] touches you with [prod], and a jolt of electricity runs through your body!"),
-		)
-		target.stamina.adjust(-35)
-		target.Knockdown(25)
-		target.set_jitter_if_lower(10 SECONDS)
-	playsound(user, 'sound/machines/defib_zap.ogg', full_zap ? 50 : 30, TRUE, -1)
+	// The same effect as the right-click of an emagged defibrillator
+	target.visible_message(
+		span_danger("[user] touches [target] with [prod]!"),
+		span_userdanger("[user] touches you with [prod], and a huge jolt of electricity floods through your body!"),
+	)
+	target.stamina.adjust(-80)
+	target.Knockdown(75)
+	target.set_jitter_if_lower(100 SECONDS)
+	target.apply_status_effect(/datum/status_effect/convulsing)
+	playsound(user, ARCFIEND_SOUND_PROD_ZAP, 50, TRUE, -1)
 	do_sparks(2, FALSE, target)
 	if(target.mob_biotypes & MOB_ORGANIC)
 		target.emote("gasp")
-	log_combat(user, target, full_zap ? "zapped" : "weakly zapped", prod)
+	log_combat(user, target, "zapped", prod)
 	return TRUE

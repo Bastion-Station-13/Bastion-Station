@@ -109,11 +109,40 @@
 		return TRUE
 	return ..()
 
+/// Makes room in the active hand for something this power is about to put there. Whatever one of our own powers made just crumbles away,
+/// and anything else is dropped. Returns FALSE, after saying why, if the hand can't be emptied.
+/datum/action/cooldown/arcfiend/proc/free_active_hand(mob/living/user)
+	var/obj/item/held = user.get_active_held_item()
+	if(!held)
+		return TRUE
+	if(is_arcfiend_item(held))
+		user.temporarilyRemoveItemFromInventory(held, TRUE) // DROPDEL deletes it
+		return TRUE
+	if(!user.dropItemToGround(held))
+		user.balloon_alert(user, "hand occupied!")
+		return FALSE
+	return TRUE
+
+/// Puts something this power made into the active hand. If that can't be done it is thrown away. Returns FALSE if that happened.
+/datum/action/cooldown/arcfiend/proc/give_item(mob/living/user, obj/item/item)
+	if(user.put_in_active_hand(item))
+		return TRUE
+	qdel(item)
+	user.balloon_alert(user, "can't hold that!")
+	return FALSE
+
+/// Whether this is something an arcfiend's power grew out of their hand, which goes away instead of being dropped
+/proc/is_arcfiend_item(obj/item/checked)
+	return HAS_TRAIT_FROM(checked, TRAIT_NODROP, ARCFIEND_TRAIT) || istype(checked, /obj/item/melee/touch_attack/arcfiend_hand)
+
 /// Puts a glowing hand in the owner's hand, as a sign that the power is ready
 /datum/action/cooldown/arcfiend/proc/raise_hand(mob/on_who)
 	if(hand || !isliving(on_who))
 		return
 	var/mob/living/user = on_who
+	if(!free_active_hand(user))
+		unset_click_ability(user, TRUE)
+		return
 	hand = new(user)
 	hand.name = "crackling hand ([name])"
 	if(hand_inhand_state)
@@ -125,9 +154,10 @@
 		hand.lefthand_file = hand_lefthand_file
 		hand.righthand_file = hand_righthand_file
 		hand.color = null
-	if(!user.put_in_hands(hand, del_on_fail = TRUE))
-		hand = null
-		user.balloon_alert(user, "no free hand to use!")
+	if(!user.put_in_active_hand(hand))
+		QDEL_NULL(hand)
+		user.balloon_alert(user, "can't hold that!")
+		unset_click_ability(user, TRUE)
 		return
 	RegisterSignal(hand, COMSIG_QDELETING, PROC_REF(on_hand_deleted))
 	do_sparks(1, FALSE, user)
@@ -290,7 +320,7 @@
 	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
 	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	owner.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
-	playsound(target, 'sound/magic/lightningshock.ogg', 60, TRUE, extrarange = 12)
+	playsound(target, ARCFIEND_SOUND_SAP_START, 60, TRUE, extrarange = 12)
 
 /// Keeps it obvious for as long as it goes on: a beam, loud crackling, flashes of light, flickering lights, and the odd warning
 /datum/action/cooldown/arcfiend/sap_power/proc/sap_tick_effects(atom/target, ticks)
@@ -298,7 +328,7 @@
 	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	do_sparks(3, FALSE, target)
 	do_sparks(2, FALSE, owner)
-	playsound(target, SFX_SPARKS, 100, TRUE, extrarange = 10)
+	playsound(target, ARCFIEND_SOUND_SAP_LOOP, 100, TRUE, extrarange = 10)
 	owner.flash_lighting_fx(4, 3, "#ffe94d", 1 SECONDS)
 	// The lights nearby can't take it
 	for(var/obj/machinery/light/nearby_light in range(3, target))
@@ -379,7 +409,7 @@
 		return FALSE
 
 	do_sparks(3, FALSE, owner)
-	playsound(owner, 'sound/magic/charge.ogg', 50, TRUE)
+	playsound(owner, ARCFIEND_SOUND_CHARGE, 50, TRUE)
 	StartCooldown()
 	return TRUE
 
@@ -545,7 +575,7 @@
 		var/mob/living/leaving = owner
 		current_ride.eject_jaunter()
 		do_sparks(3, FALSE, leaving)
-		playsound(leaving, SFX_SPARKS, 50, TRUE)
+		playsound(leaving, ARCFIEND_SOUND_RIDE_EXIT, 50, TRUE)
 		leaving.visible_message(span_danger("[leaving] bursts out of the floor in a shower of sparks!"), span_notice("You pull yourself out of the wires."))
 		StartCooldown()
 		return TRUE
@@ -564,7 +594,7 @@
 
 	transitioning = TRUE
 	do_sparks(2, FALSE, owner)
-	playsound(here, SFX_SPARKS, 40, TRUE)
+	playsound(here, ARCFIEND_SOUND_RIDE_ENTER, 40, TRUE)
 	owner.visible_message(
 		span_danger("[owner]'s body starts to crackle and dissolve into electricity!"),
 		span_notice("You start to dissolve into the cable beneath you..."),
@@ -678,7 +708,7 @@
 		return
 	eject_jaunter()
 	do_sparks(5, FALSE, rider)
-	playsound(rider, SFX_SPARKS, 60, TRUE)
+	playsound(rider, ARCFIEND_SOUND_RIDE_EJECTED, 60, TRUE)
 	to_chat(rider, span_userdanger(message))
 	rider.Paralyze(stun_time)
 
@@ -869,7 +899,7 @@
 	for(var/repeat in 0 to 2)
 		addtimer(CALLBACK(src, PROC_REF(add_visual), user, "surge", surge_icon, "surge_reflex", 9, TRUE, 1.7), repeat * 9)
 	user.flash_lighting_fx(5, 4, "#ffe94d", 2 SECONDS)
-	playsound(user, SFX_SPARKS, 60, TRUE)
+	playsound(user, ARCFIEND_SOUND_SURGE_REFLEX, 60, TRUE)
 	user.visible_message(span_danger("[user] convulses as a surge of electricity crackles over [user.p_their()] body!"), span_notice("You shake off the blow as the nanites surge through you."))
 	StartCooldown(by_level(list(60 SECONDS, 40 SECONDS, 25 SECONDS)))
 	return TRUE

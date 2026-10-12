@@ -194,10 +194,9 @@ const GuideTab = () => {
         <GuideSection title="Defenses and weaknesses">
           You can't be shocked, and nothing can give you a heart attack. You
           still need your heart though, and if it's damaged until it fails, it
-          stops. You take a little less burn and stamina damage than most
-          people, but nothing protects you from brute damage. What you
-          carry or have inside you, like cybernetics and energy guns, is safe
-          from EMPs. You aren't.
+          stops. Nothing else protects you: you take burn, stamina and brute
+          damage like anyone else. What you carry or have inside you, like
+          cybernetics and energy guns, is safe from EMPs. You aren't.
         </GuideSection>
         <GuideSection title="Senses">
           You know what every wire does on any machine, bombs included. You have
