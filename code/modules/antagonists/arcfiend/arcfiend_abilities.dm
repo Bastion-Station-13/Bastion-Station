@@ -27,6 +27,8 @@
 	var/shows_hand = FALSE
 	/// Whether this only works when clicking on a mob directly. A click on anything else, a wall or vent or the floor, does nothing: it isn't wasted and the power stays ready.
 	var/needs_mob_target = FALSE
+	/// When we may next say that a click on something that isn't a person did nothing
+	var/next_miss_message = 0
 	/// What the owner is told when the hand appears
 	var/hand_message = "Your hand is charged. Click something to use it, or use the power again to cancel."
 	/// The glowing hand we are showing right now
@@ -104,8 +106,15 @@
 
 /// A click on anything that isn't a mob is swallowed by powers that need one, so a missclick never wastes the power or does something else
 /datum/action/cooldown/arcfiend/InterceptClickOn(mob/living/user, params, atom/target)
+	// Shift, control, alt and middle clicks are for examining, pulling and the like, so they work as normal while a power is ready
+	var/list/modifiers = params2list(params)
+	if(LAZYACCESS(modifiers, SHIFT_CLICK) || LAZYACCESS(modifiers, CTRL_CLICK) || LAZYACCESS(modifiers, ALT_CLICK) || LAZYACCESS(modifiers, MIDDLE_CLICK))
+		return FALSE
 	if(needs_mob_target && target && !isliving(target))
-		user.balloon_alert(user, "click on a person!")
+		// Only said every few seconds, so a few missclicks aren't a wall of messages
+		if(world.time >= next_miss_message)
+			user.balloon_alert(user, "click on a person!")
+			next_miss_message = world.time + 3 SECONDS
 		return TRUE
 	return ..()
 
@@ -321,6 +330,7 @@
 	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	owner.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
 	playsound(target, ARCFIEND_SOUND_SAP_START, 60, TRUE, extrarange = 12)
+	owner.balloon_alert_to_viewers("sapping power!")
 
 /// Keeps it obvious for as long as it goes on: a beam, loud crackling, flashes of light, flickering lights, and the odd warning
 /datum/action/cooldown/arcfiend/sap_power/proc/sap_tick_effects(atom/target, ticks)
@@ -334,14 +344,12 @@
 	for(var/obj/machinery/light/nearby_light in range(3, target))
 		if(prob(40))
 			INVOKE_ASYNC(nearby_light, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
-	// Every few seconds, those watching are told what is happening, and hear a thunderclap
+	// Every few seconds, those watching are told what is happening
 	if(!(ticks % 3))
-		playsound(target, 'sound/magic/lightningshock.ogg', 70, TRUE, extrarange = 12)
 		owner.visible_message(
 			span_danger("Arcs of crackling electricity pour out of [target] and into [owner]!"),
 			ignored_mobs = list(owner),
 		)
-		owner.balloon_alert_to_viewers("sapping power!")
 
 /// Takes the electricity off again
 /datum/action/cooldown/arcfiend/sap_power/proc/stop_sap_effects()

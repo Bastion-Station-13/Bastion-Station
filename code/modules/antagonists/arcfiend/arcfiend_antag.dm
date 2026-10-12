@@ -98,8 +98,6 @@
 	current_mob.add_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE), ARCFIEND_TRAIT)
 	// Their heart can't be stopped, but they still need it: if it takes enough damage to fail, it stops like anyone's would
 	ADD_TRAIT(current_mob, TRAIT_HEART_ATTACK_IMMUNE, ARCFIEND_TRAIT)
-	// Other arcfiends and ghosts see the marker above their head
-	add_team_hud(current_mob)
 	// Being so attuned to machines, an arcfiend sees how they work, and can feel every cable nearby (see reveal_cables)
 	current_mob.add_traits(list(TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
@@ -299,6 +297,13 @@
 		if(power.on_drop_key(source, held))
 			return COMSIG_KB_ACTIVATED
 	return NONE
+
+/// The picture in the antagonist selection menu: a plainly dressed person, crackling with electricity, in a charged aura. It is made from the arcfiend's own sprites.
+/datum/antagonist/arcfiend/get_preview_icon()
+	var/icon/preview = render_preview_outfit(/datum/outfit/job/assistant/consistent)
+	preview.Blend(icon('monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_jamming.dmi', "jamming_aura", SOUTH, 1), ICON_OVERLAY)
+	preview.Blend(icon('monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi', "smash_arms", SOUTH, 1), ICON_OVERLAY)
+	return finish_preview_icon(preview)
 
 /// Gives the arcfiend a drain objective, some standard traitor objectives, and an ending objective
 /datum/antagonist/arcfiend/forge_objectives()

@@ -69,6 +69,13 @@
 		for(var/sprite_state in effect_sprites[sprite_file])
 			TEST_ASSERT(sprite_state in icon_states(sprite_file), "[sprite_file] has no [sprite_state] sprite")
 
+/// The antagonist selection menu gets a picture of its own, not a placeholder
+/datum/unit_test/arcfiend/preview_icon/Run()
+	var/datum/antagonist/arcfiend/example = allocate(/datum/antagonist/arcfiend)
+	var/icon/preview = example.get_preview_icon()
+	TEST_ASSERT_NOTNULL(preview, "The arcfiend should have a picture in the antagonist selection menu")
+	TEST_ASSERT_EQUAL(preview.Width(), ANTAGONIST_PREVIEW_ICON_SIZE, "The picture should be the size the menu uses")
+
 /// A toggle that is on shows its sprites on the arcfiend, and takes them off again when it is switched off or taken away
 /datum/unit_test/arcfiend/toggle_visuals/Run()
 	if(!make_arcfiend())
@@ -1117,7 +1124,11 @@
 	TEST_ASSERT(scramble.Activate(scrambled), "Brain Scramble should work on someone next to the arcfiend")
 	TEST_ASSERT(scrambled.getFireLoss() > 0, "Brain Scramble should burn a little")
 	TEST_ASSERT(scrambled.getFireLoss() < 10, "Brain Scramble should only burn a little, got [scrambled.getFireLoss()]")
-	TEST_ASSERT(scrambled.stamina.loss > 0, "Brain Scramble should drain stamina")
+	TEST_ASSERT(scrambled.stamina.loss >= 40 * scrambled.physiology.stamina_mod, "Brain Scramble should drain a lot of stamina, got [scrambled.stamina.loss]")
+	TEST_ASSERT(scrambled.get_organ_loss(ORGAN_SLOT_BRAIN) >= 10, "Brain Scramble should damage the brain, got [scrambled.get_organ_loss(ORGAN_SLOT_BRAIN)]")
+	TEST_ASSERT(HAS_TRAIT(scrambled, TRAIT_CLUMSY), "Brain Scramble should make the target clumsy")
+	scrambled.remove_status_effect(/datum/status_effect/arcfiend_scrambled)
+	TEST_ASSERT(!HAS_TRAIT(scrambled, TRAIT_CLUMSY), "The target should stop being clumsy when it wears off")
 
 	var/mob/living/carbon/human/zapped = allocate(/mob/living/carbon/human/consistent)
 	arc.zap(user, zapped, 20)
@@ -1187,6 +1198,9 @@
 		TEST_ASSERT(power.needs_mob_target, "[power_type] should need a person to be clicked on")
 		antag.power = 2500
 		TEST_ASSERT(power.InterceptClickOn(user, null, floor), "[power_type] should swallow a click on the floor")
+		// Shift, control, alt and middle clicks are left alone, so the arcfiend can still examine things with a power ready
+		for(var/modifier in list(SHIFT_CLICK, CTRL_CLICK, ALT_CLICK, MIDDLE_CLICK))
+			TEST_ASSERT(!power.InterceptClickOn(user, "[modifier]=1", floor), "[power_type] should not swallow a [modifier] click")
 		TEST_ASSERT(!power.Activate(floor), "[power_type] should do nothing to the floor")
 		TEST_ASSERT_EQUAL(antag.power, 2500, "[power_type] should not cost power when the floor is clicked")
 		TEST_ASSERT(power.next_use_time <= world.time, "[power_type] should not go on cooldown when the floor is clicked")

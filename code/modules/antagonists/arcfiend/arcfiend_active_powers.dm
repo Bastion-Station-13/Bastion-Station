@@ -226,7 +226,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/brain_scramble
 	name = "Brain Scramble"
-	desc = "Touch someone to scramble their nerves. It burns a little and drains some stamina, and for 8 seconds their screen shakes and they're confused, dizzy and slurring."
+	desc = "Touch someone to scramble their nerves and their brain. It burns a little, drains a lot of stamina and damages their brain, and for 8 seconds their screen shakes and they are confused, dizzy, slurring and clumsy."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_brain_scramble.dmi'
 	button_icon_state = "brain_scramble"
 	click_to_activate = TRUE
@@ -239,8 +239,8 @@
 	unlock_cost = 250
 	upgrade_costs = list(200, 450)
 	upgrade_descriptions = list(
-		"Lasts 12 seconds, with a bit more burn and stamina damage.",
-		"Lasts 16 seconds, with a bit more burn and stamina damage.",
+		"Lasts 12 seconds, with a bit more burn, stamina and brain damage.",
+		"Lasts 16 seconds, with a bit more burn, stamina and brain damage.",
 	)
 
 /datum/action/cooldown/arcfiend/brain_scramble/Activate(atom/target)
@@ -257,11 +257,14 @@
 	victim.adjust_confusion(duration)
 	victim.adjust_slurring(duration)
 	victim.set_dizzy_if_lower(duration)
-	// A little burn and a fair amount of stamina damage, more with upgrades
+	// Their brain takes a beating, and for as long as they are scrambled they fumble everything
+	victim.adjustOrganLoss(ORGAN_SLOT_BRAIN, by_level(list(10, 15, 20)))
+	victim.apply_status_effect(/datum/status_effect/arcfiend_scrambled, duration)
+	// A little burn and a lot of stamina damage, more with upgrades
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		var/level = get_level()
 		victim.apply_damage(list(3, 4, 5)[level], BURN)
-		victim.apply_damage(list(25, 30, 35)[level], STAMINA)
+		victim.apply_damage(list(40, 50, 60)[level], STAMINA)
 	if(victim.client)
 		shake_camera(victim, duration, 3)
 	do_sparks(2, FALSE, victim)
@@ -273,6 +276,29 @@
 	to_chat(victim, span_userdanger("Static roars through your head and you can't think straight!"))
 	StartCooldown()
 	return TRUE
+
+/// What a scrambled brain does to someone: they are clumsy for as long as it lasts. Scrambling them again starts the time over.
+/datum/status_effect/arcfiend_scrambled
+	id = "arcfiend_scrambled"
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = null
+	duration = 8 SECONDS
+
+/datum/status_effect/arcfiend_scrambled/on_creation(mob/living/new_owner, set_duration)
+	if(isnum(set_duration))
+		duration = set_duration
+	return ..()
+
+/datum/status_effect/arcfiend_scrambled/on_apply()
+	ADD_TRAIT(owner, TRAIT_CLUMSY, TRAIT_STATUS_EFFECT(id))
+	return TRUE
+
+/datum/status_effect/arcfiend_scrambled/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_CLUMSY, TRAIT_STATUS_EFFECT(id))
+
+/datum/status_effect/arcfiend_scrambled/refresh(effect, set_duration)
+	if(isnum(set_duration))
+		duration = world.time + set_duration
 
 //////////////////////////////////////////////////////////////////////////
 //-----------------------------Arc Discharge----------------------------//
