@@ -17905,6 +17905,7 @@
 /obj/structure/sign/warning/vacuum/directional/south,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
 "gvJ" = (
@@ -20294,6 +20295,7 @@
 "hlF" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
 "hlK" = (
@@ -27278,6 +27280,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/light/small/directional/south,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
 "jxH" = (
@@ -43247,6 +43250,12 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
+/area/station/maintenance/aft/lesser)
+"oRx" = (
+/obj/effect/spawner/random/structure/crate,
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/structure/cable,
+/turf/open/floor/plating,
 /area/station/maintenance/aft/lesser)
 "oRM" = (
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
@@ -100249,7 +100258,7 @@ cha
 nCa
 sIX
 svS
-gma
+oRx
 jxA
 dKC
 uGg
