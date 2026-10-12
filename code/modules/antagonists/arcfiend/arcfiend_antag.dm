@@ -138,7 +138,7 @@
 /datum/antagonist/arcfiend/greet()
 	. = ..()
 	to_chat(owner.current, span_boldannounce("You are an arcfiend. You live off the station's electricity."))
-	to_chat(owner.current, span_notice("Electric shocks can't hurt you, but everything else can, and outside EMPs will hurt you too. Whatever you carry is safe from them."))
+	to_chat(owner.current, span_notice("Shocks can't hurt you, but everything else can, and EMPs will too. Whatever you carry is safe from them."))
 	owner.announce_objectives()
 
 /// The power of this type that we have, if any. Passives are kept in their own list since they have no button.
