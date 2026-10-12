@@ -520,6 +520,7 @@ ADMIN_VERB(forceGamemode, R_FUN, FALSE, "Open Gamemode Panel", "Opens the gamemo
 	if(disable_vote || length(GLOB.clients) > MAX_POP_FOR_STORYTELLER_VOTE)
 		secret_storyteller = TRUE
 		selected_storyteller = pick_weight(get_valid_storytellers(TRUE))
+		message_admins("Round storyteller has been picked automatically: [selected_storyteller:name]")
 		return
 	SSvote.initiate_vote(/datum/vote/storyteller, "pick round storyteller", forced = TRUE)
 
