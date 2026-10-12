@@ -84,39 +84,65 @@
 
 /datum/crafting_recipe/blood_brother/semi_auto_receiver_part
 	name = "Semi-Auto Receiver"
-	desc = "An improvised semi-automatic receiver."
+	desc = "A plain spring-loaded trigger group in a bent iron housing. One shot per trigger pull, with no changes to the weapon's damage, projectile speed or rate of fire."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/semi_auto
 	reqs = list(
-		/obj/item/firing_pin = 1,
+		/obj/item/assembly/mousetrap = 1,
+		/obj/item/stack/sheet/iron = 5,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
 	)
 
 /datum/crafting_recipe/blood_brother/automatic_receiver_part
 	name = "Automatic Receiver"
-	desc = "An improvised automatic receiver."
+	desc = "A trigger group driven by a motorised manipulator that cycles the action for you. Hold down the trigger to keep firing at a rapid rate."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/automatic
 	reqs = list(
-		/obj/item/firing_pin = 1,
+		/obj/item/assembly/mousetrap = 1,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/iron = 10,
+		/obj/item/stack/cable_coil = 5,
 	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WIRECUTTER,
+	)
+	time = 5 SECONDS
 
 /datum/crafting_recipe/blood_brother/rifle_receiver_part
 	name = "Rifle Receiver"
-	desc = "An improvised rifle receiver."
+	desc = "A heavy plasteel receiver with a long, slow action. Each shot hits harder and flies faster, but the weapon fires much more slowly."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/rifle
 	reqs = list(
-		/obj/item/firing_pin = 1,
+		/obj/item/assembly/mousetrap = 1,
+		/obj/item/stack/sheet/plasteel = 3,
+		/obj/item/stack/rods = 4,
 	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WELDER,
+	)
+	time = 5 SECONDS
 
 /datum/crafting_recipe/blood_brother/carbine_receiver_part
 	name = "Carbine Receiver"
-	desc = "An improvised carbine receiver."
+	desc = "A compact receiver with a shortened action. A middle ground between semi-auto and rifle: shots hit a little harder and fly a little faster, at a somewhat slower rate of fire."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/carbine
 	reqs = list(
-		/obj/item/firing_pin = 1,
+		/obj/item/assembly/mousetrap = 1,
+		/obj/item/stack/sheet/plasteel = 1,
+		/obj/item/stack/sheet/iron = 5,
 	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WELDER,
+	)
+	time = 5 SECONDS
 
 /datum/crafting_recipe/blood_brother/long_barrel
 	name = "Long Barrel"
