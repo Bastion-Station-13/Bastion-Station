@@ -18,7 +18,7 @@
 /datum/vote/storyteller/is_accessible_vote()
 	return TRUE
 
-/datum/vote/storyteller/can_be_initiated(mob/by_who, forced = FALSE)
+/datum/vote/storyteller/can_be_initiated(forced = FALSE)
 	. = ..()
 	if(SSticker.HasRoundStarted())
 		return "This vote cannot be used after the round has already started."
