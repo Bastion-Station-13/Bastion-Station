@@ -4337,10 +4337,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
 "btg" = (
-/obj/machinery/recharger{
-	pixel_x = 58;
-	pixel_y = 1
-	},
 /obj/machinery/status_display/ai/directional/south,
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -7852,6 +7848,10 @@
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 1
+	},
+/obj/machinery/recharger{
+	pixel_x = -6;
+	pixel_y = 1
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/lockers)
@@ -67037,19 +67037,22 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
-/obj/item/storage/box/bodybags,
 /obj/item/clothing/neck/stethoscope,
 /obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/emergency_bed,
-/obj/item/reagent_containers/spray/cleaner,
-/obj/item/storage/medkit{
-	pixel_x = -5;
-	pixel_y = 16
+/obj/item/storage/box/bodybags,
+/obj/item/reagent_containers/spray/cleaner{
+	pixel_x = 10;
+	pixel_y = -1
 	},
-/obj/item/storage/medkit{
-	pixel_x = 9;
+/obj/item/storage/medkit/regular{
+	pixel_x = -7;
 	pixel_y = 15
+	},
+/obj/item/storage/medkit/regular{
+	pixel_x = 5;
+	pixel_y = 13
 	},
 /turf/open/floor/iron/dark/textured_half{
 	dir = 1
