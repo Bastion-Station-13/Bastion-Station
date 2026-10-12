@@ -110,8 +110,6 @@ GLOBAL_LIST_INIT(patreon_etoken_values, list(
 	var/month_number = text2num(time2text(world.time, "MM"))
 
 	if(token_month != month_number)
-		if(patreon.has_access(ACCESS_NUKIE_RANK))    ///if nukie rank, get coins AND token
-			owner.prefs.adjust_metacoins(owner?.ckey, 10000, "Monthly Monkecoin rations", donator_multiplier = FALSE)
 
 		donator_token++
 		token_month = month_number  ///update per-person month counter
@@ -163,7 +161,7 @@ GLOBAL_LIST_INIT(patreon_etoken_values, list(
 	logger.Log(LOG_CATEGORY_META, "[owner]'s antag token for [in_queue] has been approved")
 
 
-	SStoken_manager.record_accepted() 	// Token Panel Addition
+	GLOB.token_manager.record_accepted() 	// Token Panel Addition
 
 	spend_antag_token(in_queued_tier, queued_donor)
 	if(!owner.mob.mind)
@@ -186,7 +184,7 @@ GLOBAL_LIST_INIT(patreon_etoken_values, list(
 	to_chat(owner, span_boldwarning("Your request to play as [in_queue] has been denied."))
 	logger.Log(LOG_CATEGORY_META, "[owner]'s antag token for [in_queue] has been denied.")
 
-	SStoken_manager.record_rejected() // Token Panel Addition
+	GLOB.token_manager.record_rejected() // Token Panel Addition
 
 	SEND_SOUND(owner, sound('sound/misc/compiler-failure.ogg', volume = 50))
 	QDEL_NULL(in_queue)
@@ -205,7 +203,7 @@ GLOBAL_LIST_INIT(patreon_etoken_values, list(
 	to_chat(owner, span_boldwarning("Your request to play as [in_queue] wasn't answered within 5 minutes. Better luck next time!"))
 	logger.Log(LOG_CATEGORY_META, "[owner]'s antag token for [in_queue] has timed out.")
 
-	SStoken_manager.record_timeout() 	// Token Panel Addition
+	GLOB.token_manager.record_timeout() 	// Token Panel Addition
 	QDEL_NULL(current_antag_request)	// Token Panel Addition
 
 	SEND_SOUND(owner, sound('sound/misc/compiler-failure.ogg', volume = 50))

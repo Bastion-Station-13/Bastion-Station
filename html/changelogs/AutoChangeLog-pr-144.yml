@@ -1,0 +1,4 @@
+author: "Absolucy"
+delete-after: True
+changes:
+  - code_imp: "converts several subsystems that neither initialized or ticked into just being global datums instead. SSmove_manager -> GLOB.move_manager, SScommunications -> GLOB.communications_controller, SStoken_manager -> GLOB.token_manager, and SSgoldeneye -> GLOB.goldeneye"

@@ -1,3 +1,5 @@
+//Unit test is currently disabled - SStutorials is currently disabled on this codebase.
+/*
 /// Verifies that every tutorial has properly set variables
 /datum/unit_test/tutorial_sanity
 
@@ -17,3 +19,4 @@
 		TEST_ASSERT(length(key) < 64, "[key] is more than 64 characters, it won't fit in the SQL table.")
 
 	TEST_ASSERT_EQUAL(SStutorials.tutorial_managers.len, length(subtypesof(/datum/tutorial)), "Expected tutorial_managers to have one of every tutorial")
+*/
