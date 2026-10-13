@@ -408,7 +408,7 @@
 /// Using it on yourself turns you into an arcfiend, and it is used up.
 /obj/item/antag_granter/arcfiend
 	name = "unmarked injector"
-	desc = "An injector of shimmering fluid that crackles faintly when shaken. It has no markings."
+	desc = "An injector full of shimmering fluid that crackles vibrantly when you shake it."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_injector.dmi'
 	icon_state = "arcfiend_injector"
 	antag_datum = /datum/antagonist/arcfiend
@@ -524,7 +524,7 @@
 		var/max_level = get_max_power_level(power_type)
 		power_data["path"] = "[power_type]"
 		power_data["name"] = prototype.name
-		power_data["desc"] = prototype.desc
+		power_data["desc"] = prototype.shop_desc || prototype.desc
 		power_data["tier"] = prototype.shop_tier
 		power_data["passive"] = prototype.is_passive
 		power_data["owned"] = owned

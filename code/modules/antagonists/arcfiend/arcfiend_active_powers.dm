@@ -175,7 +175,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint
 	name = "Overdrive Sprint"
-	desc = "Move much faster and don't slip on wet floors. Drains power every second."
+	desc = "Run like hell."
+	shop_desc = "Run way faster and ignore wet floors, but it drains power every second it's on."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_overdrive_sprint.dmi'
 	button_icon_state = "overdrive_sprint"
 	shop_listed = TRUE
@@ -183,8 +184,8 @@
 	unlock_cost = 250
 	upgrade_costs = list(250, 500)
 	upgrade_descriptions = list(
-		"Faster, and cheaper to run.",
-		"Faster again, and cheaper again.",
+		"Faster and cheaper to run.",
+		"Faster still, cheaper still.",
 	)
 	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_overdrive.dmi'
 	effect_state = "overdrive_legs"
@@ -226,7 +227,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/brain_scramble
 	name = "Brain Scramble"
-	desc = "Touch someone to scramble their nerves and their brain. It burns a little, drains a lot of stamina and damages their brain, and for 8 seconds their screen shakes and they are confused, dizzy, slurring and clumsy."
+	desc = "Touch someone and scramble their head."
+	shop_desc = "Touch someone and fry their wiring. It burns, drains stamina and damages their brain, and for 8 seconds they're confused, dizzy, slurring and clumsy."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_brain_scramble.dmi'
 	button_icon_state = "brain_scramble"
 	click_to_activate = TRUE
@@ -239,8 +241,8 @@
 	unlock_cost = 250
 	upgrade_costs = list(200, 450)
 	upgrade_descriptions = list(
-		"Lasts 12 seconds, with a bit more burn, stamina and brain damage.",
-		"Lasts 16 seconds, with a bit more burn, stamina and brain damage.",
+		"Lasts 12 seconds, hurts a bit more.",
+		"Lasts 16 seconds, hurts a bit more.",
 	)
 
 /datum/action/cooldown/arcfiend/brain_scramble/Activate(atom/target)
@@ -305,7 +307,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/arc_discharge
 	name = "Arc Discharge"
-	desc = "Fire a bolt of lightning at someone. It burns, drains stamina, briefly blinds, and arcs to others nearby. Anyone shock immune takes nothing."
+	desc = "Hurl a bolt of lightning at someone."
+	shop_desc = "Hurl a bolt of lightning at someone. It burns, drains stamina, blinds them for a moment, and jumps to anyone standing close to them. Shock-immune people shrug it off."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_arc_discharge.dmi'
 	button_icon_state = "arc_discharge"
 	click_to_activate = TRUE
@@ -318,8 +321,8 @@
 	unlock_cost = 300
 	upgrade_costs = list(300, 600)
 	upgrade_descriptions = list(
-		"More damage, and arcs to a second target.",
-		"More damage again, and arcs to a third target.",
+		"Hits harder, jumps to a second target.",
+		"Hits harder, jumps to a third target.",
 	)
 	/// How far away we can fire
 	var/bolt_range = 7
@@ -407,7 +410,8 @@
  */
 /datum/action/cooldown/arcfiend/thunderclap
 	name = "Thunderclap"
-	desc = "After a short windup that everyone around you will notice, release a burst of electricity. Everyone near you takes a little burn damage and some stamina damage, and is flashed. The further away they are, the weaker it is. Anyone within 2 tiles is also thrown away."
+	desc = "Charge up, then blow a shockwave out of yourself."
+	shop_desc = "Charge up (everyone nearby will see it coming), then blow a shockwave out of yourself. Everyone around you gets burned, drained and flashed, less so the further out they are, and anyone within 2 tiles is thrown."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_thunderclap.dmi'
 	button_icon_state = "thunderclap"
 	cooldown_time = 30 SECONDS
@@ -416,8 +420,8 @@
 	unlock_cost = 550
 	upgrade_costs = list(450, 850)
 	upgrade_descriptions = list(
-		"Throws 4 tiles and reaches 8. More damage, shorter windup, and recharges in 25 seconds.",
-		"Throws 5 tiles and reaches 9. More damage, shorter windup, and recharges in 20 seconds.",
+		"Throws 4 tiles, reaches 8. Hits harder, charges faster, 25 second cooldown.",
+		"Throws 5 tiles, reaches 9. Hits harder, charges faster, 20 second cooldown.",
 	)
 	/// Whether we are in the middle of the windup, so it can't be started twice
 	var/winding_up = FALSE
@@ -536,7 +540,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash
 	name = "Electrokinetic Smash"
-	desc = "Your punches and the weapons you swing hit harder. In combat mode every hit also burns for extra damage and can arc to others nearby. Costs power every second, and a little more per hit."
+	desc = "Your punches and weapons hit harder and shock."
+	shop_desc = "Your punches and weapons hit harder, and in combat mode every hit also burns and can arc to people nearby. It costs power every second, plus a bit more on each hit."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electrokinetic_smash.dmi'
 	button_icon_state = "electrokinetic_smash"
 	shop_listed = TRUE
@@ -544,8 +549,8 @@
 	unlock_cost = 500
 	upgrade_costs = list(400, 800)
 	upgrade_descriptions = list(
-		"Hits 30% harder, more burn damage, and arcs more often.",
-		"Hits 40% harder, more burn damage, and arcs can reach two others.",
+		"Hits 30% harder, more burn, arcs more often.",
+		"Hits 40% harder, more burn, arcs can reach two others.",
 	)
 	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi'
 	effect_state = "smash_arms"
@@ -657,7 +662,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation
 	name = "Myoelectric Stimulation"
-	desc = "Stimulate the muscles in your arms. Do-afters take less time, and you hit, shoot and click faster. Drains power every second."
+	desc = "Zap your arm muscles into overdrive."
+	shop_desc = "Zap your arm muscles awake so you work, hit, shoot and click faster, though it drains power every second it's on."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_myoelectric_stimulation.dmi'
 	button_icon_state = "myoelectric_stimulation"
 	shop_listed = TRUE
@@ -665,8 +671,8 @@
 	unlock_cost = 500
 	upgrade_costs = list(400, 800)
 	upgrade_descriptions = list(
-		"Do-afters take 35% less time and attacks are 30% faster. Cheaper to run.",
-		"Do-afters take 45% less time and attacks are 40% faster. Cheaper again.",
+		"Work 35% quicker, attack 30% faster. Cheaper to run.",
+		"Work 45% quicker, attack 40% faster. Cheaper still.",
 	)
 	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_myoelectric.dmi'
 	effect_state = "myoelectric_arms"
@@ -710,7 +716,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/jamming_field
 	name = "Jamming Field"
-	desc = "Radios, PDAs, GPS and suit sensors near you stop working. You glow while it's on, so everyone can tell it's you. Drains power every second."
+	desc = "Kill radios, PDAs and sensors around you."
+	shop_desc = "Radios, PDAs, GPS and suit sensors near you go dead. You glow while it's on, so everyone knows it's you, and it drains power every second."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jamming_field.dmi'
 	button_icon_state = "jamming_field"
 	shop_listed = TRUE
@@ -718,8 +725,8 @@
 	unlock_cost = 450
 	upgrade_costs = list(300, 600)
 	upgrade_descriptions = list(
-		"Reaches 9 tiles, and cheaper to run.",
-		"Reaches 12 tiles, and cheaper again.",
+		"Reaches 9 tiles. Cheaper to run.",
+		"Reaches 12 tiles. Cheaper still.",
 	)
 	/// The jammer we carry while on
 	var/obj/item/jammer/arcfiend/field
@@ -761,7 +768,7 @@
 /// A card of crackling biometal an arcfiend grows from their hand. Using it costs power, depending on what it is used on.
 /obj/item/card/emag/arcfiend
 	name = "electric emag"
-	desc = "A card of biometal grown from an arcfiend's hand. It hacks what it touches, and the arcfiend pays for it in power."
+	desc = "A card of biometal grown out of an arcfiend's hand. It hacks whatever it touches, expending power."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag.dmi'
 	icon_state = "arcfiend_emag"
 	inhand_icon_state = "arcfiend_emag"
@@ -814,7 +821,8 @@
 
 /datum/action/cooldown/arcfiend/electric_emag
 	name = "Electric Emag"
-	desc = "Grow an emag in your hand. Growing it and putting it away is free, using it costs power. Doors are cheap, consoles aren't, and cyborgs cost a fortune."
+	desc = "Grow an emag in your hand."
+	shop_desc = "Grow an emag in your hand. It's free to summon and put away, but every hack costs power. Doors are cheap, consoles aren't, and borgs cost a fortune."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electric_emag.dmi'
 	button_icon_state = "electric_emag"
 	cooldown_time = 1 SECONDS
@@ -822,8 +830,8 @@
 	unlock_cost = 500
 	upgrade_costs = list(400, 800)
 	upgrade_descriptions = list(
-		"Hacking costs 25% less.",
-		"Hacking costs 50% less.",
+		"Hacking is 25% cheaper.",
+		"Hacking is 50% cheaper.",
 	)
 
 /datum/action/cooldown/arcfiend/electric_emag/Remove(mob/remove_from)
@@ -878,7 +886,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/emp_burst
 	name = "EMP Burst"
-	desc = "Spend a third of your stored power on an EMP. The more power you have, the bigger it is. It doesn't hurt you or what you carry, but it does hurt other arcfiends."
+	desc = "Dump your power into an EMP."
+	shop_desc = "Dump a third of your stored power into an EMP, and the more you had, the bigger the blast. You and your gear are safe from it, but other arcfiends aren't."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_emp_burst.dmi'
 	button_icon_state = "emp_burst"
 	cooldown_time = 30 SECONDS
@@ -887,8 +896,8 @@
 	unlock_cost = 900
 	upgrade_costs = list(600, 1000)
 	upgrade_descriptions = list(
-		"A bigger pulse for the same power.",
-		"A bigger pulse again.",
+		"Bigger pulse for the same power.",
+		"Bigger still, same power.",
 	)
 	/// The fraction of our stored power the pulse takes
 	var/power_fraction = 0.33
@@ -918,7 +927,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/jolt
 	name = "Jolt"
-	desc = "After a long windup, send a huge jolt through someone you're touching. In combat mode it stops their heart and burns them badly. Out of combat mode it restarts a stopped heart like a defibrillator, and can revive the dead, even without a soul in them. If they can't be revived the power is still spent, but your instincts tell you why."
+	desc = "Charge up, then jolt whoever you're touching."
+	shop_desc = "Charge up for a long moment, then jolt whoever you're touching. In combat mode it stops their heart and burns them badly, otherwise it works like a defib that can even raise the dead. If it can't work you still pay, but you'll sense why."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jolt.dmi'
 	button_icon_state = "jolt"
 	click_to_activate = TRUE
@@ -931,8 +941,8 @@
 	unlock_cost = 1000
 	upgrade_costs = list(700, 1200)
 	upgrade_descriptions = list(
-		"Shorter windup and cooldown, and more burn damage.",
-		"Shorter again, and more burn damage.",
+		"Faster charge and cooldown, more burn.",
+		"Faster still, even more burn.",
 	)
 
 /datum/action/cooldown/arcfiend/jolt/Activate(atom/target)

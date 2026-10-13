@@ -22,6 +22,8 @@
 	var/list/upgrade_costs = list()
 	/// What each upgrade level adds, in the same order as upgrade_costs, shown in the shop
 	var/list/upgrade_descriptions = list()
+	/// The longer, more casual description shown in the shop. The plain desc stays short for the button tooltip. Falls back to desc if empty.
+	var/shop_desc
 
 	/// Whether a glowing hand appears in the owner's hand while this power is ready to be aimed, so everyone can see it
 	var/shows_hand = FALSE
@@ -208,7 +210,7 @@
 /// the click itself is handled by the power.
 /obj/item/melee/touch_attack/arcfiend_hand
 	name = "crackling hand"
-	desc = "Electricity arcs between the fingers."
+	desc = "Sparks crawl between the fingers."
 	icon_state = "zapper"
 	inhand_icon_state = "zapper"
 	item_flags = ABSTRACT | HAND_ITEM | DROPDEL | NOBLUDGEON
@@ -260,7 +262,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/sap_power
 	name = "Sap Power"
-	desc = "Drain power from something next to you. APCs, SMES units, cables and machines all work, but people and cyborgs give far more, and they get hurt. It's loud and bright. Sapping also feeds you, but never makes you fat, or overcharges you if you're an ethereal."
+	desc = "Siphon power out of whatever you're gripping."
+	shop_desc = "Grip something and drink its power. Machines and cables give a trickle, but people and borgs give a lot more, and it hurts them. It's loud and bright, so don't expect to be subtle. It feeds you too, though it can't make you fat or overcharge an ethereal."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_sap_power.dmi'
 	button_icon_state = "sap_power"
 	click_to_activate = TRUE
@@ -361,15 +364,16 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/charge
 	name = "Charge"
-	desc = "Use your own power to refill the cells of whatever you're holding, or of a cyborg you're pulling. Doesn't work on anything magical."
+	desc = "Pour your power into a cell."
+	shop_desc = "Pour your own power into the cell of whatever you're holding, or a borg you're dragging. Magic stuff won't take it."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_charge.dmi'
 	button_icon_state = "arcfiend_charge"
 	cooldown_time = 3 SECONDS
 	power_cost = 1
 	upgrade_costs = list(100, 300)
 	upgrade_descriptions = list(
-		"50% more efficient.",
-		"Twice as efficient.",
+		"50% more charge per power.",
+		"Twice the charge per power.",
 	)
 
 /// How many joules each unit of power buys when charging, from upgrades
@@ -530,7 +534,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/ride_lightning
 	name = "Ride the Lightning"
-	desc = "Dive into the cable under you and ride it. You can only move along connected cables, and getting in or out takes a moment. It costs power to enter, per tile and per second. If someone cuts the cable you're on, you're thrown out and stunned."
+	desc = "Dive into the cable under you and ride it."
+	shop_desc = "Dive into the cable under your feet and ride it wherever it goes. You can only follow connected cables, and getting in or out takes a second. It costs power to get in, for every tile, and for every second you stay, and if someone cuts the cable you're on you get thrown out stunned."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_ride_the_lightning.dmi'
 	button_icon_state = "ride_the_lightning"
 	// You have to be able to use this while riding, to get out again
@@ -541,8 +546,8 @@
 	var/transitioning = FALSE
 	upgrade_costs = list(150, 400)
 	upgrade_descriptions = list(
-		"Riding costs 25% less.",
-		"Riding costs 50% less.",
+		"Riding is 25% cheaper.",
+		"Riding is 50% cheaper.",
 	)
 
 /// Multiplier to what riding costs per tile and per second, from upgrades
@@ -631,7 +636,7 @@
 /// The visible ball of electricity that follows an arcfiend riding the cables, so everyone can tell one is in the wires
 /obj/effect/arcfiend_spark
 	name = "ball of lightning"
-	desc = "A ball of electricity racing through the wires."
+	desc = "A ball of lightning zipping through the wires."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lightning_riding.dmi'
 	icon_state = "arcfiend_lightning_ball_ride_lightning"
 	anchored = TRUE
@@ -776,14 +781,14 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/nanite_regeneration
 	name = "Nanite Regeneration"
-	desc = "The nanites slowly heal your brute and burn damage."
+	desc = "The nanites stitch up your brute and burn damage as you go."
 	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 200
 	upgrade_costs = list(250, 500)
 	upgrade_descriptions = list(
-		"Heals twice as fast.",
-		"Heals three times as fast.",
+		"Heals 2x as fast.",
+		"Heals 3x as fast.",
 	)
 
 /datum/action/cooldown/arcfiend/passive/nanite_regeneration/passive_tick(mob/living/user, seconds_per_tick)
@@ -795,13 +800,13 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/organ_resonance
 	name = "Organ Resonance"
-	desc = "The nanites slowly repair damage to your organs."
+	desc = "The nanites slowly mend your organs."
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 450
 	upgrade_costs = list(300)
 	upgrade_descriptions = list(
-		"Repairs twice as fast.",
+		"Fixes organs 2x as fast.",
 	)
 
 /datum/action/cooldown/arcfiend/passive/organ_resonance/passive_tick(mob/living/user, seconds_per_tick)
@@ -818,13 +823,13 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/ampullary_sense
 	name = "Ampullary Sense"
-	desc = "Your eyes pick up electric fields like a shark's do. You can see in the dark, better than with night vision."
+	desc = "You sense electric fields like a shark does. Lets you see in the dark."
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 400
 	upgrade_costs = list(350)
 	upgrade_descriptions = list(
-		"You can also see living things through walls.",
+		"Living things show up through walls.",
 	)
 
 /datum/action/cooldown/arcfiend/passive/ampullary_sense/apply_passive(mob/living/user, level)
@@ -850,13 +855,13 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/capacitive_soles
 	name = "Capacitive Soles"
-	desc = "Your footsteps make no sound."
+	desc = "Your steps make no noise."
 	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 150
 	upgrade_costs = list(200)
 	upgrade_descriptions = list(
-		"You also can't slip on wet or icy floors.",
+		"Wet and icy floors can't trip you.",
 	)
 
 /datum/action/cooldown/arcfiend/passive/capacitive_soles/apply_passive(mob/living/user, level)
@@ -872,7 +877,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/surge_reflex
 	name = "Surge Reflex"
-	desc = "Instantly clears your stuns and stamina damage and heals some of your wounds. Works while stunned."
+	desc = "Shock yourself back on your feet. Clears stuns and stamina damage and heals a bit. Works while stunned."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_surge_reflex.dmi'
 	button_icon_state = "surge_reflex"
 	// This has to work while stunned, that is the point of it
@@ -883,8 +888,8 @@
 	unlock_cost = 250
 	upgrade_costs = list(200, 450)
 	upgrade_descriptions = list(
-		"Heals more and recharges in 40 seconds.",
-		"Heals more and recharges in 25 seconds.",
+		"Heals more, recharges in 40 seconds.",
+		"Heals more, recharges in 25 seconds.",
 	)
 
 /datum/action/cooldown/arcfiend/surge_reflex/Activate(atom/target)

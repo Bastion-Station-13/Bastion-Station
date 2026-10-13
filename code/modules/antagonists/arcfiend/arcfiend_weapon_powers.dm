@@ -23,7 +23,7 @@
  */
 /obj/item/gun/energy/arcfiend_coilgun
 	name = "biometal coilgun"
-	desc = "A lumpy biometal gun grown from an arcfiend's hand. It fires slugs using its owner's electricity."
+	desc = "A lumpy biometal gun that grew out of an arcfiend's hand. Runs on its owner's electricity."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun.dmi'
 	icon_state = "arcfiend_coilgun"
 	inhand_icon_state = "arcfiend_coilgun"
@@ -116,7 +116,8 @@
 
 /datum/action/cooldown/arcfiend/manifest_coilgun
 	name = "Manifest Coilgun"
-	desc = "Grow a coilgun in your hand. Growing it and putting it away is free. Each shot costs power and a slug from its magazine, which holds 4 and rebuilds one every 8 seconds, even while the gun is away."
+	desc = "Grow a biometal coilgun in your hand."
+	shop_desc = "Grow a biometal coilgun in your hand. It's free to summon and put away, but each shot costs power and a slug. It holds 4 and regrows one every 8 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_manifest_coilgun.dmi'
 	button_icon_state = "manifest_coilgun"
 	cooldown_time = 1 SECONDS
@@ -124,8 +125,8 @@
 	unlock_cost = 600
 	upgrade_costs = list(500, 900)
 	upgrade_descriptions = list(
-		"Hits harder and costs less power per shot. Holds 5 slugs, rebuilds one every 6 seconds.",
-		"Hits harder and costs less per shot. Holds 6 slugs, rebuilds one every 4 seconds.",
+		"Hits harder, cheaper shots. Holds 5, regrows every 6 seconds.",
+		"Hits harder, cheaper shots. Holds 6, regrows every 4 seconds.",
 	)
 	/// The slugs in the magazine right now. It starts out full, see get_magazine().
 	var/magazine
@@ -231,7 +232,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/biometal_tether
 	name = "Biometal Tether"
-	desc = "Fire a biometal hook and reel yourself to where it lands. Costs power each time."
+	desc = "Fling a hook and drag yourself to it."
+	shop_desc = "Fling a biometal hook and let it drag you to wherever it lands, though it costs power each time."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_biometal_tether.dmi'
 	button_icon_state = "biometal_tether"
 	click_to_activate = TRUE
@@ -249,7 +251,7 @@
 	upgrade_costs = list(350, 700)
 	upgrade_descriptions = list(
 		"Reaches 8 tiles, recharges faster, and can pull light items to you.",
-		"Reaches 10 tiles, and recharges faster again.",
+		"Reaches 10 tiles, faster recharging.",
 	)
 
 /datum/action/cooldown/arcfiend/biometal_tether/Activate(atom/target)
@@ -392,7 +394,7 @@
  */
 /obj/item/gun/energy/arcfiend_lateral_laser
 	name = "lateral laser"
-	desc = "A thin biometal lance that fires a beam of flash-boiled nanites. The beam passes through everything and only scorches what it touches, until the nanites rupture at the very end of their range. Use it in hand to change the range."
+	desc = "A thin biometal lance full of boiling nanites. Use it in hand to set the range."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser.dmi'
 	icon_state = "lateral_laser"
 	inhand_icon_state = "lateral_laser"
@@ -491,7 +493,8 @@
 
 /datum/action/cooldown/arcfiend/lateral_laser
 	name = "Lateral Laser"
-	desc = "Grow a lance in your hand that fires a beam of superheated nanites. The beam passes through everything, including walls and people lying down, and stops at the range you set, 4 tiles at most. It does little damage along the way, but the nanites rupture at the very end of their range and do heavy damage there. Use the gun in your hand to change the range. Growing it and putting it away is free. Each shot costs power and a charge from its magazine, which holds 3 and rebuilds one every 10 seconds, even while the gun is away."
+	desc = "Grow a lance that fires a beam of boiling nanites."
+	shop_desc = "Grow a lance that fires a beam of boiling nanites through everything, walls included. It barely hurts on the way, but the nanites burst at the range you set (4 tiles max, use it in hand to change it) and hit hard there. It's free to summon and put away, but each shot costs power and a charge. It holds 3 and regrows one every 10 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_lateral_laser.dmi'
 	button_icon_state = "lateral_laser"
 	cooldown_time = 1 SECONDS
@@ -499,8 +502,8 @@
 	unlock_cost = 650
 	upgrade_costs = list(500, 900)
 	upgrade_descriptions = list(
-		"Reaches 5 tiles, does 8 damage along the way and 60 at the end. Cheaper shots. Holds 4 charges, rebuilds one every 8 seconds.",
-		"Reaches 6 tiles, does 10 damage along the way and 80 at the end. Cheaper shots. Holds 5 charges, rebuilds one every 6 seconds.",
+		"5 tiles. 8 damage on the way, 60 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
+		"6 tiles. 10 damage on the way, 80 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
 	)
 	/// The range the arcfiend has chosen. This lives here, so putting the gun away doesn't reset it. Null means as far as it can go.
 	var/selected_range
@@ -640,7 +643,7 @@
  */
 /obj/item/melee/arcfiend_prod
 	name = "galvanic prod"
-	desc = "A biometal prod grown from an arcfiend's arm. Left-click to hit with it, right-click to zap someone."
+	desc = "A biometal prod that grew out of an arcfiend's arm. Left-click to whack, right-click to zap."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod.dmi'
 	icon_state = "galvanic_prod"
 	inhand_icon_state = "galvanic_prod"
@@ -675,7 +678,8 @@
 
 /datum/action/cooldown/arcfiend/shock_prod
 	name = "Galvanic Prod"
-	desc = "Grow a prod from your arm. Growing it and putting it away is free. Left-click is a normal hit that burns for 15 and costs nothing. Right-click zaps like an emagged defibrillator: it drains stamina, knocks the target down and makes them drop what they hold. The prod holds 4 charges. Every zap takes one charge and costs power. A charge comes back every 40 seconds, even while the prod is away."
+	desc = "Grow a shock prod out of your arm."
+	shop_desc = "Grow a prod out of your arm. It's free to summon and put away. Left-click is a free hit that burns for 15, while right-click zaps like an emagged defib: it drains stamina, knocks them down and makes them drop what they're holding. Each zap costs power and one of its 4 charges, which regrow every 40 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_galvanic_prod.dmi'
 	button_icon_state = "galvanic_prod"
 	cooldown_time = 1 SECONDS
@@ -683,8 +687,8 @@
 	unlock_cost = 0
 	upgrade_costs = list(200, 450)
 	upgrade_descriptions = list(
-		"Zaps cost less power. A charge comes back every 30 seconds.",
-		"Zaps cost less power again. A charge comes back every 20 seconds.",
+		"Cheaper zaps. Charges come back every 30 seconds.",
+		"Cheaper zaps. Charges come back every 20 seconds.",
 	)
 	/// The time at which the prod can zap again. This only stops zaps being spammed. This lives here and not on the prod, so putting it away doesn't reset it.
 	var/prod_ready_time = 0
