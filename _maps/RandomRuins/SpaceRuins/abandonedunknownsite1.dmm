@@ -1486,7 +1486,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/abandonedscpsite/office2)
-<<<<<<< HEAD
 "fJ" = (
 /obj/structure/table/glass,
 /obj/item/storage/backpack/duffelbag/med/surgery{
@@ -1495,8 +1494,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/textured,
 /area/ruin/space/has_grav/abandonedscpsite/czmedbay)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "fK" = (
 /obj/item/flashlight/lamp{
 	light_on = 1;
@@ -13665,7 +13662,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/abandonedscpsite/prisoncafe)
-<<<<<<< HEAD
 "Zh" = (
 /obj/item/storage/backpack/duffelbag/med/surgery{
 	pixel_y = 6
@@ -13674,8 +13670,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/textured,
 /area/ruin/space/has_grav/abandonedscpsite/czmedbay)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "Zi" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1

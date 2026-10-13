@@ -921,7 +921,6 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/shuttle/escape/brig)
-<<<<<<< HEAD
 "FX" = (
 /obj/structure/table/reinforced,
 /obj/item/book/manual/wiki/surgery{
@@ -936,8 +935,6 @@
 	},
 /turf/open/floor/iron/dark/side,
 /area/shuttle/escape)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "Gr" = (
 /obj/item/stack/sheet/plastitaniumglass{
 	amount = 20;

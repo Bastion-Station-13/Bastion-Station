@@ -1123,14 +1123,11 @@
 /obj/machinery/microwave,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/interdyne)
-<<<<<<< HEAD
 "PD" = (
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/structure/table/reinforced/rglass,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/interdyne)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "PF" = (
 /obj/machinery/dna_scannernew,
 /turf/open/floor/mineral/plastitanium,

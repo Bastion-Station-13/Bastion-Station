@@ -32107,15 +32107,12 @@
 	},
 /turf/open/floor/wood/large,
 /area/station/command/heads_quarters/hop)
-<<<<<<< HEAD
 "flX" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/item/autopsy_scanner,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "flY" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/visible{
 	dir = 4

@@ -12710,7 +12710,6 @@
 /obj/item/multitool,
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
-<<<<<<< HEAD
 "ecG" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 6
@@ -12723,8 +12722,6 @@
 /obj/machinery/defibrillator_mount/directional/south,
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "ecI" = (
 /obj/structure/cable/layer1,
 /turf/open/floor/iron/dark,
@@ -28498,7 +28495,6 @@
 /obj/structure/cable/layer3,
 /turf/open/floor/engine,
 /area/station/ai_monitored/command/storage/satellite)
-<<<<<<< HEAD
 "jhB" = (
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /obj/machinery/airalarm/directional/south,
@@ -28510,8 +28506,6 @@
 /obj/item/autopsy_scanner,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "jhE" = (
 /obj/machinery/power/rad_collector,
 /turf/open/floor/plating,
@@ -44255,7 +44249,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/brig)
-<<<<<<< HEAD
 "oiW" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 10
@@ -44268,8 +44261,6 @@
 /obj/machinery/defibrillator_mount/directional/south,
 /turf/open/floor/iron/white,
 /area/station/medical/surgery)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "ojr" = (
 /obj/machinery/light/directional/east,
 /obj/machinery/electroplater,
@@ -58496,7 +58487,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
-<<<<<<< HEAD
 "sQL" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
@@ -58510,8 +58500,6 @@
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /turf/open/floor/iron/white,
 /area/station/science/robotics/lab)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "sQN" = (
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,

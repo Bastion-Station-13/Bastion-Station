@@ -14473,7 +14473,6 @@
 /obj/effect/spawner/random/trash/soap,
 /turf/open/floor/plating,
 /area/station/medical/abandoned)
-<<<<<<< HEAD
 "dsM" = (
 /obj/structure/table/glass,
 /obj/item/storage/backpack/duffelbag/med/surgery,
@@ -14483,8 +14482,6 @@
 /obj/item/clothing/suit/apron/surgical,
 /turf/open/floor/iron/dark,
 /area/station/medical/surgery/theatre)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "dsN" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment,
@@ -22597,7 +22594,6 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
-<<<<<<< HEAD
 "fno" = (
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/effect/turf_decal/trimline/blue/filled/line{
@@ -22611,8 +22607,6 @@
 /obj/item/autopsy_scanner,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "fnx" = (
 /obj/effect/landmark/secequipment,
 /obj/effect/turf_decal/bot,
@@ -82284,7 +82278,6 @@
 /obj/item/t_scanner,
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos)
-<<<<<<< HEAD
 "tsx" = (
 /obj/structure/table/glass,
 /obj/item/storage/backpack/duffelbag/med/surgery,
@@ -82293,8 +82286,6 @@
 /obj/item/clothing/suit/apron/surgical,
 /turf/open/floor/iron/dark,
 /area/station/medical/surgery/theatre)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "tsz" = (
 /turf/open/floor/plating,
 /area/station/service/abandoned_gambling_den/gaming)

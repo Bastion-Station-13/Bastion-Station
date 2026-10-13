@@ -33459,7 +33459,6 @@
 /obj/structure/sign/poster/contraband/wildcat/directional/west,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
-<<<<<<< HEAD
 "jPg" = (
 /obj/structure/table/optable,
 /obj/item/surgical_drapes,
@@ -33470,8 +33469,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
 /area/station/medical/treatment_center)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "jPh" = (
 /obj/effect/spawner/random/vending/colavend,
 /obj/effect/turf_decal/bot{
@@ -34431,7 +34428,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
-<<<<<<< HEAD
 "keL" = (
 /obj/structure/table/optable,
 /obj/item/surgical_drapes,
@@ -34439,8 +34435,6 @@
 /obj/structure/drain/big,
 /turf/open/floor/iron/dark,
 /area/station/medical/treatment_center)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "keX" = (
 /obj/machinery/status_display/ai/directional/west,
 /obj/machinery/light/directional/west,
@@ -60634,12 +60628,9 @@
 "rDq" = (
 /turf/closed/wall/r_wall,
 /area/station/service/janitor)
-<<<<<<< HEAD
 "rDw" = (
 /turf/open/floor/iron/dark,
 /area/station/medical/treatment_center)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "rDF" = (
 /obj/effect/landmark/start/cook,
 /obj/effect/decal/cleanable/dirt,
@@ -70294,7 +70285,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
-<<<<<<< HEAD
 "upb" = (
 /obj/structure/table,
 /obj/item/storage/backpack/duffelbag/med/surgery{
@@ -70310,8 +70300,6 @@
 /obj/machinery/camera/autoname/directional/east,
 /turf/open/floor/iron/white/textured,
 /area/station/hallway/primary/upper)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "upf" = (
 /turf/closed/wall/r_wall,
 /area/station/service/theater)
@@ -79727,7 +79715,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
-<<<<<<< HEAD
 "wZb" = (
 /obj/item/storage/backpack/duffelbag/med/surgery{
 	pixel_y = 11
@@ -79738,8 +79725,6 @@
 /obj/structure/table/reinforced/rglass,
 /turf/open/floor/iron/dark,
 /area/station/medical/treatment_center)
-=======
->>>>>>> 26a9b073 (makes oil splatters the same color as oil blood (#12685))
 "wZe" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 8
@@ -115097,7 +115082,6 @@ aYM
 aKB
 qSg
 yeK
-<<<<<<< HEAD
 agP
 rDw
 =======
