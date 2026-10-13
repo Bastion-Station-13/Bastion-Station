@@ -25,7 +25,7 @@
 		return TRUE
 
 	bond.sharing_location = TRUE
-	to_chat(user, span_notice("You press [src] against your skin. Your brothers can now see where you are in the conspirators tab."))
+	to_chat(user, span_notice("You press [src] against your skin. Your brothers can now see where you are."))
 	playsound(user, 'sound/machines/click.ogg', 30, TRUE)
 	qdel(src)
 	return TRUE

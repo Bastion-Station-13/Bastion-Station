@@ -495,7 +495,7 @@
 /datum/component/blood_brother_gun/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
 
-	examine_list += span_notice("This is a modular Blood Brother weapon assembled from scavenged components.")
+	examine_list += span_notice("A homemade weapon, bolted together from scavenged parts.")
 	examine_list += span_notice("<b>Alt-right-click</b> it while holding it to remove an installed upgrade.")
 	for(var/slot in part_slots)
 		var/obj/item/part = get_part(slot)

@@ -114,7 +114,7 @@
 
 /datum/crafting_recipe/blood_brother/rifle_receiver_part
 	name = "Rifle Receiver"
-	desc = "A heavy plasteel receiver with a slow action to make your shots fly and shoot harder at the cost of firing speed. Don't miss!"
+	desc = "A heavy plasteel receiver with a slow action. Your shots hit harder and fly faster, but you'll fire slower. Don't miss!"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/rifle
 	reqs = list(
