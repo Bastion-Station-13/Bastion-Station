@@ -39,6 +39,14 @@
 	pinless = TRUE
 	spawnwithmagazine = TRUE
 
+/obj/item/gun/ballistic/revolver/scrap/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/blood_brother_gun, \
+		weapon_family = BB_GUN_BALLISTIC, \
+		part_slots = list(BB_GUN_PART_MAGAZINE, BB_GUN_PART_RECEIVER, BB_GUN_PART_BARREL, BB_GUN_PART_UNDERBARREL), \
+		default_parts = list(/obj/item/blood_brother_gun_part/receiver/semi_auto), \
+	)
+
 /obj/item/gun/ballistic/revolver/scrap/examine(mob/user)
 	. = ..()
 	var/obj/item/ammo_box/magazine/internal/cylinder/scrap/cylinder = magazine
@@ -49,7 +57,7 @@
 	. += span_warning("Do not wrench the cylinder while live ammunition is loaded.")
 
 /// Wrenching the revolver switches its cylinder between .38 and 12 gauge. It has to be unloaded first, or a round goes off.
-/obj/item/gun/ballistic/revolver/scrap/wrench_act(mob/living/user, obj/item/I)
+/obj/item/gun/ballistic/revolver/scrap/wrench_act(mob/living/user, obj/item/tool)
 	if(!user.is_holding(src))
 		balloon_alert(user, "hold to modify!")
 		return TRUE
@@ -70,8 +78,8 @@
 		return TRUE
 
 	balloon_alert(user, "reconfiguring...")
-	I.play_tool_sound(src)
-	if(!I.use_tool(src, user, 3 SECONDS))
+	tool.play_tool_sound(src)
+	if(!tool.use_tool(src, user, 3 SECONDS))
 		return TRUE
 
 	var/new_capacity_multiplier
@@ -101,14 +109,6 @@
 	var/datum/component/blood_brother_gun/modular_gun = GetComponent(/datum/component/blood_brother_gun)
 	modular_gun.set_capacity_multiplier(new_capacity_multiplier)
 	update_appearance()
-
-/obj/item/gun/ballistic/revolver/scrap/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/blood_brother_gun, \
-		weapon_family = BB_GUN_BALLISTIC, \
-		part_slots = list(BB_GUN_PART_MAGAZINE, BB_GUN_PART_RECEIVER, BB_GUN_PART_BARREL, BB_GUN_PART_UNDERBARREL), \
-		default_parts = list(/obj/item/blood_brother_gun_part/receiver/semi_auto), \
-	)
 
 #undef SCRAP_REVOLVER_38_CAPACITY
 #undef SCRAP_REVOLVER_SHOTGUN_CAPACITY_MULTIPLIER

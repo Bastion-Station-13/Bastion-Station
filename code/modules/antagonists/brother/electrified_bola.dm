@@ -1,5 +1,7 @@
 /**
  * Electrified Blood Brother bola.
+ *
+ * It heavy emps you when you get ensnared, and then continues to shock you with burn and stamina until removed
  */
 
 /obj/item/restraints/legcuffs/bola/electrified
@@ -19,14 +21,14 @@
 	icon_state = initial(icon_state)
 	return ..()
 
-/obj/item/restraints/legcuffs/bola/electrified/ensnare(mob/living/carbon/C)
+/obj/item/restraints/legcuffs/bola/electrified/ensnare(mob/living/carbon/victim)
 	. = ..()
-	if(C.legcuffed != src)
+	if(victim.legcuffed != src)
 		return
 
 	// The EMP happens once, immediately when the bola successfully ensnares its target.
-	C.emp_act(EMP_HEAVY)
-	C.apply_status_effect(/datum/status_effect/electrified_bola, src)
+	victim.emp_act(EMP_HEAVY)
+	victim.apply_status_effect(/datum/status_effect/electrified_bola, src)
 
 /datum/status_effect/electrified_bola
 	id = "electrified_bola"
