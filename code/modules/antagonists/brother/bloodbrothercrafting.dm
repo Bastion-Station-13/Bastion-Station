@@ -130,7 +130,7 @@
 
 /datum/crafting_recipe/blood_brother/carbine_receiver_part
 	name = "Carbine Receiver"
-	desc = "A short action offering a compromise of power and firerate between semi auto and rifle."
+	desc = "A short action offering a compromise of power and fire rate between semi-auto and rifle."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/carbine
 	reqs = list(
@@ -146,7 +146,7 @@
 
 /datum/crafting_recipe/blood_brother/long_barrel
 	name = "Long Barrel"
-	desc = "Extend your barrel to improve AP and damage but makes it harder to stuff inside your bag."
+	desc = "Extend your barrel to punch through armor and deal more damage but makes it harder to stuff inside your bag."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/barrel/long
 	reqs = list(
@@ -185,7 +185,7 @@
 
 /datum/crafting_recipe/blood_brother/choke
 	name = "Choke"
-	desc = "Tightens your spread, increasing accuracy and allowing dual wielding to be less inaccurate"
+	desc = "Tightens your spread, increasing accuracy and allowing dual wielding to be less inaccurate."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/barrel/choke
 	reqs = list(
@@ -320,7 +320,7 @@
 
 /datum/crafting_recipe/blood_brother/crude_launcher
 	name = "Crude Launcher"
-	desc = "A pneumatic cannon mounted onto your firearm. Right-click to fire whatever's loaded.""
+	desc = "A pneumatic cannon mounted onto your firearm. Right-click to fire whatever's loaded."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/underbarrel/launcher
 	reqs = list(

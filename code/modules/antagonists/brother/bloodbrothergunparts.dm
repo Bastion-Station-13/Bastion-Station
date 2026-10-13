@@ -290,7 +290,7 @@
 /obj/item/blood_brother_gun_part/receiver/semi_auto
 	name = "semi-auto receiver"
 	icon_state = "semi_auto_receiver"
-	desc = "A basic semi-automatic receiver that does not modify the gun's stats in anyway."
+	desc = "A basic semi-automatic receiver that does not modify the gun's stats in any way."
 	bb_receiver_type = BB_GUN_RECEIVER_SEMI_AUTO
 
 /obj/item/blood_brother_gun_part/receiver/automatic
@@ -353,7 +353,7 @@
 /obj/item/blood_brother_gun_part/power_cell/emp_shielded
 	name = "EMP shielded cell"
 	icon_state = "emp_shielded_cell"
-	desc = "A cell wrapped in shielding. It holds less charge than an upgraded cell, but recharges from being EMPed instead of being drained by them."
+	desc = "A cell wrapped in shielding. It holds less charge than an upgraded cell, but an EMP recharges it instead of draining it."
 	bb_capacity_multiplier = 1.5
 	bb_emp_recharges = TRUE
 
@@ -443,7 +443,7 @@
 /obj/item/blood_brother_gun_part/underbarrel/launcher
 	name = "crude launcher"
 	icon_state = "crude_launcher_underbarrel"
-	desc = "A pneumatic cannon mounted onto your firearm. Right-click to fire whatever's loaded.""
+	desc = "A pneumatic cannon mounted onto your firearm. Right-click to fire whatever's loaded."
 	bb_fires = TRUE
 
 /obj/item/blood_brother_gun_part/underbarrel/launcher/get_effect_lines()
