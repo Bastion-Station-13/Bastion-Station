@@ -6769,6 +6769,11 @@
 /obj/item/toy/figure/scientist,
 /turf/open/floor/iron,
 /area/station/science/lab)
+"bBY" = (
+/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/spawner/random/structure/crate,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/fore)
 "bCb" = (
 /obj/machinery/growing/tray,
 /obj/effect/turf_decal/tile/blue{
@@ -17271,19 +17276,6 @@
 /obj/structure/rack,
 /turf/open/floor/iron/dark,
 /area/station/engineering/supermatter/room)
-"eaS" = (
-/obj/item/surgery_tray,
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 5
-	},
-/obj/structure/table/reinforced/rglass,
-/obj/structure/window/reinforced/spawner/directional/east,
-/obj/effect/turf_decal/siding/thinplating/dark{
-	dir = 4
-	},
-/obj/item/autopsy_scanner,
-/turf/open/floor/iron/dark,
-/area/station/medical/morgue)
 "ebb" = (
 /obj/structure/chair{
 	dir = 4
@@ -35730,11 +35722,6 @@
 /obj/effect/turf_decal/trimline/neutral/filled/corner,
 /turf/open/floor/iron,
 /area/station/commons/fitness/recreation)
-"ipd" = (
-/obj/effect/decal/cleanable/blood/splatter/oil,
-/obj/effect/spawner/random/structure/crate,
-/turf/open/floor/plating,
-/area/station/maintenance/starboard/fore)
 "ipg" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -47408,15 +47395,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/escape)
-"lbe" = (
-/obj/structure/table/glass,
-/obj/item/surgery_tray,
-/obj/structure/window/reinforced/spawner/directional/west,
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/item/clothing/gloves/latex,
-/obj/item/clothing/suit/apron/surgical,
-/turf/open/floor/iron/dark,
-/area/station/medical/surgery/theatre)
 "lbi" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/transit_tube/curved/flipped{
@@ -70942,14 +70920,6 @@
 /obj/machinery/space_heater,
 /turf/open/floor/iron/textured_large,
 /area/station/engineering/atmos/project)
-"qHK" = (
-/obj/structure/table/glass,
-/obj/item/surgery_tray,
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/item/clothing/gloves/latex,
-/obj/item/clothing/suit/apron/surgical,
-/turf/open/floor/iron/dark,
-/area/station/medical/surgery/theatre)
 "qHL" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/stripes/line,
@@ -142305,7 +142275,7 @@ vdU
 iGr
 dBn
 qYL
-eaS
+fno
 nRX
 pdL
 bPe
@@ -143328,10 +143298,10 @@ pdl
 fOJ
 kuU
 tOS
-qHK
+tsx
 jqJ
 jqJ
-lbe
+dsM
 qYL
 uwZ
 aiF
@@ -146848,7 +146818,7 @@ bGT
 tpZ
 oKC
 pgT
-ipd
+bBY
 tpZ
 lDY
 tpZ

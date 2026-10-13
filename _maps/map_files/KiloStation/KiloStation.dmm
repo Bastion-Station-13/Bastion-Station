@@ -4471,12 +4471,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/station/command/heads_quarters/captain)
-"bvG" = (
-/obj/effect/decal/cleanable/blood/splatter/oil,
-/obj/machinery/growing/tray,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
-/area/station/maintenance/starboard)
 "bvP" = (
 /obj/item/paper_bin{
 	pixel_x = -3;
@@ -12075,12 +12069,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/command/bridge)
-"dMg" = (
-/obj/effect/decal/remains/robot,
-/obj/effect/decal/cleanable/blood/splatter/oil,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
-/turf/open/floor/iron/dark,
-/area/station/service/chapel/storage)
 "dMh" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -14230,6 +14218,12 @@
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /turf/open/floor/iron/dark,
 /area/station/service/library/abandoned)
+"exQ" = (
+/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/machinery/growing/tray,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard)
 "exU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -15131,14 +15125,6 @@
 /obj/item/pushbroom,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
-"eMS" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/blood/gibs/robot_debris,
-/obj/effect/decal/cleanable/blood/splatter/oil,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron/dark,
-/area/station/service/chapel/storage)
 "eMX" = (
 /obj/structure/girder/displaced,
 /obj/structure/grille/broken,
@@ -29129,6 +29115,14 @@
 	},
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/station/service/chapel/dock)
+"iSP" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/blood/gibs/robot_debris,
+/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/storage)
 "iSQ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
 /turf/closed/wall/r_wall,
@@ -32211,6 +32205,15 @@
 	},
 /turf/open/floor/iron,
 /area/station/service/theater)
+"jRC" = (
+/obj/effect/turf_decal/bot_white,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/table,
+/obj/item/storage/backpack/duffelbag/med/surgery,
+/obj/item/autopsy_scanner,
+/turf/open/floor/iron/dark,
+/area/station/medical/morgue)
 "jRF" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -37611,6 +37614,12 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/aft)
+"lDK" = (
+/obj/effect/decal/remains/robot,
+/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/storage)
 "lDT" = (
 /obj/machinery/light_switch/directional/east,
 /obj/structure/cable,
@@ -40180,6 +40189,16 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/exit/departure_lounge)
+"mtk" = (
+/obj/effect/decal/cleanable/blood/gibs/robot_debris/limb,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/gibs/robot_debris/old,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/storage)
 "mtq" = (
 /obj/effect/turf_decal/tile/purple,
 /obj/structure/chair/office/light,
@@ -63667,15 +63686,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
-"tSS" = (
-/obj/effect/turf_decal/bot_white,
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/table,
-/obj/item/surgery_tray,
-/obj/item/autopsy_scanner,
-/turf/open/floor/iron/dark,
-/area/station/medical/morgue)
 "tSY" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -92507,7 +92517,7 @@ aeU
 bVv
 bbO
 dIR
-aij
+mtk
 rBV
 pOV
 ogM
@@ -92763,7 +92773,7 @@ aeU
 aeU
 aeU
 qOd
-dMg
+lDK
 fSM
 pOV
 pOV
@@ -93278,7 +93288,7 @@ aeU
 aeU
 bbO
 wno
-eMS
+iSP
 pOV
 sOI
 rjV
@@ -99753,7 +99763,7 @@ pVz
 pVz
 pVz
 uRf
-tSS
+jRC
 tLh
 cLo
 lOd
@@ -118536,7 +118546,7 @@ uuW
 lDu
 tOJ
 bad
-bvG
+exQ
 lKq
 vOL
 sUf

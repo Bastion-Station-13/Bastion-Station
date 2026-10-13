@@ -16841,11 +16841,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
-"fwA" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/blood/splatter/oil,
-/turf/open/floor/stone,
-/area/station/smithing)
 "fwB" = (
 /obj/machinery/duct,
 /turf/open/floor/plating,
@@ -36946,17 +36941,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/main)
-"lQC" = (
-/obj/effect/turf_decal/trimline/blue/filled/line,
-/obj/machinery/airalarm/directional/south,
-/obj/structure/table,
-/obj/item/paper_bin,
-/obj/item/folder/white,
-/obj/item/pen,
-/obj/item/surgery_tray,
-/obj/item/autopsy_scanner,
-/turf/open/floor/iron/dark,
-/area/station/medical/morgue)
 "lQK" = (
 /obj/effect/turf_decal/tile/purple/anticorner/contrasted{
 	dir = 4
@@ -45982,19 +45966,6 @@
 /obj/machinery/telecomms/server/presets/service,
 /turf/open/floor/circuit/green/telecomms,
 /area/station/tcommsat/server)
-"oNe" = (
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 4
-	},
-/obj/machinery/light/directional/east,
-/obj/structure/table,
-/obj/item/healthanalyzer{
-	pixel_x = -1;
-	pixel_y = 6
-	},
-/obj/item/surgery_tray,
-/turf/open/floor/iron/white,
-/area/station/science/robotics/lab)
 "oNk" = (
 /turf/closed/wall/r_wall,
 /area/station/command/teleporter)
@@ -57922,6 +57893,11 @@
 /obj/machinery/duct,
 /turf/open/floor/catwalk_floor,
 /area/station/maintenance/department/engine/atmos)
+"sIW" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/turf/open/floor/stone,
+/area/station/smithing)
 "sJa" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -66523,18 +66499,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/office)
-"voS" = (
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 6
-	},
-/obj/structure/table/reinforced/rglass,
-/obj/item/emergency_bed{
-	pixel_y = 14
-	},
-/obj/item/surgery_tray,
-/obj/machinery/defibrillator_mount/directional/south,
-/turf/open/floor/iron/white,
-/area/station/medical/surgery)
 "voY" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/turf_decal/bot_white/left,
@@ -71965,18 +71929,6 @@
 /obj/machinery/duct,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
-"wWF" = (
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 10
-	},
-/obj/structure/table/reinforced/rglass,
-/obj/item/emergency_bed{
-	pixel_y = 14
-	},
-/obj/machinery/defibrillator_mount/directional/south,
-/obj/item/surgery_tray,
-/turf/open/floor/iron/white,
-/area/station/medical/surgery)
 "wWJ" = (
 /obj/effect/turf_decal/trimline/dark_blue/warning{
 	dir = 4
@@ -107836,7 +107788,7 @@ kwK
 uiX
 jki
 uiX
-fwA
+sIW
 uiX
 oCJ
 ekn
@@ -108090,7 +108042,7 @@ ogk
 wEA
 lTB
 mZc
-fwA
+sIW
 uiX
 uiX
 aoX
@@ -108351,7 +108303,7 @@ pkR
 ojr
 voi
 xjB
-fwA
+sIW
 ajR
 vNF
 tZr
@@ -110711,7 +110663,7 @@ hAV
 etJ
 bcz
 pDy
-wWF
+oiW
 tgG
 uAC
 lku
@@ -112253,7 +112205,7 @@ hWa
 lkX
 wfv
 eZS
-voS
+ecG
 tgG
 wnF
 pZj
@@ -113281,7 +113233,7 @@ dZW
 vuw
 jNd
 gJJ
-lQC
+jhB
 bID
 cZa
 cMc
@@ -117353,7 +117305,7 @@ auK
 mxF
 dxk
 flU
-oNe
+sQL
 lpk
 eoA
 sYI
