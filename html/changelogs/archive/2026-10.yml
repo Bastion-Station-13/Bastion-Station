@@ -175,3 +175,127 @@
       issues on the bug tracker
   - qol: the command bar is now a bit prettier, and also autocompletes things like
       typepaths and mob targets (primarily useful for admins)
+2026-10-11:
+  Absolucy:
+  - code_imp: (SmArtKar) Optimized some hot atmos procs.
+  - code_imp: (SmArtKar) Optimized /datum/gas_mixture/proc/archive() by ~42%
+  - refactor: (Metek) Thanks to cutting edge technological advances, check_breath()
+      calculations have been optimized by approximately 41% ( using alist() instead
+      of list() )
+  - code_imp: (SmArtKar) Optimized bodypart code
+  - qol: hoods now automatically overslot hats - as in, like, if ur wearing a hat,
+      and flip a hood up, the hat will try to just go on top of the hood.
+  - bugfix: (hry-gh) chat storage should load more reliably
+  - server: (hry-gh) server operators can now properly disable the iframe chat storage
+      solution by unsetting the STORAGE_CDN_IFRAME config
+  - bugfix: (UwU) fixed improper chat caching.
+  - qol: (hry-gh) added chat messages when your chat storage has been reset
+  - bugfix: (hry-gh) if you've not been playing for awhile and came back, your chat
+      storage may have been reset. this should no longer happen
+  - qol: The Navigate verb should be slightly faster now.
+  - sound: Removed the goddamn screaming from the slime compressor.
+  - qol: (MTandi) Updated smart fridge UI
+  - qol: (MTandi) smart fridge UI now groups items by type+name instead of just type
+  - qol: (MTandi) smart fridge UI now shows item names next to the images
+  - qol: (MTandi) smart fridge UI has a list view option
+  - qol: (AyIong) SmartFridge got another redesign, and you can dispense all amount
+      of product in one click (RMB on product)
+  - qol: (JohnFulpWillard) Smartfridges now lets you set how many pills you want to
+      vend, rather than popping out a second separate tgui window.
+  - qol: (JohnFulpWillard) Smartfridges and Vending machines no longer have a setting
+      to change the list/grid mode, it instead updates automatically as you swap the
+      mode in-game.
+  - qol: (Melbert) Vending Machines have a search bar
+  - qol: '(AyIong) Vending machines got new design with 2 layouts: List and Grid'
+  - bugfix: (MTandi) Smartfridges properly dispense `\Improper` items
+  - bugfix: (JohnFulpWillard) Smartfridges on grid mode (like botany's) will no longer
+      instantly spit out all the items it has when you try to set how many it should
+      spit out.
+  - code_imp: (SyncIt21) tone of code organization for smart fridges overall. changed
+      ui to typescript.
+  Singul0:
+  - rscadd: Adds 4 new AI projects for you lots to tinker with! (Tray scanners, Engineering
+      Scan, Lights Controls, Advanced Tracking)
+  - balance: Adjusted human examine project cost to make the newly advanced tracking
+      easier to obtain 4K to 2K, reducing the strain to obtain advanced tracking from
+      9K to 7K.
+  Tractor-Maam:
+  - refactor: ported the TG fixes of the Portable Chemical Mixer, allowing it to properly
+      mix chemicals again.
+  - spellcheck: fixed a typo in the Advanced Tracking AI project
+  - code_imp: removed an unused define
+2026-10-12:
+  JupiterJaeden:
+  - rscdel: Disables the 'tutorial' that the game attempts to give new players on
+      switching hands and dropping items, due to it being broken currently. Does not
+      remove the tutorial button accessible from the main menu.
+  Mantlecrawler:
+  - rscadd: Ghost control smite now allows ghosts to force a mob to say things
+  - rscadd: Ghost control smite now allows ghosts to always punch, or shove, rather
+      than relying on combat intent
+  - bugfix: Ghost command shove now actually shoves, rather than punching or helping,
+      depending on intent of the mob.
+  Runian:
+  - map: The blue wiring in Tramstation's engineering now starts connected to the
+      engineering's engine.
+  - bugfix: Clown cyborgs can now correctly use their picket sign's item action button
+      to change its text at will.
+2026-10-13:
+  Absolucy:
+  - code_imp: converts several subsystems that neither initialized or ticked into
+      just being global datums instead. SSmove_manager -> GLOB.move_manager, SScommunications
+      -> GLOB.communications_controller, SStoken_manager -> GLOB.token_manager, and
+      SSgoldeneye -> GLOB.goldeneye
+  DrDiasyl, Zxaber, Jacquerel,  Maurukas, JohnFulpWillard, MrMelbert:
+  - rscadd: Paddy is back in the hangars of Security departments
+  - rscadd: Now up to 3 people can hang off the mechs like tank desant
+  Gboster, ArcaneMusic:
+  - rscadd: borers can now have seperate hives, hiveminds and objectives. Borer PVP
+      is real
+  - qol: added ckeys to each borer on the round-end menu, and made it a bit more compact
+  - qol: borer abilities will now become red when unusuable due to needing a host/being
+      sugared up/abilities own limiters. They will still appear usable when you don't
+      have enough points/chems for them
+  - balance: borers no longer pop out of people if they die in them, instead they'll
+      start dealing toxin/brain damage until removed
+  - balance: Dissection now replaces Reproduction in the neutered borer evolution
+      tree instead of being a side-path
+  - code_imp: changed a lot of back-end borer code, pray everything works
+  - admin: borers no longer spawn in with teams nor objectives, if you are planning
+      on spawning them in with those then use the event/tokens
+  - rscadd: (ArcaneMusic) You can now purchase pet mice as a cargo goodie.
+  - qol: (ArcaneMusic) Pet carriers now have contextual screentips.
+  - bugfix: (ArcaneMusic) The biopod pet carrier now doesn't randomly turn invisible.
+  JupiterJaeden:
+  - map: Fixed the 2 medkits in the kilostation brig med being empty, re-ordered contents
+      of the brig med table, and fixed the left recharger in the security locker room
+      being unusable except from the left of the table.
+  - config: Set the default occupations setting back to "Simple" from "Per-Character
+      Priorities." (revert of previous change on bastion station).
+  - config: Lowered the minimum player requirements for the brute, jester, mystic,
+      operative, and warrior storytellers.
+  - rscadd: Adds a respawn button you can click in the status tab when your respawn
+      timer finishes.
+  - spellcheck: Job estimation in pre-game lobby now always shows the default job
+      title instead of alternate titles.
+  - bugfix: Storyteller vote now properly works and runs automatically at under 25
+      server pop.
+  - rscadd: The storyteller vote now runs at 2 minutes to roundstart instead of immediately
+      after game initialize, is now multiple choice instead of single, and can also
+      be run manually by admins (regardless of pop, but only during the pre-game lobby).
+  Mantlecrawler:
+  - admin: Cassettes are now limited to 7 songs and cannot be flipped to a second
+      side.
+  Runian:
+  - bugfix: Cyborgs can no longer slap-craft an endless amount of flamethrowers via
+      their own welder.
+  - bugfix: Exploding an empty fuel canister no longer causes a runtime.
+  - bugfix: The charge overlay for welding tools now correctly update upon self-refuel.
+  - bugfix: Electric welding tools, like their regular counterpart, now keep their
+      tool behavior when off.
+  - code_imp: Self-refueling/recharging capabilities for welding tools can be applied
+      to all welding tool types.
+  - code_imp: Electric welding tools no longer use the cell component and now handles
+      all of it internally.
+  Vect0r2:
+  - bugfix: fixed a runtime involving Heirophant

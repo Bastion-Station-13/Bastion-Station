@@ -16,5 +16,5 @@
 		EVENT_TRACK_ROLESET = 0.4,
 		EVENT_TRACK_OBJECTIVES = 1,
 		)
-	population_min = 40 // If crew is gonna get hit hard have the numbers to survive it. Somewhat...
+	population_min = 30 // If crew is gonna get hit hard have the numbers to survive it. Somewhat...
 	weight = 1

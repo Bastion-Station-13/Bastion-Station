@@ -182,10 +182,10 @@ SUBSYSTEM_DEF(statpanels)
 	target.stat_panel.send_message("update_interviews", data)
 	// Monkestation Addition: Token Manager START
 	var/list/token_data = list(
-		"accepted" = SStoken_manager.accepted_count || 0,
-		"pending" = length(SStoken_manager.pending_requests) || 0,
-		"rejected" = SStoken_manager.rejected_count || 0,
-		"timed_out" = SStoken_manager.timed_out_count || 0,
+		"accepted" = GLOB.token_manager.accepted_count || 0,
+		"pending" = length(GLOB.token_manager.pending_requests) || 0,
+		"rejected" = GLOB.token_manager.rejected_count || 0,
+		"timed_out" = GLOB.token_manager.timed_out_count || 0,
 	)
 	target.stat_panel.send_message("update_tokens", token_data)
 	// Monkestation Addition END
@@ -348,7 +348,7 @@ SUBSYSTEM_DEF(statpanels)
 		return
 
 	/// The string as it appears in the stat panel
-	var/job_estimation_text = "* [display] [player.client?.prefs.alt_job_titles?[title] || title]"
+	var/job_estimation_text = "* [display] [title]"
 	// If our player is a member of Command or a Silicon, we want to sort them to the top of the list. Otherwise, just add them to the end of the list.
 	// Assistants show up after everyone else.
 	if(player_job.departments_bitflags & (DEPARTMENT_BITFLAG_COMMAND | DEPARTMENT_BITFLAG_SILICON))
