@@ -20,12 +20,14 @@
 /datum/preference/choiced/shadekin_tail/apply_to_human(mob/living/carbon/human/target, value)
 	target.dna.features["tail_shadekin"] = value
 
+/datum/preference/choiced/shadekin_ears/create_default_value()
+	return "Shadekin Classic"
 // shadekin ears
 /datum/preference/choiced/shadekin_ears
 	savefile_key = "feature_shadekin_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
-	main_feature_name = "Ears"
+	main_feature_name = "Protruding Ears"
 	should_generate_icons = TRUE
 	relevant_external_organ = /obj/item/organ/external/ears/shadekin
 

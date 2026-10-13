@@ -269,7 +269,7 @@ export const feature_shadekin_tail: FeatureChoiced = {
 export const feature_shadekin_ears: FeatureChoiced = {
   name: 'Protruding Ears',
   component: FeatureDropdownInput,
-}
+};
 
 export const feature_mcolor: Feature<string> = {
   name: 'Mutant color',

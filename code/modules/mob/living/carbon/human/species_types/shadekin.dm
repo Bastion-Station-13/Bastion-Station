@@ -91,6 +91,7 @@
 /datum/mood_event/shadekin_light
 	description = "The light is uncomfortable..."
 	mood_change = -3
+	timeout = 5 SECONDS
 
 /datum/status_effect/shadekin_regeneration
 	id = "shadekin_regeneration"
