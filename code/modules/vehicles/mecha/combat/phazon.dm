@@ -77,4 +77,7 @@
 	chassis.phasing = chassis.phasing ? "" : "phasing"
 	button_icon_state = "mech_phasing_[chassis.phasing ? "on" : "off"]"
 	chassis.balloon_alert(owner, "[chassis.phasing ? "enabled" : "disabled"] phasing")
+	// Removes tank desant from the mech if its phasing
+	chassis.unbuckle_all_mobs(TRUE)
+	chassis.can_buckle = chassis.phasing ? FALSE : TRUE
 	build_all_button_icons()
