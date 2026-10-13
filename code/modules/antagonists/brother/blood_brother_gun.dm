@@ -413,14 +413,15 @@
 		gun.sharpness = base_sharpness
 		gun.hitsound = base_hitsound
 
-/// Right-clicking with the gun fires a firing underbarrel, except at an adjacent mob, where it still holds them up as normal.
+/// Right-clicking with the gun fires a firing underbarrel, except at a mob close enough to hold up, where it still holds them up as normal.
 /datum/component/blood_brother_gun/proc/on_secondary_fire(obj/item/gun/source, mob/living/user, atom/target, list/modifiers)
 	SIGNAL_HANDLER
 
 	var/obj/item/blood_brother_gun_part/underbarrel/underbarrel = get_part(BB_GUN_PART_UNDERBARREL)
 	if(!underbarrel?.bb_fires || target == user)
 		return NONE
-	if(isliving(target) && user.Adjacent(target))
+	// Anyone close enough to be held up still gets held up, the same range the gun itself uses for that.
+	if(source.can_hold_up && isliving(target) && IN_GIVEN_RANGE(user, target, GUNPOINT_SHOOTER_STRAY_RANGE))
 		return NONE
 	// Only fire at things out in the world, not at items in someone's inventory.
 	if(!isturf(target) && !isturf(target.loc))
