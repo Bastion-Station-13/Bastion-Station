@@ -1,3 +1,6 @@
+#define LAW_STUN_MAJOR 1
+#define LAW_STUN_MINOR 2
+
 /*
 * SPACE LAW BOOK
 * Special code for swearing in and beating people
@@ -107,26 +110,26 @@
 	if(HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
 		target.visible_message(span_danger("[target] looks extremely guilty!"), span_cultlarge(law))
 		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
-		law_stun(target, 1)
+		law_stun(target, LAW_STUN_MAJOR)
 		to_chat(target, span_cultlarge(law))
 	else
-		target.visible_message(span_danger("[target] looks very guilty!"), span_cultlarge(law))
+		target.visible_message(span_danger("[target] looks guilty!"), span_cultlarge(law))
 		target.playsound_local(target, 'sound/items/gavel.ogg', 100, TRUE)
-		law_stun(target, 2)
+		law_stun(target, LAW_STUN_MINOR)
 	playsound(target, SFX_PUNCH, 25, TRUE, -1)
 
 /obj/item/book/manual/wiki/security_space_law/proc/law_stun(mob/living/carbon/target, type)
 	if(!target || !iscarbon(target))
 		return
 	switch(type)
-		if(1) // Full on paralyze and effects
+		if(LAW_STUN_MAJOR) // Full on paralyze and effects
 			target.Paralyze(2 SECONDS)
 			target.Knockdown(4 SECONDS)
 			target.set_eye_blur_if_lower(12 SECONDS)
 			target.set_confusion_if_lower(12 SECONDS)
 			target.adjust_stutter(12 SECONDS)
 			target.set_jitter_if_lower(12 SECONDS)
-		if(2) // 8 seconds of confusion
+		if(LAW_STUN_MINOR) // 8 seconds of confusion
 			target.set_eye_blur_if_lower(8 SECONDS)
 			target.set_confusion_if_lower(8 SECONDS)
 			target.adjust_stutter(8 SECONDS)
@@ -154,3 +157,6 @@
 	user.visible_message(span_suicide("[user] pretends to read [src] intently... then promptly dies of laughter!"))
 	user.emote("laugh")
 	return OXYLOSS
+
+#undef LAW_STUN_MAJOR
+#undef LAW_STUN_MINOR
