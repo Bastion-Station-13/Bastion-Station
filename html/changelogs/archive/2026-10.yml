@@ -224,3 +224,19 @@
       mix chemicals again.
   - spellcheck: fixed a typo in the Advanced Tracking AI project
   - code_imp: removed an unused define
+2026-10-12:
+  JupiterJaeden:
+  - rscdel: Disables the 'tutorial' that the game attempts to give new players on
+      switching hands and dropping items, due to it being broken currently. Does not
+      remove the tutorial button accessible from the main menu.
+  Mantlecrawler:
+  - rscadd: Ghost control smite now allows ghosts to force a mob to say things
+  - rscadd: Ghost control smite now allows ghosts to always punch, or shove, rather
+      than relying on combat intent
+  - bugfix: Ghost command shove now actually shoves, rather than punching or helping,
+      depending on intent of the mob.
+  Runian:
+  - map: The blue wiring in Tramstation's engineering now starts connected to the
+      engineering's engine.
+  - bugfix: Clown cyborgs can now correctly use their picket sign's item action button
+      to change its text at will.

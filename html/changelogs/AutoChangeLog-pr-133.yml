@@ -1,4 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - rscdel: "Disables the 'tutorial' that the game attempts to give new players on switching hands and dropping items, due to it being broken currently. Does not remove the tutorial button accessible from the main menu."

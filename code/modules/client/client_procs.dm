@@ -152,6 +152,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 				src << link("[SSmapping.current_map.mapping_url]/?x=[mob.x]&y=[mob.y]&zoom=6")
 			else
 				src << link("[SSmapping.current_map.mapping_url]")
+		if("pressRespawn")
+			src.mob?.__gvb_abandon_mob()
 	if (hsrc)
 		var/datum/real_src = hsrc
 		if(QDELETED(real_src))

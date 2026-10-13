@@ -1,0 +1,5 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - bugfix: "Storyteller vote now properly works and runs automatically at under 25 server pop."
+  - rscadd: "The storyteller vote now runs at 2 minutes to roundstart instead of immediately after game initialize, is now multiple choice instead of single, and can also be run manually by admins (regardless of pop, but only during the pre-game lobby)."
