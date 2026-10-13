@@ -240,3 +240,62 @@
       engineering's engine.
   - bugfix: Clown cyborgs can now correctly use their picket sign's item action button
       to change its text at will.
+2026-10-13:
+  Absolucy:
+  - code_imp: converts several subsystems that neither initialized or ticked into
+      just being global datums instead. SSmove_manager -> GLOB.move_manager, SScommunications
+      -> GLOB.communications_controller, SStoken_manager -> GLOB.token_manager, and
+      SSgoldeneye -> GLOB.goldeneye
+  DrDiasyl, Zxaber, Jacquerel,  Maurukas, JohnFulpWillard, MrMelbert:
+  - rscadd: Paddy is back in the hangars of Security departments
+  - rscadd: Now up to 3 people can hang off the mechs like tank desant
+  Gboster, ArcaneMusic:
+  - rscadd: borers can now have seperate hives, hiveminds and objectives. Borer PVP
+      is real
+  - qol: added ckeys to each borer on the round-end menu, and made it a bit more compact
+  - qol: borer abilities will now become red when unusuable due to needing a host/being
+      sugared up/abilities own limiters. They will still appear usable when you don't
+      have enough points/chems for them
+  - balance: borers no longer pop out of people if they die in them, instead they'll
+      start dealing toxin/brain damage until removed
+  - balance: Dissection now replaces Reproduction in the neutered borer evolution
+      tree instead of being a side-path
+  - code_imp: changed a lot of back-end borer code, pray everything works
+  - admin: borers no longer spawn in with teams nor objectives, if you are planning
+      on spawning them in with those then use the event/tokens
+  - rscadd: (ArcaneMusic) You can now purchase pet mice as a cargo goodie.
+  - qol: (ArcaneMusic) Pet carriers now have contextual screentips.
+  - bugfix: (ArcaneMusic) The biopod pet carrier now doesn't randomly turn invisible.
+  JupiterJaeden:
+  - map: Fixed the 2 medkits in the kilostation brig med being empty, re-ordered contents
+      of the brig med table, and fixed the left recharger in the security locker room
+      being unusable except from the left of the table.
+  - config: Set the default occupations setting back to "Simple" from "Per-Character
+      Priorities." (revert of previous change on bastion station).
+  - config: Lowered the minimum player requirements for the brute, jester, mystic,
+      operative, and warrior storytellers.
+  - rscadd: Adds a respawn button you can click in the status tab when your respawn
+      timer finishes.
+  - spellcheck: Job estimation in pre-game lobby now always shows the default job
+      title instead of alternate titles.
+  - bugfix: Storyteller vote now properly works and runs automatically at under 25
+      server pop.
+  - rscadd: The storyteller vote now runs at 2 minutes to roundstart instead of immediately
+      after game initialize, is now multiple choice instead of single, and can also
+      be run manually by admins (regardless of pop, but only during the pre-game lobby).
+  Mantlecrawler:
+  - admin: Cassettes are now limited to 7 songs and cannot be flipped to a second
+      side.
+  Runian:
+  - bugfix: Cyborgs can no longer slap-craft an endless amount of flamethrowers via
+      their own welder.
+  - bugfix: Exploding an empty fuel canister no longer causes a runtime.
+  - bugfix: The charge overlay for welding tools now correctly update upon self-refuel.
+  - bugfix: Electric welding tools, like their regular counterpart, now keep their
+      tool behavior when off.
+  - code_imp: Self-refueling/recharging capabilities for welding tools can be applied
+      to all welding tool types.
+  - code_imp: Electric welding tools no longer use the cell component and now handles
+      all of it internally.
+  Vect0r2:
+  - bugfix: fixed a runtime involving Heirophant
