@@ -2,9 +2,8 @@ import { multiline } from 'common/string';
 import { type Antagonist, Category } from '../base';
 
 export const ARCFIEND_MECHANICAL_DESCRIPTION = multiline`
-      Sap the station's power to fuel your abilities, and slip through its
-      cables unseen. Shocks can't hurt you, but EMPs can, and so can
-      everything else.
+      Drain power from the station and its crew, then spend it on electric
+      powers and upgrades.
    `;
 
 const Arcfiend: Antagonist = {
@@ -12,8 +11,8 @@ const Arcfiend: Antagonist = {
   name: 'Arcfiend',
   description: [
     multiline`
-      Something in the wiring woke up hungry. Every cable and APC on the
-      station hums for you, and all that power is yours to take.
+      A human whose body was rewritten by conductive nanites. You feed on
+      electricity, and the station is full of it.
     `,
     ARCFIEND_MECHANICAL_DESCRIPTION,
   ],
