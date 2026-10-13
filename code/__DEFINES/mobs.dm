@@ -146,6 +146,7 @@
 #define BODYTYPE_PEG (1<<9)
 
 #define BODYTYPE_LIST_PROSTHETIC (BODYTYPE_ROBOTIC | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
+#define BODYTYPE_LIST_PEG (BODYTYPE_PEG | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
 
 //Species gib types
 #define GIB_TYPE_HUMAN "human"
@@ -211,6 +212,7 @@
 #define BODYPART_ID_LARVA "larva"
 #define BODYPART_ID_PSYKER "psyker"
 #define BODYPART_ID_DARKSPAWN "darkspawn"
+#define BODYPART_ID_PEG "peg"
 
 //See: datum/species/var/digitigrade_customization
 ///The species does not have digitigrade legs in generation.
