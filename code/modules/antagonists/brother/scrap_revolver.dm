@@ -29,7 +29,7 @@
 
 /obj/item/gun/ballistic/revolver/scrap
 	name = "scrap revolver"
-	desc = "A crude revolver cobbled together from whatever parts were available. Its matter-bin cylinder can be configured for .38 rounds or 12 gauge shells."
+	desc = "A shoddy revolver cobbled together from whatever was lying around. The matter bin cylinder takes either .38 or 12 gauge."
 	icon_state = "revolver_scrap_c38"
 	base_icon_state = "revolver_scrap_c38"
 	inhand_icon_state = "gun"

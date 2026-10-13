@@ -35,7 +35,7 @@
 
 /datum/crafting_recipe/blood_brother/extended_magazine
 	name = "Extended Magazine"
-	desc = "Adds a couple of extra rounds to a weapon's internal magazine, like a revolver's cylinder."
+	desc = "Fit extra rounds into a weapon's internal magazine, like a revolver's cylinder."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/magazine/extended
 	reqs = list(
@@ -53,7 +53,7 @@
 
 /datum/crafting_recipe/blood_brother/big_magazine
 	name = "Big Magazine"
-	desc = "Adds a lot of extra rounds to a weapon's internal magazine, but makes the weapon one size bigger."
+	desc = "Bolts on a much bigger magazine for a lot more rounds, though you'll definitely feel the weight."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/magazine/big
 	reqs = list(
@@ -68,7 +68,7 @@
 
 /datum/crafting_recipe/blood_brother/bluespace_magazine
 	name = "Bluespace Magazine"
-	desc = "Lets a weapon's internal magazine hold an absurd number of rounds, but loading ammunition into it takes a moment."
+	desc = "Fits an absurd number of rounds into the internal magazine, but cramming bullets into a pocket dimension is really tedious."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/magazine/bluespace
 	reqs = list(
@@ -84,7 +84,7 @@
 
 /datum/crafting_recipe/blood_brother/semi_auto_receiver_part
 	name = "Semi-Auto Receiver"
-	desc = "A plain spring-loaded trigger group in a bent iron housing. One shot per trigger pull, with no changes to the weapon's damage, projectile speed or rate of fire."
+	desc = "A spring trigger in a bent iron housing. Pull once, shoot once. Simple as that."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/semi_auto
 	reqs = list(
@@ -97,7 +97,7 @@
 
 /datum/crafting_recipe/blood_brother/automatic_receiver_part
 	name = "Automatic Receiver"
-	desc = "A trigger group driven by a motorised manipulator that cycles the action for you. Hold down the trigger to keep firing at a rapid rate."
+	desc = "A trigger group with a motorized manipulator cycling the action for you. Hold the trigger and let it rip, just watch your ammo!"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/automatic
 	reqs = list(
@@ -114,7 +114,7 @@
 
 /datum/crafting_recipe/blood_brother/rifle_receiver_part
 	name = "Rifle Receiver"
-	desc = "A heavy plasteel receiver with a long, slow action. Each shot hits harder and flies faster, but the weapon fires much more slowly."
+	desc = "A heavy plasteel receiver with a slow action to make your shots fly and shoot harder at the cost of firing speed. Don't miss!"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/rifle
 	reqs = list(
@@ -130,7 +130,7 @@
 
 /datum/crafting_recipe/blood_brother/carbine_receiver_part
 	name = "Carbine Receiver"
-	desc = "A compact receiver with a shortened action. A middle ground between semi-auto and rifle: shots hit a little harder and fly a little faster, at a somewhat slower rate of fire."
+	desc = "A short action offering a compromise of power and firerate between semi auto and rifle."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/receiver/carbine
 	reqs = list(
@@ -146,7 +146,7 @@
 
 /datum/crafting_recipe/blood_brother/long_barrel
 	name = "Long Barrel"
-	desc = "Your rounds deal more damage and pierce more armor, but the weapon gets one size bigger."
+	desc = "Extend your barrel to improve AP and damage but makes it harder to stuff inside your bag."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/barrel/long
 	reqs = list(
@@ -160,7 +160,7 @@
 
 /datum/crafting_recipe/blood_brother/shortened_barrel
 	name = "Shortened Barrel"
-	desc = "Makes your weapon one size smaller and easier to hide, but your rounds spread out a lot more."
+	desc = "Saw the barrel down to hide your gun more easily, but your shots will spray everywhere."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/barrel/shortened
 	reqs = list(
@@ -172,7 +172,7 @@
 
 /datum/crafting_recipe/blood_brother/lucky_barrel
 	name = "Lucky Barrel"
-	desc = "Rounds that fire a single projectile, like slugs and revolver rounds, have a chance to crit for double damage. Buckshot and other pellet rounds don't benefit."
+	desc = "Gives single shot rounds like slugs and revolver rounds a chance to crit for double damage. Buckshot and other pellets get no luck, sorry!"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/barrel/lucky
 	reqs = list(
@@ -185,7 +185,7 @@
 
 /datum/crafting_recipe/blood_brother/choke
 	name = "Choke"
-	desc = "Tightens your weapon's grouping, reducing buckshot pellet spread, the inaccuracy of single rounds, and the penalty for dual wielding."
+	desc = "Tightens your spread, increasing accuracy and allowing dual wielding to be less inaccurate"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/barrel/choke
 	reqs = list(
@@ -199,7 +199,7 @@
 
 /datum/crafting_recipe/blood_brother/upgraded_cell
 	name = "Upgraded Cell"
-	desc = "Doubles an energy weapon's charge capacity."
+	desc = "A bigger battery, so your gun holds twice the charge."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/power_cell/upgraded
 	reqs = list(
@@ -212,7 +212,7 @@
 
 /datum/crafting_recipe/blood_brother/emp_shielded_cell
 	name = "EMP Shielded Cell"
-	desc = "Holds less charge than an upgraded cell, but an EMP fully recharges your energy weapon instead of draining it."
+	desc = "Holds less charge, but an EMP fully recharges your weapon instead of draining it."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/power_cell/emp_shielded
 	reqs = list(
@@ -228,7 +228,7 @@
 
 /datum/crafting_recipe/blood_brother/self_recharging_cell
 	name = "Self-Recharging Cell"
-	desc = "Slowly recharges your energy weapon over time."
+	desc = "Wired to a slime core so your gun slowly charges itself back up. Handy when you can't get to a charger."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/power_cell/self_recharging
 	reqs = list(
@@ -242,7 +242,7 @@
 
 /datum/crafting_recipe/blood_brother/unstable_cell
 	name = "Unstable Cell"
-	desc = "Quadruples your energy weapon's capacity, and lets you recharge it by feeding it uranium. But it sparks with every shot, leaks radiation, and an EMP will make it violently discharge into you."
+	desc = "Four times the capacity and it recharges with uranium, but it sparks, leaks radiation, and an EMP will dump the charge straight into you. Not exactly safe!"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/power_cell/unstable
 	reqs = list(
@@ -258,7 +258,7 @@
 
 /datum/crafting_recipe/blood_brother/spray_lens
 	name = "Spray Lens"
-	desc = "Your energy weapon fires faster, armor-piercing, power-efficient shots, but they deal less damage and spread out a lot more."
+	desc = "Sprays weak and inaccurate but fast, armor-piercing shots for hardly any power."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/lens/spray
 	reqs = list(
@@ -276,7 +276,7 @@
 
 /datum/crafting_recipe/blood_brother/efficiency_lens
 	name = "Efficiency Lens"
-	desc = "Get a lot more shots out of your energy weapon by lowering the power each shot uses, at the cost of some damage."
+	desc = "Squeezes a lot more shots out of each charge, but they hit softer. Great if you need to conserve ammo."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/lens/efficiency
 	reqs = list(
@@ -289,7 +289,7 @@
 
 /datum/crafting_recipe/blood_brother/densifying_lens
 	name = "Densifying Lens"
-	desc = "Your energy weapon fires slower, slower-moving shots that deal more damage and knock their target down."
+	desc = "Slow, heavy shots that hit harder and knock people down. You'll fire a lot slower, so make them count."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/lens/densifying
 	reqs = list(
@@ -304,7 +304,7 @@
 
 /datum/crafting_recipe/blood_brother/bluespace_lens
 	name = "Bluespace Lens"
-	desc = "Shots deal more damage, fly faster, and can teleport whoever they hit, but each one uses more power and your energy weapon fires more slowly."
+	desc = "Shots hit harder, fly faster, and can teleport whoever they hit. It drains your battery and fires slower, but it's worth it for the chaos."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/lens/bluespace
 	reqs = list(
@@ -320,7 +320,7 @@
 
 /datum/crafting_recipe/blood_brother/crude_launcher
 	name = "Crude Launcher"
-	desc = "A pneumatic underbarrel that launches one loaded item, like a knife or a bola, when you right-click with your weapon. Bullets won't fire from it, and grenades don't fit."
+	desc = "A pneumatic cannon mounted onto your firearm. Right-click to fire whatever's loaded.""
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/underbarrel/launcher
 	reqs = list(
@@ -336,7 +336,7 @@
 
 /datum/crafting_recipe/blood_brother/grenade_launcher
 	name = "Underbarrel Grenade Launcher"
-	desc = "Holds one grenade of any kind and fires it on a short fuse when you right-click with your weapon. Pairs nicely with smoke grenades, flashbangs and chemical grenades."
+	desc = "Holds one grenade, any kind, and lobs it on a short fuse when you right-click with your weapon. Don't stand too close!"
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/underbarrel/grenade_launcher
 	reqs = list(
@@ -352,7 +352,7 @@
 
 /datum/crafting_recipe/blood_brother/saw_blade
 	name = "Saw Blade"
-	desc = "Turns your weapon's melee attack into a vicious cutting one, but makes it one size bigger."
+	desc = "Turns your weapon's melee attack into a nasty cutting one. Quite cumbersome but better than a bayonet that's for sure."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/underbarrel/saw_blade
 	reqs = list(
@@ -367,7 +367,7 @@
 
 /datum/crafting_recipe/blood_brother/scrap_foregrip
 	name = "Scrap Foregrip"
-	desc = "A retractable handle that steadies your aim and makes dual wielding much easier, with no downside."
+	desc = "A fold-out handle that steadies your aim and makes dual wielding a lot less of a mess."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/underbarrel/foregrip
 	reqs = list(
@@ -381,7 +381,7 @@
 
 /datum/crafting_recipe/blood_brother/toolset_implant
 	name = "Toolset Arm Implant"
-	desc = "A full set of tools crammed into a cyborg arm, ready to be implanted into your own. Either cyborg arm will do."
+	desc = "A whole toolbox crammed into a cyborg arm, ready to be shoved into you. Either cyborg arm will do."
 	category = CAT_BB_IMPLANTS
 	result = /obj/item/organ/internal/cyberimp/arm/item_set/toolset
 	reqs = list(
@@ -402,7 +402,7 @@
 
 /datum/crafting_recipe/blood_brother/smokebomb_lungs
 	name = "Smokebomb Lungs"
-	desc = "Cybernetic lungs loaded with smoke powder, letting you exhale a cloud of choking smoke on demand. You'll be immune to the coughing, but not the blindness. Any cybernetic lungs will do."
+	desc = "Cybernetic lungs packed with smoke powder, so you can breathe out a cloud to vanish like a ninja. Any cybernetic lungs will do."
 	category = CAT_BB_IMPLANTS
 	result = /obj/item/organ/internal/lungs/cybernetic/smokebomb
 	reqs = list(
@@ -420,7 +420,7 @@
 
 /datum/crafting_recipe/blood_brother/electrified_bola
 	name = "Electrified Bola"
-	desc = "A modified bola wired to deliver a sustained electrical shock."
+	desc = "A bola with a battery and a few capacitors wired in, so whoever it catches gets zapped until they get it off."
 	category = CAT_BB_WEAPONS
 	result = /obj/item/restraints/legcuffs/bola/electrified
 	reqs = list(
@@ -446,7 +446,7 @@
 
 /datum/crafting_recipe/blood_brother/makeshift_emag
 	name = "Improvised Emag"
-	desc = "A crude cryptographic sequencer assembled from scavenged electronics. It is slow, unreliable, and must be manually recharged."
+	desc = "Scavenged electronics and a cracked screen doing a very bad impression of an emag. Slow, flaky, and you have to recharge it by hand."
 	category = CAT_BB_GADGETS
 	result = /obj/item/card/emag/improvised
 	reqs = list(
@@ -463,7 +463,7 @@
 
 /datum/crafting_recipe/blood_brother/scrap_revolver
 	name = "Scrap Revolver"
-	desc = "A crude revolver built around a matter-bin cylinder that can be configured for .38 rounds or 12 gauge shells."
+	desc = "A crude revolver built around a matter bin cylinder that can be modified to accept either .38 or 12 gauge rounds."
 	category = CAT_BB_WEAPONS
 	result = /obj/item/gun/ballistic/revolver/scrap
 	reqs = list(
@@ -482,7 +482,7 @@
 
 /datum/crafting_recipe/blood_brother/hardlight_laser_cannon
 	name = "Hardlight Laser Cannon"
-	desc = "A crude laser cannon that fires dense beams of hardlight."
+	desc = "A crude laser cannon that fires beams of hardlight so dense they're stopped by glass and grilles."
 	category = CAT_BB_WEAPONS
 	result = /obj/item/gun/energy/laser/hardlight
 	reqs = list(
@@ -494,7 +494,7 @@
 
 /datum/crafting_recipe/blood_brother/ned_kelly_armor
 	name = "Ned Kelly Armor"
-	desc = "Heavy plate armor that protects your chest, groin and arms, but not your legs. Wear it with the Ned Kelly helmet to become immune to stuns."
+	desc = "Heavy plate over your chest, groin and arms. Wear it with the Ned Kelly helmet and nothing can stun you. Nothing covers the legs just like the real thing!"
 	category = CAT_BB_ARMOR
 	result = /obj/item/clothing/suit/armor/ned_kelly
 	reqs = list(
@@ -509,7 +509,7 @@
 
 /datum/crafting_recipe/blood_brother/ned_kelly_helmet
 	name = "Ned Kelly Helmet"
-	desc = "A heavy iron helmet that covers your whole face. Wear it with the Ned Kelly armor to become immune to stuns."
+	desc = "A heavy iron bucket that covers your whole face. Wear it with the Ned Kelly armor and nothing can stun you."
 	category = CAT_BB_ARMOR
 	result = /obj/item/clothing/head/helmet/ned_kelly
 	reqs = list(
@@ -546,7 +546,7 @@
 
 /datum/crafting_recipe/blood_brother/c38_speedloader/hotshot
 	name = ".38 Hot Shot Speedloader"
-	desc = "Pack a regular .38 speedloader's rounds with welding fuel for an incendiary payload."
+	desc = "Pack a regular .38 speedloader's rounds with welding fuel to set your foes on fire."
 	result = /obj/item/ammo_box/c38/hotshot
 	reqs = list(
 		/obj/item/ammo_box/c38 = 1,
@@ -558,7 +558,7 @@
 
 /datum/crafting_recipe/blood_brother/c38_speedloader/iceblox
 	name = ".38 Iceblox Speedloader"
-	desc = "Pack a regular .38 speedloader's rounds with cryostylane for a cryogenic payload."
+	desc = "Pack a regular .38 speedloader's rounds with cryostylane to slow your enemies down or prevent them from running away as easily."
 	result = /obj/item/ammo_box/c38/iceblox
 	reqs = list(
 		/obj/item/ammo_box/c38 = 1,
@@ -570,7 +570,7 @@
 
 /datum/crafting_recipe/blood_brother/c38_speedloader/dumdum
 	name = ".38 DumDum Speedloader"
-	desc = "Notch the tips of a regular .38 speedloader's rounds so they expand on impact. Devastating against unarmored targets, weak against everything else."
+	desc = "Notch the tips of a regular .38 speedloader's rounds so they mushroom on impact, inflicting horrible bleeding."
 	result = /obj/item/ammo_box/c38/dumdum
 	reqs = list(
 		/obj/item/ammo_box/c38 = 1,
@@ -581,7 +581,7 @@
 
 /datum/crafting_recipe/blood_brother/bond_beacon
 	name = "Bond Beacon"
-	desc = "A single use tracking chip keyed to your blood bond. Apply it to yourself to share your location with your brothers in the conspirators tab for the rest of the round."
+	desc = "A tiny tracking chip that lets your brothers locate you wherever you are for the rest of the shift. Use it in your hand to switch it on."
 	category = CAT_BB_SUPPORT
 	result = /obj/item/bond_beacon
 	reqs = list(

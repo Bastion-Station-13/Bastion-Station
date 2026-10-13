@@ -5,7 +5,7 @@
  */
 /obj/item/organ/internal/lungs/cybernetic/smokebomb
 	name = "smokebomb lungs"
-	desc = "A pair of cybernetic lungs fitted with a smoke-powder reservoir. Whoever has these can exhale a thick, choking cloud without so much as a cough."
+	desc = "Cybernetic lungs with a smoke-powder reservoir. Whoever has these can breathe out a thick, choking cloud without so much as a cough."
 	icon_state = "lungs_smokebomb"
 	actions_types = list(/datum/action/cooldown/smokebomb_lungs)
 	organ_traits = list(TRAIT_SMOKE_COUGH_IMMUNE)

@@ -4,7 +4,7 @@
 
 /obj/item/gun/energy/laser/hardlight
 	name = "hardlight laser cannon"
-	desc = "A crude laser cannon that fires incredibly dense beams of hardlight. The beam is solid enough to be stopped by glass and grilles."
+	desc = "A laser cannon that fires hardlight blasts so dense it cannot shoot through glass or grilles."
 	icon_state = "hardlight_cannon"
 	// Left null so the inhand state is built from the charge level (hardlight_cannon0 to hardlight_cannon4).
 	inhand_icon_state = null

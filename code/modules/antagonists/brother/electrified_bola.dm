@@ -4,7 +4,7 @@
 
 /obj/item/restraints/legcuffs/bola/electrified
 	name = "electrified bola"
-	desc = "A bola modified to deliver a sustained electrical shock to whoever it ensnares."
+	desc = "A bola wired up to keep shocking whoever it catches."
 	icon_state = "bola_electrified"
 	icon_state_preview = null
 	inhand_icon_state = "bola_electrified"
@@ -26,7 +26,6 @@
 
 	// The EMP happens once, immediately when the bola successfully ensnares its target.
 	C.emp_act(EMP_HEAVY)
-	C.remove_status_effect(/datum/status_effect/electrified_bola)
 	C.apply_status_effect(/datum/status_effect/electrified_bola, src)
 
 /datum/status_effect/electrified_bola
@@ -34,7 +33,8 @@
 	duration = STATUS_EFFECT_PERMANENT
 	tick_interval = 2 SECONDS
 	processing_speed = STATUS_EFFECT_FAST_PROCESS
-	status_type = STATUS_EFFECT_UNIQUE
+	// A new bola takes over from one that was only just removed, so the effect always tracks the bola actually on the target.
+	status_type = STATUS_EFFECT_REPLACE
 	on_remove_on_mob_delete = TRUE
 	alert_type = /atom/movable/screen/alert/status_effect/electrified_bola
 	var/obj/item/restraints/legcuffs/bola/electrified/source_bola

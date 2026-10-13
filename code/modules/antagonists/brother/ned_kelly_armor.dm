@@ -19,7 +19,7 @@
 
 /obj/item/clothing/suit/armor/ned_kelly
 	name = "Ned Kelly armor"
-	desc = "Crude plate armor hammered together from scrap metal. It weighs a ton, but very little gets through it. It's missing any protection for the legs."
+	desc = "Crude plate armor hammered together from scrap metal. Weighs a ton, but very little gets through. Nothing covers the legs just like the real thing!"
 	icon_state = "armor_nedkelly"
 	worn_icon = 'icons/mob/clothing/suit.dmi'
 	worn_icon_state = "armor_nedkelly"
@@ -39,7 +39,7 @@
 
 /obj/item/clothing/head/helmet/ned_kelly
 	name = "Ned Kelly helmet"
-	desc = "A heavy iron bucket with a slit cut out for the eyes. It covers the wearer's whole face."
+	desc = "A heavy iron bucket with a slit cut out for the eyes. Covers the whole face."
 	icon_state = "helmet_nedkelly"
 	base_icon_state = "helmet_nedkelly"
 	worn_icon = 'icons/mob/clothing/head.dmi'

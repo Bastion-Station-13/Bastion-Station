@@ -7,7 +7,7 @@
  */
 /obj/item/bond_beacon
 	name = "bond beacon"
-	desc = "A tiny tracking chip keyed to a blood bond. Apply it to yourself to share your location with your brothers."
+	desc = "A tiny tracking chip that broadcasts your location to your conspirators."
 	icon = 'icons/obj/antags/blood_brother.dmi'
 	icon_state = "bond_beacon"
 	w_class = WEIGHT_CLASS_TINY

@@ -38,7 +38,7 @@
 	var/emagging = FALSE
 
 /obj/item/card/emag/improvised/can_emag(atom/target, mob/user)
-	if(ismob(target) || istype(target, /obj/structure/chair))
+	if(ismob(target))
 		to_chat(user, span_warning("[src] cannot interface with [target]."))
 		return FALSE
 	return ..()
