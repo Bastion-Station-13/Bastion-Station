@@ -1,5 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - rscadd: "Adds a respawn button you can click in the status tab when your respawn timer finishes."
-  - spellcheck: "Job estimation in pre-game lobby now always shows the default job title instead of alternate titles."
