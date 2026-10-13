@@ -18370,6 +18370,10 @@
 	},
 /turf/open/floor/iron/dark/corner,
 /area/station/hallway/primary/port)
+"fJN" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/textured_large,
+/area/station/security/interrogation)
 "fJP" = (
 /obj/structure/table/reinforced/plastitaniumglass,
 /obj/effect/decal/cleanable/dirt,
@@ -29580,6 +29584,12 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/port/lesser)
+"iZW" = (
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/item/pen,
+/turf/open/floor/iron/dark/textured_large,
+/area/station/security/interrogation)
 "iZX" = (
 /obj/structure/chair,
 /obj/effect/turf_decal/bot,
@@ -33839,6 +33849,15 @@
 /obj/structure/sign/warning/electric_shock,
 /turf/closed/wall/r_wall,
 /area/station/maintenance/port/aft)
+"kuQ" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/item/kirbyplants{
+	icon_state = "plant-02";
+	pixel_y = 3
+	},
+/obj/machinery/firealarm/directional/west,
+/turf/open/floor/iron/dark/textured_large,
+/area/station/security/interrogation)
 "kvo" = (
 /obj/structure/table,
 /obj/machinery/firealarm/directional/west,
@@ -36326,6 +36345,13 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/r_wall,
 /area/station/ai_monitored/security/armory)
+"ljx" = (
+/obj/structure/table,
+/obj/item/storage/toolbox/emergency,
+/obj/item/taperecorder,
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/iron/dark/textured_large,
+/area/station/security/interrogation)
 "ljA" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -67431,6 +67457,19 @@
 	},
 /turf/open/floor/engine,
 /area/station/engineering/storage/tech)
+"vbT" = (
+/obj/structure/rack,
+/obj/item/wirecutters{
+	pixel_y = 5
+	},
+/obj/item/wirerod,
+/obj/effect/turf_decal/bot,
+/obj/machinery/camera/directional/south{
+	c_tag = "Security - Interrogation";
+	network = list("ss13","interrogation")
+	},
+/turf/open/floor/iron/dark/textured_large,
+/area/station/security/interrogation)
 "vcc" = (
 /mob/living/basic/chicken{
 	forced_gender = "male"
@@ -100544,7 +100583,7 @@ nYX
 rKL
 hMR
 caf
-qiF
+kuQ
 rnc
 kUP
 kUP
@@ -100801,7 +100840,7 @@ nYX
 aQo
 faP
 jPc
-qiF
+iZW
 rnc
 hcM
 kUP
@@ -101058,7 +101097,7 @@ nYX
 cUk
 lZu
 lnr
-qiF
+ljx
 rnc
 nPx
 xXR
@@ -101315,7 +101354,7 @@ nYX
 mgH
 dYu
 jPc
-qiF
+vbT
 rnc
 lrm
 kUP
@@ -101572,7 +101611,7 @@ nYX
 huk
 aah
 qHN
-qiF
+fJN
 rnc
 kUP
 kUP
