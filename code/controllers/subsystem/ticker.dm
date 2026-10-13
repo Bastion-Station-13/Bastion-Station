@@ -31,6 +31,8 @@ SUBSYSTEM_DEF(ticker)
 	var/ready_for_reboot = FALSE //all roundend preparation done with, all that's left is reboot
 
 	var/tipped = FALSE //Did we broadcast the tip of the day yet?
+	///TRUE if the storyteller selection has already been started, FALSE otherwise
+	var/storytellered = FALSE
 	var/selected_tip // What will be the tip of the day?
 
 	var/timeLeft //pregame timer
@@ -231,6 +233,14 @@ SUBSYSTEM_DEF(ticker)
 				send_tip_of_the_round(world, selected_tip)
 				tipped = TRUE
 				SStitle.update_init_text()
+
+			if(!storytellered)
+				if(timeLeft <= (2 MINUTES) && timeLeft >= (70 SECONDS))
+					SSgamemode.handle_picking_storyteller()
+					storytellered = TRUE
+				else if(timeLeft < (70 SECONDS))
+					SSgamemode.handle_picking_storyteller(disable_vote = TRUE)
+					storytellered = TRUE
 
 			if(timeLeft <= 0)
 				SEND_SIGNAL(src, COMSIG_TICKER_ENTER_SETTING_UP)
@@ -486,6 +496,9 @@ SUBSYSTEM_DEF(ticker)
 		var/datum/job/player_assigned_role = new_player_living.mind.assigned_role
 		if(player_assigned_role.job_flags & JOB_EQUIP_RANK)
 			SSjob.EquipRank(new_player_living, player_assigned_role, new_player_mob.client)
+
+		new_player_mob.persistent_client.joined_departments_bitflag |= player_assigned_role.departments_bitflags
+
 		player_assigned_role.after_roundstart_spawn(new_player_living, new_player_mob.client)
 		if(picked_spare_id_candidate == new_player_mob)
 			captainless = FALSE
@@ -623,6 +636,7 @@ SUBSYSTEM_DEF(ticker)
 	delay_end = SSticker.delay_end
 
 	tipped = SSticker.tipped
+	storytellered = SSticker.storytellered
 	selected_tip = SSticker.selected_tip
 
 	timeLeft = SSticker.timeLeft
@@ -1222,6 +1236,8 @@ SUBSYSTEM_DEF(ticker)
 
 	//might want to make this a full section
 	parts += "<div class='panel stationborder'><span class='header'>[("Storyteller: [SSgamemode.current_storyteller ? SSgamemode.current_storyteller.name : "N/A"]")]</span></div>"
+
+	parts += "<div class='panel stationborder'><span class='header'>[("Game Master: [GLOB.called_gamemaster ? capitalize(GLOB.called_gamemaster) : "None"]")]</span><br><b>(as of roundend)</b></div>"
 
 	if(nanotrasen_rep_status)
 		parts += nanotrasen_rep_report()

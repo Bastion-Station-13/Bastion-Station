@@ -75,6 +75,8 @@
 		/obj/item/bodypart/leg/right,
 		/obj/item/bodypart/leg/left,
 	)
+	/// Alist of (non-stump) bodyparts by their bodyzone for quick get_bodypart access
+	var/alist/real_bodypart_cache = alist()
 
 	/// A collection of arms (or actually whatever the fug /bodyparts you monsters use to wreck my systems)
 	var/list/hand_bodyparts = list()
@@ -120,6 +122,3 @@
 	COOLDOWN_DECLARE(bleeding_message_cd)
 
 	var/next_smell = 0 /// Cooldown for the next smell
-
-	/// Timer used to make the carbon fart shortly after they die
-	var/death_fart_timerid
