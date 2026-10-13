@@ -144,9 +144,9 @@ const InformationTab = () => {
             You are the {antag_name}!
           </Box>
           <Box mt={1}>
-            Nanites rewrote your body to run on electricity. You can feel every
-            cable, APC and machine on the station, and you can take their power.
-            Electricity can't hurt you. It only feeds you.
+            Your body has been changed by nanites to run on electricity. You can
+            feel every cable, APC and machine on the station, and you can take
+            their power. Electricity can't hurt you. It only feeds you.
           </Box>
           <Box mt={1}>
             You're still flesh, though. Bullets, blades and fire hurt you like
@@ -166,7 +166,7 @@ const InformationTab = () => {
 
 const GuideTab = () => {
   const { data } = useBackend<Info>();
-  const { tier_requirements, minds_drained } = data;
+  const { tier_requirements, minds_drained, power_cap } = data;
   return (
     <Section fill scrollable title="How to play an Arcfiend">
       <NoticeBox danger>
@@ -182,8 +182,9 @@ const GuideTab = () => {
           upgrading them. You get it by sapping APCs, SMES units, cables and
           machines, but people and cyborgs give far more. Sapping is loud and
           bright, and it also feeds you, so you never need to eat. It won't make
-          you fat, or overcharge you if you're an ethereal. You can only hold so
-          much, and outside EMPs will scatter some of it.
+          you fat, or overcharge you if you're an ethereal. You can only hold a
+          maximum of {power_cap} power, and outside EMPs will scatter some of
+          it.
         </GuideSection>
         <GuideSection title="Using powers">
           Powers you aim put a glowing hand in your hand while they're ready.
@@ -215,10 +216,6 @@ const GuideTab = () => {
           of power, so expect to be noticed. Upgrade level 2 needs{' '}
           {tier_requirements[1]} player{tier_requirements[1] === 1 ? '' : 's'},
           and level 3 needs {tier_requirements[2]}.
-        </GuideSection>
-        <GuideSection title="Objectives">
-          Drain the amount of power you were given, finish your other
-          objectives, and escape on the shuttle alive and out of custody.
         </GuideSection>
       </Stack>
     </Section>

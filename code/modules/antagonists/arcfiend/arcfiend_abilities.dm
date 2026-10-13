@@ -781,7 +781,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/nanite_regeneration
 	name = "Nanite Regeneration"
-	desc = "The nanites stitch up your brute and burn damage as you go."
+	desc = "The nanites stitch up your brute and burn damage passively."
 	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 200
@@ -823,7 +823,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/ampullary_sense
 	name = "Ampullary Sense"
-	desc = "You sense electric fields like a shark does. Lets you see in the dark."
+	desc = "You sense electric fields like a shark does, allowing you to see in the dark."
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 400
@@ -861,7 +861,7 @@
 	unlock_cost = 150
 	upgrade_costs = list(200)
 	upgrade_descriptions = list(
-		"Wet and icy floors can't trip you.",
+		"Wet and icy floors can't slip you.",
 	)
 
 /datum/action/cooldown/arcfiend/passive/capacitive_soles/apply_passive(mob/living/user, level)
