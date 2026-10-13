@@ -175,8 +175,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint
 	name = "Overdrive Sprint"
-	desc = "Run like hell."
-	shop_desc = "Run way faster and ignore wet floors, but it drains power every second it's on."
+	desc = "Run much faster and ignore wet floors."
+	shop_desc = "Overdrive your legs, letting you run much faster and ignore slipping on wet floors. Drains power every second while active."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_overdrive_sprint.dmi'
 	button_icon_state = "overdrive_sprint"
 	shop_listed = TRUE
@@ -227,8 +227,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/brain_scramble
 	name = "Brain Scramble"
-	desc = "Touch someone and scramble their head."
-	shop_desc = "Touch someone and fry their wiring. It burns, drains stamina and damages their brain, and for 8 seconds they're confused, dizzy, slurring and clumsy."
+	desc = "Touch a target to scramble their brain."
+	shop_desc = "Touch a target to burn them, drain their stamina and damage their brain. For 8 seconds they are confused, dizzy, slurring and clumsy."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_brain_scramble.dmi'
 	button_icon_state = "brain_scramble"
 	click_to_activate = TRUE
@@ -307,8 +307,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/arc_discharge
 	name = "Arc Discharge"
-	desc = "Hurl a bolt of lightning at someone."
-	shop_desc = "Hurl a bolt of lightning at someone. It burns, drains stamina, blinds them for a moment, and jumps to anyone standing close to them. Shock-immune people shrug it off."
+	desc = "Fire a bolt of lightning at a target."
+	shop_desc = "Fire a bolt of lightning at a target you can see. It burns them, drains their stamina and briefly blinds them, then jumps to anyone standing near them. Shock immune targets are unaffected."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_arc_discharge.dmi'
 	button_icon_state = "arc_discharge"
 	click_to_activate = TRUE
@@ -410,8 +410,8 @@
  */
 /datum/action/cooldown/arcfiend/thunderclap
 	name = "Thunderclap"
-	desc = "Charge up, then blow a shockwave out of yourself."
-	shop_desc = "Charge up (everyone nearby will see it coming), then blow a shockwave out of yourself. Everyone around you gets burned, drained and flashed, less so the further out they are, and anyone within 2 tiles is thrown."
+	desc = "Charge up, then release a shockwave around you."
+	shop_desc = "After a charge-up that everyone nearby can see, release a shockwave around you. Everyone in range is burned, drained of stamina and flashed, with the effect weakening the further away they are. Anyone within 2 tiles is also thrown back."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_thunderclap.dmi'
 	button_icon_state = "thunderclap"
 	cooldown_time = 30 SECONDS
@@ -540,8 +540,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash
 	name = "Electrokinetic Smash"
-	desc = "Your punches and weapons hit harder and shock."
-	shop_desc = "Your punches and weapons hit harder, and in combat mode every hit also burns and can arc to people nearby. It costs power every second, plus a bit more on each hit."
+	desc = "Your unarmed attacks and weapons hit harder and shock."
+	shop_desc = "Your unarmed attacks and weapons hit harder. In combat mode, every hit also burns and can arc to people nearby. Drains power every second, and a little more with each hit."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electrokinetic_smash.dmi'
 	button_icon_state = "electrokinetic_smash"
 	shop_listed = TRUE
@@ -662,8 +662,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation
 	name = "Myoelectric Stimulation"
-	desc = "Zap your arm muscles into overdrive."
-	shop_desc = "Zap your arm muscles awake so you work, hit, shoot and click faster, though it drains power every second it's on."
+	desc = "Overstimulate the muscles in your arms."
+	shop_desc = "Overstimulate your arm muscles, letting you work, attack, shoot and click faster. Drains power every second while active."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_myoelectric_stimulation.dmi'
 	button_icon_state = "myoelectric_stimulation"
 	shop_listed = TRUE
@@ -716,8 +716,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/jamming_field
 	name = "Jamming Field"
-	desc = "Kill radios, PDAs and sensors around you."
-	shop_desc = "Radios, PDAs, GPS and suit sensors near you go dead. You glow while it's on, so everyone knows it's you, and it drains power every second."
+	desc = "Disables radios, PDAs and sensors around you."
+	shop_desc = "Disables radios, PDAs, GPS and suit sensors near you. You glow while it is active, making it obvious who is responsible. Drains power every second."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jamming_field.dmi'
 	button_icon_state = "jamming_field"
 	shop_listed = TRUE
@@ -822,7 +822,7 @@
 /datum/action/cooldown/arcfiend/electric_emag
 	name = "Electric Emag"
 	desc = "Grow an emag in your hand."
-	shop_desc = "Grow an emag in your hand. It's free to summon and put away, but every hack costs power. Doors are cheap, consoles aren't, and borgs cost a fortune."
+	shop_desc = "Grow an emag in your hand. Free to summon and put away, but every hack costs power. Doors are cheap, consoles cost more, and cyborgs cost a great deal."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electric_emag.dmi'
 	button_icon_state = "electric_emag"
 	cooldown_time = 1 SECONDS
@@ -886,8 +886,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/emp_burst
 	name = "EMP Burst"
-	desc = "Dump your power into an EMP."
-	shop_desc = "Dump a third of your stored power into an EMP, and the more you had, the bigger the blast. You and your gear are safe from it, but other arcfiends aren't."
+	desc = "Converts your stored power into an EMP."
+	shop_desc = "Converts a third of your stored power into an EMP. The more power you had, the larger the radius. You and your belongings are unaffected, but other arcfiends are not."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_emp_burst.dmi'
 	button_icon_state = "emp_burst"
 	cooldown_time = 30 SECONDS
@@ -927,8 +927,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/jolt
 	name = "Jolt"
-	desc = "Charge up, then jolt whoever you're touching."
-	shop_desc = "Charge up for a long moment, then jolt whoever you're touching. In combat mode it stops their heart and burns them badly, otherwise it works like a defib that can even raise the dead. If it can't work you still pay, but you'll sense why."
+	desc = "Charge up, then shock the person you are touching."
+	shop_desc = "After a long charge-up, shock the person you are touching. In combat mode this stops their heart and burns them badly. Otherwise it acts as a defibrillator, and can even revive the dead. If it fails you still pay the cost, but you will sense why."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jolt.dmi'
 	button_icon_state = "jolt"
 	click_to_activate = TRUE

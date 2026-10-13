@@ -262,8 +262,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/sap_power
 	name = "Sap Power"
-	desc = "Siphon power out of whatever you're gripping."
-	shop_desc = "Grip something and drink its power. Machines and cables give a trickle, but people and borgs give a lot more, and it hurts them. It's loud and bright, so don't expect to be subtle. It feeds you too, though it can't make you fat or overcharge an ethereal."
+	desc = "Drains power from a machine, cable or person you are touching."
+	shop_desc = "Drains power from whatever you are touching. Machines and cables give a small amount, while living people and cyborgs give far more and are hurt by it. Draining is loud and bright. It also feeds you, but cannot make you fat."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_sap_power.dmi'
 	button_icon_state = "sap_power"
 	click_to_activate = TRUE
@@ -364,8 +364,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/charge
 	name = "Charge"
-	desc = "Pour your power into a cell."
-	shop_desc = "Pour your own power into the cell of whatever you're holding, or a borg you're dragging. Magic stuff won't take it."
+	desc = "Transfers your power into a power cell."
+	shop_desc = "Transfers your power into the cell of an item you are holding, or of a cyborg you are pulling. Magical items will not accept the charge."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_charge.dmi'
 	button_icon_state = "arcfiend_charge"
 	cooldown_time = 3 SECONDS
@@ -534,8 +534,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/ride_lightning
 	name = "Ride the Lightning"
-	desc = "Dive into the cable under you and ride it."
-	shop_desc = "Dive into the cable under your feet and ride it wherever it goes. You can only follow connected cables, and getting in or out takes a second. It costs power to get in, for every tile, and for every second you stay, and if someone cuts the cable you're on you get thrown out stunned."
+	desc = "Enter the cable beneath you and travel along it."
+	shop_desc = "Enter the cable beneath your feet and travel along the connected cable network. Entering and leaving takes a moment. Costs power to enter, for every tile travelled and for every second spent inside. If the cable you are in is cut, you are thrown out and stunned."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_ride_the_lightning.dmi'
 	button_icon_state = "ride_the_lightning"
 	// You have to be able to use this while riding, to get out again
@@ -781,7 +781,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/nanite_regeneration
 	name = "Nanite Regeneration"
-	desc = "The nanites stitch up your brute and burn damage passively."
+	desc = "The nanites in your body steadily heal brute and burn damage."
 	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 200
@@ -800,7 +800,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/organ_resonance
 	name = "Organ Resonance"
-	desc = "The nanites slowly mend your organs."
+	desc = "The nanites in your body slowly repair damaged organs."
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 450
@@ -823,7 +823,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/ampullary_sense
 	name = "Ampullary Sense"
-	desc = "You sense electric fields like a shark does, allowing you to see in the dark."
+	desc = "You sense electric fields like a shark, allowing you to see in the dark."
 	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 400
@@ -855,7 +855,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/capacitive_soles
 	name = "Capacitive Soles"
-	desc = "Your steps make no noise."
+	desc = "Your footsteps make no sound."
 	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 150
@@ -877,7 +877,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/surge_reflex
 	name = "Surge Reflex"
-	desc = "Shock yourself back on your feet. Clears stuns and stamina damage and heals a bit. Works while stunned."
+	desc = "Shocks your body back into action, clearing stuns and stamina damage and healing a small amount of damage. Can be used while stunned."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_surge_reflex.dmi'
 	button_icon_state = "surge_reflex"
 	// This has to work while stunned, that is the point of it
