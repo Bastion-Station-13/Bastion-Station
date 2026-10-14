@@ -129,6 +129,14 @@
 /datum/armor/nitrile
 	bio = 100
 
+/obj/item/clothing/gloves/latex/coroner
+	name = "coroner's gloves"
+	desc = "Black gloves made from latex with a superhydrophobic coating. Useful for picking bodies up instead of dragging blood behind."
+	icon_state = "latex_black"
+	inhand_icon_state = "greyscale_gloves"
+	greyscale_colors = "#15191a"
+	clothing_traits = list(TRAIT_QUICKER_CARRY, TRAIT_FASTMED, TRAIT_STERILE)
+
 /obj/item/clothing/gloves/latex/nitrile/deforest
 	name = "Deforest Gloves"
 	desc = "A pair of high-visibility gloves designed by Deforest Medical for search and rescue, reinforced with thicker cut-resistant fabrics and lined with a heat insulation layer, these gloves can hold their own in most environments. A special neural lining increases the medical skill of the wearer similar to that of advanced latex gloves."

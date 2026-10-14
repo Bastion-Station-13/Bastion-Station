@@ -20,6 +20,7 @@
 		JOB_PARAMEDIC,
 		JOB_VIROLOGIST,
 		JOB_ROBOTICIST,
+		JOB_CORONER,
 	)
 
 	var/obj/item/disk/surgery/sleeper_protocol/disk
