@@ -299,3 +299,9 @@
       all of it internally.
   Vect0r2:
   - bugfix: fixed a runtime involving Heirophant
+2026-10-14:
+  Mantlecrawler:
+  - map: Lesser South Maintenance on Metastation now has a APC
+  Runian:
+  - image: Oily splatters are now the same color as oily blood - less black and more
+      grey.
