@@ -207,7 +207,7 @@
 /turf/open/floor/carpet,
 /area/centcom/wizard_station)
 "ut" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/iron/white,
 /area/centcom/wizard_station)
 "uy" = (

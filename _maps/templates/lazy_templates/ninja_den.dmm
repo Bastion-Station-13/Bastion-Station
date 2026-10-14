@@ -2218,7 +2218,7 @@
 /turf/open/floor/iron/sepia,
 /area/centcom/central_command_areas/holding)
 "Zq" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/carpet/black,
 /area/centcom/central_command_areas/holding)
 "Zs" = (
