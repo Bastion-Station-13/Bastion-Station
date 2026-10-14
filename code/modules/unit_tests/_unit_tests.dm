@@ -158,6 +158,7 @@
 #include "hydroponics_validate_genes.dm"
 #include "id_access.dm"
 #include "inhands.dm"
+#include "interaction_mode_reload_hud.dm"
 #include "json_savefile_importing.dm"
 #include "keybinding_init.dm"
 #include "knockoff_component.dm"
