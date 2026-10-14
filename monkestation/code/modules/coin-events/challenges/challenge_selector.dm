@@ -33,7 +33,6 @@
 		buyables += list(
 			list(
 				"name" = challenge::challenge_name,
-				"payout" = challenge::challenge_payout,
 				"difficulty" = challenge::difficulty,
 				"path" = challenge::type
 			)
