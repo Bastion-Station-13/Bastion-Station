@@ -228,6 +228,7 @@
 #include "security_officer_distribution.dm"
 #include "serving_tray.dm"
 #include "simple_animal_freeze.dm"
+#include "singularity_pull_merged_stack.dm"
 #include "siunit.dm"
 #include "slips.dm"
 #include "smes_connections.dm"
