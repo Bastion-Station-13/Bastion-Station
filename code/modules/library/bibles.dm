@@ -73,6 +73,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list(
 	inhand_icon_state = "bible"
 	lefthand_file = 'icons/mob/inhands/items/books_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/books_righthand.dmi'
+	grind_results = list(/datum/reagent/cellulose = 15, /datum/reagent/water/holywater = 5)
 	force_string = "holy"
 	unique = TRUE
 	/// Deity this bible is related to

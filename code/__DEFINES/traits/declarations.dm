@@ -687,6 +687,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Given to the detective, if they have this, they can see syndicate special descriptions.
 #define TRAIT_DETECTIVE "detective_ability"
 #define TRAIT_OVERDOSEIMMUNE "overdose_immune"
+/// Allows to beat people with Space Law book
+#define TRAIT_JUSTICE "justice"
 
 // Traits related to food
 /// Trait for Fire Burps

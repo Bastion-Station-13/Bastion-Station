@@ -323,18 +323,6 @@
 	starting_title = "Engineering Textbook"
 	page_link = "Station_Engineer"
 
-/obj/item/book/manual/wiki/security_space_law
-	name = "Space Law"
-	desc = "A set of Nanotrasen guidelines for keeping law and order on their space stations."
-	icon_state = "bookSpaceLaw"
-	starting_author = "Nanotrasen"
-	starting_title = "Space Law"
-	page_link = "Space_law"
-
-/obj/item/book/manual/wiki/security_space_law/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] pretends to read \the [src] intently... then promptly dies of laughter!"))
-	return OXYLOSS
-
 /obj/item/book/manual/wiki/infections
 	name = "Pathology 101 - Curing Problems"
 	icon_state = "bookInfections"
