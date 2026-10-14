@@ -173,7 +173,7 @@
 /obj/machinery/shieldgen/atom_break(damage_flag)
 	. = ..()
 	if(.)
-		locked = pick(0,1)
+		locked = pick(FALSE, TRUE)
 
 /obj/machinery/shieldgen/interact(mob/user)
 	. = ..()
