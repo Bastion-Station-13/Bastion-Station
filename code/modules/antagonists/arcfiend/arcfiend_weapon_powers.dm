@@ -116,8 +116,8 @@
 
 /datum/action/cooldown/arcfiend/manifest_coilgun
 	name = "Manifest Coilgun"
-	desc = "Grows a biometal coilgun in your hand."
-	shop_desc = "Grow a biometal coilgun in your hand. Free to summon and put away, but each shot costs power and a slug. Holds 4 slugs and regrows one every 8 seconds, even while put away."
+	desc = "Your nanites weave a crude coilgun out of biometal in your hand."
+	shop_desc = "Grants you Manifest Coilgun, which grows a biometal coilgun in your hand. It is free to summon and put away, but each shot costs power and a slug. It holds 4 slugs and regrows one every 8 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_manifest_coilgun.dmi'
 	button_icon_state = "manifest_coilgun"
 	cooldown_time = 1 SECONDS
@@ -232,8 +232,8 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/biometal_tether
 	name = "Biometal Tether"
-	desc = "Fire a hook and pull yourself to where it lands."
-	shop_desc = "Fire a biometal hook that pulls you to wherever it lands. Costs power with each use."
+	desc = "You fire a hook of biometal and reel yourself in to wherever it lands."
+	shop_desc = "Grants you Biometal Tether, which fires a hook that pulls you to wherever it lands. It costs power with each use."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_biometal_tether.dmi'
 	button_icon_state = "biometal_tether"
 	click_to_activate = TRUE
@@ -493,8 +493,8 @@
 
 /datum/action/cooldown/arcfiend/lateral_laser
 	name = "Lateral Laser"
-	desc = "Grows a lance that fires a beam of boiling nanites."
-	shop_desc = "Grow a lance that fires a beam of boiling nanites through everything, including walls. The beam does little damage along its path, but the nanites burst at the range you set (4 tiles at most, use it in hand to change it) and deal heavy damage there. Free to summon and put away, but each shot costs power and a charge. Holds 3 charges and regrows one every 10 seconds, even while put away."
+	desc = "Your nanites boil inside a thin lance of biometal, then fire out of it as a beam."
+	shop_desc = "Grants you Lateral Laser, which grows a lance that fires a beam of boiling nanites through everything, including walls. The beam does little damage along its path, but the nanites burst at the range you set (4 tiles at most, use it in hand to change it) and deal heavy damage there. It is free to summon and put away, but each shot costs power and a charge. It holds 3 charges and regrows one every 10 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_lateral_laser.dmi'
 	button_icon_state = "lateral_laser"
 	cooldown_time = 1 SECONDS
@@ -678,8 +678,8 @@
 
 /datum/action/cooldown/arcfiend/shock_prod
 	name = "Galvanic Prod"
-	desc = "Grows a shock prod out of your arm."
-	shop_desc = "Grow a prod out of your arm. Free to summon and put away. Left-click hits for 15 burn at no cost. Right-click zaps like an emagged defibrillator, draining stamina, knocking the target down and making them drop what they are holding. Each zap costs power and one of its 4 charges, which regrow every 40 seconds, even while put away."
+	desc = "A prod of biometal grows out of your arm, crackling with current."
+	shop_desc = "Grants you Galvanic Prod, which grows a prod out of your arm. It is free to summon and put away. Left-click hits for 15 burn at no cost, while right-click zaps like an emagged defibrillator, draining stamina, knocking the target down and making them drop what they are holding. Each zap costs power and one of its 4 charges, which regrow every 40 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_galvanic_prod.dmi'
 	button_icon_state = "galvanic_prod"
 	cooldown_time = 1 SECONDS
