@@ -338,45 +338,29 @@
 
 /datum/design/mag_autorifle_fss //WT-550 ammo but printable in autolathe and you get it from a design disk.
 	name = "WT-550 Autorifle Magazine (4.6x30mm) (Lethal)"
-	desc = "A 20 round magazine for the out of date WT-550 Autorifle."
+	desc = "A 20 round magazine for the WT-550 Autorifle."
 	id = "mag_autorifle_fss"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*6)
 	build_path = /obj/item/ammo_box/magazine/wt550m9
 	category = list(RND_CATEGORY_IMPORTED)
 
-/datum/design/mag_autorifle_fss/ap_mag
-	name = "WT-550 Autorifle Armour Piercing Magazine (4.6x30mm AP) (Lethal)"
-	desc = "A 20 round armour piercing magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_ap_fss"
-	materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT*15, /datum/material/silver = SMALL_MATERIAL_AMOUNT*6)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtap
-	category = list(RND_CATEGORY_IMPORTED)
 
 /datum/design/mag_autorifle_fss/ic_mag
-	name = "WT-550 Autorifle Incendiary Magazine (4.6x30mm IC) (Lethal/Highly Destructive)"
-	desc = "A 20 round armour piercing magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_ic_fss"
+	name = "WT-550 Autorifle Laser Magazine (4.6x30mm IC) (Lethal)"
+	desc = "A 20 round laser magazine for the WT-550 Autorifle."
+	id = "mag_autorifle_laser_fss"
 	materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT*15, /datum/material/silver = SMALL_MATERIAL_AMOUNT*6, /datum/material/glass = HALF_SHEET_MATERIAL_AMOUNT)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtic
+	build_path = /obj/item/ammo_box/magazine/wt550m9/laser
 	category = list(RND_CATEGORY_IMPORTED)
 
 /datum/design/mag_autorifle_fss/rub_mag
-	name = "WT-550 Autorifle Rubber Magazine (4.6x30mm R) (Lethal)"
-	desc = "A 20 round rubber magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_rub_fss"
+	name = "WT-550 Autorifle Stingball Magazine (4.6x30mm R) (Lethal)"
+	desc = "A 20 round stingball magazine for the WT-550 Autorifle."
+	id = "mag_autorifle_sting_fss"
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*3)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtrub
+	build_path = /obj/item/ammo_box/magazine/wt550m9/stingball
 	category = list(RND_CATEGORY_IMPORTED)
-
-/datum/design/mag_autorifle_fss/salt_mag
-	name = "WT-550 Autorifle Saltshot Magazine (4.6x30mm SALT) (Non-Lethal)"
-	desc = "A 20 round saltshot magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_salt_fss"
-	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*3, /datum/material/plasma = SMALL_MATERIAL_AMOUNT*6)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtsalt
-	category = list(RND_CATEGORY_IMPORTED)
-
 
 /datum/design/nifsoft_remover
 	name = "Lopland 'Wrangler' NIF-Cutter"
