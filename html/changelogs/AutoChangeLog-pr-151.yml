@@ -1,5 +1,0 @@
-author: "HIDgamer"
-delete-after: True
-changes:
-  - bugfix: "fixed stale reload_hud"
-  - bugfix: "fixed combat_mode duplication\n## Pre-Merge Checklist\n- [x] You tested this on a local server.\n- [x] This code did not runtime during testing.\n- [x] You documented all of your changes."
