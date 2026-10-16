@@ -27,8 +27,8 @@
 			TEST_ASSERT("[power.button_icon_state]_on" in icon_states(power.button_icon), "[power_type] has no [power.button_icon_state]_on button icon")
 		TEST_ASSERT(power.background_icon_state in icon_states(power.background_icon), "[power_type] has no [power.background_icon_state] button background")
 
-	var/obj/item/gun/energy/arcfiend_coilgun/coilgun = allocate(/obj/item/gun/energy/arcfiend_coilgun)
-	var/obj/item/gun/energy/arcfiend_lateral_laser/laser = allocate(/obj/item/gun/energy/arcfiend_lateral_laser)
+	var/obj/item/gun/energy/arcfiend/coilgun/coilgun = allocate(/obj/item/gun/energy/arcfiend/coilgun)
+	var/obj/item/gun/energy/arcfiend/lateral_laser/laser = allocate(/obj/item/gun/energy/arcfiend/lateral_laser)
 	var/obj/item/melee/arcfiend_prod/prod = allocate(/obj/item/melee/arcfiend_prod)
 	var/obj/item/card/emag/arcfiend/emag = allocate(/obj/item/card/emag/arcfiend)
 	for(var/obj/item/held as anything in list(coilgun, laser, prod, emag))
@@ -108,7 +108,7 @@
 	TEST_ASSERT_EQUAL(user.physiology.stamina_mod, 1, "An arcfiend should take stamina damage like anyone else")
 	TEST_ASSERT_EQUAL(user.physiology.brute_mod, 1, "An arcfiend should not resist brute damage")
 
-	for(var/power_type in list(/datum/action/cooldown/arcfiend/sap_power, /datum/action/cooldown/arcfiend/ride_lightning, /datum/action/cooldown/arcfiend/charge, /datum/action/cooldown/arcfiend/shock_prod))
+	for(var/power_type in list(/datum/action/cooldown/arcfiend/sap_power, /datum/action/cooldown/arcfiend/ride_lightning, /datum/action/cooldown/arcfiend/charge, /datum/action/cooldown/arcfiend/grown_item/shock_prod))
 		TEST_ASSERT_NOTNULL(locate(power_type) in user.actions, "An arcfiend should start with [power_type]")
 
 	var/found_drain_objective = FALSE
@@ -164,9 +164,9 @@
 	antag.power = 2500
 	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/passive/nanite_regeneration), "Buying Nanite Regeneration should work")
 	TEST_ASSERT(!antag.purchase_power(/datum/action/cooldown/arcfiend/passive/nanite_regeneration), "Buying a power twice should fail")
-	// A passive has no button, so it isn't in the mob's list of actions, the antag keeps track of it instead
+	// A passive has no button, so it isn't in the mob's list of actions, but the antag still owns it like any other power
 	TEST_ASSERT_NOTNULL(antag.get_power_instance(/datum/action/cooldown/arcfiend/passive/nanite_regeneration), "A bought power should be granted")
-	TEST_ASSERT_EQUAL(length(antag.passive_powers), 1, "A bought passive should be tracked by the antag")
+	TEST_ASSERT_NULL(locate(/datum/action/cooldown/arcfiend/passive/nanite_regeneration) in user.actions, "A passive has no button, so it should not be in the mob's list of actions")
 	TEST_ASSERT_EQUAL(antag.power, 2300, "Nanite Regeneration should cost 200")
 
 	// Tier 2 needs a mind
@@ -228,13 +228,13 @@
 	user.adjustFireLoss(30)
 	var/brute_before = user.getBruteLoss()
 	var/burn_before = user.getFireLoss()
-	antag.process(1)
+	SEND_SIGNAL(user, COMSIG_LIVING_LIFE, 1, 1)
 	TEST_ASSERT(user.getBruteLoss() < brute_before, "Nanite Regeneration should heal brute damage")
 	TEST_ASSERT(user.getFireLoss() < burn_before, "Nanite Regeneration should heal burn damage")
 	var/level_1_heal = brute_before - user.getBruteLoss()
 	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/passive/nanite_regeneration), "Could not upgrade Nanite Regeneration")
 	brute_before = user.getBruteLoss()
-	antag.process(1)
+	SEND_SIGNAL(user, COMSIG_LIVING_LIFE, 1, 1)
 	TEST_ASSERT((brute_before - user.getBruteLoss()) > level_1_heal, "Upgraded Nanite Regeneration should heal faster")
 
 	// Organ Resonance repairs damaged organs
@@ -242,7 +242,7 @@
 	user.adjustOrganLoss(ORGAN_SLOT_HEART, 20)
 	var/organ_damage_before = user.get_organ_loss(ORGAN_SLOT_HEART)
 	TEST_ASSERT(organ_damage_before > 0, "The test could not damage the heart")
-	antag.process(1)
+	SEND_SIGNAL(user, COMSIG_LIVING_LIFE, 1, 1)
 	TEST_ASSERT(user.get_organ_loss(ORGAN_SLOT_HEART) < organ_damage_before, "Organ Resonance should repair organ damage")
 
 	// Taking the antag away undoes all of it
@@ -554,12 +554,12 @@
 		return
 	antag.power = 2500
 	antag.bonus_minds_drained = 3
-	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/electric_emag), "Could not buy Electric Emag")
-	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/manifest_coilgun), "Could not buy Manifest Coilgun")
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/grown_item/electric_emag), "Could not buy Electric Emag")
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun), "Could not buy Manifest Coilgun")
 	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/brain_scramble), "Could not buy Brain Scramble")
 
 	// The electric emag
-	var/datum/action/cooldown/arcfiend/electric_emag/emag_action = locate() in user.actions
+	var/datum/action/cooldown/arcfiend/grown_item/electric_emag/emag_action = locate() in user.actions
 	TEST_ASSERT(emag_action.Activate(user), "Could not grow the electric emag")
 	var/obj/item/card/emag/arcfiend/emag = locate() in user.held_items
 	TEST_ASSERT_NOTNULL(emag, "The electric emag should be in the arcfiend's hand")
@@ -569,9 +569,9 @@
 
 	// The coilgun
 	emag_action.next_use_time = 0
-	var/datum/action/cooldown/arcfiend/manifest_coilgun/weapon_action = locate() in user.actions
+	var/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/weapon_action = locate() in user.actions
 	TEST_ASSERT(weapon_action.Activate(user), "Could not grow the coilgun")
-	var/obj/item/gun/energy/arcfiend_coilgun/gun = locate() in user.held_items
+	var/obj/item/gun/energy/arcfiend/coilgun/gun = locate() in user.held_items
 	TEST_ASSERT_NOTNULL(gun, "The coilgun should be in the arcfiend's hand")
 	TEST_ASSERT(SEND_SIGNAL(user, COMSIG_KB_MOB_DROPITEM_DOWN) & COMSIG_KB_ACTIVATED, "The drop key should be taken by the coilgun")
 	TEST_ASSERT(QDELETED(gun), "The drop key should dispel the coilgun")
@@ -665,7 +665,7 @@
 /datum/unit_test/arcfiend/shock_prod/Run()
 	if(!make_arcfiend())
 		return
-	var/datum/action/cooldown/arcfiend/shock_prod/prod_action = locate() in user.actions
+	var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
 	TEST_ASSERT_NOTNULL(prod_action, "The galvanic prod should come with the antag")
 	antag.power = 500
 
@@ -736,7 +736,7 @@
 		return
 	antag.power = 1000
 	antag.bonus_minds_drained = 3
-	var/datum/action/cooldown/arcfiend/shock_prod/prod_action = locate() in user.actions
+	var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
 	TEST_ASSERT(prod_action.Activate(user), "Could not grow the galvanic prod")
 	var/obj/item/melee/arcfiend_prod/prod = locate() in user.held_items
 	TEST_ASSERT_NOTNULL(prod, "The galvanic prod should be in the arcfiend's hand")
@@ -771,12 +771,12 @@
 		return
 	antag.power = 2500
 	antag.bonus_minds_drained = 3
-	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/manifest_coilgun), "Could not buy Manifest Coilgun")
-	var/datum/action/cooldown/arcfiend/manifest_coilgun/weapon_action = locate() in user.actions
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun), "Could not buy Manifest Coilgun")
+	var/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/weapon_action = locate() in user.actions
 	TEST_ASSERT(weapon_action.Activate(user), "Could not grow the coilgun")
-	var/obj/item/gun/energy/arcfiend_coilgun/gun = locate() in user.held_items
+	var/obj/item/gun/energy/arcfiend/coilgun/gun = locate() in user.held_items
 	TEST_ASSERT_NOTNULL(gun, "The coilgun should be in the arcfiend's hand")
-	TEST_ASSERT_EQUAL(weapon_action.get_magazine(), 4, "The magazine should start full at 4 slugs")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 4, "The magazine should start full at 4 slugs")
 	TEST_ASSERT(gun.can_shoot(), "A full magazine and plenty of power should be able to shoot")
 
 	// Every fired shot costs power and a slug. The gun hands out a spent round once a shot is fired.
@@ -785,7 +785,7 @@
 	// The game calls this with no shooter after a single shot, so that is how it is called here too
 	gun.chambered.loaded_projectile = null
 	gun.process_chamber()
-	TEST_ASSERT_EQUAL(weapon_action.get_magazine(), 3, "A shot should use up a slug")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 3, "A shot should use up a slug")
 	TEST_ASSERT_EQUAL(antag.power, power_before - 15, "A shot should cost 15 power")
 	TEST_ASSERT_NOTNULL(gun.chambered?.loaded_projectile, "A fresh round should be ready after a shot, or the second shot just clicks")
 	for(var/i in 1 to 3)
@@ -793,7 +793,7 @@
 		TEST_ASSERT_NOTNULL(gun.chambered?.loaded_projectile, "A round should be ready for shot [i + 1]")
 		gun.chambered.loaded_projectile = null
 		gun.process_chamber()
-	TEST_ASSERT_EQUAL(weapon_action.get_magazine(), 0, "Four shots should empty the magazine")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 0, "Four shots should empty the magazine")
 	TEST_ASSERT(!gun.can_shoot(), "An empty magazine should not shoot, however much power there is")
 	TEST_ASSERT(antag.power > 1000, "The test should still have plenty of power left")
 
@@ -802,19 +802,19 @@
 	weapon_action.next_use_time = 0
 	TEST_ASSERT(weapon_action.Activate(user), "Could not grow the coilgun again")
 	gun = locate() in user.held_items
-	TEST_ASSERT_EQUAL(weapon_action.get_magazine(), 0, "A new coilgun should not have a fresh magazine")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 0, "A new coilgun should not have a fresh magazine")
 	TEST_ASSERT(!gun.can_shoot(), "A new coilgun should still be out of slugs")
 
 	// A slug is rebuilt, and then there is something to shoot again
-	weapon_action.slug_recharged()
-	TEST_ASSERT_EQUAL(weapon_action.get_magazine(), 1, "A rebuilt slug should go back into the magazine")
+	weapon_action.charge_recharged()
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 1, "A rebuilt slug should go back into the magazine")
 	TEST_ASSERT(gun.can_shoot(), "A rebuilt slug should let the gun shoot again")
-	TEST_ASSERT_NOTNULL(weapon_action.slug_timer, "The magazine should keep rebuilding slugs until it is full")
+	TEST_ASSERT_NOTNULL(weapon_action.charge_timer, "The magazine should keep rebuilding slugs until it is full")
 
 	// A bigger magazine with upgrades
-	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/manifest_coilgun), "Could not upgrade Manifest Coilgun")
-	TEST_ASSERT_EQUAL(weapon_action.get_magazine_size(), 5, "Level 2 should hold 5 slugs")
-	TEST_ASSERT(weapon_action.get_slug_recharge_time() < 8 SECONDS, "Level 2 should rebuild slugs faster")
+	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun), "Could not upgrade Manifest Coilgun")
+	TEST_ASSERT_EQUAL(weapon_action.get_max_charges(), 5, "Level 2 should hold 5 slugs")
+	TEST_ASSERT(weapon_action.get_charge_time() < 8 SECONDS, "Level 2 should rebuild slugs faster")
 
 /// Myoelectric Stimulation speeds up do-afters, clicking and shooting, and gives all of it back exactly when switched off
 /datum/unit_test/arcfiend/myoelectric_stimulation/Run()
@@ -924,10 +924,10 @@
 		return
 	antag.power = 2500
 	antag.bonus_minds_drained = 3
-	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/lateral_laser), "Could not buy Lateral Laser")
-	var/datum/action/cooldown/arcfiend/lateral_laser/laser_action = locate() in user.actions
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser), "Could not buy Lateral Laser")
+	var/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/laser_action = locate() in user.actions
 	TEST_ASSERT(laser_action.Activate(user), "Could not grow the lateral laser")
-	var/obj/item/gun/energy/arcfiend_lateral_laser/gun = locate() in user.held_items
+	var/obj/item/gun/energy/arcfiend/lateral_laser/gun = locate() in user.held_items
 	TEST_ASSERT_NOTNULL(gun, "The lateral laser should be in the arcfiend's hand")
 
 	// The beam is set up for the chosen range, and starts out as far as it can go
@@ -974,32 +974,32 @@
 	TEST_ASSERT(!gun.can_shoot(), "It should not fire without the power")
 
 	// Every shot also takes a charge from the magazine, which starts full and doesn't refill by putting the gun away
-	TEST_ASSERT_EQUAL(laser_action.get_magazine(), 2, "The first shot should have used a charge, leaving 2 of 3")
+	TEST_ASSERT_EQUAL(laser_action.get_charges(), 2, "The first shot should have used a charge, leaving 2 of 3")
 	for(var/i in 1 to 2)
 		antag.power = 2500
 		TEST_ASSERT(gun.can_shoot(), "There should still be charges to shoot")
 		TEST_ASSERT_NOTNULL(gun.chambered?.loaded_projectile, "A beam should be ready")
 		gun.chambered.loaded_projectile = null
 		gun.process_chamber()
-	TEST_ASSERT_EQUAL(laser_action.get_magazine(), 0, "Three shots should empty the magazine")
+	TEST_ASSERT_EQUAL(laser_action.get_charges(), 0, "Three shots should empty the magazine")
 	antag.power = 2500
 	TEST_ASSERT(!gun.can_shoot(), "An empty magazine should not shoot, however much power there is")
 	TEST_ASSERT(laser_action.dismiss(user), "Could not put the lateral laser away")
 	laser_action.next_use_time = 0
 	TEST_ASSERT(laser_action.Activate(user), "Could not grow the lateral laser again")
 	gun = locate() in user.held_items
-	TEST_ASSERT_EQUAL(laser_action.get_magazine(), 0, "A new lateral laser should not have a fresh magazine")
+	TEST_ASSERT_EQUAL(laser_action.get_charges(), 0, "A new lateral laser should not have a fresh magazine")
 	TEST_ASSERT(!gun.can_shoot(), "A new lateral laser should still be out of charges")
 	laser_action.charge_recharged()
-	TEST_ASSERT_EQUAL(laser_action.get_magazine(), 1, "A rebuilt charge should go back into the magazine")
+	TEST_ASSERT_EQUAL(laser_action.get_charges(), 1, "A rebuilt charge should go back into the magazine")
 	TEST_ASSERT(gun.can_shoot(), "A rebuilt charge should let the gun shoot again")
 	TEST_ASSERT_NOTNULL(laser_action.charge_timer, "The magazine should keep rebuilding charges until it is full")
 
 	// Upgrades reach further, hold more, and the range can be set longer
 	antag.power = 2500
-	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/lateral_laser), "Could not upgrade the lateral laser")
-	TEST_ASSERT_EQUAL(laser_action.get_magazine_size(), 4, "Level 2 should hold 4 charges")
-	TEST_ASSERT(laser_action.get_charge_recharge_time() < 10 SECONDS, "Level 2 should rebuild charges faster")
+	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser), "Could not upgrade the lateral laser")
+	TEST_ASSERT_EQUAL(laser_action.get_max_charges(), 4, "Level 2 should hold 4 charges")
+	TEST_ASSERT(laser_action.get_charge_time() < 10 SECONDS, "Level 2 should rebuild charges faster")
 	TEST_ASSERT_EQUAL(laser_action.get_max_range(), 5, "Level 2 should reach 5 tiles")
 	TEST_ASSERT_EQUAL(laser_action.get_power_damage(), 60, "Level 2 should do 60 at the end of the beam")
 
@@ -1092,6 +1092,18 @@
 	other.arcfiend_drain(user, antag, 1)
 	TEST_ASSERT_EQUAL(other.nutrition, NUTRITION_LEVEL_FED, "Draining a normal human should not change their nutrition")
 
+/// Draining an IPC runs their battery down, and their battery is their nutrition
+/datum/unit_test/arcfiend/drain_ipc/Run()
+	if(!make_arcfiend())
+		return
+	var/mob/living/carbon/human/species/ipc/victim = allocate(/mob/living/carbon/human/species/ipc)
+	TEST_ASSERT(isipc(victim), "The test could not make an IPC")
+	victim.set_nutrition(NUTRITION_LEVEL_FED)
+	antag.power = 0
+	var/drained = victim.arcfiend_drain(user, antag, 1)
+	TEST_ASSERT(drained > 0, "Draining an IPC should give power")
+	TEST_ASSERT_EQUAL(victim.nutrition, NUTRITION_LEVEL_FED - drained * ARCFIEND_IPC_NUTRITION_PER_POWER, "Draining an IPC should lower their charge")
+
 /// The OPFOR injector makes whoever uses it on themselves an arcfiend, and is offered in the OPFOR menu
 /datum/unit_test/arcfiend/opfor_injector/Run()
 	var/mob/living/carbon/human/recruit = allocate(/mob/living/carbon/human/consistent)
@@ -1156,7 +1168,7 @@
 	TEST_ASSERT(off_item in user.held_items, "The other hand should be holding the second item")
 
 	// With both hands full, a power that grows something takes the active hand, and the other hand is left alone
-	var/datum/action/cooldown/arcfiend/shock_prod/prod_action = locate() in user.actions
+	var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
 	TEST_ASSERT(prod_action.Activate(user), "The prod should be grown with both hands full")
 	var/obj/item/melee/arcfiend_prod/prod = user.get_active_held_item()
 	TEST_ASSERT(istype(prod), "The prod should be in the active hand")

@@ -658,9 +658,14 @@
 	var/known_dirs = NONE
 	/// The visible ball of electricity that follows us around
 	var/obj/effect/arcfiend_spark/spark
+	/// The rider's antag datum, looked up once when the ride starts, since every tile and every second of the ride is paid for
+	var/datum/weakref/arcfiend_ref
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning/Initialize(mapload, atom/movable/jaunter)
 	. = ..()
+	var/mob/rider = jaunter
+	if(istype(rider))
+		arcfiend_ref = WEAKREF(rider.mind?.has_antag_datum(/datum/antagonist/arcfiend))
 	known_dirs = arcfiend_cable_dirs(get_turf(src))
 	spark = new(get_turf(src))
 	START_PROCESSING(SSobj, src)
@@ -682,7 +687,7 @@
 		return
 	// Riding costs power every second, even when standing still
 	var/mob/living/rider = jaunter
-	var/datum/antagonist/arcfiend/arcfiend = rider?.mind?.has_antag_datum(/datum/antagonist/arcfiend)
+	var/datum/antagonist/arcfiend/arcfiend = arcfiend_ref?.resolve()
 	if(!arcfiend?.spend_power(ARCFIEND_RIDE_UPKEEP * seconds_per_tick * arcfiend_ride_cost_multiplier(arcfiend)))
 		to_chat(rider, span_warning("You run out of power and are forced out of the wires!"))
 		eject_jaunter()
@@ -704,7 +709,7 @@
 		return
 	if(!(arcfiend_cable_dirs(newloc) & turn(direction, 180)))
 		return
-	var/datum/antagonist/arcfiend/arcfiend = user.mind?.has_antag_datum(/datum/antagonist/arcfiend)
+	var/datum/antagonist/arcfiend/arcfiend = arcfiend_ref?.resolve()
 	if(!arcfiend?.spend_power(ARCFIEND_RIDE_TILE_COST * arcfiend_ride_cost_multiplier(arcfiend)))
 		to_chat(user, span_warning("You don't have the power to go any further!"))
 		eject_jaunter()
@@ -731,28 +736,32 @@
 /**
  * Passives are powers that are bought in the shop like any other, but have no button.
  * They apply their effects as soon as they are granted, and again whenever they are upgraded.
+ * Like a changeling's Void Adaption, they are actions with owner_has_control off, so the shop and upgrades treat them like any other power.
  */
 /datum/action/cooldown/arcfiend/passive
 	owner_has_control = FALSE
+	// There is no button whose status needs keeping up to date
+	check_flags = NONE
 	shop_listed = FALSE
 	is_passive = TRUE
 	/// Whether our effects are currently applied to our owner
 	var/applied = FALSE
+	/// Whether passive_tick does anything, so we only listen for the mob's life ticks if it does
+	var/ticks_with_life = FALSE
 
 /datum/action/cooldown/arcfiend/passive/Grant(mob/granted_to)
 	. = ..()
 	if(owner)
-		// With no button we never get put in the mob's list of actions, so the antag keeps track of us
-		var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
-		arcfiend?.passive_powers |= src
 		refresh_passive()
+		if(ticks_with_life)
+			RegisterSignal(granted_to, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
 /datum/action/cooldown/arcfiend/passive/Remove(mob/remove_from)
-	if(applied && remove_from)
-		remove_passive(remove_from)
-		applied = FALSE
-	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
-	arcfiend?.passive_powers -= src
+	if(remove_from)
+		UnregisterSignal(remove_from, COMSIG_LIVING_LIFE)
+		if(applied)
+			remove_passive(remove_from)
+			applied = FALSE
 	return ..()
 
 /datum/action/cooldown/arcfiend/passive/on_upgraded()
@@ -775,7 +784,14 @@
 /datum/action/cooldown/arcfiend/passive/proc/remove_passive(mob/living/user)
 	return
 
-/// Called every second while the arcfiend is alive, for passives that do something over time
+/// Called from the mob's life tick while the arcfiend is alive and not in stasis, for passives that do something over time
+/datum/action/cooldown/arcfiend/passive/proc/on_life(mob/living/source, seconds_per_tick)
+	SIGNAL_HANDLER
+	if(source.stat == DEAD || HAS_TRAIT(source, TRAIT_STASIS))
+		return
+	passive_tick(source, seconds_per_tick)
+
+/// Does the actual work of a passive that has ticks_with_life set
 /datum/action/cooldown/arcfiend/passive/proc/passive_tick(mob/living/user, seconds_per_tick)
 	return
 
@@ -784,6 +800,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/nanite_regeneration
 	name = "Nanite Regeneration"
+	ticks_with_life = TRUE
 	desc = "The nanites in your blood constantly knit torn flesh and scorched skin back together, steadily healing brute and burn damage."
 	shop_listed = TRUE
 	shop_tier = 1
@@ -803,6 +820,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/passive/organ_resonance
 	name = "Organ Resonance"
+	ticks_with_life = TRUE
 	desc = "The nanites resonate through your organs, slowly repairing any damage to them."
 	shop_listed = TRUE
 	shop_tier = 2

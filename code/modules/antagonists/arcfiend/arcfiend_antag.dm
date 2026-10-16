@@ -31,12 +31,13 @@
 		/datum/action/cooldown/arcfiend/sap_power,
 		/datum/action/cooldown/arcfiend/ride_lightning,
 		/datum/action/cooldown/arcfiend/charge,
-		/datum/action/cooldown/arcfiend/shock_prod,
+		/datum/action/cooldown/arcfiend/grown_item/shock_prod,
 	)
 	/// Assoc list of power type to the upgrade level we bought it to. Anything missing is level 1.
 	var/list/power_levels = list()
-	/// The passive powers we have. They have no button, so they never end up in the mob's list of actions, and we keep track of them here instead.
-	var/list/datum/action/cooldown/arcfiend/passive/passive_powers = list()
+	/// Every power we own, as an assoc list of power type to the power. Like a changeling's purchased_powers, this includes the passives,
+	/// which have no button and so are never in the mob's list of actions. The powers stay ours when we move to a new body.
+	var/list/datum/action/cooldown/arcfiend/owned_powers = list()
 
 	/// Unique minds that we've drained enough from to count towards unlocking higher tiers
 	var/list/datum/mind/drained_minds = list()
@@ -58,37 +59,22 @@
 	owner.special_role = job_rank
 	if(give_objectives)
 		forge_objectives()
-	START_PROCESSING(SSprocessing, src)
 	return ..()
 
 /datum/antagonist/arcfiend/on_removal()
-	STOP_PROCESSING(SSprocessing, src)
 	owner.special_role = null
 	return ..()
 
-/datum/antagonist/arcfiend/process(seconds_per_tick)
-	var/mob/living/current_mob = owner?.current
-	if(current_mob && current_mob.stat != DEAD)
-		reveal_cables(current_mob)
-		for(var/datum/action/cooldown/arcfiend/passive/passive_power as anything in passive_powers)
-			passive_power.passive_tick(current_mob, seconds_per_tick)
+/datum/antagonist/arcfiend/Destroy()
+	QDEL_LIST_ASSOC_VAL(owned_powers)
+	return ..()
 
 /// Briefly shows every hidden cable around us, like a built-in T-ray scanner that only shows cables
-/datum/antagonist/arcfiend/proc/reveal_cables(mob/living/viewer)
-	if(!viewer.client)
+/datum/antagonist/arcfiend/proc/on_life(mob/living/source, seconds_per_tick)
+	SIGNAL_HANDLER
+	if(source.stat == DEAD || HAS_TRAIT(source, TRAIT_STASIS))
 		return
-	var/list/cable_images = list()
-	for(var/obj/structure/cable/cable in range(ARCFIEND_CABLE_SIGHT_RANGE, get_turf(viewer)))
-		if(!HAS_TRAIT(cable, TRAIT_T_RAY_VISIBLE))
-			continue
-		var/image/cable_image = new(loc = get_turf(cable))
-		var/mutable_appearance/cable_appearance = new(cable)
-		cable_appearance.alpha = 128
-		cable_appearance.dir = cable.dir
-		cable_image.appearance = cable_appearance
-		cable_images += cable_image
-	if(length(cable_images))
-		flick_overlay_global(cable_images, list(viewer.client), 12)
+	t_ray_scan(source, 2 SECONDS, ARCFIEND_CABLE_SIGHT_RANGE)
 
 /datum/antagonist/arcfiend/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -100,7 +86,7 @@
 	current_mob.add_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE), ARCFIEND_TRAIT)
 	// Their heart can't be stopped, but they still need it: if it takes enough damage to fail, it stops like anyone's would
 	ADD_TRAIT(current_mob, TRAIT_HEART_ATTACK_IMMUNE, ARCFIEND_TRAIT)
-	// Being so attuned to machines, an arcfiend sees how they work, and can feel every cable nearby (see reveal_cables)
+	// Being so attuned to machines, an arcfiend sees how they work, and can feel every cable nearby (see on_life)
 	current_mob.add_traits(list(TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.show_to(current_mob)
@@ -109,6 +95,7 @@
 	// Pressing the drop key dispels the things we grow, instead of trying to drop them
 	RegisterSignal(current_mob, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(on_drop_key))
 	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))
+	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.SetInvisibility(INVISIBILITY_NONE, id = type)
@@ -125,15 +112,15 @@
 	current_mob.remove_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE, TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD, TRAIT_HEART_ATTACK_IMMUNE), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.hide_from(current_mob)
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE))
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.RemoveInvisibility(type)
 		current_mob.hud_used.arcfiend_counter.maptext = ""
-	for(var/datum/action/cooldown/arcfiend/power in current_mob.actions)
-		qdel(power)
-	// The passives have no button, so they aren't in the list above
-	for(var/datum/action/cooldown/arcfiend/passive/passive_power as anything in passive_powers.Copy())
-		qdel(passive_power)
+	// The powers are only taken off this body. They are deleted with the antag datum.
+	for(var/power_type in owned_powers)
+		var/datum/action/cooldown/arcfiend/power = owned_powers[power_type]
+		if(power.owner == current_mob)
+			power.Remove(current_mob)
 
 /datum/antagonist/arcfiend/greet()
 	. = ..()
@@ -141,17 +128,17 @@
 	to_chat(owner.current, span_notice("Shocks can't hurt you, but everything else can, and EMPs will too. Whatever you carry is safe from them."))
 	owner.announce_objectives()
 
-/// The power of this type that we have, if any. Passives are kept in their own list since they have no button.
-/datum/antagonist/arcfiend/proc/get_power_instance(power_type, mob/living/current_mob = owner?.current)
-	var/datum/action/cooldown/arcfiend/found = locate(power_type) in current_mob?.actions
-	return found || (locate(power_type) in passive_powers)
+/// The power of this type that we own, if any
+/datum/antagonist/arcfiend/proc/get_power_instance(power_type)
+	return owned_powers[power_type]
 
 /// Hands out every power we have unlocked that we don't already have
 /datum/antagonist/arcfiend/proc/grant_powers(mob/living/current_mob)
 	for(var/power_type in unlocked_powers)
-		var/datum/action/cooldown/arcfiend/power_action = get_power_instance(power_type, current_mob)
+		var/datum/action/cooldown/arcfiend/power_action = owned_powers[power_type]
 		if(!power_action)
 			power_action = new power_type(owner)
+			owned_powers[power_type] = power_action
 		// Granting something already ours would just register its signals a second time
 		if(power_action.owner != current_mob)
 			power_action.Grant(current_mob)

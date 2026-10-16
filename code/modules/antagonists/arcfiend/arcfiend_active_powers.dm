@@ -487,14 +487,14 @@
 	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_BOOM, 100, TRUE, extrarange = 15)
 	user.flash_lighting_fx(7, 5, "#ffe94d", 1 SECONDS)
 	user.visible_message(span_danger("[user] releases a burst of electricity!"), span_notice("You release the charge."))
-	var/outer_range = get_outer_range()
-	for(var/mob/living/victim in view(outer_range, user))
-		if(victim == user || victim.stat == DEAD)
-			continue
-		hit_victim(user, victim, get_dist(user, victim))
-	for(var/obj/machinery/light/nearby_light in view(outer_range, user))
-		if(prob(50))
-			INVOKE_ASYNC(nearby_light, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
+	// One look around for both the people and the lights it reaches
+	for(var/atom/movable/nearby in view(get_outer_range(), user))
+		if(isliving(nearby))
+			var/mob/living/victim = nearby
+			if(victim != user && victim.stat != DEAD)
+				hit_victim(user, victim, get_dist(user, victim))
+		else if(istype(nearby, /obj/machinery/light) && prob(50))
+			INVOKE_ASYNC(nearby, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
 
 /// What the burst does to one person, depending on how far away they are
 /datum/action/cooldown/arcfiend/thunderclap/proc/hit_victim(mob/living/user, mob/living/victim, distance)
@@ -797,7 +797,7 @@
 		cost = 100
 	else if(isobj(target))
 		cost = 40
-	var/level = arcfiend.get_power_level(/datum/action/cooldown/arcfiend/electric_emag)
+	var/level = arcfiend.get_power_level(/datum/action/cooldown/arcfiend/grown_item/electric_emag)
 	return round(cost * list(1, 0.75, 0.5)[clamp(level, 1, 3)])
 
 /obj/item/card/emag/arcfiend/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
@@ -819,13 +819,13 @@
 		return ITEM_INTERACT_SUCCESS
 	return NONE
 
-/datum/action/cooldown/arcfiend/electric_emag
+/datum/action/cooldown/arcfiend/grown_item/electric_emag
 	name = "Electric Emag"
 	desc = "Your nanites shape a card of biometal in your hand that hacks whatever it touches."
 	shop_desc = "Grants you Electric Emag, which grows an emag in your hand. It is free to summon and put away, but every hack costs power. Doors are cheap, consoles cost more, and cyborgs cost a great deal."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electric_emag.dmi'
 	button_icon_state = "electric_emag"
-	cooldown_time = 1 SECONDS
+	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 500
 	upgrade_costs = list(400, 800)
@@ -833,53 +833,10 @@
 		"Hacking is 25% cheaper.",
 		"Hacking is 50% cheaper.",
 	)
+	grown_type = /obj/item/card/emag/arcfiend
 
-/datum/action/cooldown/arcfiend/electric_emag/Remove(mob/remove_from)
-	if(remove_from)
-		put_away(remove_from)
-	return ..()
-
-/// Gets rid of the emag if we are holding it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/electric_emag/proc/put_away(mob/user)
-	var/found = FALSE
-	for(var/obj/item/card/emag/arcfiend/emag in user.held_items)
-		user.temporarilyRemoveItemFromInventory(emag, TRUE) // DROPDEL deletes it
-		found = TRUE
-	if(found)
-		user.update_held_items()
-	return found
-
-/// Lets the emag crumble away, with the sparks and messages that go with it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/electric_emag/proc/dismiss(mob/living/user)
-	if(!put_away(user))
-		return FALSE
-	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
-	user.visible_message(span_notice("[user]'s electric emag crumbles away."), span_notice("You let the electric emag crumble away."))
-	StartCooldown()
-	return TRUE
-
-/// Pressing the drop key while holding the emag dismisses it instead of trying to drop it
-/datum/action/cooldown/arcfiend/electric_emag/on_drop_key(mob/user, obj/item/held)
-	if(istype(held, /obj/item/card/emag/arcfiend) && isliving(user))
-		return dismiss(user)
-	return ..()
-
-/datum/action/cooldown/arcfiend/electric_emag/Activate(atom/target)
-	if(!get_arcfiend() || !isliving(owner))
-		return FALSE
-	var/mob/living/user = owner
-	if(dismiss(user))
-		return TRUE
-	if(!free_active_hand(user))
-		return FALSE
-	var/obj/item/card/emag/arcfiend/emag = new(user)
-	if(!give_item(user, emag))
-		return FALSE
-	do_sparks(2, FALSE, user)
-	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
+/datum/action/cooldown/arcfiend/grown_item/electric_emag/on_grown(mob/living/user, obj/item/grown)
 	user.visible_message(span_warning("A card of crackling biometal grows out of [user]'s hand!"), span_notice("You grow an electric emag."))
-	StartCooldown()
-	return TRUE
 
 //////////////////////////////////////////////////////////////////////////
 //--------------------------------EMP Burst-----------------------------//

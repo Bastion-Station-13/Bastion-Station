@@ -1,4 +1,233 @@
 //////////////////////////////////////////////////////////////////////////
+//------------------------------Grown items-----------------------------//
+//////////////////////////////////////////////////////////////////////////
+/**
+ * Base for the powers that grow something out of the arcfiend's hand: the coilgun, the lateral laser, the galvanic prod and the electric emag.
+ * Using the power grows the item into the active hand. Using it again, or pressing the drop key, lets the item crumble away.
+ * Items with charges keep them here on the power, not on the item, so putting the item away and growing it again doesn't refill it.
+ */
+/datum/action/cooldown/arcfiend/grown_item
+	shop_listed = FALSE
+	cooldown_time = 1 SECONDS
+	/// The item this power grows
+	var/obj/item/grown_type
+	/// What one charge is called in messages, for items that have charges
+	var/charge_name = "charge"
+	/// Played when a charge comes back while the item is held
+	var/recharge_sound
+	/// The charges the item has right now. It starts out full, see get_charges().
+	var/charges
+	/// The timer that brings back the next charge, while there is room for one
+	var/charge_timer
+
+/datum/action/cooldown/arcfiend/grown_item/Destroy()
+	if(charge_timer)
+		deltimer(charge_timer)
+		charge_timer = null
+	return ..()
+
+/datum/action/cooldown/arcfiend/grown_item/Remove(mob/remove_from)
+	if(remove_from)
+		put_away(remove_from)
+	return ..()
+
+/// How many charges the item holds. Items that don't use charges hold none.
+/datum/action/cooldown/arcfiend/grown_item/proc/get_max_charges()
+	return 0
+
+/// How long it takes to bring back one charge
+/datum/action/cooldown/arcfiend/grown_item/proc/get_charge_time()
+	return 0
+
+/// The charges the item has. The first time anyone asks, it is full.
+/datum/action/cooldown/arcfiend/grown_item/proc/get_charges()
+	if(isnull(charges))
+		charges = get_max_charges()
+	return charges
+
+/// Takes a charge, and starts bringing one back. Returns FALSE if there were none left.
+/datum/action/cooldown/arcfiend/grown_item/proc/use_charge()
+	if(get_charges() < 1)
+		return FALSE
+	charges--
+	start_charge_timer()
+	return TRUE
+
+/// Starts bringing back a charge, if there is room for one and one isn't on its way already
+/datum/action/cooldown/arcfiend/grown_item/proc/start_charge_timer()
+	if(charge_timer || get_charges() >= get_max_charges())
+		return
+	charge_timer = addtimer(CALLBACK(src, PROC_REF(charge_recharged)), get_charge_time(), TIMER_STOPPABLE)
+
+/// A charge has come back
+/datum/action/cooldown/arcfiend/grown_item/proc/charge_recharged()
+	charge_timer = null
+	charges = min(get_charges() + 1, get_max_charges())
+	on_charge_regained()
+	start_charge_timer()
+
+/// Tells the arcfiend a charge came back, if they are holding the item
+/datum/action/cooldown/arcfiend/grown_item/proc/on_charge_regained()
+	if(!get_held_item(owner))
+		return
+	owner.balloon_alert(owner, "[charge_name] rebuilt ([charges]/[get_max_charges()])")
+	playsound(owner, recharge_sound, 20, TRUE)
+
+/// A bigger magazine or a faster recharge may mean there is room to bring a charge back now
+/datum/action/cooldown/arcfiend/grown_item/on_upgraded()
+	start_charge_timer()
+
+/// The item, if this mob is holding it
+/datum/action/cooldown/arcfiend/grown_item/proc/get_held_item(mob/user)
+	if(!user)
+		return null
+	return locate(grown_type) in user.held_items
+
+/// Gets rid of the item if we are holding it. Returns TRUE if there was one.
+/datum/action/cooldown/arcfiend/grown_item/proc/put_away(mob/user)
+	var/found = FALSE
+	for(var/obj/item/held as anything in user.held_items)
+		if(!istype(held, grown_type))
+			continue
+		user.temporarilyRemoveItemFromInventory(held, TRUE) // DROPDEL deletes it
+		found = TRUE
+	if(found)
+		user.update_held_items()
+	return found
+
+/// Lets the item crumble away, with the sound and messages that go with it. Returns TRUE if there was one.
+/datum/action/cooldown/arcfiend/grown_item/proc/dismiss(mob/living/user)
+	if(!put_away(user))
+		return FALSE
+	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
+	user.visible_message(span_notice("[user]'s [initial(grown_type.name)] crumbles away."), span_notice("You let the [initial(grown_type.name)] crumble away."))
+	StartCooldown()
+	return TRUE
+
+/// Pressing the drop key while holding the item dismisses it instead of trying to drop it
+/datum/action/cooldown/arcfiend/grown_item/on_drop_key(mob/user, obj/item/held)
+	if(istype(held, grown_type) && isliving(user))
+		return dismiss(user)
+	return ..()
+
+/datum/action/cooldown/arcfiend/grown_item/Activate(atom/target)
+	if(!get_arcfiend() || !isliving(owner))
+		return FALSE
+	var/mob/living/user = owner
+	if(dismiss(user))
+		return TRUE
+	if(!free_active_hand(user))
+		return FALSE
+	var/obj/item/grown = new grown_type(user)
+	if(!give_item(user, grown))
+		return FALSE
+	do_sparks(2, FALSE, user)
+	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
+	on_grown(user, grown)
+	StartCooldown()
+	return TRUE
+
+/// Announces the item once it is in the arcfiend's hand. Override this to describe each item.
+/datum/action/cooldown/arcfiend/grown_item/proc/on_grown(mob/living/user, obj/item/grown)
+	user.visible_message(span_warning("Something made of biometal grows out of [user]'s hand!"), span_notice("You grow \a [grown]."))
+
+/// Base for the grown guns. Every shot costs power and a charge.
+/datum/action/cooldown/arcfiend/grown_item/gun
+
+/// The power a shot costs
+/datum/action/cooldown/arcfiend/grown_item/gun/proc/get_shot_cost()
+	return 0
+
+/// Sets up the round that is about to be fired, for our upgrade level
+/datum/action/cooldown/arcfiend/grown_item/gun/proc/setup_projectile(obj/projectile/projectile)
+	return
+
+/**
+ * Base for the guns an arcfiend grows. A pulse of the arcfiend's own electricity fires them, so there is no cell to charge.
+ * Every shot costs its owner power and a charge, and both are decided by the power that grew the gun.
+ */
+/obj/item/gun/energy/arcfiend
+	name = "biometal gun"
+	desc = "A lump of biometal shaped like a gun. It runs on its owner's electricity."
+	item_flags = ABSTRACT | DROPDEL
+	can_select = FALSE
+	can_charge = FALSE
+	automatic_charge_overlays = FALSE
+	display_empty = FALSE
+	/// The power that grows this gun, which holds its magazine and decides what a shot costs
+	var/datum/action/cooldown/arcfiend/grown_item/gun/power_type
+
+/obj/item/gun/energy/arcfiend/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
+
+/// It has no battery that anything could charge, the power comes from the arcfiend holding it
+/obj/item/gun/energy/arcfiend/get_cell(atom/movable/interface, mob/user)
+	return null
+
+/// The arcfiend holding this
+/obj/item/gun/energy/arcfiend/proc/get_holder_antag()
+	if(!ismob(loc))
+		return null
+	var/mob/holder = loc
+	return holder.mind?.has_antag_datum(/datum/antagonist/arcfiend)
+
+/// The power that grew this gun, which holds its magazine
+/obj/item/gun/energy/arcfiend/proc/get_holder_power()
+	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
+	return arcfiend?.get_power_instance(power_type)
+
+/obj/item/gun/energy/arcfiend/can_shoot()
+	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
+	var/datum/action/cooldown/arcfiend/grown_item/gun/gun_power = get_holder_power()
+	if(!arcfiend || !gun_power)
+		return FALSE
+	return arcfiend.has_power(gun_power.get_shot_cost()) && gun_power.get_charges() >= 1
+
+/// Says why it won't fire, as well as clicking
+/obj/item/gun/energy/arcfiend/shoot_with_empty_chamber(mob/living/user as mob|obj)
+	var/datum/action/cooldown/arcfiend/grown_item/gun/gun_power = get_holder_power()
+	if(gun_power && gun_power.get_charges() < 1)
+		balloon_alert_to_viewers("out of [gun_power.charge_name]s!")
+	else if(gun_power)
+		balloon_alert_to_viewers("need [gun_power.get_shot_cost()] power!")
+	else
+		balloon_alert_to_viewers("*click*")
+	playsound(src, dry_fire_sound, dry_fire_sound_volume, TRUE)
+
+/obj/item/gun/energy/arcfiend/examine(mob/user)
+	. = ..()
+	var/datum/action/cooldown/arcfiend/grown_item/gun/gun_power = get_holder_power()
+	if(gun_power)
+		. += span_notice("Its magazine holds [gun_power.get_charges()] of [gun_power.get_max_charges()] [gun_power.charge_name]s. It rebuilds one every [gun_power.get_charge_time() / 10] seconds.")
+
+/// Always has a round ready, set up for the power's upgrade level. The cost is only paid when it is fired.
+/obj/item/gun/energy/arcfiend/recharge_newshot(no_cyborg_drain)
+	if(!ammo_type || chambered)
+		return
+	chambered = ammo_type[select]
+	if(!chambered.loaded_projectile)
+		chambered.newshot()
+	var/datum/action/cooldown/arcfiend/grown_item/gun/gun_power = get_holder_power()
+	if(gun_power && chambered.loaded_projectile)
+		gun_power.setup_projectile(chambered.loaded_projectile)
+
+/obj/item/gun/energy/arcfiend/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+	// A spent round means the shot was fired, so that is when it is paid for, in power and in a charge.
+	// The game doesn't always pass the shooter in here (a single shot doesn't), so whoever is holding the gun is used instead.
+	if(chambered && !chambered.loaded_projectile)
+		var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
+		var/datum/action/cooldown/arcfiend/grown_item/gun/gun_power = get_holder_power()
+		if(arcfiend && gun_power)
+			arcfiend.spend_power(gun_power.get_shot_cost())
+			if(gun_power.use_charge() && ismob(loc))
+				var/mob/shooter = loc
+				var/left = gun_power.get_charges()
+				shooter.balloon_alert(shooter, "[left] [gun_power.charge_name][left == 1 ? "" : "s"] left")
+	chambered = null
+	recharge_newshot()
+
+//////////////////////////////////////////////////////////////////////////
 //------------------------------Manifest Coilgun-------------------------//
 //////////////////////////////////////////////////////////////////////////
 /obj/projectile/bullet/arcfiend_slug
@@ -16,12 +245,8 @@
 	e_cost = 0
 	delay = 0.8 SECONDS
 
-/**
- * A crude gun of biometal that an arcfiend grows out of their hand. A pulse of electricity throws the slugs.
- * Every shot costs its owner power and a slug from an internal magazine, which slowly rebuilds.
- * The magazine belongs to the arcfiend's power, so putting the gun away and growing it again doesn't refill it.
- */
-/obj/item/gun/energy/arcfiend_coilgun
+/// A crude gun of biometal that an arcfiend grows out of their hand. A pulse of electricity throws the slugs.
+/obj/item/gun/energy/arcfiend/coilgun
 	name = "biometal coilgun"
 	desc = "A lumpy biometal gun that grew out of an arcfiend's hand. Runs on its owner's electricity."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun.dmi'
@@ -29,98 +254,16 @@
 	inhand_icon_state = "arcfiend_coilgun"
 	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_lefthand.dmi'
 	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_righthand.dmi'
-	item_flags = ABSTRACT | DROPDEL
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_slug)
-	can_select = FALSE
-	can_charge = FALSE
-	automatic_charge_overlays = FALSE
-	display_empty = FALSE
+	power_type = /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun
 
-/obj/item/gun/energy/arcfiend_coilgun/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
-
-/// It has no battery that anything could charge, the power comes from the arcfiend holding it
-/obj/item/gun/energy/arcfiend_coilgun/get_cell(atom/movable/interface, mob/user)
-	return null
-
-/// The arcfiend holding this
-/obj/item/gun/energy/arcfiend_coilgun/proc/get_holder_antag()
-	if(!ismob(loc))
-		return null
-	var/mob/holder = loc
-	return holder.mind?.has_antag_datum(/datum/antagonist/arcfiend)
-
-/// How much power a shot costs, which gets cheaper with upgrades
-/obj/item/gun/energy/arcfiend_coilgun/proc/get_shot_cost(datum/antagonist/arcfiend/arcfiend)
-	var/level = clamp(arcfiend.get_power_level(/datum/action/cooldown/arcfiend/manifest_coilgun), 1, 3)
-	return list(15, 12, 9)[level]
-
-/// The power that owns the magazine this gun fires from
-/obj/item/gun/energy/arcfiend_coilgun/proc/get_holder_action()
-	if(!ismob(loc))
-		return null
-	var/mob/holder = loc
-	return locate(/datum/action/cooldown/arcfiend/manifest_coilgun) in holder.actions
-
-/obj/item/gun/energy/arcfiend_coilgun/can_shoot()
-	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
-	var/datum/action/cooldown/arcfiend/manifest_coilgun/magazine_owner = get_holder_action()
-	if(!arcfiend || !magazine_owner)
-		return FALSE
-	return arcfiend.has_power(get_shot_cost(arcfiend)) && magazine_owner.get_magazine() >= 1
-
-/// Says why it won't fire, as well as clicking
-/obj/item/gun/energy/arcfiend_coilgun/shoot_with_empty_chamber(mob/living/user as mob|obj)
-	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
-	var/datum/action/cooldown/arcfiend/manifest_coilgun/magazine_owner = get_holder_action()
-	if(magazine_owner && magazine_owner.get_magazine() < 1)
-		balloon_alert_to_viewers("out of slugs!")
-	else if(arcfiend)
-		balloon_alert_to_viewers("need [get_shot_cost(arcfiend)] power!")
-	else
-		balloon_alert_to_viewers("*click*")
-	playsound(src, dry_fire_sound, dry_fire_sound_volume, TRUE)
-
-/obj/item/gun/energy/arcfiend_coilgun/examine(mob/user)
-	. = ..()
-	var/datum/action/cooldown/arcfiend/manifest_coilgun/magazine_owner = get_holder_action()
-	if(magazine_owner)
-		. += span_notice("Its magazine holds [magazine_owner.get_magazine()] of [magazine_owner.get_magazine_size()] slugs. It rebuilds one every [magazine_owner.get_slug_recharge_time() / 10] seconds.")
-
-/// Always has a round ready, the cost is only paid when it is fired
-/obj/item/gun/energy/arcfiend_coilgun/recharge_newshot(no_cyborg_drain)
-	if(!ammo_type || chambered)
-		return
-	chambered = ammo_type[select]
-	if(!chambered.loaded_projectile)
-		chambered.newshot()
-	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
-	if(arcfiend && chambered.loaded_projectile)
-		var/level = clamp(arcfiend.get_power_level(/datum/action/cooldown/arcfiend/manifest_coilgun), 1, 3)
-		chambered.loaded_projectile.damage = list(20, 25, 30)[level]
-
-/obj/item/gun/energy/arcfiend_coilgun/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
-	// A spent round means the shot was fired, so that is when it is paid for, in power and in a slug.
-	// The game doesn't always pass the shooter in here (a single shot doesn't), so whoever is holding the gun is used instead.
-	if(chambered && !chambered.loaded_projectile)
-		var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
-		if(arcfiend)
-			arcfiend.spend_power(get_shot_cost(arcfiend))
-		var/datum/action/cooldown/arcfiend/manifest_coilgun/magazine_owner = get_holder_action()
-		if(magazine_owner?.use_slug() && ismob(loc))
-			var/mob/shooter = loc
-			shooter.balloon_alert(shooter, "[magazine_owner.get_magazine()] slug[magazine_owner.get_magazine() == 1 ? "" : "s"] left")
-	chambered = null
-	recharge_newshot()
-
-/datum/action/cooldown/arcfiend/manifest_coilgun
+/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun
 	name = "Manifest Coilgun"
 	desc = "Your nanites weave a crude coilgun out of biometal in your hand."
 	shop_desc = "Grants you Manifest Coilgun, which grows a biometal coilgun in your hand. It is free to summon and put away, but each shot costs power and a slug. It holds 4 slugs and regrows one every 8 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_manifest_coilgun.dmi'
 	button_icon_state = "manifest_coilgun"
-	cooldown_time = 1 SECONDS
+	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 600
 	upgrade_costs = list(500, 900)
@@ -128,104 +271,24 @@
 		"Hits harder, cheaper shots. Holds 5, regrows every 6 seconds.",
 		"Hits harder, cheaper shots. Holds 6, regrows every 4 seconds.",
 	)
-	/// The slugs in the magazine right now. It starts out full, see get_magazine().
-	var/magazine
-	/// The timer that rebuilds the next slug, while the magazine isn't full
-	var/slug_timer
+	grown_type = /obj/item/gun/energy/arcfiend/coilgun
+	charge_name = "slug"
+	recharge_sound = ARCFIEND_SOUND_COILGUN_RELOAD
 
-/// How many slugs the magazine holds
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/get_magazine_size()
+/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/get_max_charges()
 	return by_level(list(4, 5, 6))
 
-/// How long it takes to rebuild one slug
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/get_slug_recharge_time()
+/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/get_charge_time()
 	return by_level(list(8 SECONDS, 6 SECONDS, 4 SECONDS))
 
-/// The slugs in the magazine. The first time anyone asks, it is full.
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/get_magazine()
-	if(isnull(magazine))
-		magazine = get_magazine_size()
-	return magazine
+/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/get_shot_cost()
+	return by_level(list(15, 12, 9))
 
-/// Takes a slug out of the magazine, and starts rebuilding one. Returns FALSE if the magazine is empty.
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/use_slug()
-	if(get_magazine() < 1)
-		return FALSE
-	magazine--
-	start_slug_recharge()
-	return TRUE
+/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/setup_projectile(obj/projectile/projectile)
+	projectile.damage = by_level(list(20, 25, 30))
 
-/// Starts rebuilding a slug, if the magazine isn't full and one isn't being rebuilt already
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/start_slug_recharge()
-	if(slug_timer || get_magazine() >= get_magazine_size())
-		return
-	slug_timer = addtimer(CALLBACK(src, PROC_REF(slug_recharged)), get_slug_recharge_time(), TIMER_STOPPABLE)
-
-/// A slug has been rebuilt
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/slug_recharged()
-	slug_timer = null
-	magazine = min(get_magazine() + 1, get_magazine_size())
-	if(owner && (locate(/obj/item/gun/energy/arcfiend_coilgun) in owner.held_items))
-		owner.balloon_alert(owner, "slug rebuilt ([magazine]/[get_magazine_size()])")
-		playsound(owner, ARCFIEND_SOUND_COILGUN_RELOAD, 20, TRUE)
-	start_slug_recharge()
-
-/// A bigger magazine means there may be room to rebuild again
-/datum/action/cooldown/arcfiend/manifest_coilgun/on_upgraded()
-	start_slug_recharge()
-
-/datum/action/cooldown/arcfiend/manifest_coilgun/Destroy()
-	if(slug_timer)
-		deltimer(slug_timer)
-		slug_timer = null
-	return ..()
-
-/datum/action/cooldown/arcfiend/manifest_coilgun/Remove(mob/remove_from)
-	if(remove_from)
-		put_away(remove_from)
-	return ..()
-
-/// Gets rid of the weapon if we are holding it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/put_away(mob/user)
-	var/found = FALSE
-	for(var/obj/item/gun/energy/arcfiend_coilgun/gun in user.held_items)
-		user.temporarilyRemoveItemFromInventory(gun, TRUE) // DROPDEL deletes it
-		found = TRUE
-	if(found)
-		user.update_held_items()
-	return found
-
-/// Lets the coilgun crumble away, with the sparks and messages that go with it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/manifest_coilgun/proc/dismiss(mob/living/user)
-	if(!put_away(user))
-		return FALSE
-	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
-	user.visible_message(span_notice("[user]'s biometal coilgun crumbles away."), span_notice("You let the biometal coilgun crumble away."))
-	StartCooldown()
-	return TRUE
-
-/// Pressing the drop key while holding the coilgun dismisses it instead of trying to drop it
-/datum/action/cooldown/arcfiend/manifest_coilgun/on_drop_key(mob/user, obj/item/held)
-	if(istype(held, /obj/item/gun/energy/arcfiend_coilgun) && isliving(user))
-		return dismiss(user)
-	return ..()
-
-/datum/action/cooldown/arcfiend/manifest_coilgun/Activate(atom/target)
-	if(!get_arcfiend() || !isliving(owner))
-		return FALSE
-	var/mob/living/user = owner
-	if(dismiss(user))
-		return TRUE
-	if(!free_active_hand(user))
-		return FALSE
-	var/obj/item/gun/energy/arcfiend_coilgun/gun = new(user)
-	if(!give_item(user, gun))
-		return FALSE
-	do_sparks(2, FALSE, user)
-	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
+/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/on_grown(mob/living/user, obj/item/grown)
 	user.visible_message(span_warning("A crude gun of lumpy biometal grows out of [user]'s hand!"), span_notice("You grow a biometal coilgun."))
-	StartCooldown()
-	return TRUE
 
 //////////////////////////////////////////////////////////////////////////
 //------------------------------Biometal Tether-------------------------//
@@ -387,12 +450,11 @@
 	e_cost = 0
 	delay = 1.2 SECONDS
 
+
 /**
- * The gun that fires the lateral beam, grown from an arcfiend's hand. Every shot costs its owner power and a charge from
- * an internal magazine, which slowly rebuilds. The magazine belongs to the arcfiend's power, so putting the gun away and
- * growing it again doesn't refill it. Using the gun in hand changes how far the beam reaches.
+ * The gun that fires the lateral beam, grown from an arcfiend's hand. Using the gun in hand changes how far the beam reaches.
  */
-/obj/item/gun/energy/arcfiend_lateral_laser
+/obj/item/gun/energy/arcfiend/lateral_laser
 	name = "lateral laser"
 	desc = "A thin biometal lance full of boiling nanites. Use it in hand to set the range."
 	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser.dmi'
@@ -400,83 +462,13 @@
 	inhand_icon_state = "lateral_laser"
 	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_lefthand.dmi'
 	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_righthand.dmi'
-	item_flags = ABSTRACT | DROPDEL
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_lateral_beam)
-	can_select = FALSE
-	can_charge = FALSE
-	automatic_charge_overlays = FALSE
-	display_empty = FALSE
-
-/obj/item/gun/energy/arcfiend_lateral_laser/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
-
-/// It has no battery that anything could charge, the power comes from the arcfiend holding it
-/obj/item/gun/energy/arcfiend_lateral_laser/get_cell(atom/movable/interface, mob/user)
-	return null
-
-/// The arcfiend holding this
-/obj/item/gun/energy/arcfiend_lateral_laser/proc/get_holder_antag()
-	if(!ismob(loc))
-		return null
-	var/mob/holder = loc
-	return holder.mind?.has_antag_datum(/datum/antagonist/arcfiend)
-
-/// The power that this gun's settings belong to
-/obj/item/gun/energy/arcfiend_lateral_laser/proc/get_holder_action()
-	if(!ismob(loc))
-		return null
-	var/mob/holder = loc
-	return locate(/datum/action/cooldown/arcfiend/lateral_laser) in holder.actions
-
-/obj/item/gun/energy/arcfiend_lateral_laser/can_shoot()
-	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
-	var/datum/action/cooldown/arcfiend/lateral_laser/settings = get_holder_action()
-	if(!arcfiend || !settings)
-		return FALSE
-	return arcfiend.has_power(settings.get_shot_cost()) && settings.get_magazine() >= 1
-
-/// Says why it won't fire, as well as clicking
-/obj/item/gun/energy/arcfiend_lateral_laser/shoot_with_empty_chamber(mob/living/user as mob|obj)
-	var/datum/action/cooldown/arcfiend/lateral_laser/settings = get_holder_action()
-	if(settings && settings.get_magazine() < 1)
-		balloon_alert_to_viewers("out of charges!")
-	else if(settings)
-		balloon_alert_to_viewers("need [settings.get_shot_cost()] power!")
-	else
-		balloon_alert_to_viewers("*click*")
-	playsound(src, dry_fire_sound, dry_fire_sound_volume, TRUE)
-
-/// Always has a round ready, set to the range and damage the arcfiend has chosen. The cost is only paid when it is fired.
-/obj/item/gun/energy/arcfiend_lateral_laser/recharge_newshot(no_cyborg_drain)
-	if(!ammo_type || chambered)
-		return
-	chambered = ammo_type[select]
-	if(!chambered.loaded_projectile)
-		chambered.newshot()
-	var/datum/action/cooldown/arcfiend/lateral_laser/settings = get_holder_action()
-	var/obj/projectile/beam/laser/hitscan/arcfiend_lateral/beam = chambered.loaded_projectile
-	if(settings && istype(beam))
-		beam.set_up(settings.get_selected_range(), settings.get_weak_damage(), settings.get_power_damage())
-
-/obj/item/gun/energy/arcfiend_lateral_laser/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
-	// A spent round means the shot was fired, so that is when it is paid for, in power and in a charge.
-	// The game doesn't always pass the shooter in here, so whoever is holding the gun is used instead.
-	if(chambered && !chambered.loaded_projectile)
-		var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
-		var/datum/action/cooldown/arcfiend/lateral_laser/settings = get_holder_action()
-		if(arcfiend && settings)
-			arcfiend.spend_power(settings.get_shot_cost())
-			if(settings.use_charge() && ismob(loc))
-				var/mob/shooter = loc
-				shooter.balloon_alert(shooter, "[settings.get_magazine()] charge[settings.get_magazine() == 1 ? "" : "s"] left")
-	chambered = null
-	recharge_newshot()
+	power_type = /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser
 
 /// Using the gun in hand changes how far the beam reaches
-/obj/item/gun/energy/arcfiend_lateral_laser/attack_self(mob/living/user)
+/obj/item/gun/energy/arcfiend/lateral_laser/attack_self(mob/living/user)
 	. = ..()
-	var/datum/action/cooldown/arcfiend/lateral_laser/settings = get_holder_action()
+	var/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/settings = get_holder_power()
 	if(!settings)
 		return
 	settings.cycle_range(user)
@@ -484,20 +476,19 @@
 	chambered = null
 	recharge_newshot()
 
-/obj/item/gun/energy/arcfiend_lateral_laser/examine(mob/user)
+/obj/item/gun/energy/arcfiend/lateral_laser/examine(mob/user)
 	. = ..()
-	var/datum/action/cooldown/arcfiend/lateral_laser/settings = get_holder_action()
+	var/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/settings = get_holder_power()
 	if(settings)
 		. += span_notice("It is set to [settings.get_selected_range()] tile[settings.get_selected_range() == 1 ? "" : "s"]. The beam does [settings.get_weak_damage()] damage along the way and [settings.get_power_damage()] to whatever is at the very end of it.")
-		. += span_notice("Its magazine holds [settings.get_magazine()] of [settings.get_magazine_size()] charges. It rebuilds one every [settings.get_charge_recharge_time() / 10] seconds.")
 
-/datum/action/cooldown/arcfiend/lateral_laser
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser
 	name = "Lateral Laser"
 	desc = "Your nanites boil inside a thin lance of biometal, then fire out of it as a beam."
 	shop_desc = "Grants you Lateral Laser, which grows a lance that fires a beam of boiling nanites through everything, including walls. The beam does little damage along its path, but the nanites burst at the range you set (4 tiles at most, use it in hand to change it) and deal heavy damage there. It is free to summon and put away, but each shot costs power and a charge. It holds 3 charges and regrows one every 10 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_lateral_laser.dmi'
 	button_icon_state = "lateral_laser"
-	cooldown_time = 1 SECONDS
+	shop_listed = TRUE
 	shop_tier = 2
 	unlock_cost = 650
 	upgrade_costs = list(500, 900)
@@ -505,134 +496,51 @@
 		"5 tiles. 8 damage on the way, 60 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
 		"6 tiles. 10 damage on the way, 80 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
 	)
+	grown_type = /obj/item/gun/energy/arcfiend/lateral_laser
+	recharge_sound = ARCFIEND_SOUND_LASER_RELOAD
 	/// The range the arcfiend has chosen. This lives here, so putting the gun away doesn't reset it. Null means as far as it can go.
 	var/selected_range
-	/// The charges in the magazine right now. It starts out full, see get_magazine().
-	var/magazine
-	/// The timer that rebuilds the next charge, while the magazine isn't full
-	var/charge_timer
 
-/// How many charges the magazine holds
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_magazine_size()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/get_max_charges()
 	return by_level(list(3, 4, 5))
 
-/// How long it takes to rebuild one charge
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_charge_recharge_time()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/get_charge_time()
 	return by_level(list(10 SECONDS, 8 SECONDS, 6 SECONDS))
 
-/// The charges in the magazine. The first time anyone asks, it is full.
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_magazine()
-	if(isnull(magazine))
-		magazine = get_magazine_size()
-	return magazine
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/get_shot_cost()
+	return by_level(list(30, 25, 20))
 
-/// Takes a charge out of the magazine, and starts rebuilding one. Returns FALSE if the magazine is empty.
-/datum/action/cooldown/arcfiend/lateral_laser/proc/use_charge()
-	if(get_magazine() < 1)
-		return FALSE
-	magazine--
-	start_charge_recharge()
-	return TRUE
-
-/// Starts rebuilding a charge, if the magazine isn't full and one isn't being rebuilt already
-/datum/action/cooldown/arcfiend/lateral_laser/proc/start_charge_recharge()
-	if(charge_timer || get_magazine() >= get_magazine_size())
-		return
-	charge_timer = addtimer(CALLBACK(src, PROC_REF(charge_recharged)), get_charge_recharge_time(), TIMER_STOPPABLE)
-
-/// A charge has been rebuilt
-/datum/action/cooldown/arcfiend/lateral_laser/proc/charge_recharged()
-	charge_timer = null
-	magazine = min(get_magazine() + 1, get_magazine_size())
-	if(owner && (locate(/obj/item/gun/energy/arcfiend_lateral_laser) in owner.held_items))
-		owner.balloon_alert(owner, "charge rebuilt ([magazine]/[get_magazine_size()])")
-		playsound(owner, ARCFIEND_SOUND_LASER_RELOAD, 20, TRUE)
-	start_charge_recharge()
-
-/// A bigger magazine means there may be room to rebuild again
-/datum/action/cooldown/arcfiend/lateral_laser/on_upgraded()
-	start_charge_recharge()
-
-/datum/action/cooldown/arcfiend/lateral_laser/Destroy()
-	if(charge_timer)
-		deltimer(charge_timer)
-		charge_timer = null
-	return ..()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/setup_projectile(obj/projectile/projectile)
+	var/obj/projectile/beam/laser/hitscan/arcfiend_lateral/beam = projectile
+	if(istype(beam))
+		beam.set_up(get_selected_range(), get_weak_damage(), get_power_damage())
 
 /// How far the beam can be set to reach
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_max_range()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_max_range()
 	return by_level(list(4, 5, 6))
 
 /// The range the beam is set to, never further than it can go
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_selected_range()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_selected_range()
 	selected_range = clamp(selected_range || get_max_range(), 1, get_max_range())
 	return selected_range
 
 /// The damage along the way
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_weak_damage()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_weak_damage()
 	return by_level(list(6, 8, 10))
 
 /// The damage at exactly the end of the beam
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_power_damage()
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_power_damage()
 	return by_level(list(45, 60, 80))
 
-/// The power a shot costs
-/datum/action/cooldown/arcfiend/lateral_laser/proc/get_shot_cost()
-	return by_level(list(30, 25, 20))
-
 /// Goes to the next range, and back to the shortest after the longest
-/datum/action/cooldown/arcfiend/lateral_laser/proc/cycle_range(mob/user)
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/cycle_range(mob/user)
 	selected_range = (get_selected_range() % get_max_range()) + 1
 	to_chat(user, span_notice("You set the lateral laser to [selected_range] tile[selected_range == 1 ? "" : "s"]. Only what is exactly [selected_range] tile[selected_range == 1 ? "" : "s"] away takes its full damage."))
 	user.balloon_alert(user, "range: [selected_range]")
 	playsound(user, ARCFIEND_SOUND_LASER_MODE, 40, TRUE)
 
-/datum/action/cooldown/arcfiend/lateral_laser/Remove(mob/remove_from)
-	if(remove_from)
-		put_away(remove_from)
-	return ..()
-
-/// Gets rid of the gun if we are holding it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/lateral_laser/proc/put_away(mob/user)
-	var/found = FALSE
-	for(var/obj/item/gun/energy/arcfiend_lateral_laser/gun in user.held_items)
-		user.temporarilyRemoveItemFromInventory(gun, TRUE) // DROPDEL deletes it
-		found = TRUE
-	if(found)
-		user.update_held_items()
-	return found
-
-/// Lets the gun crumble away, with the sparks and messages that go with it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/lateral_laser/proc/dismiss(mob/living/user)
-	if(!put_away(user))
-		return FALSE
-	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
-	user.visible_message(span_notice("[user]'s lateral laser crumbles away."), span_notice("You let the lateral laser crumble away."))
-	StartCooldown()
-	return TRUE
-
-/// Pressing the drop key while holding the gun dismisses it instead of trying to drop it
-/datum/action/cooldown/arcfiend/lateral_laser/on_drop_key(mob/user, obj/item/held)
-	if(istype(held, /obj/item/gun/energy/arcfiend_lateral_laser) && isliving(user))
-		return dismiss(user)
-	return ..()
-
-/datum/action/cooldown/arcfiend/lateral_laser/Activate(atom/target)
-	if(!get_arcfiend() || !isliving(owner))
-		return FALSE
-	var/mob/living/user = owner
-	if(dismiss(user))
-		return TRUE
-	if(!free_active_hand(user))
-		return FALSE
-	var/obj/item/gun/energy/arcfiend_lateral_laser/gun = new(user)
-	if(!give_item(user, gun))
-		return FALSE
-	do_sparks(2, FALSE, user)
-	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
+/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/on_grown(mob/living/user, obj/item/grown)
 	user.visible_message(span_warning("A thin lance of glowing biometal grows out of [user]'s hand!"), span_notice("You grow a lateral laser. It is set to [get_selected_range()] tile[get_selected_range() == 1 ? "" : "s"]. Use it in your hand to change that."))
-	StartCooldown()
-	return TRUE
 
 //////////////////////////////////////////////////////////////////////////
 //------------------------------Galvanic Prod---------------------------//
@@ -668,7 +576,7 @@
 /// A right-click zaps, costing power. A plain click is an ordinary hit with a spark, which is free.
 /obj/item/melee/arcfiend_prod/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(user.istate & ISTATE_SECONDARY)
-		var/datum/action/cooldown/arcfiend/shock_prod/prod_action = locate() in user.actions
+		var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
 		prod_action?.try_zap(target_mob, user, src)
 		user.changeNext_move(CLICK_CD_MELEE)
 		return TRUE
@@ -676,13 +584,13 @@
 	if(!.)
 		do_sparks(1, FALSE, target_mob)
 
-/datum/action/cooldown/arcfiend/shock_prod
+/datum/action/cooldown/arcfiend/grown_item/shock_prod
 	name = "Galvanic Prod"
 	desc = "A prod of biometal grows out of your arm, crackling with current."
 	shop_desc = "Grants you Galvanic Prod, which grows a prod out of your arm. It is free to summon and put away. Left-click hits for 15 burn at no cost, while right-click zaps like an emagged defibrillator, draining stamina, knocking the target down and making them drop what they are holding. Each zap costs power and one of its 4 charges, which regrow every 40 seconds, even while put away."
 	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_galvanic_prod.dmi'
 	button_icon_state = "galvanic_prod"
-	cooldown_time = 1 SECONDS
+	shop_listed = TRUE
 	shop_tier = 1
 	unlock_cost = 0
 	upgrade_costs = list(200, 450)
@@ -690,54 +598,33 @@
 		"Cheaper zaps. Charges come back every 30 seconds.",
 		"Cheaper zaps. Charges come back every 20 seconds.",
 	)
+	grown_type = /obj/item/melee/arcfiend_prod
 	/// The time at which the prod can zap again. This only stops zaps being spammed. This lives here and not on the prod, so putting it away doesn't reset it.
 	var/prod_ready_time = 0
-	/// The charges the prod has right now. It starts out full, see get_charges().
-	var/zap_charges
-	/// The timer that brings back the next charge, while the prod isn't full
-	var/charge_timer
 
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/get_max_charges()
+	return ARCFIEND_PROD_MAX_CHARGES
 
-/// How much power a full zap costs
-/datum/action/cooldown/arcfiend/shock_prod/proc/get_zap_cost()
-	return by_level(list(40, 32, 25))
-
-/// How long it takes to bring back one charge
-/datum/action/cooldown/arcfiend/shock_prod/proc/get_charge_time()
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/get_charge_time()
 	return by_level(list(40 SECONDS, 30 SECONDS, 20 SECONDS))
 
-/// The charges the prod has. The first time anyone asks, it is full.
-/datum/action/cooldown/arcfiend/shock_prod/proc/get_charges()
-	if(isnull(zap_charges))
-		zap_charges = ARCFIEND_PROD_MAX_CHARGES
-	return zap_charges
+/// How much power a zap costs
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/get_zap_cost()
+	return by_level(list(40, 32, 25))
 
-/// Starts bringing back a charge, if the prod isn't full and one isn't coming back already
-/datum/action/cooldown/arcfiend/shock_prod/proc/start_charge_timer()
-	if(charge_timer || get_charges() >= ARCFIEND_PROD_MAX_CHARGES)
-		return
-	charge_timer = addtimer(CALLBACK(src, PROC_REF(charge_recharged)), get_charge_time(), TIMER_STOPPABLE)
-
-/// A charge has come back
-/datum/action/cooldown/arcfiend/shock_prod/proc/charge_recharged()
-	charge_timer = null
-	zap_charges = min(get_charges() + 1, ARCFIEND_PROD_MAX_CHARGES)
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/on_charge_regained()
 	update_prod_look()
-	if(owner && (locate(/obj/item/melee/arcfiend_prod) in owner.held_items))
-		owner.balloon_alert(owner, "prod charged ([zap_charges]/[ARCFIEND_PROD_MAX_CHARGES])")
-		playsound(owner, ARCFIEND_SOUND_PROD_RECHARGED, 30, TRUE)
-	start_charge_timer()
-
-/// A faster recharge applies to the next charge, and the prod may have room for one now
-/datum/action/cooldown/arcfiend/shock_prod/on_upgraded()
-	start_charge_timer()
+	if(!get_held_item(owner))
+		return
+	owner.balloon_alert(owner, "prod charged ([charges]/[ARCFIEND_PROD_MAX_CHARGES])")
+	playsound(owner, ARCFIEND_SOUND_PROD_RECHARGED, 30, TRUE)
 
 /// Whether the prod has too little charge to zap at all, which is how it looks drained
-/datum/action/cooldown/arcfiend/shock_prod/proc/is_drained()
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/is_drained()
 	return get_charges() < 1
 
 /// The prod in the arcfiend's hand and the power's button look drained when it is out of charge
-/datum/action/cooldown/arcfiend/shock_prod/proc/update_prod_look()
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/update_prod_look()
 	var/look = is_drained() ? "galvanic_prod_drained" : "galvanic_prod"
 	if(owner)
 		for(var/obj/item/melee/arcfiend_prod/prod in owner.held_items)
@@ -746,7 +633,7 @@
 		owner.update_held_items()
 	build_all_button_icons(UPDATE_BUTTON_ICON)
 
-/datum/action/cooldown/arcfiend/shock_prod/apply_button_icon(atom/movable/screen/movable/action_button/current_button, force = FALSE)
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/apply_button_icon(atom/movable/screen/movable/action_button/current_button, force = FALSE)
 	if(QDELETED(current_button) || !button_icon || !button_icon_state)
 		return
 	var/shown_state = is_drained() ? "[button_icon_state]_drained" : button_icon_state
@@ -755,62 +642,12 @@
 	current_button.icon = button_icon
 	current_button.icon_state = shown_state
 
-/datum/action/cooldown/arcfiend/shock_prod/Destroy()
-	if(charge_timer)
-		deltimer(charge_timer)
-		charge_timer = null
-	return ..()
-
-/datum/action/cooldown/arcfiend/shock_prod/Remove(mob/remove_from)
-	if(remove_from)
-		put_away(remove_from)
-	return ..()
-
-/// Gets rid of the prod if we are holding it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/shock_prod/proc/put_away(mob/user)
-	var/found = FALSE
-	for(var/obj/item/melee/arcfiend_prod/prod in user.held_items)
-		user.temporarilyRemoveItemFromInventory(prod, TRUE) // DROPDEL deletes it
-		found = TRUE
-	if(found)
-		user.update_held_items()
-	return found
-
-/// Lets the prod crumble away, with the sparks and messages that go with it. Returns TRUE if there was one.
-/datum/action/cooldown/arcfiend/shock_prod/proc/dismiss(mob/living/user)
-	if(!put_away(user))
-		return FALSE
-	playsound(user, ARCFIEND_SOUND_ITEM_CRUMBLE, 30, TRUE)
-	user.visible_message(span_notice("[user]'s galvanic prod crumbles away."), span_notice("You let the galvanic prod crumble away."))
-	StartCooldown()
-	return TRUE
-
-/// Pressing the drop key while holding the prod dismisses it instead of trying to drop it
-/datum/action/cooldown/arcfiend/shock_prod/on_drop_key(mob/user, obj/item/held)
-	if(istype(held, /obj/item/melee/arcfiend_prod) && isliving(user))
-		return dismiss(user)
-	return ..()
-
-/datum/action/cooldown/arcfiend/shock_prod/Activate(atom/target)
-	if(!get_arcfiend() || !isliving(owner))
-		return FALSE
-	var/mob/living/user = owner
-	if(dismiss(user))
-		return TRUE
-	if(!free_active_hand(user))
-		return FALSE
-	var/obj/item/melee/arcfiend_prod/prod = new(user)
-	if(!give_item(user, prod))
-		return FALSE
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/on_grown(mob/living/user, obj/item/grown)
 	update_prod_look()
-	do_sparks(2, FALSE, user)
-	playsound(user, ARCFIEND_SOUND_ITEM_GROW, 30, TRUE)
 	user.visible_message(span_warning("A crackling prod of biometal grows out of [user]'s arm!"), span_notice("You grow a galvanic prod. Left-click to hit with it, or right-click someone to zap them."))
-	StartCooldown()
-	return TRUE
 
 /// Zaps someone with the prod, using up one charge. Returns TRUE if they were zapped.
-/datum/action/cooldown/arcfiend/shock_prod/proc/try_zap(mob/living/target, mob/living/user, obj/item/melee/arcfiend_prod/prod)
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/try_zap(mob/living/target, mob/living/user, obj/item/melee/arcfiend_prod/prod)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
 	if(!arcfiend || !istype(target) || target == user)
 		return FALSE
@@ -829,11 +666,10 @@
 		return FALSE
 
 	arcfiend.spend_power(cost)
-	zap_charges = get_charges() - 1
+	use_charge()
 	prod_ready_time = world.time + ARCFIEND_PROD_ZAP_DELAY
-	start_charge_timer()
 	update_prod_look()
-	user.balloon_alert(user, "[zap_charges]/[ARCFIEND_PROD_MAX_CHARGES] charges left")
+	user.balloon_alert(user, "[charges]/[ARCFIEND_PROD_MAX_CHARGES] charges left")
 
 	// The same effect as the right-click of an emagged defibrillator
 	target.visible_message(
