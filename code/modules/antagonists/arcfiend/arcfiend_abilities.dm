@@ -508,10 +508,13 @@
 	apply_damage(ARCFIEND_SAP_MOB_STAMINA * seconds, STAMINA)
 	to_chat(src, span_userdanger("Something is tearing the electricity out of your body!"))
 	. = antag.add_power(min(ARCFIEND_DRAIN_MOB * seconds, antag.get_power_room()))
-	// An ethereal's charge is what is being drained, so it runs down. Anyone else only takes the damage.
-	if(. && isethereal(src))
-		var/obj/item/organ/internal/stomach/ethereal/battery = get_organ_slot(ORGAN_SLOT_STOMACH)
-		battery?.adjust_charge(-. * ARCFIEND_ETHEREAL_CHARGE_PER_POWER)
+	// An ethereal's or an IPC's charge is what is being drained, so it runs down. Anyone else only takes the damage.
+	if(.)
+		if(isethereal(src))
+			var/obj/item/organ/internal/stomach/ethereal/battery = get_organ_slot(ORGAN_SLOT_STOMACH)
+			battery?.adjust_charge(-. * ARCFIEND_ETHEREAL_CHARGE_PER_POWER)
+		else if(isipc(src))
+			adjust_nutrition(-. * ARCFIEND_IPC_NUTRITION_PER_POWER)
 	antag.credit_mind_drain(src, .)
 
 //CYBORGS//

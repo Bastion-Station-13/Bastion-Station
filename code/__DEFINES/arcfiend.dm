@@ -15,6 +15,9 @@
 /// How much charge an ethereal loses for every unit of power an arcfiend drains out of them
 #define ARCFIEND_ETHEREAL_CHARGE_PER_POWER 0.5
 
+/// How much nutrition (an IPC's battery charge) an IPC loses for every unit of power an arcfiend drains out of them
+#define ARCFIEND_IPC_NUTRITION_PER_POWER 0.25
+
 /// Joules of station energy that one unit of arcfiend power is worth
 #define ARCFIEND_JOULES_PER_POWER 2000
 /// Joules an SMES loses for each unit of power an arcfiend gets from it, a very inefficient conversion
