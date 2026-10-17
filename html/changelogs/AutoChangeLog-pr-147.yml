@@ -1,6 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - map: "Fixed the 2 medkits in the kilostation brig med being empty, re-ordered contents of the brig med table, and fixed the left recharger in the security locker room being unusable except from the left of the table."
-  - config: "Set the default occupations setting back to \"Simple\" from \"Per-Character Priorities.\" (revert of previous change on bastion station)."
-  - config: "Lowered the minimum player requirements for the brute, jester, mystic, operative, and warrior storytellers."
