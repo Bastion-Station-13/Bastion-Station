@@ -56,7 +56,7 @@
 
 /datum/component/stove/UnregisterFromParent()
 	var/obj/machinery/real_parent = parent
-	if(!QDELING(parent))
+	if(container && !QDELING(parent))
 		container.forceMove(real_parent.drop_location())
 
 	if (particle_type)
@@ -145,7 +145,7 @@
 /datum/component/stove/proc/on_deconstructed(obj/machinery/source)
 	SIGNAL_HANDLER
 
-	container.forceMove(source.drop_location())
+	container?.forceMove(source.drop_location())
 
 /datum/component/stove/proc/on_overlay_update(obj/machinery/source, list/overlays)
 	SIGNAL_HANDLER

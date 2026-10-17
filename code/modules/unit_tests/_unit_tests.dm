@@ -175,6 +175,7 @@
 #include "lootpanel.dm"
 #include "lungs.dm"
 #include "machine_disassembly.dm"
+#include "machinery_zero_integrity.dm"
 #include "mapload_space_verification.dm"
 #include "mapping.dm"
 #include "mecha_damage.dm"
