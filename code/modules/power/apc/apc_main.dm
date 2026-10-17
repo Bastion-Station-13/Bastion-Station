@@ -328,17 +328,6 @@
 	if(panel_open && (integration_cog || (living_user.has_status_effect(/datum/status_effect/hallucination) && prob(HALLUCINATION_COG_CHANCE))))
 		. += span_brass("A small cogwheel is inside of it.")
 
-/obj/machinery/power/apc/deconstruct(disassembled = TRUE)
-	if(flags_1 & NODECONSTRUCT_1)
-		return
-	if(!(machine_stat & BROKEN))
-		set_broken()
-	if(opened != APC_COVER_REMOVED)
-		opened = APC_COVER_REMOVED
-		coverlocked = FALSE
-		visible_message(span_warning("The APC cover is knocked down!"))
-		update_appearance()
-
 /obj/machinery/power/apc/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)

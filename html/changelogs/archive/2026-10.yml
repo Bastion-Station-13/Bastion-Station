@@ -305,3 +305,39 @@
   Runian:
   - image: Oily splatters are now the same color as oily blood - less black and more
       grey.
+2026-10-15:
+  Absolucy:
+  - balance: Monster hunters should actually roll more than once a month now.
+  - bugfix: hardsuits and egosuits now properly overslot hats too
+  HIDgamer:
+  - bugfix: 'fixed stacks singularity runtime spam
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: fixed stale reload_hud
+  - bugfix: 'fixed combat_mode duplication
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - bugfix: Fixes hard deletion in medical cyborg's deployable roller bed.
+  - bugfix: Syndicate Surplus Crate's uplink entry description now accurately states
+      its content's total worth is 75 telecrystals.
+  SmArtKar:
+  - admin: Converted the Spawn verb into a TGUI input, featuring for dynamic search
+      and RegEx support.
+  Tractor-Maam:
+  - spellcheck: changed "holochasis" to "holochassis" in the pAI action restriction
+      alert.
+  mcbalaam:
+  - rscadd: AIs can now point to things using holopads
