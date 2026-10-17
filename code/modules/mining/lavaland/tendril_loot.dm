@@ -1181,3 +1181,42 @@
 #undef ATTACK_CUT
 #undef ATTACK_CLOAK
 #undef ATTACK_SHATTER
+
+/obj/item/ashen_whetstone
+	name = "ashen whetstone"
+	desc = "A ancient whetstone that seeps with lava, made out of polished basalt."
+	icon = 'icons/obj/kitchen.dmi'
+	icon_state = "ashen_whetstone"
+	/// How many uses this whetstone has left
+	var/uses = 1
+
+/obj/item/ashen_whetstone/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+	if(istype(attacking_item, /obj/item/kinetic_crusher))
+		var/obj/item/kinetic_crusher/crusher = attacking_item
+		if(crusher.enhanced)
+			to_chat(user, span_warning("[crusher] is already enhanced!"))
+			return
+		crusher.armour_penetration += 10
+		crusher.detonation_damage += 10
+		crusher.backstab_bonus += 20
+		crusher.name = "Ashen [crusher.name]"
+		crusher.enhanced = TRUE
+	else if(istype(attacking_item, /obj/item/gun/energy/recharge/kinetic_accelerator))
+		var/obj/item/gun/energy/recharge/kinetic_accelerator/pka = attacking_item
+		if(pka.enhanced)
+			to_chat(user, span_warning("[pka] is already enhanced!"))
+			return
+		pka.max_mod_capacity += 40
+		pka.name = "Ashen [pka.name]"
+		pka.enhanced = TRUE
+	else
+		return
+	to_chat(user, span_notice("You use [src] on the [attacking_item], improving its capabilities"))
+	uses--
+	playsound(src, 'sound/effects/nightmare_poof.ogg', 55, TRUE)
+	if(uses == 0)
+		balloon_alert(user, "[src] crumbles to dust.")
+		new /obj/effect/decal/cleanable/ash(get_turf(src))
+		qdel(src)
+		return
+	. = ..()

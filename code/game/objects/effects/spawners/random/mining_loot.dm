@@ -9,11 +9,9 @@
 		/obj/item/clothing/glasses/godeye = 1,
 		/obj/item/reagent_containers/cup/bottle/potion/flight = 1,
 		/obj/item/clothing/gloves/gauntlets = 1,
-//		/obj/effect/spawner/random/mining_loot/pka_mod = 1, // MONKESTATION EDIT OLD -- Blood-drunk already drops all of them
-		/obj/item/borg/upgrade/modkit/lifesteal = 1, // MONKESTATION EDIT NEW -- Except this one
+		/obj/item/borg/upgrade/modkit/lifesteal = 1,
 		/obj/item/rod_of_asclepius = 1,
-//		/obj/item/organ/internal/heart/cursed/wizard = 1, // MONKESTATION EDIT OLD
-		/obj/item/organ/internal/heart/cursed/wizard = 1, // MONKESTATION EDIT NEW
+		/obj/item/organ/internal/heart/cursed/wizard = 1,
 		/obj/item/ship_in_a_bottle = 1,
 		/obj/item/clothing/suit/hooded/berserker = 1,
 		/obj/item/jacobs_ladder = 1,
@@ -24,7 +22,8 @@
 		/obj/item/book/granter/action/spell/summonitem = 1,
 		/obj/item/book_of_babel = 1,
 		/obj/item/clothing/neck/necklace/memento_mori = 1,
-		/obj/item/organ/internal/cyberimp/arm/item_set/katana = 1, // MONKESTATION ADDITION
+		/obj/item/organ/internal/cyberimp/arm/item_set/katana = 1,
+		/obj/item/ashen_whetstone = 1,
 	)
 
 /obj/effect/spawner/random/mining_loot/demonic
@@ -34,17 +33,14 @@
 	icon_state = "necrocrate"
 	loot = list(
 		/obj/item/shared_storage/red = 1,
-//		/obj/item/clothing/neck/cloak/wolf_coat = 1, // MONKESTATION EDIT OLD -- Awaiting being added
-		/obj/item/clothing/suit/hooded/cultrobes/hardened = 1, // MONKESTATION EDIT NEW
+		/obj/item/clothing/suit/hooded/cultrobes/hardened = 1,
 		/obj/item/soulstone/anybody/mining = 1,
 		/obj/item/clothing/glasses/godeye = 1,
 		/obj/item/reagent_containers/cup/bottle/potion/flight = 1,
 		/obj/item/clothing/gloves/gauntlets = 1,
-//		/obj/effect/spawner/random/mining_loot/pka_mod = 1, // MONKESTATION EDIT OLD -- Blood-drunk already drops all of them
-		/obj/item/borg/upgrade/modkit/lifesteal = 1, // MONKESTATION EDIT NEW -- Except this one
+		/obj/item/borg/upgrade/modkit/lifesteal = 1,
 		/obj/item/rod_of_asclepius = 1,
-//		/obj/item/organ/internal/heart/cursed/wizard = 1, // MONKESTATION EDIT OLD
-		/obj/item/organ/internal/heart/cursed/wizard = 1, // MONKESTATION EDIT NEW
+		/obj/item/organ/internal/heart/cursed/wizard = 1,
 		/obj/item/jacobs_ladder = 1,
 		/obj/item/guardian_creator/miner = 1,
 		/obj/item/weldingtool/abductor = 1,
@@ -53,10 +49,11 @@
 		/obj/item/book/granter/action/spell/summonitem = 1,
 		/obj/item/clothing/neck/necklace/memento_mori = 1,
 		/obj/item/book/granter/action/spell/sacredflame = 1,
-		/obj/item/book_of_babel = 1, // MONKESTATION ADDITION
-		/obj/item/wisp_lantern = 1, // MONKESTATION ADDITION
-		/obj/item/organ/internal/cyberimp/arm/item_set/katana = 1, // MONKESTATION ADDITION
-		/obj/item/clothing/suit/hooded/berserker = 1, // MONKESTATION ADDITION
+		/obj/item/book_of_babel = 1,
+		/obj/item/wisp_lantern = 1,
+		/obj/item/organ/internal/cyberimp/arm/item_set/katana = 1,
+		/obj/item/clothing/suit/hooded/berserker = 1,
+		/obj/item/ashen_whetstone = 1,
 	)
 
 /// For spawning a rare PKA modkit
