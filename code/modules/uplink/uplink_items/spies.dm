@@ -81,3 +81,9 @@
 	desc = "A scroll teaching you the basics of the Spider Bite martial art."
 	item = /obj/item/book/granter/martial/spider_bite
 	cost = SPY_UPPER_COST_THRESHOLD // While SCarp is firmly in the upper threshold, Spider Bite can be in either middle or upper.
+
+/datum/uplink_item/spy_unique/syndicate_cyborg_jack
+	name = "Syndicate Cyborg Jack Bundle"
+	desc = "A bundle containing with a Syndicate Cyborg Jack along with a Cryptographic Sequencer to use a cyborg of your choice!"
+	item = /obj/item/storage/box/syndie_kit/syndicate_cyborg_jack
+	cost = 11 // Total cost of all items in bundle.
