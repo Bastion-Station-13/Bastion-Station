@@ -100,6 +100,7 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "abG" = (
@@ -66124,6 +66125,7 @@
 	},
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "mKX" = (
@@ -79049,6 +79051,7 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "pmr" = (
@@ -84104,6 +84107,7 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "qor" = (
