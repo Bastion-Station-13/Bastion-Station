@@ -21286,7 +21286,6 @@
 	name = "service camera"
 	},
 /obj/effect/turf_decal/tile/red/opposingcorners,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/showroomfloor,
 /area/station/service/bar/atrium)
 "gHA" = (
@@ -31347,7 +31346,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
 "jDU" = (
@@ -54657,16 +54655,6 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted,
 /turf/open/floor/iron,
 /area/station/command/bridge)
-"qXx" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/green/half/contrasted{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "qXA" = (
 /obj/machinery/atmospherics/miner/nitrogen,
 /turf/open/floor/engine/n2,
@@ -58390,15 +58378,6 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/aft)
-"sfQ" = (
-/obj/effect/turf_decal/tile/neutral/half/contrasted{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/dark/corner{
-	dir = 4
-	},
-/area/station/hallway/primary/fore)
 "sfY" = (
 /obj/machinery/atmospherics/components/binary/valve,
 /obj/effect/turf_decal/stripes/line{
@@ -71360,7 +71339,6 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/north,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/monastery)
 "wio" = (
@@ -101557,7 +101535,7 @@ kZW
 osy
 dAd
 qlC
-sfQ
+wfw
 eFR
 vxf
 aSX
@@ -102599,7 +102577,7 @@ dXI
 dkA
 ovv
 ovv
-qXx
+nIx
 iFm
 gBx
 igl

@@ -443,11 +443,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	GLOB.joined_player_list -= stored_ckey
 	GLOB.manifest.general -= crewfile
 
-	if(human_occupant?.account_id)
-		var/datum/bank_account/account = SSeconomy.bank_accounts_by_id["[human_occupant.account_id]"]
-		if(account)
-			GLOB.lottery_ticket_owners -= account
-
 	QDEL_NULL(occupant)
 	open_machine()
 	name = initial(name)
