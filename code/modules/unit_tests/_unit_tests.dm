@@ -116,6 +116,7 @@
 #include "breath.dm"
 #include "buckle.dm"
 #include "cable_powernets.dm"
+#include "carbon_sprint_key_repeat.dm"
 #include "card_mismatch.dm"
 #include "cardboard_cutouts.dm"
 #include "chain_pull_through_space.dm"
