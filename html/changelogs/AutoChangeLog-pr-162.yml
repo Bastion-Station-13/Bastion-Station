@@ -1,4 +1,0 @@
-author: "HIDgamer"
-delete-after: True
-changes:
-  - bugfix: "fixed Halloween meteor weight and spam runtime\n## Pre-Merge Checklist\n- [x] You tested this on a local server.\n- [x] This code did not runtime during testing.\n- [x] You documented all of your changes."

@@ -341,3 +341,57 @@
       alert.
   mcbalaam:
   - rscadd: AIs can now point to things using holopads
+2026-10-18:
+  Absolucy:
+  - rscadd: (SmArtKar) Blood-drunk miner now drops an infernal PKA with an in-built
+      improved rapid repeater modification.
+  - bugfix: PKA cooldown upgrades now no longer care about what order they're shoved
+      into the PKA.
+  - bugfix: fixed an off-by-one error with unusual particle effects.
+  - code_imp: hopefully made unusual particles less server-intensive.
+  HIDgamer:
+  - bugfix: 'fixed runtime spam caused by the sprint key
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed Halloween meteor weight and spam runtime
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed shield gen damage runtime
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - qol: Unlocking an APC via right-click hotkey as an AI/Cyborg no longer open the
+      APC's menu.
+  - bugfix: Cyborgs that are in low power mode can no longer use certain hotkeys such
+      as shocking, bolting, or opening airlocks remotely.
+  hexakats:
+  - balance: The syndicate musket no longer fits in bags.
+  - balance: The syndicate musket no longer deals stamina damage.
+  - bugfix: You can no longer shrink modsuit control units
+  - refactor: replaced attackby with item_interaction for the BCK
+  notghosti:
+  - map: Ce office on tram no longer has stacking filing cabinets
+  - map: Tech storage camera on tram is no longer named tech shortage
+  - map: boxstation ranch given a incubator nest
+  - map: Blueshift ranch given chicken scanners
+  - map: Icebox lower service distro was fixed.
+  - bugfix: Advanced carp, (Space dragon rift carp) health is fixed, and is now no
+      longer weaker then a regular carp.
