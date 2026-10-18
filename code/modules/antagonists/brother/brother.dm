@@ -88,6 +88,25 @@
 	QDEL_NULL(gear_action)
 	QDEL_NULL(blood_brother_crafting)
 
+// Brothers use a team HUD that cycles through the icons of any other antagonists they are, so their team knows who else they answer to.
+/datum/antagonist/brother/add_team_hud(mob/target, antag_to_check, passed_hud_keys)
+	// Clear out the HUD on our old body, if we've moved into a new one.
+	qdel(team_hud_ref?.resolve())
+	QDEL_NULL(team_hud_ref)
+
+	team_hud_ref = WEAKREF(target.add_alt_appearance(
+		/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother,
+		"antag_team_hud_[REF(src)]",
+		hud_image_on(target),
+		antag_to_check || type,
+		passed_hud_keys || hud_keys,
+		owner,
+	))
+
+	// Add HUDs that they couldn't see before
+	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
+		antag_hud.apply_to_new_mob(owner.current)
+
 /datum/antagonist/brother/antag_panel_data()
 	return "Conspirators : [get_brother_names()]"
 
@@ -362,3 +381,60 @@
 		to_chat(flashed, span_big(span_hypnophrase("You wake up forgetting why exactly you fell asleep, and the brotherly visions you had during your sleep")))
 
 	flashed.SetSleeping(0 SECONDS)
+
+/// The team HUD shown above a brother. If they are any other antagonists, it cycles between the brother icon and each of theirs.
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother
+	antag_datum_type = /datum/antagonist/brother
+	/// The mind of the brother this HUD is shown above.
+	var/datum/mind/mind
+	/// The icon and icon state of each antag HUD to cycle between, with the brother HUD first.
+	var/list/hud_states = list()
+	/// Which entry of hud_states is currently shown.
+	var/index = 1
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/New(key, image/I, antag_datum_type, valid_keys, datum/mind/mind)
+	src.mind = mind
+	RegisterSignals(mind, list(COMSIG_ANTAGONIST_GAINED, COMSIG_ANTAGONIST_REMOVED), PROC_REF(on_antagonists_changed))
+	. = ..()
+	update_hud_states()
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/Destroy()
+	STOP_PROCESSING(SSantag_hud, src)
+	if(mind)
+		UnregisterSignal(mind, list(COMSIG_ANTAGONIST_GAINED, COMSIG_ANTAGONIST_REMOVED))
+		mind = null
+	return ..()
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/process(seconds_per_tick)
+	index = (index % length(hud_states)) + 1
+	show_hud_state()
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/proc/on_antagonists_changed(datum/mind/source)
+	SIGNAL_HANDLER
+	// No longer a brother, so the team shouldn't see this anymore.
+	if(!source.has_antag_datum(/datum/antagonist/brother))
+		qdel(src)
+		return
+	update_hud_states()
+
+/// Rebuilds the list of HUDs to cycle between, starting with the brother HUD followed by those of any other antagonists the brother is.
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/proc/update_hud_states()
+	var/datum/antagonist/brother/bond = mind.has_antag_datum(/datum/antagonist/brother)
+	hud_states = list(list(bond.hud_icon, bond.antag_hud_name))
+	for(var/datum/antagonist/antagonist as anything in mind.antag_datums)
+		if(antagonist == bond || isnull(antagonist.antag_hud_name))
+			continue
+		hud_states += list(list(antagonist.hud_icon, antagonist.antag_hud_name))
+
+	index = 1
+	show_hud_state()
+	if(length(hud_states) > 1)
+		START_PROCESSING(SSantag_hud, src)
+	else
+		STOP_PROCESSING(SSantag_hud, src)
+
+/// Sets the HUD image to the icon of the current entry in hud_states.
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/proc/show_hud_state()
+	var/list/hud_state = hud_states[index]
+	image.icon = hud_state[1]
+	image.icon_state = hud_state[2]
