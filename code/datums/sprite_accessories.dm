@@ -2621,7 +2621,7 @@ MONKESTATION EDIT
 	color_src = FALSE
 
 /datum/sprite_accessory/tails/shadekin
-	icon = 'icons/mob/species/shadekin/shadekin_tails.dmi'
+	icon = 'bastionstation/icons/mob/species/shadekin/shadekin_tails.dmi'
 	palette_key = MUTANT_COLOR_SECONDARY
 
 /datum/sprite_accessory/tails/shadekin/shadekinc
@@ -2765,7 +2765,7 @@ MONKESTATION EDIT
 	palette_key = MUTANT_COLOR
 
 /datum/sprite_accessory/ears/shadekin
-	icon = 'icons/mob/species/shadekin/shadekin_ears.dmi'
+	icon = 'bastionstation/icons/mob/species/shadekin/shadekin_ears.dmi'
 	palette_key = MUTANT_COLOR
 
 /datum/sprite_accessory/ears/shadekin/shadekinearc
