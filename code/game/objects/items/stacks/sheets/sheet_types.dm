@@ -362,12 +362,17 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("easel", /obj/structure/easel, 5, time = 1 SECONDS, one_per_turf = TRUE, on_solid_ground = TRUE, category = CAT_ENTERTAINMENT), \
 	new/datum/stack_recipe("noticeboard", /obj/item/wallframe/noticeboard, 1, time = 1 SECONDS, one_per_turf = FALSE, on_solid_ground = FALSE, check_density = FALSE, category = CAT_FURNITURE), \
 	new/datum/stack_recipe("test tube rack", /obj/item/storage/test_tube_rack, 1, time = 1 SECONDS, check_density = FALSE, category = CAT_CHEMISTRY), \
-	null, \
 	new/datum/stack_recipe_list("pews", list(
 		new /datum/stack_recipe("pew (middle)", /obj/structure/chair/pew, 3, one_per_turf = TRUE, on_solid_ground = TRUE, category = CAT_FURNITURE),
 		new /datum/stack_recipe("pew (left)", /obj/structure/chair/pew/left, 3, one_per_turf = TRUE, on_solid_ground = TRUE, category = CAT_FURNITURE),
 		new /datum/stack_recipe("pew (right)", /obj/structure/chair/pew/right, 3, one_per_turf = TRUE, on_solid_ground = TRUE, category = CAT_FURNITURE)
-		)),
+	)),
+	new/datum/stack_recipe_list("peg limbs", list(
+		new /datum/stack_recipe("peg arm (left)", /obj/item/bodypart/arm/left/ghetto, 2, category = CAT_MISC),
+		new /datum/stack_recipe("peg arm (right)", /obj/item/bodypart/arm/right/ghetto, 2, category = CAT_MISC),
+		new /datum/stack_recipe("peg leg (left)", /obj/item/bodypart/leg/left/ghetto, 2, category = CAT_MISC),
+		new /datum/stack_recipe("peg leg (right)", /obj/item/bodypart/leg/right/ghetto, 2, category = CAT_MISC)
+	)),
 	null, \
 	))
 
@@ -397,6 +402,22 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/wood/fifty
 	amount = 50
+
+/obj/item/stack/sheet/mineral/wood/interact_with_atom(mob/living/carbon/human/target, mob/user)
+	if(!istype(target))
+		return NONE
+
+	var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(user.zone_selected))
+	if(affecting && IS_PEG_LIMB(affecting))
+		if(user == target)
+			user.visible_message(span_notice("[user] starts to fix their [affecting.name]."), span_notice("You start fixing [target == user ? "your" : "[target]'s"] [affecting.name]."))
+			if(!do_after(user, 5 SECONDS, target))
+				return ITEM_INTERACT_FAILURE
+		if(target.item_heal(user, brute_heal = 15, burn_heal = 15, heal_message_brute = "splintering", heal_message_burn = "charring", required_bodytype = BODYTYPE_PEG))
+			use(1)
+		return ITEM_INTERACT_SUCCESS
+	else
+		return NONE
 
 /*
  * Bamboo
