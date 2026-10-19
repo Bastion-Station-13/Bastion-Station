@@ -58,7 +58,6 @@
 	remove_visual(key)
 	var/mutable_appearance/overlay = mutable_appearance(visual_icon, visual_state)
 	if(bright)
-		// Drawn above the lighting, so it glows even in the dark
 		SET_PLANE_EXPLICIT(overlay, ABOVE_LIGHTING_PLANE, target)
 	if(visual_scale != 1)
 		overlay.transform = overlay.transform.Scale(visual_scale, visual_scale)
@@ -325,10 +324,8 @@
 
 /// Makes it obvious to everyone nearby that something is being sapped, from the very start
 /datum/action/cooldown/arcfiend/sap_power/proc/start_sap_effects(atom/target)
-	// Electricity crawls over the arcfiend, and over whatever they are draining
 	add_visual(owner, "sap_aura", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', "sap_power_aura")
 	add_visual(target, "sap_source", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', "sap_power_source")
-	// A beam straight from the source to them, and a flash of light and thunder as it starts
 	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
 	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	owner.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
@@ -343,11 +340,9 @@
 	do_sparks(2, FALSE, owner)
 	playsound(target, ARCFIEND_SOUND_SAP_LOOP, 100, TRUE, extrarange = 10)
 	owner.flash_lighting_fx(4, 3, "#ffe94d", 1 SECONDS)
-	// The lights nearby can't take it
 	for(var/obj/machinery/light/nearby_light in range(3, target))
 		if(prob(40))
 			INVOKE_ASYNC(nearby_light, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
-	// Every few seconds, those watching are told what is happening
 	if(!(ticks % 3))
 		owner.visible_message(
 			span_danger("Arcs of crackling electricity pour out of [target] and into [owner]!"),
@@ -685,7 +680,6 @@
 	if(!(locate(/obj/structure/cable) in get_turf(src)))
 		cut_out()
 		return
-	// Riding costs power every second, even when standing still
 	var/mob/living/rider = jaunter
 	var/datum/antagonist/arcfiend/arcfiend = arcfiend_ref?.resolve()
 	if(!arcfiend?.spend_power(ARCFIEND_RIDE_UPKEEP * seconds_per_tick * arcfiend_ride_cost_multiplier(arcfiend)))
@@ -928,7 +922,6 @@
 	var/heal_amount = 5 + 10 * level
 	user.heal_overall_damage(brute = heal_amount, burn = heal_amount, stamina = 100)
 	do_sparks(4, FALSE, user)
-	// A big, bright burst that plays three times over, with a flash of light, so everyone nearby sees it
 	var/surge_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_surge_reflex.dmi'
 	for(var/repeat in 0 to 2)
 		addtimer(CALLBACK(src, PROC_REF(add_visual), user, "surge", surge_icon, "surge_reflex", 9, TRUE, 1.7), repeat * 9)

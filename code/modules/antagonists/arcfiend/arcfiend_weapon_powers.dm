@@ -436,7 +436,6 @@
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/on_hit(atom/target, blocked = 0, pierce_hit)
 	var/distance = get_dist(starting, get_turf(target))
 	damage = damage_at_distance(distance)
-	// At the very end of the beam the superheated nanites rupture
 	if(distance == travel_range && isliving(target))
 		do_sparks(4, FALSE, target)
 		target.visible_message(span_danger("The nanites in the beam rupture violently against [target]!"), span_userdanger("The superheated nanites in the beam rupture inside you!"))

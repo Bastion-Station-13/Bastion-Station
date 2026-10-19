@@ -148,7 +148,6 @@
 		switch_off()
 
 /datum/action/cooldown/arcfiend/toggle/on_upgraded()
-	// Reapply at the new level
 	if(active && owner)
 		remove_effect(owner)
 		apply_effect(owner)
@@ -200,7 +199,6 @@
 	user.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive, multiplicative_slowdown = -speed_bonus)
 	ADD_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
 	add_glow(user, "arcfiend_overdrive_glow")
-	// A burst as it starts, and sparks left on every tile they run over
 	add_visual(user, "activate", effect_icon, "overdrive_activate", 6)
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_overdrive_move))
 
@@ -259,10 +257,8 @@
 	victim.adjust_confusion(duration)
 	victim.adjust_slurring(duration)
 	victim.set_dizzy_if_lower(duration)
-	// Their brain takes a beating, and for as long as they are scrambled they fumble everything
 	victim.adjustOrganLoss(ORGAN_SLOT_BRAIN, by_level(list(10, 15, 20)))
 	victim.apply_status_effect(/datum/status_effect/arcfiend_scrambled, duration)
-	// A little burn and a lot of stamina damage, more with upgrades
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		var/level = get_level()
 		victim.apply_damage(list(3, 4, 5)[level], BURN)
@@ -402,12 +398,7 @@
 //-------------------------------Thunderclap----------------------------//
 //////////////////////////////////////////////////////////////////////////
 
-/**
- * A burst of electricity around the arcfiend, after a short and very obvious windup.
- * Everyone in range takes a little burn, some stamina damage and a flash, and the further they are the weaker
- * all of it is. Anyone within 2 tiles is also thrown away.
- * It has no hand, using the power just starts it.
- */
+/// A burst of electricity around the arcfiend after a windup. It has no hand, using the power just starts it.
 /datum/action/cooldown/arcfiend/thunderclap
 	name = "Thunderclap"
 	desc = "Gather charge in your body, then release it all at once in a shockwave."
@@ -480,7 +471,6 @@
 	StartCooldown(get_recharge_time())
 	return TRUE
 
-/// The burst itself
 /datum/action/cooldown/arcfiend/thunderclap/proc/burst(mob/living/user)
 	new /obj/effect/temp_visual/arcfiend_thunderclap(get_turf(user), get_outer_range())
 	do_sparks(6, FALSE, user)
@@ -498,7 +488,6 @@
 
 /// What the burst does to one person, depending on how far away they are
 /datum/action/cooldown/arcfiend/thunderclap/proc/hit_victim(mob/living/user, mob/living/victim, distance)
-	// Everyone in range is hurt and flashed, and the further away they are the weaker it is
 	var/falloff = get_falloff(distance)
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_struck.dmi', "thunderclap_struck", 5)
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
@@ -510,7 +499,6 @@
 	if(distance > 2)
 		to_chat(victim, span_userdanger("A burst of electricity from [user] washes over you!"))
 		return
-	// Anyone close enough is also thrown away
 	to_chat(victim, span_userdanger("A shockwave of electricity throws you away from [user]!"))
 	if(!victim.anchored)
 		var/turf/away = get_edge_target_turf(victim, get_dir(user, victim) || victim.dir)
