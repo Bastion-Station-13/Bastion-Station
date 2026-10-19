@@ -11,17 +11,16 @@
 	plaintext_zone = "left arm"
 	aux_zone = BODY_ZONE_PRECISE_L_HAND
 	held_index = 1
-	px_x = -6
-	px_y = 0
-	bodypart_trait_source = LEFT_ARM_TRAIT
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 	attack_verb_simple = list("bashed", "slashed")
 	can_be_disabled = TRUE
 	unarmed_damage_low = 3
 	unarmed_damage_high = 9
 	brute_modifier = 1.2
 	burn_modifier = 1.5
-	biological_state = (BIO_JOINTED)
+	disabling_threshold_percentage = 1
+	bodypart_flags = BODYPART_UNHUSKABLE
+	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/arm/left/ghetto/Initialize(mapload, ...)
   . = ..()
@@ -36,22 +35,20 @@
 	body_zone = BODY_ZONE_R_ARM
 	limb_id = BODYPART_ID_PEG
 	bodytype = BODYTYPE_LIST_PEG
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
 	should_draw_greyscale = FALSE
 	plaintext_zone = "right arm"
 	aux_zone = BODY_ZONE_PRECISE_R_HAND
 	held_index = 2
-	px_x = 6
-	px_y = 0
-	bodypart_trait_source = RIGHT_ARM_TRAIT
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 	attack_verb_simple = list("bashed", "slashed")
 	can_be_disabled = TRUE
 	unarmed_damage_low = 3
 	unarmed_damage_high = 9
 	brute_modifier = 1.2
 	burn_modifier = 1.5
-	biological_state = (BIO_JOINTED)
+	disabling_threshold_percentage = 1
+	bodypart_flags = BODYPART_UNHUSKABLE
+	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/arm/right/ghetto/Initialize(mapload, ...)
   . = ..()
@@ -68,15 +65,15 @@
 	bodytype = BODYTYPE_LIST_PEG
 	should_draw_greyscale = FALSE
 	plaintext_zone = "left leg"
-	px_x = -2
-	px_y = 12
 	can_be_disabled = TRUE
 	bodypart_trait_source = LEFT_LEG_TRAIT
 	unarmed_damage_low = 2
 	unarmed_damage_high = 5
 	brute_modifier = 1.2
 	burn_modifier = 1.5
-	biological_state = (BIO_JOINTED)
+	disabling_threshold_percentage = 1
+	bodypart_flags = BODYPART_UNHUSKABLE
+	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/leg/left/ghetto/Initialize(mapload, ...)
   . = ..()
@@ -93,14 +90,14 @@
 	bodytype = BODYTYPE_LIST_PEG
 	should_draw_greyscale = FALSE
 	plaintext_zone = "right leg"
-	px_x = 2
-	px_y = 12
 	bodypart_trait_source = RIGHT_LEG_TRAIT
 	unarmed_damage_low = 2
 	unarmed_damage_high = 5
 	brute_modifier = 1.2
 	burn_modifier = 1.5
-	biological_state = (BIO_JOINTED)
+	disabling_threshold_percentage = 1
+	bodypart_flags = BODYPART_UNHUSKABLE
+	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/leg/right/ghetto/Initialize(mapload, ...)
   . = ..()
