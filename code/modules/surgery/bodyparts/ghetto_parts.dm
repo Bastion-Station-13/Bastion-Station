@@ -23,8 +23,8 @@
 	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/arm/left/ghetto/Initialize(mapload, ...)
-  . = ..()
-  ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
 
 /obj/item/bodypart/arm/right/ghetto
 	name = "right peg arm"
@@ -51,8 +51,8 @@
 	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/arm/right/ghetto/Initialize(mapload, ...)
-  . = ..()
-  ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
 
 /obj/item/bodypart/leg/left/ghetto
 	name = "left peg leg"
@@ -76,8 +76,8 @@
 	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/leg/left/ghetto/Initialize(mapload, ...)
-  . = ..()
-  ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
 
 /obj/item/bodypart/leg/right/ghetto
 	name = "right peg leg"
@@ -100,5 +100,5 @@
 	biological_state = (BIO_WOOD|BIO_JOINTED)
 
 /obj/item/bodypart/leg/right/ghetto/Initialize(mapload, ...)
-  . = ..()
-  ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
