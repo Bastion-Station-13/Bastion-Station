@@ -1,0 +1,7 @@
+author: "Hacks-The-Doors (coding) & Septicchlorine (spriting)"
+delete-after: True
+changes:
+  - rscadd: "adds craftable peg limbs (2 planks) which are attachable without surgery"
+  - balance: "peg limbs take 1.5x burn and 1.3x brute, and do reduced damage"
+  - balance: "peg arms have chunky fingers (you cannot fire guns or use computers, batons, etc. with them)"
+  - refactor: "replaced item_heal_robotic with item_heal (wasn't documented in the original pr)"
