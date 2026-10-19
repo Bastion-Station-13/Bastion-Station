@@ -707,6 +707,7 @@
 /obj/item/organ/internal/eyes/shadekin
 	name = "shadekin eyes"
 	desc = "The eyes of a shadekin, you heard they are adapted to darkness better than most other species, however they are also more sensitive to light."
+	icon = 'bastionstation/icons/obj/medical/organs/organs.dmi'
 	eye_icon_state = "shadekin_eyes"
 	icon_state = "eyeballs-shadekin"
 	lighting_cutoff = LIGHTING_CUTOFF_MEDIUM
