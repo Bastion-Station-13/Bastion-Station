@@ -142,8 +142,20 @@
 #define BODYTYPE_ALIEN (1<<7)
 ///The limb fits a modular custom shape
 #define BODYTYPE_CUSTOM (1<<8)
+//The limb is a peg limb
+#define BODYTYPE_PEG (1<<9)
 
 #define BODYTYPE_LIST_PROSTHETIC (BODYTYPE_ROBOTIC | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
+#define BODYTYPE_LIST_PEG (BODYTYPE_PEG | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
+
+// Robotic limb brute & burn examines
+#define ROBOTIC_LIGHT_BRUTE_MSG "marred"
+#define ROBOTIC_MEDIUM_BRUTE_MSG "dented"
+#define ROBOTIC_HEAVY_BRUTE_MSG "falling apart"
+
+#define ROBOTIC_LIGHT_BURN_MSG "scorched"
+#define ROBOTIC_MEDIUM_BURN_MSG "charred"
+#define ROBOTIC_HEAVY_BURN_MSG "smoldering"
 
 //Species gib types
 #define GIB_TYPE_HUMAN "human"
@@ -210,6 +222,7 @@
 #define BODYPART_ID_LARVA "larva"
 #define BODYPART_ID_PSYKER "psyker"
 #define BODYPART_ID_DARKSPAWN "darkspawn"
+#define BODYPART_ID_PEG "peg"
 
 //See: datum/species/var/digitigrade_customization
 ///The species does not have digitigrade legs in generation.

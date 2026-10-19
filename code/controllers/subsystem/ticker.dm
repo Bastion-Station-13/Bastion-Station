@@ -31,6 +31,8 @@ SUBSYSTEM_DEF(ticker)
 	var/ready_for_reboot = FALSE //all roundend preparation done with, all that's left is reboot
 
 	var/tipped = FALSE //Did we broadcast the tip of the day yet?
+	///TRUE if the storyteller selection has already been started, FALSE otherwise
+	var/storytellered = FALSE
 	var/selected_tip // What will be the tip of the day?
 
 	var/timeLeft //pregame timer
@@ -231,6 +233,14 @@ SUBSYSTEM_DEF(ticker)
 				send_tip_of_the_round(world, selected_tip)
 				tipped = TRUE
 				SStitle.update_init_text()
+
+			if(!storytellered)
+				if(timeLeft <= (2 MINUTES) && timeLeft >= (70 SECONDS))
+					SSgamemode.handle_picking_storyteller()
+					storytellered = TRUE
+				else if(timeLeft < (70 SECONDS))
+					SSgamemode.handle_picking_storyteller(disable_vote = TRUE)
+					storytellered = TRUE
 
 			if(timeLeft <= 0)
 				SEND_SIGNAL(src, COMSIG_TICKER_ENTER_SETTING_UP)
@@ -626,6 +636,7 @@ SUBSYSTEM_DEF(ticker)
 	delay_end = SSticker.delay_end
 
 	tipped = SSticker.tipped
+	storytellered = SSticker.storytellered
 	selected_tip = SSticker.selected_tip
 
 	timeLeft = SSticker.timeLeft

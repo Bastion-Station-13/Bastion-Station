@@ -29,3 +29,369 @@
   - config: Changes default keybind for Look Up from L to '
   Mantlecrawler:
   - bugfix: Titanium shuttle airlocks now have a welded overlay
+2026-10-03:
+  JupiterJaeden:
+  - bugfix: Fixes the server description from getting cut off in the BYOND hub.
+  ValuedEmployee:
+  - image: modified the disabled states of signs in sister_server_buttons_large.dmi
+      and sister_server_buttons.dmi
+  - spellcheck: small comment fix on new_player.dm to properly label the mothroach
+      button
+2026-10-04:
+  JupiterJaeden:
+  - admin: Moves the game master from the pre-roundstart lobby status display to the
+      global status display, i.e. you can always see who the current round GM is.
+2026-10-05:
+  TheColorCyan:
+  - rscadd: throwing things now plays throw animation
+  hry-gh:
+  - code_imp: the backend to all verbs in the game has been played with, please report
+      any issues to github
+2026-10-06:
+  Absolucy:
+  - bugfix: Fixed voice barks being too quiet (or even inaudible) sometimes.
+  - bugfix: fixed stacks of 10 iron/glass (and other exact sheet amounts) getting
+      rejected by lathes, the silo, and flatpackers after boulder machines had been
+      used
+  Absolucy, PapaMichael:
+  - bugfix: Fixed Runechat having a 1/256 chance of being dark and almost unreadable
+  JohnFulpWillard:
+  - code_imp: Optimized sprinting again, report any issues that may arise out of this.
+      thanks.
+  LettuceGuardian:
+  - bugfix: CIN and NRI webbing being able to be reskinned and turned invisible
+  - bugfix: revolver silencers being unable to be taken off
+  - image: Modified takbok suppressor sprites
+  - bugfix: fixed paco suppressors sometimes being invisible
+  - image: updated the paco suppressor sprite
+  PotatoTomahto:
+  - rscadd: ai core displays have an internal camera for AIs to use
+  Runian:
+  - rscadd: Roundstart / latejoin cyborgs are now given their unusual hat. This overrides
+      their loadout hat.
+  - bugfix: Heads with an active mind now drop all of their organs, including their
+      brain, onto the floor instead of being deleted when deconstructed, burnt, gutted,
+      etc.
+  TheColorCyan:
+  - qol: (vinylspiders) adds lobby job estimations to statpanel, so you can see what
+      jobs others are prioritizing
+  Tractor-Maam:
+  - balance: Lowered Chameleon Bomb's price to 2TC (down from 4TC)
+  - balance: Chameleon Bombs can no longer be discounted (because anything under 4TC
+      isnt eligible for discount in the uplink)
+  notghosti:
+  - bugfix: ' Borer egg outside of host now deals 50 damage as intended, instead of
+      all but 50 of your health at high health pools'
+2026-10-07:
+  00-Steven:
+  - bugfix: Books no longer cut off valid paper inputs when they are under the character
+      limit.
+  AberrantQuerist:
+  - image: Resprited several floor tiles (Minor changes.)
+  - image: Resprites NTRep, Blueshield, and Barber lockers.
+  - image: Resprites wooden and corporate doors.
+  Absolucy:
+  - config: Allow 'required_enemies' (and other /datum/round_event_control/ settings)
+      to be set by events.json
+  - bugfix: Fixed oozeling core revives (and other DNA updates) sometimes changing
+      your gender.
+  Gboster-0:
+  - rscadd: The Rod of Asclepius can now rarelly spawn instead of an immovable rod
+  JohnFulpWillard:
+  - balance: Vampires aren't forced to be Albino anymore.
+  Longestarmlonglaw:
+  - qol: 'Ink cartridges are smaller and  decal printers start with higher capacity
+
+      :cl:
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - bugfix: Tracking someone via crew suit monitor as an AI now always tracks that
+      specific person rather than someone with a similar name.
+  - bugfix: You can no longer teleport living beings via a cargo teleporter by teleporting
+      whatever they're buckled to.
+  ValuedEmployee:
+  - rscadd: moffers clown shoes
+  - sound: new moffers footstep sound effect
+  - image: moffers icons
+  - spellcheck: tiny empty space changes
+  - refactor: added crafting and autodrobe entries for the moffers
+  ashallaryn:
+  - image: modified twintail long hairstyle sprites
+  - image: modified hime cut hairstyle sprites
+  - image: modified hime cut 2 hairstyle sprites
+  - image: modified hime updo hairstyle sprites
+  cheese, kiaroh:
+  - rscadd: adds the pickle lighter to the cigarette vendors
+  hexakats:
+  - balance: Nerfs the innate armor tribal claw gives
+  - bugfix: Omnilathe no longer tries to take materials from the ore silo then delete
+      the ones that don't fit when repacking a linked one
+  - refactor: Omnilathe uses item_interaction instead of attackby
+2026-10-08:
+  JohnFulpWillard:
+  - qol: Borgs can now unlock their cover in their self-examine text.
+  LettuceGuardian:
+  - rscadd: SWAT crates now come with differently styled gas masks. Total amount of
+      gas masks doesn't change, though.
+  Longestarmlonglaw:
+  - bugfix: fixed an issue where you couldn't interact with modular computers and
+      guns with chunky fingers from a distance when using telekinesis
+  Mantlecrawler:
+  - bugfix: Kinetic Hellhound now correctly states its mag size
+  - bugfix: Quartermaster's office is now spelled correctly on Deltastation
+  - rscadd: Ian can now randomly roll two new variants of himself, on rare occasions
+  - rscadd: Dinosaur Ian, Expie Ian
+2026-10-09:
+  AberrantQuerist:
+  - rscadd: Beepsky once again will drop a paragraph of swears and insults.
+  - rscadd: Emagged Compli-o-Nator is uncensored.
+  Runian:
+  - rscadd: 'Standard-model cyborgs, upon conversion to Clockwork Cult, now get a
+      brass spear and the following scriptures: Abscond, Kindle, and Vanguard.'
+  ThePooba:
+  - balance: Balanced PTL cash at high levels to be lower- it already had an asymptote
+      but it was too high because we are insane people
+  notghosti:
+  - rscdel: Removed blessed ckey, monkestation ai display, and streamer related twitch
+      events
+  - bugfix: Think fast chucklenuts and hypno will effect 1 person not 0.
+  - bugfix: Restored boy, girl, boy malf, girl malf, box fort, hotdog, terminal, and
+      yes man displays to ai display
+  ori-disillusion-mirnov:
+  - rscadd: admins may now override the bullets fired by a gun
+2026-10-10:
+  Runian:
+  - rscadd: 'Medical cyborgs can now select a new cyborg skin: Medical Kerfus.'
+  - image: Adds cyborg Medical Kerfus icon.
+  hry-gh, johnfulpwillard:
+  - refactor: the backend for verbs has been changed ... again, please report any
+      issues on the bug tracker
+  - qol: the command bar is now a bit prettier, and also autocompletes things like
+      typepaths and mob targets (primarily useful for admins)
+2026-10-11:
+  Absolucy:
+  - code_imp: (SmArtKar) Optimized some hot atmos procs.
+  - code_imp: (SmArtKar) Optimized /datum/gas_mixture/proc/archive() by ~42%
+  - refactor: (Metek) Thanks to cutting edge technological advances, check_breath()
+      calculations have been optimized by approximately 41% ( using alist() instead
+      of list() )
+  - code_imp: (SmArtKar) Optimized bodypart code
+  - qol: hoods now automatically overslot hats - as in, like, if ur wearing a hat,
+      and flip a hood up, the hat will try to just go on top of the hood.
+  - bugfix: (hry-gh) chat storage should load more reliably
+  - server: (hry-gh) server operators can now properly disable the iframe chat storage
+      solution by unsetting the STORAGE_CDN_IFRAME config
+  - bugfix: (UwU) fixed improper chat caching.
+  - qol: (hry-gh) added chat messages when your chat storage has been reset
+  - bugfix: (hry-gh) if you've not been playing for awhile and came back, your chat
+      storage may have been reset. this should no longer happen
+  - qol: The Navigate verb should be slightly faster now.
+  - sound: Removed the goddamn screaming from the slime compressor.
+  - qol: (MTandi) Updated smart fridge UI
+  - qol: (MTandi) smart fridge UI now groups items by type+name instead of just type
+  - qol: (MTandi) smart fridge UI now shows item names next to the images
+  - qol: (MTandi) smart fridge UI has a list view option
+  - qol: (AyIong) SmartFridge got another redesign, and you can dispense all amount
+      of product in one click (RMB on product)
+  - qol: (JohnFulpWillard) Smartfridges now lets you set how many pills you want to
+      vend, rather than popping out a second separate tgui window.
+  - qol: (JohnFulpWillard) Smartfridges and Vending machines no longer have a setting
+      to change the list/grid mode, it instead updates automatically as you swap the
+      mode in-game.
+  - qol: (Melbert) Vending Machines have a search bar
+  - qol: '(AyIong) Vending machines got new design with 2 layouts: List and Grid'
+  - bugfix: (MTandi) Smartfridges properly dispense `\Improper` items
+  - bugfix: (JohnFulpWillard) Smartfridges on grid mode (like botany's) will no longer
+      instantly spit out all the items it has when you try to set how many it should
+      spit out.
+  - code_imp: (SyncIt21) tone of code organization for smart fridges overall. changed
+      ui to typescript.
+  Singul0:
+  - rscadd: Adds 4 new AI projects for you lots to tinker with! (Tray scanners, Engineering
+      Scan, Lights Controls, Advanced Tracking)
+  - balance: Adjusted human examine project cost to make the newly advanced tracking
+      easier to obtain 4K to 2K, reducing the strain to obtain advanced tracking from
+      9K to 7K.
+  Tractor-Maam:
+  - refactor: ported the TG fixes of the Portable Chemical Mixer, allowing it to properly
+      mix chemicals again.
+  - spellcheck: fixed a typo in the Advanced Tracking AI project
+  - code_imp: removed an unused define
+2026-10-12:
+  JupiterJaeden:
+  - rscdel: Disables the 'tutorial' that the game attempts to give new players on
+      switching hands and dropping items, due to it being broken currently. Does not
+      remove the tutorial button accessible from the main menu.
+  Mantlecrawler:
+  - rscadd: Ghost control smite now allows ghosts to force a mob to say things
+  - rscadd: Ghost control smite now allows ghosts to always punch, or shove, rather
+      than relying on combat intent
+  - bugfix: Ghost command shove now actually shoves, rather than punching or helping,
+      depending on intent of the mob.
+  Runian:
+  - map: The blue wiring in Tramstation's engineering now starts connected to the
+      engineering's engine.
+  - bugfix: Clown cyborgs can now correctly use their picket sign's item action button
+      to change its text at will.
+2026-10-13:
+  Absolucy:
+  - code_imp: converts several subsystems that neither initialized or ticked into
+      just being global datums instead. SSmove_manager -> GLOB.move_manager, SScommunications
+      -> GLOB.communications_controller, SStoken_manager -> GLOB.token_manager, and
+      SSgoldeneye -> GLOB.goldeneye
+  DrDiasyl, Zxaber, Jacquerel,  Maurukas, JohnFulpWillard, MrMelbert:
+  - rscadd: Paddy is back in the hangars of Security departments
+  - rscadd: Now up to 3 people can hang off the mechs like tank desant
+  Gboster, ArcaneMusic:
+  - rscadd: borers can now have seperate hives, hiveminds and objectives. Borer PVP
+      is real
+  - qol: added ckeys to each borer on the round-end menu, and made it a bit more compact
+  - qol: borer abilities will now become red when unusuable due to needing a host/being
+      sugared up/abilities own limiters. They will still appear usable when you don't
+      have enough points/chems for them
+  - balance: borers no longer pop out of people if they die in them, instead they'll
+      start dealing toxin/brain damage until removed
+  - balance: Dissection now replaces Reproduction in the neutered borer evolution
+      tree instead of being a side-path
+  - code_imp: changed a lot of back-end borer code, pray everything works
+  - admin: borers no longer spawn in with teams nor objectives, if you are planning
+      on spawning them in with those then use the event/tokens
+  - rscadd: (ArcaneMusic) You can now purchase pet mice as a cargo goodie.
+  - qol: (ArcaneMusic) Pet carriers now have contextual screentips.
+  - bugfix: (ArcaneMusic) The biopod pet carrier now doesn't randomly turn invisible.
+  JupiterJaeden:
+  - map: Fixed the 2 medkits in the kilostation brig med being empty, re-ordered contents
+      of the brig med table, and fixed the left recharger in the security locker room
+      being unusable except from the left of the table.
+  - config: Set the default occupations setting back to "Simple" from "Per-Character
+      Priorities." (revert of previous change on bastion station).
+  - config: Lowered the minimum player requirements for the brute, jester, mystic,
+      operative, and warrior storytellers.
+  - rscadd: Adds a respawn button you can click in the status tab when your respawn
+      timer finishes.
+  - spellcheck: Job estimation in pre-game lobby now always shows the default job
+      title instead of alternate titles.
+  - bugfix: Storyteller vote now properly works and runs automatically at under 25
+      server pop.
+  - rscadd: The storyteller vote now runs at 2 minutes to roundstart instead of immediately
+      after game initialize, is now multiple choice instead of single, and can also
+      be run manually by admins (regardless of pop, but only during the pre-game lobby).
+  Mantlecrawler:
+  - admin: Cassettes are now limited to 7 songs and cannot be flipped to a second
+      side.
+  Runian:
+  - bugfix: Cyborgs can no longer slap-craft an endless amount of flamethrowers via
+      their own welder.
+  - bugfix: Exploding an empty fuel canister no longer causes a runtime.
+  - bugfix: The charge overlay for welding tools now correctly update upon self-refuel.
+  - bugfix: Electric welding tools, like their regular counterpart, now keep their
+      tool behavior when off.
+  - code_imp: Self-refueling/recharging capabilities for welding tools can be applied
+      to all welding tool types.
+  - code_imp: Electric welding tools no longer use the cell component and now handles
+      all of it internally.
+  Vect0r2:
+  - bugfix: fixed a runtime involving Heirophant
+2026-10-14:
+  Mantlecrawler:
+  - map: Lesser South Maintenance on Metastation now has a APC
+  Runian:
+  - image: Oily splatters are now the same color as oily blood - less black and more
+      grey.
+2026-10-15:
+  Absolucy:
+  - balance: Monster hunters should actually roll more than once a month now.
+  - bugfix: hardsuits and egosuits now properly overslot hats too
+  HIDgamer:
+  - bugfix: 'fixed stacks singularity runtime spam
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: fixed stale reload_hud
+  - bugfix: 'fixed combat_mode duplication
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - bugfix: Fixes hard deletion in medical cyborg's deployable roller bed.
+  - bugfix: Syndicate Surplus Crate's uplink entry description now accurately states
+      its content's total worth is 75 telecrystals.
+  SmArtKar:
+  - admin: Converted the Spawn verb into a TGUI input, featuring for dynamic search
+      and RegEx support.
+  Tractor-Maam:
+  - spellcheck: changed "holochasis" to "holochassis" in the pAI action restriction
+      alert.
+  mcbalaam:
+  - rscadd: AIs can now point to things using holopads
+2026-10-18:
+  Absolucy:
+  - rscadd: (SmArtKar) Blood-drunk miner now drops an infernal PKA with an in-built
+      improved rapid repeater modification.
+  - bugfix: PKA cooldown upgrades now no longer care about what order they're shoved
+      into the PKA.
+  - bugfix: fixed an off-by-one error with unusual particle effects.
+  - code_imp: hopefully made unusual particles less server-intensive.
+  HIDgamer:
+  - bugfix: 'fixed runtime spam caused by the sprint key
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed Halloween meteor weight and spam runtime
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed shield gen damage runtime
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - qol: Unlocking an APC via right-click hotkey as an AI/Cyborg no longer open the
+      APC's menu.
+  - bugfix: Cyborgs that are in low power mode can no longer use certain hotkeys such
+      as shocking, bolting, or opening airlocks remotely.
+  hexakats:
+  - balance: The syndicate musket no longer fits in bags.
+  - balance: The syndicate musket no longer deals stamina damage.
+  - bugfix: You can no longer shrink modsuit control units
+  - refactor: replaced attackby with item_interaction for the BCK
+  notghosti:
+  - map: Ce office on tram no longer has stacking filing cabinets
+  - map: Tech storage camera on tram is no longer named tech shortage
+  - map: boxstation ranch given a incubator nest
+  - map: Blueshift ranch given chicken scanners
+  - map: Icebox lower service distro was fixed.
+  - bugfix: Advanced carp, (Space dragon rift carp) health is fixed, and is now no
+      longer weaker then a regular carp.
