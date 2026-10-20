@@ -1,5 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - balance: "Oozelings no longer have an innate 20% reduction to all burn damage. They still have a reduction to damage caused by hot temperatures directly."
-  - balance: "Oozelings no longer have wound immunity, and they now take burn and bleed wounds normally (but they still can't receive fracture wounds). Infected burn wounds correctly apply tox damage to oozelings."
