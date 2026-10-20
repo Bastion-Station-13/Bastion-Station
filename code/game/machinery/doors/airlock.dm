@@ -2408,7 +2408,7 @@
 	name = "shuttle airlock"
 	assemblytype = /obj/structure/door_assembly/door_assembly_titanium
 	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
-	overlays_file = 'icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	overlays_file = 'bastionstation/icons/obj/doors/airlocks/shuttle/overlays.dmi'
 	normal_integrity = 400
 
 /obj/machinery/door/airlock/titanium/glass
@@ -2573,7 +2573,7 @@
 /obj/machinery/door/airlock/shuttle
 	name = "shuttle airlock"
 	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
-	overlays_file = 'icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	overlays_file = 'bastionstation/icons/obj/doors/airlocks/shuttle/overlays.dmi'
 	assemblytype = /obj/structure/door_assembly/door_assembly_shuttle
 	external = TRUE
 
