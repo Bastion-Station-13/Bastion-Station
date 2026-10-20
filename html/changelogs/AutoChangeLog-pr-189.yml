@@ -1,0 +1,4 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - code_imp: "Modularizes all the assets (sprites, sounds, etc.) that have been created/edited so far by bastion station."
