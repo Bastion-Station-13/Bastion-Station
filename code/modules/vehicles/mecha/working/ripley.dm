@@ -96,6 +96,7 @@
 /obj/vehicle/sealed/mecha/ripley/paddy
 	desc = "Autonomous Power Loader Unit Subtype Paddy. A Modified MK-I Ripley design intended for light security use."
 	name = "\improper APLU \"Paddy\""
+	icon = 'bastionstation/icons/mecha/mecha.dmi'
 	icon_state = "paddy"
 	base_icon_state = "paddy"
 	max_temperature = 20000
@@ -175,6 +176,7 @@
 
 /datum/action/vehicle/sealed/mecha/siren
 	name = "Toggle External Siren and Lights"
+	button_icon = 'bastionstation/icons/mob/actions/actions_mecha.dmi'
 	button_icon_state = "mech_siren_off"
 
 /datum/action/vehicle/sealed/mecha/siren/New()

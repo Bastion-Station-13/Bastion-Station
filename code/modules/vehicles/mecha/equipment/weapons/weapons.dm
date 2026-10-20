@@ -641,6 +641,7 @@
 /obj/item/mecha_parts/mecha_equipment/weapon/paddy_claw
 	name = "hydraulic claw"
 	desc = "A modified hydraulic clamp, for use exclusively with the Paddy exosuit. Non-lethally apprehends suspects."
+	icon = 'bastionstation/icons/mecha/mecha_equipment.dmi'
 	icon_state = "paddy_claw"
 	equip_cooldown = 15
 	energy_drain = 10

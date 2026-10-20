@@ -219,7 +219,7 @@
 	name = "shuttle airlock assembly"
 	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
 	base_name = "shuttle airlock"
-	overlays_file = 'icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	overlays_file = 'bastionstation/icons/obj/doors/airlocks/shuttle/overlays.dmi'
 	airlock_type = /obj/machinery/door/airlock/shuttle
 	glass_type = /obj/machinery/door/airlock/shuttle/glass
 
@@ -317,7 +317,7 @@
 	name = "titanium airlock assembly"
 	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
 	base_name = "shuttle airlock"
-	overlays_file = 'icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	overlays_file = 'bastionstation/icons/obj/doors/airlocks/shuttle/overlays.dmi'
 	glass_type = /obj/machinery/door/airlock/titanium/glass
 	airlock_type = /obj/machinery/door/airlock/titanium
 	mineral = "titanium"
