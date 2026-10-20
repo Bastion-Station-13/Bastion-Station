@@ -1253,6 +1253,14 @@
 		new /obj/item/food/monkeycube(src)
 	new /obj/item/bodypart/arm/left/robot/buster(src)
 
+/obj/item/storage/box/syndie_kit/syndicate_cyborg_jack
+	name = "Syndicate Cyborg Jack Kit"
+	desc = "A box with an experimental syndicate model upgrade and the cryptographic sequencer needed to use it."
+
+/obj/item/storage/box/syndie_kit/syndicate_cyborg_jack/PopulateContents()
+	new /obj/item/borg/upgrade/transform/syndicate_compact(src) // 7 TC
+	new /obj/item/card/emag(src) // 4 TC
+
 #undef KIT_RECON
 #undef KIT_BLOODY_SPAI
 #undef KIT_STEALTHY
