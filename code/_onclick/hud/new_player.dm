@@ -546,7 +546,7 @@
 // 			screen_loc = "TOP:0,CENTER:+128"
 
 /atom/movable/screen/lobby/button/server
-	icon = 'icons/hud/lobby/sister_server_buttons.dmi'
+	icon = 'bastionstation/icons/hud/lobby/sister_server_buttons.dmi'
 	abstract_type = /atom/movable/screen/lobby/button/server
 	enabled = FALSE
 	/// The name of the server, used for the connecting message.
@@ -587,7 +587,7 @@
 
 //HRP MONKE - Monkeris
 /atom/movable/screen/lobby/button/server/hrp
-	icon = 'icons/hud/lobby/sister_server_buttons_large.dmi'
+	icon = 'bastionstation/icons/hud/lobby/sister_server_buttons_large.dmi'
 	base_icon_state = "erisbutton"
 	screen_loc = "TOP:-46,CENTER:+173"
 	server_name = "CEV-ERIS (MRP/HRP)"
