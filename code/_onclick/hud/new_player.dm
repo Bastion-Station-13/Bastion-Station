@@ -49,7 +49,7 @@
 
 /atom/movable/screen/lobby/background
 	layer = LOBBY_BACKGROUND_LAYER
-	icon = 'icons/hud/lobby/background_bastion.dmi'
+	icon = 'bastionstation/icons/hud/lobby/background_bastion.dmi'
 	icon_state = "background"
 	screen_loc = "TOP,CENTER:-61"
 
