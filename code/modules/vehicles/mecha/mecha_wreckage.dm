@@ -167,6 +167,7 @@
 
 /obj/structure/mecha_wreckage/ripley/paddy
 	name = "\improper Paddy wreckage"
+	icon = 'bastionstation/icons/mecha/mecha.dmi'
 	icon_state = "paddy-broken"
 
 /obj/structure/mecha_wreckage/clarke

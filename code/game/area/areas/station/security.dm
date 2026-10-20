@@ -108,6 +108,7 @@
 
 /area/station/security/mechbay
 	name = "Security Mechbay"
+	icon = 'bastionstation/icons/area/areas_station.dmi'
 	icon_state = "sec_mechbay"
 
 /*

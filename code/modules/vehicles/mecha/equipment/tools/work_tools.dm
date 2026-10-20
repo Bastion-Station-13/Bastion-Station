@@ -408,6 +408,7 @@
 /obj/item/mecha_parts/mecha_equipment/ripleyupgrade/paddy
 	name = "Paddy Conversion Kit"
 	desc = "A hardpoint modification kit for an Autonomous Power Loader Unit \"Ripley\" MK-I exosuit, to convert it to the Paddy lightweight security design. This kit cannot be removed, once applied."
+	icon = 'bastionstation/icons/mecha/mecha_equipment.dmi'
 	icon_state = "paddyupgrade"
 	mech_flags = EXOSUIT_MODULE_RIPLEY
 	result = /obj/vehicle/sealed/mecha/ripley/paddy
