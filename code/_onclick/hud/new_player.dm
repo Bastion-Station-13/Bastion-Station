@@ -625,7 +625,7 @@
 //Mothroach button
 /atom/movable/screen/lobby/button/roach
 	screen_loc = "TOP:-126,CENTER:110"
-	icon = 'icons/hud/lobby/bottom_buttons.dmi'
+	icon = 'bastionstation/icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "roach"
 	base_icon_state = "roach"
 
