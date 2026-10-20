@@ -15,9 +15,6 @@
 	exp_granted_type = EXP_TYPE_CREW
 	config_tag = "NANOTRASEN_REPRESENTATIVE"
 
-	allow_bureaucratic_error = FALSE
-	allow_overflow = FALSE
-
 	outfit = /datum/outfit/job/nanotrasen_representative
 	plasmaman_outfit = /datum/outfit/plasmaman/centcom_official
 
