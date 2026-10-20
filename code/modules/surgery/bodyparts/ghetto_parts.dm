@@ -1,8 +1,8 @@
 /obj/item/bodypart/arm/left/ghetto
 	name = "left peg arm"
 	desc = "A roughly hewn wooden peg replaces where a forearm should be. It's simple and sturdy, clearly made in a hurry with whatever materials were at hand. Despite its crude appearance, it gets the job done."
-	icon = 'icons/mob/augmentation/ghetto.dmi'
-	icon_static = 'icons/mob/augmentation/ghetto.dmi'
+	icon = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
+	icon_static = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
 	icon_state = "peg_l_arm"
 	body_zone = BODY_ZONE_L_ARM
 	limb_id = BODYPART_ID_PEG
@@ -29,8 +29,8 @@
 /obj/item/bodypart/arm/right/ghetto
 	name = "right peg arm"
 	desc = "A roughly hewn wooden peg replaces where a forearm should be. It's simple and sturdy, clearly made in a hurry with whatever materials were at hand. Despite its crude appearance, it gets the job done."
-	icon = 'icons/mob/augmentation/ghetto.dmi'
-	icon_static = 'icons/mob/augmentation/ghetto.dmi'
+	icon = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
+	icon_static = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
 	icon_state = "peg_r_arm"
 	body_zone = BODY_ZONE_R_ARM
 	limb_id = BODYPART_ID_PEG
@@ -57,8 +57,8 @@
 /obj/item/bodypart/leg/left/ghetto
 	name = "left peg leg"
 	desc = "Fashioned from what looks suspiciously like a table leg, this peg leg brings a whole new meaning to 'dining on the go.' It's a bit wobbly and creaks ominously with every step, but at least you can claim to have the most well-balanced diet on the seven seas."
-	icon = 'icons/mob/augmentation/ghetto.dmi'
-	icon_static = 'icons/mob/augmentation/ghetto.dmi'
+	icon = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
+	icon_static = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
 	icon_state = "peg_l_leg"
 	body_zone = BODY_ZONE_L_LEG
 	limb_id = BODYPART_ID_PEG
@@ -82,8 +82,8 @@
 /obj/item/bodypart/leg/right/ghetto
 	name = "right peg leg"
 	desc = "Fashioned from what looks suspiciously like a table leg, this peg leg brings a whole new meaning to 'dining on the go.' It's a bit wobbly and creaks ominously with every step, but at least you can claim to have the most well-balanced diet on the seven seas."
-	icon = 'icons/mob/augmentation/ghetto.dmi'
-	icon_static = 'icons/mob/augmentation/ghetto.dmi'
+	icon = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
+	icon_static = 'bastionstation/icons/mob/augmentation/ghetto.dmi'
 	icon_state = "peg_r_leg"
 	body_zone = BODY_ZONE_R_LEG
 	limb_id = BODYPART_ID_PEG
