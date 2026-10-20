@@ -7712,6 +7712,7 @@
 #include "monkestation\code\modules\ghost_players\centcom_teleporter.dm"
 #include "monkestation\code\modules\ghost_players\ghost_player.dm"
 #include "monkestation\code\modules\ghost_players\ghost_player_outfit.dm"
+#include "monkestation\code\modules\ghost_players\rankdoors.dm"
 #include "monkestation\code\modules\ghost_players\arena\arena_cleanser.dm"
 #include "monkestation\code\modules\ghost_players\arena\arena_items.dm"
 #include "monkestation\code\modules\ghost_players\arena\fight_button.dm"

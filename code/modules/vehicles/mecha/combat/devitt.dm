@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/mecha/devitt
-	desc = "A multi hundred year old tank. How the hell it is running and on a space station is the least of your worries."
+	desc = "A pre-FTL light tank that ought to be in a museum. How it's running on a space station would be a concern if not for the fact it's within viewing distance. Its age compared to modern exosuits mean that it lacks many modern conveniences, such as automated control systems."
 	name = "Devitt Mk3"
 	icon = 'icons/mecha/tanks.dmi'
 	icon_state = "devitt_0_0"
