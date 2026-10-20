@@ -341,3 +341,102 @@
       alert.
   mcbalaam:
   - rscadd: AIs can now point to things using holopads
+2026-10-18:
+  Absolucy:
+  - rscadd: (SmArtKar) Blood-drunk miner now drops an infernal PKA with an in-built
+      improved rapid repeater modification.
+  - bugfix: PKA cooldown upgrades now no longer care about what order they're shoved
+      into the PKA.
+  - bugfix: fixed an off-by-one error with unusual particle effects.
+  - code_imp: hopefully made unusual particles less server-intensive.
+  HIDgamer:
+  - bugfix: 'fixed runtime spam caused by the sprint key
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed Halloween meteor weight and spam runtime
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed shield gen damage runtime
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  Runian:
+  - qol: Unlocking an APC via right-click hotkey as an AI/Cyborg no longer open the
+      APC's menu.
+  - bugfix: Cyborgs that are in low power mode can no longer use certain hotkeys such
+      as shocking, bolting, or opening airlocks remotely.
+  hexakats:
+  - balance: The syndicate musket no longer fits in bags.
+  - balance: The syndicate musket no longer deals stamina damage.
+  - bugfix: You can no longer shrink modsuit control units
+  - refactor: replaced attackby with item_interaction for the BCK
+  notghosti:
+  - map: Ce office on tram no longer has stacking filing cabinets
+  - map: Tech storage camera on tram is no longer named tech shortage
+  - map: boxstation ranch given a incubator nest
+  - map: Blueshift ranch given chicken scanners
+  - map: Icebox lower service distro was fixed.
+  - bugfix: Advanced carp, (Space dragon rift carp) health is fixed, and is now no
+      longer weaker then a regular carp.
+2026-10-20:
+  AberrantQuerist:
+  - balance: Gene splicer takes into account if traits are removable.
+  - balance: Plant force exceeding 25 will increase chances of unpreventable backfiring.
+  Absolucy:
+  - bugfix: Fixed an issue with Discount Godzilla getting a blank ID and a PDA with
+      no owner.
+  - sound: the monster hunter's red queen card ping now ACTUALLY comes from the direction
+      of the nearest rabbit and sounds muffled when it's to the south
+  - sound: the card ping should actually be audible now
+  - qol: the red queen card cooldown is 3 seconds instead of 7, and a new ping cuts
+      off the last one
+  - bugfix: monster hunters can see white rabbits through walls again, this has been
+      broken for a good while and idk why
+  - bugfix: fixed tremere revival vassalization not working on oozeling cores.
+  Hacks-The-Doors (coding) & Septicchlorine (spriting):
+  - rscadd: adds craftable peg limbs (2 planks) which are attachable without surgery
+  - balance: peg limbs take 1.5x burn and 1.3x brute, and do reduced damage
+  - balance: peg arms have chunky fingers (you cannot fire guns or use computers,
+      batons, etc. with them)
+  - refactor: replaced item_heal_robotic with item_heal (wasn't documented in the
+      original pr)
+  JupiterJaeden:
+  - balance: Oozelings no longer have an innate 20% reduction to all burn damage.
+      They still have a reduction to damage caused by hot temperatures directly.
+  - balance: Oozelings no longer have wound immunity, and they now take burn and bleed
+      wounds normally (but they still can't receive fracture wounds). Infected burn
+      wounds correctly apply tox damage to oozelings.
+  Kmla2:
+  - code_imp: changes how the uplink is sorted, hopefully shouldn't affect anything
+      in-game
+  SmArtKar:
+  - image: Carp infusion now changes how your skin looks to reflect your fishy nature
+  ThePooba:
+  - bugfix: fixed exsanguinating unusuals being milk
+  - bugfix: disable dullahans because they are extremely broken
+  chumtoad154:
+  - rscadd: shadekin, a new roundstart species that doesnt need to breathe and heals
+      and sees better in the dark in exchange for taking more damage and being vulnerable
+      to flashing
+  - rscadd: 2 tail options, 4 ears, (credits to bubberstation for the sprites), mutant
+      color picker for their skintone and eyes
+  - sound: added the mar emote, mar
+  notghosti:
+  - bugfix: IPC Examine limb examine text now should reflect their mechanical status
