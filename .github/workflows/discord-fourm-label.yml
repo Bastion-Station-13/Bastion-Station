@@ -8,6 +8,11 @@ on:
   pull_request_target:
     types: [labeled]
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   create-forum-post:
     # Since all labels will be detected by the on request
@@ -44,3 +49,21 @@ jobs:
 
           # Send to Discord webhook
           curl -sS -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK_URL"
+
+      - name: Comment Discord Discussion Link on PR
+        uses: actions/github-script@v7
+        env:
+          # The Discord PR Discussion URL Secret
+          # Made this a secret so that downstream using the same workflow do not link BastionSS13's PR discussion thread, and can just use their own instead.
+          DISCORD_PR_DISCUSSION_URL: ${{ secrets.DISCORD_PR_DISCUSSION_URL }}
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const discordUrl = process.env.DISCORD_PR_DISCUSSION_URL;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: `A Discord discussion thread has been opened for this PR. Please continue discussion in #pr-discussion:\n${discordUrl}`,
+            });
