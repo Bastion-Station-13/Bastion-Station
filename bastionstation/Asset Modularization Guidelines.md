@@ -6,10 +6,10 @@ What this means is that **any edits to sprites, sounds, or any other assets** ne
 
 Here are the exact guidelines for sprite files:
 
-- When creating a new sprite file, create it inside the bastionstation folder (try to put it in a sensible subfolder).
+- When creating new sprite(s), create a new file inside the bastionstation folder and add them there, and set any relevant code to point to the new file. Try to put it in a sensible subfolder - if the sprites would have normally gone into an existing sprite file, name the new file the same and put it in the same subfolders. Create the subfolders if needed.
 - Avoid removing existing sprite files, simply remove references to them from the code instead.
-- When editing an existing sprite file (whether adding new sprites to it or editing existing sprites), follow these steps:
-  1.  Copy the original sprite files to the bastionstation folder - put them in the same subfolder(s) as the original sprite file. Create the subfolders if needed.
+- When editing existing sprites, follow these steps:
+  1.  Copy the original sprite file to the bastionstation folder - put it in the same subfolder(s) as the original sprite file. Create the subfolders if needed.
   2.  Make whatever edits you want to the copied file.
   3.  Change the relevant code for whatever you have edited to point to the new file.
 
