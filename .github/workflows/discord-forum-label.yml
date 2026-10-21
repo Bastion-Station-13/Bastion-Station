@@ -42,7 +42,7 @@ jobs:
           JSON_PAYLOAD=$(cat <<JSON
           {
             "thread_name": "PR #${PR_NUMBER} - ${PR_TITLE}",
-            "content": "🏰 **New PR Discussion Opened!** 🏰\n\n**Author:** ${PR_USER}\n**Link:** ${PR_URL}\n\n**Description Snippet:**\n```\n${CLEAN_BODY}\n```"
+            "content": "**New PR Discussion Opened!**\n\n**Author:** ${PR_USER}\n**Link:** ${PR_URL}"
           }
           JSON
           )
@@ -65,5 +65,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
-              body: `A Discord discussion thread has been opened for this PR. Please continue discussion in #pr-discussion:\n${discordUrl}`,
+              body: `A discord discussion thread has been opened for this PR in #pr-discussion:\n${discordUrl}`,
             });
