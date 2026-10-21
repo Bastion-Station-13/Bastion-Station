@@ -1,4 +1,0 @@
-author: "ori-disillusion-mirnov"
-delete-after: True
-changes:
-  - code_imp: ".sh versions of .bat files for mapmerge and updatepaths have been added, from cm-ss13"

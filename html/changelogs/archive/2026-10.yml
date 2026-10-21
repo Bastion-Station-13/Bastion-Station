@@ -440,3 +440,27 @@
   - sound: added the mar emote, mar
   notghosti:
   - bugfix: IPC Examine limb examine text now should reflect their mechanical status
+2026-10-21:
+  Absolucy:
+  - bugfix: fixed "ghost" entries with grouped stuff in the lootpanel when searching
+  - balance: Moon heretic robes now channel the moonlight amulet's effect thru your
+      blade (the brain damage / sanity damage) on its own, so the amulet isn't required
+      to use it anymore, altho the amulet still gives you bonuses
+  - bugfix: Fixed the Resplendent Regalia's hit message for the wearer
+  JupiterJaeden:
+  - code_imp: Modularizes all the assets (sprites, sounds, etc.) that have been created/edited
+      so far by bastion station.
+  Runian, SarmentiCampbell:
+  - rscadd: 3 new ninja cyborg model. They're functionally syndicate cyborg models,
+      except they're green and renamed.
+  - rscdel: Ninja cyborgs no longer have a syndicate pinpointer.
+  - bugfix: Getting emagged or changing your initial cyborg model to syndicate now
+      correctly recolors your modular interface.
+  - bugfix: Ninja cyborgs no longer lose ion thrusters if they initially had it via
+      upgrades.
+  - image: New icons for ninja cyborgs, ninja cyborg defib paddles, ninja cyborg hypospray,
+      and ninja cyborg energy saw.
+  ori-disillusion-mirnov:
+  - code_imp: pygit2 version requirement changed from 1.16.0 to 1.18.0
+  - code_imp: .sh versions of .bat files for mapmerge and updatepaths have been added,
+      from cm-ss13

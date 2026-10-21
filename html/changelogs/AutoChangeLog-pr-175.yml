@@ -1,4 +1,0 @@
-author: "ori-disillusion-mirnov"
-delete-after: True
-changes:
-  - code_imp: "pygit2 version requirement changed from 1.16.0 to 1.18.0"
