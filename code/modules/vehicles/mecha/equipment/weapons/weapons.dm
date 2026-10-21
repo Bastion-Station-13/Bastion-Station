@@ -343,6 +343,17 @@
 	harmful = TRUE
 	ammo_type = MECHA_AMMO_BUCKSHOT
 
+
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot/heavy
+	name = "\improper CS-EXO SG-20 \"Breaker\""
+	desc = "A weapon for combat exosuits. Shoots a thicker spread of pellets, though with a longer load time."
+	equip_cooldown = 30
+	projectiles = 60
+	projectiles_cache = 60
+	projectiles_cache_max = 200
+	projectiles_per_shot = 6
+	variance = 35
+
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg
 	name = "\improper Ultra AC 2"
 	desc = "A weapon for combat exosuits. Shoots a rapid, three shot burst."

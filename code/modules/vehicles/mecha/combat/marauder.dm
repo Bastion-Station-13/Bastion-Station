@@ -125,12 +125,12 @@
 	)
 
 /obj/vehicle/sealed/mecha/marauder/seraph/fiend
-	desc = "An old model of Cybersun-made exosuit designed to attack enemy armour, for use by the Gorlex Marauders. It was rejected on the basis of cost and mission overlap with the existing Mauler model's anti-armour rockets, making this an exceptionally rare piece even for exosuit collectors."
+	desc = "A command exosuit developed for Syndicate use, based off Nanotrasen's Seraph command exosuit."
 	name = "\improper Fiend"
 	icon = 'bastionstation/icons/centcom_fluff.dmi'
 	icon_state = "fiend"
 	base_icon_state = "fiend"
-	accesses = list(ACCESS_CENT_SPECOPS)
+	accesses = list(ACCESS_SYNDICATE)
 	ui_theme = "syndicate"
 	movedelay = 3
 	max_integrity = 600
@@ -145,8 +145,8 @@
 		MECHA_ARMOR = 3,
 	)
 	equip_by_category = list(
-		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/energy/ion,
-		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/rotary,
+		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot/heavy,
+		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack,
 		MECHA_UTILITY = list(/obj/item/mecha_parts/mecha_equipment/radio, /obj/item/mecha_parts/mecha_equipment/air_tank/full, /obj/item/mecha_parts/mecha_equipment/thrusters/ion),
 		MECHA_POWER = list(/obj/item/mecha_parts/mecha_equipment/generator),
 		MECHA_ARMOR = list(/obj/item/mecha_parts/mecha_equipment/armor/antiproj_armor_booster),
