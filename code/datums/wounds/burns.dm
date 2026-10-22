@@ -45,6 +45,13 @@
 	/// Once we reach infestation beyond WOUND_INFESTATION_SEPSIS, we get this many warnings before the limb is completely paralyzed (you'd have to ignore a really bad burn for a really long time for this to happen)
 	var/strikes_to_lose_limb = 3
 
+/// Applies toxin damage from this wound, making sure to make sure that people with TRAIT_TOXINLOVER still receive toxin damage, typically oozelings
+/datum/wound/burn/flesh/proc/apply_tox_damage(amount)
+	if (HAS_TRAIT(victim, TRAIT_TOXINLOVER))
+		victim.adjustToxLoss(-amount)
+	else
+		victim.adjustToxLoss(amount)
+
 /datum/wound/burn/flesh/handle_process(seconds_per_tick, times_fired)
 
 	if (QDELETED(victim) || HAS_TRAIT(victim, TRAIT_STASIS))
@@ -52,7 +59,7 @@
 
 	. = ..()
 	if(strikes_to_lose_limb <= 0) // we've already hit sepsis, nothing more to do
-		victim.adjustToxLoss(0.25 * seconds_per_tick)
+		apply_tox_damage(0.25 * seconds_per_tick)
 		if(SPT_PROB(0.5, seconds_per_tick))
 			victim.visible_message(span_danger("The infection on the remnants of [victim]'s [limb.plaintext_zone] shift and bubble nauseatingly!"), span_warning("You can feel the infection on the remnants of your [limb.plaintext_zone] coursing through your veins!"), vision_distance = COMBAT_MESSAGE_RANGE)
 		return
@@ -103,7 +110,7 @@
 
 		if(WOUND_INFECTION_MODERATE to WOUND_INFECTION_SEVERE)
 			if(SPT_PROB(15, seconds_per_tick))
-				victim.adjustToxLoss(0.2)
+				apply_tox_damage(0.2)
 				if(prob(6))
 					to_chat(victim, span_warning("The blisters on your [limb.plaintext_zone] ooze a strange pus..."))
 
@@ -119,7 +126,7 @@
 				return
 
 			if(SPT_PROB(10, seconds_per_tick))
-				victim.adjustToxLoss(0.5)
+				apply_tox_damage(0.5)
 
 		if(WOUND_INFECTION_CRITICAL to WOUND_INFECTION_SEPTIC)
 			if(!disabling)
@@ -135,9 +142,9 @@
 			if(SPT_PROB(2.48, seconds_per_tick))
 				if(prob(20))
 					to_chat(victim, span_warning("You contemplate life without your [limb.plaintext_zone]..."))
-					victim.adjustToxLoss(0.75)
+					apply_tox_damage(0.75)
 				else
-					victim.adjustToxLoss(1)
+					apply_tox_damage(1)
 
 		if(WOUND_INFECTION_SEPTIC to INFINITY)
 			if(SPT_PROB(0.5 * infestation, seconds_per_tick))

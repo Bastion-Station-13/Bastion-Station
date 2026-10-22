@@ -156,7 +156,7 @@
 
 /obj/machinery/nuclearbomb/commando/atom_destruction(damage_flag)
 	new /obj/effect/gibspawner/nuke(drop_location())
-	new /obj/effect/decal/cleanable/blood/splatter/oil/streak(drop_location())
+	new /obj/effect/decal/cleanable/blood/splatter/oil(drop_location())
 	new /obj/effect/decal/cleanable/nuke_debris/main(drop_location())
 	do_sparks(5, FALSE, src)
 	if(core)
@@ -180,7 +180,8 @@
 	. = ..()
 	if(damage_amount >= 10)
 		do_sparks(rand(1,3), FALSE, src)
-	update_damage()
+	if(!QDELETED(src))
+		update_damage()
 
 /obj/machinery/nuclearbomb/commando/update_icon_state()
 	. = ..()

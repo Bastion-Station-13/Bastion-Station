@@ -216,6 +216,8 @@
 	var/limb_flags
 	/// The cached info about the blood this organ belongs to, set during on_removal()
 	var/list/blood_dna_info
+	/// A potential texturing overlay to put on the limb
+	var/datum/bodypart_overlay/texture/texture_bodypart_overlay
 
 /obj/item/bodypart/apply_fantasy_bonuses(bonus)
 	. = ..()
@@ -241,6 +243,10 @@
 		RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_loss))
 
 	RegisterSignal(src, COMSIG_ATOM_RESTYLE, PROC_REF(on_attempt_feature_restyle))
+
+	if(texture_bodypart_overlay)
+		texture_bodypart_overlay = new texture_bodypart_overlay()
+		add_bodypart_overlay(texture_bodypart_overlay)
 
 	if(!IS_ORGANIC_LIMB(src))
 		grind_results = null
@@ -407,7 +413,7 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
-		if(HAS_TRAIT(victim, TRAIT_LIMBATTACHMENT))
+		if(HAS_TRAIT(victim, TRAIT_LIMBATTACHMENT) || HAS_TRAIT(src, TRAIT_EASY_ATTACH))
 			if(!human_victim.get_bodypart(body_zone))
 				user.temporarilyRemoveItemFromInventory(src, TRUE)
 				if(!try_attach_limb(victim))
@@ -1174,6 +1180,8 @@
 					if(overlay.get_extended_overlay(external_layer, src))
 						for(var/mutable_appearance/item as anything in overlay.get_extended_overlay(external_layer, src))
 							. += item
+			for(var/datum/layer in .)
+				overlay.modify_bodypart_appearance(layer)
 
 	return .
 
@@ -1426,6 +1434,10 @@
 		return "bone"
 	if (biological_state & BIO_METAL)
 		return "metal"
+	if (biological_state & BIO_FLESH)
+		return "shreds of ligaments"
+	if (biological_state & BIO_WOOD)
+		return "splinters of poorly manufactured wood"
 
 	return "error"
 

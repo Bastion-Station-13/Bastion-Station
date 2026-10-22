@@ -106,6 +106,11 @@
 /area/station/security/execution/education
 	name = "\improper Prisoner Education Chamber"
 
+/area/station/security/mechbay
+	name = "Security Mechbay"
+	icon = 'bastionstation/icons/area/areas_station.dmi'
+	icon_state = "sec_mechbay"
+
 /*
 * Security Checkpoints
 */
