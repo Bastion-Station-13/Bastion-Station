@@ -26,7 +26,7 @@
 /obj/machinery/door/admin_rank/Bumped(atom/movable/AM)
 	return !density && ..()
 
-/obj/machinery/door/admin_rank/try_to_activate_door(mob/user)
+/obj/machinery/door/admin_rank/try_to_activate_door(mob/user, access_bypass = FALSE)
 	add_fingerprint(user)
 	if(operating)
 		return
