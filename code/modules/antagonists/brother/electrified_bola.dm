@@ -7,9 +7,12 @@
 /obj/item/restraints/legcuffs/bola/electrified
 	name = "electrified bola"
 	desc = "A bola wired up to keep shocking whoever it catches."
+	icon = 'bastionstation/icons/obj/restraints.dmi'
 	icon_state = "bola_electrified"
 	icon_state_preview = null
 	inhand_icon_state = "bola_electrified"
+	lefthand_file = 'bastionstation/icons/mob/inhands/weapons/thrown_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/weapons/thrown_righthand.dmi'
 
 /obj/item/restraints/legcuffs/bola/electrified/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, gentle = FALSE, quickstart = TRUE)
 	icon_state = "bola_electrified_thrown"

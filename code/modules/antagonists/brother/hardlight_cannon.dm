@@ -5,7 +5,10 @@
 /obj/item/gun/energy/laser/hardlight
 	name = "hardlight laser cannon"
 	desc = "A laser cannon that fires hardlight blasts so dense it cannot shoot through glass or grilles."
+	icon = 'bastionstation/icons/obj/weapons/guns/energy.dmi'
 	icon_state = "hardlight_cannon"
+	lefthand_file = 'bastionstation/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/weapons/guns_righthand.dmi'
 	// Left null so the inhand state is built from the charge level (hardlight_cannon0 to hardlight_cannon4).
 	inhand_icon_state = null
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/hardlight)
@@ -29,6 +32,7 @@
 
 /obj/projectile/beam/laser/hardlight_cannon
 	name = "hardlight laser"
+	icon = 'bastionstation/icons/obj/weapons/guns/projectiles.dmi'
 	icon_state = "hardlight_cannon"
 	pass_flags = PASSTABLE
 	damage = 24

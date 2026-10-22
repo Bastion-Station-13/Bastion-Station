@@ -8,7 +8,7 @@
 /obj/item/blood_brother_gun_part
 	name = "Blood Brother gun part"
 	desc = "The platonic ideal of a gun part, and therefore useless. Unless an admin spawned this, somebody needs to go beat a coder's ass."
-	icon = 'icons/obj/weapons/guns/bb_gun_parts.dmi'
+	icon = 'bastionstation/icons/obj/weapons/guns/bb_gun_parts.dmi'
 	icon_state = "BBgunpart_parent"
 	w_class = WEIGHT_CLASS_SMALL
 	/// The slot this part is installed into, as a BB_GUN_PART_* define.

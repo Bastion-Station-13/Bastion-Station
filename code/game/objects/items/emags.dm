@@ -32,6 +32,7 @@
 /obj/item/card/emag/improvised
 	name = "improvised cryptographic sequencer"
 	desc = "It's a card with some junk circuitry and a cracked screen strapped to it. It doesn't look very reliable and needs to be manually recharged with uranium sheets."
+	icon = 'bastionstation/icons/obj/card.dmi'
 	icon_state = "emag_makeshift"
 	var/charges = 5
 	var/max_charges = 5

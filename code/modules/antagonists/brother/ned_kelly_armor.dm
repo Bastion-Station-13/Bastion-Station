@@ -20,8 +20,11 @@
 /obj/item/clothing/suit/armor/ned_kelly
 	name = "Ned Kelly armor"
 	desc = "Crude plate armor hammered together from scrap metal. Weighs a ton, but very little gets through. Nothing covers the legs just like the real thing!"
+	icon = 'bastionstation/icons/obj/clothing/suits/armor.dmi'
 	icon_state = "armor_nedkelly"
-	worn_icon = 'icons/mob/clothing/suit.dmi'
+	worn_icon = 'bastionstation/icons/mob/clothing/suit.dmi'
+	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/suits_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/clothing/suits_righthand.dmi'
 	worn_icon_state = "armor_nedkelly"
 	inhand_icon_state = "armor_nedkelly"
 	w_class = WEIGHT_CLASS_BULKY
@@ -40,9 +43,12 @@
 /obj/item/clothing/head/helmet/ned_kelly
 	name = "Ned Kelly helmet"
 	desc = "A heavy iron bucket with a slit cut out for the eyes. Covers the whole face."
+	icon = 'bastionstation/icons/obj/clothing/head/helmet.dmi'
 	icon_state = "helmet_nedkelly"
 	base_icon_state = "helmet_nedkelly"
-	worn_icon = 'icons/mob/clothing/head.dmi'
+	worn_icon = 'bastionstation/icons/mob/clothing/head.dmi'
+	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/hats_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/clothing/hats_righthand.dmi'
 	worn_icon_state = "helmet_nedkelly"
 	inhand_icon_state = "helmet_nedkelly"
 	flags_cover = HEADCOVERSEYES|HEADCOVERSMOUTH

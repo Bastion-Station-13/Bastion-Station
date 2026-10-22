@@ -30,6 +30,7 @@
 /obj/item/gun/ballistic/revolver/scrap
 	name = "scrap revolver"
 	desc = "A shoddy revolver cobbled together from whatever was lying around. The matter bin cylinder takes either .38 or 12 gauge."
+	icon = 'bastionstation/icons/obj/weapons/guns/ballistic.dmi'
 	icon_state = "revolver_scrap_c38"
 	base_icon_state = "revolver_scrap_c38"
 	inhand_icon_state = "gun"
