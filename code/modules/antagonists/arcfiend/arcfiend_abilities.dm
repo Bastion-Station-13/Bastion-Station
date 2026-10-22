@@ -4,7 +4,7 @@
 	panel = "Arcfiend"
 	button_icon = 'icons/mob/actions/actions_spells.dmi'
 	button_icon_state = "lightning"
-	background_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_action_background.dmi'
+	background_icon = 'bastionstation/icons/mob/actions/arcfiend/arcfiend_action_background.dmi'
 	background_icon_state = "bg_arcfiend"
 	check_flags = AB_CHECK_CONSCIOUS | AB_CHECK_HANDS_BLOCKED | AB_CHECK_IMMOBILE
 	/// Power spent each time this is used
@@ -27,7 +27,7 @@
 
 	/// Whether a glowing hand appears in the owner's hand while this power is ready to be aimed, so everyone can see it
 	var/shows_hand = FALSE
-	/// Whether this only works when clicking on a mob directly. A click on anything else, a wall or vent or the floor, does nothing: it isn't wasted and the power stays ready.
+	/// Whether this only works when clicking a mob. Any other click does nothing and doesn't use up the power.
 	var/needs_mob_target = FALSE
 	/// When we may next say that a click on something that isn't a person did nothing
 	var/next_miss_message = 0
@@ -263,7 +263,7 @@
 	name = "Sap Power"
 	desc = "Your hand crackles, ready to drink the power out of whatever it touches."
 	shop_desc = "Grants you Sap Power, the ability to drain whatever you are touching. Machines and cables give a trickle of power, while living people and cyborgs give far more and are hurt in the process. Draining is loud and bright. The power also sates your hunger, but cannot make you fat."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_sap_power.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_sap_power.dmi'
 	button_icon_state = "sap_power"
 	click_to_activate = TRUE
 	shows_hand = TRUE
@@ -322,20 +322,19 @@
 	StartCooldown()
 	return TRUE
 
-/// Makes it obvious to everyone nearby that something is being sapped, from the very start
+/// Visuals and sound for when a sap starts
 /datum/action/cooldown/arcfiend/sap_power/proc/start_sap_effects(atom/target)
-	add_visual(owner, "sap_aura", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', "sap_power_aura")
-	add_visual(target, "sap_source", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', "sap_power_source")
+	add_visual(owner, "sap_aura", 'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi', "sap_power_aura")
+	add_visual(target, "sap_source", 'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi', "sap_power_source")
 	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
-	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
+	target.Beam(owner, icon = 'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	owner.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
 	playsound(target, ARCFIEND_SOUND_SAP_START, 60, TRUE, extrarange = 12)
 	owner.balloon_alert_to_viewers("sapping power!")
 
-/// Keeps it obvious for as long as it goes on: a beam, loud crackling, flashes of light, flickering lights, and the odd warning
+/// Visuals and sound repeated every tick of a sap
 /datum/action/cooldown/arcfiend/sap_power/proc/sap_tick_effects(atom/target, ticks)
-	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
-	target.Beam(owner, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
+	target.Beam(owner, icon = 'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	do_sparks(3, FALSE, target)
 	do_sparks(2, FALSE, owner)
 	playsound(target, ARCFIEND_SOUND_SAP_LOOP, 100, TRUE, extrarange = 10)
@@ -361,7 +360,7 @@
 	name = "Charge"
 	desc = "Your nanites push your stored power out through your hands and into a cell."
 	shop_desc = "Grants you Charge, which spends your power to charge the cell of an item you are holding, or of a cyborg you are pulling. Magical items will not accept the charge."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_charge.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_charge.dmi'
 	button_icon_state = "arcfiend_charge"
 	cooldown_time = 3 SECONDS
 	power_cost = 1
@@ -534,7 +533,7 @@
 	name = "Ride the Lightning"
 	desc = "You dissolve into the wiring beneath your feet and race along the cable network."
 	shop_desc = "Grants you Ride the Lightning, which lets you dive into the cable beneath you and follow the connected cable network. Entering and leaving takes a moment. It costs power to enter, for every tile travelled and for every second spent inside. If the cable you are in is cut, you are thrown out and stunned."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_ride_the_lightning.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_ride_the_lightning.dmi'
 	button_icon_state = "ride_the_lightning"
 	// You have to be able to use this while riding, to get out again
 	check_flags = AB_CHECK_CONSCIOUS
@@ -631,11 +630,11 @@
 	for(var/obj/structure/cable/cable in checked)
 		. |= cable.linked_dirs
 
-/// The visible ball of electricity that follows an arcfiend riding the cables, so everyone can tell one is in the wires
+/// Follows a cable rider around, so people can see where they are
 /obj/effect/arcfiend_spark
 	name = "ball of lightning"
 	desc = "A ball of lightning zipping through the wires."
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lightning_riding.dmi'
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lightning_riding.dmi'
 	icon_state = "arcfiend_lightning_ball_ride_lightning"
 	anchored = TRUE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
@@ -651,7 +650,7 @@
 	movespeed = 1
 	/// The directions the cables on our turf connected in when we arrived, used to tell if one has been cut
 	var/known_dirs = NONE
-	/// The visible ball of electricity that follows us around
+	/// The spark ball following us
 	var/obj/effect/arcfiend_spark/spark
 	/// The rider's antag datum, looked up once when the ride starts, since every tile and every second of the ride is paid for
 	var/datum/weakref/arcfiend_ref
@@ -859,7 +858,7 @@
 	UnregisterSignal(user, COMSIG_MOB_UPDATE_SIGHT)
 	user.update_sight()
 
-/// Lifts the dark further than ordinary night vision does. This runs after the mob's sight has been worked out.
+/// Runs after the mob's sight is worked out, so nothing overwrites our cutoff
 /datum/action/cooldown/arcfiend/passive/ampullary_sense/proc/on_update_sight(mob/living/source)
 	SIGNAL_HANDLER
 	var/cutoff = (get_level() >= 2) ? ARCFIEND_NIGHT_VISION_CUTOFF_UPGRADED : ARCFIEND_NIGHT_VISION_CUTOFF
@@ -893,7 +892,7 @@
 /datum/action/cooldown/arcfiend/surge_reflex
 	name = "Surge Reflex"
 	desc = "You shock your own muscles back into action, clearing stuns and stamina damage and healing a small amount of damage. Can be used while stunned."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_surge_reflex.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_surge_reflex.dmi'
 	button_icon_state = "surge_reflex"
 	// This has to work while stunned, that is the point of it
 	check_flags = AB_CHECK_CONSCIOUS
@@ -922,7 +921,7 @@
 	var/heal_amount = 5 + 10 * level
 	user.heal_overall_damage(brute = heal_amount, burn = heal_amount, stamina = 100)
 	do_sparks(4, FALSE, user)
-	var/surge_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_surge_reflex.dmi'
+	var/surge_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_surge_reflex.dmi'
 	for(var/repeat in 0 to 2)
 		addtimer(CALLBACK(src, PROC_REF(add_visual), user, "surge", surge_icon, "surge_reflex", 9, TRUE, 1.7), repeat * 9)
 	user.flash_lighting_fx(5, 4, "#ffe94d", 2 SECONDS)

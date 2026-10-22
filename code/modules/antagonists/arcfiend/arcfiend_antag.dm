@@ -9,7 +9,7 @@
 	ui_name = "AntagInfoArcfiend"
 	can_assign_self_objectives = TRUE
 	default_custom_objective = "Drain the station dry."
-	hud_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_antag_hud.dmi'
+	hud_icon = 'bastionstation/icons/mob/huds/arcfiend/arcfiend_antag_hud.dmi'
 	antag_hud_name = "arcfiend"
 	show_to_ghosts = TRUE
 	// Plays for whoever is made an arcfiend, when the greeting is shown
@@ -82,11 +82,11 @@
 	if(!current_mob)
 		return
 	handle_clown_mutation(current_mob, mob_override ? null : "Your power allows you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
-	// Full body insulation. An arcfiend can never be hurt by electric shocks.
+	// Full body insulation
 	current_mob.add_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE), ARCFIEND_TRAIT)
 	// Their heart can't be stopped, but they still need it: if it takes enough damage to fail, it stops like anyone's would
 	ADD_TRAIT(current_mob, TRAIT_HEART_ATTACK_IMMUNE, ARCFIEND_TRAIT)
-	// Being so attuned to machines, an arcfiend sees how they work, and can feel every cable nearby (see on_life)
+	// Cable sight is handled in on_life
 	current_mob.add_traits(list(TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.show_to(current_mob)
@@ -287,11 +287,11 @@
 			return COMSIG_KB_ACTIVATED
 	return NONE
 
-/// The picture in the antagonist selection menu: a plainly dressed person, crackling with electricity, in a charged aura. It is made from the arcfiend's own sprites.
+/// Built from the arcfiend's own sprites
 /datum/antagonist/arcfiend/get_preview_icon()
 	var/icon/preview = render_preview_outfit(/datum/outfit/job/assistant/consistent)
-	preview.Blend(icon('monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_jamming.dmi', "jamming_aura", SOUTH, 1), ICON_OVERLAY)
-	preview.Blend(icon('monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi', "smash_arms", SOUTH, 1), ICON_OVERLAY)
+	preview.Blend(icon('bastionstation/icons/effects/arcfiend/arcfiend_jamming.dmi', "jamming_aura", SOUTH, 1), ICON_OVERLAY)
+	preview.Blend(icon('bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi', "smash_arms", SOUTH, 1), ICON_OVERLAY)
 	return finish_preview_icon(preview)
 
 /// Gives the arcfiend a drain objective, some standard traitor objectives, and an ending objective
@@ -370,7 +370,7 @@
 
 /atom/movable/screen/arcfiend_power
 	name = "power"
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_power_counter.dmi'
+	icon = 'bastionstation/icons/hud/arcfiend/arcfiend_power_counter.dmi'
 	icon_state = "power_counter"
 	screen_loc = ui_lingchemdisplay
 	invisibility = INVISIBILITY_ABSTRACT
@@ -391,12 +391,11 @@
 	. = ..()
 	arcfiend_counter = null
 
-/// An injector of the nanites and retrovirus that make an arcfiend. Offered through the OPFOR menu.
-/// Using it on yourself turns you into an arcfiend, and it is used up.
+/// OPFOR item. Single use.
 /obj/item/antag_granter/arcfiend
 	name = "unmarked injector"
 	desc = "An injector full of shimmering fluid that crackles vibrantly when you shake it."
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_injector.dmi'
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_injector.dmi'
 	icon_state = "arcfiend_injector"
 	antag_datum = /datum/antagonist/arcfiend
 	user_message = "You inject the fluid. Your skin starts to crackle, and you can feel the wires in the walls humming."

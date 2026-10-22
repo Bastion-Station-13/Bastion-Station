@@ -2,8 +2,7 @@
 //------------------------------Grown items-----------------------------//
 //////////////////////////////////////////////////////////////////////////
 /**
- * Base for the powers that grow something out of the arcfiend's hand: the coilgun, the lateral laser, the galvanic prod and the electric emag.
- * Using the power grows the item into the active hand. Using it again, or pressing the drop key, lets the item crumble away.
+ * Base for the powers that grow an item into the active hand. Using the power again or pressing the drop key makes it crumble.
  * Items with charges keep them here on the power, not on the item, so putting the item away and growing it again doesn't refill it.
  */
 /datum/action/cooldown/arcfiend/grown_item
@@ -142,10 +141,7 @@
 /datum/action/cooldown/arcfiend/grown_item/gun/proc/setup_projectile(obj/projectile/projectile)
 	return
 
-/**
- * Base for the guns an arcfiend grows. A pulse of the arcfiend's own electricity fires them, so there is no cell to charge.
- * Every shot costs its owner power and a charge, and both are decided by the power that grew the gun.
- */
+/// No cell. Each shot is paid for in power and a charge by the power that grew it, see handle_chamber().
 /obj/item/gun/energy/arcfiend
 	name = "biometal gun"
 	desc = "A lump of biometal shaped like a gun. It runs on its owner's electricity."
@@ -232,7 +228,7 @@
 //////////////////////////////////////////////////////////////////////////
 /obj/projectile/bullet/arcfiend_slug
 	name = "biometal slug"
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_projectile.dmi'
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_coilgun_projectile.dmi'
 	icon_state = "biometal_slug"
 	damage = 20
 	embed_type = null
@@ -245,15 +241,15 @@
 	e_cost = 0
 	delay = 0.8 SECONDS
 
-/// A crude gun of biometal that an arcfiend grows out of their hand. A pulse of electricity throws the slugs.
+/// Biometal gun that doesn't use gunpowder, the electricity propels the bullets.
 /obj/item/gun/energy/arcfiend/coilgun
 	name = "biometal coilgun"
 	desc = "A lumpy biometal gun that grew out of an arcfiend's hand. Runs on its owner's electricity."
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun.dmi'
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_coilgun.dmi'
 	icon_state = "arcfiend_coilgun"
 	inhand_icon_state = "arcfiend_coilgun"
-	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_lefthand.dmi'
-	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun_righthand.dmi'
+	lefthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_coilgun_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_coilgun_righthand.dmi'
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_slug)
 	power_type = /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun
 
@@ -261,7 +257,7 @@
 	name = "Manifest Coilgun"
 	desc = "Your nanites weave a crude coilgun out of biometal in your hand."
 	shop_desc = "Grants you Manifest Coilgun, which grows a biometal coilgun in your hand. It is free to summon and put away, but each shot costs power and a slug. It holds 4 slugs and regrows one every 8 seconds, even while put away."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_manifest_coilgun.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_manifest_coilgun.dmi'
 	button_icon_state = "manifest_coilgun"
 	shop_listed = TRUE
 	shop_tier = 2
@@ -297,16 +293,16 @@
 	name = "Biometal Tether"
 	desc = "You fire a hook of biometal and reel yourself in to wherever it lands."
 	shop_desc = "Grants you Biometal Tether, which fires a hook that pulls you to wherever it lands. It costs power with each use."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_biometal_tether.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_biometal_tether.dmi'
 	button_icon_state = "biometal_tether"
 	click_to_activate = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Click where you want to go, or use the power again to cancel."
-	hand_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi'
+	hand_icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_tether.dmi'
 	hand_icon_state = "biometal_tether"
 	hand_inhand_state = "biometal_tether"
-	hand_lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_lefthand.dmi'
-	hand_righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_righthand.dmi'
+	hand_lefthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_tether_lefthand.dmi'
+	hand_righthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_tether_righthand.dmi'
 	cooldown_time = 6 SECONDS
 	power_cost = 50
 	shop_tier = 2
@@ -348,9 +344,9 @@
 		return FALSE
 
 	playsound(user, ARCFIEND_SOUND_TETHER_FIRE, 40, TRUE)
-	user.Beam(target, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi', icon_state = "biometal_tether_beam", time = 5)
-	new /obj/effect/temp_visual/arcfiend_flash(get_turf(target), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi', "biometal_tether_hook", 5, get_dir(user, target))
-	new /obj/effect/temp_visual/arcfiend_flash(get_turf(user), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_hook.dmi', "hook", 14, get_dir(user, target))
+	user.Beam(target, icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_tether.dmi', icon_state = "biometal_tether_beam", time = 5)
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(target), 'bastionstation/icons/obj/antags/arcfiend/arcfiend_tether.dmi', "biometal_tether_hook", 5, get_dir(user, target))
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(user), 'bastionstation/icons/effects/arcfiend/arcfiend_tether_hook.dmi', "hook", 14, get_dir(user, target))
 	user.visible_message(
 		span_danger("[user] flings a crackling hook of biometal at [target] and [pull_item ? "yanks it back" : "is reeled through the air"]!"),
 		span_notice("You fling a biometal hook at [target]."),
@@ -366,22 +362,16 @@
 //////////////////////////////////////////////////////////////////////////
 //------------------------------Lateral Laser---------------------------//
 //////////////////////////////////////////////////////////////////////////
-/**
- * A thin beam of flash-boiled nanites that goes through everything: walls, objects, people, even people lying on the floor.
- * It only reaches as far as the range it is set to. The nanites are superheated, and at the very end of their range they
- * rupture and detonate, which is where nearly all of the damage comes from. Before that the beam only scorches
- * what it passes through, and past that there is nothing left of it.
- */
 /// The beam of a lateral laser: a thin line of crackling electricity
 /obj/effect/projectile/tracer/arcfiend_lateral
 	name = "lateral beam"
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_fx.dmi'
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
 	icon_state = "lateral_laser_beam"
 
 /// The burst of ruptured nanites where the beam reaches the end of its range
 /obj/effect/projectile/impact/arcfiend_lateral
 	name = "ruptured nanites"
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_fx.dmi'
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
 	icon_state = "lateral_laser_rupture"
 
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral
@@ -411,7 +401,7 @@
 	power_damage = strong
 	damage = weak
 
-/// How much damage a hit does at this many tiles from where the beam started. Only the very end of the beam hurts.
+/// How much damage a hit does at this many tiles from where the beam started. Full damage only at the very end.
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/proc/damage_at_distance(distance)
 	if(distance > travel_range)
 		return 0
@@ -449,18 +439,15 @@
 	e_cost = 0
 	delay = 1.2 SECONDS
 
-
-/**
- * The gun that fires the lateral beam, grown from an arcfiend's hand. Using the gun in hand changes how far the beam reaches.
- */
+/// If you can spot the reference to the gun I based this lateral laser off of, you deserve a cookie
 /obj/item/gun/energy/arcfiend/lateral_laser
 	name = "lateral laser"
 	desc = "A thin biometal lance full of boiling nanites. Use it in hand to set the range."
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser.dmi'
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_lateral_laser.dmi'
 	icon_state = "lateral_laser"
 	inhand_icon_state = "lateral_laser"
-	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_lefthand.dmi'
-	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_righthand.dmi'
+	lefthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_lateral_laser_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_lateral_laser_righthand.dmi'
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_lateral_beam)
 	power_type = /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser
 
@@ -485,7 +472,7 @@
 	name = "Lateral Laser"
 	desc = "Your nanites boil inside a thin lance of biometal, then fire out of it as a beam."
 	shop_desc = "Grants you Lateral Laser, which grows a lance that fires a beam of boiling nanites through everything, including walls. The beam does little damage along its path, but the nanites burst at the range you set (4 tiles at most, use it in hand to change it) and deal heavy damage there. It is free to summon and put away, but each shot costs power and a charge. It holds 3 charges and regrows one every 10 seconds, even while put away."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_lateral_laser.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_lateral_laser.dmi'
 	button_icon_state = "lateral_laser"
 	shop_listed = TRUE
 	shop_tier = 2
@@ -544,18 +531,15 @@
 //////////////////////////////////////////////////////////////////////////
 //------------------------------Galvanic Prod---------------------------//
 //////////////////////////////////////////////////////////////////////////
-/**
- * A prod of crackling biometal that an arcfiend grows from their arm. Right-clicking someone with it
- * zaps them the way an emagged defibrillator does. The zaps cost its owner power, and it needs time to recharge.
- */
+/// Emagged defib but shaped like a big shocky stick. Right-click to stun, left-click to beat for 15 burn.
 /obj/item/melee/arcfiend_prod
 	name = "galvanic prod"
 	desc = "A biometal prod that grew out of an arcfiend's arm. Left-click to whack, right-click to zap."
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod.dmi'
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_galvanic_prod.dmi'
 	icon_state = "galvanic_prod"
 	inhand_icon_state = "galvanic_prod"
-	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod_lefthand.dmi'
-	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_galvanic_prod_righthand.dmi'
+	lefthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_galvanic_prod_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_galvanic_prod_righthand.dmi'
 	item_flags = ABSTRACT | DROPDEL
 	w_class = WEIGHT_CLASS_BULKY
 	// A plain hit is ordinary melee, so anything that reacts to melee hits, like Electrokinetic Smash, reacts to it
@@ -572,7 +556,7 @@
 	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
 	set_light_on(TRUE)
 
-/// A right-click zaps, costing power. A plain click is an ordinary hit with a spark, which is free.
+/// Right-click zaps through try_zap(), anything else is a normal hit
 /obj/item/melee/arcfiend_prod/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(user.istate & ISTATE_SECONDARY)
 		var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
@@ -587,7 +571,7 @@
 	name = "Galvanic Prod"
 	desc = "A prod of biometal grows out of your arm, crackling with current."
 	shop_desc = "Grants you Galvanic Prod, which grows a prod out of your arm. It is free to summon and put away. Left-click hits for 15 burn at no cost, while right-click zaps like an emagged defibrillator, draining stamina, knocking the target down and making them drop what they are holding. Each zap costs power and one of its 4 charges, which regrow every 40 seconds, even while put away."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_galvanic_prod.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_galvanic_prod.dmi'
 	button_icon_state = "galvanic_prod"
 	shop_listed = TRUE
 	shop_tier = 1

@@ -49,21 +49,21 @@
 		for(var/suffix in list("", "_on", "_off"))
 			TEST_ASSERT("[toggle.effect_state][suffix]" in icon_states(toggle.effect_icon), "[toggle_type] has no [toggle.effect_state][suffix] sprite")
 	var/list/effect_sprites = list(
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_overdrive.dmi' = list("overdrive_activate", "overdrive_trail"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi' = list("smash_hit", "smash_chain"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_sap_power.dmi' = list("sap_power_aura", "sap_power_link", "sap_power_source"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_surge_reflex.dmi' = list("surge_reflex"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap.dmi' = list("thunderclap_charge"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_struck.dmi' = list("thunderclap_struck"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_hook.dmi' = list("hook"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag.dmi' = list("arcfiend_emag"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_coilgun.dmi' = list("arcfiend_coilgun"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_injector.dmi' = list("arcfiend_injector"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser.dmi' = list("lateral_laser"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_lateral_laser_fx.dmi' = list("lateral_laser_beam", "lateral_laser_rupture"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether.dmi' = list("biometal_tether", "biometal_tether_hook", "biometal_tether_beam"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_lefthand.dmi' = list("biometal_tether"),
-		'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_tether_righthand.dmi' = list("biometal_tether"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_overdrive.dmi' = list("overdrive_activate", "overdrive_trail"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi' = list("smash_hit", "smash_chain"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi' = list("sap_power_aura", "sap_power_link", "sap_power_source"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_surge_reflex.dmi' = list("surge_reflex"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap.dmi' = list("thunderclap_charge"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_struck.dmi' = list("thunderclap_struck"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_tether_hook.dmi' = list("hook"),
+		'bastionstation/icons/obj/antags/arcfiend/arcfiend_emag.dmi' = list("arcfiend_emag"),
+		'bastionstation/icons/obj/antags/arcfiend/arcfiend_coilgun.dmi' = list("arcfiend_coilgun"),
+		'bastionstation/icons/obj/antags/arcfiend/arcfiend_injector.dmi' = list("arcfiend_injector"),
+		'bastionstation/icons/obj/antags/arcfiend/arcfiend_lateral_laser.dmi' = list("lateral_laser"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi' = list("lateral_laser_beam", "lateral_laser_rupture"),
+		'bastionstation/icons/obj/antags/arcfiend/arcfiend_tether.dmi' = list("biometal_tether", "biometal_tether_hook", "biometal_tether_beam"),
+		'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_tether_lefthand.dmi' = list("biometal_tether"),
+		'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_tether_righthand.dmi' = list("biometal_tether"),
 	)
 	for(var/sprite_file in effect_sprites)
 		for(var/sprite_state in effect_sprites[sprite_file])

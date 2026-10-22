@@ -176,7 +176,7 @@
 	name = "Overdrive Sprint"
 	desc = "Current surges through your legs, letting you run far faster and ignore wet floors. Drains power every second."
 	shop_desc = "Grants you Overdrive Sprint, a toggle that lets you run much faster and ignore slipping on wet floors. Drains power every second while active."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_overdrive_sprint.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_overdrive_sprint.dmi'
 	button_icon_state = "overdrive_sprint"
 	shop_listed = TRUE
 	shop_tier = 1
@@ -186,7 +186,7 @@
 		"Faster and cheaper to run.",
 		"Faster still, cheaper still.",
 	)
-	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_overdrive.dmi'
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_overdrive.dmi'
 	effect_state = "overdrive_legs"
 	effect_on_time = 7
 	effect_off_time = 9
@@ -227,7 +227,7 @@
 	name = "Brain Scramble"
 	desc = "Send a surge through a target's skull, scrambling their mind."
 	shop_desc = "Grants you Brain Scramble, a touch power that burns the target, drains their stamina and damages their brain. For 8 seconds they are confused, dizzy, slurring and clumsy."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_brain_scramble.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_brain_scramble.dmi'
 	button_icon_state = "brain_scramble"
 	click_to_activate = TRUE
 	needs_mob_target = TRUE
@@ -275,7 +275,7 @@
 	StartCooldown()
 	return TRUE
 
-/// What a scrambled brain does to someone: they are clumsy for as long as it lasts. Scrambling them again starts the time over.
+/// Brain Scramble's clumsiness. Scrambling again refreshes the duration.
 /datum/status_effect/arcfiend_scrambled
 	id = "arcfiend_scrambled"
 	status_type = STATUS_EFFECT_REFRESH
@@ -305,7 +305,7 @@
 	name = "Arc Discharge"
 	desc = "Hurl a bolt of lightning from your hand at a target."
 	shop_desc = "Grants you Arc Discharge, a ranged power that fires a bolt of lightning at a target you can see. It burns them, drains their stamina and briefly blinds them, then jumps to anyone standing near them. Shock immune targets are unaffected."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_arc_discharge.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_arc_discharge.dmi'
 	button_icon_state = "arc_discharge"
 	click_to_activate = TRUE
 	needs_mob_target = TRUE
@@ -398,12 +398,12 @@
 //-------------------------------Thunderclap----------------------------//
 //////////////////////////////////////////////////////////////////////////
 
-/// A burst of electricity around the arcfiend after a windup. It has no hand, using the power just starts it.
+/// No hand, using the power starts the windup
 /datum/action/cooldown/arcfiend/thunderclap
 	name = "Thunderclap"
 	desc = "Gather charge in your body, then release it all at once in a shockwave."
 	shop_desc = "Grants you Thunderclap. After a charge-up that everyone nearby can see, you release a shockwave that burns, drains the stamina of and flashes everyone in range, weaker the further they are from you. Anyone within 2 tiles is also thrown back."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_thunderclap.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_thunderclap.dmi'
 	button_icon_state = "thunderclap"
 	cooldown_time = 30 SECONDS
 	power_cost = 120
@@ -457,7 +457,7 @@
 	)
 	user.balloon_alert_to_viewers("charging!")
 	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_WINDUP, 80, TRUE, extrarange = 8)
-	add_visual(user, "charge", 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap.dmi', "thunderclap_charge")
+	add_visual(user, "charge", 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap.dmi', "thunderclap_charge")
 	// Moving doesn't interrupt it, being stunned or knocked out does
 	var/finished = do_after(user, get_windup(), progress = FALSE, timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_thunderclap")
 	remove_visual("charge")
@@ -489,7 +489,7 @@
 /// What the burst does to one person, depending on how far away they are
 /datum/action/cooldown/arcfiend/thunderclap/proc/hit_victim(mob/living/user, mob/living/victim, distance)
 	var/falloff = get_falloff(distance)
-	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_struck.dmi', "thunderclap_struck", 5)
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_struck.dmi', "thunderclap_struck", 5)
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		victim.apply_damage(get_burn() * falloff, BURN)
 		victim.apply_damage(get_stamina() * falloff, STAMINA)
@@ -505,9 +505,9 @@
 		victim.throw_at(away, get_throw_distance(), 2, user, spin = FALSE)
 
 
-/// The ring of lightning that spreads out from an arcfiend when Thunderclap goes off. The sprite is 160x160 and is scaled up to the range of the burst.
+/// Thunderclap's ring. The 160x160 sprite is scaled to the burst's range.
 /obj/effect/temp_visual/arcfiend_thunderclap
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_thunderclap_160.dmi'
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_160.dmi'
 	icon_state = "thunderclap_release"
 	duration = 1 SECONDS // The frames add up to this
 	randomdir = FALSE
@@ -530,7 +530,7 @@
 	name = "Electrokinetic Smash"
 	desc = "Current runs through your fists and weapons, making every blow hit harder and shock."
 	shop_desc = "Grants you Electrokinetic Smash, a toggle that makes your unarmed attacks and weapons hit harder. In combat mode, every hit also burns and can arc to people nearby. Drains power every second, and a little more with each hit."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electrokinetic_smash.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_electrokinetic_smash.dmi'
 	button_icon_state = "electrokinetic_smash"
 	shop_listed = TRUE
 	shop_tier = 2
@@ -540,7 +540,7 @@
 		"Hits 30% harder, more burn, arcs more often.",
 		"Hits 40% harder, more burn, arcs can reach two others.",
 	)
-	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi'
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi'
 	effect_state = "smash_arms"
 	effect_on_time = 7
 	effect_off_time = 9
@@ -628,7 +628,7 @@
 			return
 		var/mob/living/next_victim = pick(candidates)
 		already_hit += next_victim
-		source.Beam(next_victim, icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_electrokinetic_smash.dmi', icon_state = "smash_chain", time = 5)
+		source.Beam(next_victim, icon = 'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi', icon_state = "smash_chain", time = 5)
 		damage = round(damage * 0.6)
 		shock(next_victim, damage, "A stray arc of electricity shocks you!")
 		source = next_victim
@@ -652,7 +652,7 @@
 	name = "Myoelectric Stimulation"
 	desc = "Current drives your arm muscles far past their normal limits, letting you work, attack and shoot faster."
 	shop_desc = "Grants you Myoelectric Stimulation, a toggle that lets you work, attack, shoot and click faster. Drains power every second while active."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_myoelectric_stimulation.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_myoelectric_stimulation.dmi'
 	button_icon_state = "myoelectric_stimulation"
 	shop_listed = TRUE
 	shop_tier = 2
@@ -662,7 +662,7 @@
 		"Work 35% quicker, attack 30% faster. Cheaper to run.",
 		"Work 45% quicker, attack 40% faster. Cheaper still.",
 	)
-	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_myoelectric.dmi'
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_myoelectric.dmi'
 	effect_state = "myoelectric_arms"
 	effect_on_time = 7
 	effect_off_time = 12
@@ -706,7 +706,7 @@
 	name = "Jamming Field"
 	desc = "A field of electrical interference radiates from your body, killing nearby radios, PDAs and sensors."
 	shop_desc = "Grants you Jamming Field, a toggle that disables radios, PDAs, GPS and suit sensors near you. You glow while it is active, making it obvious who is responsible. Drains power every second."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jamming_field.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jamming_field.dmi'
 	button_icon_state = "jamming_field"
 	shop_listed = TRUE
 	shop_tier = 2
@@ -720,7 +720,7 @@
 	var/obj/item/jammer/arcfiend/field
 	/// The aura's name
 	var/aura_name = "arcfiend_jamming_aura"
-	effect_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_jamming.dmi'
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_jamming.dmi'
 	effect_state = "jamming_aura"
 	effect_on_time = 8
 	effect_off_time = 5
@@ -753,15 +753,15 @@
 //////////////////////////////////////////////////////////////////////////
 //------------------------------Electric Emag---------------------------//
 //////////////////////////////////////////////////////////////////////////
-/// A card of crackling biometal an arcfiend grows from their hand. Using it costs power, depending on what it is used on.
+/// Paid for in its owner's power, see get_emag_cost()
 /obj/item/card/emag/arcfiend
 	name = "electric emag"
 	desc = "A card of biometal grown out of an arcfiend's hand. It hacks whatever it touches, expending power."
-	icon = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag.dmi'
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_emag.dmi'
 	icon_state = "arcfiend_emag"
 	inhand_icon_state = "arcfiend_emag"
-	lefthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag_lefthand.dmi'
-	righthand_file = 'monkestation/code/modules/antagonists/arcfiend/icons/arcfiend_emag_righthand.dmi'
+	lefthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_emag_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_emag_righthand.dmi'
 	item_flags = NO_MAT_REDEMPTION | NOBLUDGEON | ABSTRACT | DROPDEL
 	slot_flags = NONE
 	microwaveable = FALSE
@@ -811,7 +811,7 @@
 	name = "Electric Emag"
 	desc = "Your nanites shape a card of biometal in your hand that hacks whatever it touches."
 	shop_desc = "Grants you Electric Emag, which grows an emag in your hand. It is free to summon and put away, but every hack costs power. Doors are cheap, consoles cost more, and cyborgs cost a great deal."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_electric_emag.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_electric_emag.dmi'
 	button_icon_state = "electric_emag"
 	shop_listed = TRUE
 	shop_tier = 2
@@ -833,7 +833,7 @@
 	name = "EMP Burst"
 	desc = "You discharge your stored power in a single pulse of electromagnetic interference."
 	shop_desc = "Grants you EMP Burst, which converts a third of your stored power into an EMP. The more power you had, the larger the radius. You and your belongings are unaffected, but other arcfiends are not."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_emp_burst.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_emp_burst.dmi'
 	button_icon_state = "emp_burst"
 	cooldown_time = 30 SECONDS
 	power_cost = 100
@@ -860,7 +860,7 @@
 	var/light_range = heavy_range + 2
 	owner.visible_message(span_danger("[owner] releases a thunderous electromagnetic pulse!"), span_notice("You release an electromagnetic pulse, spending [spent] power."))
 	playsound(owner, ARCFIEND_SOUND_EMP_BURST, 70, TRUE)
-	// Our own pulse never hurts us, but it does hurt anyone else, including other arcfiends
+	// Stops on_emp_act hurting us. Other arcfiends still get hit.
 	arcfiend.emitting_emp = TRUE
 	empulse(get_turf(owner), heavy_range, light_range, TRUE)
 	arcfiend.emitting_emp = FALSE
@@ -874,7 +874,7 @@
 	name = "Jolt"
 	desc = "Build up a lethal charge, then release it into the person you are touching."
 	shop_desc = "Grants you Jolt. After a long charge-up, you shock the person you are touching. In combat mode this stops their heart and burns them badly. Otherwise it acts as a defibrillator, and can even revive the dead. If it fails you still pay the cost, but you will sense why."
-	button_icon = 'monkestation/code/modules/antagonists/arcfiend/icons/action_jolt.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jolt.dmi'
 	button_icon_state = "jolt"
 	click_to_activate = TRUE
 	needs_mob_target = TRUE
@@ -907,8 +907,7 @@
 	else if(victim.stat != DEAD && !victim.undergoing_cardiac_arrest())
 		user.balloon_alert(user, "they don't need it!")
 		return FALSE
-	// Anyone who is dead can be tried, whether or not there is a soul in them and whether or not it will work.
-	// You only find out why it didn't after the charge is spent, as your intuition tells you.
+	// Any dead body can be tried. Why it failed is only told after the charge is spent, see get_failure_feeling().
 
 	var/level = get_level()
 	user.visible_message(
