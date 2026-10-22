@@ -62,6 +62,8 @@
 /obj/item/clothing/shoes/clown_shoes/moffers
 	name = "moffers"
 	desc = "No moths were harmed in the making of these slippers."
+	worn_icon = 'bastionstation/icons/mob/clothing/feet.dmi'
+	icon = 'bastionstation/icons/obj/clothing/shoes.dmi'
 	icon_state = "moffers"
 	squeak_sound = list('sound/effects/footstep/moffstep01.ogg'=1) //like sweet music to my ears
 
