@@ -2991,10 +2991,6 @@
 	},
 /turf/open/misc/asteroid/snow/airless,
 /area/centcom/syndicate_mothership)
-"aig" = (
-/obj/effect/turf_decal/siding/white,
-/turf/open/floor/plating/airless,
-/area/centcom/central_command_areas/admin)
 "aih" = (
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/smooth_half,
@@ -3151,8 +3147,9 @@
 /turf/open/floor/wood/tile,
 /area/centcom/central_command_areas/evacuation/ship)
 "aiD" = (
-/obj/structure/holosign/barrier/engineering,
-/turf/open/floor/iron/dark/smooth_large,
+/obj/effect/turf_decal/siding/white,
+/obj/structure/flora/bush/fullgrass/style_random,
+/turf/open/floor/grass,
 /area/centcom/central_command_areas/admin)
 "aiE" = (
 /obj/structure/table/wood,
@@ -5611,12 +5608,6 @@
 	},
 /turf/open/floor/iron,
 /area/centcom/central_command_areas/supply)
-"apk" = (
-/obj/effect/turf_decal/siding/white{
-	dir = 6
-	},
-/turf/open/floor/grass,
-/area/centcom/central_command_areas/admin)
 "apl" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
@@ -7329,6 +7320,13 @@
 /obj/machinery/atmospherics/pipe/smart/simple/general/visible,
 /turf/closed/indestructible/opsglass,
 /area/centcom/syndicate_mothership/expansion_bombthreat)
+"atW" = (
+/obj/effect/turf_decal/trimline/yellow/warning,
+/obj/effect/turf_decal/trimline/yellow/warning{
+	dir = 1
+	},
+/turf/open/floor/iron/dark/smooth_large/airless,
+/area/centcom/central_command_areas/admin)
 "atY" = (
 /obj/structure/railing/wood{
 	dir = 1
@@ -8601,6 +8599,10 @@
 	},
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/hall)
+"axC" = (
+/obj/structure/holosign/barrier/engineering,
+/turf/open/floor/iron/dark/smooth_large,
+/area/centcom/central_command_areas/admin)
 "axD" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -9328,12 +9330,6 @@
 	},
 /turf/open/floor/iron,
 /area/centcom/central_command_areas/supplypod/loading/two)
-"azt" = (
-/obj/effect/turf_decal/siding/white{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/centcom/central_command_areas/admin)
 "azu" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -9381,11 +9377,6 @@
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/centcom/central_command_areas/evacuation/ship)
-"azy" = (
-/obj/effect/turf_decal/siding/white,
-/obj/structure/flora/bush/fullgrass/style_random,
-/turf/open/floor/grass,
-/area/centcom/central_command_areas/admin)
 "azz" = (
 /obj/structure/table/reinforced,
 /obj/item/restraints/handcuffs/cable/zipties,
@@ -9765,11 +9756,10 @@
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/borbop)
 "aAC" = (
-/obj/effect/turf_decal/trimline/yellow/warning,
-/obj/effect/turf_decal/trimline/yellow/warning{
+/obj/effect/turf_decal/siding/white{
 	dir = 1
 	},
-/turf/open/floor/iron/dark/smooth_large/airless,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/admin)
 "aAD" = (
 /obj/effect/turf_decal/siding/wood{
@@ -10368,6 +10358,12 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/centcom/syndicate_mothership/expansion_chemicalwarfare)
+"aCs" = (
+/obj/effect/turf_decal/siding/white{
+	dir = 6
+	},
+/turf/open/floor/grass,
+/area/centcom/central_command_areas/admin)
 "aCt" = (
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/siding/wood,
@@ -10555,14 +10551,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/evacuation/ship)
-"aCU" = (
-/obj/effect/turf_decal/trimline/yellow/warning,
-/obj/effect/turf_decal/trimline/yellow/warning{
-	dir = 1
-	},
-/obj/structure/holosign/barrier/engineering,
-/turf/open/floor/iron/dark/smooth_large/airless,
-/area/centcom/central_command_areas/admin)
 "aCV" = (
 /obj/structure/flora/bush/large/style_3,
 /turf/open/floor/grass,
@@ -11120,6 +11108,13 @@
 /mob/living/basic/cow,
 /turf/open/floor/grass,
 /area/centcom/central_command_areas/hall)
+"aEA" = (
+/obj/effect/turf_decal/siding/white,
+/obj/machinery/light/street_lamp{
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/centcom/central_command_areas/admin)
 "aEB" = (
 /obj/structure/table/reinforced,
 /turf/open/floor/iron/white/corner{
@@ -11687,6 +11682,14 @@
 /obj/structure/centcom_item_spawner/gun_and_ammo_creator,
 /turf/open/indestructible/dark,
 /area/centcom/central_command_areas/firing_range)
+"aGe" = (
+/obj/effect/turf_decal/trimline/yellow/warning,
+/obj/effect/turf_decal/trimline/yellow/warning{
+	dir = 1
+	},
+/obj/structure/holosign/barrier/engineering,
+/turf/open/floor/iron/dark/smooth_large/airless,
+/area/centcom/central_command_areas/admin)
 "aGf" = (
 /obj/structure/table/wood,
 /obj/item/stack/medical/bruise_pack,
@@ -12105,6 +12108,9 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/botany)
+"aHo" = (
+/turf/open/floor/iron/dark/smooth_large/airless,
+/area/centcom/central_command_areas/admin)
 "aHp" = (
 /obj/machinery/clonepod{
 	req_access = list("genetics")
@@ -12280,9 +12286,6 @@
 /obj/machinery/light/floor/has_bulb,
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/admin_hangout)
-"aHQ" = (
-/turf/open/floor/iron/dark/smooth_large/airless,
-/area/centcom/central_command_areas/admin)
 "aHR" = (
 /obj/structure/bed/medical/emergency,
 /obj/machinery/iv_drip,
@@ -14627,6 +14630,10 @@
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
 /area/centcom/central_command_areas/arcade)
+"aOb" = (
+/obj/structure/holosign/barrier/engineering,
+/turf/open/floor/iron/dark/smooth_large/airless,
+/area/centcom/central_command_areas/admin)
 "aOc" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/siding/red{
@@ -14941,14 +14948,6 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/ferry)
-"aOR" = (
-/obj/effect/turf_decal/trimline/yellow/warning,
-/obj/effect/turf_decal/trimline/yellow/warning{
-	dir = 1
-	},
-/obj/structure/holosign/barrier/engineering,
-/turf/open/floor/iron/dark/smooth_large,
-/area/centcom/central_command_areas/admin)
 "aOS" = (
 /obj/effect/decal/remains/human,
 /obj/effect/decal/cleanable/blood/splatter,
@@ -16220,11 +16219,12 @@
 /turf/open/floor/iron/dark/textured_large,
 /area/centcom/syndicate_mothership/control)
 "aSs" = (
-/obj/effect/turf_decal/siding/white,
-/obj/machinery/light/street_lamp{
-	dir = 4
+/obj/effect/turf_decal/trimline/yellow/warning,
+/obj/effect/turf_decal/trimline/yellow/warning{
+	dir = 1
 	},
-/turf/open/floor/plating/airless,
+/obj/structure/holosign/barrier/engineering,
+/turf/open/floor/iron/dark/smooth_large,
 /area/centcom/central_command_areas/admin)
 "aSt" = (
 /obj/structure/fake_stairs/wood/directional/south,
@@ -18795,10 +18795,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/armory)
-"aZx" = (
-/obj/structure/holosign/barrier/engineering,
-/turf/open/floor/iron/dark/smooth_large/airless,
-/area/centcom/central_command_areas/admin)
 "aZz" = (
 /obj/item/bedsheet/medical,
 /obj/structure/bed,
@@ -21765,7 +21761,8 @@
 "fvD" = (
 /obj/machinery/door/airlock/centcom{
 	dir = 4;
-	name = "Ori's Office"
+	name = "Ori's Office";
+	lights = 0
 	},
 /obj/effect/mapping_helpers/airlock/access/any/admin/captain,
 /obj/structure/fans/tiny/forcefield{
@@ -22904,6 +22901,10 @@
 /obj/structure/railing/wood,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/evacuation)
+"hfY" = (
+/obj/effect/turf_decal/siding/white,
+/turf/open/floor/plating/airless,
+/area/centcom/central_command_areas/admin)
 "hgl" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 8
@@ -57968,7 +57969,7 @@ aaa
 aaa
 xZe
 xZe
-aHQ
+aHo
 aMJ
 xZe
 xZe
@@ -58224,11 +58225,11 @@ aaa
 aaa
 aaa
 xZe
-aig
-aHQ
+hfY
+aHo
+atW
+aHo
 aAC
-aHQ
-azt
 xZe
 aaa
 aaa
@@ -58481,11 +58482,11 @@ aaa
 aaa
 aaa
 ayp
-aSs
-aZx
-aCU
-aZx
-azt
+aEA
+aOb
+aGe
+aOb
+aAC
 ayp
 aaa
 aaa
@@ -58995,10 +58996,10 @@ aaa
 aaa
 aaa
 aOn
-azy
 aiD
-aOR
-aiD
+axC
+aSs
+axC
 bYp
 wfx
 exj
@@ -59252,7 +59253,7 @@ aaa
 aaa
 aaa
 aZf
-azy
+aiD
 yhF
 mUv
 yhF
@@ -59766,7 +59767,7 @@ aaa
 aaa
 aaa
 aZf
-azy
+aiD
 yhF
 mUv
 yhF
@@ -60023,7 +60024,7 @@ aaa
 aaa
 aaa
 aOn
-azy
+aiD
 yhF
 mUv
 yhF
@@ -60280,7 +60281,7 @@ kpH
 kpH
 kpH
 kpH
-apk
+aCs
 yhF
 mUv
 yhF
