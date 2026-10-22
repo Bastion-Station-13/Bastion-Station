@@ -81,6 +81,8 @@
 #define ACCESS_MEDICAL "medical"
 /// Access to the Morgue.
 #define ACCESS_MORGUE "morgue"
+/// Access to the secure morgue area.
+#define ACCESS_MORGUE_SECURE "morgue_secure"
 /// Access to the Pharmacy, or the smaller room in medical with the multiple chem dispensers and pill pressers. The Chemist's main position.
 #define ACCESS_PHARMACY "pharmacy"
 /// Access to the surgery rooms.

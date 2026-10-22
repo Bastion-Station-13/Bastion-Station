@@ -86,6 +86,21 @@
 	. = ..()
 	allowed += /obj/item/storage/bag/bio
 
+/obj/item/clothing/suit/toggle/labcoat/coroner
+	name = "coroner labcoat"
+	desc = "A suit that protects against minor chemical spills. Has a black stripe on the shoulder."
+	icon_state = "labcoat_coroner"
+
+/obj/item/clothing/suit/toggle/labcoat/coroner/Initialize(mapload)
+	. = ..()
+	allowed += list(
+		/obj/item/autopsy_scanner,
+		/obj/item/scythe,
+		/obj/item/shovel,
+		/obj/item/shovel/serrated,
+		/obj/item/trench_tool,
+	)
+
 /obj/item/clothing/suit/toggle/labcoat/science
 	name = "scientist labcoat"
 	desc = "A suit that protects against minor chemical spills. Has a purple stripe on the shoulder."
