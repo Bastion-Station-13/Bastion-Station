@@ -13500,18 +13500,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
-"deo" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/secondary/command)
 "dep" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -17098,16 +17086,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/service)
-"dZx" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/secondary/entry)
 "dZD" = (
 /obj/machinery/telecomms/server/presets/science,
 /obj/effect/turf_decal/tile/purple{
@@ -20769,7 +20747,6 @@
 	dir = 4
 	},
 /obj/machinery/status_display/ai/directional/north,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/cafeteria,
 /area/station/service/cafeteria)
 "eSq" = (
@@ -35770,13 +35747,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/maintenance/port/aft)
-"ipM" = (
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/white,
-/area/station/medical/medbay/lobby)
 "ipN" = (
 /obj/structure/cable,
 /obj/machinery/power/energy_accumulator/grounding_rod/anchored,
@@ -36765,15 +36735,6 @@
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron,
 /area/station/security/execution/transfer)
-"iCs" = (
-/obj/effect/turf_decal/trimline/hot_pink/filled/line{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron/dark/textured_edge{
-	dir = 1
-	},
-/area/station/security/prison/workout)
 "iCu" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -50897,13 +50858,6 @@
 /obj/effect/turf_decal/tile/green/anticorner/contrasted,
 /turf/open/floor/iron/telecomms,
 /area/station/tcommsat/server)
-"lPp" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/fore)
 "lPy" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/closet/firecloset,
@@ -66080,7 +66034,6 @@
 	c_tag = "Cargo - Waiting Room";
 	name = "cargo camera"
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "pBH" = (
@@ -67103,16 +67056,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
-"pNi" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/starboard)
 "pNq" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -70001,7 +69944,6 @@
 	},
 /obj/machinery/duct,
 /obj/machinery/light/directional/north,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/corner{
 	dir = 1
 	},
@@ -97795,7 +97737,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
 "xbu" = (
@@ -136255,7 +136196,7 @@ oYs
 rjk
 oYs
 oYs
-lPp
+fbU
 cZS
 cZS
 nvu
@@ -137857,7 +137798,7 @@ gqq
 tMo
 rjd
 pRS
-deo
+oHJ
 hNO
 mlE
 xWP
@@ -138037,7 +137978,7 @@ aaa
 aaa
 aaa
 sjt
-dZx
+kEn
 kJd
 wXj
 sjt
@@ -145068,7 +145009,7 @@ avR
 whK
 hiV
 uNY
-ipM
+fNm
 aJd
 gsH
 fNm
@@ -150693,7 +150634,7 @@ uYp
 phx
 kWB
 dCk
-pNi
+rTO
 dCd
 gft
 clO
@@ -155018,7 +154959,7 @@ mpg
 brG
 giW
 fiO
-iCs
+alt
 bJX
 onT
 nwv
