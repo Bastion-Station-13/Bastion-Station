@@ -1,0 +1,5 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - config: "The weight of the job overflow station trait has been reduced from 5 -> 2.5."
+  - config: "HOS, blueshield, and NT rep have been taken off the blacklist for job overflow (and bureaucratic error random events)."
