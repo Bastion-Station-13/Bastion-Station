@@ -464,3 +464,6 @@
   - code_imp: pygit2 version requirement changed from 1.16.0 to 1.18.0
   - code_imp: .sh versions of .bat files for mapmerge and updatepaths have been added,
       from cm-ss13
+2026-10-23:
+  Mantlecrawler:
+  - rscadd: adult catergory in library changed to Poetry
