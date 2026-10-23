@@ -1,0 +1,1 @@
+/obj/structure/bookcase/random/adult : /obj/structure/bookcase/random/poetry{@OLD}
