@@ -71,18 +71,18 @@
 		return EMBER_SETTING_WILDS
 	return EMBER_SETTING_STATION
 
-/datum/martial_art/ember_drake/proc/scale_damage(mob/living/user, mob/living/target, damage)
-	switch(get_setting(user, target))
+/datum/martial_art/ember_drake/proc/scale_damage(setting, damage)
+	switch(setting)
 		if(EMBER_SETTING_FAUNA)
 			return damage * 2
 		if(EMBER_SETTING_STATION)
 			return damage * 0.8
 	return damage
 
-/datum/martial_art/ember_drake/proc/scale_stun(mob/living/user, mob/living/target, duration)
+/datum/martial_art/ember_drake/proc/scale_stun(setting, mob/living/target, duration)
 	if(ismegafauna(target))
 		return duration * 0.25
-	if(get_setting(user, target) == EMBER_SETTING_STATION)
+	if(setting == EMBER_SETTING_STATION)
 		return duration * 0.5
 	return duration
 
@@ -102,7 +102,8 @@
 /datum/martial_art/ember_drake/proc/check_streak(mob/living/attacker, mob/living/defender)
 	if(findtext(streak, EMBER_BREATH_COMBO))
 		reset_streak()
-		return ember_breath(attacker, defender)
+		ember_breath(attacker, defender)
+		return TRUE
 	if(findtext(streak, DRAKES_BITE_COMBO))
 		reset_streak()
 		drakes_bite(attacker, defender)
@@ -127,48 +128,51 @@
 
 /datum/martial_art/ember_drake/proc/tail_lash(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "tail lashed (Ember Drake)")
+	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_SMASH)
 	playsound(defender, 'sound/effects/hit_kick.ogg', 50, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] lashes [defender] with [attacker.p_their()] tail!"),
 		span_userdanger("[attacker] lashes you with [attacker.p_their()] tail!"),
 	)
-	if(get_setting(attacker, defender) == EMBER_SETTING_FAUNA)
-		defender.apply_damage(scale_damage(attacker, defender, 20), BRUTE)
-		defender.Stun(scale_stun(attacker, defender, 2 SECONDS))
+	if(setting == EMBER_SETTING_FAUNA)
+		defender.apply_damage(scale_damage(setting, 20), BRUTE)
+		defender.Stun(scale_stun(setting, defender, 2 SECONDS))
 		return
-	defender.stamina?.adjust(-scale_damage(attacker, defender, 30))
+	defender.stamina?.adjust(-scale_damage(setting, 30))
 	defender.throw_at(get_edge_target_turf(defender, get_dir(attacker, defender)), 2, 2, attacker)
 
 // POCKET SAND!!!
 /datum/martial_art/ember_drake/proc/ash_in_the_eyes(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "threw ash in the eyes of (Ember Drake)")
+	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_DISARM)
 	playsound(defender, 'sound/weapons/thudswoosh.ogg', 50, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] throws a fistful of ash into [defender]'s eyes!"),
 		span_userdanger("[attacker] throws a fistful of ash into your eyes!"),
 	)
-	if(get_setting(attacker, defender) == EMBER_SETTING_FAUNA)
-		defender.apply_status_effect(/datum/status_effect/ember_drake_ashed, scale_stun(attacker, defender, 4 SECONDS))
+	if(setting == EMBER_SETTING_FAUNA)
+		defender.apply_status_effect(/datum/status_effect/ember_drake_ashed, scale_stun(setting, defender, 4 SECONDS))
 		return
 	defender.adjust_temp_blindness(3 SECONDS)
 	defender.set_eye_blur_if_lower(8 SECONDS)
 
 /datum/martial_art/ember_drake/proc/drakes_bite(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "drake bit (Ember Drake)")
+	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_BITE)
 	playsound(defender, 'sound/weapons/bite.ogg', 50, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] sinks [attacker.p_their()] teeth into [defender]!"),
 		span_userdanger("[attacker] sinks [attacker.p_their()] teeth into you!"),
 	)
-	if(get_setting(attacker, defender) == EMBER_SETTING_FAUNA)
-		defender.apply_damage(scale_damage(attacker, defender, 25), BRUTE)
+	if(setting == EMBER_SETTING_FAUNA)
+		defender.apply_damage(scale_damage(setting, 25), BRUTE)
 		attacker.heal_bodypart_damage(brute = 10)
 		return
 	var/zone = attacker.zone_selected
-	defender.apply_damage(scale_damage(attacker, defender, 25), BRUTE, zone, defender.run_armor_check(zone, MELEE))
+	defender.apply_damage(scale_damage(setting, 25), BRUTE, zone, defender.run_armor_check(zone, MELEE))
 	if(!iscarbon(defender))
 		return
 	var/mob/living/carbon/carbon_defender = defender
@@ -179,29 +183,31 @@
 
 /datum/martial_art/ember_drake/proc/pin_the_prey(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "pinned (Ember Drake)")
+	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_SMASH)
 	playsound(defender, 'sound/weapons/punch1.ogg', 50, TRUE, -1)
-	if(get_setting(attacker, defender) == EMBER_SETTING_FAUNA)
+	if(setting == EMBER_SETTING_FAUNA)
 		defender.visible_message(
 			span_danger("[attacker] pins [defender] in place!"),
 			span_userdanger("[attacker] pins you in place!"),
 		)
-		defender.Immobilize(scale_stun(attacker, defender, 4 SECONDS))
+		defender.Immobilize(scale_stun(setting, defender, 4 SECONDS))
 		return
 	defender.visible_message(
 		span_danger("[attacker] slams [defender] down and pins [defender.p_them()]!"),
 		span_userdanger("[attacker] slams you down and pins you!"),
 	)
-	defender.Knockdown(scale_stun(attacker, defender, 4 SECONDS))
+	defender.Knockdown(scale_stun(setting, defender, 4 SECONDS))
 	defender.grabbedby(attacker, TRUE)
 	if(attacker.pulling == defender)
 		attacker.setGrabState(GRAB_AGGRESSIVE)
 
 /datum/martial_art/ember_drake/proc/skin_the_hunt(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "skinned (Ember Drake)")
+	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_CLAW)
 	playsound(defender, 'sound/weapons/slash.ogg', 50, TRUE, -1)
-	if(get_setting(attacker, defender) == EMBER_SETTING_FAUNA)
+	if(setting == EMBER_SETTING_FAUNA)
 		var/kill_below = ismegafauna(defender) ? 0.1 : 0.25
 		if(defender.stat != DEAD && defender.health <= defender.maxHealth * kill_below)
 			finish_the_hunt(attacker, defender)
@@ -210,14 +216,14 @@
 			span_danger("[attacker] tears a strip of hide off [defender]!"),
 			span_userdanger("[attacker] tears a strip of hide off you!"),
 		)
-		defender.apply_damage(scale_damage(attacker, defender, 12), BRUTE)
+		defender.apply_damage(scale_damage(setting, 12), BRUTE)
 		return
 	defender.visible_message(
 		span_danger("[attacker] tears a strip of skin off [defender]!"),
 		span_userdanger("[attacker] tears a strip of skin off you!"),
 	)
 	var/zone = attacker.zone_selected
-	defender.apply_damage(scale_damage(attacker, defender, 12), BRUTE, zone, defender.run_armor_check(zone, MELEE))
+	defender.apply_damage(scale_damage(setting, 12), BRUTE, zone, defender.run_armor_check(zone, MELEE))
 	defender.apply_status_effect(/datum/status_effect/ember_flayed)
 	attacker.heal_bodypart_damage(brute = 6)
 
@@ -248,27 +254,27 @@
 	if(ash_breath?.IsAvailable())
 		log_combat(attacker, defender, "ember breathed (Ember Drake)")
 		ash_breath.Trigger(target = defender)
-		return TRUE
+		return
 	if(gene_breath?.IsAvailable())
 		log_combat(attacker, defender, "ember breathed (Ember Drake)")
 		attacker.setDir(get_dir(attacker, defender))
 		gene_breath.Trigger()
-		return TRUE
+		return
 	cinder_snap(attacker, defender)
-	return TRUE
 
 /datum/martial_art/ember_drake/proc/cinder_snap(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "cinder snapped (Ember Drake)")
+	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_CLAW)
 	playsound(defender, 'sound/magic/fireball.ogg', 40, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] snaps a burst of embers into [defender]'s face!"),
 		span_userdanger("[attacker] snaps a burst of embers into your face!"),
 	)
-	if(get_setting(attacker, defender) == EMBER_SETTING_FAUNA)
-		defender.apply_damage(scale_damage(attacker, defender, 12), BRUTE)
+	if(setting == EMBER_SETTING_FAUNA)
+		defender.apply_damage(scale_damage(setting, 12), BRUTE)
 		return
-	defender.apply_damage(scale_damage(attacker, defender, 12), BURN, BODY_ZONE_HEAD, defender.run_armor_check(BODY_ZONE_HEAD, FIRE))
+	defender.apply_damage(scale_damage(setting, 12), BURN, BODY_ZONE_HEAD, defender.run_armor_check(BODY_ZONE_HEAD, FIRE))
 	defender.adjust_fire_stacks(2)
 	defender.ignite_mob()
 
@@ -294,7 +300,7 @@
 			span_danger("[user] blocks [attack_text] and knocks [attacker] off balance!"),
 			span_userdanger("You block [attack_text]!"),
 		)
-		attacker.Stun(scale_stun(user, attacker, 4 SECONDS))
+		attacker.Stun(scale_stun(setting, attacker, 4 SECONDS))
 	else
 		user.visible_message(
 			span_danger("[user] blocks [attack_text]!"),
