@@ -2358,10 +2358,10 @@ GLOBAL_LIST_EMPTY(fire_appearances)
  * Human vs human attacks are handled in species code right now.
  */
 /mob/living/proc/apply_martial_art(mob/living/target, modifiers)
-	if(HAS_TRAIT(target, TRAIT_MARTIAL_ARTS_IMMUNE))
-		return MARTIAL_ATTACK_INVALID
 	var/datum/martial_art/style = mind?.martial_art
 	if (!style)
+		return MARTIAL_ATTACK_INVALID
+	if(HAS_TRAIT(target, TRAIT_MARTIAL_ARTS_IMMUNE) && !style.ignores_martial_arts_immunity)
 		return MARTIAL_ATTACK_INVALID
 	// will return boolean below since it's not invalid
 	if ((istate & ISTATE_CONTROL))
