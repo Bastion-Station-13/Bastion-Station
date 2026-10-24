@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/mecha/sentinel
-	desc = "A super-heavy seige walker, the Sentinel renders defenses to rubble."
+	desc = "An ordinarily-outdated heavy siege walker dating back to well before FTL technology, these designs were (and still are) rather impractical for anything other than long-range artillery fire. Someone at Nanotrasen, however, has a liking towards these vehicles, and this one has been redesigned with modern materials and a heavy laser cannon."
 	name = "\improper Sentinel"
 	icon = 'icons/mecha/largetanks.dmi'
 	icon_state = "sentinel"
@@ -86,7 +86,7 @@
 	build_all_button_icons()
 
 /obj/vehicle/sealed/mecha/sentinel/syntinel
-	desc = "A super-heavy seige walker, painted red and black, with its laser cannon swaped for a conventional one."
+	desc = "A heavy siege walker design copied from Nanotrasen's internal prototyping arm. Issues with replicating its heavy laser cannon have led to Scarborough Arms reverse-engineering the original pre-FTL cannon design and just putting it back in."
 	name = "\improper Syndicate Sentinel"
 	icon_state = "syntinel"
 	base_icon_state = "syntinel"
