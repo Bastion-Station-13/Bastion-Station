@@ -12,6 +12,7 @@
 	resistance_flags = FLAMMABLE
 	drop_sound = 'sound/items/handling/book_drop.ogg'
 	pickup_sound = 'sound/items/handling/book_pickup.ogg'
+	grind_results = list(/datum/reagent/cellulose = 15)
 	/// Maximum icon state number
 	var/maximum_book_state = 8
 	/// Game time in 1/10th seconds
@@ -100,6 +101,12 @@
 	user.visible_message(span_notice("[user] opens a book titled \"[book_data.title]\" and begins reading intently."))
 	credit_book_to_reader(user)
 	display_content(user)
+
+/obj/item/book/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+	if(burn_paper_product_attackby_check(attacking_item, user))
+		SStgui.close_uis(src)
+		return
+	. = ..()
 
 /obj/item/book/proc/is_carving_tool(obj/item/tool)
 	PRIVATE_PROC(TRUE)
