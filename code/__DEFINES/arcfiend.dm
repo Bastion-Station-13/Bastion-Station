@@ -52,8 +52,6 @@
 #define ARCFIEND_RIDE_TILE_COST 2
 /// Power drained each second while riding the cables, even when standing still
 #define ARCFIEND_RIDE_UPKEEP 1
-/// How far, in tiles, an arcfiend can see hidden cables
-#define ARCFIEND_CABLE_SIGHT_RANGE 5
 /// How long it takes to enter or to leave the cables
 #define ARCFIEND_RIDE_TRANSITION_TIME (1 SECONDS)
 /// How long an arcfiend is stunned for when an EMP throws them out of the cables

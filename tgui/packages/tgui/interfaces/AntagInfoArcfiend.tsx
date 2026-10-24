@@ -201,7 +201,8 @@ const GuideTab = () => {
         </GuideSection>
         <GuideSection title="Senses">
           You know what every wire does on any machine, bombs included. You have
-          a built-in diagnostic display, and you can see hidden cables nearby.
+          a built-in diagnostic display, and you can see every hidden cable you
+          have line of sight to, even while riding them.
         </GuideSection>
         <GuideSection title="Getting stronger">
           Spend power in the Upgrades tab to improve your powers, and in the New

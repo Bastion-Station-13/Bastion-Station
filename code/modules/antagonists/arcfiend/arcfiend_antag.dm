@@ -51,6 +51,11 @@
 	/// Set while we are casting our own EMP, so that it doesn't hurt us
 	var/emitting_emp = FALSE
 
+	/// The hidden cables we can see, as an assoc list of the cable's ref to the image of it shown to our client
+	var/list/cable_images = list()
+	/// The client the cable images were last shown to, so a reconnect gets them all again
+	var/client/cable_sight_client
+
 /datum/antagonist/arcfiend/New(give_objectives = TRUE)
 	. = ..()
 	src.give_objectives = give_objectives
@@ -67,14 +72,56 @@
 
 /datum/antagonist/arcfiend/Destroy()
 	QDEL_LIST_ASSOC_VAL(owned_powers)
+	clear_cable_sight()
 	return ..()
 
-/// Briefly shows every hidden cable around us, like a built-in T-ray scanner that only shows cables
 /datum/antagonist/arcfiend/proc/on_life(mob/living/source, seconds_per_tick)
 	SIGNAL_HANDLER
-	if(source.stat == DEAD || HAS_TRAIT(source, TRAIT_STASIS))
+	update_cable_sight()
+
+/datum/antagonist/arcfiend/proc/on_moved(mob/living/source)
+	SIGNAL_HANDLER
+	update_cable_sight()
+
+/// Shows every hidden cable under the floor that we have line of sight to. Called on life ticks, when we walk, and with every tile we ride.
+/datum/antagonist/arcfiend/proc/update_cable_sight()
+	var/mob/living/viewer = owner.current
+	var/client/viewer_client = viewer?.client
+	if(cable_sight_client != viewer_client)
+		clear_cable_sight()
+		cable_sight_client = viewer_client
+	if(!viewer_client)
 		return
-	t_ray_scan(source, 2 SECONDS, ARCFIEND_CABLE_SIGHT_RANGE)
+	var/turf/center = get_turf(viewer)
+	if(!center || viewer.stat == DEAD || HAS_TRAIT(viewer, TRAIT_STASIS))
+		clear_cable_sight()
+		return
+
+	var/list/seen_images = list()
+	for(var/obj/structure/cable/cable in view(viewer_client.view, center))
+		if(!HAS_TRAIT(cable, TRAIT_UNDERFLOOR))
+			continue
+		var/cable_ref = REF(cable)
+		var/image/cable_image = cable_images[cable_ref]
+		if(!cable_image)
+			cable_image = new(loc = get_turf(cable))
+			var/mutable_appearance/cable_appearance = new(cable)
+			cable_appearance.alpha = 128
+			cable_appearance.dir = cable.dir
+			cable_image.appearance = cable_appearance
+			viewer_client.images += cable_image
+		seen_images[cable_ref] = cable_image
+
+	for(var/cable_ref in cable_images)
+		if(!seen_images[cable_ref])
+			viewer_client.images -= cable_images[cable_ref]
+	cable_images = seen_images
+
+/datum/antagonist/arcfiend/proc/clear_cable_sight()
+	for(var/cable_ref in cable_images)
+		cable_sight_client?.images -= cable_images[cable_ref]
+	cable_images = list()
+	cable_sight_client = null
 
 /// A grounding implant shuts off everything but sapping and charging, including whatever was already running
 /datum/antagonist/arcfiend/proc/on_grounded(mob/living/source)
@@ -121,6 +168,7 @@
 	RegisterSignal(current_mob, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(on_drop_key))
 	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+	RegisterSignal(current_mob, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(current_mob, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), PROC_REF(on_grounded))
 	RegisterSignal(current_mob, SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED), PROC_REF(on_ungrounded))
 
@@ -139,7 +187,8 @@
 	current_mob.remove_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE, TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD, TRAIT_HEART_ATTACK_IMMUNE), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.hide_from(current_mob)
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED)))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE, COMSIG_MOVABLE_MOVED, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED)))
+	clear_cable_sight()
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.RemoveInvisibility(type)
 		current_mob.hud_used.arcfiend_counter.maptext = ""

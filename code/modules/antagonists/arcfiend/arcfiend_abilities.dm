@@ -716,6 +716,8 @@
 	. = ..()
 	known_dirs = arcfiend_cable_dirs(get_turf(src))
 	spark?.forceMove(get_turf(src))
+	var/datum/antagonist/arcfiend/arcfiend = arcfiend_ref?.resolve()
+	arcfiend?.update_cable_sight()
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning/process(seconds_per_tick)
 	// The cable we're riding on has been removed entirely
