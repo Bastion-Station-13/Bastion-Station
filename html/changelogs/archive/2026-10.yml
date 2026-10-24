@@ -467,3 +467,20 @@
 2026-10-23:
   Mantlecrawler:
   - rscadd: adult catergory in library changed to Poetry
+2026-10-24:
+  Absolucy:
+  - balance: Abductors can no longer teleport if they have a bluespace body bag in
+      their inventory.
+  JupiterJaeden:
+  - config: The weight of the job overflow station trait has been reduced from 5 ->
+      2.5.
+  - config: HOS, blueshield, and NT rep have been taken off the blacklist for job
+      overflow (and bureaucratic error random events).
+  LettuceGuardian:
+  - bugfix: Guardsman helmet mob side view being misaligned
+  SirNightKnight:
+  - balance: the laser cannon can now be worn on your back.
+  - bugfix: fixed the laser cannon worn sprite not showing properly
+  ashallaryn:
+  - image: modified oozeling "retract limb" "regrow limb" "toggle core signal" and
+      "toggle cleaning" HUD button icons
