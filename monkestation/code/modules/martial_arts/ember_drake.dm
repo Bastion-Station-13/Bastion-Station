@@ -55,6 +55,7 @@
 	if(isliving(attacker) && (ismining(attacker) || ismegafauna(attacker)))
 		fauna_hit_time = world.time
 
+// 30% less damage from fauna
 /datum/martial_art/ember_drake/proc/on_damage_modifiers(mob/living/source, list/damage_mods, damage_amount, damagetype, def_zone, sharpness, attack_direction, obj/item/attacking_item)
 	SIGNAL_HANDLER
 	if(fauna_hit_time != world.time)
@@ -139,6 +140,7 @@
 	defender.stamina?.adjust(-scale_damage(attacker, defender, 30))
 	defender.throw_at(get_edge_target_turf(defender, get_dir(attacker, defender)), 2, 2, attacker)
 
+// POCKET SAND!!!
 /datum/martial_art/ember_drake/proc/ash_in_the_eyes(mob/living/attacker, mob/living/defender)
 	log_combat(attacker, defender, "threw ash in the eyes of (Ember Drake)")
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_DISARM)
@@ -240,12 +242,9 @@
 		if(ispath(trophy_type, /obj/item/crusher_trophy))
 			new trophy_type(drop_turf)
 
-/// Returns FALSE when the user has no fire breath at all, so H, D, H is just three normal hits
 /datum/martial_art/ember_drake/proc/ember_breath(mob/living/attacker, mob/living/defender)
 	var/datum/action/cooldown/mob_cooldown/fire_breath/ash_breath = locate() in attacker.actions
 	var/datum/action/cooldown/spell/cone/staggered/fire_breath/gene_breath = locate() in attacker.actions
-	if(!ash_breath && !gene_breath)
-		return FALSE
 	if(ash_breath?.IsAvailable())
 		log_combat(attacker, defender, "ember breathed (Ember Drake)")
 		ash_breath.Trigger(target = defender)
@@ -369,7 +368,7 @@ GAME_VERB_PROC_DESC(/mob/living/carbon/human, ember_drake_help, "Recall Teaching
 	to_chat(usr, span_notice("Drake's Bite</span>: Harm Harm Harm. A bite that always leaves a bleeding wound. On fauna it hits harder and heals you."))
 	to_chat(usr, span_notice("Pin the Prey</span>: Disarm Disarm Grab. Knocks people down into an aggressive grab. Pins fauna in place."))
 	to_chat(usr, span_notice("Skin the Hunt</span>: Grab Disarm Harm. Flays people, so melee hits them harder, and heals you a little. Finishes off badly wounded fauna and skins it on the spot."))
-	to_chat(usr, span_notice("Ember Breath</span>: Harm Disarm Harm. Fires your fire breath, if you have one. If it isn't ready, you snap a burst of embers at the target instead."))
+	to_chat(usr, span_notice("Ember Breath</span>: Harm Disarm Harm. Fires your fire breath, if you have one ready. If you don't, you snap a burst of embers at the target instead."))
 	to_chat(usr, "<b><i>Your art is strongest against fauna, fair against people in the wilds, and weaker on the station.</i></b>")
 	to_chat(usr, "<b><i>In throw mode you block melee attacks, and in the wilds you can deflect kinetic accelerator shots. Fauna can't bite as deep through your hide, goliath tentacles can't hold you, and your scales resist wounds.</i></b>")
 
