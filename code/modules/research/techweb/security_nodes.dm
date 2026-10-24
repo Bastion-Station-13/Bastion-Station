@@ -26,7 +26,7 @@
 	design_ids = list(
 		"pin_testing",
 		"tele_shield",
-		"mag_autorifle_rub",
+		"mag_autorifle_sting",
 		"lasershell",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_4_POINTS)
@@ -42,7 +42,7 @@
 		"pin_loyalty",
 		"lethal_c35",
 		"mag_autorifle",
-		"mag_autorifle_salt",
+		"mag_autorifle_laser",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_4_POINTS)
 	discount_experiments = list(/datum/experiment/scanning/points/machinery_tiered_scan/tier3_mechbay = TECHWEB_TIER_1_POINTS)

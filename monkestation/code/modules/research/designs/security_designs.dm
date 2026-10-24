@@ -32,45 +32,23 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
-/datum/design/mag_autorifle/ap_mag
-	name = "WT-550 Autorifle Armour Piercing Magazine (4.6x30mm AP) (Lethal)"
-	desc = "A 20 round armour piercing magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_ap"
-	materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT*15, /datum/material/silver = SHEET_MATERIAL_AMOUNT*0.3)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtap
-	category = list(
-					RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO
-	)
-	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
-
-/datum/design/mag_autorifle/ic_mag
-	name = "WT-550 Autorifle Incendiary Magazine (4.6x30mm IC) (Lethal/Highly Destructive)"
-	desc = "A 20 round armour piercing magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_ic"
+/datum/design/mag_autorifle/laser_mag
+	name = "WT-550 Autorifle Laser Magazine (4.6x30mm IC) (Lethal/Highly Destructive)"
+	desc = "A 20 round laser magazine for the WT-550 Autorifle."
+	id = "mag_autorifle_laser"
 	materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT*15, /datum/material/silver = SHEET_MATERIAL_AMOUNT*0.3, /datum/material/glass = SHEET_MATERIAL_AMOUNT*0.5)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtic
+	build_path = /obj/item/ammo_box/magazine/wt550m9/laser
 	category = list(
 					RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
-/datum/design/mag_autorifle/rub_mag
-	name = "WT-550 Autorifle Rubber Magazine (4.6x30mm R) (Lethal)"
-	desc = "A 20 round rubber magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_rub"
+/datum/design/mag_autorifle/sting_mag
+	name = "WT-550 Autorifle Stingball Magazine (4.6x30mm R) (Lethal)"
+	desc = "A 20 round stingball magazine for the out of date WT-550 Autorifle."
+	id = "mag_autorifle_sting"
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*3)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtrub
-	category = list(
-					RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO
-	)
-	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
-
-/datum/design/mag_autorifle/salt_mag
-	name = "WT-550 Autorifle Saltshot Magazine (4.6x30mm SALT) (Non-Lethal)"
-	desc = "A 20 round saltshot magazine for the out of date WT-550 Autorifle."
-	id = "mag_autorifle_salt"
-	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*3, /datum/material/plasma = SHEET_MATERIAL_AMOUNT*0.3)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtsalt
+	build_path = /obj/item/ammo_box/magazine/wt550m9/stingball
 	category = list(
 					RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO
 	)
