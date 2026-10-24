@@ -38,8 +38,14 @@ GLOBAL_REAL_VAR(list/available_interaction_modes = list(
 
 /datum/interaction_mode/proc/reload_hud(mob/M)
 	if (UI)
+<<<<<<< HEAD
 		owner.mob.hud_used?.static_inventory -= UI
 		QDEL_NULL(UI)
+=======
+		UI.hud?.static_inventory -= UI
+		qdel(UI)
+		UI = null
+>>>>>>> 8405389f (fix a new combat mode button being stacked on your hud every time you relog (#12808))
 	if (M.hud_used?.has_interaction_ui)
 		M.hud_used.static_inventory += procure_hud(owner.mob, owner.mob.hud_used)
 
