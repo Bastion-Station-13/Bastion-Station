@@ -477,27 +477,40 @@
 	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_BOOM, 100, TRUE, extrarange = 15)
 	user.flash_lighting_fx(7, 5, "#ffe94d", 1 SECONDS)
 	user.visible_message(span_danger("[user] releases a burst of electricity!"), span_notice("You release the charge."))
+	var/list/caught = list()
 	// One look around for both the people and the lights it reaches
 	for(var/atom/movable/nearby in view(get_outer_range(), user))
 		if(isliving(nearby))
 			var/mob/living/victim = nearby
 			if(victim != user && victim.stat != DEAD)
 				hit_victim(user, victim, get_dist(user, victim))
+				caught += victim
 		else if(istype(nearby, /obj/machinery/light) && prob(50))
 			INVOKE_ASYNC(nearby, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
+	if(!length(caught))
+		user.balloon_alert(user, "nobody caught!")
+		return
+	user.balloon_alert(user, "caught [length(caught)]!")
+	to_chat(user, span_notice("Your shockwave catches [english_list(caught)]."))
 
 /// What the burst does to one person, depending on how far away they are
 /datum/action/cooldown/arcfiend/thunderclap/proc/hit_victim(mob/living/user, mob/living/victim, distance)
 	var/falloff = get_falloff(distance)
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_struck.dmi', "thunderclap_struck", 5)
-	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+	do_sparks(2, FALSE, victim)
+	var/shock_immune = HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE)
+	if(!shock_immune)
 		victim.apply_damage(get_burn() * falloff, BURN)
 		victim.apply_damage(get_stamina() * falloff, STAMINA)
+		victim.set_jitter_if_lower(4 SECONDS * falloff)
 	victim.flash_act(1, visual = TRUE, length = 2.5 SECONDS * falloff)
 	if(victim.client)
 		shake_camera(victim, 3, 1)
 	if(distance > 2)
-		to_chat(victim, span_userdanger("A burst of electricity from [user] washes over you!"))
+		if(shock_immune)
+			to_chat(victim, span_warning("A burst of electricity from [user] washes harmlessly over you."))
+		else
+			to_chat(victim, span_userdanger("A burst of electricity from [user] washes over you, burning and draining you!"))
 		return
 	to_chat(victim, span_userdanger("A shockwave of electricity throws you away from [user]!"))
 	if(!victim.anchored)

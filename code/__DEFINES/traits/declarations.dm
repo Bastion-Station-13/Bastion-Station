@@ -736,6 +736,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_KNOW_ALL_WIRES "know_all_wires"
 /// Can't be given a heart attack by anything, but still needs a heart: once it is too damaged to work (failing) the heart stops as usual
 #define TRAIT_HEART_ATTACK_IMMUNE "heart_attack_immune"
+/// An arcfiend with this can't use any of their powers except sapping power and charging cells
+#define TRAIT_ARCFIEND_GROUNDED "arcfiend_grounded"
 #define TRAIT_ENTRAILS_READER "entrails_reader"
 #define TRAIT_SABRAGE_PRO "sabrage_pro"
 /// this skillchip trait lets you wash brains in washing machines to heal them

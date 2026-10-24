@@ -76,6 +76,31 @@
 		return
 	t_ray_scan(source, 2 SECONDS, ARCFIEND_CABLE_SIGHT_RANGE)
 
+/// A grounding implant shuts off everything but sapping and charging, including whatever was already running
+/datum/antagonist/arcfiend/proc/on_grounded(mob/living/source)
+	SIGNAL_HANDLER
+	to_chat(source, span_userdanger("Your current drains away into something in your chest. Your powers won't answer you!"))
+	for(var/power_type in owned_powers)
+		var/datum/action/cooldown/arcfiend/power = owned_powers[power_type]
+		if(power.works_while_grounded)
+			continue
+		var/datum/action/cooldown/arcfiend/toggle/toggle_power = power
+		if(istype(toggle_power) && toggle_power.active)
+			toggle_power.switch_off()
+		var/datum/action/cooldown/arcfiend/grown_item/grown_power = power
+		if(istype(grown_power))
+			grown_power.put_away(source)
+		if(source.click_intercept == power)
+			power.unset_click_ability(source, refund_cooldown = TRUE)
+		power.build_all_button_icons(UPDATE_BUTTON_STATUS)
+
+/datum/antagonist/arcfiend/proc/on_ungrounded(mob/living/source)
+	SIGNAL_HANDLER
+	to_chat(source, span_notice("The current flows freely through you again."))
+	for(var/power_type in owned_powers)
+		var/datum/action/cooldown/arcfiend/power = owned_powers[power_type]
+		power.build_all_button_icons(UPDATE_BUTTON_STATUS)
+
 /datum/antagonist/arcfiend/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
@@ -96,6 +121,8 @@
 	RegisterSignal(current_mob, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(on_drop_key))
 	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+	RegisterSignal(current_mob, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), PROC_REF(on_grounded))
+	RegisterSignal(current_mob, SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED), PROC_REF(on_ungrounded))
 
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.SetInvisibility(INVISIBILITY_NONE, id = type)
@@ -112,7 +139,7 @@
 	current_mob.remove_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE, TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD, TRAIT_HEART_ATTACK_IMMUNE), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.hide_from(current_mob)
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED)))
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.RemoveInvisibility(type)
 		current_mob.hud_used.arcfiend_counter.maptext = ""
@@ -337,9 +364,24 @@
 
 /datum/antagonist/arcfiend/roundend_report()
 	var/list/report = list()
-	report += ..()
-	report += "<br>They drained a total of <b>[round(total_drained)]</b> units of power."
-	return report.Join()
+	report += printplayer(owner)
+
+	var/objectives_complete = TRUE
+	if(length(objectives))
+		report += printobjectives(objectives)
+		for(var/datum/objective/objective as anything in objectives)
+			if(!objective.check_completion())
+				objectives_complete = FALSE
+				break
+
+	report += "They drained a total of <b>[round(total_drained)]</b> units of power."
+
+	if(objectives_complete)
+		report += span_greentext("The [LOWER_TEXT(name)] was successful!")
+	else
+		report += span_redtext("The [LOWER_TEXT(name)] has failed!")
+
+	return report.Join("<br>")
 
 /// Goon's arcfiends were asked to drain 3500-4000 power, in increments of 10
 /datum/objective/arcfiend_drain

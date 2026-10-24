@@ -9,6 +9,8 @@
 	check_flags = AB_CHECK_CONSCIOUS | AB_CHECK_HANDS_BLOCKED | AB_CHECK_IMMOBILE
 	/// Power spent each time this is used
 	var/power_cost = 0
+	/// Whether this still works with a grounding implant in
+	var/works_while_grounded = FALSE
 
 	/// Whether this power shows up in the shop
 	var/shop_listed = TRUE
@@ -250,6 +252,10 @@
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
 	if(!arcfiend)
 		return FALSE
+	if(!works_while_grounded && HAS_TRAIT(owner, TRAIT_ARCFIEND_GROUNDED))
+		if(feedback)
+			owner.balloon_alert(owner, "grounded!")
+		return FALSE
 	if(!arcfiend.has_power(power_cost))
 		if(feedback)
 			owner.balloon_alert(owner, "not enough power!")
@@ -261,6 +267,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/sap_power
 	name = "Sap Power"
+	works_while_grounded = TRUE
 	desc = "Your hand crackles, ready to drink the power out of whatever it touches."
 	shop_desc = "Grants you Sap Power, the ability to drain whatever you are touching. Machines and cables give a trickle of power, while living people and cyborgs give far more and are hurt in the process. Draining is loud and bright. The power also sates your hunger, but cannot make you fat."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_sap_power.dmi'
@@ -329,7 +336,7 @@
 	// The beam starts at the thing being drained and ends at the arcfiend, so the power flows into them
 	target.Beam(owner, icon = 'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	owner.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
-	playsound(target, ARCFIEND_SOUND_SAP_START, 60, TRUE, extrarange = 12)
+	playsound(target, ARCFIEND_SOUND_SAP_START, 40, TRUE, extrarange = -5)
 	owner.balloon_alert_to_viewers("sapping power!")
 
 /// Visuals and sound repeated every tick of a sap
@@ -337,7 +344,7 @@
 	target.Beam(owner, icon = 'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi', icon_state = "sap_power_link", time = 1.2 SECONDS)
 	do_sparks(3, FALSE, target)
 	do_sparks(2, FALSE, owner)
-	playsound(target, ARCFIEND_SOUND_SAP_LOOP, 100, TRUE, extrarange = 10)
+	playsound(target, ARCFIEND_SOUND_SAP_LOOP, 30, TRUE, extrarange = -5)
 	owner.flash_lighting_fx(4, 3, "#ffe94d", 1 SECONDS)
 	for(var/obj/machinery/light/nearby_light in range(3, target))
 		if(prob(40))
@@ -358,6 +365,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/charge
 	name = "Charge"
+	works_while_grounded = TRUE
 	desc = "Your nanites push your stored power out through your hands and into a cell."
 	shop_desc = "Grants you Charge, which spends your power to charge the cell of an item you are holding, or of a cyborg you are pulling. Magical items will not accept the charge."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_charge.dmi'
@@ -637,13 +645,24 @@
 	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lightning_riding.dmi'
 	icon_state = "arcfiend_lightning_ball_ride_lightning"
 	anchored = TRUE
-	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	plane = ABOVE_LIGHTING_PLANE
 	layer = FLY_LAYER
 	light_outer_range = 3
 	light_power = 1.5
 	light_color = "#ffe94d"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	/// The ride we follow, so a shot aimed at us reaches the rider
+	var/obj/effect/dummy/phased_mob/arcfiend_lightning/ride
+
+/obj/effect/arcfiend_spark/Destroy()
+	ride = null
+	return ..()
+
+/obj/effect/arcfiend_spark/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit = FALSE, blocked = 0)
+	var/mob/living/rider = ride?.jaunter
+	if(!isliving(rider))
+		return ..()
+	return rider.bullet_act(hitting_projectile, def_zone, piercing_hit, blocked)
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning
 	name = "electric arc"
@@ -657,16 +676,40 @@
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning/Initialize(mapload, atom/movable/jaunter)
 	. = ..()
-	var/mob/rider = jaunter
-	if(istype(rider))
-		arcfiend_ref = WEAKREF(rider.mind?.has_antag_datum(/datum/antagonist/arcfiend))
 	known_dirs = arcfiend_cable_dirs(get_turf(src))
 	spark = new(get_turf(src))
+	spark.ride = src
+	var/mob/living/rider = jaunter
+	if(istype(rider))
+		arcfiend_ref = WEAKREF(rider.mind?.has_antag_datum(/datum/antagonist/arcfiend))
+		RegisterSignal(rider, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_spark_color))
+		update_spark_color(rider)
 	START_PROCESSING(SSobj, src)
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning/Destroy()
 	STOP_PROCESSING(SSobj, src)
+	if(jaunter)
+		UnregisterSignal(jaunter, COMSIG_LIVING_HEALTH_UPDATE)
 	QDEL_NULL(spark)
+	return ..()
+
+/// The spark ball loses its colour as the rider gets hurt
+/obj/effect/dummy/phased_mob/arcfiend_lightning/proc/update_spark_color(mob/living/rider)
+	SIGNAL_HANDLER
+	spark?.color = color_matrix_saturation(clamp(rider.health / rider.maxHealth, 0, 1))
+
+/// Riding is slowed by injuries the same way walking is
+/obj/effect/dummy/phased_mob/arcfiend_lightning/proc/get_damage_slowdown(mob/living/rider)
+	if(LAZYACCESS(rider.movespeed_mod_immunities, /datum/movespeed_modifier/damage_slowdown))
+		return 0
+	var/datum/movespeed_modifier/damage_slowdown = LAZYACCESS(rider.movespeed_modification, "[/datum/movespeed_modifier/damage_slowdown]")
+	return damage_slowdown?.multiplicative_slowdown || 0
+
+/obj/effect/dummy/phased_mob/arcfiend_lightning/on_stat_change(mob/living/source, new_stat, old_stat)
+	if(source != jaunter || source.stat == CONSCIOUS)
+		return
+	to_chat(source, span_userdanger("You black out, and the wires spit you out!"))
+	do_sparks(3, FALSE, src)
 	return ..()
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
@@ -688,6 +731,7 @@
 /obj/effect/dummy/phased_mob/arcfiend_lightning/phased_check(mob/living/user, direction)
 	if(!(direction in GLOB.cardinals))
 		return
+	movespeed = initial(movespeed) + get_damage_slowdown(user)
 	var/turf/newloc = ..()
 	if(!newloc)
 		return
@@ -732,6 +776,7 @@
  * Like a changeling's Void Adaption, they are actions with owner_has_control off, so the shop and upgrades treat them like any other power.
  */
 /datum/action/cooldown/arcfiend/passive
+	works_while_grounded = TRUE
 	owner_has_control = FALSE
 	// There is no button whose status needs keeping up to date
 	check_flags = NONE
