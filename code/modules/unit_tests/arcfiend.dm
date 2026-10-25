@@ -903,7 +903,10 @@
 	TEST_ASSERT_NULL(corpse.client, "The corpse should have no player in it")
 	TEST_ASSERT_EQUAL(corpse.stat, DEAD, "The test could not kill the corpse")
 	var/power_before = antag.power
+	TEST_ASSERT(!jolt.Activate(corpse), "Jolt shouldn't go off without a charged hand")
+	jolt.charged = TRUE
 	TEST_ASSERT(jolt.Activate(corpse), "Jolt should go ahead on a corpse with no soul")
+	TEST_ASSERT(!jolt.charged, "Jolt should use up its charge")
 	TEST_ASSERT(corpse.stat != DEAD, "The corpse should have been brought back")
 	TEST_ASSERT_EQUAL(antag.power, power_before - 200, "Jolt should cost 200 power")
 
@@ -913,6 +916,7 @@
 	husk.death()
 	TEST_ASSERT_EQUAL(husk.stat, DEAD, "The test could not kill the husk")
 	jolt.next_use_time = 0
+	jolt.charged = TRUE
 	power_before = antag.power
 	TEST_ASSERT(jolt.Activate(husk), "Jolt should go ahead even though it will fail")
 	TEST_ASSERT_EQUAL(antag.power, power_before - 200, "Power should still be spent when the revival fails")

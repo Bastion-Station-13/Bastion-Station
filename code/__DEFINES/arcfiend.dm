@@ -4,7 +4,7 @@
 /// How much nutrition an arcfiend gets for every unit of power they sap, up to being full but never fat
 #define ARCFIEND_NUTRITION_PER_POWER 0.25
 
-/// The organ slot of the grounding implant, it is it's own so it never pushes out a spinal implant or occupies any slot in the chest.
+/// The organ slot of the grounding implant, it occupies it's own slot so it never competes for things like reviver implants or other cybernetics that go in the chest.
 #define ORGAN_SLOT_ARCFIEND_GROUNDING "arcfiend_grounding"
 
 /// The highest upgrade level any power has. Level 1 is the base power.
@@ -56,6 +56,8 @@
 #define ARCFIEND_RIDE_TRANSITION_TIME (1 SECONDS)
 /// How long an arcfiend is stunned for when an EMP throws them out of the cables
 #define ARCFIEND_RIDE_EMP_STUN (4 SECONDS)
+/// How long Jolt holds its charge before it fades
+#define ARCFIEND_JOLT_CHARGE_DURATION (10 SECONDS)
 /// How long an arcfiend is stunned for when a cable is cut out from under them
 #define ARCFIEND_RIDE_CUT_STUN (3 SECONDS)
 

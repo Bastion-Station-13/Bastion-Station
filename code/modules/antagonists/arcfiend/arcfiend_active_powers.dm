@@ -885,14 +885,14 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/jolt
 	name = "Jolt"
-	desc = "Build up a lethal charge, then release it into the person you are touching."
-	shop_desc = "Grants you Jolt. After a long charge-up, you shock the person you are touching. In combat mode this stops their heart and burns them badly. Otherwise it acts as a defibrillator, and can even revive the dead. If it fails you still pay the cost, but you will sense why."
+	desc = "Build up a powerful charge in your hand to stop or restart a heart."
+	shop_desc = "Grants you Jolt, which charges up your hand over a few seconds while you keep moving. Touch someone in combat mode to stop their heart and burn them badly, or out of combat mode to restart it like a defibrillator, even reviving the dead. Use the charge quickly, or it fades. A failed revival still costs the power, but you will sense why it failed."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jolt.dmi'
 	button_icon_state = "jolt"
 	click_to_activate = TRUE
 	needs_mob_target = TRUE
 	shows_hand = TRUE
-	hand_message = "Your hand is charged. Click someone next to you to jolt them, or use the power again to cancel. In combat mode it stops their heart, otherwise it restarts it."
+	hand_message = "Your hand is charged. Touch someone next to you to jolt them, or use the power again to let the charge go. In combat mode it stops their heart, otherwise it restarts it."
 	cooldown_time = 45 SECONDS
 	power_cost = 200
 	shop_tier = 3
@@ -902,10 +902,70 @@
 		"Faster charge and cooldown, more burn.",
 		"Faster still, even more burn.",
 	)
+	/// Whether we are in the middle of charging up
+	var/charging = FALSE
+	/// Whether our hand holds a charge, ready for the next touch
+	var/charged = FALSE
+	/// The timer that lets a held charge fade
+	var/charge_timer
+
+/datum/action/cooldown/arcfiend/jolt/Destroy()
+	deltimer(charge_timer)
+	return ..()
+
+/datum/action/cooldown/arcfiend/jolt/Trigger(trigger_flags, atom/target)
+	if(charging)
+		return FALSE
+	if(charged)
+		return ..()
+	if(!IsAvailable(feedback = TRUE))
+		return FALSE
+	INVOKE_ASYNC(src, PROC_REF(charge_up))
+	return TRUE
+
+/// The windup happens before the touch, and you can move while it builds
+/datum/action/cooldown/arcfiend/jolt/proc/charge_up()
+	var/mob/living/user = owner
+	charging = TRUE
+	user.visible_message(
+		span_danger("[user]'s hand starts to crackle with a building charge!"),
+		span_notice("You start gathering a massive charge in your hand..."),
+	)
+	playsound(user, ARCFIEND_SOUND_JOLT_WINDUP, 60, TRUE)
+	var/finished = do_after(user, list(6 SECONDS, 5 SECONDS, 4 SECONDS)[get_level()], timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_jolt")
+	charging = FALSE
+	if(QDELETED(src) || owner != user)
+		return
+	if(!finished || !IsAvailable())
+		user.balloon_alert(user, "interrupted!")
+		return
+	charged = TRUE
+	charge_timer = addtimer(CALLBACK(src, PROC_REF(lose_charge)), ARCFIEND_JOLT_CHARGE_DURATION, TIMER_STOPPABLE)
+	Trigger()
+
+/datum/action/cooldown/arcfiend/jolt/proc/lose_charge()
+	if(!charged)
+		return
+	to_chat(owner, span_warning("The charge in your hand fades away."))
+	if(owner?.click_intercept == src)
+		unset_click_ability(owner, refund_cooldown = TRUE)
+	else
+		discharge()
+
+/datum/action/cooldown/arcfiend/jolt/proc/discharge()
+	charged = FALSE
+	deltimer(charge_timer)
+	charge_timer = null
+
+/datum/action/cooldown/arcfiend/jolt/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
+	. = ..()
+	// Letting the charge go, rather than using it
+	if(refund_cooldown)
+		discharge()
 
 /datum/action/cooldown/arcfiend/jolt/Activate(atom/target)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
-	if(!arcfiend || !iscarbon(target) || target == owner)
+	if(!charged || !arcfiend || !iscarbon(target) || target == owner)
 		return FALSE
 	if(!owner.Adjacent(target))
 		owner.balloon_alert(owner, "too far away!")
@@ -922,19 +982,15 @@
 		return FALSE
 	// Any dead body can be tried. Why it failed is only told after the charge is spent, see get_failure_feeling().
 
-	var/level = get_level()
-	user.visible_message(
-		span_danger("[user] grips [victim] as a huge charge begins to build between them!"),
-		span_notice("You gather a massive charge, ready to [lethal ? "stop [victim]'s heart" : "restart [victim]'s heart"]."),
-	)
-	playsound(user, ARCFIEND_SOUND_JOLT_WINDUP, 60, TRUE)
-	var/datum/callback/still_valid = CALLBACK(src, PROC_REF(still_valid), victim, lethal)
-	if(!do_after(user, list(6 SECONDS, 5 SECONDS, 4 SECONDS)[level], victim, extra_checks = still_valid))
-		user.balloon_alert(user, "interrupted!")
-		return FALSE
 	if(!arcfiend.spend_power(power_cost))
 		return FALSE
+	discharge()
 
+	var/level = get_level()
+	user.visible_message(
+		span_danger("[user] slams a crackling hand into [victim]'s chest!"),
+		span_notice("You release the charge into [victim]."),
+	)
 	do_sparks(5, FALSE, victim)
 	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
 	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
@@ -944,10 +1000,6 @@
 		restart_heart(victim)
 	StartCooldown(list(45 SECONDS, 35 SECONDS, 25 SECONDS)[level])
 	return TRUE
-
-/// Whether the jolt can still go ahead, checked throughout the windup
-/datum/action/cooldown/arcfiend/jolt/proc/still_valid(mob/living/carbon/victim, was_lethal)
-	return owner && !QDELETED(victim) && !!(owner.istate & ISTATE_HARM) == was_lethal
 
 /datum/action/cooldown/arcfiend/jolt/proc/stop_heart(mob/living/carbon/victim, burn_damage)
 	victim.apply_damage(burn_damage, BURN, spread_damage = TRUE)
