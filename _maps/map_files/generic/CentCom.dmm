@@ -20087,6 +20087,9 @@
 	dir = 8
 	},
 /area/centcom/central_command_areas/evacuation)
+"cFq" = (
+/turf/open/floor/iron/white/smooth_large,
+/area/centcom/central_command_areas/admin)
 "cFY" = (
 /obj/structure/window/spawner/directional/west,
 /obj/structure/closet/wardrobe,
@@ -22403,7 +22406,7 @@
 /obj/structure/chair{
 	dir = 1
 	},
-/turf/open/floor/plating,
+/turf/open/floor/iron/white/smooth_large,
 /area/centcom/central_command_areas/admin)
 "guG" = (
 /obj/structure/closet,
@@ -27017,7 +27020,7 @@
 	name = "Jawbone";
 	desc = "A standard-issue pulse pistol with the name 'Jawbone' scratched into it."
 	},
-/turf/open/floor/plating,
+/turf/open/floor/iron/white/smooth_large,
 /area/centcom/central_command_areas/admin)
 "nfM" = (
 /obj/structure/sign/flag/nanotrasen/directional/east,
@@ -30789,7 +30792,7 @@
 /area/centcom/central_command_areas/evacuation)
 "tpY" = (
 /obj/structure/bed/maint,
-/turf/open/floor/plating,
+/turf/open/floor/iron/white/smooth_large,
 /area/centcom/central_command_areas/admin)
 "tqd" = (
 /mob/living/basic/monkey_animatronic,
@@ -31220,8 +31223,11 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/centcom)
 "tRP" = (
-/obj/structure/holosign/barrier/wetsign,
 /obj/effect/decal/cleanable/dirt,
+/obj/item/clothing/suit/caution{
+	pixel_x = -5;
+	pixel_y = -6
+	},
 /turf/open/floor/plating/rust,
 /area/centcom/central_command_areas/admin)
 "tRW" = (
@@ -33904,7 +33910,7 @@
 /area/space/nearstation)
 "xZi" = (
 /obj/structure/easel,
-/turf/open/floor/plating,
+/turf/open/floor/iron/white/smooth_large,
 /area/centcom/central_command_areas/admin)
 "xZW" = (
 /obj/structure/table/wood,
@@ -50844,7 +50850,7 @@ aaa
 aaa
 aOn
 tpY
-qGw
+cFq
 aOn
 aMc
 aMc
@@ -51101,7 +51107,7 @@ aaa
 aaa
 aOn
 neV
-qGw
+cFq
 eyM
 aMc
 wXS
