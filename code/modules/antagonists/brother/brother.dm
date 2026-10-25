@@ -42,28 +42,25 @@
 	owner.special_role = special_role
 	finalize_brother()
 
-	team.brothers_left -= 1
+	update_conversion_ability()
 
-	if (prob(team.brother_chance))
-		team.brothers_left += 1
-
-	if (team.brothers_left > 0)
-		var/mob/living/carbon/carbon_owner = owner.current
-		if (istype(carbon_owner))
+	// The big brother starts the bond, with a flash for every conversion the team rolled
+	var/mob/living/carbon/carbon_owner = owner.current
+	if(istype(carbon_owner) && !length(team.members - owner))
+		for(var/i in 1 to team.conversion_charges)
 			carbon_owner.equip_conspicuous_item(new /obj/item/assembly/flash)
-			carbon_owner.AddComponentFrom(REF(src), /datum/component/can_flash_from_behind)
-			RegisterSignal(carbon_owner, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, PROC_REF(on_mob_successful_flashed_carbon))
-
-			if (brotherRank > 0)
-				to_chat(carbon_owner, span_boldwarning("The Syndicate have higher expectations from you than others. They have granted you an extra flash to convert another person."))
-				carbon_owner.balloon_alert(carbon_owner, "extra flash granted!")
+		if(team.conversion_charges > 1)
+			to_chat(carbon_owner, span_boldwarning("The Syndicate have higher expectations from you than others. Your bond can convert [team.conversion_charges] people, and you have been given a flash for each."))
+			carbon_owner.balloon_alert(carbon_owner, "extra flashes granted!")
 
 	return ..()
 
 /datum/antagonist/brother/on_removal()
 	owner.special_role = null
-	owner.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
-	UnregisterSignal(owner, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+	var/mob/living/body = owner.current
+	if(body)
+		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+		UnregisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
 	return ..()
 
 // Apply team-specific antag HUD.
@@ -171,6 +168,18 @@
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into a blood brother.")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into a blood brother.")
 
+/datum/antagonist/brother/get_admin_commands()
+	. = ..()
+	.["Adjust conversion charges"] = CALLBACK(src, PROC_REF(admin_adjust_conversion_charges))
+
+/datum/antagonist/brother/proc/admin_adjust_conversion_charges(mob/admin)
+	var/amount = tgui_input_number(admin, "[team.name] can convert [team.conversion_charges] more. How many charges to add? Use a negative number to remove some.", "Adjust conversion charges", 0, 100, -team.conversion_charges)
+	if(!amount || QDELETED(team))
+		return
+	team.adjust_conversion_charges(amount)
+	message_admins("[key_name_admin(admin)] [amount > 0 ? "gave [amount] conversion charge\s to" : "took [-amount] conversion charge\s from"] [team.name], who now have [team.conversion_charges].")
+	log_admin("[key_name(admin)] [amount > 0 ? "gave [amount] conversion charge\s to" : "took [-amount] conversion charge\s from"] [team.name], who now have [team.conversion_charges].")
+
 /// Returns this brother's rank within the team, such as "Big Brother" or "Little Little Brother".
 /datum/antagonist/brother/proc/get_rank_title()
 	if(brotherRank <= 0)
@@ -203,6 +212,7 @@
 	data["rank"] = get_rank_title()
 	data["team_name"] = team?.name
 	data["conspirators"] = get_conspirator_data()
+	data["conversion_charges"] = team?.conversion_charges
 	data["gear_chosen"] = team?.chosen_gear?.name
 	data["gear_summoned"] = team?.summoned_gear
 	// Checking what can be crafted scans everything around the user, so only do it while the crafting tab is open.
@@ -303,10 +313,26 @@
 		var/link = FOLLOW_LINK(dead_mob, owner.current)
 		to_chat(dead_mob, "[link] [formatted_msg]", type = MESSAGE_TYPE_RADIO)
 
+/// Brothers can convert, and flash people from behind, for as long as the team has conversion charges left
+/datum/antagonist/brother/proc/update_conversion_ability()
+	var/mob/living/carbon/body = owner.current
+	if(!istype(body))
+		return
+	if(team?.conversion_charges > 0)
+		body.AddComponentFrom(REF(src), /datum/component/can_flash_from_behind)
+		RegisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, PROC_REF(on_mob_successful_flashed_carbon), override = TRUE)
+	else
+		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+		UnregisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+
 /datum/antagonist/brother/proc/on_mob_successful_flashed_carbon(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash)
 	//SIGNAL_HANDLER
 
 	if (flashed.stat == DEAD)
+		return
+
+	if (team.conversion_charges <= 0)
+		flashed.balloon_alert(source, "no conversions left!")
 		return
 
 	if (flashed.stat != CONSCIOUS)
@@ -357,6 +383,11 @@
 	popup = FALSE
 
 	if(response == "Become a brother")
+		// Another brother may have used the last charge while this one was deciding
+		if (team.conversion_charges <= 0)
+			flashed.balloon_alert(source, "no conversions left!")
+			flashed.SetSleeping(0 SECONDS)
+			return
 		if (!team.add_brother(flashed, key_name(source))) // Shouldn't happen given the former, more specific checks but just in case
 			flashed.balloon_alert(source, "failed!")
 			return
@@ -372,9 +403,7 @@
 			antagonist = owner.current, \
 		)
 		flashed.balloon_alert(source, "converted")
-
-		UnregisterSignal(source, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
-		source.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+		team.adjust_conversion_charges(-1)
 	else
 		team.rejected_brothers.Add(flashed)
 		source.balloon_alert(source, "[flashed.name] has rejected you")

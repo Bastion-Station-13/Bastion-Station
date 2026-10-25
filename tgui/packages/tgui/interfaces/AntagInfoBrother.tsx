@@ -53,6 +53,7 @@ type Data = {
   rank: string;
   team_name: string | null;
   conspirators: Conspirator[];
+  conversion_charges: number;
   gear_chosen: string | null;
   gear_summoned: BooleanLike;
 };
@@ -181,10 +182,14 @@ const ObjectivesTab = (props) => {
 
 const ConspiratorsTab = (props) => {
   const { data } = useBackend<Data>();
-  const { conspirators = [] } = data;
+  const { conspirators = [], conversion_charges = 0 } = data;
 
   return (
     <Section fill scrollable title="Conspirators">
+      <Box mb={1}>
+        Your bond can convert <b>{conversion_charges}</b> more{' '}
+        {conversion_charges === 1 ? 'person' : 'people'}.
+      </Box>
       {conspirators.length <= 1 && (
         <NoticeBox info>
           You have no brothers yet. Recruit someone with a flash to complete
@@ -344,9 +349,9 @@ const GUIDE_TOPICS: GuideTopic[] = [
           topic.
         </Box>
         <Box mb={1}>
-          Choose carefully. Once you recruit someone, you can't recruit anyone
-          else, so pick someone you can trust and who can help with your
-          objectives.
+          Choose carefully. Your bond can only convert so many people, usually
+          just one, so pick someone you can trust and who can help with your
+          objectives. The <b>Conspirators</b> tab shows how many you have left.
         </Box>
         <Box mb={2}>
           Until then, scout your targets and gather crafting materials. Your
@@ -364,9 +369,8 @@ const GUIDE_TOPICS: GuideTopic[] = [
           been planning for a while, so ask them what they need from you.
         </Box>
         <Box>
-          You usually won't get a flash of your own, but now and then the
-          Syndicate expects more from a recruit and grants an extra one. If that
-          happens, you can recruit another brother too.
+          If your bond still has conversions left, you can recruit too, with any
+          handheld flash. The <b>Conspirators</b> tab shows how many are left.
         </Box>
       </>
     ),
@@ -383,8 +387,9 @@ const GUIDE_TOPICS: GuideTopic[] = [
         </Box>
         <Box mb={1}>
           They fall asleep and are offered a place in your bond. The flash burns
-          out in the process. If they refuse, you can't try to recruit them
-          again.
+          out in the process. If they accept, it uses up one of your bond's
+          conversions. If they refuse, the conversion isn't used up, but you
+          can't try to recruit them again.
         </Box>
         <Box mb={1}>
           You can't recruit people who are mindshielded, people who already

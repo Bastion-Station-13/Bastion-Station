@@ -11,10 +11,17 @@
 	var/datum/bb_gear/chosen_gear
 	/// The index of GLOB.color_list_blood_brothers to use to generate the color.
 	var/static/next_color = 1
-	var/brothers_left = 2
+	/// How many more people the team can convert. Any brother can spend them.
+	var/conversion_charges = 1
+	/// Chance for the team to start with another conversion charge, rolled again after every success
 	var/brother_chance = 10
 	///List of people who rejected being our brother
 	var/list/rejected_brothers = list()
+
+/datum/team/brother_team/New(starting_members)
+	. = ..()
+	while(prob(brother_chance))
+		conversion_charges++
 
 /datum/team/brother_team/add_member(datum/mind/new_member)
 	. = ..()
@@ -44,6 +51,14 @@
 	var/datum/antagonist/brother/brother = new_brother.mind.has_antag_datum(/datum/antagonist/brother)
 	brother.brotherRank = members.len - 1
 	return TRUE
+
+/// Changes how many conversions the team has left, and lets every brother know
+/datum/team/brother_team/proc/adjust_conversion_charges(amount)
+	conversion_charges = max(conversion_charges + amount, 0)
+	for(var/datum/mind/member as anything in members)
+		var/datum/antagonist/brother/bond = member.has_antag_datum(/datum/antagonist/brother)
+		bond?.update_conversion_ability()
+		to_chat(member.current, span_notice("Your bond can convert [conversion_charges] more [conversion_charges == 1 ? "person" : "people"]."))
 
 /datum/team/brother_team/proc/update_name()
 	var/list/last_names = list()
