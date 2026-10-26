@@ -599,6 +599,12 @@ export const NaniteProgramHub = (props) => {
             onClick={() => act('toggle_details')}
           />
           <Button
+            icon="book"
+            content="Nanites for Dummies"
+            tooltip="Prints a copy of the nanite handbook"
+            onClick={() => act('print_manual')}
+          />
+          <Button
             icon="sync"
             content="Sync Research"
             onClick={() => act('refresh')}

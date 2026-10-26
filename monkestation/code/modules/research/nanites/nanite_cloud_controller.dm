@@ -25,6 +25,9 @@
 
 	var/datum/nanite_program/current_program	//The nanite program currently in the programming (middle) section.
 
+	/// Keeps the handbook from being printed over and over
+	COOLDOWN_DECLARE(manual_cooldown)
+
 /obj/machinery/computer/nanite_cloud_controller/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive(trait_source = ROUNDSTART_TRAIT)
@@ -54,6 +57,17 @@
 		return CLICK_ACTION_SUCCESS
 
 	return CLICK_ACTION_BLOCKING
+
+/// Prints a copy of the nanite handbook, not more often than the cooldown allows
+/obj/machinery/computer/nanite_cloud_controller/proc/print_manual(mob/user)
+	if(!COOLDOWN_FINISHED(src, manual_cooldown))
+		if(user)
+			balloon_alert(user, "printer is busy")
+		return FALSE
+	COOLDOWN_START(src, manual_cooldown, 10 SECONDS)
+	playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+	new /obj/item/book/manual/nanites(drop_location())
+	return TRUE
 
 /obj/machinery/computer/nanite_cloud_controller/proc/eject(mob/living/user)
 	if(!disk)
@@ -218,6 +232,9 @@
 	switch(action)
 		if("eject")
 			eject(usr)
+			. = TRUE
+		if("print_manual")
+			print_manual(usr)
 			. = TRUE
 		if("set_view")
 			current_view = text2num(params["view"])
