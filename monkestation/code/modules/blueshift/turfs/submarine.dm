@@ -66,6 +66,7 @@
 	baseturfs = /turf/open/water/overlay
 	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
 	planetary_atmos = FALSE
+	depth = WATER_DEPTH_LAND // draws its own water
 
 /turf/open/water/overlay/Initialize(mapload)
 	. = ..()
