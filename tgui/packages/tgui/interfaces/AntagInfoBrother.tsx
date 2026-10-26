@@ -248,7 +248,11 @@ const ConspiratorCard = (props: { conspirator: Conspirator }) => {
               {conspirator.location}
             </Box>
           ) : (
-            <Box color="label">Not shared</Box>
+            <Box color="label">
+              {conspirator.is_you
+                ? 'Not shared. Craft a Bond Beacon in the Crafting tab and use it to share it.'
+                : 'Not shared. They need to use a Bond Beacon to share it.'}
+            </Box>
           )}
         </LabeledList.Item>
         {hasBody && (
