@@ -541,6 +541,11 @@ export const NaniteCloudBackupDetails = (props) => {
                     </>
                   }
                 >
+                  {rules.length > 1 && (
+                    <Box mb={1} italic>
+                      {`Reads as: ${program.rule_summary}`}
+                    </Box>
+                  )}
                   {program.has_rules ? (
                     rules.map((rule) => (
                       <Box key={rule.id}>
@@ -556,7 +561,7 @@ export const NaniteCloudBackupDetails = (props) => {
                         />
                         <Button
                           icon="link"
-                          tooltip="Rules in the same group are combined with the opposite of meet all/any first"
+                          tooltip="Rules in the same group are combined the opposite way first: all of them when the program meets any, any of them when it meets all"
                           content={rule.group ? `Group ${rule.group}` : 'No group'}
                           onClick={() =>
                             act('cycle_rule_group', {

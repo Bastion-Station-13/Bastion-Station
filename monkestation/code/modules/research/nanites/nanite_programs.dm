@@ -236,6 +236,27 @@
 			return FALSE
 	return all_rules_required ? TRUE : FALSE
 
+//The rules written out the way check_conditions combines them, like (A AND B) OR C
+/datum/nanite_program/proc/get_rule_summary()
+	var/loose_join = all_rules_required ? " AND " : " OR "
+	var/group_join = all_rules_required ? " OR " : " AND "
+	var/list/parts = list()
+	var/list/seen_groups = list()
+	for(var/datum/nanite_rule/rule as anything in rules)
+		if(!rule.group)
+			parts += rule.display()
+			continue
+		var/group_key = "[rule.group]"
+		if(seen_groups[group_key])
+			continue
+		seen_groups[group_key] = TRUE
+		var/list/members = list()
+		for(var/datum/nanite_rule/member as anything in rules)
+			if(member.group == rule.group)
+				members += member.display()
+		parts += length(members) > 1 ? "([jointext(members, group_join)])" : members[1]
+	return jointext(parts, loose_join)
+
 //Constantly procs as long as the program is active
 /datum/nanite_program/proc/active_effect()
 	return

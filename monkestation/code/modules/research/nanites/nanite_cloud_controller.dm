@@ -183,6 +183,7 @@
 				if(LAZYLEN(rules))
 					cloud_program["has_rules"] = TRUE
 				cloud_program["all_rules_required"] = P.all_rules_required
+				cloud_program["rule_summary"] = P.get_rule_summary()
 
 				var/list/extra_settings = P.get_extra_settings_frontend()
 				cloud_program["extra_settings"] = extra_settings

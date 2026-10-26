@@ -109,6 +109,16 @@
 	set_rules(grouped, TRUE, list(list(TRUE, 1), list(TRUE, 1), list(FALSE, 0)))
 	TEST_ASSERT(!grouped.check_conditions(), "(true or true) and false passed")
 
+	// the summary shows how the rules are combined
+	set_rules(grouped, FALSE, list())
+	TEST_ASSERT_EQUAL(grouped.get_rule_summary(), "", "A program without rules has a rule summary")
+	set_rules(grouped, FALSE, list(list(TRUE, 1), list(FALSE, 1), list(FALSE, 0)))
+	TEST_ASSERT_EQUAL(grouped.get_rule_summary(), "(Fixed AND Fixed) OR Fixed", "The summary of (A and B) or C is wrong")
+	set_rules(grouped, TRUE, list(list(FALSE, 1), list(TRUE, 1), list(TRUE, 0)))
+	TEST_ASSERT_EQUAL(grouped.get_rule_summary(), "(Fixed OR Fixed) AND Fixed", "The summary of (A or B) and C is wrong")
+	set_rules(grouped, FALSE, list(list(TRUE, 0), list(TRUE, 0), list(TRUE, 2)))
+	TEST_ASSERT_EQUAL(grouped.get_rule_summary(), "Fixed OR Fixed OR Fixed", "The summary of loose rules or a group of one is wrong")
+
 	// the groups survive copying a program
 	set_rules(grouped, FALSE, list(list(TRUE, 1), list(FALSE, 1), list(FALSE, 0)))
 	var/datum/nanite_program/repeat/copy = allocate(/datum/nanite_program/repeat)

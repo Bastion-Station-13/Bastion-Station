@@ -48,7 +48,7 @@ A sensor can also be used as a rule for another program. Set the sensor up in th
 - **Meet any** needs one rule to be true.
 - **Groups** let you mix both. Rules in the same group are combined the opposite way first.
 
-With Meet any, a group of two rules means both must be true. A group with a brute rule and a burn rule, plus a loose health rule, reads as (brute and burn) or health. With Meet all, a group means any one of its rules will do.
+With Meet any, a group of two rules means both must be true. A group with a brute rule and a burn rule, plus a loose health rule, reads as (brute and burn) or health. With Meet all, a group means any one of its rules will do. The Reads as line above a program's rules shows exactly how they are combined.
 
 ## Signal Repeaters
 
