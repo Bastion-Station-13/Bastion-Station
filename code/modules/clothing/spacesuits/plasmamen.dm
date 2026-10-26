@@ -317,6 +317,12 @@
 	greyscale_colors = "#eeeeee#5fa4cc#bd6abd"
 	sleek_greyscale_colors = "#39393f#5fa4cc"
 
+/obj/item/clothing/head/helmet/space/plasmaman/coroner
+	name = "coroners's plasma envirosuit helmet"
+	desc = "An envirohelmet designed for plasmaman coroners, having more edge than the usual model."
+	icon_state = "coroner_envirohelm"
+	inhand_icon_state = null
+
 /obj/item/clothing/head/helmet/space/plasmaman/paramedic
 	name = "paramedic plasma envirosuit helmet"
 	desc = "An envirohelmet designed for plasmaman paramedics, with darker blue stripes compared to the medical model."

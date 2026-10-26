@@ -143,6 +143,7 @@
 		/obj/item/storage/backpack/explorer,
 		/obj/item/storage/backpack/mime,
 		/obj/item/storage/backpack/medic,
+		/obj/item/storage/backpack/coroner,
 		/obj/item/storage/backpack/security,
 		/obj/item/storage/backpack/industrial,
 		/obj/item/storage/backpack/botany,

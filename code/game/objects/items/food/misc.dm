@@ -468,11 +468,18 @@
 	food_reagents = list(
 		/datum/reagent/consumable/nutriment = 2,
 		/datum/reagent/consumable/nutriment/vitamin = 1,
+		/datum/reagent/consumable/pickle = 1,
 		/datum/reagent/medicine/antihol = 2,
 	)
 	tastes = list("pickle" = 1, "spices" = 1, "salt water" = 2)
 	foodtypes = VEGETABLES
 	w_class = WEIGHT_CLASS_SMALL
+	juice_results = list(/datum/reagent/consumable/pickle = 1)
+
+/obj/item/food/pickle/proc/check_liked(mob/living/carbon/human/consumer)
+	var/obj/item/organ/internal/liver/liver = consumer.get_organ_slot(ORGAN_SLOT_LIVER)
+	if(!HAS_TRAIT(consumer, TRAIT_AGEUSIA) && liver && HAS_TRAIT(liver, TRAIT_CORONER_METABOLISM))
+		return FOOD_LIKED
 
 /obj/item/food/springroll
 	name = "spring roll"

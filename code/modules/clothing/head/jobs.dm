@@ -580,6 +580,11 @@
 	desc = "A security red medical surgery cap to prevent the surgeon's hair from entering the insides of the patient!"
 	icon_state = "surgicalcapsec"
 
+/obj/item/clothing/head/utility/surgerycap/black
+	name = "black surgery cap"
+	icon_state = "surgicalcapblack"
+	desc = "A black medical surgery cap to prevent the surgeon's hair from entering the insides of the patient!"
+
 //Engineering
 /obj/item/clothing/head/beret/engi
 	name = "engineering beret"
