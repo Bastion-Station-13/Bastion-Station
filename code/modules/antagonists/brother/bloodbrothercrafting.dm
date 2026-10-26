@@ -461,6 +461,23 @@
 	)
 	time = 12 SECONDS
 
+/datum/crafting_recipe/blood_brother/pin_clamp
+	name = "Pin Clamp"
+	desc = "A clamp that crushes a gun's firing pin and jams an electronic one in its place, so pin locked guns work for anyone. Single use but works on guns with normally unremoveable firing pins."
+	category = CAT_BB_GADGETS
+	result = /obj/item/pin_clamp
+	reqs = list(
+		/obj/item/stack/sheet/iron = 2,
+		/obj/item/stack/rods = 2,
+		/obj/item/assembly/signaler = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+	tool_behaviors = list(
+		TOOL_WRENCH,
+		TOOL_SCREWDRIVER,
+	)
+	time = 8 SECONDS
+
 /datum/crafting_recipe/blood_brother/scrap_revolver
 	name = "Scrap Revolver"
 	desc = "A crude revolver built around a matter bin cylinder that can be modified to accept either .38 or 12 gauge rounds."
