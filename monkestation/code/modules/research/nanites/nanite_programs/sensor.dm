@@ -124,27 +124,44 @@
 
 /datum/nanite_program/sensor/nanite_volume
 	name = "Nanite Volume Sensor"
-	desc = "The nanites receive a signal when the nanite supply is above/below a certain percentage."
+	desc = "The nanites receive a signal when the nanite supply is above/below a certain percentage or amount."
 	can_rule = TRUE
 
 /datum/nanite_program/sensor/nanite_volume/register_extra_settings()
 	. = ..()
+	extra_settings[NES_MODE] = new /datum/nanite_extra_setting/boolean(TRUE, "Percentage", "Amount")
 	extra_settings[NES_NANITE_PERCENT] = new /datum/nanite_extra_setting/number(50, -99, 100, "%")
+	extra_settings[NES_NANITE_AMOUNT] = new /datum/nanite_extra_setting/number(250, 1, 5000, "nanites")
 	extra_settings[NES_DIRECTION] = new /datum/nanite_extra_setting/boolean(TRUE, "Above", "Below")
 
 /datum/nanite_program/sensor/nanite_volume/check_event()
-	var/nanite_percent = (nanites.nanite_volume - nanites.safety_threshold)/(nanites.max_nanites - nanites.safety_threshold)*100
-	var/datum/nanite_extra_setting/percent = extra_settings[NES_NANITE_PERCENT]
+	var/datum/nanite_extra_setting/mode = extra_settings[NES_MODE]
 	var/datum/nanite_extra_setting/direction = extra_settings[NES_DIRECTION]
+	var/nanite_level
+	var/threshold
+	if(mode.get_value())
+		var/datum/nanite_extra_setting/percent = extra_settings[NES_NANITE_PERCENT]
+		nanite_level = (nanites.nanite_volume - nanites.safety_threshold)/(nanites.max_nanites - nanites.safety_threshold)*100
+		threshold = percent.get_value()
+	else
+		var/datum/nanite_extra_setting/amount = extra_settings[NES_NANITE_AMOUNT]
+		nanite_level = nanites.nanite_volume
+		threshold = amount.get_value()
 
-	return direction.get_value() == nanite_percent >= percent.get_value()
+	return direction.get_value() == nanite_level >= threshold
 
 /datum/nanite_program/sensor/nanite_volume/make_rule(datum/nanite_program/target)
 	var/datum/nanite_rule/nanites/rule = new(target)
+	var/datum/nanite_extra_setting/mode = extra_settings[NES_MODE]
 	var/datum/nanite_extra_setting/direction = extra_settings[NES_DIRECTION]
-	var/datum/nanite_extra_setting/percent = extra_settings[NES_NANITE_PERCENT]
 	rule.above = direction.get_value()
-	rule.threshold = percent.get_value()
+	if(mode.get_value())
+		var/datum/nanite_extra_setting/percent = extra_settings[NES_NANITE_PERCENT]
+		rule.threshold = percent.get_value()
+	else
+		var/datum/nanite_extra_setting/amount = extra_settings[NES_NANITE_AMOUNT]
+		rule.use_amount = TRUE
+		rule.threshold = amount.get_value()
 	return rule
 
 /datum/nanite_program/sensor/damage

@@ -41,6 +41,7 @@
 #define NES_HEALTH_PERCENT "Health Percent"
 #define NES_DIRECTION "Direction"
 #define NES_NANITE_PERCENT "Nanite Percent"
+#define NES_NANITE_AMOUNT "Nanite Amount"
 #define NES_BLOOD_PERCENT "Blood Percent"
 #define NES_NUTRITION_PERCENT "Nutrition Percent"
 #define NES_DAMAGE_TYPE "Damage Type"

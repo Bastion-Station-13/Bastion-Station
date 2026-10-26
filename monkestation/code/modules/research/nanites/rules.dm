@@ -97,19 +97,26 @@
 
 	var/threshold = 50
 	var/above = TRUE
+	///Whether the threshold is an amount of nanites instead of a percentage
+	var/use_amount = FALSE
 
 /datum/nanite_rule/nanites/check_rule()
-	var/nanite_percent = (program.nanites.nanite_volume - program.nanites.safety_threshold)/(program.nanites.max_nanites - program.nanites.safety_threshold)*100
+	var/nanite_level
+	if(use_amount)
+		nanite_level = program.nanites.nanite_volume
+	else
+		nanite_level = (program.nanites.nanite_volume - program.nanites.safety_threshold)/(program.nanites.max_nanites - program.nanites.safety_threshold)*100
 
-	return above == nanite_percent >= threshold
+	return above == nanite_level >= threshold
 
 /datum/nanite_rule/nanites/copy_to(datum/nanite_program/new_program)
 	var/datum/nanite_rule/nanites/rule = new(new_program)
 	rule.above = above
 	rule.threshold = threshold
+	rule.use_amount = use_amount
 
 /datum/nanite_rule/nanites/display()
-	return "[name] [above ? ">" : "<"] [threshold]%"
+	return "[name] [above ? ">" : "<"] [threshold][use_amount ? " nanites" : "%"]"
 
 /datum/nanite_rule/damage
 	name = "Damage"
