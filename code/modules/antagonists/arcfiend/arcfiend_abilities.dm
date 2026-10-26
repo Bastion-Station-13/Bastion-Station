@@ -651,18 +651,21 @@
 	light_power = 1.5
 	light_color = "#ffe94d"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
-	/// The ride we follow, so a shot aimed at us reaches the rider
+	/// The ride we follow
 	var/obj/effect/dummy/phased_mob/arcfiend_lightning/ride
 
 /obj/effect/arcfiend_spark/Destroy()
 	ride = null
 	return ..()
 
+/// Shots can hit the ball, but only an EMP affects the arcfiend, by throwing them out of the wires (see the ride's emp_act)
 /obj/effect/arcfiend_spark/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit = FALSE, blocked = 0)
-	var/mob/living/rider = ride?.jaunter
-	if(!isliving(rider))
-		return ..()
-	return rider.bullet_act(hitting_projectile, def_zone, piercing_hit, blocked)
+	. = ..()
+	if(QDELETED(src) || !ride?.jaunter)
+		return
+	visible_message(span_warning("[hitting_projectile] fizzles harmlessly against [src]."))
+	if(ismob(hitting_projectile.firer))
+		balloon_alert(hitting_projectile.firer, "no effect, use an EMP!")
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning
 	name = "electric arc"
