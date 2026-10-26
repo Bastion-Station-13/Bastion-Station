@@ -1,10 +1,8 @@
 /// A colour matrix that turns whatever colours a sprite has into glowing yellows, keeping its brightness
 #define ARCFIEND_YELLOW_TINT list(0.45, 0.41, 0.135, 0.885, 0.805, 0.265, 0.165, 0.15, 0.05)
 
-/// The colour of the power cost drawn on an arcfiend's buttons
 #define ARCFIEND_COST_LABEL_COLOR "#ffe94d"
 
-/// What the electric emag costs to use on an ordinary object, its cheapest hack
 #define ARCFIEND_EMAG_OBJECT_COST 40
 /// What the electric emag costs to use on a cyborg, its most expensive hack (I really don't want to make arcfiends get a borg army THAT easily)
 #define ARCFIEND_EMAG_CYBORG_COST 1500
@@ -20,9 +18,7 @@
 /// The highest upgrade level any power has. Level 1 is the base power.
 #define ARCFIEND_MAX_POWER_LEVEL 3
 
-/// How many charges the galvanic prod holds
 #define ARCFIEND_PROD_MAX_CHARGES 4
-/// The pause between two zaps with the galvanic prod
 #define ARCFIEND_PROD_ZAP_DELAY (2 SECONDS)
 
 /// How much charge an ethereal loses for every unit of power an arcfiend drains out of them
@@ -56,24 +52,18 @@
 /// How much power must be drained from a mind, in total, before it counts towards the arcfiend's unlocks
 #define ARCFIEND_MIND_DRAIN_REQUIRED 80
 
-/// Power it costs to enter the cables with Ride the Lightning
 #define ARCFIEND_RIDE_ENTRY_COST 75
-/// Power it costs to move one tile along the cables
 #define ARCFIEND_RIDE_TILE_COST 2
 /// Power drained each second while riding the cables, even when standing still
 #define ARCFIEND_RIDE_UPKEEP 1
-/// How long it takes to enter or to leave the cables
 #define ARCFIEND_RIDE_TRANSITION_TIME (1 SECONDS)
-/// How long an arcfiend is stunned for when an EMP throws them out of the cables
 #define ARCFIEND_RIDE_EMP_STUN (4 SECONDS)
-/// How long Jolt holds its charge before it fades
-#define ARCFIEND_JOLT_CHARGE_DURATION (10 SECONDS)
-/// How long an arcfiend is stunned for when a cable is cut out from under them
 #define ARCFIEND_RIDE_CUT_STUN (3 SECONDS)
+
+#define ARCFIEND_JOLT_CHARGE_DURATION (10 SECONDS)
 
 /// How much the dark is lifted by Ampullary Sense. Ordinary night vision is LIGHTING_CUTOFF_HIGH (30).
 #define ARCFIEND_NIGHT_VISION_CUTOFF 50
-/// How much the dark is lifted by the upgraded Ampullary Sense
 #define ARCFIEND_NIGHT_VISION_CUTOFF_UPGRADED 75
 
 /// Burn damage an arcfiend takes from a heavy EMP
