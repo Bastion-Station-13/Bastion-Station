@@ -68,3 +68,5 @@
 /atom/movable/screen/alert/status_effect/electrified_bola
 	name = "Electrified Bola"
 	desc = "An electrified bola is attached to you. Remove it quickly!"
+	icon = 'bastionstation/icons/hud/screen_alert_blood_brother.dmi'
+	icon_state = "electrified_bola" //probably gonna move the icon to another folder, but rn this is fine to comply with asset modularization and not have any conflicts.
