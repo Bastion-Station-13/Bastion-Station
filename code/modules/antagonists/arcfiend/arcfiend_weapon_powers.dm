@@ -137,6 +137,12 @@
 /datum/action/cooldown/arcfiend/grown_item/gun/proc/get_shot_cost()
 	return 0
 
+/datum/action/cooldown/arcfiend/grown_item/gun/get_cost_text()
+	return "[get_shot_cost()] power per shot"
+
+/datum/action/cooldown/arcfiend/grown_item/gun/get_cost_label()
+	return "[get_shot_cost()]"
+
 /// Sets up the round that is about to be fired, for our upgrade level
 /datum/action/cooldown/arcfiend/grown_item/gun/proc/setup_projectile(obj/projectile/projectile)
 	return
@@ -594,6 +600,12 @@
 /// How much power a zap costs
 /datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/get_zap_cost()
 	return by_level(list(40, 32, 25))
+
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/get_cost_text()
+	return "[get_zap_cost()] power per zap. Hitting with it is free"
+
+/datum/action/cooldown/arcfiend/grown_item/shock_prod/get_cost_label()
+	return "[get_zap_cost()]"
 
 /datum/action/cooldown/arcfiend/grown_item/shock_prod/on_charge_regained()
 	update_prod_look()

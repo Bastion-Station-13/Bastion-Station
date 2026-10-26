@@ -569,6 +569,7 @@
 	power_levels[power_type] = current_level + 1
 	var/datum/action/cooldown/arcfiend/owned_power = get_power_instance(power_type)
 	owned_power?.on_upgraded()
+	owned_power?.build_all_button_icons(UPDATE_BUTTON_NAME | UPDATE_BUTTON_OVERLAY)
 	to_chat(owner.current, span_notice("You improve [prototype.name] to level [current_level + 1]."))
 	return TRUE
 
@@ -608,6 +609,8 @@
 		power_data["level"] = level
 		power_data["max_level"] = max_level
 		power_data["upgrade_descriptions"] = prototype.upgrade_descriptions
+		var/datum/action/cooldown/arcfiend/costed_power = get_power_instance(power_type) || prototype
+		power_data["use_cost"] = costed_power.get_cost_text()
 		var/cost
 		var/tier_needed
 		if(!owned)

@@ -1,6 +1,16 @@
 /// A colour matrix that turns whatever colours a sprite has into glowing yellows, keeping its brightness
 #define ARCFIEND_YELLOW_TINT list(0.45, 0.41, 0.135, 0.885, 0.805, 0.265, 0.165, 0.15, 0.05)
 
+/// The colour of the power cost drawn on an arcfiend's buttons
+#define ARCFIEND_COST_LABEL_COLOR "#ffe94d"
+
+/// What the electric emag costs to use on an ordinary object, its cheapest hack
+#define ARCFIEND_EMAG_OBJECT_COST 40
+/// What the electric emag costs to use on a cyborg, its most expensive hack (I really don't want to make arcfiends get a borg army THAT easily)
+#define ARCFIEND_EMAG_CYBORG_COST 1500
+/// How much of the full price each electric emag upgrade level pays
+#define ARCFIEND_EMAG_LEVEL_MULTIPLIERS list(1, 0.75, 0.5)
+
 /// How much nutrition an arcfiend gets for every unit of power they sap, up to being full but never fat
 #define ARCFIEND_NUTRITION_PER_POWER 0.25
 

@@ -26,6 +26,8 @@ type Power = {
   level: number;
   max_level: number;
   upgrade_descriptions: string[];
+  // What using the power costs at its current level, null if it's free
+  use_cost: string | null;
   // Null once a power is fully upgraded
   cost: number | null;
   // Not enough unique minds drained yet
@@ -334,6 +336,11 @@ const PowerEntry = (props: { power: Power }) => {
       }
     >
       <Box>{power.desc}</Box>
+      {!!power.use_cost && (
+        <Box mt={1} color={ARCFIEND_YELLOW}>
+          Use cost: {power.use_cost}.
+        </Box>
+      )}
       {!!power.locked && (
         <Box mt={1} color="bad" bold>
           Locked: hunt and drain {mindsShort} more different player

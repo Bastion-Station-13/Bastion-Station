@@ -30,6 +30,16 @@
 /datum/action/cooldown/arcfiend/toggle/proc/get_upkeep()
 	return 1
 
+/datum/action/cooldown/arcfiend/toggle/get_cost_text()
+	return "[get_upkeep_text()]. Needs at least [minimum_power_to_start] stored power to switch on"
+
+/// What keeping this switched on costs, the first part of the cost text
+/datum/action/cooldown/arcfiend/toggle/proc/get_upkeep_text()
+	return "[get_upkeep()] power every second while on"
+
+/datum/action/cooldown/arcfiend/toggle/get_cost_label()
+	return "[get_upkeep()]/s"
+
 /// Applies our effects to the owner. Override this.
 /datum/action/cooldown/arcfiend/toggle/proc/apply_effect(mob/living/user)
 	return
@@ -567,6 +577,12 @@
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_upkeep()
 	return 1
 
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_upkeep_text()
+	return "[get_upkeep()] power every second while on, plus [hit_cost] for every hit that shocks someone in combat mode"
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_cost_label()
+	return "[get_upkeep()]/s+"
+
 /// How much harder the weapons we swing and our punches hit
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/get_hit_multiplier()
 	return by_level(list(1.2, 1.3, 1.4))
@@ -789,7 +805,7 @@
 /obj/item/card/emag/arcfiend/proc/get_emag_cost(atom/target, datum/antagonist/arcfiend/arcfiend)
 	var/cost = 50
 	if(issilicon(target))
-		cost = 1500
+		cost = ARCFIEND_EMAG_CYBORG_COST
 	else if(istype(target, /obj/machinery/computer))
 		cost = 150
 	else if(istype(target, /obj/machinery/door))
@@ -797,9 +813,9 @@
 	else if(ismachinery(target))
 		cost = 100
 	else if(isobj(target))
-		cost = 40
+		cost = ARCFIEND_EMAG_OBJECT_COST
 	var/level = arcfiend.get_power_level(/datum/action/cooldown/arcfiend/grown_item/electric_emag)
-	return round(cost * list(1, 0.75, 0.5)[clamp(level, 1, 3)])
+	return round(cost * ARCFIEND_EMAG_LEVEL_MULTIPLIERS[clamp(level, 1, ARCFIEND_MAX_POWER_LEVEL)])
 
 /obj/item/card/emag/arcfiend/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(SHOULD_SKIP_INTERACTION(interacting_with, src, user))
@@ -836,6 +852,13 @@
 	)
 	grown_type = /obj/item/card/emag/arcfiend
 
+/datum/action/cooldown/arcfiend/grown_item/electric_emag/get_cost_text()
+	var/multiplier = by_level(ARCFIEND_EMAG_LEVEL_MULTIPLIERS)
+	return "[round(ARCFIEND_EMAG_OBJECT_COST * multiplier)] to [round(ARCFIEND_EMAG_CYBORG_COST * multiplier)] power per hack, depending on the target"
+
+/datum/action/cooldown/arcfiend/grown_item/electric_emag/get_cost_label()
+	return "[round(ARCFIEND_EMAG_OBJECT_COST * by_level(ARCFIEND_EMAG_LEVEL_MULTIPLIERS))]+"
+
 /datum/action/cooldown/arcfiend/grown_item/electric_emag/on_grown(mob/living/user, obj/item/grown)
 	user.visible_message(span_warning("A card of crackling biometal grows out of [user]'s hand!"), span_notice("You grow an electric emag."))
 
@@ -859,6 +882,12 @@
 	)
 	/// The fraction of our stored power the pulse takes
 	var/power_fraction = 0.33
+
+/datum/action/cooldown/arcfiend/emp_burst/get_cost_text()
+	return "a third of your stored power, at least [power_cost]"
+
+/datum/action/cooldown/arcfiend/emp_burst/get_cost_label()
+	return "1/3"
 
 /datum/action/cooldown/arcfiend/emp_burst/Activate(atom/target)
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()

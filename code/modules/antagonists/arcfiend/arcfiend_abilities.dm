@@ -46,11 +46,14 @@
 	var/hand_righthand_file
 	/// The overlays this power has put on things, assoc of key to a list of the thing and the overlay, so they can be taken off again
 	var/list/visuals
+	/// The cost label drawn on each of our buttons, assoc of the button's ref to the overlay, so it can be redrawn when the cost changes
+	var/list/cost_labels
 
 /datum/action/cooldown/arcfiend/Destroy()
 	QDEL_NULL(hand)
 	for(var/key in visuals?.Copy())
 		remove_visual(key)
+	cost_labels = null
 	return ..()
 
 /// Puts an overlay on something, replacing any this power already put there under the same key. If it is given a time, it comes off again by itself.
@@ -245,6 +248,41 @@
 /datum/action/cooldown/arcfiend/proc/by_level(list/values)
 	return values[get_level()]
 
+/// What using this power costs, for its tooltip and the shop. Null if it's free to use.
+/datum/action/cooldown/arcfiend/proc/get_cost_text()
+	if(power_cost > 0)
+		return "[power_cost] power"
+
+/// The same cost cut down to a few characters, drawn on the button
+/datum/action/cooldown/arcfiend/proc/get_cost_label()
+	if(power_cost > 0)
+		return "[power_cost]"
+
+/datum/action/cooldown/arcfiend/update_button_name(atom/movable/screen/movable/action_button/button, force = FALSE)
+	. = ..()
+	var/cost_text = get_cost_text()
+	if(button && cost_text)
+		button.desc = "[desc] Costs [cost_text]."
+
+/datum/action/cooldown/arcfiend/apply_button_overlay(atom/movable/screen/movable/action_button/current_button, force = FALSE)
+	. = ..()
+	if(QDELETED(current_button))
+		return
+	var/button_ref = REF(current_button)
+	current_button.cut_overlay(LAZYACCESS(cost_labels, button_ref))
+	LAZYREMOVE(cost_labels, button_ref)
+	var/cost_label = get_cost_label()
+	if(!cost_label)
+		return
+	var/mutable_appearance/label = mutable_appearance()
+	label.maptext = MAPTEXT_TINY_UNICODE("<span style='color: [ARCFIEND_COST_LABEL_COLOR]'>[cost_label]</span>")
+	label.maptext_width = 32
+	label.maptext_height = 10
+	label.maptext_x = 2
+	label.maptext_y = 22
+	current_button.add_overlay(label)
+	LAZYSET(cost_labels, button_ref, label)
+
 /datum/action/cooldown/arcfiend/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
@@ -379,6 +417,12 @@
 	)
 
 /// How many joules each unit of power buys when charging, from upgrades
+/datum/action/cooldown/arcfiend/charge/get_cost_text()
+	return "as much power as the cell takes"
+
+/datum/action/cooldown/arcfiend/charge/get_cost_label()
+	return null
+
 /datum/action/cooldown/arcfiend/charge/proc/get_joules_per_power()
 	return ARCFIEND_JOULES_PER_POWER * (1 + 0.5 * (get_level() - 1))
 
@@ -557,11 +601,21 @@
 
 /// Multiplier to what riding costs per tile and per second, from upgrades
 /proc/arcfiend_ride_cost_multiplier(datum/antagonist/arcfiend/arcfiend)
-	return 1 - 0.25 * (arcfiend.get_power_level(/datum/action/cooldown/arcfiend/ride_lightning) - 1)
+	return arcfiend_ride_cost_multiplier_at(arcfiend.get_power_level(/datum/action/cooldown/arcfiend/ride_lightning))
+
+/proc/arcfiend_ride_cost_multiplier_at(level)
+	return 1 - 0.25 * (level - 1)
 
 /// Whether we are currently riding the cables
 /datum/action/cooldown/arcfiend/ride_lightning/proc/riding()
 	return istype(owner?.loc, /obj/effect/dummy/phased_mob/arcfiend_lightning)
+
+/datum/action/cooldown/arcfiend/ride_lightning/get_cost_text()
+	var/multiplier = arcfiend_ride_cost_multiplier_at(get_level())
+	return "[ARCFIEND_RIDE_ENTRY_COST] power to enter, then [ARCFIEND_RIDE_TILE_COST * multiplier] per tile and [ARCFIEND_RIDE_UPKEEP * multiplier] per second. Leaving is free"
+
+/datum/action/cooldown/arcfiend/ride_lightning/get_cost_label()
+	return "[ARCFIEND_RIDE_ENTRY_COST]+"
 
 /datum/action/cooldown/arcfiend/ride_lightning/IsAvailable(feedback = FALSE)
 	// Leaving the cables is always free
