@@ -16,7 +16,7 @@ A signal is just a number from 1 to 9999. When something sends a number to a hos
 - **Activation** turns the program on.
 - **Deactivation** turns it off.
 - **Trigger** fires the program once, if it has something to fire.
-- **Kill** deletes the program for good.
+- **Kill** removes the program from the host. If the host is synced to a cloud, the program comes back at the next sync (every 30 seconds) unless it is also removed from the cloud backup.
 
 A code of 0 means the program ignores that slot. Programs only listen to the number, they don't care who sent it.
 
@@ -24,7 +24,7 @@ A code of 0 means the program ignores that slot. Programs only listen to the num
 
 - **Nanite remotes** send the number you set to the host you use them on. In relay mode they send it to every Relay program on a relay channel instead.
 - **Relay** nanites pass those long range signals on to their own host, but only when the relay channel matches.
-- **Sensors** and **Signal Repeaters** send signals on their own, see below.
+- **Sensors** send signals by themselves when their check changes, and **Signal Repeaters** send one when they are triggered, see below.
 
 ## So what is a sent signal?
 
@@ -40,9 +40,11 @@ A sensor checks something about the host, like their health, blood, nutrition, s
 - **Sent Code (Signal, Inverted)** is sent once when it stops being true.
 - **Sent Code (Trigger)** and **(Trigger, Inverted)** are only sent when the sensor itself gets triggered, one for a true check and one for a false check.
 
+Voice sensors are the exception. They don't wait for a change and have no trigger codes, they send their Sent Code every time they hear their phrase and the inverted one for anything else they hear.
+
 ## Rules
 
-A sensor can also be used as a rule for another program. Set the sensor up in the nanite programmer, then use Add Rule from Programmer on the program in the cloud controller. A program with rules only runs while its rules allow it, and a triggered program ignores triggers that its rules don't allow.
+A sensor can also be used as a rule for another program. Rules are added to programs in a cloud backup, and hosts pick them up at their next cloud sync. Get the sensor into the programming section of the nanite programmer and set it up, then open the program you want to limit in a cloud backup and press Add Rule from Programmer. A program with rules only runs while its rules allow it, and a triggered program ignores triggers that its rules don't allow.
 
 - **Meet all** needs every rule to be true.
 - **Meet any** needs one rule to be true.
