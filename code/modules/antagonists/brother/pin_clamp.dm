@@ -19,10 +19,11 @@
 		span_notice("You line the old pin up under the screw and start cranking..."),
 	)
 	playsound(gun, 'sound/items/ratchet.ogg', 50, TRUE)
-	if(!do_after(user, 3 SECONDS, gun) || !can_clamp(gun, user))
+	if(!do_after(user, 3 SECONDS, gun) || QDELETED(src) || !can_clamp(gun, user))
 		return ITEM_INTERACT_BLOCKING
 
 	var/obj/item/firing_pin/old_pin = gun.pin
+	var/old_pin_name = old_pin ? old_pin.name : "missing firing pin"
 	if(old_pin)
 		old_pin.gun_remove(user)
 		qdel(old_pin)
@@ -38,7 +39,7 @@
 		)
 	var/obj/item/firing_pin/new_pin = new(gun)
 	new_pin.gun_insert(user, gun)
-	user.log_message("replaced the [old_pin ? old_pin.name : "missing firing pin"] of [gun] with an electronic firing pin using a pin clamp", LOG_GAME)
+	user.log_message("replaced the [old_pin_name] of [gun] with an electronic firing pin using a pin clamp", LOG_GAME)
 	to_chat(user, span_notice("[src] bends out of shape. It won't be cranking anything else."))
 	qdel(src)
 	return ITEM_INTERACT_SUCCESS
