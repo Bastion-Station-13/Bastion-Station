@@ -194,6 +194,7 @@
 #include "movement_order_sanity.dm"
 #include "mutant_hands_consistency.dm"
 #include "mutant_organs.dm"
+#include "nanite_sensors.dm"
 #include "nanite_volume_sensor.dm"
 #include "novaflower_burn.dm"
 #include "nuke_cinematic.dm"

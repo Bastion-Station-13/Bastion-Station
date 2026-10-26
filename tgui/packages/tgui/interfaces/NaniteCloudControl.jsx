@@ -543,12 +543,23 @@ export const NaniteCloudBackupDetails = (props) => {
                 >
                   {program.has_rules ? (
                     rules.map((rule) => (
-                      <Box key={rule.display}>
+                      <Box key={rule.id}>
                         <Button
                           icon="minus-circle"
                           color="bad"
                           onClick={() =>
                             act('remove_rule', {
+                              program_id: program.id,
+                              rule_id: rule.id,
+                            })
+                          }
+                        />
+                        <Button
+                          icon="link"
+                          tooltip="Rules in the same group are combined with the opposite of meet all/any first"
+                          content={rule.group ? `Group ${rule.group}` : 'No group'}
+                          onClick={() =>
+                            act('cycle_rule_group', {
                               program_id: program.id,
                               rule_id: rule.id,
                             })

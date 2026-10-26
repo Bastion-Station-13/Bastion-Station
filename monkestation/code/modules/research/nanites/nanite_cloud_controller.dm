@@ -160,6 +160,7 @@
 					var/datum/nanite_rule/nanite_rule = X
 					var/list/rule = list()
 					rule["display"] = nanite_rule.display()
+					rule["group"] = nanite_rule.group
 					rule["program_id"] = id
 					rule["id"] = rule_id
 					rules += list(rule)
@@ -282,6 +283,17 @@
 					investigate_log("[key_name(usr)] removed rule [rule.display()] from program [P.name] in cloud #[current_view]", INVESTIGATE_NANITES)
 					rule.remove()
 			. = TRUE
+		if("cycle_rule_group")
+			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
+			if(backup)
+				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+				var/datum/component/nanites/nanites = backup.nanites
+				var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
+				var/datum/nanite_rule/rule = P?.rules[text2num(params["rule_id"])]
+				if(rule)
+					rule.group = (rule.group + 1) % (NANITE_RULE_GROUPS + 1)
+					investigate_log("[key_name(usr)] moved rule [rule.display()] of program [P.name] to group [rule.group] in cloud #[current_view]", INVESTIGATE_NANITES)
+				. = TRUE
 		if("toggle_rule_logic")
 			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
 			if(backup)

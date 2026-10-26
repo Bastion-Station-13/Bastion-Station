@@ -347,7 +347,7 @@
 
 /datum/nanite_program/repeat
 	name = "Signal Repeater"
-	desc = "When triggered, sends another signal to the nanites, optionally with a delay."
+	desc = "When triggered, sends another signal to the nanites, optionally with a delay. If its rules don't allow the trigger it sends the false signal instead."
 	unique = FALSE
 	can_trigger = TRUE
 	trigger_cost = 0
@@ -356,11 +356,20 @@
 /datum/nanite_program/repeat/register_extra_settings()
 	. = ..()
 	extra_settings[NES_SENT_CODE] = new /datum/nanite_extra_setting/number(0, 1, 9999)
+	extra_settings[NES_SENT_CODE_FALSE] = new /datum/nanite_extra_setting/number(0, 1, 9999)
 	extra_settings[NES_DELAY] = new /datum/nanite_extra_setting/number(0, 0, 3600, "s")
 
 /datum/nanite_program/repeat/on_trigger(comm_message)
 	var/datum/nanite_extra_setting/ES = extra_settings[NES_DELAY]
 	addtimer(CALLBACK(src, PROC_REF(send_code)), ES.get_value() * 10)
+
+/datum/nanite_program/repeat/on_conditions_failed(comm_message)
+	next_trigger = world.time + trigger_cooldown
+	var/datum/nanite_extra_setting/ES = extra_settings[NES_DELAY]
+	addtimer(CALLBACK(src, PROC_REF(send_code_false)), ES.get_value() * 10)
+
+/datum/nanite_program/repeat/proc/send_code_false()
+	send_code_any(NES_SENT_CODE_FALSE)
 
 /datum/nanite_program/relay_repeat
 	name = "Relay Signal Repeater"

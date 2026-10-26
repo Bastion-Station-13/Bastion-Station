@@ -2,6 +2,8 @@
 	var/name = "Generic Condition"
 	var/desc = "When triggered, the program is active"
 	var/datum/nanite_program/program
+	/// Rules in the same group are combined with the opposite logic of the program's first, 0 for no group
+	var/group = 0
 
 /datum/nanite_rule/New(datum/nanite_program/new_program)
 	program = new_program
@@ -226,3 +228,56 @@
 
 /datum/nanite_rule/species/display()
 	return "[name] [when_is_species ? "Is" : "Isn't"] [species_name]"
+
+/datum/nanite_rule/consciousness
+	name = "Consciousness"
+	desc = "Checks if the host is conscious."
+
+	var/when_conscious = TRUE
+
+/datum/nanite_rule/consciousness/check_rule()
+	return when_conscious == nanite_host_conscious(program.host_mob)
+
+/datum/nanite_rule/consciousness/copy_to(datum/nanite_program/new_program)
+	var/datum/nanite_rule/consciousness/rule = new(new_program)
+	rule.when_conscious = when_conscious
+
+	return rule
+
+/datum/nanite_rule/consciousness/display()
+	return "[name] [when_conscious ? "Conscious" : "Not Conscious"]"
+
+/datum/nanite_rule/organ_health
+	name = "Organ Health"
+	desc = "Checks how healthy one of the host's organs is, a missing organ counts as 0%."
+
+	var/organ_name = "Lungs"
+	var/organ_slot = ORGAN_SLOT_LUNGS
+	var/threshold = 50
+	var/above = TRUE
+
+/datum/nanite_rule/organ_health/check_rule()
+	return above == nanite_organ_health_percent(program.host_mob, organ_slot) >= threshold
+
+/datum/nanite_rule/organ_health/copy_to(datum/nanite_program/new_program)
+	var/datum/nanite_rule/organ_health/rule = new(new_program)
+	rule.organ_name = organ_name
+	rule.organ_slot = organ_slot
+	rule.threshold = threshold
+	rule.above = above
+
+	return rule
+
+/datum/nanite_rule/organ_health/display()
+	return "[organ_name] Health [above ? ">" : "<"] [threshold]%"
+
+/// SOFT_CRIT can still move and talk, so only a worse stat than that counts as not conscious
+/proc/nanite_host_conscious(mob/living/host)
+	return host.stat < UNCONSCIOUS
+
+/// How healthy this organ of the host is in percent, a missing organ is 0
+/proc/nanite_organ_health_percent(mob/living/host, organ_slot)
+	var/obj/item/organ/organ = host.get_organ_slot(organ_slot)
+	if(!organ)
+		return 0
+	return 100 - (organ.damage / max(organ.maxHealth, 1) * 100)

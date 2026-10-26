@@ -22,6 +22,13 @@
 /datum/nanite_program/sensor/proc/check_event()
 	return FALSE
 
+// sensors have their own signal codes, the generic ones are for programs like the repeater
+/datum/nanite_program/sensor/send_code()
+	send_code_any(NES_SENT_CODE_SIGNAL)
+
+/datum/nanite_program/sensor/send_code_inverted()
+	send_code_any(NES_SENT_CODE_SIGNAL_INVERTED)
+
 /datum/nanite_program/sensor/active_effect()
 	var/event_result = check_event()
 
@@ -382,3 +389,72 @@
 	rule.when_is_species = mode.get_value()
 	rule.species_list = species_list
 	rule.species_name = race.get_value()
+
+/datum/nanite_program/sensor/consciousness
+	name = "Consciousness Sensor"
+	desc = "The nanites receive a signal when the host is conscious or not conscious."
+	can_rule = TRUE
+
+/datum/nanite_program/sensor/consciousness/register_extra_settings()
+	. = ..()
+	extra_settings[NES_MODE] = new /datum/nanite_extra_setting/boolean(TRUE, "Conscious", "Not Conscious")
+
+/datum/nanite_program/sensor/consciousness/check_event()
+	var/datum/nanite_extra_setting/mode = extra_settings[NES_MODE]
+
+	return mode.get_value() == nanite_host_conscious(host_mob)
+
+/datum/nanite_program/sensor/consciousness/make_rule(datum/nanite_program/target)
+	var/datum/nanite_rule/consciousness/rule = new(target)
+
+	var/datum/nanite_extra_setting/mode = extra_settings[NES_MODE]
+
+	rule.when_conscious = mode.get_value()
+
+	return rule
+
+/datum/nanite_program/sensor/organ_health
+	name = "Organ Health Sensor"
+	desc = "The nanites receive a signal when the health of one of the host's organs is above/below a target percentage, a missing organ counts as 0%."
+	can_rule = TRUE
+
+	var/static/list/organ_slots = list(
+		"Heart" = ORGAN_SLOT_HEART,
+		"Lungs" = ORGAN_SLOT_LUNGS,
+		"Liver" = ORGAN_SLOT_LIVER,
+		"Stomach" = ORGAN_SLOT_STOMACH,
+		"Eyes" = ORGAN_SLOT_EYES,
+		"Ears" = ORGAN_SLOT_EARS,
+		"Brain" = ORGAN_SLOT_BRAIN,
+		"Tongue" = ORGAN_SLOT_TONGUE,
+		"Appendix" = ORGAN_SLOT_APPENDIX,
+	)
+
+/datum/nanite_program/sensor/organ_health/register_extra_settings()
+	. = ..()
+	extra_settings[NES_ORGAN] = new /datum/nanite_extra_setting/type("Lungs", assoc_to_keys(organ_slots))
+	extra_settings[NES_ORGAN_PERCENT] = new /datum/nanite_extra_setting/number(50, 0, 100, "%")
+	extra_settings[NES_DIRECTION] = new /datum/nanite_extra_setting/boolean(TRUE, "Above", "Below")
+
+/datum/nanite_program/sensor/organ_health/check_event()
+	var/datum/nanite_extra_setting/organ = extra_settings[NES_ORGAN]
+	var/datum/nanite_extra_setting/organ_percent = extra_settings[NES_ORGAN_PERCENT]
+	var/datum/nanite_extra_setting/direction = extra_settings[NES_DIRECTION]
+
+	var/check_above = direction.get_value()
+
+	return check_above == nanite_organ_health_percent(host_mob, organ_slots[organ.get_value()]) >= organ_percent.get_value()
+
+/datum/nanite_program/sensor/organ_health/make_rule(datum/nanite_program/target)
+	var/datum/nanite_rule/organ_health/rule = new(target)
+
+	var/datum/nanite_extra_setting/organ = extra_settings[NES_ORGAN]
+	var/datum/nanite_extra_setting/organ_percent = extra_settings[NES_ORGAN_PERCENT]
+	var/datum/nanite_extra_setting/direction = extra_settings[NES_DIRECTION]
+
+	rule.organ_name = organ.get_value()
+	rule.organ_slot = organ_slots[rule.organ_name]
+	rule.threshold = organ_percent.get_value()
+	rule.above = direction.get_value()
+
+	return rule

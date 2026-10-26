@@ -101,6 +101,11 @@
 	for(var/R in rules)
 		var/datum/nanite_rule/rule = R
 		rule.copy_to(target)
+	// the copies are made in order
+	for(var/rule_index in 1 to min(length(rules), length(target.rules)))
+		var/datum/nanite_rule/original = rules[rule_index]
+		var/datum/nanite_rule/copied = target.rules[rule_index]
+		copied.group = original.group
 	target.all_rules_required = all_rules_required
 
 	if(istype(target,src))
@@ -206,11 +211,28 @@
 		return FALSE
 	if (!LAZYLEN(rules))
 		return TRUE
+	// rules in a group are combined with the opposite logic first, so meeting any with a group of two is (A and B) or C
+	var/list/group_results
 	for(var/R in rules)
 		var/datum/nanite_rule/rule = R
-		if(!all_rules_required && rule.check_rule())
+		var/result = rule.check_rule()
+		if(rule.group)
+			var/group_key = "[rule.group]"
+			if(isnull(LAZYACCESS(group_results, group_key)))
+				LAZYSET(group_results, group_key, result ? TRUE : FALSE)
+			else if(all_rules_required)
+				group_results[group_key] = group_results[group_key] || result
+			else
+				group_results[group_key] = group_results[group_key] && result
+			continue
+		if(!all_rules_required && result)
 			return TRUE
-		if(all_rules_required && !rule.check_rule())
+		if(all_rules_required && !result)
+			return FALSE
+	for(var/group_key in group_results)
+		if(!all_rules_required && group_results[group_key])
+			return TRUE
+		if(all_rules_required && !group_results[group_key])
 			return FALSE
 	return all_rules_required ? TRUE : FALSE
 
@@ -238,6 +260,7 @@
 	if(world.time < next_trigger)
 		return
 	if(!check_conditions())
+		on_conditions_failed(comm_message)
 		return
 	if(!consume_nanites(trigger_cost))
 		return
@@ -246,6 +269,10 @@
 
 //Nanite trigger effect, requires can_trigger to be used
 /datum/nanite_program/proc/on_trigger(comm_message)
+	return
+
+//Called instead of the trigger effect when the rules don't allow the trigger
+/datum/nanite_program/proc/on_conditions_failed(comm_message)
 	return
 
 /datum/nanite_program/proc/consume_nanites(amount, force = FALSE)
