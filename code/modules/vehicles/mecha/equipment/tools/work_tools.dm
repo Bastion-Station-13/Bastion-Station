@@ -19,9 +19,13 @@
 	///How much base damage this clamp does
 	var/clamp_damage = 20
 	///Audio for using the hydraulic clamp
+<<<<<<< HEAD
 	var/clampsound = 'sound/mecha/hydraulic.ogg'
 	///Chassis but typed for the cargo_hold var
 	var/obj/vehicle/sealed/mecha/ripley/workmech
+=======
+	var/clampsound = 'sound/vehicles/mecha/hydraulic.ogg'
+>>>>>>> 607bcdae (port tg's icon and sound reorganization (#12826))
 
 /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/attach(obj/vehicle/sealed/mecha/new_mecha)
 	. = ..()
@@ -403,6 +407,7 @@
 		ADD_TRAIT(newmech, TRAIT_MECHA_CREATED_NORMALLY, REF(newmech))
 */
 	qdel(markone)
+<<<<<<< HEAD
 	playsound(get_turf(newmech),'sound/items/tools/ratchet.ogg',50,TRUE)
 
 /obj/item/mecha_parts/mecha_equipment/ripleyupgrade/paddy
@@ -418,3 +423,6 @@
 		to_chat(user, span_warning("This kit cannot be applied with hardpoint equipment attached."))
 		return FALSE
 	return ..()
+=======
+	playsound(get_turf(marktwo),'sound/items/tools/ratchet.ogg',50,TRUE)
+>>>>>>> 607bcdae (port tg's icon and sound reorganization (#12826))

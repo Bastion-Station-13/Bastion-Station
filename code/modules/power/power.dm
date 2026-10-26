@@ -527,9 +527,21 @@
 		tesla_zap(victim, 7, PN.netexcess)
 		drained_hp = PN.netexcess * 0.01
 	else
+<<<<<<< HEAD
 		drained_hp = victim.electrocute_act(600, source, siemens_coeff) //OUCH!
 		playsound(victim.loc, 'sound/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
 		victim.visible_message(span_danger("[victim]'s skin turns to ash from the electrical shock!"))
+=======
+		var/obj/item/organ/internal/brain/carbon_brain = victim.get_organ_slot(ORGAN_SLOT_BRAIN)
+		var/turf/turf = get_turf(victim)
+		playsound(victim.loc, 'sound/effects/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
+		victim.death(FALSE, "electrocution")
+		carbon_brain.Remove(victim)
+		carbon_brain.forceMove(turf)
+		victim.visible_message(span_danger("[victim] turns to ash from the electrical shock!"))
+		victim.dust()
+		drained_hp = PN.netexcess * 0.1
+>>>>>>> 607bcdae (port tg's icon and sound reorganization (#12826))
 
 	log_combat(source, victim, "electrocuted")
 
