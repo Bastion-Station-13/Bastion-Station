@@ -114,7 +114,6 @@
 	if(is_fauna(attacker))
 		fauna_attack_time = world.time
 
-// 30% less damage from fauna
 /datum/martial_art/ember_drake/proc/thick_hide_reduce_damage(mob/living/source, list/damage_mods, damage_amount, damagetype, def_zone, sharpness, attack_direction, obj/item/attacking_item)
 	SIGNAL_HANDLER
 	if(fauna_attack_time != world.time)
