@@ -98,7 +98,7 @@
 				span_userdanger("You[extra_speed ? " violently" : ""] crash into [hit_atom][extra_speed ? " extra hard" : ""]!"))
 		log_combat(src, victim, "crashed into")
 	if(oof_noise)
-		playsound(src,'sound/weapons/punch1.ogg',50,TRUE)
+		playsound(src,'sound/items/weapons/punch1.ogg',50,TRUE)
 
 /mob/living/carbon/proc/canBeHandcuffed()
 	return FALSE
