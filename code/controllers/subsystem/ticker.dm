@@ -1090,8 +1090,6 @@ SUBSYSTEM_DEF(ticker)
 
 	var/speed_round = (STATION_TIME_PASSED() <= 10 MINUTES)
 
-	var/list/rewards = calculate_rewards()
-
 	popcount = gather_roundend_feedback()
 
 	for(var/client/C in GLOB.clients)
@@ -1164,7 +1162,7 @@ SUBSYSTEM_DEF(ticker)
 
 	save_tokens()
 	refund_cassette()
-	distribute_rewards(rewards)
+	distribute_rewards()
 	sleep(5 SECONDS)
 	ready_for_reboot = TRUE
 	var/datum/discord_embed/embed = format_roundend_embed("<@&999008528595419278>")
@@ -1852,57 +1850,19 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/save_tokens()
 	rustg_file_write(json_encode(GLOB.saved_token_values), "[GLOB.log_directory]/tokens.json")
 
-/datum/controller/subsystem/ticker/proc/calculate_rewards()
-	. = list()
-	for(var/client/client as anything in GLOB.clients)
-		calculate_rewards_for_client(client, .)
-
-/datum/controller/subsystem/ticker/proc/distribute_rewards(list/coin_rewards)
+/datum/controller/subsystem/ticker/proc/distribute_rewards()
 	var/hour = round((world.time - SSticker.round_start_time) / 36000)
 	var/minute = round(((world.time - SSticker.round_start_time) - (hour * 36000)) / 600)
 	var/added_xp = round(25 + (minute ** 0.85))
-	for(var/ckey in coin_rewards)
-		distribute_rewards_to_client(ckey, added_xp, coin_rewards[ckey])
+	for(var/client/client as anything in GLOB.clients)
+		distribute_rewards_to_client(client.ckey, added_xp)
 
-/datum/controller/subsystem/ticker/proc/distribute_rewards_to_client(ckey, added_xp, list/rewards)
+/datum/controller/subsystem/ticker/proc/distribute_rewards_to_client(ckey, added_xp)
 	var/client/client = GLOB.directory[ckey]
 	if(!client)
 		return
 	if(client?.mob?.mind?.assigned_role)
 		add_jobxp(client, added_xp, client?.mob?.mind?.assigned_role?.title)
-
-/datum/controller/subsystem/ticker/proc/calculate_rewards_for_client(client/client, list/queue)
-	if(!istype(client) || QDELING(client) || isnewplayer(client?.mob))
-		return
-	var/ckey = client?.ckey
-	if(!ckey)
-		return
-	var/datum/persistent_client/details = client.persistent_client
-
-	var/round_end_bonus = 100
-
-	LAZYINITLIST(queue[ckey])
-
-	queue[ckey] += list(list(round_end_bonus, "Played a Round"))
-
-	if(!isnull(GLOB.mentor_datums[ckey]) || !isnull(GLOB.dementors[ckey]))
-		if(details?.mob?.mind?.assigned_role?.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
-			queue[ckey] += list(list(300, "Mentor Head of Staff Bonus"))
-		else
-			queue[ckey] += list(list(200, "Mentor Bonus"))
-
-	var/list/applied_challenges = details?.applied_challenges
-	if(LAZYLEN(applied_challenges))
-		var/mob/living/client_mob = details?.mob
-		if(!istype(client_mob) || QDELING(client_mob) || client_mob?.stat == DEAD)
-			return
-		var/total_payout = 0
-		for(var/datum/challenge/listed_challenge as anything in applied_challenges)
-			if(listed_challenge.failed)
-				continue
-			total_payout += listed_challenge.challenge_payout
-		if(total_payout)
-			queue[ckey] += list(list(total_payout, "Challenge Rewards"))
 
 /datum/controller/subsystem/ticker/proc/refund_cassette()
 	if(!length(GLOB.cassette_reviews))
