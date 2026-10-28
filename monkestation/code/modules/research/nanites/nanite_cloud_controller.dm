@@ -65,7 +65,7 @@
 			balloon_alert(user, "printer is busy")
 		return FALSE
 	COOLDOWN_START(src, manual_cooldown, 10 SECONDS)
-	playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/terminal/terminal_prompt.ogg', 50, FALSE)
 	new /obj/item/book/manual/nanites(drop_location())
 	return TRUE
 
@@ -304,7 +304,7 @@
 		if("cycle_rule_group")
 			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
 			if(backup)
-				playsound(src, 'sound/machines/terminal_prompt.ogg', 50, FALSE)
+				playsound(src, 'sound/machines/terminal/terminal_prompt.ogg', 50, FALSE)
 				var/datum/component/nanites/nanites = backup.nanites
 				var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
 				var/datum/nanite_rule/rule = P?.rules[text2num(params["rule_id"])]
