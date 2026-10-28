@@ -52,7 +52,6 @@
 /obj/vehicle/sealed/mecha/trash_tank/proc/upgrade()
 	name = "up-armoured trash tank"
 	desc = "A trash-cart converted into some sort of improvised tank, with tracks thrown together out of spare conveyor belts and a turret made out of some disposals equipment. By some miracle, it does run. Additional applique armour has been bolted onto it."
-	name = "trash tank"
 	icon_state = "trash_tank-armoured"
 	base_icon_state = "trash_tank-armoured"
 	update_appearance()
