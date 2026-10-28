@@ -665,6 +665,12 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	SSambience.remove_ambience_client(src)
 	SSmouse_entered.hovers -= src
 	SSping.currentrun -= src
+<<<<<<< HEAD
+=======
+	SSsound_tokens.clients_needing_update -= src
+	SSsound_tokens.currentrun -= src
+	QDEL_NULL(imode)
+>>>>>>> becdb148 ([PORT] Boombox and spatial looping sounds (#12745))
 	QDEL_NULL(view_size)
 	QDEL_NULL(void)
 	QDEL_NULL(tooltips)
