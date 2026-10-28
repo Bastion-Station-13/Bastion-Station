@@ -43,6 +43,9 @@
 	finalize_brother()
 
 	update_conversion_ability()
+	RegisterSignal(owner, COMSIG_MIND_DNR, PROC_REF(on_dnr))
+	RegisterSignal(owner, COMSIG_MIND_CRYOED, PROC_REF(on_cryoed))
+	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_LOGGED_IN, PROC_REF(on_mob_logged_in))
 
 	// The big brother starts the bond, with a flash for every conversion the team rolled
 	var/mob/living/carbon/carbon_owner = owner.current
@@ -57,6 +60,8 @@
 
 /datum/antagonist/brother/on_removal()
 	owner.special_role = null
+	UnregisterSignal(owner, list(COMSIG_MIND_DNR, COMSIG_MIND_CRYOED))
+	UnregisterSignal(SSdcs, COMSIG_GLOB_MOB_LOGGED_IN)
 	var/mob/living/body = owner.current
 	if(body)
 		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
@@ -73,12 +78,14 @@
 	var/mob/living/target = mob_override || owner.current
 	comms_action.Grant(target)
 	gear_action?.Grant(target)
+	RegisterSignal(target, COMSIG_MOB_GHOSTIZED, PROC_REF(on_ghostized))
 	if(QDELETED(blood_brother_crafting))
 		blood_brother_crafting = target.AddComponent(/datum/component/personal_crafting/blood_brother)
 	add_team_hud(target, /datum/antagonist/brother, REF(team))
 
 /datum/antagonist/brother/remove_innate_effects(mob/living/mob_override)
 	. = ..()
+	UnregisterSignal(mob_override || owner.current, COMSIG_MOB_GHOSTIZED)
 	comms_action?.Remove(mob_override || owner.current)
 	QDEL_NULL(comms_action)
 	gear_action?.Remove(mob_override || owner.current)
@@ -324,6 +331,54 @@
 	else
 		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
 		UnregisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+
+/datum/antagonist/brother/proc/on_dnr(datum/mind/source)
+	SIGNAL_HANDLER
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "chosen not to be revived", "chose not to be revived")
+
+/datum/antagonist/brother/proc/on_cryoed(datum/mind/source, mob/living/body)
+	SIGNAL_HANDLER
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "entered cryosleep", "entered cryosleep")
+
+/// Ghosting out of a living body leaves a ghost that can't go back, which counts as abandoning the bond
+/datum/antagonist/brother/proc/on_ghostized(mob/living/source)
+	SIGNAL_HANDLER
+	if(source.stat == DEAD || owner.get_ghost(even_if_they_cant_reenter = TRUE))
+		return
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "left their body for good", "left your body for good")
+
+/// Catches our player taking a new body, such as a ghost role or a midround antagonist
+/datum/antagonist/brother/proc/on_mob_logged_in(datum/source, mob/new_mob)
+	SIGNAL_HANDLER
+	if(new_mob.mind == owner || new_mob.ckey != ckey(owner.key))
+		return
+	// Ghosts and the lobby aren't new roles, and the ghost cafe lets you go back to your body
+	if(isobserver(new_mob) || isnewplayer(new_mob) || istype(new_mob, /mob/living/carbon/human/ghost))
+		return
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "taken on another role", "took on another role")
+
+/**
+ * Boots this brother from the team and gives the team back a conversion charge
+ *
+ * Arguments:
+ * * their_reason - what the brother did, as told to the rest of the team ("entered cryosleep")
+ * * your_reason - what the brother did, as told to the brother themselves
+ */
+/datum/antagonist/brother/proc/abandon_bond(their_reason, your_reason)
+	var/datum/team/brother_team/bond = team
+	if(QDELETED(src) || QDELETED(bond))
+		return
+	var/brother_name = owner.current?.real_name || owner.name
+	// They're likely a ghost or in another body by now, so find them by their client
+	var/client/leaver = GLOB.directory[ckey(owner.key)]
+	owner.current?.log_message("was removed from their blood brother team for abandoning it (has [their_reason]).", LOG_GAME)
+	if(length(bond.members) == 1)
+		message_admins("[ADMIN_LOOKUPFLW(owner.current)], the last member of [bond.name], has [their_reason]. The blood brother team is gone.")
+	bond.remove_member(owner, span_warning("[span_bold(brother_name)] has [their_reason], and is no longer your brother. You have been refunded a conversion charge."))
+	if(leaver)
+		to_chat(leaver, span_userdanger("You [your_reason], and have abandoned your blood bond. You are no longer a blood brother."))
+	if(!QDELETED(bond))
+		bond.adjust_conversion_charges(1)
 
 /datum/antagonist/brother/proc/on_mob_successful_flashed_carbon(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash)
 	//SIGNAL_HANDLER

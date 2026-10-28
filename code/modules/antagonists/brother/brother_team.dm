@@ -29,7 +29,7 @@
 		add_brother(new_member.current)
 	roll_for_color()
 
-/datum/team/brother_team/remove_member(datum/mind/member)
+/datum/team/brother_team/remove_member(datum/mind/member, removal_message)
 	if (!(member in members))
 		return
 	. = ..()
@@ -40,7 +40,7 @@
 	if (isnull(member.current))
 		return
 	for (var/datum/mind/brother_mind as anything in members)
-		to_chat(brother_mind, span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
+		to_chat(brother_mind, removal_message || span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
 	update_name()
 
 /// Adds a new brother to the team
