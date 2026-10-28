@@ -335,7 +335,7 @@
 /area/station/service/bar/backroom)
 "Fn" = (
 /obj/machinery/camera/autoname/directional/west,
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/eighties,
 /area/station/commons/lounge)
 "Fo" = (
