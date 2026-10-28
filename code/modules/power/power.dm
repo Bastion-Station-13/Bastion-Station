@@ -528,7 +528,7 @@
 		drained_hp = PN.netexcess * 0.01
 	else
 		drained_hp = victim.electrocute_act(600, source, siemens_coeff) //OUCH!
-		playsound(victim.loc, 'sound/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
+		playsound(victim.loc, 'sound/effects/magic/lightningbolt.ogg', 100, TRUE, extrarange = 30)
 		victim.visible_message(span_danger("[victim]'s skin turns to ash from the electrical shock!"))
 
 	log_combat(source, victim, "electrocuted")
