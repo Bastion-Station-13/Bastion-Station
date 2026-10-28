@@ -176,6 +176,21 @@ multiple modular subtrees with behaviors
 /datum/ai_controller/proc/recalculate_idle()
 	if(ai_status == AI_STATUS_OFF)
 		return
+<<<<<<< HEAD
+=======
+
+	var/distance = INFINITY
+	if(islist(exited))
+		var/list/exited_list = exited
+		distance = get_dist(pawn, exited_list[1])
+	else if(isatom(exited))
+		var/atom/exited_atom = exited
+		distance = get_dist(pawn, exited_atom)
+
+	if(distance <= interesting_dist) //is our target in between interesting cells?
+		return
+
+>>>>>>> 332ea5e5 (fix a list access lint in ai idle check (#12840))
 	if(should_idle())
 		set_ai_status(AI_STATUS_IDLE)
 
