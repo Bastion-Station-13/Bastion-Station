@@ -653,7 +653,7 @@
 	///Chassis but typed for the cargo_hold var
 	var/obj/vehicle/sealed/mecha/ripley/secmech
 	///Audio for using the hydraulic clamp
-	var/clampsound = 'sound/mecha/hydraulic.ogg'
+	var/clampsound = 'sound/vehicles/mecha/hydraulic.ogg'
 	///Var for the cuff type. Basically stole how cuffing works from secbots
 	var/cuff_type = /obj/item/restraints/handcuffs/cable/zipties/used
 	///Var for autocuff, can be toggled in the mech interface.

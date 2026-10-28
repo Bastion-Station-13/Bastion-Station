@@ -356,18 +356,10 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 			return FALSE
 		to_chat(chassis.occupants, "[icon2html(src,  chassis.occupants)][span_notice("You unload [crate].")]")
 		crate.forceMove(drop_location())
-<<<<<<< HEAD
 		if(crate == chassis.ore_box)
 			chassis.ore_box = null
-		playsound(chassis, 'sound/weapons/tap.ogg', 50, TRUE)
-		log_message("Unloaded [crate]. Cargo compartment capacity: [cargo_capacity - contents.len]", LOG_MECHA)
-=======
-		LAZYREMOVE(miner.cargo, crate)
-		if(crate == miner.ore_box)
-			miner.ore_box = null
 		playsound(chassis, 'sound/items/weapons/tap.ogg', 50, TRUE)
-		log_message("Unloaded [crate]. Cargo compartment capacity: [miner.cargo_capacity - LAZYLEN(miner.cargo)]", LOG_MECHA)
->>>>>>> 607bcdae (port tg's icon and sound reorganization (#12826))
+		log_message("Unloaded [crate]. Cargo compartment capacity: [cargo_capacity - contents.len]", LOG_MECHA)
 		return TRUE
 
 /obj/item/mecha_parts/mecha_equipment/ejector/trash
@@ -409,15 +401,8 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 		to_chat(chassis.occupants, "[icon2html(src,  chassis.occupants)][span_notice("You unload [passenger].")]")
 		passenger.forceMove(drop_location())
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), passenger, chassis.dir), 1) //That's right, one tick. Just enough to cause the tile move animation.
-<<<<<<< HEAD
-		playsound(chassis, 'sound/weapons/tap.ogg', 50, TRUE)
-		log_message("Unloaded [passenger]. Cargo compartment capacity: [cargo_capacity - contents.len]", LOG_MECHA)
-=======
 		playsound(chassis, 'sound/items/weapons/tap.ogg', 50, TRUE)
-		var/obj/vehicle/sealed/mecha/ripley/miner = chassis
-		if(miner)
-			log_message("Unloaded [passenger]. Cargo compartment capacity: [miner.cargo_capacity - contents.len]", LOG_MECHA)
->>>>>>> 607bcdae (port tg's icon and sound reorganization (#12826))
+		log_message("Unloaded [passenger]. Cargo compartment capacity: [cargo_capacity - contents.len]", LOG_MECHA)
 		return TRUE
 	return ..()
 

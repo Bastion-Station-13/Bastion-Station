@@ -632,7 +632,7 @@
 /atom/movable/screen/lobby/button/roach/Click(location, control, params)
 	. = ..()
 	if(.)
-		SEND_SOUND(usr, 'sound/voice/moth/scream_moth.ogg')
+		SEND_SOUND(usr, 'sound/mobs/humanoids/moth/scream_moth.ogg')
 
 /atom/movable/screen/lobby/overflow_alert
 	screen_loc = "TOP:-48,CENTER-2.7"
