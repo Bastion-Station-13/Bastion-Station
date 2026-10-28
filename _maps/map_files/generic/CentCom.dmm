@@ -28809,6 +28809,14 @@
 	},
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/adminroom)
+"pKr" = (
+/obj/item/paper/crumpled{
+	pixel_x = -8;
+	pixel_y = -4;
+	default_raw_text = "TODO: replace primitive ballistic weaponry"
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/centcom/central_command_areas/adminroom)
 "pMg" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/sandy_dirt,
@@ -57623,7 +57631,7 @@ aMc
 aMc
 faY
 oDK
-oDK
+pKr
 oDK
 kpH
 pzZ
