@@ -31,6 +31,8 @@ SUBSYSTEM_DEF(ticker)
 	var/ready_for_reboot = FALSE //all roundend preparation done with, all that's left is reboot
 
 	var/tipped = FALSE //Did we broadcast the tip of the day yet?
+	///TRUE if the storyteller selection has already been started, FALSE otherwise
+	var/storytellered = FALSE
 	var/selected_tip // What will be the tip of the day?
 
 	var/timeLeft //pregame timer
@@ -231,6 +233,14 @@ SUBSYSTEM_DEF(ticker)
 				send_tip_of_the_round(world, selected_tip)
 				tipped = TRUE
 				SStitle.update_init_text()
+
+			if(!storytellered)
+				if(timeLeft <= (2 MINUTES) && timeLeft >= (70 SECONDS))
+					SSgamemode.handle_picking_storyteller()
+					storytellered = TRUE
+				else if(timeLeft < (70 SECONDS))
+					SSgamemode.handle_picking_storyteller(disable_vote = TRUE)
+					storytellered = TRUE
 
 			if(timeLeft <= 0)
 				SEND_SIGNAL(src, COMSIG_TICKER_ENTER_SETTING_UP)
@@ -575,7 +585,7 @@ SUBSYSTEM_DEF(ticker)
 		list_clear_nulls(queued_players)
 		for (var/mob/dead/new_player/new_player in queued_players)
 			to_chat(new_player, span_userdanger("The alive players limit has been released!<br><a href='byond://?src=[REF(new_player)];late_join=override'>[html_encode(">>Join Game<<")]</a>"))
-			SEND_SOUND(new_player, sound('sound/misc/notice1.ogg'))
+			SEND_SOUND(new_player, sound('sound/announcer/notice/notice1.ogg'))
 			GLOB.latejoin_menu.ui_interact(new_player)
 		queued_players.len = 0
 		queue_delay = 0
@@ -590,7 +600,7 @@ SUBSYSTEM_DEF(ticker)
 			if(living_player_count() < hard_popcap)
 				if(next_in_line?.client)
 					to_chat(next_in_line, span_userdanger("A slot has opened! You have approximately 20 seconds to join. <a href='byond://?src=[REF(next_in_line)];late_join=override'>\>\>Join Game\<\<</a>"))
-					SEND_SOUND(next_in_line, sound('sound/misc/notice1.ogg'))
+					SEND_SOUND(next_in_line, sound('sound/announcer/notice/notice1.ogg'))
 					next_in_line.ui_interact(next_in_line)
 					return
 				queued_players -= next_in_line //Client disconnected, remove he
@@ -626,6 +636,7 @@ SUBSYSTEM_DEF(ticker)
 	delay_end = SSticker.delay_end
 
 	tipped = SSticker.tipped
+	storytellered = SSticker.storytellered
 	selected_tip = SSticker.selected_tip
 
 	timeLeft = SSticker.timeLeft
@@ -1225,6 +1236,8 @@ SUBSYSTEM_DEF(ticker)
 
 	//might want to make this a full section
 	parts += "<div class='panel stationborder'><span class='header'>[("Storyteller: [SSgamemode.current_storyteller ? SSgamemode.current_storyteller.name : "N/A"]")]</span></div>"
+
+	parts += "<div class='panel stationborder'><span class='header'>[("Game Master: [GLOB.called_gamemaster ? capitalize(GLOB.called_gamemaster) : "None"]")]</span><br><b>(as of roundend)</b></div>"
 
 	if(nanotrasen_rep_status)
 		parts += nanotrasen_rep_report()

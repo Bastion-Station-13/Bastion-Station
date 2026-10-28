@@ -289,6 +289,11 @@
 	. = ..()
 	if(.)
 		set_broken()
+	if(opened != APC_COVER_REMOVED)
+		opened = APC_COVER_REMOVED
+		coverlocked = FALSE
+		visible_message(span_warning("The APC cover is knocked down!"))
+		update_appearance()
 
 /obj/machinery/power/apc/proc/can_use(mob/user, loud = 0) //used by attack_hand() and Topic()
 	if(isAdminGhostAI(user))

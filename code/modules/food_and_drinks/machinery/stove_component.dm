@@ -56,7 +56,7 @@
 
 /datum/component/stove/UnregisterFromParent()
 	var/obj/machinery/real_parent = parent
-	if(!QDELING(parent))
+	if(container && !QDELING(parent))
 		container.forceMove(real_parent.drop_location())
 
 	if (particle_type)
@@ -117,7 +117,7 @@
 
 	real_parent.balloon_alert_to_viewers("burners [on ? "on" : "off"]")
 	playsound(real_parent, 'sound/machines/click.ogg', 30, TRUE)
-	playsound(real_parent, on ? 'sound/items/welderactivate.ogg' : 'sound/items/welderdeactivate.ogg', 15, TRUE)
+	playsound(real_parent, on ? 'sound/items/tools/welderactivate.ogg' : 'sound/items/tools/welderdeactivate.ogg', 15, TRUE)
 
 	return COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
 
@@ -145,7 +145,7 @@
 /datum/component/stove/proc/on_deconstructed(obj/machinery/source)
 	SIGNAL_HANDLER
 
-	container.forceMove(source.drop_location())
+	container?.forceMove(source.drop_location())
 
 /datum/component/stove/proc/on_overlay_update(obj/machinery/source, list/overlays)
 	SIGNAL_HANDLER

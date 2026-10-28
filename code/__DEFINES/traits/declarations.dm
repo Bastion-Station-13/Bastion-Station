@@ -127,8 +127,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Makes the owner appear as dead to most forms of medical examination
 #define TRAIT_FAKEDEATH "fakedeath"
 #define TRAIT_DISFIGURED "disfigured"
-//FOR XENO LARVA
-#define TRAIT_NEUTERED "neutered" //the mob cant reproduce
+/// This mob cant reproduce
+#define TRAIT_NEUTERED "neutered"
 /// "Magic" trait that blocks the mob from moving or interacting with anything. Used for transient stuff like mob transformations or incorporality in special cases.
 /// Will block movement, `Life()` (!!!), and other stuff based on the mob.
 #define TRAIT_NO_TRANSFORM "block_transformations"
@@ -268,6 +268,10 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_HARDLY_WOUNDED "hard_limb_wound"
 #define TRAIT_NEVER_WOUNDED "never_wounded"
 #define TRAIT_NO_HUSK "no_husk"
+
+/// This trait lets you attach limbs to any player without surgery.
+#define TRAIT_EASY_ATTACH "easy_attach"
+
 /// Mob recovers from addictions at an accelerated rate
 #define TRAIT_ADDICTIONRESILIENT "addiction_resilient"
 #define TRAIT_TOXINLOVER "toxinlover"
@@ -1380,6 +1384,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 /// For if a body has been dissected, to prevent repeats.
 #define TRAIT_BORER_DISSECTION "borer_dissection"
+/// Given if the host is a willing host
+#define TRAIT_WILLING_HOST "borer_willing_host"
 
 // Traits related directly to Clockwork Cult
 /// Given to Clockwork Golems, gives them a reduction on invoke time for certain scriptures.
