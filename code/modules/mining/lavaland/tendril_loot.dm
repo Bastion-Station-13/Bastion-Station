@@ -1185,7 +1185,7 @@
 /obj/item/ashen_whetstone
 	name = "ashen whetstone"
 	desc = "A ancient whetstone that seeps with lava, made out of polished basalt."
-	icon = 'bastionstation/icons/obj/lavaland/artefacts.dmi
+	icon = 'bastionstation/icons/obj/lavaland/artefacts.dmi'
 	icon_state = "ashen_whetstone"
 	/// How many uses this whetstone has left
 	var/uses = 1
