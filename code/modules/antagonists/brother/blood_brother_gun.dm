@@ -407,7 +407,7 @@
 	if(underbarrel?.bb_melee_force)
 		gun.force = underbarrel.bb_melee_force
 		gun.sharpness = SHARP_EDGED
-		gun.hitsound = 'sound/weapons/bladeslice.ogg'
+		gun.hitsound = 'sound/items/weapons/bladeslice.ogg'
 	else
 		gun.force = base_force
 		gun.sharpness = base_sharpness

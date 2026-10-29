@@ -18,7 +18,7 @@
 		span_warning("[user] clamps [src] over [gun]'s receiver and starts cranking the handle..."),
 		span_notice("You line the old pin up under the screw and start cranking..."),
 	)
-	playsound(gun, 'sound/items/ratchet.ogg', 50, TRUE)
+	playsound(gun, 'sound/items/tools/ratchet.ogg', 50, TRUE)
 	if(!do_after(user, 3 SECONDS, gun) || QDELETED(src) || !can_clamp(gun, user))
 		return ITEM_INTERACT_BLOCKING
 

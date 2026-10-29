@@ -465,7 +465,7 @@
 		return
 	var/obj/item/launched = loaded_item
 	launched.forceMove(get_turf(user))
-	playsound(gun, 'sound/weapons/sonic_jackhammer.ogg', 50, TRUE)
+	playsound(gun, 'sound/items/weapons/sonic_jackhammer.ogg', 50, TRUE)
 	user.visible_message(span_warning("[user] launches [launched] from [gun]!"), span_notice("You launch [launched] from [gun]."))
 	launched.throw_at(target, 7, 3, user)
 
@@ -491,7 +491,7 @@
 		return
 	var/obj/item/grenade/launched = loaded_item
 	launched.forceMove(get_turf(user))
-	playsound(gun, 'sound/weapons/gun/general/grenade_launch.ogg', 50, TRUE)
+	playsound(gun, 'sound/items/weapons/gun/general/grenade_launch.ogg', 50, TRUE)
 	user.visible_message(span_danger("[user] fires [launched] from [gun]!"), span_notice("You fire [launched] from [gun]."))
 	// Arming handles everything about the grenade itself, including chemical grenades that aren't assembled yet.
 	launched.arm_grenade(user, 1.5 SECONDS, msg = FALSE)

@@ -35,7 +35,7 @@
 	base_icon_state = "revolver_scrap_c38"
 	inhand_icon_state = "gun"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/scrap
-	fire_sound = 'sound/weapons/gun/revolver/shot.ogg'
+	fire_sound = 'sound/items/weapons/gun/revolver/shot.ogg'
 	w_class = WEIGHT_CLASS_SMALL
 	pinless = TRUE
 	spawnwithmagazine = TRUE
@@ -90,14 +90,14 @@
 		cylinder.caliber = CALIBER_SHOTGUN
 		new_capacity_multiplier = SCRAP_REVOLVER_SHOTGUN_CAPACITY_MULTIPLIER
 		base_icon_state = "revolver_scrap_shotgun"
-		fire_sound = 'sound/weapons/gun/shotgun/shot.ogg'
+		fire_sound = 'sound/items/weapons/gun/shotgun/shot.ogg'
 		to_chat(user, span_notice("You reconfigure [src]'s cylinder for 12 gauge shotgun shells."))
 	else
 		cylinder.ammo_type = /obj/item/ammo_casing/c38
 		cylinder.caliber = CALIBER_38
 		new_capacity_multiplier = 1
 		base_icon_state = "revolver_scrap_c38"
-		fire_sound = 'sound/weapons/gun/revolver/shot.ogg'
+		fire_sound = 'sound/items/weapons/gun/revolver/shot.ogg'
 		to_chat(user, span_notice("You reconfigure [src]'s cylinder for .38 rounds."))
 
 	// A mode switch is only possible with no live rounds, so anything left in the cylinder

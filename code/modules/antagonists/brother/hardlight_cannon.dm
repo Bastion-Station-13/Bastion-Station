@@ -26,7 +26,7 @@
 
 /obj/item/ammo_casing/energy/laser/hardlight
 	projectile_type = /obj/projectile/beam/laser/hardlight_cannon
-	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	fire_sound = 'sound/items/weapons/lasercannonfire.ogg'
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/blue
 	delay = 1 SECONDS
 
