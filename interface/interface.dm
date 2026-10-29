@@ -34,6 +34,17 @@ GAME_VERB_HIDDEN(/client, forum, "forum")
 		to_chat(src, span_danger("The forum URL is not set in the server configuration."))
 	return
 
+GAME_VERB_HIDDEN(/client, discord, "discord")
+
+	var/discordurl = CONFIG_GET(string/discordurl)
+	if(discordurl)
+		if(tgui_alert(src, "This will open the discord in your browser. Are you sure?",, list("Yes","No"))!="Yes")
+			return
+		src << link(discordurl)
+	else
+		to_chat(src, span_danger("The discord URL is not set in the server configuration."))
+	return
+
 GAME_VERB_HIDDEN(/client, rules, "rules")
 
 	var/rulesurl = CONFIG_GET(string/rulesurl)
