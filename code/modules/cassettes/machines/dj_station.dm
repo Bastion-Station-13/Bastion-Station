@@ -300,14 +300,14 @@ GLOBAL_DATUM(dj_booth, /obj/machinery/dj_station)
 			switch_sound.start()
 			SStgui.update_uis(src)
 			COOLDOWN_START(src, fake_loading_time, 3 SECONDS)
-			var/list/info = SSfloxy.download_and_wait(found_track.url, timeout = 30 SECONDS, discard_failed = TRUE)
+			var/list/info = get_cassette_media(found_track.url, user)
 			testing(fieldset_block("info for [html_encode(found_track.url)]", html_encode(json_encode(info, JSON_PRETTY_PRINT)), "boxed_message purple_box"))
 			// fake loading time in case there's already a download cached and it returns immediately
 			if(!COOLDOWN_FINISHED(src, fake_loading_time))
 				// waow that was fast, are you failed,
 				if(info?["status"] == FLOXY_STATUS_FAILED)
 					SSfloxy.delete_media(info["id"], hard = TRUE, force = TRUE)
-					info = SSfloxy.download_and_wait(found_track.url, timeout = 30 SECONDS, discard_failed = TRUE)
+					info = get_cassette_media(found_track.url, user)
 				else
 					var/remaining = rand(4, 8) SECONDS - COOLDOWN_TIMELEFT(src, fake_loading_time)
 					testing("waiting extra [remaining] seconds to simulate loading time")
