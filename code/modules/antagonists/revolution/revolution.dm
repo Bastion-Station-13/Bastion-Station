@@ -6,6 +6,8 @@
 #define REVOLUTION_VICTORY 1
 #define STATION_VICTORY 2
 
+#define REVOLUTION_GPS_MARK_TIME (35 MINUTES)
+
 /datum/antagonist/rev
 	name = "\improper Revolutionary"
 	roundend_category = "revolutionaries" // if by some miracle revolutionaries without revolution happen
@@ -32,6 +34,13 @@
 			return FALSE
 		if(new_owner.current && HAS_TRAIT(new_owner.current, TRAIT_MINDSHIELD))
 			return FALSE
+
+//There isn't a pref for 'revolutionary', only for 'head revolutionary'
+/datum/antagonist/rev/enabled_in_preferences(datum/mind/noggin)
+	if(noggin.current && noggin.current.client && (ROLE_REV_HEAD in noggin.current.client.prefs.be_special))
+		return TRUE
+	else
+		return FALSE
 
 /datum/antagonist/rev/admin_add(datum/mind/new_owner, mob/admin)
 	// No revolution exists which means admin adding this will create a new revolution team
@@ -481,6 +490,24 @@
 				return FALSE
 	return TRUE
 
+/// Checks if it is time to mark all heads and headrevs with GPS signals.
+/// Returns TRUE if everyone is marked, FALSE otherwise. This method should not be called after returning TRUE.
+/datum/team/revolution/proc/check_gps_mark()
+	if (STATION_TIME_PASSED() >= REVOLUTION_GPS_MARK_TIME)
+		for(var/datum/mind/rev_mind in head_revolutionaries())
+			rev_mind.current?.AddComponent(/datum/component/gps, "Loyalty Monitoring Signal")
+		for(var/datum/objective/mutiny/objective in objectives)
+			objective.target?.current?.AddComponent(/datum/component/gps, "Syndicate Targeting Signal")
+
+		priority_announce(
+			"To facilitate the rapid suppression of the mutiny, all revolutionary leaders have been marked with a GPS signal. \
+			We have detected the syndicate marking all command staff as well. Good luck.",
+			sender_override = "Central Command Loyalty Monitoring Division"
+		)
+
+		return TRUE
+	return FALSE
+
 /// Updates the state of the world depending on if revs won or loss.
 /// Returns who won, at which case this method should no longer be called.
 /datum/team/revolution/proc/process_victory()
@@ -582,7 +609,7 @@
 	var/total_candidates = 0
 
 	for (var/datum/mind/crewmember as anything in get_crewmember_minds())
-		if (crewmember.has_antag_datum(/datum/antagonist/enemy_of_the_revolution))
+		if(crewmember.has_antag_datum(/datum/antagonist/enemy_of_the_revolution))
 			continue
 		if(crewmember.current?.stat == DEAD) // if we have 60 dead nonrev crew, 2 alive crew, and 10 alive revs, it should qualify for the shuttle
 			continue
@@ -591,14 +618,16 @@
 
 	var/display_percent = round(total_revs / total_candidates * 100)
 
+	/* Temporarily disabled
 	if (total_revs / total_candidates < REV_AUTO_CALL_THRESHOLD)
 		log_game("REVOLUTION: Not calling the shuttle, [display_percent]% are revs")
 		return FALSE
+	*/
 
 	// Do it later so everyone has time to see the messages
 	addtimer(CALLBACK(src, PROC_REF(perform_auto_shuttle_call)), 20 SECONDS)
 
-	var/log = "REVOLUTION: Auto-calling the shuttle, [display_percent]% are revs"
+	var/log = "REVOLUTION: Attempting to auto-call the shuttle, [display_percent]% are revs"
 	log_game(log)
 	message_admins(log)
 
@@ -607,12 +636,14 @@
 #undef REV_AUTO_CALL_THRESHOLD
 
 /datum/team/revolution/proc/perform_auto_shuttle_call()
-	var/can_evac_result = SSshuttle.canEvac()
-	if (can_evac_result != TRUE)
-		log_game("REVOLUTION: Not calling the shuttle, canEvac() returned [can_evac_result]")
+	if(EMERGENCY_AT_LEAST_DOCKED)
 		return
 
-	SSshuttle.call_evac_shuttle("Sending emergency shuttle to rescue command and security staff.")
+	SSshuttle.admin_emergency_no_recall = TRUE
+
+	if(!SSshuttle.emergency || (SSshuttle.emergency?.mode != SHUTTLE_CALL))
+		SSshuttle.emergency?.mode = SHUTTLE_IDLE
+		SSshuttle.call_evac_shuttle("Sending emergency shuttle to rescue command and security staff.")
 
 /datum/team/revolution/proc/defeat_effects()
 	// If the revolution was quelled, make rev heads unable to be revived through pods
@@ -741,3 +772,4 @@
 #undef HEAD_UPDATE_PERIOD
 #undef REVOLUTION_VICTORY
 #undef STATION_VICTORY
+#undef REVOLUTION_GPS_MARK_TIME
