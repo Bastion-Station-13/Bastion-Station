@@ -425,6 +425,9 @@ GLOBAL_VAR(restart_counter)
 		var/server_name = CONFIG_GET(string/servername)
 		if (server_name)
 			new_status += "<b>[server_name]</b> "
+		var/discordurl = CONFIG_GET(string/discordurl)
+		if(discordurl)
+			new_status += "(<a href=\"[discordurl]\">Discord</a>)"
 		if(!CONFIG_GET(flag/norespawn))
 			features += "Respawn enabled"
 		if(!CONFIG_GET(flag/allow_ai))
