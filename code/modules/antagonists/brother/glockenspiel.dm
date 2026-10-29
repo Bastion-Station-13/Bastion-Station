@@ -1,5 +1,5 @@
 /**
- * GLOCK-inspiel for Blood Brothers.
+ * GLOCK-inspiel for Blood Brothers. Don't worry it's not a glocko i promise.
  */
 
 #define GLOCKENSPIEL_SWITCH_FIRE_DELAY_MULTIPLIER 0.5
@@ -11,7 +11,7 @@
 
 /obj/item/gun/ballistic/automatic/pistol/glockenspiel
 	name = "\improper GLOCK-inspiel"
-	desc = "Cheap, plastic, and it plays a little tune every time you pull the trigger. Flip the switch on the back and it goes full auto. Shame armor shrugs off whatever it shoots."
+	desc = "A glockenspiel that plays a little tune every time you pull the trigger. Flip the switch on the back and it goes full auto. Shame armor shrugs off whatever it shoots."
 	icon = 'bastionstation/icons/obj/weapons/guns/glockenspiel.dmi'
 	icon_state = "glockenspiel"
 	inhand_icon_state = "gun"
