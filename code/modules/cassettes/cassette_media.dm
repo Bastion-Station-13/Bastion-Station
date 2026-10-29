@@ -34,7 +34,10 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 /// Looks the URL up with yt-dlp and returns what Floxy would
 /proc/ytdl_lookup(url, mob/requester)
 	var/ytdl = CONFIG_GET(string/invoke_youtubedl)
-	if(!ytdl || !is_http_protocol(url) || !ytdl_url_allowed(url))
+	if(!ytdl || !is_http_protocol(url))
+		return null
+	if(!ytdl_url_allowed(url))
+		log_music("[url] isn't on the allowed sites list")
 		return null
 	var/list/cached = GLOB.ytdl_cache[url]
 	if(cached && cached["expires"] > world.time)
@@ -71,7 +74,9 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 /// Only sites from REQUEST_INTERNET_ALLOWED are looked up, players can put any link on a tape and yt-dlp would fetch all of them
 /proc/ytdl_url_allowed(url)
 	var/allowed = CONFIG_GET(string/request_internet_allowed) || YTDL_DEFAULT_ALLOWED
-	var/regex/allowed_regex = regex("^https?://(\[\\w-]+\\.)*([replacetext("[allowed],[YTDL_ALWAYS_ALLOWED]", ",", "|")])", "i")
+	// the config has "watch?v=" unescaped, as a regex that ? never matches the one in a real link
+	allowed = replacetext(replacetext("[allowed],[YTDL_ALWAYS_ALLOWED]", "\\?", "?"), "?", "\\?")
+	var/regex/allowed_regex = regex("^https?://(\[\\w-]+\\.)*([replacetext(allowed, ",", "|")])", "i")
 	return !!allowed_regex.Find(url)
 
 /// Returns list(errorcode, stdout, stderr). shell() waits for the command, which freezes the whole server while yt-dlp works,

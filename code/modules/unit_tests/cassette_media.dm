@@ -59,9 +59,12 @@
 
 	TEST_ASSERT_NOTNULL(ytdl_lookup("https://files.catbox.moe/stock.m4a"), "The stock cassette host isn't allowed")
 	TEST_ASSERT_EQUAL(count_runs(), 2, "yt-dlp wasn't started for the stock cassette host")
+	TEST_ASSERT_NOTNULL(ytdl_lookup("https://www.youtube.com/watch?v=abc"), "A normal youtube link isn't allowed")
+	TEST_ASSERT_NOTNULL(ytdl_lookup("https://music.youtube.com/watch?v=abc"), "A youtube music link isn't allowed")
+	TEST_ASSERT_EQUAL(count_runs(), 4, "yt-dlp wasn't started for the youtube links")
 	for(var/bad_url in list("https://evil.example.com/a.mp3", "https://youtu.be.evil.example.com/abc", "https://evil.example.com/?x=https://youtu.be/abc", "https://user@youtu.be/abc", "file:///etc/passwd"))
 		TEST_ASSERT_NULL(ytdl_lookup(bad_url), "[bad_url] was looked up")
-	TEST_ASSERT_EQUAL(count_runs(), 2, "yt-dlp was started for a site that isn't allowed")
+	TEST_ASSERT_EQUAL(count_runs(), 4, "yt-dlp was started for a site that isn't allowed")
 
 	// whatever is in the link can't get to the shell
 	ytdl_lookup("https://youtu.be/abc';touch [pwned_file];'")
