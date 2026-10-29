@@ -49,7 +49,7 @@
 
 /atom/movable/screen/lobby/background
 	layer = LOBBY_BACKGROUND_LAYER
-	icon = 'icons/hud/lobby/background_bastion.dmi'
+	icon = 'bastionstation/icons/hud/lobby/background_bastion.dmi'
 	icon_state = "background"
 	screen_loc = "TOP,CENTER:-61"
 
@@ -207,9 +207,11 @@
 				ready_message += ", Highest occupation setting: [highest_job]"
 			to_chat(new_client, span_notice(ready_message))
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(interview_safety), new_player, "readied up"), 1 SECONDS, TIMER_UNIQUE)
+		SSstatpanels.add_job_estimation(new_player)
 	else
 		new_player.ready = PLAYER_NOT_READY
 		base_icon_state = "not_ready"
+		SSstatpanels.remove_job_estimation(new_player)
 	update_appearance(UPDATE_ICON)
 
 ///Shown when the game has started
@@ -544,7 +546,7 @@
 // 			screen_loc = "TOP:0,CENTER:+128"
 
 /atom/movable/screen/lobby/button/server
-	icon = 'icons/hud/lobby/sister_server_buttons.dmi'
+	icon = 'bastionstation/icons/hud/lobby/sister_server_buttons.dmi'
 	abstract_type = /atom/movable/screen/lobby/button/server
 	enabled = FALSE
 	/// The name of the server, used for the connecting message.
@@ -585,7 +587,7 @@
 
 //HRP MONKE - Monkeris
 /atom/movable/screen/lobby/button/server/hrp
-	icon = 'icons/hud/lobby/sister_server_buttons_large.dmi'
+	icon = 'bastionstation/icons/hud/lobby/sister_server_buttons_large.dmi'
 	base_icon_state = "erisbutton"
 	screen_loc = "TOP:-46,CENTER:+173"
 	server_name = "CEV-ERIS (MRP/HRP)"
@@ -620,17 +622,17 @@
 // 	server_id = PLEXORA_SERVERID_VANDERLIN
 // 	layer = LOBBY_BACKGROUND_LAYER
 
-//Monke button
+//Mothroach button
 /atom/movable/screen/lobby/button/roach
 	screen_loc = "TOP:-126,CENTER:110"
-	icon = 'icons/hud/lobby/bottom_buttons.dmi'
+	icon = 'bastionstation/icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "roach"
 	base_icon_state = "roach"
 
 /atom/movable/screen/lobby/button/roach/Click(location, control, params)
 	. = ..()
 	if(.)
-		SEND_SOUND(usr, 'sound/voice/moth/scream_moth.ogg')
+		SEND_SOUND(usr, 'sound/mobs/humanoids/moth/scream_moth.ogg')
 
 /atom/movable/screen/lobby/overflow_alert
 	screen_loc = "TOP:-48,CENTER-2.7"
@@ -713,7 +715,7 @@
 	. = ..()
 	if(!. || !usr.client.is_localhost() || !check_rights_for(usr.client, R_SERVER))
 		return
-	SEND_SOUND(hud.mymob, sound('sound/effects/cartoon_splat.ogg', volume = 40))
+	SEND_SOUND(hud.mymob, sound('sound/effects/cartoon_sfx/cartoon_splat.ogg', volume = 40))
 	SSticker.start_immediately = TRUE
 	if(SSticker.current_state == GAME_STATE_STARTUP)
 		to_chat(usr, span_admin("The server is still setting up, but the round will be started as soon as possible."))

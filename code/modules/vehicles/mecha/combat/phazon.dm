@@ -1,6 +1,7 @@
 /obj/vehicle/sealed/mecha/phazon
 	desc = "This is a Phazon exosuit. The pinnacle of scientific research and pride of Nanotrasen, it uses cutting edge bluespace technology and expensive materials."
 	name = "\improper Phazon"
+	icon = 'icons/mob/rideables/mecha.dmi'
 	icon_state = "phazon"
 	base_icon_state = "phazon"
 	allow_diagonal_movement = TRUE
@@ -62,7 +63,7 @@
 			chassis.balloon_alert(owner,"your punches will now deal toxin damage")
 	chassis.damtype = new_damtype
 	button_icon_state = "mech_damtype_[new_damtype]"
-	playsound(chassis, 'sound/mecha/mechmove01.ogg', 50, TRUE)
+	playsound(chassis, 'sound/vehicles/mecha/mechmove01.ogg', 50, TRUE)
 	build_all_button_icons()
 
 /datum/action/vehicle/sealed/mecha/mech_toggle_phasing
@@ -77,4 +78,7 @@
 	chassis.phasing = chassis.phasing ? "" : "phasing"
 	button_icon_state = "mech_phasing_[chassis.phasing ? "on" : "off"]"
 	chassis.balloon_alert(owner, "[chassis.phasing ? "enabled" : "disabled"] phasing")
+	// Removes tank desant from the mech if its phasing
+	chassis.unbuckle_all_mobs(TRUE)
+	chassis.can_buckle = chassis.phasing ? FALSE : TRUE
 	build_all_button_icons()

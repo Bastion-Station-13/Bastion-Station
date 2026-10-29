@@ -10,6 +10,6 @@
 		EVENT_TRACK_ROLESET = 1,
 		EVENT_TRACK_OBJECTIVES = 1
 		)
-	population_min = 40
+	population_min = 30
 	weight = 2
 	base_antag_points = 5

@@ -19,7 +19,7 @@
 	. = ..()
 	SSautotransfer.doing_transfer_vote = FALSE
 
-/datum/vote/shuttle_call/can_be_initiated(mob/by_who, forced = FALSE)
+/datum/vote/shuttle_call/can_be_initiated(forced = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE

@@ -559,7 +559,7 @@
 /turf/open/floor/iron/white/smooth_edge,
 /area/station/command/heads_quarters/rd)
 "aiB" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/wood,
 /area/station/service/library/lounge)
@@ -8903,7 +8903,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/bot_white,
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /obj/item/robot_suit,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/science/robotics/lab)
@@ -15395,7 +15395,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
 "eBt" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
@@ -26372,7 +26372,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
 "hQU" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/structure/sign/painting/library{
 	pixel_x = -32
 	},

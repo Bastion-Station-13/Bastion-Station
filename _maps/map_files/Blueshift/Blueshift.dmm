@@ -100,6 +100,7 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "abG" = (
@@ -13382,7 +13383,7 @@
 /turf/open/floor/plating,
 /area/station/common/pool)
 "cCU" = (
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /turf/open/floor/iron/dark,
 /area/station/security/prison/upper)
 "cCX" = (
@@ -31864,6 +31865,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Security - Mechbay"
 	},
+/obj/vehicle/sealed/mecha/ripley/paddy/preset,
 /turf/open/floor/iron/recharge_floor,
 /area/station/security/mechbay)
 "geQ" = (
@@ -54637,7 +54639,7 @@
 /area/station/maintenance/thruster_room/central)
 "kwF" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
@@ -66123,6 +66125,7 @@
 	},
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "mKX" = (
@@ -71830,7 +71833,7 @@
 /obj/item/reagent_containers/blood,
 /obj/structure/fluff{
 	desc = "What, you think the water just magically soaks into the metallic flooring?";
-	icon = 'icons/obj/lavaland/survival_pod.dmi';
+	icon = 'icons/obj/mining_zones/survival_pod.dmi';
 	icon_state = "fan_tiny";
 	name = "shower drain"
 	},
@@ -77198,7 +77201,7 @@
 /turf/open/floor/engine/o2,
 /area/station/engineering/atmos)
 "oSI" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/wood,
 /area/station/service/library)
 "oSO" = (
@@ -79048,6 +79051,7 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "pmr" = (
@@ -83212,7 +83216,7 @@
 /area/station/maintenance/starboard/fore)
 "qeM" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /turf/open/floor/iron/smooth,
 /area/station/cargo/power_station/upper)
 "qeS" = (
@@ -84103,6 +84107,7 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /obj/item/book/manual/botanical_lexicon,
 /obj/item/book/manual/chicken_encyclopedia,
+/obj/item/chicken_scanner,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/service/hydroponics/chicken/backroom)
 "qor" = (
@@ -93777,7 +93782,7 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
 	},
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/wood,
 /area/station/security/prison/rec)
 "sgp" = (
@@ -112502,7 +112507,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/lesser)
 "vFj" = (
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /obj/item/storage/toolbox/mechanical,
 /turf/open/floor/plating,
 /area/station/maintenance/fore/upper)
@@ -120637,7 +120642,7 @@
 /turf/open/floor/iron,
 /area/station/commons/dorms)
 "xhm" = (
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/maintenance/solars/starboard/fore)
@@ -124309,7 +124314,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
-/obj/effect/decal/cleanable/blood/splatter/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating/airless,
 /area/station/maintenance/fore/upper)

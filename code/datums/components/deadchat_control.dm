@@ -253,3 +253,114 @@
 	inputs["down"] = CALLBACK(parent, TYPE_PROC_REF(/obj/effect/immovablerod, walk_in_direction), SOUTH)
 	inputs["left"] = CALLBACK(parent, TYPE_PROC_REF(/obj/effect/immovablerod, walk_in_direction), WEST)
 	inputs["right"] = CALLBACK(parent, TYPE_PROC_REF(/obj/effect/immovablerod, walk_in_direction), EAST)
+
+/**
+ * Deadchat Moves Things
+ *
+ * A special variant of the deadchat_control component that comes pre-baked with all the hottest inputs for a human mob
+ * Includes the ability for ghost chat to say things through the controlled mob
+ * Also includes the emotes: Clap, Cry, Flip, Laugh, Scream, Spin, Swear
+ */
+/datum/component/deadchat_control/human_control
+	var/mob/living/carbon/human/human_owner
+
+/datum/component/deadchat_control/human_control/Initialize(_deadchat_mode, _inputs, _input_cooldown, _on_removal)
+	if(!ishuman(parent))
+		return COMPONENT_INCOMPATIBLE
+	human_owner = parent
+
+	. = ..()
+
+	if(deadchat_mode & ANARCHY_MODE) // Override deadchat_react will block "say" being passed to parent, preventing a null.invoke runtime
+		inputs["say"] = null // Say needs to be handled seperately in the override as it needs the rest of the message to deterimine what to say.
+	inputs["up"] = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), parent, NORTH)
+	inputs["down"] = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), parent, SOUTH)
+	inputs["left"] = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), parent, WEST)
+	inputs["right"] = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), parent, EAST)
+	inputs["clap"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "clap")
+	inputs["cry"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "cry")
+	inputs["flip"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "flip")
+	inputs["laugh"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "laugh")
+	inputs["scream"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "scream")
+	inputs["spin"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "spin")
+	inputs["swear"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, emote), "swear")
+	inputs["drop"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, drop_all_held_items))
+	inputs["fall"]= CALLBACK(human_owner, TYPE_PROC_REF(/mob/living, Knockdown), 1 SECONDS)
+	inputs["stand"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob/living, resist_buckle))
+	inputs["throw"] = CALLBACK(human_owner, TYPE_PROC_REF(/mob, throw_item), get_edge_target_turf(human_owner, pick(GLOB.alldirs)))
+	inputs["shove"] = CALLBACK(src, PROC_REF(ghost_shove))
+	inputs["punch"] = CALLBACK(src, PROC_REF(ghost_punch))
+	inputs["sit"] = CALLBACK(src, PROC_REF(ghost_sit))
+	inputs["run"] = CALLBACK(src, PROC_REF(ghost_speed), MOVE_INTENT_RUN)
+	inputs["walk"] = CALLBACK(src, PROC_REF(ghost_speed), MOVE_INTENT_WALK)
+
+/datum/component/deadchat_control/human_control/deadchat_react(mob/source, message)
+	if(!(deadchat_mode & ANARCHY_MODE)) // Only for anarchy because there isnt a clean way for people to vote on what to say in democracy mode. Also here to prevent null.invoke, see above.
+		return ..()
+
+	if(!source || !source.ckey)
+		return
+
+	var/cooldown = ckey_to_cooldown[source.ckey] - world.time
+	if(cooldown > 0)
+		to_chat(source, span_warning("Your deadchat control inputs are still on cooldown for another [CEILING(cooldown * 0.1, 1)] second\s."))
+		return MOB_DEADSAY_SIGNAL_INTERCEPT
+
+	message = LOWER_TEXT(message)
+	var/list/message_contents = splittext(message, " ", 1, 4)
+	if(message_contents[1] != "say")
+		return ..()
+
+	INVOKE_ASYNC(src, PROC_REF(ghost_say), message_contents[2])
+	ckey_to_cooldown[source.ckey] = world.time + input_cooldown
+	addtimer(CALLBACK(src, PROC_REF(end_cooldown), source.ckey), input_cooldown)
+	to_chat(source, span_notice("\"[message]\" input accepted. You are now on cooldown for [input_cooldown * 0.1] second\s."))
+	return MOB_DEADSAY_SIGNAL_INTERCEPT
+
+/datum/component/deadchat_control/human_control/proc/ghost_punch()
+	if(!istype(human_owner) || human_owner.get_active_held_item())
+		return
+	var/list/punchies = list()
+	for(var/mob/living/victim in orange(1, human_owner))
+		punchies += victim
+	if(!length(punchies))
+		return
+	var/mob/living/punch_me = pick(punchies)
+	var/old_istate = human_owner.istate // Manually set istate so its always a punch and not help.
+	human_owner.istate = 3
+	human_owner.UnarmedAttack(punch_me, proximity_flag = TRUE)
+	human_owner.istate = old_istate
+
+/datum/component/deadchat_control/human_control/proc/ghost_say(to_say)
+	human_owner.say(to_say, forced = "deadchat control say")
+	return
+
+/datum/component/deadchat_control/human_control/proc/ghost_shove()
+	if(!istype(human_owner) || human_owner.get_active_held_item())
+		return
+	var/list/shoveables = list()
+	for(var/mob/living/victim in orange(1, human_owner))
+		shoveables += victim
+	if(!length(shoveables))
+		return
+	var/mob/living/shove_me = pick(shoveables)
+	human_owner.disarm(shove_me)
+
+/datum/component/deadchat_control/human_control/proc/ghost_sit()
+	if(HAS_TRAIT(human_owner, TRAIT_IMMOBILIZED))
+		return
+	var/list/chairs = list()
+	for(var/obj/structure/chair/possible_chair in range(1, human_owner))
+		chairs += possible_chair
+	if(!length(chairs))
+		return
+	var/obj/structure/chair/sitting_chair = pick(chairs)
+	sitting_chair.buckle_mob(human_owner, check_loc = FALSE)
+
+/datum/component/deadchat_control/human_control/proc/ghost_speed(new_speed)
+	if(human_owner.m_intent == new_speed)
+		return
+	if(human_owner.m_intent != MOVE_INTENT_WALK)
+		human_owner.set_move_intent(MOVE_INTENT_WALK)
+	else
+		human_owner.set_move_intent(MOVE_INTENT_RUN)

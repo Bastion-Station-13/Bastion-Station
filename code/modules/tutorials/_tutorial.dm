@@ -1,3 +1,4 @@
+/*
 /// The base for a contextual tutorial.
 /// In order to give a tutorial to someone, use `SStutorials.suggest_tutorial(user, /datum/tutorial/subtype)`
 /datum/tutorial
@@ -267,3 +268,4 @@
 /datum/tutorial_manager/proc/get_key()
 	SHOULD_BE_PURE(TRUE)
 	return copytext("[tutorial_type]", length("[/datum/tutorial]") + 2)
+*/

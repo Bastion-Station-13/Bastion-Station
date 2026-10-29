@@ -1,7 +1,7 @@
 /datum/component/carbon_sprint
 	var/mob/living/carbon/carbon_parent
-	var/sprint_key_down = FALSE
 	var/sprinting = FALSE
+	var/key_held = FALSE
 	var/sustained_moves = 0
 	var/sprint_stamina_modifier = 1
 	var/last_dust
@@ -15,12 +15,12 @@
 /datum/component/carbon_sprint/RegisterWithParent()
 	. = ..()
 	carbon_parent = parent
-	RegisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE, PROC_REF(onMobMove))
 	RegisterSignal(carbon_parent, COMSIG_KB_CARBON_SPRINT_DOWN, PROC_REF(keyDown))
 	RegisterSignal(carbon_parent, COMSIG_KB_CARBON_SPRINT_UP, PROC_REF(keyUp))
 
 /datum/component/carbon_sprint/UnregisterFromParent()
 	. = ..()
+	key_held = FALSE
 	UnregisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE)
 	UnregisterSignal(carbon_parent, COMSIG_KB_CARBON_SPRINT_DOWN)
 	UnregisterSignal(carbon_parent, COMSIG_KB_CARBON_SPRINT_UP)
@@ -32,7 +32,7 @@
 			stopSprint()
 		return
 
-	if(sprint_key_down && !HAS_TRAIT(carbon_parent, TRAIT_NO_SPRINT))
+	if(!HAS_TRAIT(carbon_parent, TRAIT_NO_SPRINT))
 		var/_step_size = (direct & (direct-1)) ? 1.4 : 1 //If we're moving diagonally, we're taking roughly 1.4x step size
 		if(!sprinting)
 			sprinting = TRUE
@@ -67,10 +67,15 @@
 		stopSprint()
 
 /datum/component/carbon_sprint/proc/keyDown()
-	sprint_key_down = TRUE
+	if(key_held)
+		return
+	key_held = TRUE
+	RegisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE, PROC_REF(onMobMove))
 
 /datum/component/carbon_sprint/proc/keyUp()
-	sprint_key_down = FALSE
+	key_held = FALSE
+	UnregisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE)
+	stopSprint()
 
 /datum/component/carbon_sprint/proc/stopSprint()
 	sprinting = FALSE
