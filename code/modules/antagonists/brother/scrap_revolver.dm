@@ -106,7 +106,7 @@
 	cylinder.stored_ammo = list()
 	for(var/obj/item/ammo_casing/spent_casing as anything in spent_casings)
 		spent_casing.forceMove(drop_location())
-	// The gun component works out the new capacity, including any magazine part's extra rounds.
+	// The gun component works out the new capacity, including any magazine part's multiplier.
 	var/datum/component/blood_brother_gun/modular_gun = GetComponent(/datum/component/blood_brother_gun)
 	modular_gun.set_capacity_multiplier(new_capacity_multiplier)
 	update_appearance()

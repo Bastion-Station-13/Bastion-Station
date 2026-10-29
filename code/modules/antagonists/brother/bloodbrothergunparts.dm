@@ -62,8 +62,8 @@
 	icon_state = "BBmagazine_parent"
 	bb_part_slot = BB_GUN_PART_MAGAZINE
 	bb_weapon_family = BB_GUN_BALLISTIC
-	/// Extra rounds this magazine adds to a weapon's internal magazine.
-	var/bb_extra_rounds = 0
+	/// Multiplier applied to a weapon's internal magazine capacity.
+	var/bb_capacity_multiplier = 1
 	/// How many weight classes this magazine adds to the weapon.
 	var/bb_weight_class_increase = 0
 	/// How long loading ammunition into the weapon takes with this magazine installed. 0 for instant.
@@ -71,8 +71,8 @@
 
 /obj/item/blood_brother_gun_part/magazine/get_effect_lines()
 	. = ..()
-	if(bb_extra_rounds)
-		. += "Adds [bb_extra_rounds] rounds to an internal magazine."
+	if(bb_capacity_multiplier != 1)
+		. += "Internal magazine capacity [percent_text(bb_capacity_multiplier)]."
 	if(bb_weight_class_increase)
 		. += weight_text(bb_weight_class_increase)
 	if(bb_load_delay)
@@ -326,20 +326,20 @@
 	name = "extended magazine"
 	icon_state = "extended_magazine"
 	desc = "Extend your magazine to hold extra bullets."
-	bb_extra_rounds = 2
+	bb_capacity_multiplier = 1.5
 
 /obj/item/blood_brother_gun_part/magazine/big
 	name = "big magazine"
 	icon_state = "big_magazine"
 	desc = "A heavy magazine to hold more bullets, but makes your gun harder to carry."
-	bb_extra_rounds = 4
+	bb_capacity_multiplier = 2
 	bb_weight_class_increase = 1
 
 /obj/item/blood_brother_gun_part/magazine/bluespace
 	name = "bluespace magazine"
 	icon_state = "bluespace_magazine"
 	desc = "Use the power of bluespace to create a pocket dimension around your gun to store an absurd amount of bullets! Loading them takes time though."
-	bb_extra_rounds = 18
+	bb_capacity_multiplier = 4
 	bb_load_delay = 1.5 SECONDS
 
 // Power cells

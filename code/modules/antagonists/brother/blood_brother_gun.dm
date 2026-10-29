@@ -26,7 +26,7 @@
 	var/added_autofire = FALSE
 	/// How many rounds the gun's internal magazine holds before any magazine part. Null if it has no internal magazine.
 	var/base_capacity
-	/// Multiplier applied to the internal magazine's total capacity, after the magazine part's extra rounds. Used by the scrap revolver's shotgun mode.
+	/// Multiplier applied to the internal magazine's capacity, on top of the magazine part's. Used by the scrap revolver's shotgun mode.
 	var/capacity_multiplier = 1
 	/// How many weight classes the current magazine and barrel have added to the gun. Can be negative.
 	var/applied_weight_class_change = 0
@@ -232,7 +232,7 @@
 	var/obj/item/ammo_box/magazine/internal/internal_magazine = get_internal_magazine()
 	if(!internal_magazine || isnull(base_capacity))
 		return
-	var/total_capacity = (base_capacity + (magazine_part ? magazine_part.bb_extra_rounds : 0)) * capacity_multiplier
+	var/total_capacity = base_capacity * (magazine_part ? magazine_part.bb_capacity_multiplier : 1) * capacity_multiplier
 	// A multiplier can leave a fraction (4.5 shells), so round down to a whole round, and always hold at least one.
 	internal_magazine.max_ammo = max(FLOOR(total_capacity, 1), 1)
 	resize_internal_magazine(internal_magazine)
