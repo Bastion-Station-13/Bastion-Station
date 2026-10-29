@@ -632,7 +632,7 @@
 /atom/movable/screen/lobby/button/roach/Click(location, control, params)
 	. = ..()
 	if(.)
-		SEND_SOUND(usr, 'sound/voice/moth/scream_moth.ogg')
+		SEND_SOUND(usr, 'sound/mobs/humanoids/moth/scream_moth.ogg')
 
 /atom/movable/screen/lobby/overflow_alert
 	screen_loc = "TOP:-48,CENTER-2.7"
@@ -715,7 +715,7 @@
 	. = ..()
 	if(!. || !usr.client.is_localhost() || !check_rights_for(usr.client, R_SERVER))
 		return
-	SEND_SOUND(hud.mymob, sound('sound/effects/cartoon_splat.ogg', volume = 40))
+	SEND_SOUND(hud.mymob, sound('sound/effects/cartoon_sfx/cartoon_splat.ogg', volume = 40))
 	SSticker.start_immediately = TRUE
 	if(SSticker.current_state == GAME_STATE_STARTUP)
 		to_chat(usr, span_admin("The server is still setting up, but the round will be started as soon as possible."))
