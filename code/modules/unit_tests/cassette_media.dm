@@ -66,6 +66,11 @@
 		TEST_ASSERT_NULL(ytdl_lookup(bad_url), "[bad_url] was looked up")
 	TEST_ASSERT_EQUAL(count_runs(), 4, "yt-dlp was started for a site that isn't allowed")
 
+	// hyphens and underscores must reach yt-dlp untouched
+	TEST_ASSERT_NOTNULL(ytdl_lookup("https://soundcloud.com/some-artist/some_track-1"), "A link with - or _ in it wasn't looked up")
+	TEST_ASSERT(ytdl_url_shell_safe("https://soundcloud.com/some-artist/some_track-1"), "A normal link was called unsafe")
+	TEST_ASSERT(!ytdl_url_shell_safe("https://youtu.be/abc'x"), "A link with a quote was called safe")
+
 	// whatever is in the link can't get to the shell
 	ytdl_lookup("https://youtu.be/abc';touch [pwned_file];'")
 	ytdl_lookup("https://youtu.be/$(touch [pwned_file])")
@@ -77,6 +82,8 @@
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/garbage"), "Output that isn't json still gave a song")
 	write_stub(song_json("file:///etc/passwd"))
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/local"), "A link that isn't http(s) was handed out")
+	write_stub("echo '{\"url\":\"https://media.example.com/a.m3u8\",\"protocol\":\"m3u8_native\",\"title\":\"x\"}'")
+	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/hls"), "A streaming playlist was handed out, clients can't play it")
 	write_stub(song_json(live = TRUE))
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/live"), "A live stream was put on a tape")
 

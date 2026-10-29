@@ -36,6 +36,9 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 	var/ytdl = CONFIG_GET(string/invoke_youtubedl)
 	if(!ytdl || !is_http_protocol(url))
 		return null
+	if(!ytdl_url_shell_safe(url))
+		log_music("[url] has characters that can't be passed to yt-dlp")
+		return null
 	if(!ytdl_url_allowed(url))
 		log_music("[url] isn't on the allowed sites list")
 		return null
@@ -79,17 +82,24 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 	var/regex/allowed_regex = regex("^https?://(\[\\w-]+\\.)*([replacetext(allowed, ",", "|")])", "i")
 	return !!allowed_regex.Find(url)
 
+/// TRUE if the url is made only of characters that can sit inside quotes in a shell command.
+/// Unsafe urls are refused instead of rewritten, shell_url_scrub() percent-encodes characters like "-" and breaks the link
+/proc/ytdl_url_shell_safe(url)
+	var/static/regex/unsafe = regex("\[^\\w\\-.~:/?#@&+,=%]")
+	return istext(url) && !unsafe.Find(url)
+
 /// Returns list(errorcode, stdout, stderr). shell() waits for the command, which freezes the whole server while yt-dlp works,
 /// so on unix it is started in the background and the result is polled
 /proc/ytdl_run(ytdl, url)
-	var/scrubbed = shell_url_scrub(url)
+	if(!ytdl_url_shell_safe(url))
+		return list(1, "", "url isn't safe to pass to the shell")
 	var/static/run_id = 0
 	if(world.system_type != UNIX)
-		return world.shelleo("[ytdl] --geo-bypass --format \"[YTDL_FORMAT]\" --dump-single-json --no-playlist --extractor-args \"youtube:lang=en\" -- \"[scrubbed]\"")
+		return world.shelleo("[ytdl] --geo-bypass --format \"[YTDL_FORMAT]\" --dump-single-json --no-playlist --extractor-args \"youtube:lang=en\" -- \"[url]\"")
 	run_id++
 	var/base = "data/ytdl_[run_id]"
 	var/done_file = "[base].done"
-	shell("( timeout [YTDL_TIMEOUT] [ytdl] --geo-bypass --format '[YTDL_FORMAT]' --dump-single-json --no-playlist --extractor-args 'youtube:lang=en' -- '[scrubbed]' > [base].out 2> [base].err && echo 0 > [done_file] || echo 1 > [done_file] ) < /dev/null > /dev/null 2>&1 &")
+	shell("( timeout [YTDL_TIMEOUT] [ytdl] --geo-bypass --format '[YTDL_FORMAT]' --dump-single-json --no-playlist --extractor-args 'youtube:lang=en' -- '[url]' > [base].out 2> [base].err && echo 0 > [done_file] || echo 1 > [done_file] ) < /dev/null > /dev/null 2>&1 &")
 	UNTIL_OR_TIMEOUT(fexists(done_file), (YTDL_TIMEOUT + 5) SECONDS)
 	var/errorcode = 1
 	var/stdout = ""
@@ -115,6 +125,10 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 	catch
 		return null
 	if(!islist(data) || data["is_live"])
+		return null
+	var/protocol = data["protocol"]
+	if(istext(protocol) && (findtext(protocol, "m3u8") || findtext(protocol, "dash")))
+		log_music("yt-dlp only gave a streaming playlist for [url] ([protocol]), clients can't play that")
 		return null
 	var/direct_url = data["url"]
 	if(!istext(direct_url) || !is_http_protocol(direct_url))
