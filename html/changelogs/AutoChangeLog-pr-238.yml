@@ -1,6 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - config: "Updates the github readme to include a link to the bastionstation website."
-  - config: "Adds a link to the discord into the BYOND hub entry."
-  - config: "Changes the 'forum' button in the top-right of the UI to be a 'discord' button instead."
