@@ -28,7 +28,7 @@
 /obj/structure/closet/tutorial/proc/check_stuff(mob/living/user, obj/item/stuff)
 	if(istype(stuff, item_to_be_checked))
 		if(user.ckey != null && (ckeys_that_completed == null || !(user.ckey in ckeys_that_completed)))
-			playsound(user, 'sound/lavaland/cursed_slot_machine_jackpot.ogg', 50)
+			playsound(user, 'sound/machines/lavaland/cursed_slot_machine_jackpot.ogg', 50)
 			user.visible_message(span_notice("[user] has completed the tutorial!"))
 			LAZYADD(ckeys_that_completed, user.ckey)
 		return TRUE
