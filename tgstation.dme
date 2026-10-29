@@ -3399,6 +3399,8 @@
 #include "code\modules\antagonists\brother\glockenspiel.dm"
 #include "code\modules\antagonists\brother\hardlight_cannon.dm"
 #include "code\modules\antagonists\brother\ned_kelly_armor.dm"
+#include "code\modules\antagonists\brother\nv_shades.dm"
+#include "code\modules\antagonists\brother\patchwork_armor.dm"
 #include "code\modules\antagonists\brother\pin_clamp.dm"
 #include "code\modules\antagonists\brother\rapid_combat_device.dm"
 #include "code\modules\antagonists\brother\scrap_revolver.dm"

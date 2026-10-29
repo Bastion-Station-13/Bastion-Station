@@ -478,6 +478,75 @@
 	)
 	time = 8 SECONDS
 
+/// Made like HUD sunglasses, but with a night vision HUD. Has no result, so only the subtypes show up.
+/datum/crafting_recipe/blood_brother/nv_shades
+	category = CAT_BB_GADGETS
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WIRECUTTER,
+	)
+	time = 2 SECONDS
+
+/datum/crafting_recipe/blood_brother/nv_shades/plain
+	name = "Night Vision Shades"
+	desc = "Wire night vision goggles into a pair of sunglasses. You can see in the dark, and welding won't blind you either."
+	result = /obj/item/clothing/glasses/night/shades
+	reqs = list(
+		/obj/item/clothing/glasses/night = 1,
+		/obj/item/clothing/glasses/sunglasses = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+
+/datum/crafting_recipe/blood_brother/nv_shades/meson
+	name = "Night Vision Meson Shades"
+	desc = "Wire night vision mesons into a pair of sunglasses. You can see in the dark, and welding won't blind you either."
+	result = /obj/item/clothing/glasses/meson/night/shades
+	reqs = list(
+		/obj/item/clothing/glasses/meson/night = 1,
+		/obj/item/clothing/glasses/sunglasses = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+
+/datum/crafting_recipe/blood_brother/nv_shades/diagnostic
+	name = "Night Vision Diagnostic Shades"
+	desc = "Wire a night vision diagnostic HUD into a pair of sunglasses. You can see in the dark, and welding won't blind you either."
+	result = /obj/item/clothing/glasses/hud/diagnostic/night/shades
+	reqs = list(
+		/obj/item/clothing/glasses/hud/diagnostic/night = 1,
+		/obj/item/clothing/glasses/sunglasses = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+
+/datum/crafting_recipe/blood_brother/nv_shades/security
+	name = "Night Vision Security Shades"
+	desc = "Wire a night vision security HUD into a pair of sunglasses. You can see in the dark, and welding won't blind you either."
+	result = /obj/item/clothing/glasses/hud/security/night/shades
+	reqs = list(
+		/obj/item/clothing/glasses/hud/security/night = 1,
+		/obj/item/clothing/glasses/sunglasses = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+
+/datum/crafting_recipe/blood_brother/nv_shades/medical
+	name = "Night Vision Medical Shades"
+	desc = "Wire a night vision medical HUD into a pair of sunglasses. You can see in the dark, and welding won't blind you either."
+	result = /obj/item/clothing/glasses/hud/health/night/shades
+	reqs = list(
+		/obj/item/clothing/glasses/hud/health/night = 1,
+		/obj/item/clothing/glasses/sunglasses = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+
+/datum/crafting_recipe/blood_brother/nv_shades/science
+	name = "Night Vision Science Shades"
+	desc = "Wire night vision science goggles into a pair of sunglasses. You can see in the dark, and welding won't blind you either."
+	result = /obj/item/clothing/glasses/science/night/shades
+	reqs = list(
+		/obj/item/clothing/glasses/science/night = 1,
+		/obj/item/clothing/glasses/sunglasses = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+
 /datum/crafting_recipe/blood_brother/scrap_revolver
 	name = "Scrap Revolver"
 	desc = "A crude revolver built around a matter bin cylinder that can be modified to accept either .38 or 12 gauge rounds."
@@ -572,6 +641,37 @@
 		TOOL_WELDER,
 	)
 	time = 10 SECONDS
+
+/datum/crafting_recipe/blood_brother/patchwork_duster
+	name = "Patchwork Armored Duster"
+	desc = "A tough leather coat with scrap plating sewn into it and a hidden holster for a gun."
+	category = CAT_BB_ARMOR
+	result = /obj/item/clothing/suit/armor/patchwork_duster
+	reqs = list(
+		/obj/item/stack/sheet/iron = 10,
+		/obj/item/stack/sheet/cloth = 5,
+		/obj/item/stack/sheet/leather = 5,
+	)
+	tool_behaviors = list(
+		TOOL_WELDER,
+		TOOL_WIRECUTTER,
+	)
+	time = 15 SECONDS
+
+/datum/crafting_recipe/blood_brother/patchwork_hat
+	name = "Patchwork Cowboy Hat"
+	desc = "10% chance a shot goes through the brim instead of your head. Fold it into a flatcap if cowboy hats aren't your style."
+	category = CAT_BB_ARMOR
+	result = /obj/item/clothing/head/patchwork_hat
+	reqs = list(
+		/obj/item/stack/sheet/iron = 2,
+		/obj/item/stack/sheet/cloth = 2,
+		/obj/item/stack/sheet/leather = 2,
+	)
+	tool_behaviors = list(
+		TOOL_WIRECUTTER,
+	)
+	time = 5 SECONDS
 
 /datum/crafting_recipe/blood_brother/smoke_grenade
 	name = "Smoke Grenade"
