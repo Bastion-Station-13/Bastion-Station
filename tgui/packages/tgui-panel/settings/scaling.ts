@@ -3,7 +3,7 @@ const ELEMENTS_TO_ADJUST = [
   'infobuttons.changelog',
   'infobuttons.rules',
   'infobuttons.wiki',
-  'infobuttons.forum',
+  'infobuttons.discord',
   'infobuttons.github',
   'infobuttons.report-issue',
   'infobuttons.fullscreen-toggle',
