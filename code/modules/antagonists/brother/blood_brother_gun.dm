@@ -46,6 +46,10 @@
 	var/base_sharpness
 	/// The gun's melee hit sound before any underbarrel.
 	var/base_hitsound
+	/// The gun's own fire mode, set with set_fire_mode(), such as the GLOCK-inspiel's switch.
+	var/fire_mode_automatic = FALSE
+	var/fire_mode_delay_multiplier = 1
+	var/fire_mode_spread = 0
 
 /datum/component/blood_brother_gun/Initialize(weapon_family, list/part_slots, list/default_parts)
 	if(!isgun(parent))
@@ -342,20 +346,28 @@
 	if(added_autofire)
 		qdel(gun.GetComponent(/datum/component/automatic_fire))
 		added_autofire = FALSE
-	if(receiver?.bb_receiver_type == BB_GUN_RECEIVER_AUTOMATIC)
-		gun.AddComponent(/datum/component/automatic_fire, receiver.bb_fire_interval * get_fire_delay_multiplier())
+	if(receiver && (receiver.bb_receiver_type == BB_GUN_RECEIVER_AUTOMATIC || fire_mode_automatic))
+		gun.AddComponent(/datum/component/automatic_fire, gun.fire_delay)
 		added_autofire = TRUE
 
-/// Sets the gun's delay between shots from the receiver (or the gun's own delay), adjusted by the lens.
+/// Sets the gun's own fire mode, such as the GLOCK-inspiel's switch, which applies on top of the installed parts.
+/datum/component/blood_brother_gun/proc/set_fire_mode(automatic, delay_multiplier = 1, extra_spread = 0)
+	fire_mode_automatic = automatic
+	fire_mode_delay_multiplier = delay_multiplier
+	fire_mode_spread = extra_spread
+	update_receiver()
+	update_spread()
+
+/// Sets the gun's delay between shots from the receiver (or the gun's own delay), adjusted by the lens and fire mode.
 /datum/component/blood_brother_gun/proc/update_fire_delay()
 	var/obj/item/gun/gun = parent
 	var/obj/item/blood_brother_gun_part/receiver/receiver = get_part(BB_GUN_PART_RECEIVER)
 	gun.fire_delay = (receiver?.bb_fire_interval || get_base_fire_delay()) * get_fire_delay_multiplier()
 
-/// Returns how much the installed lens slows down or speeds up the gun's firing.
+/// Returns how much the installed lens and the gun's fire mode slow down or speed up the gun's firing.
 /datum/component/blood_brother_gun/proc/get_fire_delay_multiplier()
 	var/obj/item/blood_brother_gun_part/lens/lens = get_part(BB_GUN_PART_LENS)
-	return lens ? lens.bb_fire_delay_multiplier : 1
+	return (lens ? lens.bb_fire_delay_multiplier : 1) * fire_mode_delay_multiplier
 
 /// Applies the installed lens's effects to the gun, replacing those of the previous lens.
 /// Damage, speed and fire rate are handled with the receiver, armour penetration, knockdown and teleporting in on_ready_projectile().
@@ -382,14 +394,14 @@
 	update_weight_class()
 	update_spread()
 
-/// Sets the gun's spread and dual wielding spread from its own values, adjusted by the installed lens, barrel and underbarrel.
+/// Sets the gun's spread and dual wielding spread from its own values, adjusted by the installed lens, barrel, underbarrel and fire mode.
 /datum/component/blood_brother_gun/proc/update_spread()
 	var/obj/item/gun/gun = parent
 	var/obj/item/blood_brother_gun_part/lens/lens = get_part(BB_GUN_PART_LENS)
 	var/obj/item/blood_brother_gun_part/barrel/barrel = get_part(BB_GUN_PART_BARREL)
 	var/obj/item/blood_brother_gun_part/underbarrel/underbarrel = get_part(BB_GUN_PART_UNDERBARREL)
 
-	var/extra_spread = (lens ? lens.bb_spread : 0) + (barrel ? barrel.bb_spread : 0)
+	var/extra_spread = (lens ? lens.bb_spread : 0) + (barrel ? barrel.bb_spread : 0) + fire_mode_spread
 	var/spread_multiplier = (barrel ? barrel.bb_spread_multiplier : 1) * (underbarrel ? underbarrel.bb_spread_multiplier : 1)
 	var/dual_wield_multiplier = (barrel ? barrel.bb_dual_wield_spread_multiplier : 1) * (underbarrel ? underbarrel.bb_dual_wield_spread_multiplier : 1)
 	gun.spread = (base_spread + extra_spread) * spread_multiplier

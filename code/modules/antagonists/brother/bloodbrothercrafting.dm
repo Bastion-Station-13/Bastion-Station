@@ -497,6 +497,41 @@
 		/obj/item/surgicaldrill,
 	)
 
+/datum/crafting_recipe/blood_brother/glockenspiel
+	name = "GLOCK-inspiel"
+	desc = "Bolt a receiver onto a glockenspiel and you've got yourself a pistol. There's a switch for full auto, but it doesn't do much against armor. Takes 9mm, and comes with an empty mag."
+	category = CAT_BB_WEAPONS
+	result = /obj/item/gun/ballistic/automatic/pistol/glockenspiel
+	reqs = list(
+		/obj/item/instrument/glockenspiel = 1,
+		/obj/item/weaponcrafting/receiver = 1,
+		/obj/item/pipe = 1,
+		/obj/item/stack/sheet/plastic = 10,
+		/obj/item/stack/sticky_tape = 1,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WELDER,
+	)
+
+/datum/crafting_recipe/blood_brother/rapid_combat_device
+	name = "Rapid Combat Device"
+	desc = "Gut an RCD and turn it into a gun. It shoots bone-breaking balls, breaching blasts for doors and mechs, and barricades that don't stick around. Loads matter like an RCD, but gun parts and RCD upgrades won't fit."
+	category = CAT_BB_WEAPONS
+	result = /obj/item/gun/energy/rapid_combat_device
+	reqs = list(
+		/obj/item/construction/rcd = 1,
+		/obj/item/weaponcrafting/receiver = 1,
+		/obj/item/stack/sheet/plasteel = 5,
+		/obj/item/stack/cable_coil = 10,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WELDER,
+		TOOL_MULTITOOL,
+	)
+	time = 10 SECONDS
+
 /datum/crafting_recipe/blood_brother/hardlight_laser_cannon
 	name = "Hardlight Laser Cannon"
 	desc = "A crude laser cannon that fires beams of hardlight so dense they're stopped by glass and grilles."
@@ -548,6 +583,19 @@
 		/obj/item/assembly/igniter = 1,
 		/obj/item/stack/cable_coil = 5,
 		/datum/reagent/consumable/sugar = 10,
+	)
+	time = 5 SECONDS
+
+/datum/crafting_recipe/blood_brother/empty_9mm_magazine
+	name = "Empty 9mm Magazine"
+	desc = "A bent bit of iron that holds 9mm rounds. You'll need a hacked autolathe to print the bullets."
+	category = CAT_BB_AMMUNITION
+	result = /obj/item/ammo_box/magazine/m9mm/empty
+	reqs = list(
+		/obj/item/stack/sheet/iron = 4,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
 	)
 	time = 5 SECONDS
 
