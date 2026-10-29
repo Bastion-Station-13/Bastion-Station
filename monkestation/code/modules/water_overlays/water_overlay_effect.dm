@@ -6,8 +6,6 @@
 	var/datum/water_overlay_config/config
 	/// The mob is kept out of the water visually, like when it is buckled or in the air
 	var/hidden = FALSE
-	/// pixel_z we added to the mob
-	var/applied_shift = 0
 	/// Things that can change how the mob has to be drawn
 	var/static/list/refresh_signals = list(
 		COMSIG_LIVING_POST_UPDATE_TRANSFORM,
@@ -33,7 +31,6 @@
 
 /datum/component/water_overlay_effect/Destroy()
 	if(parent)
-		set_shift(0)
 		var/atom/movable/movable_parent = parent
 		movable_parent.vis_contents -= list(the_water, the_splash)
 	QDEL_NULL(the_water)
@@ -54,7 +51,7 @@
 
 /datum/component/water_overlay_effect/proc/on_moved(atom/movable/source, atom/old_loc)
 	SIGNAL_HANDLER
-	var/turf/open/water/water_turf = get_turf(source)
+	var/turf/open/water_turf = get_turf(source)
 	if(!istype(water_turf) || !water_turf.has_water_overlay())
 		qdel(src)
 
@@ -77,30 +74,21 @@
 	var/mob/living/living_parent = parent
 	hidden = !!(buckled_to || living_parent.throwing || (living_parent.movement_type & (FLYING|FLOATING)))
 
-/// Moves the mob down to the water level, relative so it stacks with other things changing pixel_z
-/datum/component/water_overlay_effect/proc/set_shift(new_shift)
-	if(new_shift == applied_shift)
-		return
-	animate(parent, pixel_z = new_shift - applied_shift, time = 0.2 SECONDS, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
-	applied_shift = new_shift
-
 /datum/component/water_overlay_effect/proc/update_visuals()
 	if(!isliving(parent))
 		return
 	var/mob/living/living_parent = parent
-	var/turf/open/water/water_turf = get_turf(living_parent)
+	var/turf/open/water_turf = get_turf(living_parent)
 	if(!istype(water_turf) || !water_turf.has_water_overlay())
 		qdel(src)
 		return
 
 	if(hidden)
-		set_shift(0)
 		the_water.overlays.Cut()
 		the_splash.icon = null
 		the_splash.icon_state = null
 		return
 
-	set_shift(water_turf.depth)
 	the_water.update_wateroverlay(water_turf, living_parent, config)
 	the_splash.update_wateroverlay(water_turf, living_parent, config)
 	living_parent.vis_contents |= list(the_water, the_splash)
