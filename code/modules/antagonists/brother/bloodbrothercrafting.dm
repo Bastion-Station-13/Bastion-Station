@@ -516,7 +516,7 @@
 
 /datum/crafting_recipe/blood_brother/rapid_combat_device
 	name = "Rapid Combat Device"
-	desc = "Gut an RCD and turn it into a gun. It shoots bone-breaking balls, breaching blasts for doors and mechs, and barricades that don't stick around. Loads matter like an RCD, but gun parts and RCD upgrades won't fit."
+	desc = "Gut an RCD and turn it into a gun. It shoots heavy balls that can break bones, breaching blasts that tear through doors and mechs (but not walls), and barricades that crumble after a while. It starts empty and loads matter like an RCD. Whatever matter and upgrades were in the RCD are lost, and gun parts and RCD upgrades won't fit."
 	category = CAT_BB_WEAPONS
 	result = /obj/item/gun/energy/rapid_combat_device
 	reqs = list(
