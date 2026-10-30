@@ -32,6 +32,9 @@
 	select_sound = 'sound/items/weapons/gun/energy/egun_toggle_taser.ogg'
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/blue
 
+/obj/item/ammo_casing/energy/disabler/e_gun
+	e_cost = LASER_SHOTS(25, STANDARD_CELL_CHARGE)
+
 /obj/item/ammo_casing/energy/disabler/smg
 	projectile_type = /obj/projectile/beam/disabler/weak
 	e_cost = LASER_SHOTS(42, STANDARD_CELL_CHARGE)

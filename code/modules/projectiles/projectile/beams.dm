@@ -2,7 +2,7 @@
 	name = "laser"
 	icon_state = "laser"
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
-	damage = 22
+	damage = 24
 	damage_type = BURN
 	hitsound = 'sound/items/weapons/sear.ogg'
 	hitsound_wall = 'sound/items/weapons/effects/searwall.ogg'
@@ -37,7 +37,7 @@
 	hitscan_light_outer_range = 0.25
 
 /obj/projectile/beam/laser/lasrifle
-	damage = 25
+	damage = 30
 	range = 30
 	tracer_type = /obj/effect/projectile/tracer/laser/rifle
 	impact_type = /obj/effect/projectile/impact/laser/rifle
@@ -68,7 +68,7 @@
 /obj/projectile/beam/laser/carbine
 	icon_state = "carbine_laser"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
-	damage = 9
+	damage = 10
 	wound_bonus = -40
 	speed = 0.9
 
@@ -77,7 +77,7 @@
 	name = "hellfire laser"
 	icon_state = "heavylaser"
 	wound_bonus = 0
-	damage = 25
+	damage = 30
 	speed = 1.6
 	light_color = "#FF969D"
 
