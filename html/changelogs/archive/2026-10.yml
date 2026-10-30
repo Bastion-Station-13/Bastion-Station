@@ -573,3 +573,8 @@
   - bugfix: Losing hulk after becoming a carp no longer turns you black
   - bugfix: Severed limbs with wounds no longer look like two limbs when they land
       sideways
+2026-10-30:
+  JupiterJaeden:
+  - rscdel: Removed the station alert level from displaying on byond hub to fix the
+      text being cut off sometimes (needed to make space for the html for the discord
+      link).
