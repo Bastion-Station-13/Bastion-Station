@@ -354,6 +354,7 @@
 	if(H.throw_mode)
 		H.throw_mode_off(THROW_MODE_TOGGLE) //Don't annoy the changeling if he doesn't catch the item
 
+<<<<<<< HEAD
 /obj/projectile/tentacle/proc/tentacle_grab(mob/living/carbon/human/H, mob/living/carbon/C)
 	if(H.Adjacent(C))
 		if(H.get_active_held_item() && !H.get_inactive_held_item())
@@ -370,6 +371,18 @@
 				H.add_mob_blood(C)
 				playsound(get_turf(H),I.hitsound,75,TRUE)
 				return
+=======
+/obj/projectile/tentacle/proc/tentacle_grab(mob/living/carbon/human/user, mob/living/carbon/victim)
+	if(!user.Adjacent(victim))
+		return
+
+	victim.grabbedby(user)
+	victim.grippedby(user, instant = TRUE) //instant aggro grab
+
+	for(var/obj/item/weapon as anything in user.get_held_items())
+		if(weapon.get_sharpness())
+			weapon.melee_attack_chain(user, victim)
+>>>>>>> 99aa09c0 ([PORT] Hand cycling and hand keybinds (#12805))
 
 /obj/projectile/tentacle/on_hit(atom/movable/target, blocked = 0, pierce_hit)
 	if(!isliving(firer) || !ismovable(target))
