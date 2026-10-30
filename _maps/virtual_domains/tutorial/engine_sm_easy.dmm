@@ -1640,9 +1640,6 @@
 	},
 /turf/open/floor/iron/freezer,
 /area/virtual_domain/powered_lighting)
-"QI" = (
-/turf/open/floor/plastic,
-/area/virtual_domain/powered_lighting)
 "QV" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/green/visible,
@@ -2554,7 +2551,7 @@ Ra
 xb
 xF
 XL
-QI
+xb
 Ra
 Bx
 jD
