@@ -55,7 +55,7 @@
 /datum/opposing_force_equipment/uplink/arcfiend
 	item_type = /obj/item/antag_granter/arcfiend
 	name = "Arcfiend Nanite Injector"
-	description = "An unmarked injector of unlicensed nanites and a rewriting retrovirus, turning the user into an \"Arcfiend\": a creature that feeds on electricity."
+	description = "An unmarked injector of unlicensed nanites and a rewriting retrovirus, turning the user into an \"Arcfiend\"."
 	admin_note = "Arcfiend antag granter."
 /datum/opposing_force_equipment/uplink/blood_cultist
 	item_type = /obj/item/antag_granter/blood_cultist
