@@ -6,7 +6,7 @@
 	inhand_icon_state = "holotool"
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
-	usesound = 'sound/items/pshoom.ogg'
+	usesound = 'sound/items/pshoom/pshoom.ogg'
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	actions_types = list(/datum/action/item_action/change_tool, /datum/action/item_action/change_ht_color)
@@ -82,7 +82,7 @@
 	if(!use_tool(attacked_humanoid, user, use_delay, volume=50, amount=1))
 		return ITEM_INTERACT_BLOCKING
 
-	if(!item_heal_robotic(attacked_humanoid, user, brute_heal = 15, burn_heal = 0))
+	if(!attacked_humanoid.item_heal(user, user, brute_heal = 15, burn_heal = 0, heal_message_brute = "dents", heal_message_burn = "burnt wires", required_bodytype = BODYTYPE_ROBOTIC))
 		return ITEM_INTERACT_BLOCKING
 
 	INVOKE_ASYNC(src, PROC_REF(try_heal_loop), interacting_with, user, TRUE)

@@ -4547,6 +4547,10 @@
 	dir = 1
 	},
 /obj/machinery/disposal/bin,
+/obj/machinery/camera/directional/south{
+	c_tag = "Service - Hydroponics, Backroom";
+	name = "service camera"
+	},
 /turf/open/floor/iron/dark/side,
 /area/station/service/hydroponics/chicken)
 "bwX" = (
@@ -55008,7 +55012,7 @@
 /turf/open/floor/plating,
 /area/station/science/ordnance/testlab)
 "rIx" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/wood,
 /area/station/service/library)
 "rIC" = (
@@ -68724,6 +68728,7 @@
 "vVN" = (
 /obj/effect/turf_decal/tile/green/half/contrasted,
 /obj/machinery/newscaster/directional/north,
+/obj/machinery/egg_incubator,
 /turf/open/floor/iron/dark/side{
 	dir = 1
 	},
@@ -69033,10 +69038,6 @@
 "wbw" = (
 /obj/effect/turf_decal/tile/green/half/contrasted{
 	dir = 1
-	},
-/obj/machinery/camera/directional/south{
-	c_tag = "Service - Hydroponics, Backroom";
-	name = "service camera"
 	},
 /obj/item/radio/intercom/directional/south,
 /obj/structure/table,

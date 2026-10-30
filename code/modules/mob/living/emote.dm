@@ -176,7 +176,7 @@
 
 		// play moth flutter noise if moth wing
 		if(istype(wings, /obj/item/organ/external/wings/moth))
-			playsound(H, 'sound/voice/moth/moth_flutter.ogg', 50, TRUE)
+			playsound(H, 'sound/mobs/humanoids/moth/moth_flutter.ogg', 50, TRUE)
 
 /datum/emote/living/flap/aflap
 	key = "aflap"
@@ -185,6 +185,17 @@
 	message = "flaps their wings ANGRILY!"
 	hands_use_check = TRUE
 	wing_time = 10
+
+/datum/emote/living/mar
+	key = "mar"
+	key_third_person = "mars"
+	message = "lets out a mar!"
+	emote_type = EMOTE_AUDIBLE
+	vary = TRUE
+	mob_type_allowed_typecache = list(/mob/living/carbon, /mob/living/silicon/pai)
+
+/datum/emote/living/mar/get_sound(mob/living/user)
+	return 'bastionstation/sound/creatures/mar.ogg'
 
 /datum/emote/living/frown
 	key = "frown"
@@ -250,7 +261,7 @@
 	animate(pixel_y = user.pixel_y - 4, time = 0.1 SECONDS)
 
 /datum/emote/living/jump/get_sound(mob/living/user)
-	return 'sound/weapons/thudswoosh.ogg'
+	return 'sound/items/weapons/thudswoosh.ogg'
 
 /datum/emote/living/kiss
 	key = "kiss"
@@ -410,7 +421,7 @@ monkestation edit end */
 	. = ..()
 	if(!ishuman(user))
 		return
-	var/image/emote_animation = image('icons/mob/species/human/emote_visuals.dmi', user, "sigh")
+	var/image/emote_animation = image('icons/mob/human/emote_visuals.dmi', user, "sigh")
 	flick_overlay_global(user.apply_height_offsets(emote_animation, UPPER_BODY), GLOB.clients, 2.0 SECONDS)
 
 /datum/emote/living/sit

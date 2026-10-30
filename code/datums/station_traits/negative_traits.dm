@@ -100,7 +100,7 @@
 /datum/station_trait/overflow_job_bureaucracy
 	name = "Overflow bureaucracy mistake"
 	trait_type = STATION_TRAIT_NEGATIVE
-	weight = 5
+	weight = 2.5
 	show_in_report = TRUE
 	var/chosen_job_name
 	/// Has the initial notification been sent to all players yet?

@@ -6,7 +6,7 @@
 /obj/item/autopsy_scanner/tutorial/scan_cadaver(mob/living/carbon/human/user, mob/living/carbon/scanned)
 	. = ..()
 	if(user.ckey != null && (ckeys_that_completed == null || !(user.ckey in ckeys_that_completed)))
-		playsound(user, 'sound/lavaland/cursed_slot_machine_jackpot.ogg', 50)
+		playsound(user, 'sound/machines/lavaland/cursed_slot_machine_jackpot.ogg', 50)
 		user.visible_message(span_notice("[user] has completed the tutorial!"))
 		LAZYADD(ckeys_that_completed, user.ckey)
 
@@ -21,7 +21,7 @@
 	if(total_capacity > total_charge() || !can_interact(user))
 		return
 	if(user.ckey != null && (ckeys_that_completed == null || !(user.ckey in ckeys_that_completed)))
-		playsound(user, 'sound/lavaland/cursed_slot_machine_jackpot.ogg', 50)
+		playsound(user, 'sound/machines/lavaland/cursed_slot_machine_jackpot.ogg', 50)
 		user.visible_message(span_notice("[user] has completed the tutorial!"))
 		LAZYADD(ckeys_that_completed, user.ckey)
 
@@ -37,6 +37,6 @@
 		to_chat(user, span_notice("You need to 'make an area'!"))
 		return
 	if(user.ckey != null && (ckeys_that_completed == null || !(user.ckey in ckeys_that_completed)))
-		playsound(user, 'sound/lavaland/cursed_slot_machine_jackpot.ogg', 50)
+		playsound(user, 'sound/machines/lavaland/cursed_slot_machine_jackpot.ogg', 50)
 		user.visible_message(span_notice("[user] has completed the tutorial!"))
 		LAZYADD(ckeys_that_completed, user.ckey)
