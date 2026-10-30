@@ -633,11 +633,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/space/basic,
 /area/template_noop)
-"Kg" = (
-/obj/machinery/atm/directional/north,
-/obj/effect/mapping_helpers/broken_floor,
-/turf/open/floor/plating,
-/area/template_noop)
 "Kv" = (
 /turf/closed/wall/mineral/titanium,
 /area/template_noop)
@@ -964,7 +959,7 @@ oA
 oA
 oA
 Kv
-Kg
+up
 ah
 ah
 uH
