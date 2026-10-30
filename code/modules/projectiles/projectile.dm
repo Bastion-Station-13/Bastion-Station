@@ -277,6 +277,10 @@
 	var/damage_falloff_tile
 	/// How much we want to drop stamina damage (defined by the stamina variable) per tile as it travels through the air
 	var/stamina_falloff_tile
+	/// How much we want to drop armor penetration (defined by the armour_penetration variable) per tile
+	var/armour_penetration_falloff_tile
+	/// How much we want to drop armor ignorance (defined by the armour_ignorance variable) per tile
+	var/armour_ignorance_falloff_tile
 	/// How much we want to drop both wound_bonus and bare_wound_bonus (to a minimum of 0 for the latter) per tile, for falloff purposes
 	var/wound_falloff_tile
 	/// How much we want to drop the embed_chance value, if we can embed, per tile, for falloff purposes
@@ -325,6 +329,10 @@
 		damage += damage_falloff_tile
 	if(stamina_falloff_tile && stamina >= 0)
 		stamina += stamina_falloff_tile
+	if(armour_penetration_falloff_tile)
+		armour_penetration += armour_penetration_falloff_tile
+	if(armour_penetration_falloff_tile)
+		armour_ignorance += armour_ignorance_falloff_tile
 
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_RANGE)
 	if(range <= 0 && loc)

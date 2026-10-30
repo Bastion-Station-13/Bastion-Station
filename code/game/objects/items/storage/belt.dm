@@ -708,8 +708,7 @@
 
 /obj/item/storage/belt/military/assault/full/PopulateContents()
 	generate_items_inside(list(
-		/obj/item/ammo_box/magazine/wt550m9 = 4,
-		/obj/item/ammo_box/magazine/wt550m9/wtap = 2,
+		/obj/item/ammo_box/magazine/wt550m9 = 6,
 	), src)
 
 /obj/item/storage/belt/grenade
