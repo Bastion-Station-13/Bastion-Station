@@ -8,15 +8,12 @@
 /datum/action/cooldown/arcfiend/grown_item
 	shop_listed = FALSE
 	cooldown_time = 1 SECONDS
-	/// The item this power grows
 	var/obj/item/grown_type
 	/// What one charge is called in messages, for items that have charges
 	var/charge_name = "charge"
-	/// Played when a charge comes back while the item is held
 	var/recharge_sound
 	/// The charges the item has right now. It starts out full, see get_charges().
 	var/charges
-	/// The timer that brings back the next charge, while there is room for one
 	var/charge_timer
 
 /datum/action/cooldown/arcfiend/grown_item/Destroy()
@@ -30,15 +27,12 @@
 		put_away(remove_from)
 	return ..()
 
-/// How many charges the item holds. Items that don't use charges hold none.
 /datum/action/cooldown/arcfiend/grown_item/proc/get_max_charges()
 	return 0
 
-/// How long it takes to bring back one charge
 /datum/action/cooldown/arcfiend/grown_item/proc/get_charge_time()
 	return 0
 
-/// The charges the item has. The first time anyone asks, it is full.
 /datum/action/cooldown/arcfiend/grown_item/proc/get_charges()
 	if(isnull(charges))
 		charges = get_max_charges()
@@ -52,20 +46,17 @@
 	start_charge_timer()
 	return TRUE
 
-/// Starts bringing back a charge, if there is room for one and one isn't on its way already
 /datum/action/cooldown/arcfiend/grown_item/proc/start_charge_timer()
 	if(charge_timer || get_charges() >= get_max_charges())
 		return
 	charge_timer = addtimer(CALLBACK(src, PROC_REF(charge_recharged)), get_charge_time(), TIMER_STOPPABLE)
 
-/// A charge has come back
 /datum/action/cooldown/arcfiend/grown_item/proc/charge_recharged()
 	charge_timer = null
 	charges = min(get_charges() + 1, get_max_charges())
 	on_charge_regained()
 	start_charge_timer()
 
-/// Tells the arcfiend a charge came back, if they are holding the item
 /datum/action/cooldown/arcfiend/grown_item/proc/on_charge_regained()
 	if(!get_held_item(owner))
 		return
@@ -76,7 +67,6 @@
 /datum/action/cooldown/arcfiend/grown_item/on_upgraded()
 	start_charge_timer()
 
-/// The item, if this mob is holding it
 /datum/action/cooldown/arcfiend/grown_item/proc/get_held_item(mob/user)
 	if(!user)
 		return null
@@ -133,7 +123,6 @@
 /// Base for the grown guns. Every shot costs power and a charge.
 /datum/action/cooldown/arcfiend/grown_item/gun
 
-/// The power a shot costs
 /datum/action/cooldown/arcfiend/grown_item/gun/proc/get_shot_cost()
 	return 0
 
@@ -143,7 +132,6 @@
 /datum/action/cooldown/arcfiend/grown_item/gun/get_cost_label()
 	return "[get_shot_cost()]"
 
-/// Sets up the round that is about to be fired, for our upgrade level
 /datum/action/cooldown/arcfiend/grown_item/gun/proc/setup_projectile(obj/projectile/projectile)
 	return
 
@@ -156,6 +144,8 @@
 	can_charge = FALSE
 	automatic_charge_overlays = FALSE
 	display_empty = FALSE
+	pinless = TRUE
+	trigger_guard = TRIGGER_GUARD_ALLOW_ALL
 	/// The power that grows this gun, which holds its magazine and decides what a shot costs
 	var/datum/action/cooldown/arcfiend/grown_item/gun/power_type
 
@@ -163,18 +153,15 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
 
-/// It has no battery that anything could charge, the power comes from the arcfiend holding it
 /obj/item/gun/energy/arcfiend/get_cell(atom/movable/interface, mob/user)
 	return null
 
-/// The arcfiend holding this
 /obj/item/gun/energy/arcfiend/proc/get_holder_antag()
 	if(!ismob(loc))
 		return null
 	var/mob/holder = loc
 	return holder.mind?.has_antag_datum(/datum/antagonist/arcfiend)
 
-/// The power that grew this gun, which holds its magazine
 /obj/item/gun/energy/arcfiend/proc/get_holder_power()
 	var/datum/antagonist/arcfiend/arcfiend = get_holder_antag()
 	return arcfiend?.get_power_instance(power_type)
@@ -186,7 +173,6 @@
 		return FALSE
 	return arcfiend.has_power(gun_power.get_shot_cost()) && gun_power.get_charges() >= 1
 
-/// Says why it won't fire, as well as clicking
 /obj/item/gun/energy/arcfiend/shoot_with_empty_chamber(mob/living/user as mob|obj)
 	var/datum/action/cooldown/arcfiend/grown_item/gun/gun_power = get_holder_power()
 	if(gun_power && gun_power.get_charges() < 1)
@@ -368,28 +354,39 @@
 //////////////////////////////////////////////////////////////////////////
 //------------------------------Lateral Laser---------------------------//
 //////////////////////////////////////////////////////////////////////////
-/// The beam of a lateral laser: a thin line of crackling electricity
 /obj/effect/projectile/tracer/arcfiend_lateral
 	name = "lateral beam"
 	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
 	icon_state = "lateral_laser_beam"
 
-/// The burst of ruptured nanites where the beam reaches the end of its range
+/obj/effect/projectile/muzzle/arcfiend_lateral
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
+	icon_state = "lateral_laser_muzzle"
+
+/// Shown at the end of the beam on every shot
 /obj/effect/projectile/impact/arcfiend_lateral
 	name = "ruptured nanites"
 	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
 	icon_state = "lateral_laser_rupture"
 
+/// The flash on everything the beam passes through before the end of its range
+/obj/effect/temp_visual/impact_effect/arcfiend_lateral
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
+	icon_state = "lateral_laser_impact"
+	duration = 3
+
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral
 	name = "lateral beam"
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
+	icon_state = "lateral_laser_projectile"
 	damage = 6
 	damage_type = BURN
 	hitscan_light_color_override = "#ffe94d"
 	tracer_type = /obj/effect/projectile/tracer/arcfiend_lateral
-	muzzle_type = null
+	muzzle_type = /obj/effect/projectile/muzzle/arcfiend_lateral
+	muzzle_flash_color_override = "#ffe94d"
 	impact_type = /obj/effect/projectile/impact/arcfiend_lateral
 	impact_light_color_override = "#ffe94d"
-	// Hits people on the floor, however far away they are
 	hit_prone_targets = TRUE
 	ignore_range_hit_prone_targets = TRUE
 	/// How far the beam reaches, in tiles. This is also the one distance it does its full damage at.
@@ -399,7 +396,6 @@
 	/// The damage done to whatever is at exactly the end of the beam
 	var/power_damage = 45
 
-/// Sets how far this beam reaches and how hard it hits
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/proc/set_up(range_in_tiles, weak, strong)
 	travel_range = range_in_tiles
 	range = range_in_tiles
@@ -407,7 +403,6 @@
 	power_damage = strong
 	damage = weak
 
-/// How much damage a hit does at this many tiles from where the beam started. Full damage only at the very end.
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/proc/damage_at_distance(distance)
 	if(distance > travel_range)
 		return 0
@@ -432,6 +427,8 @@
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/on_hit(atom/target, blocked = 0, pierce_hit)
 	var/distance = get_dist(starting, get_turf(target))
 	damage = damage_at_distance(distance)
+	if(distance < travel_range)
+		new /obj/effect/temp_visual/impact_effect/arcfiend_lateral(get_turf(target))
 	if(distance == travel_range && isliving(target))
 		do_sparks(4, FALSE, target)
 		target.visible_message(span_danger("The nanites in the beam rupture violently against [target]!"), span_userdanger("The superheated nanites in the beam rupture inside you!"))
@@ -457,7 +454,6 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/arcfiend_lateral_beam)
 	power_type = /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser
 
-/// Using the gun in hand changes how far the beam reaches
 /obj/item/gun/energy/arcfiend/lateral_laser/attack_self(mob/living/user)
 	. = ..()
 	var/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/settings = get_holder_power()
@@ -507,24 +503,19 @@
 	if(istype(beam))
 		beam.set_up(get_selected_range(), get_weak_damage(), get_power_damage())
 
-/// How far the beam can be set to reach
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_max_range()
 	return by_level(list(4, 5, 6))
 
-/// The range the beam is set to, never further than it can go
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_selected_range()
 	selected_range = clamp(selected_range || get_max_range(), 1, get_max_range())
 	return selected_range
 
-/// The damage along the way
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_weak_damage()
 	return by_level(list(6, 8, 10))
 
-/// The damage at exactly the end of the beam
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_power_damage()
 	return by_level(list(45, 60, 80))
 
-/// Goes to the next range, and back to the shortest after the longest
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/cycle_range(mob/user)
 	selected_range = (get_selected_range() % get_max_range()) + 1
 	to_chat(user, span_notice("You set the lateral laser to [selected_range] tile[selected_range == 1 ? "" : "s"]. Only what is exactly [selected_range] tile[selected_range == 1 ? "" : "s"] away takes its full damage."))
@@ -562,7 +553,6 @@
 	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
 	set_light_on(TRUE)
 
-/// Right-click zaps through try_zap(), anything else is a normal hit
 /obj/item/melee/arcfiend_prod/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(user.istate & ISTATE_SECONDARY)
 		var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
@@ -597,7 +587,6 @@
 /datum/action/cooldown/arcfiend/grown_item/shock_prod/get_charge_time()
 	return by_level(list(40 SECONDS, 30 SECONDS, 20 SECONDS))
 
-/// How much power a zap costs
 /datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/get_zap_cost()
 	return by_level(list(40, 32, 25))
 
@@ -614,11 +603,9 @@
 	owner.balloon_alert(owner, "prod charged ([charges]/[ARCFIEND_PROD_MAX_CHARGES])")
 	playsound(owner, ARCFIEND_SOUND_PROD_RECHARGED, 30, TRUE)
 
-/// Whether the prod has too little charge to zap at all, which is how it looks drained
 /datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/is_drained()
 	return get_charges() < 1
 
-/// The prod in the arcfiend's hand and the power's button look drained when it is out of charge
 /datum/action/cooldown/arcfiend/grown_item/shock_prod/proc/update_prod_look()
 	var/look = is_drained() ? "galvanic_prod_drained" : "galvanic_prod"
 	if(owner)

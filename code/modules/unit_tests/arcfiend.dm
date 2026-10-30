@@ -60,7 +60,7 @@
 		'bastionstation/icons/obj/antags/arcfiend/arcfiend_coilgun.dmi' = list("arcfiend_coilgun"),
 		'bastionstation/icons/obj/antags/arcfiend/arcfiend_injector.dmi' = list("arcfiend_injector"),
 		'bastionstation/icons/obj/antags/arcfiend/arcfiend_lateral_laser.dmi' = list("lateral_laser"),
-		'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi' = list("lateral_laser_beam", "lateral_laser_rupture"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi' = list("lateral_laser_beam", "lateral_laser_muzzle", "lateral_laser_impact", "lateral_laser_rupture", "lateral_laser_projectile"),
 		'bastionstation/icons/obj/antags/arcfiend/arcfiend_tether.dmi' = list("biometal_tether", "biometal_tether_hook", "biometal_tether_beam"),
 		'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_tether_lefthand.dmi' = list("biometal_tether"),
 		'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_tether_righthand.dmi' = list("biometal_tether"),
