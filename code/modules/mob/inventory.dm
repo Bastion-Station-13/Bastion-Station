@@ -406,6 +406,7 @@
 	drop_all_held_items()
 
 
+<<<<<<< HEAD
 /mob/living/carbon/proc/check_obscured_slots(transparent_protection)
 	var/obscured = NONE
 	var/hidden_slots = NONE
@@ -437,6 +438,8 @@
 	return obscured
 
 
+=======
+>>>>>>> 98c7cce1 ([PORT] Covered slots are their own thing (transparent_protection fixes) (#12797))
 /obj/item/proc/equip_to_best_slot(mob/equipper)
 	var/should_prioritize_storage = !isclothing(src) && !(slot_flags & ITEM_SLOT_ON_BODY)
 
