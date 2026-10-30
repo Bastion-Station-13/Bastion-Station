@@ -4,10 +4,14 @@
  * @license MIT
  */
 
+import Hls from 'hls.js';
 import { createLogger } from 'tgui/logging';
 import { defaultSettings } from '../settings/atoms';
 
 const logger = createLogger('AudioPlayer');
+
+// Not every browser can play these on its own, SoundCloud only gives them out
+const HLS_URL = /\.m3u8(?:$|[?#])/i;
 
 type AudioOptions = {
   pitch?: number;
@@ -26,6 +30,7 @@ function isProtectedError(error: ErrorEvent): boolean {
 
 export class AudioPlayer {
   element: HTMLAudioElement | null;
+  hls: Hls | null;
   options: AudioOptions;
   volume: number;
 
@@ -34,6 +39,7 @@ export class AudioPlayer {
 
   constructor() {
     this.element = null;
+    this.hls = null;
     this.volume = defaultSettings.adminMusicVolume;
 
     this.onPlaySubscribers = [];
@@ -41,6 +47,8 @@ export class AudioPlayer {
   }
 
   destroy(): void {
+    this.hls?.destroy();
+    this.hls = null;
     this.element = null;
   }
 
@@ -51,7 +59,8 @@ export class AudioPlayer {
 
     this.options = options;
 
-    const audio = new Audio(url);
+    const useHls = HLS_URL.test(url) && Hls.isSupported();
+    const audio = useHls ? new Audio() : new Audio(url);
     if (!audio) {
       logger.log('failed to create audio element');
       return;
@@ -61,7 +70,19 @@ export class AudioPlayer {
     audio.volume = this.volume;
     audio.playbackRate = this.options.pitch || 1;
 
-    if (this.options.start) {
+    if (useHls) {
+      const hls = new Hls({ startPosition: this.options.start ?? -1 });
+      this.hls = hls;
+      hls.on(Hls.Events.ERROR, (_event, data) => {
+        if (!data.fatal) {
+          return;
+        }
+        logger.log('hls error:', data.type, data.details);
+        this.stop();
+      });
+      hls.loadSource(url);
+      hls.attachMedia(audio);
+    } else if (this.options.start) {
       audio.currentTime = this.options.start;
     }
 
