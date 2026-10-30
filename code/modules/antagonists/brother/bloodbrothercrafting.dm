@@ -212,7 +212,7 @@
 
 /datum/crafting_recipe/blood_brother/emp_shielded_cell
 	name = "EMP Shielded Cell"
-	desc = "Holds less charge, but an EMP fully recharges your weapon instead of draining it."
+	desc = "Same charge as a stock cell, but an EMP fully recharges your weapon instead of draining it."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/power_cell/emp_shielded
 	reqs = list(
@@ -258,7 +258,7 @@
 
 /datum/crafting_recipe/blood_brother/spray_lens
 	name = "Spray Lens"
-	desc = "Sprays weak and inaccurate but fast, armor-piercing shots for hardly any power."
+	desc = "Sprays weak and inaccurate but fast, armor-piercing shots for hardly any power. Automatic fire not included."
 	category = CAT_BB_PARTS
 	result = /obj/item/blood_brother_gun_part/lens/spray
 	reqs = list(
@@ -446,7 +446,7 @@
 
 /datum/crafting_recipe/blood_brother/makeshift_emag
 	name = "Improvised Emag"
-	desc = "Scavenged electronics and a cracked screen doing a very bad impression of an emag. Slow, flaky, and you have to recharge it by hand."
+	desc = "Scavenged electronics and a cracked screen doing a very bad impression of an emag. Slow, flaky, and you have to recharge it with uranium."
 	category = CAT_BB_GADGETS
 	result = /obj/item/card/emag/improvised
 	reqs = list(
@@ -568,7 +568,7 @@
 
 /datum/crafting_recipe/blood_brother/glockenspiel
 	name = "GLOCK-inspiel"
-	desc = "Bolt a receiver onto a glockenspiel and you've got yourself a pistol. There's a switch for full auto, but it doesn't do much against armor. Takes 9mm, and comes with an empty mag."
+	desc = "Combine a glock with a glockenspiel and you get this abomination. It even has a switch to toggle full auto like a real glock!."
 	category = CAT_BB_WEAPONS
 	result = /obj/item/gun/ballistic/automatic/pistol/glockenspiel
 	reqs = list(
@@ -585,7 +585,7 @@
 
 /datum/crafting_recipe/blood_brother/rapid_combat_device
 	name = "Rapid Combat Device"
-	desc = "Gut an RCD and turn it into a gun. It shoots heavy balls that can break bones, breaching blasts that tear through doors and mechs (but not walls), and barricades that crumble after a while. It starts empty and loads matter like an RCD. Whatever matter and upgrades were in the RCD are lost, and gun parts and RCD upgrades won't fit."
+	desc = "Modify a rapid construction device into a weapon. It can fire balls of metal, breaching blasts that tear through structures, or erect temporary barriers on the fly. Sadly it's unorothdox construction prevents it from using gun parts nor standard RCD upgrades."
 	category = CAT_BB_WEAPONS
 	result = /obj/item/gun/energy/rapid_combat_device
 	reqs = list(
@@ -688,7 +688,7 @@
 
 /datum/crafting_recipe/blood_brother/empty_9mm_magazine
 	name = "Empty 9mm Magazine"
-	desc = "A bent bit of iron that holds 9mm rounds. You'll need a hacked autolathe to print the bullets."
+	desc = "Iron bent into the shape of a 9mm magazine. Use a hacked autolathe to get bullets."
 	category = CAT_BB_AMMUNITION
 	result = /obj/item/ammo_box/magazine/m9mm/empty
 	reqs = list(
