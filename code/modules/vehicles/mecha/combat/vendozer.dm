@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/mecha/vendozer
-	desc = "The Ultimate statement of dissatisfaction towards the station, the Vendozer wrecks havoc to all that has disgruntled this employee."
+	desc = "A pile of vending machines bolted together on top of some sort of moving platform vaguely resembling a bulldozer. Several weapons ports poke out of gaps between the vending machines."
 	name = "\proper The Vendozer"
 	icon = 'icons/mob/rideables/largetanks.dmi'
 	icon_state = "vendozer"
@@ -76,7 +76,7 @@
 		max_blood = 4)
 
 /obj/vehicle/sealed/mecha/vendozer/admeme
-	desc = "You pissed off god, or corporate, good luck."
+	desc = "As you look at this chariot of the apocalypse, you begin to smell metal. Is that a nuclear weapons platform? Should you start running? The answer to both of those is probably yes."
 	name = "\improper Vendozer, Doom edition"
 	icon = 'icons/mob/rideables/largetanks.dmi'
 	icon_state = "vendozer"
