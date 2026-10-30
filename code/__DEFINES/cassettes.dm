@@ -35,4 +35,4 @@
 #define YTDL_ALWAYS_ALLOWED "files\\.catbox\\.moe\\/"
 /// Used when REQUEST_INTERNET_ALLOWED isn't set
 #define YTDL_DEFAULT_ALLOWED "youtube\\.com\\/watch?v=,youtu\\.be\\/,soundcloud\\.com\\/,bandcamp\\.com\\/track\\/"
-#define YTDL_FORMAT "bestaudio\[ext=mp3]\[protocol!*=m3u8]\[protocol!*=dash]/best\[ext=mp4]\[height<=360]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[ext=m4a]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[ext=aac]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[protocol!*=m3u8]\[protocol!*=dash]"
+#define YTDL_FORMAT "bestaudio\[ext=mp3]\[protocol!*=m3u8]\[protocol!*=dash]/best\[ext=mp4]\[height<=360]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[ext=m4a]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[ext=aac]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[protocol*=m3u8]\[protocol!*=dash]"

@@ -127,8 +127,8 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 	if(!islist(data) || data["is_live"])
 		return null
 	var/protocol = data["protocol"]
-	if(istext(protocol) && (findtext(protocol, "m3u8") || findtext(protocol, "dash")))
-		log_music("yt-dlp only gave a streaming playlist for [url] ([protocol]), clients can't play that")
+	if(istext(protocol) && findtext(protocol, "dash"))
+		log_music("yt-dlp only gave a dash stream for [url] ([protocol]), clients can't play that")
 		return null
 	var/direct_url = data["url"]
 	if(!istext(direct_url) || !is_http_protocol(direct_url))

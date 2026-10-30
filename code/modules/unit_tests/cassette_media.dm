@@ -83,7 +83,9 @@
 	write_stub(song_json("file:///etc/passwd"))
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/local"), "A link that isn't http(s) was handed out")
 	write_stub("echo '{\"url\":\"https://media.example.com/a.m3u8\",\"protocol\":\"m3u8_native\",\"title\":\"x\"}'")
-	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/hls"), "A streaming playlist was handed out, clients can't play it")
+	TEST_ASSERT_NOTNULL(ytdl_lookup("https://youtu.be/hls"), "A hls playlist was refused, soundcloud only has those")
+	write_stub("echo '{\"url\":\"https://media.example.com/manifest.mpd\",\"protocol\":\"http_dash_segments\",\"title\":\"x\"}'")
+	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/dash"), "A dash stream was handed out, clients can't play it")
 	write_stub(song_json(live = TRUE))
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/live"), "A live stream was put on a tape")
 
