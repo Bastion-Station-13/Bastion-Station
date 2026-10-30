@@ -673,6 +673,24 @@
 	)
 	time = 5 SECONDS
 
+/datum/crafting_recipe/blood_brother/combat_gloves_plus
+	name = "Combat Gloves Plus"
+	desc = "For something that normally costs 5 telecrystals a pop and is only given to nuclear operatives, this seems easily mass producible. If it weren't for the fact all your crafting knowledge is gonna get wiped from your mind once your mission is over."
+	category = CAT_BB_ARMOR
+	result = /obj/item/clothing/gloves/krav_maga/combatglovesplus
+	reqs = list(
+		/obj/item/clothing/gloves/color/yellow = 1,
+		/obj/item/stock_parts/scanning_module = 2,
+		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stack/cable_coil = 10,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WIRECUTTER,
+		TOOL_MULTITOOL,
+	)
+	time = 15 SECONDS
+
 /datum/crafting_recipe/blood_brother/smoke_grenade
 	name = "Smoke Grenade"
 	desc = "You could probably mass produce these at the chemistry labs, but not having to steal or beg for a chem dispenser is a plus."
