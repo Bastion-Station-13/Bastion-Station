@@ -6,6 +6,7 @@
 		"common": "workspace:*",
 		"dompurify": "^3.3.1",
 		"es-toolkit": "^1.44.0",
+		"hls.js": "^1.7.4",
 		"jotai": "^2.16.2",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3",
