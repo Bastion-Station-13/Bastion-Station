@@ -175,6 +175,34 @@
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into a blood brother.")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into a blood brother.")
 
+/// Admin button in the traitor panel next to the "brother" antag button to add a player to a pre-existing blood brother team.
+/datum/antagonist/brother/add_to_team
+	name = "Add to team"
+
+/datum/antagonist/brother/add_to_team/admin_add(datum/mind/new_owner, mob/admin)
+	var/list/teams = list()
+	for(var/datum/team/brother_team/team in GLOB.antagonist_teams)
+		var/list/names = list()
+		for(var/datum/mind/member as anything in team.members)
+			names += member.name
+		teams["[team.name] ([english_list(names)])"] = team
+	if(!length(teams))
+		to_chat(admin, span_warning("There are no blood brother teams to add [new_owner.name] to."))
+		return
+	var/choice = tgui_input_list(admin, "Which team should [new_owner.name] join?", "Add to blood brother team", teams)
+	var/datum/team/brother_team/team = teams[choice]
+	if(!choice || QDELETED(team) || QDELETED(new_owner))
+		return
+	if(new_owner.has_antag_datum(/datum/antagonist/brother))
+		to_chat(admin, span_warning("[new_owner.name] is already a blood brother."))
+		return
+	new_owner.add_antag_datum(/datum/antagonist/brother, team)
+	var/datum/antagonist/brother/bond = new_owner.has_antag_datum(/datum/antagonist/brother)
+	bond.set_brother_rank(length(team.members) - 1)
+	team.notify_whos_who()
+	message_admins("[key_name_admin(admin)] added [key_name_admin(new_owner)] to [team.name].")
+	log_admin("[key_name(admin)] added [key_name(new_owner)] to [team.name].")
+
 /datum/antagonist/brother/get_admin_commands()
 	. = ..()
 	.["Adjust conversion charges"] = CALLBACK(src, PROC_REF(admin_adjust_conversion_charges))

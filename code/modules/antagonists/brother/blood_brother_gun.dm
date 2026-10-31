@@ -172,6 +172,7 @@
 
 	on_part_changed(slot)
 	to_chat(user, span_notice("You install [part] into [gun]."))
+	playsound(gun, 'sound/items/tools/screwdriver.ogg', 100, TRUE)
 	return TRUE
 
 /// Takes the part out of the given slot and puts it in the user's hands. Returns TRUE on success.
@@ -189,6 +190,7 @@
 
 	on_part_changed(slot)
 	to_chat(user, span_notice("You remove [part] from [gun]."))
+	playsound(gun, 'sound/items/tools/crowbar.ogg', 100, TRUE)
 	return TRUE
 
 /// Applies the effects of a part being added to or removed from the given slot.
