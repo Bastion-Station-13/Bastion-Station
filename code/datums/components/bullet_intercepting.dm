@@ -4,7 +4,7 @@
 /datum/component/bullet_intercepting
 	/// Chance to intercept a projectile
 	var/block_chance
-	/// Type of bullet to intercept
+	/// Type of bullet to intercept, or NONE for any
 	var/block_type
 	/// Slots in which effect can be active
 	var/active_slots
@@ -55,7 +55,7 @@
 /// Called when wearer is shot, check if we're going to block the hit
 /datum/component/bullet_intercepting/proc/on_wearer_shot(mob/living/victim, obj/projectile/bullet)
 	SIGNAL_HANDLER
-	if (victim != wearer || victim.stat == DEAD || bullet.armor_flag != block_type )
+	if (victim != wearer || victim.stat == DEAD || (block_type && bullet.armor_flag != block_type))
 		return
 	if (!prob(block_chance))
 		return
