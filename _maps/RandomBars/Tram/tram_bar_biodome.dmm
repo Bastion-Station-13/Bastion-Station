@@ -879,12 +879,6 @@
 /obj/structure/flora/bush/snow/style_random,
 /turf/open/misc/snow/actually_safe,
 /area/station/commons/lounge)
-"wu" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm/directional/north,
-/turf/open/misc/snow/actually_safe,
-/area/station/service/theater)
 "wx" = (
 /turf/closed/wall/r_wall,
 /area/station/commons/lounge)
@@ -1974,7 +1968,6 @@
 "Vq" = (
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/structure/window/reinforced/spawner/directional/east,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/pod/light,
 /area/station/commons/lounge)
 "Vs" = (
@@ -2790,7 +2783,7 @@ Ap
 oL
 Lw
 FI
-wu
+YQ
 ls
 FY
 Ul

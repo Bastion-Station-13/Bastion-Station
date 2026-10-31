@@ -1421,17 +1421,6 @@
 /obj/structure/cable,
 /turf/open/floor/cult,
 /area/station/service/theater)
-"FA" = (
-/obj/machinery/atm/directional/south,
-/obj/effect/turf_decal/arrows{
-	pixel_x = -8
-	},
-/obj/effect/turf_decal/arrows{
-	pixel_x = 8;
-	dir = 1
-	},
-/turf/open/floor/cult,
-/area/station/commons/lounge)
 "FH" = (
 /obj/structure/chair/pew/left{
 	dir = 1
@@ -1949,10 +1938,6 @@
 /obj/machinery/light/floor/has_bulb,
 /turf/open/floor/cult,
 /area/station/commons/lounge)
-"Ud" = (
-/obj/machinery/atm/directional/west,
-/turf/open/floor/cult,
-/area/station/service/theater)
 "Uf" = (
 /obj/structure/table/wood/fancy/red,
 /obj/item/toy/toy_dagger{
@@ -2287,7 +2272,7 @@ Fz
 xs
 SJ
 ZO
-Ud
+dA
 cu
 CF
 Vd
@@ -2375,7 +2360,7 @@ JI
 Xq
 uO
 uO
-FA
+uO
 QC
 QC
 QC

@@ -834,10 +834,6 @@
 /obj/structure/closet/crate/wooden/toy,
 /turf/open/floor/fake_seafloor/ironsand,
 /area/station/service/theater)
-"JI" = (
-/obj/machinery/atm/directional/north,
-/turf/open/floor/fake_seafloor/spawning,
-/area/station/commons/lounge)
 "Kh" = (
 /obj/structure/table/reinforced/rglass,
 /obj/effect/spawner/random/entertainment/money_small,
@@ -1601,7 +1597,7 @@ ls
 ae
 nN
 ae
-JI
+AF
 Ir
 Nq
 AF
