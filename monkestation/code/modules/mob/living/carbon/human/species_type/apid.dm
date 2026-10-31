@@ -133,6 +133,7 @@
 
 /obj/item/organ/internal/tongue/apid
 	name = "apid tongue"
+	human_voice = FALSE
 
 	liked_foodtypes = VEGETABLES | MEAT | FRUIT
 	disliked_foodtypes =  GROSS | BUGS | GORE

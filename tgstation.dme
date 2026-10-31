@@ -7653,6 +7653,7 @@
 #include "monkestation\code\modules\donator\code\mob\pet_huds.dm"
 #include "monkestation\code\modules\donator\code\mob\pets.dm"
 #include "monkestation\code\modules\emotes\code\emote.dm"
+#include "monkestation\code\modules\emotes\code\voiced_emotes.dm"
 #include "monkestation\code\modules\ERT\ERT_outfits.dm"
 #include "monkestation\code\modules\ERT\ERT_shuttle.dm"
 #include "monkestation\code\modules\ERT\equipment\ERT_id.dm"

@@ -42,6 +42,8 @@
 	var/toxic_foodtypes = TOXIC //human tastes are default
 	/// Whether this tongue modifies speech via signal
 	var/modifies_speech = FALSE
+	/// Whether the owner of this tongue gets the human voice sounds for emotes like coughing and sighing
+	var/human_voice = TRUE
 
 /obj/item/organ/internal/tongue/Initialize(mapload)
 	. = ..()
@@ -112,6 +114,12 @@
 	else if(foodtypes & liked_foodtypes)
 		food_taste_reaction = FOOD_LIKED
 	return food_taste_reaction
+
+/// Picks a sound for a voiced emote out of the human voices, null if this tongue has none
+/obj/item/organ/internal/tongue/proc/get_voice_emote_sound(list/male_sounds, list/female_sounds)
+	if(!human_voice)
+		return
+	return pick(owner.gender == MALE ? male_sounds : female_sounds)
 
 /obj/item/organ/internal/tongue/proc/get_laugh_sound()
 	if(owner.gender == MALE)

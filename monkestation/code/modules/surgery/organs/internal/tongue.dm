@@ -13,6 +13,7 @@
 
 /obj/item/organ/internal/tongue/arachnid
 	name = "arachnid tongue"
+	human_voice = FALSE
 	desc = "The tongue of an Arachnid. Mostly used for lying."
 	say_mod = "chitters"
 	modifies_speech = TRUE
@@ -48,6 +49,7 @@
 
 /obj/item/organ/internal/tongue/synth
 	name = "synthetic voicebox"
+	human_voice = FALSE
 	desc = "A fully-functional synthetic tongue, encased in soft silicone. Features include high-resolution vocals and taste receptors."
 	icon = 'monkestation/code/modules/smithing/icons/ipc_organ.dmi'
 	icon_state = "cybertongue"

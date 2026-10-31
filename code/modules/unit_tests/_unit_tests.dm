@@ -275,6 +275,7 @@
 #include "vendor_boards.dm"
 #include "verify_config_tags.dm"
 #include "verify_emoji_names.dm"
+#include "voiced_emotes.dm"
 #include "wizard_loadout.dm"
 #include "worn_icons.dm"
 // END_INCLUDE
