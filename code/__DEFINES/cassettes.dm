@@ -22,3 +22,17 @@
 #define MAX_SONGS_PER_CASSETTE_SIDE 7
 
 #define PLAY_CASSETTE_SOUND(sfx) playsound(src, ##sfx, vol = 90, vary = FALSE, mixer_channel = CHANNEL_MACHINERY)
+
+/// Seconds yt-dlp may take before it is killed
+#define YTDL_TIMEOUT 25
+/// How many yt-dlp processes may run at once
+#define YTDL_MAX_RUNNING 3
+/// The direct links yt-dlp gives out stop working after a while
+#define YTDL_CACHE_TIME (30 MINUTES)
+/// Time before the same player can start another lookup that isn't cached
+#define YTDL_USER_COOLDOWN (5 SECONDS)
+/// Always allowed, the stock cassettes are hosted there
+#define YTDL_ALWAYS_ALLOWED "files\\.catbox\\.moe\\/"
+/// Used when REQUEST_INTERNET_ALLOWED isn't set
+#define YTDL_DEFAULT_ALLOWED "youtube\\.com\\/watch?v=,youtu\\.be\\/,soundcloud\\.com\\/,bandcamp\\.com\\/track\\/"
+#define YTDL_FORMAT "bestaudio\[ext=mp3]\[protocol!*=m3u8]\[protocol!*=dash]/best\[ext=mp4]\[height<=360]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[ext=m4a]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[ext=aac]\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[protocol!*=m3u8]\[protocol!*=dash]/bestaudio\[protocol*=m3u8]\[protocol!*=dash]"

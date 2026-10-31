@@ -206,7 +206,7 @@ GITHUBURL https://github.com/Monkestation/Monkestation2.0/
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
 # BANAPPEALS http://justanotherday.example.com
 
-## System command that invokes youtube-dl, used by Play Internet Sound.
+## System command that invokes youtube-dl, used by Play Internet Sound and by cassettes when Floxy isn't set up.
 ## You can install youtube-dl with
 ## "pip install youtube-dl" if you have pip installed
 ## from https://github.com/rg3/youtube-dl/releases

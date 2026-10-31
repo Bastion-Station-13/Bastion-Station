@@ -4267,6 +4267,7 @@
 #include "code\modules\cargo\packs\vending_restock.dm"
 #include "code\modules\cassettes\cassette.dm"
 #include "code\modules\cassettes\cassette_approval.dm"
+#include "code\modules\cassettes\cassette_media.dm"
 #include "code\modules\cassettes\random_cassette_selection.dm"
 #include "code\modules\cassettes\cassette_db\cassette_datum.dm"
 #include "code\modules\cassettes\dj\mob_can_hear.dm"
