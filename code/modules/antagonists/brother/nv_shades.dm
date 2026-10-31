@@ -12,7 +12,7 @@
 	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_lefthand.dmi'
 	righthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_righthand.dmi'
 	inhand_icon_state = "nvhud_shades"
-	flash_protect = FLASH_PROTECTION_WELDER
+	flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 	tint = 1
 
 /obj/item/clothing/glasses/meson/night/shades
@@ -24,7 +24,7 @@
 	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_lefthand.dmi'
 	righthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_righthand.dmi'
 	inhand_icon_state = "nvhud_shades_meson"
-	flash_protect = FLASH_PROTECTION_WELDER
+	flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 	tint = 1
 
 /obj/item/clothing/glasses/hud/diagnostic/night/shades
@@ -36,7 +36,7 @@
 	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_lefthand.dmi'
 	righthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_righthand.dmi'
 	inhand_icon_state = "nvhud_shades_diagnostic"
-	flash_protect = FLASH_PROTECTION_WELDER
+	flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 	tint = 1
 
 /obj/item/clothing/glasses/hud/security/night/shades
@@ -48,7 +48,7 @@
 	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_lefthand.dmi'
 	righthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_righthand.dmi'
 	inhand_icon_state = "nvhud_shades_security"
-	flash_protect = FLASH_PROTECTION_WELDER
+	flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 	tint = 1
 
 /obj/item/clothing/glasses/hud/health/night/shades
@@ -60,7 +60,7 @@
 	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_lefthand.dmi'
 	righthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_righthand.dmi'
 	inhand_icon_state = "nvhud_shades_medical"
-	flash_protect = FLASH_PROTECTION_WELDER
+	flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 	tint = 1
 
 /obj/item/clothing/glasses/science/night/shades
@@ -72,5 +72,5 @@
 	lefthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_lefthand.dmi'
 	righthand_file = 'bastionstation/icons/mob/inhands/clothing/glasses_righthand.dmi'
 	inhand_icon_state = "nvhud_shades_science"
-	flash_protect = FLASH_PROTECTION_WELDER
+	flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 	tint = 1
