@@ -478,9 +478,23 @@
 	)
 	time = 8 SECONDS
 
+/datum/crafting_recipe/blood_brother/sunglasses
+	name = "Sunglasses"
+	desc = "Point a welder at some glass until it's polarized. That's not how polarizing works, but you look cool now, so who's going to argue?"
+	category = CAT_BB_ARMOR
+	result = /obj/item/clothing/glasses/sunglasses
+	reqs = list(
+		/obj/item/stack/sheet/glass = 2,
+		/obj/item/stack/sheet/iron = 1,
+	)
+	tool_behaviors = list(
+		TOOL_WELDER,
+	)
+	time = 3 SECONDS
+
 /// Made like HUD sunglasses, but with a night vision HUD. Has no result, so only the subtypes show up.
 /datum/crafting_recipe/blood_brother/nv_shades
-	category = CAT_BB_GADGETS
+	category = CAT_BB_ARMOR
 	tool_behaviors = list(
 		TOOL_SCREWDRIVER,
 		TOOL_WIRECUTTER,
