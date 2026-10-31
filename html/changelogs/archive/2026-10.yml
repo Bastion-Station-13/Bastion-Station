@@ -578,3 +578,6 @@
   - rscdel: Removed the station alert level from displaying on byond hub to fix the
       text being cut off sometimes (needed to make space for the html for the discord
       link).
+2026-10-31:
+  mc-oofert:
+  - rscdel: removed ATMs and lotteries
