@@ -972,10 +972,6 @@
 	},
 /turf/open/floor/stone,
 /area/station/service/bar)
-"Tm" = (
-/obj/machinery/atm/directional/north,
-/turf/open/floor/wood/parquet,
-/area/station/commons/lounge)
 "Uq" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/airalarm/directional/south,
@@ -1233,7 +1229,7 @@ bT
 EK
 "}
 (8,1,1) = {"
-Tm
+lh
 Wr
 Bm
 UP

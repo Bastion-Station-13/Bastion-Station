@@ -520,3 +520,64 @@
   - qol: The AI's LOOC now comes from its eye, and it can hear LOOC around its eye.
   ThePooba:
   - qol: slab only curses 3 times isntead of 13
+2026-10-29:
+  Absolucy:
+  - bugfix: Fixed big manipulators trying to interact with underfloor pipes
+  - rscadd: Added a "Skip Non-Dense" option to big manipulator interactions.
+  AitorLogedo:
+  - rscadd: Rats raised by the rat king now have their own names
+  Fikou:
+  - bugfix: The dark matt-eor from emagged meteor satellites actually flies at the
+      station now instead of sitting there and missing.
+  - bugfix: Fixed station level checks giving random results for things in nullspace.
+  Iamgoofball, Ben10Omintrix:
+  - bugfix: Carps migrating through the station no longer idle so they don't get stuck
+      after spawning until someone walks by.
+  - bugfix: mobs in the same faction will no longer be at odds against one another
+  - bugfix: mobs will no longer be starting and stopping when chasing targets
+  JupiterJaeden:
+  - config: Updates the github readme to include a link to the bastionstation website.
+  - config: Adds a link to the discord into the BYOND hub entry.
+  - config: Changes the 'forum' button in the top-right of the UI to be a 'discord'
+      button instead.
+  Melbert:
+  - qol: Medical stacks (sutures, meshes, ointment...) now have two modes. Left click
+      heals in auto mode, which switches between damaged bodyparts by itself, prioritizing
+      your targeted limb. Right click heals in manual mode, which works like before
+      and is 10% faster.
+  - qol: Suturing cuts and meshing burns is now part of the normal heal, no more separate
+      interaction for the wound.
+  - qol: Bleeding wounds go away the moment they're fully healed.
+  - bugfix: Fixed a runtime when cauterizing a cut with a laser gun closed it.
+  Mothblocks, hry-gh, JohnFulpWillard, FalloutFalcon:
+  - bugfix: Typepath suggestions in the command bar are now filtered on the frontend.
+  - bugfix: In the command bar, exact matches now enter the verb.
+  - bugfix: Quotes aren't required around arguments in the command bar anymore, letting
+      you use quotes yourself in messages.
+  - bugfix: Removes a ton of pick up verbs from the command bar.
+  - qol: Added a setting to disable showing command bar suggestions as you type (unless
+      you press space).
+  - qol: The command bar now starts on Say instead of Command mode.
+  - qol: Pressing backspace while unfocused now clears your command bar.
+  - qol: The command bar's last used mode is now kept between rounds.
+  - admin: Asay is now properly sanitized.
+  - bugfix: When typing in the command bar, thinking/typing indicators will be reflected
+      in game again.
+  - bugfix: The command bar no longer goes into Say on login when you had Command
+      saved.
+  SmArtKar:
+  - rscadd: 'Changed how colorful reagent and crayon powder work: douse your victims
+      to color their clothing, bodyparts and even internal organs!'
+  - rscadd: Showers wash colorful reagent off your skin
+  - bugfix: You can color robotic limbs with left click (again)
+  - bugfix: Losing hulk after becoming a carp no longer turns you black
+  - bugfix: Severed limbs with wounds no longer look like two limbs when they land
+      sideways
+2026-10-30:
+  JupiterJaeden:
+  - rscdel: Removed the station alert level from displaying on byond hub to fix the
+      text being cut off sometimes (needed to make space for the html for the discord
+      link).
+2026-10-31:
+  mc-oofert:
+  - rscdel: removed ATMs and lotteries

@@ -179,19 +179,6 @@
 "cZ" = (
 /turf/closed/wall,
 /area/station/service/theater)
-"dk" = (
-/obj/effect/turf_decal/tile/dark_blue/half/contrasted{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/dark_blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/dark{
-	dir = 8
-	},
-/obj/machinery/atm/directional/east,
-/turf/open/floor/iron,
-/area/station/commons/lounge)
 "dn" = (
 /obj/effect/decal/cleanable/confetti,
 /obj/structure/closet/secure_closet/freezer/cream_pie,
@@ -2267,7 +2254,6 @@
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /obj/machinery/duct,
-/obj/machinery/atm/directional/west,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -3828,7 +3814,7 @@ LC
 Ux
 oC
 WV
-dk
+wY
 FT
 fU
 BV
