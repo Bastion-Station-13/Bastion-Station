@@ -1,14 +1,14 @@
 /**
- * 15 minutes = ash storm immunity
- * 30 minutes = armor
- * 45 minutes = base punch
- * 60 minutes = lavaproof
- * 75 minutes = firebreath
+ * 10 minutes = ash storm immunity
+ * 20 minutes = armor
+ * 30 minutes = base punch
+ * 40 minutes = lavaproof
+ * 50 minutes = firebreath
  */
 
 /datum/component/ash_age
 	/// the amount of minutes after each upgrade
-	var/stage_time = 15 MINUTES
+	var/stage_time = 10 MINUTES
 	/// the current stage of the ash
 	var/current_stage = 0
 	/// the time when upgraded/attached
@@ -31,7 +31,7 @@
 	SIGNAL_HANDLER
 	// if the world time hasn't yet passed the time required for evolution
 	if(world.time < (evo_time + stage_time))
-		to_chat(human_target, span_warning("More time is necessary to evolve-- twenty minutes between each evolution..."))
+		to_chat(human_target, span_warning("More time is necessary to evolve-- ten minutes between each evolution..."))
 		return
 	// since it was time, go up a stage and now we check what to add
 	current_stage++
