@@ -264,3 +264,8 @@ GLOBAL_LIST_INIT(announcer_keys, list(
 #define SFX_CASSETTE_TAKE_OUT "cassette_tape_take_out"
 #define SFX_CASSETTE_DUMP "cassette_tape_dump"
 #define SFX_CASSETTE_ASMR "cassette_tape_asmr"
+<<<<<<< HEAD
+=======
+#define SFX_REEL "reel"
+#define SFX_FISH_PICKUP "fish_pickup"
+>>>>>>> fc26669a (Fish update part 1: the portnening (#12767))
