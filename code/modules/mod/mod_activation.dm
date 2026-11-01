@@ -201,17 +201,18 @@
 		part.clothing_flags |= part.visor_flags
 		part.flags_inv |= part.visor_flags_inv
 		part.flags_cover |= part.visor_flags_cover
-		part.min_cold_protection_temperature = theme.min_cold_protection_temperature
-		part.max_heat_protection_temperature = theme.max_heat_protection_temperature
+		part.heat_protection = initial(part.heat_protection)
+		part.cold_protection = initial(part.cold_protection)
 		part.alternate_worn_layer = null
 	else
 		part.icon_state = "[skin]-[part.base_icon_state]"
 		part.flags_cover &= ~part.visor_flags_cover
 		part.flags_inv &= ~part.visor_flags_inv
 		part.clothing_flags &= ~part.visor_flags
-		part.min_cold_protection_temperature = null
-		part.max_heat_protection_temperature = null
+		part.heat_protection = NONE
+		part.cold_protection = NONE
 		part.alternate_worn_layer = mod_parts[part]
+<<<<<<< HEAD
 	if(part == boots)
 		wearer.update_worn_shoes()
 	if(part == gauntlets)
@@ -228,6 +229,12 @@
 		if (!seal && wearer?.invalid_internals())
 			wearer.cutoff_internals()
 	wearer.update_cached_insulation()
+=======
+	wearer.update_clothing(part.slot_flags)
+	wearer.update_obscured_slots(part.visor_flags_inv)
+	if((part.clothing_flags & (MASKINTERNALS|HEADINTERNALS)) && wearer.invalid_internals())
+		wearer.cutoff_internals()
+>>>>>>> 08ca25d9 (Temperature rework (#12758))
 
 /// Finishes the suit's activation
 /obj/item/mod/control/proc/finish_activation(on)
