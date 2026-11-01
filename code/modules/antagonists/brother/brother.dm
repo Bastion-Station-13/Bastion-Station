@@ -426,12 +426,6 @@
 		flashed.balloon_alert(source, "[flashed.p_their()] mind is vacant!")
 		return
 
-	// monkestation edit: dont try to convert banned people
-	if(is_banned_from(flashed.ckey, list(ROLE_BROTHER, ROLE_SYNDICATE)))
-		flashed.balloon_alert(source, "cannot become brother!")
-		return
-	// monkestation end
-
 	for(var/datum/objective/brother_objective as anything in source.mind.get_all_objectives())
 		// If the objective has a target, are we flashing them?
 		if(flashed == brother_objective.target?.current)
@@ -453,10 +447,42 @@
 	//The first BB flash against someone should sleep them. They get a popup if they want to join the BB team or not. If they say no they cant be BB flashed anymore
 	flashed.SetSleeping(30 SECONDS)
 	flash.burn_out()
+	if(is_banned_from(flashed.ckey, list(ROLE_BROTHER, ROLE_SYNDICATE)))
+		replace_banned_recruit(source, flashed)
+		return
 	join_brother_flashed_popup(source, flashed, flash)
 
 /datum/antagonist/brother/proc/set_brother_rank(newRank)
 	brotherRank = newRank
+
+/// Antag banned players don't get to dodge conversion. They're kicked out of their body for good, and a ghost gets it instead.
+/datum/antagonist/brother/proc/replace_banned_recruit(mob/living/source, mob/living/carbon/flashed)
+	set waitfor = FALSE
+
+	to_chat(flashed, span_userdanger("You are banned from playing as a blood brother, so you have been removed from your body and it has been offered to ghosts. Appeal your ban if you want to avoid this in the future!"))
+	message_admins("[ADMIN_LOOKUPFLW(flashed)] was flashed by blood brother [ADMIN_LOOKUPFLW(source)] while antag banned, and has been ghosted. Their body is being offered to ghosts.")
+	log_game("[key_name(flashed)] was ghosted for being antag banned when flashed by blood brother [key_name(source)]")
+	flashed.ghostize(can_reenter_corpse = FALSE)
+
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(
+		check_jobban = ROLE_BROTHER,
+		role = ROLE_BROTHER,
+		poll_time = 60 SECONDS,
+		checked_target = flashed,
+		alert_pic = flashed,
+		role_name_text = "blood brother recruit",
+	)
+	if(isnull(chosen_one) || QDELETED(src) || QDELETED(flashed))
+		log_game("No ghost took the body of [key_name(flashed)] after they were ghosted for being antag banned.")
+		return
+	flashed.PossessByPlayer(chosen_one.key)
+	if (team.conversion_charges <= 0 || !team.add_brother(flashed, key_name(source)))
+		return
+	message_admins("[ADMIN_LOOKUPFLW(flashed)] has taken over an antag banned player's body and joined [team.name].")
+	log_game("[key_name(flashed)] took over an antag banned player's body and was made into a blood brother by [key_name(source)]")
+	team.adjust_conversion_charges(-1)
+	flashed.balloon_alert(source, "converted")
+	flashed.SetSleeping(0 SECONDS)
 
 /datum/antagonist/brother/proc/join_brother_flashed_popup(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash)
 	if(popup)
