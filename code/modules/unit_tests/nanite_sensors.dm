@@ -171,3 +171,23 @@
 	set_rules(repeater, TRUE, list())
 
 	UnregisterSignal(host, COMSIG_NANITE_SIGNAL)
+
+/// The new sensors can only be built if a design for them is unlocked by a research node
+/datum/unit_test/nanite_sensor_designs
+
+/datum/unit_test/nanite_sensor_designs/Run()
+	for(var/program_type in list(/datum/nanite_program/sensor/consciousness, /datum/nanite_program/sensor/organ_health))
+		var/design_id
+		for(var/id in SSresearch.techweb_designs)
+			var/datum/design/nanites/design = SSresearch.techweb_designs[id]
+			if(istype(design) && design.program_type == program_type)
+				design_id = id
+				break
+		TEST_ASSERT_NOTNULL(design_id, "[program_type] has no nanite design")
+		var/unlocked = FALSE
+		for(var/node_id in SSresearch.techweb_nodes)
+			var/datum/techweb_node/node = SSresearch.techweb_nodes[node_id]
+			if(design_id in node.design_ids)
+				unlocked = TRUE
+				break
+		TEST_ASSERT(unlocked, "[design_id] isn't unlocked by any research node")
