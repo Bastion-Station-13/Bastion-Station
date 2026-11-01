@@ -789,3 +789,17 @@
 		TOOL_SCREWDRIVER,
 	)
 	time = 5 SECONDS
+
+/datum/crafting_recipe/blood_brother/flash
+	name = "Flash"
+	desc = "Every recruitment attempt burns out your flash, even if they turn you down. If you run out, you can build another one cheaply. Or just print one at an exosuit fabricator, that works too."
+	category = CAT_BB_SUPPORT
+	result = /obj/item/assembly/flash/handheld
+	reqs = list(
+		/obj/item/stack/sheet/iron = 1,
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/stack/cable_coil = 2,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+	)
