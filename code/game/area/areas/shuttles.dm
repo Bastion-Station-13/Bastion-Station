@@ -68,13 +68,19 @@
 
 /area/shuttle/hunter
 	name = "Hunter Shuttle"
-	static_lighting = FALSE
-	base_lighting_alpha = 255
+	requires_power = TRUE
 
 /area/shuttle/hunter/russian
 	name = "Russian Cargo Hauler"
-	requires_power = TRUE
-	static_lighting = TRUE
+
+/area/shuttle/hunter/spacepol
+	name = "Spacepol Cutter"
+
+/area/shuttle/hunter/bounty
+	name = "Bounty Hunter Frigate"
+
+/area/shuttle/hunter/psyker
+	name = "Psyker Ship"
 
 ////////////////////////////White Ship////////////////////////////
 
