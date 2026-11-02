@@ -803,3 +803,20 @@
 	tool_behaviors = list(
 		TOOL_SCREWDRIVER,
 	)
+
+/datum/crafting_recipe/blood_brother/donk_pocket_juicer
+	name = "Donk Pocket Juicer"
+	desc = "You're not sure how blasting food with uranium gives it healing properties, but this lunchbox microwave hybrid can do that to Donk-pockets. Uses uranium sheets as fuel."
+	category = CAT_BB_SUPPORT
+	result = /obj/item/donk_pocket_juicer
+	reqs = list(
+		/obj/item/stack/sheet/iron = 5,
+		/obj/item/stack/rods = 1,
+		/obj/item/stack/cable_coil = 5,
+		/obj/item/stock_parts/micro_laser = 1,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WIRECUTTER,
+	)
+	time = 8 SECONDS

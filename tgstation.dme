@@ -3395,6 +3395,7 @@
 #include "code\modules\antagonists\brother\bond_beacon.dm"
 #include "code\modules\antagonists\brother\brother.dm"
 #include "code\modules\antagonists\brother\brother_team.dm"
+#include "code\modules\antagonists\brother\donk_pocket_juicer.dm"
 #include "code\modules\antagonists\brother\electrified_bola.dm"
 #include "code\modules\antagonists\brother\glockenspiel.dm"
 #include "code\modules\antagonists\brother\hardlight_cannon.dm"
