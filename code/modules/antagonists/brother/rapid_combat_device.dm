@@ -9,6 +9,7 @@
 #define RCD_GUN_BREACH_COST 20
 #define RCD_GUN_BARRICADE_COST 40
 #define RCD_BARRICADE_DURATION (30 SECONDS)
+#define RCD_BREACH_STRUCTURE_DAMAGE 600
 
 /obj/item/gun/energy/rapid_combat_device
 	name = "rapid combat device"
@@ -132,6 +133,7 @@
 	shrapnel_type = null
 	embed_type = null
 
+/// Barely scratches people, but tears through walls, doors, windows and machines.
 /obj/projectile/rcd_breach
 	name = "breaching blast"
 	icon = 'bastionstation/icons/obj/weapons/guns/rcd_projectiles.dmi'
@@ -141,6 +143,16 @@
 	armor_flag = LASER
 	demolition_mod = 8
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
+
+/obj/projectile/rcd_breach/on_hit(atom/target, blocked = 0, pierce_hit)
+	. = ..()
+	if(iswallturf(target))
+		var/turf/closed/wall/wall = target
+		if(!wall.uses_integrity)
+			return
+	else if(!isstructure(target) && !ismachinery(target))
+		return
+	target.take_damage(RCD_BREACH_STRUCTURE_DAMAGE, BRUTE, BOMB, FALSE, armour_penetration = 100)
 
 /// Deploys a barricade where it lands: the clicked tile, or the last clear tile before whatever it hit.
 /obj/projectile/rcd_barricade
@@ -216,3 +228,4 @@
 #undef RCD_GUN_BREACH_COST
 #undef RCD_GUN_BARRICADE_COST
 #undef RCD_BARRICADE_DURATION
+#undef RCD_BREACH_STRUCTURE_DAMAGE

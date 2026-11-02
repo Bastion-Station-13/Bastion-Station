@@ -487,9 +487,14 @@
 /datum/antagonist/brother/proc/join_brother_flashed_popup(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash)
 	if(popup)
 		return
-	popup = TRUE
-	var/response = tgui_alert(flashed, "Visions of a life with [source] as your brother pass through your mind.", "Become brothers?", list("Become a brother", "Reject Brotherhood"), timeout = 30 SECONDS)
-	popup = FALSE
+	var/response = "Become a brother"
+	// Security and command had to be kidnapped and have their mindshield pulled out to get this far, so they don't get a say
+	if(flashed.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY | DEPARTMENT_BITFLAG_COMMAND))
+		to_chat(flashed, span_big(span_hypnophrase("Without your mindshield, the visions of a life with [source] as your brother overwhelm you.")))
+	else
+		popup = TRUE
+		response = tgui_alert(flashed, "Visions of a life with [source] as your brother pass through your mind.", "Become brothers?", list("Become a brother", "Reject Brotherhood"), timeout = 30 SECONDS)
+		popup = FALSE
 
 	if(response == "Become a brother")
 		// Another brother may have used the last charge while this one was deciding

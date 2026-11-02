@@ -3,19 +3,20 @@
  *
  * Heavy plate armor covering the chest, groin and arms, and a helmet covering the face.
  * Wearing both together makes the wearer immune to stuns.
+ * I made it so the slowdown is always present, at your request jeff.
  */
 
 #define NED_KELLY_SET_TRAIT "ned_kelly_set"
 
 /datum/armor/ned_kelly
-	melee = 60
+	melee = 70
 	bullet = 70
-	laser = 40
-	energy = 40
-	bomb = 50
-	fire = 50
-	acid = 50
-	wound = 30
+	laser = 70
+	energy = 70
+	bomb = 70
+	fire = 70
+	acid = 70
+	wound = 70
 
 /obj/item/clothing/suit/armor/ned_kelly
 	name = "Ned Kelly armor"
@@ -30,6 +31,9 @@
 	w_class = WEIGHT_CLASS_BULKY
 	body_parts_covered = CHEST|GROIN|ARMS
 	slowdown = 1.5
+	item_flags = IMMUTABLE_SLOW
+	clothing_traits = list(TRAIT_NEGATES_GRAVITY)
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	armor_type = /datum/armor/ned_kelly
 
 /obj/item/clothing/suit/armor/ned_kelly/equipped(mob/living/user, slot)
@@ -54,6 +58,9 @@
 	flags_cover = HEADCOVERSEYES|HEADCOVERSMOUTH
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	slowdown = 0.5
+	item_flags = IMMUTABLE_SLOW
+	clothing_traits = list(TRAIT_NEGATES_GRAVITY)
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	armor_type = /datum/armor/ned_kelly
 	dog_fashion = null
 
