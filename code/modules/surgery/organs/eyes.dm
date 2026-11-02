@@ -704,6 +704,7 @@
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
 
+<<<<<<< HEAD
 /obj/item/organ/internal/eyes/shadekin
 	name = "shadekin eyes"
 	desc = "The eyes of a shadekin, you heard they are adapted to darkness better than most other species, however they are also more sensitive to light."
@@ -713,6 +714,15 @@
 	lighting_cutoff = LIGHTING_CUTOFF_MEDIUM
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
+=======
+/obj/item/organ/internal/eyes/moth/generate_body_overlay(mob/living/carbon/human/parent)
+	// tundra fur comes with its own eyes
+	if(HAS_TRAIT(parent, TRAIT_GREYSCALE_TOGGLE) && parent.limb_style == LIMB_STYLE_TUNDRA)
+		eye_icon_state = "tundramotheyes"
+	else
+		eye_icon_state = initial(eye_icon_state)
+	return ..()
+>>>>>>> 804ea32f (Tundra moths are a moth body style instead of a species (#12879))
 
 /obj/item/organ/internal/eyes/lizard
 	name = "lizard eyes"
