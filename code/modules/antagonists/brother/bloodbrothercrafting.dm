@@ -478,6 +478,22 @@
 	)
 	time = 8 SECONDS
 
+/datum/crafting_recipe/blood_brother/scrapper_gloves
+	name = "Scrapper Gloves"
+	desc = "You are both a scrapper (crafting things) and a scrapper (fighting) If you land a combo with these on, your fellow blood brother(s) can land any melee attack on the target and trigger a WOMBO COMBO!!."
+	category = CAT_BB_ARMOR
+	result = /obj/item/clothing/gloves/scrapper
+	reqs = list(
+		/obj/item/clothing/gloves/color/yellow = 1,
+		/obj/item/stack/sheet/plasteel = 3,
+		/obj/item/stack/sheet/leather = 5,
+	)
+	tool_behaviors = list(
+		TOOL_WELDER,
+		TOOL_WIRECUTTER,
+	)
+	time = 15 SECONDS
+
 /datum/crafting_recipe/blood_brother/sunglasses
 	name = "Sunglasses"
 	desc = "Point a welder at some glass until it's polarized. That's not how polarizing works, but you look cool now, so who's going to argue?"
@@ -621,6 +637,7 @@
 	category = CAT_BB_WEAPONS
 	result = /obj/item/gun/energy/laser/hardlight
 	reqs = list(
+		/obj/item/gun/energy/laser/explorer = 1,
 		/obj/item/stock_parts/matter_bin = 1,
 		/obj/item/stock_parts/power_store/cell = 1,
 		/obj/item/stock_parts/scanning_module = 1,

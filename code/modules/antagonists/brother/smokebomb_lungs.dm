@@ -1,7 +1,5 @@
 /**
- * Smokebomb lungs for Blood Brothers.
- *
- * Lets the owner exhale a cloud of choking smoke, and makes them immune to the coughing it causes.
+ * Smokebomb but in lung form. Exhale choking smoke, and you're immune to the coughing.
  */
 /obj/item/organ/internal/lungs/cybernetic/smokebomb
 	name = "smokebomb lungs"

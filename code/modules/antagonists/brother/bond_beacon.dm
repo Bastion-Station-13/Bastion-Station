@@ -1,9 +1,5 @@
 /**
- * Bond beacon for Blood Brothers.
- *
- * A single use item that a blood brother applies to themselves, sharing their location
- * with the rest of their team in the conspirators tab for the rest of the round.
- * Does nothing for anyone who isn't a blood brother.
+ * Bond beacon for Blood Brothers. Shares your location with your team for the rest of the round.
  */
 /obj/item/bond_beacon
 	name = "bond beacon"

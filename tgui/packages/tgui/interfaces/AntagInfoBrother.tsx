@@ -49,6 +49,8 @@ type Conspirator = {
 type Data = {
   antag_name: string;
   objectives: Objective[];
+  phrases: string;
+  responses: string;
   tab: TAB;
   rank: string;
   team_name: string | null;
@@ -124,7 +126,15 @@ export const AntagInfoBrother = (props) => {
 
 const ObjectivesTab = (props) => {
   const { data } = useBackend<Data>();
-  const { rank, team_name, objectives, gear_chosen, gear_summoned } = data;
+  const {
+    rank,
+    team_name,
+    objectives,
+    phrases,
+    responses,
+    gear_chosen,
+    gear_summoned,
+  } = data;
 
   return (
     <Stack fill vertical>
@@ -152,6 +162,27 @@ const ObjectivesTab = (props) => {
             objectives={objectives}
             titleMessage="Your team must"
           />
+        </Section>
+      </Stack.Item>
+      <Stack.Item>
+        <Section title="Codewords">
+          <Box mb={1}>
+            Work these into regular conversation to find fellow agents. You'll
+            recognize them when you hear them. Proceed with caution, as everyone
+            is a potential foe.
+          </Box>
+          <LabeledList>
+            <LabeledList.Item label="Code Phrases">
+              <Box bold color="blue">
+                {phrases}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="Code Responses">
+              <Box bold color="orange">
+                {responses}
+              </Box>
+            </LabeledList.Item>
+          </LabeledList>
         </Section>
       </Stack.Item>
       <Stack.Item>

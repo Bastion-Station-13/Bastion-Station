@@ -46,6 +46,8 @@
 	RegisterSignal(owner, COMSIG_MIND_DNR, PROC_REF(on_dnr))
 	RegisterSignal(owner, COMSIG_MIND_CRYOED, PROC_REF(on_cryoed))
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_LOGGED_IN, PROC_REF(on_mob_logged_in))
+	owner.current.add_mob_memory(/datum/memory/key/codewords)
+	owner.current.add_mob_memory(/datum/memory/key/codewords/responses)
 
 	// The big brother starts the bond, with a flash for every conversion the team rolled
 	var/mob/living/carbon/carbon_owner = owner.current
@@ -79,6 +81,8 @@
 	comms_action.Grant(target)
 	gear_action?.Grant(target)
 	RegisterSignal(target, COMSIG_MOB_GHOSTIZED, PROC_REF(on_ghostized))
+	target.AddComponent(/datum/component/codeword_hearing, GLOB.syndicate_code_phrase_regex, "blue", src)
+	target.AddComponent(/datum/component/codeword_hearing, GLOB.syndicate_code_response_regex, "orange", src)
 	if(QDELETED(blood_brother_crafting))
 		blood_brother_crafting = target.AddComponent(/datum/component/personal_crafting/blood_brother)
 	add_team_hud(target, /datum/antagonist/brother, REF(team))
@@ -86,6 +90,9 @@
 /datum/antagonist/brother/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	UnregisterSignal(mob_override || owner.current, COMSIG_MOB_GHOSTIZED)
+	var/mob/living/old_body = mob_override || owner.current
+	for(var/datum/component/codeword_hearing/component as anything in old_body.GetComponents(/datum/component/codeword_hearing))
+		component.delete_if_from_source(src)
 	comms_action?.Remove(mob_override || owner.current)
 	QDEL_NULL(comms_action)
 	gear_action?.Remove(mob_override || owner.current)
@@ -161,6 +168,8 @@
 /datum/antagonist/brother/greet()
 	to_chat(owner.current, span_alertsyndie("You are the [owner.special_role]."))
 	owner.announce_objectives()
+	to_chat(owner.current, "<b>Code Phrases</b>: [span_blue(jointext(GLOB.syndicate_code_phrase, ", "))]")
+	to_chat(owner.current, "<b>Code Responses</b>: [span_orange(jointext(GLOB.syndicate_code_response, ", "))]")
 
 /datum/antagonist/brother/proc/finalize_brother()
 	play_stinger()
@@ -237,6 +246,8 @@
 	var/list/data = list()
 	data["antag_name"] = name
 	data["objectives"] = get_objectives()
+	data["phrases"] = jointext(GLOB.syndicate_code_phrase, ", ")
+	data["responses"] = jointext(GLOB.syndicate_code_response, ", ")
 	if(!QDELETED(blood_brother_crafting))
 		merge_ui_data(data, blood_brother_crafting.ui_static_data(user))
 	return data

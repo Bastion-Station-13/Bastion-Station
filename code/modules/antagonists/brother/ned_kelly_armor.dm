@@ -1,8 +1,5 @@
 /**
- * Ned Kelly armor set for Blood Brothers.
- *
- * Heavy plate armor covering the chest, groin and arms, and a helmet covering the face.
- * Wearing both together makes the wearer immune to stuns.
+ * Ned Kelly armor set for Blood Brothers. Wearing both pieces makes you immune to stuns.
  * I made it so the slowdown is always present, at your request jeff.
  */
 

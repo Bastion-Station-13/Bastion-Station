@@ -1,8 +1,5 @@
 /**
- * Blood Brother gun parts.
- *
- * These are intentionally lightweight attachment objects. Sprites live in bb_gun_parts.dmi.
- * The *_parent sprites are only for the slot parents below, so real attachments should set their own icon_state.
+ * Blood Brother gun parts. The *_parent sprites are only for the slot parents, so real attachments set their own icon_state.
  */
 
 /obj/item/blood_brother_gun_part

@@ -1,7 +1,5 @@
 /**
- * Rapid combat device for Blood Brothers.
- *
- * An RCD rewired into a gun. It isn't a BB modular gun or a real RCD, so it takes neither gun parts nor RCD upgrades.
+ * Rapid combat device for Blood Brothers.Takes neither gun parts nor RCD upgrades.
  */
 
 #define RCD_GUN_MAX_MATTER 160

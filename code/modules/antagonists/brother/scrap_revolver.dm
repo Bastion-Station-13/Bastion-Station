@@ -1,7 +1,5 @@
 /**
- * Scrap revolver for Blood Brothers.
- *
- * Its improvised cylinder can be configured between .38 and 12 gauge ammunition.
+ * Scrap revolver for Blood Brothers. Its cylinder can be set to .38 or 12 gauge.
  */
 
 /// How many .38 rounds the scrap revolver's cylinder holds, before any magazine part.
