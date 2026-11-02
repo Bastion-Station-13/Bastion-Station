@@ -7,11 +7,9 @@
 /turf/open/floor/iron/textured,
 /area/shuttle/hunter/spacepol)
 "ab" = (
-/obj/structure/closet/secure_closet/wall/directional/south,
-/obj/item/storage/toolbox/mechanical,
-/obj/item/multitool,
-/obj/item/clothing/gloves/color/yellow,
-/turf/open/floor/iron/dark,
+/obj/structure/cargo_shelf,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
 "ac" = (
 /turf/closed/wall/mineral/titanium/spaceship,
@@ -49,50 +47,56 @@
 /turf/open/floor/iron/textured,
 /area/shuttle/hunter/spacepol)
 "ah" = (
-/turf/open/floor/iron/textured,
+/obj/structure/closet/secure_closet/wall/directional/south,
+/obj/item/storage/toolbox/mechanical,
+/obj/item/multitool,
+/obj/item/clothing/gloves/color/yellow,
+/turf/open/floor/iron/dark,
 /area/shuttle/hunter/spacepol)
 "aj" = (
-/obj/effect/spawner/structure/window/reinforced/shuttle,
-/obj/machinery/door/poddoor/shutters{
-	id = "hunter_spacepol_windows";
-	dir = 1
-	},
-/turf/open/floor/plating,
+/turf/open/floor/iron/textured,
 /area/shuttle/hunter/spacepol)
 "ak" = (
 /obj/structure/cable,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
 "al" = (
-/obj/structure/closet/crate/secure/gear,
-/obj/item/ammo_box/c45/rubber,
-/obj/item/ammo_box/c45,
-/obj/item/ammo_box/c45,
-/obj/item/ammo_box/c45,
-/obj/item/ammo_box/c45,
-/obj/item/clothing/head/helmet/alt,
-/obj/item/clothing/suit/armor/bulletproof,
-/obj/item/shield/riot,
-/obj/item/clothing/suit/armor/riot,
-/obj/item/clothing/head/helmet/toggleable/riot,
-/obj/item/melee/baton/telescopic,
-/obj/item/melee/baton,
-/obj/item/melee/baton,
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/turf_decal/delivery,
+/obj/effect/mob_spawn/ghost_role/human/fugitive/spacepol{
 	dir = 8
 	},
-/turf/open/floor/iron/textured,
+/turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
 "bY" = (
 /obj/machinery/suit_storage_unit/spaceruin,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/spacepol)
-"cb" = (
-/obj/structure/cargo_shelf,
+"ee" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4
+	},
+/obj/item/radio/intercom/command/directional/north{
+	desc = "An intercom with extended range, usually used by Spacepol to disclose their presence and objectives to stations they intend to board. Occasionally used for other purposes."
+	},
+/turf/open/floor/iron/dark,
+/area/shuttle/hunter/spacepol)
+"ey" = (
+/obj/effect/spawner/structure/window/reinforced/shuttle,
+/obj/machinery/door/poddoor/shutters{
+	id = "hunter_spacepol_windows";
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/shuttle/hunter/spacepol)
+"hB" = (
+/turf/closed/wall/mineral/titanium/spaceship/nodiagonal,
+/area/shuttle/hunter/spacepol)
+"ku" = (
+/obj/machinery/fugitive_capture,
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
-"dF" = (
+"kx" = (
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
@@ -100,24 +104,27 @@
 /obj/item/stack/sheet/mineral/plasma/thirty,
 /turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
-"eS" = (
+"lp" = (
+/obj/effect/turf_decal/loading_area{
+	dir = 4
+	},
+/turf/open/floor/iron/textured_large,
+/area/shuttle/hunter/spacepol)
+"lQ" = (
+/obj/structure/cable,
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/machinery/power/port_gen/pacman/pre_loaded,
+/turf/open/floor/catwalk_floor/iron_dark,
+/area/shuttle/hunter/spacepol)
+"mw" = (
 /obj/machinery/power/shuttle_engine/propulsion/right{
 	dir = 8
 	},
 /turf/open/floor/engine/hull/reinforced,
 /area/shuttle/hunter/spacepol)
-"hB" = (
-/obj/effect/turf_decal/delivery/blue,
-/obj/effect/mob_spawn/ghost_role/human/fugitive/spacepol{
-	dir = 4;
-	density = 0
-	},
-/obj/structure/closet/secure_closet/wall/directional/south,
-/obj/item/megaphone/command,
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/iron/dark,
-/area/shuttle/hunter/spacepol)
-"io" = (
+"nC" = (
 /obj/structure/closet/crate/secure/weapon,
 /obj/item/gun/ballistic/shotgun/riot/sol,
 /obj/item/ammo_box/advanced/s12gauge/rubber,
@@ -142,69 +149,17 @@
 /obj/item/grenade/barrier,
 /turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
-"jO" = (
-/obj/machinery/porta_turret/syndicate/energy/raven{
-	dir = 6
-	},
-/obj/effect/turf_decal/box/white,
-/turf/open/floor/engine/hull/reinforced,
-/area/shuttle/hunter/spacepol)
-"ku" = (
-/obj/machinery/fugitive_capture,
-/obj/effect/turf_decal/bot,
-/turf/open/floor/iron/textured_large,
-/area/shuttle/hunter/spacepol)
-"kK" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 12;
-	shuttle_id = "huntership_home";
-	name = "Deep Space";
-	width = 7
-	},
-/obj/docking_port/mobile{
-	dir = 4;
-	shuttle_id = "huntership";
-	name = "hunter shuttle";
-	rechargeTime = 1800
-	},
-/obj/structure/fans/tiny,
-/obj/machinery/door/airlock/external/glass{
-	dir = 4
-	},
-/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
-/turf/open/floor/catwalk_floor/iron_dark,
-/area/shuttle/hunter/spacepol)
-"lp" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
-/turf/open/floor/iron/textured_large,
-/area/shuttle/hunter/spacepol)
-"lJ" = (
-/obj/machinery/computer/shuttle/hunter{
-	dir = 8
+"pV" = (
+/obj/structure/closet/firecloset/wall/directional/south,
+/obj/structure/chair/comfy/shuttle{
+	dir = 1
 	},
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/spacepol)
-"lV" = (
-/obj/machinery/light/directional/south,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/iron/textured,
-/area/shuttle/hunter/spacepol)
-"lZ" = (
-/turf/open/floor/catwalk_floor/iron,
-/area/shuttle/hunter/spacepol)
-"qD" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/directional/north,
-/obj/effect/mapping_helpers/apc/full_charge,
-/obj/effect/mapping_helpers/apc/cell_5k,
-/obj/effect/mapping_helpers/apc/cut_AI_wire,
-/turf/open/floor/catwalk_floor/iron_dark,
+"rF" = (
+/obj/machinery/fugitive_locator,
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
 "rR" = (
 /obj/structure/closet/crate/internals,
@@ -218,28 +173,20 @@
 /obj/item/tank/internals/emergency_oxygen/engi,
 /turf/open/floor/iron/textured,
 /area/shuttle/hunter/spacepol)
-"sY" = (
-/obj/machinery/door/airlock/external/glass{
-	dir = 4
-	},
-/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
-/turf/open/floor/catwalk_floor/iron_dark,
+"rZ" = (
+/obj/machinery/light/directional/north,
+/turf/open/floor/catwalk_floor/iron,
 /area/shuttle/hunter/spacepol)
-"te" = (
-/obj/machinery/power/shuttle_engine/propulsion/left{
-	dir = 8
-	},
-/turf/open/floor/engine/hull/reinforced,
-/area/shuttle/hunter/spacepol)
-"vR" = (
+"st" = (
 /obj/structure/cable,
-/obj/machinery/power/smes/super/full,
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/effect/mapping_helpers/apc/full_charge,
+/obj/effect/mapping_helpers/apc/cell_5k,
+/obj/effect/mapping_helpers/apc/cut_AI_wire,
+/obj/effect/mapping_helpers/apc/unlocked,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
-"wg" = (
-/turf/closed/wall/mineral/titanium,
-/area/shuttle/hunter/spacepol)
-"zk" = (
+"sx" = (
 /obj/machinery/computer/camera_advanced/shuttle_docker/syndicate/hunter{
 	dir = 8;
 	view_range = 7;
@@ -251,27 +198,81 @@
 	},
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/spacepol)
+"sC" = (
+/turf/closed/wall/mineral/titanium,
+/area/shuttle/hunter/spacepol)
+"te" = (
+/obj/machinery/power/shuttle_engine/propulsion/left{
+	dir = 8
+	},
+/turf/open/floor/engine/hull/reinforced,
+/area/shuttle/hunter/spacepol)
+"tF" = (
+/obj/machinery/computer/shuttle/hunter{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/shuttle/hunter/spacepol)
+"vO" = (
+/obj/effect/turf_decal/delivery/blue,
+/obj/effect/mob_spawn/ghost_role/human/fugitive/spacepol{
+	dir = 4;
+	density = 0
+	},
+/obj/structure/closet/secure_closet/wall/directional/south,
+/obj/item/megaphone/command,
+/obj/machinery/light/small/directional/west,
+/obj/item/clothing/mask/whistle,
+/turf/open/floor/iron/dark,
+/area/shuttle/hunter/spacepol)
+"wG" = (
+/obj/machinery/door/airlock/command{
+	dir = 4;
+	name = "Cockpit"
+	},
+/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/iron/dark/smooth_large,
+/area/shuttle/hunter/spacepol)
+"wT" = (
+/obj/machinery/door/airlock/external/glass{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
+/turf/open/floor/catwalk_floor/iron_dark,
+/area/shuttle/hunter/spacepol)
+"yZ" = (
+/obj/structure/closet/crate/medical,
+/obj/item/storage/medkit/frontier/stocked,
+/obj/item/storage/medkit/frontier/stocked,
+/obj/item/storage/medkit/expeditionary/surplus,
+/obj/item/storage/medkit/emergency,
+/obj/item/storage/medkit/robotic_repair/stocked,
+/obj/item/storage/medkit/surgery,
+/obj/item/storage/medkit/toxin,
+/turf/open/floor/iron/textured,
+/area/shuttle/hunter/spacepol)
 "Am" = (
 /obj/machinery/light/directional/east,
 /obj/vehicle/ridden/battering_ram,
 /turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
 "An" = (
+/turf/closed/wall/mineral/titanium/nodiagonal,
+/area/shuttle/hunter/spacepol)
+"CO" = (
+/obj/machinery/light/directional/south,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /turf/open/floor/iron/textured,
 /area/shuttle/hunter/spacepol)
-"Hj" = (
-/obj/structure/chair/comfy/shuttle{
-	dir = 4
-	},
-/obj/item/radio/intercom/command/directional/north{
-	desc = "An intercom with extended range, usually used by Spacepol to disclose their presence and objectives to stations they intend to board. Occasionally used for other purposes."
-	},
-/turf/open/floor/iron/dark,
-/area/shuttle/hunter/spacepol)
-"Id" = (
+"Eu" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -287,79 +288,91 @@
 	},
 /turf/open/floor/plating,
 /area/shuttle/hunter/spacepol)
-"Kn" = (
-/obj/machinery/light/directional/north,
+"Hb" = (
+/turf/open/floor/catwalk_floor/iron_dark,
+/area/shuttle/hunter/spacepol)
+"Kj" = (
 /turf/open/floor/catwalk_floor/iron,
 /area/shuttle/hunter/spacepol)
-"KP" = (
+"Kn" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4
+	},
+/turf/open/floor/iron/dark/smooth_large,
+/area/shuttle/hunter/spacepol)
+"KF" = (
+/obj/structure/closet/crate/secure/gear,
+/obj/item/ammo_box/c45/rubber,
+/obj/item/ammo_box/c45,
+/obj/item/ammo_box/c45,
+/obj/item/ammo_box/c45,
+/obj/item/ammo_box/c45,
+/obj/item/clothing/head/helmet/alt,
+/obj/item/clothing/suit/armor/bulletproof,
+/obj/item/shield/riot,
+/obj/item/clothing/suit/armor/riot,
+/obj/item/clothing/head/helmet/toggleable/riot,
+/obj/item/melee/baton/telescopic,
+/obj/item/melee/baton,
+/obj/item/melee/baton,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/iron/textured,
+/area/shuttle/hunter/spacepol)
+"Ln" = (
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
-"NE" = (
-/obj/machinery/fugitive_locator,
-/obj/machinery/light/directional/north,
-/turf/open/floor/iron/textured_large,
-/area/shuttle/hunter/spacepol)
-"NN" = (
-/obj/structure/closet/firecloset/wall/directional/south,
-/obj/structure/chair/comfy/shuttle{
-	dir = 1
+"LU" = (
+/obj/docking_port/stationary{
+	dir = 4;
+	dwidth = 3;
+	height = 15;
+	shuttle_id = "huntership_home";
+	name = "Deep Space";
+	width = 12
 	},
-/turf/open/floor/iron/dark,
+/obj/docking_port/mobile{
+	dir = 4;
+	shuttle_id = "huntership";
+	name = "hunter shuttle";
+	rechargeTime = 1800
+	},
+/obj/structure/fans/tiny,
+/obj/machinery/door/airlock/external/glass{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
+/turf/open/floor/catwalk_floor/iron_dark,
+/area/shuttle/hunter/spacepol)
+"MP" = (
+/obj/machinery/porta_turret/syndicate/energy/raven{
+	dir = 6
+	},
+/obj/effect/turf_decal/box/white,
+/turf/open/floor/engine/hull/reinforced,
 /area/shuttle/hunter/spacepol)
 "Pq" = (
 /turf/template_noop,
 /area/template_noop)
-"Qz" = (
-/obj/structure/chair/comfy/shuttle{
-	dir = 4
-	},
-/turf/open/floor/iron/dark/smooth_large,
-/area/shuttle/hunter/spacepol)
-"QQ" = (
-/obj/structure/cable,
-/obj/machinery/power/terminal{
-	dir = 1
-	},
-/obj/machinery/power/port_gen/pacman/pre_loaded,
-/turf/open/floor/catwalk_floor/iron_dark,
-/area/shuttle/hunter/spacepol)
 "Rz" = (
-/turf/closed/wall/mineral/titanium/nodiagonal,
-/area/shuttle/hunter/spacepol)
-"RO" = (
-/turf/closed/wall/mineral/titanium/spaceship/nodiagonal,
-/area/shuttle/hunter/spacepol)
-"TP" = (
-/obj/machinery/door/airlock/command{
-	dir = 4;
-	name = "Cockpit"
-	},
-/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/iron/dark/smooth_large,
-/area/shuttle/hunter/spacepol)
-"Um" = (
-/obj/effect/turf_decal/delivery,
-/obj/effect/mob_spawn/ghost_role/human/fugitive/spacepol{
-	dir = 8
-	},
-/turf/open/floor/iron/textured_large,
-/area/shuttle/hunter/spacepol)
-"VB" = (
 /obj/effect/spawner/structure/window/reinforced/shuttle,
 /obj/machinery/door/poddoor/shutters{
 	id = "hunter_spacepol_windows";
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/shuttle/hunter/spacepol)
-"XX" = (
+"RO" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/iron/textured,
+/area/shuttle/hunter/spacepol)
+"TY" = (
+/obj/structure/cable,
+/obj/machinery/power/smes/super/full,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
 
@@ -367,131 +380,131 @@
 Pq
 Pq
 ac
-kK
-RO
+LU
+hB
 ac
 te
-eS
+mw
 Pq
 "}
 (2,1,1) = {"
 Pq
 te
-RO
-KP
+hB
+Ln
 ae
-RO
+hB
 af
 af
-RO
+hB
 "}
 (3,1,1) = {"
-RO
+hB
 af
-RO
-sY
-RO
-RO
-vR
-QQ
-RO
+hB
+wT
+hB
+hB
+TY
+lQ
+hB
 "}
 (4,1,1) = {"
-RO
+hB
 bY
-Qz
-XX
+Kn
+Hb
 bY
 bY
 ak
-ab
-RO
+ah
+hB
 "}
 (5,1,1) = {"
-RO
-qD
+hB
+st
 ak
 ak
 ak
 ak
 ak
-NN
-RO
+pV
+hB
 "}
 (6,1,1) = {"
-Rz
-lZ
 An
-An
+Kj
+RO
+RO
 ag
-al
+KF
+RO
+CO
 An
-lV
-Rz
 "}
 (7,1,1) = {"
-Rz
-Kn
-Um
-Um
-ah
-ah
-ah
-dF
-Rz
+An
+rZ
+al
+al
+aj
+aj
+aj
+kx
+An
 "}
 (8,1,1) = {"
-Rz
-TP
-Rz
-Rz
+An
+wG
+An
+An
 lp
-ah
-ah
-cb
-Rz
+yZ
+aj
+ab
+An
 "}
 (9,1,1) = {"
-Rz
-Hj
-hB
-Rz
+An
+ee
+vO
+An
 ku
 rR
-ah
-cb
-Rz
+aj
+ab
+An
 "}
 (10,1,1) = {"
+Rz
+tF
+sx
+An
+rF
 aj
-lJ
-zk
-Rz
-NE
-ah
-ah
-io
-Rz
+aj
+nC
+An
 "}
 (11,1,1) = {"
-aj
-VB
-VB
 Rz
+ey
+ey
+An
 Am
-ah
+aj
 aa
-Rz
-wg
+An
+sC
 "}
 (12,1,1) = {"
 Pq
 Pq
 Pq
-wg
-Rz
-Id
-Id
-wg
-jO
+sC
+An
+Eu
+Eu
+sC
+MP
 "}

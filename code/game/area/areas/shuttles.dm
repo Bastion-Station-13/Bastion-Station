@@ -69,6 +69,7 @@
 /area/shuttle/hunter
 	name = "Hunter Shuttle"
 	requires_power = TRUE
+	area_limited_icon_smoothing = /area/shuttle/hunter
 
 /area/shuttle/hunter/russian
 	name = "Russian Cargo Hauler"
