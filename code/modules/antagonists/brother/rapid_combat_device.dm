@@ -150,7 +150,7 @@
 			return
 	else if(!isstructure(target) && !ismachinery(target))
 		return
-	target.take_damage(RCD_BREACH_STRUCTURE_DAMAGE, BRUTE, BOMB, FALSE, armour_penetration = 100)
+	target.take_damage(RCD_BREACH_STRUCTURE_DAMAGE, BRUTE, BOMB, FALSE, null, 100)
 
 /// Deploys a barricade where it lands: the clicked tile, or the last clear tile before whatever it hit.
 /obj/projectile/rcd_barricade
