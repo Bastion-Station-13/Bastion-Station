@@ -14,7 +14,7 @@
 	encumbrance_gap = 2
 	internal_damage_threshold = 25
 	wreckage = /obj/structure/mecha_wreckage/reticence
-	mecha_flags = CANSTRAFE | IS_ENCLOSED | HAS_LIGHTS | QUIET_STEPS | QUIET_TURNS | MMI_COMPATIBLE
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | QUIET_STEPS | QUIET_TURNS | MMI_COMPATIBLE
 	mech_type = EXOSUIT_MODULE_RETICENCE
 	max_equip_by_category = list(
 		MECHA_L_ARM = 1,

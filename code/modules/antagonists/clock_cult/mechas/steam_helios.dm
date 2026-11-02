@@ -5,7 +5,7 @@
 	base_icon_state = "savannah_ivanov"
 	icon_state = "savannah_ivanov_0_0"
 	color = rgb(190, 135, 0)
-	mecha_flags = CANSTRAFE | IS_ENCLOSED | NOT_ABLE_TO_REMOVE_STOCK_PARTS
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | NOT_ABLE_TO_REMOVE_STOCK_PARTS
 	mech_type = EXOSUIT_MODULE_SAVANNAH
 	movedelay = 3
 	max_integrity = 450

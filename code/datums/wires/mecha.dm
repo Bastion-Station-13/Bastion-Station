@@ -94,7 +94,7 @@
 		return
 	var/mob/user = ui.user
 	var/obj/vehicle/sealed/mecha/mecha = holder
-	if(!HAS_SILICON_ACCESS(user) && mecha.internal_damage & MECHA_INT_SHORT_CIRCUIT && mecha.shock(usr))
+	if(!HAS_SILICON_ACCESS(user) && mecha.internal_damage & MECHA_INT_SHORT_CIRCUIT && mecha.mech_shock(usr))
 		return FALSE
 
 /datum/wires/mecha/can_reveal_wires(mob/user)

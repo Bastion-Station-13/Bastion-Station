@@ -35,8 +35,8 @@
 	color = rgb(190, 135, 0)
 	equipment_flags = NOT_ABLE_TO_REMOVE_FROM_MECHA
 	icon_state = "mecha_abooster_proj"
-	iconstate_name = "range"
-	protect_name = "Clockwork Armor"
+//	iconstate_name = "range"
+//	protect_name = "Clockwork Armor"
 	armor_mod = /datum/armor/mecha_equipment_mixed_boost
 
 /datum/armor/mecha_equipment_mixed_boost

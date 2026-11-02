@@ -6,7 +6,7 @@
 
 #define PANEL_OPEN (1<<0)
 #define ID_LOCK_ON (1<<1)
-#define CANSTRAFE (1<<2)
+#define CAN_STRAFE (1<<2)
 #define LIGHTS_ON (1<<3)
 #define SILICON_PILOT (1<<4)
 #define IS_ENCLOSED (1<<5)
@@ -17,18 +17,19 @@
 #define CANNOT_INTERACT (1<<9)
 /// posibrains can drive this mecha
 #define MMI_COMPATIBLE (1<<10)
+/// AI's can be placed inside this mech. This only prevents direct uploads. It does not prevent mech domination on the mech.
+#define AI_COMPATIBLE (1<<11)
 /// Can click from any direction and perform stuff
-#define OMNIDIRECTIONAL_ATTACKS (1<<11)
-//making this a high bitshift to be sure it wont conflict for a while
-///a mech with this flag cannot have its stock parts removed
-#define NOT_ABLE_TO_REMOVE_STOCK_PARTS (1<<12)
+#define OMNIDIRECTIONAL_ATTACKS (1<<12)
+/// Prevents overpenetrating through the mecha and into the cockpit using an armour penetrating weapon
+#define CANNOT_OVERPENETRATE (1<<13)
+/// Can have a tracking beacon placed into the mech
+#define BEACON_TRACKABLE (1<<14)
+/// Can have an AI control beacon placed into the mech
+#define BEACON_CONTROLLABLE (1<<15)
 
 #define MECHA_MELEE (1 << 0)
 #define MECHA_RANGED (1 << 1)
-
-//EQUIPMENT FLAGS
-///equipment with this flag cannot be removed from a mech
-#define NOT_ABLE_TO_REMOVE_FROM_MECHA (1<<0)
 
 #define MECHA_FRONT_ARMOUR "mechafront"
 #define MECHA_SIDE_ARMOUR "mechaside"
@@ -53,6 +54,8 @@
 #define MECHA_SNOWFLAKE_ID_AIR_TANK "air_tank_snowflake"
 #define MECHA_SNOWFLAKE_ID_WEAPON_BALLISTIC "ballistic_weapon_snowflake"
 #define MECHA_SNOWFLAKE_ID_GENERATOR "generator_snowflake"
+#define MECHA_SNOWFLAKE_ID_ORE_SCANNER "orescanner_snowflake"
+#define MECHA_SNOWFLAKE_ID_CLAW "lawclaw_snowflake"
 #define MECHA_SNOWFLAKE_ID_RCD "rcd_snowflake"
 #define MECHA_SNOWFLAKE_ID_CLAW "lawclaw_snowflake"
 
@@ -66,6 +69,26 @@
 #define MECHA_AMMO_PUNCHING_GLOVE "Punching glove"
 #define MECHA_AMMO_BANANA_PEEL "Banana peel"
 #define MECHA_AMMO_MOUSETRAP "Mousetrap"
+
+/// Values to determine the effects on a mech should it suffer an EMP
+#define MECH_EMP_DAMAGE_LOWER 100
+#define MECH_EMP_DAMAGE_UPPER 180
+
+#define MECH_EMP_BEACON_DESTRUCTION_PROB 40
+
+/// bitflags for do_after checks on mechs
+#define MECH_DO_AFTER_DIR_CHANGE_FLAG (1 << 0)
+#define MECH_DO_AFTER_ADJACENCY_FLAG (1 << 1)
+
+// Monke
+
+//EQUIPMENT FLAGS
+///equipment with this flag cannot be removed from a mech
+#define NOT_ABLE_TO_REMOVE_FROM_MECHA (1<<0)
+
+///a mech with this flag cannot have its stock parts removed
+#define NOT_ABLE_TO_REMOVE_STOCK_PARTS (1<<12)
+
 #define MECHA_AMMO_PIPEGUN "Improvised shell"
 #define MECHA_AMMO_PEASHOOTER "Peashooter bullet"
 #define MECHA_AMMO_ISG "IED grenades"

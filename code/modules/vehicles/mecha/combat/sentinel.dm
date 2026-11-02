@@ -15,7 +15,7 @@
 	internal_damage_threshold = 25
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	wreckage = /obj/structure/mecha_wreckage/sentinel
-	mecha_flags = CANSTRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE
 	mech_type = EXOSUIT_MODULE_SENTINEL
 	force = 45
 	max_equip_by_category = list(
