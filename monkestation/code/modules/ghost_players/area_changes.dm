@@ -62,6 +62,11 @@
 	icon_state = "centcom_hall"
 	area_flags = UNIQUE_AREA | NOTELEPORT | GHOST_AREA | PASSIVE_AREA
 
+
+/area/centcom/central_command_areas/mentor
+	name = "CentCom Mentor Office Block"
+	area_flags = UNIQUE_AREA | NOTELEPORT | GHOST_AREA
+
 /area/centcom/central_command_areas/hall/tutorial_chamber
 	name = "Tutorial Chamber"
 
