@@ -1,0 +1,10 @@
+author: "HIDgamer"
+delete-after: True
+changes:
+  - rscadd: "added nanite volume sensor amount option"
+  - rscadd: "added nanite consciousness sensor and rule"
+  - rscadd: "added nanite organ health sensor and rule"
+  - rscadd: "added nanite program rules"
+  - bugfix: "fixed Sent Code (False) fix"
+  - bugfix: "fixed nanite sensors never sending their signal codes"
+  - rscadd: "added the Nanites for Dummies handbook\n## Pre-Merge Checklist\n- [x] You tested this on a local server.\n- [x] This code did not runtime during testing.\n- [x] You documented all of your changes."

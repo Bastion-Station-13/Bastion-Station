@@ -1,0 +1,4 @@
+author: "Longestarmlonglaw"
+delete-after: True
+changes:
+  - bugfix: "fixed not being able to unlock crates you bought with the budget without a budget card."

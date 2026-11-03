@@ -512,3 +512,126 @@
 	)
 	crate_name = "security hardsuit crate"
 	crate_type = /obj/structure/closet/crate/secure/weapon
+
+/// Weapons that research unlocks for purchase, replacing the old gun part kits.
+/// Hidden until the station researches the matching schematics, see /datum/design/cargo_weapon.
+/datum/supply_pack/security/armory/requisition
+	group = "Requisitions"
+	special = TRUE
+
+/datum/supply_pack/security/armory/requisition/aeg
+	name = "Advanced Energy Gun Requisition"
+	desc = "Contains an Advanced Energy Gun, which fires both disabling and lethal shots like a standard energy gun. \
+		However, it also contains a miniature nuclear reactor that recharges the gun's energy cells over time."
+	cost = CARGO_CRATE_VALUE * 16
+	contains = list(/obj/item/gun/energy/e_gun/nuclear = 1)
+	crate_name = "advanced energy gun crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/aeg/three_pack
+	name = "Advanced Energy Gun Requisition (x3)"
+	desc = "A bulk order of three Advanced Energy Guns, each with a miniature nuclear reactor that recharges it over time. Enough to arm a small strike team, at a discount over ordering them one at a time."
+	cost = CARGO_CRATE_VALUE * 16 * 2.9
+	contains = list(/obj/item/gun/energy/e_gun/nuclear = 3)
+	no_departmental_order = FALSE
+
+/datum/supply_pack/security/armory/requisition/xray
+	name = "X-ray Laser Gun Requisition"
+	desc = "Contains an X-ray Laser Gun, an atypical energy gun that fires radioactive-infused laser beams, \
+		which are capable of penetrating most forms of armor and even walls."
+	cost = CARGO_CRATE_VALUE * 20
+	contains = list(/obj/item/gun/energy/xray = 1)
+	crate_name = "x-ray gun crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/xray/three_pack
+	name = "X-ray Laser Gun Requisition (x3)"
+	desc = "A bulk order of three X-ray Laser Guns, whose radioactive beams punch through armor and walls alike. Cheaper than ordering them one at a time."
+	cost = CARGO_CRATE_VALUE * 20 * 2.9
+	contains = list(/obj/item/gun/energy/xray = 3)
+	no_departmental_order = FALSE
+
+/datum/supply_pack/security/armory/requisition/tempgun
+	name = "Temperature Gun Requisition"
+	desc = "Contains a Temperature Gun, a debatably useful weapon designed to rapidly heat or cool targets."
+	cost = CARGO_CRATE_VALUE * 4
+	contains = list(/obj/item/gun/energy/temperature = 1)
+	crate_name = "temperature gun crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/tempgun/three_pack
+	name = "Temperature Gun Requisition (x3)"
+	desc = "A bulk order of three Temperature Guns. Nobody is quite sure why you would need this many, so Central Command is practically giving them away."
+	cost = CARGO_CRATE_VALUE * 4 * 2.75 // it's so bad it gets a better discount
+	contains = list(/obj/item/gun/energy/temperature = 3)
+	no_departmental_order = FALSE
+
+/datum/supply_pack/security/armory/requisition/tesla
+	name = "Tesla Cannon Requisition"
+	desc = "Contains a Tesla Cannon, a fully automatic weapon that fires a rapid stream of electrified orbs."
+	cost = CARGO_CRATE_VALUE * 10
+	contains = list(/obj/item/gun/energy/tesla_cannon = 1)
+	crate_name = "tesla cannon crate"
+
+/datum/supply_pack/security/armory/requisition/ion
+	name = "Ion Carbine Requisition"
+	desc = "Contains an Ion Carbine, a more portable form of the more unwieldy Ion Rifle. \
+		Fires electromagnetic pulses that can disable electronics."
+	cost = CARGO_CRATE_VALUE * 6
+	contains = list(/obj/item/gun/energy/ionrifle/carbine = 1)
+	crate_name = "ion carbine crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/ion/three_pack
+	name = "Ion Carbine Requisition (x3)"
+	desc = "A bulk order of three Ion Carbines, perfect for a team that needs to shut down borgs, mechs and electronics in a hurry. Cheaper than ordering them one at a time."
+	cost = CARGO_CRATE_VALUE * 6 * 2.9
+	contains = list(/obj/item/gun/energy/ionrifle/carbine = 3)
+	no_departmental_order = FALSE
+
+/datum/supply_pack/security/armory/requisition/ebow
+	name = "Energy Crossbow Requisition"
+	desc = "Contains a reverse engineered Syndicate Energy Crossbow. Though less compact than the original, \
+		the projectiles it fires are just as capable of downing targets in a single shot."
+	cost = CARGO_CRATE_VALUE * 10
+	contains = list(/obj/item/gun/energy/recharge/ebow/large = 1)
+	crate_name = "energy crossbow crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/ebow/three_pack
+	name = "Energy Crossbow Requisition (x3)"
+	desc = "A bulk order of three reverse engineered Energy Crossbows, for when one silent takedown just isn't enough. Cheaper than ordering them one at a time."
+	cost = CARGO_CRATE_VALUE * 10 * 2.9
+	contains = list(/obj/item/gun/energy/recharge/ebow/large = 3)
+	no_departmental_order = FALSE
+
+/datum/supply_pack/security/armory/requisition/laser_cannon
+	name = "Laser Cannon Requisition"
+	desc = "Contains a Laser Cannon, an advanced energy weapon that fires heavily concentrated beams of light \
+		which pass through glass and thin metal."
+	cost = CARGO_CRATE_VALUE * 15
+	contains = list(/obj/item/gun/energy/laser/cannon = 1)
+	crate_name = "laser cannon crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/laser_cannon/three_pack
+	name = "Laser Cannon Requisition (x3)"
+	desc = "A bulk order of three Laser Cannons, heavy hitters for when the whole department needs to bring down something big. Cheaper than ordering them one at a time."
+	cost = CARGO_CRATE_VALUE * 15 * 2.9
+	contains = list(/obj/item/gun/energy/laser/cannon = 3)
+	no_departmental_order = FALSE
+
+/datum/supply_pack/security/armory/requisition/decloner
+	name = "Decloner Requisition"
+	desc = "Contains a Biological Demolecularisor, a baffling energy weapon that breaks down its targets on a cellular level."
+	cost = CARGO_CRATE_VALUE * 12
+	contains = list(/obj/item/gun/energy/decloner = 1)
+	crate_name = "decloner crate"
+	no_departmental_order = TRUE
+
+/datum/supply_pack/security/armory/requisition/decloner/three_pack
+	name = "Decloner Requisition (x3)"
+	desc = "A bulk order of three Biological Demolecularisors. Three times the cellular breakdown, at a discount over ordering them one at a time."
+	cost = CARGO_CRATE_VALUE * 12 * 2.9
+	contains = list(/obj/item/gun/energy/decloner = 3)
+	no_departmental_order = FALSE

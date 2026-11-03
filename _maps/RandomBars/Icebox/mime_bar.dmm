@@ -1805,16 +1805,6 @@
 	},
 /turf/open/floor/stone,
 /area/station/service/bar)
-"Tm" = (
-/obj/machinery/atm/directional/north,
-/obj/structure/window/reinforced/plasma/spawner/directional/north{
-	alpha = 0
-	},
-/obj/structure/window/reinforced/plasma/spawner/directional/south{
-	alpha = 0
-	},
-/turf/open/floor/wood/parquet,
-/area/station/commons/lounge)
 "Uq" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/airalarm/directional/south,
@@ -2174,7 +2164,7 @@ Pz
 EK
 "}
 (8,1,1) = {"
-Tm
+MX
 Wr
 Na
 UP
