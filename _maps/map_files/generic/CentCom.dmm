@@ -4000,11 +4000,11 @@
 "akW" = (
 /obj/item/clothing/head/costume/garland/lily,
 /obj/structure/fluff{
-	icon = 'icons/obj/xenobiology/slimecrossing.dmi';
+	icon = 'icons/obj/science/slimecrossing.dmi';
 	icon_state = "peaceflower";
 	name = "heroine bud";
 	pixel_y = 6;
-	desc = "An extremely addictive flower, full of peace magic. Someone seems to have bolted this one to the table out of frustration."
+	desc = "An extremely addictive flower, full of peace magic. Someone seems to have superglued this one to the table out of frustration."
 	},
 /obj/structure/table{
 	color = "#E6A7B9"
@@ -11268,11 +11268,11 @@
 	},
 /obj/item/clothing/head/costume/garland/lily,
 /obj/structure/fluff{
-	icon = 'icons/obj/xenobiology/slimecrossing.dmi';
+	icon = 'icons/obj/science/slimecrossing.dmi';
 	icon_state = "peaceflower";
 	name = "heroine bud";
 	pixel_y = 6;
-	desc = "An extremely addictive flower, full of peace magic. Someone seems to have bolted this one to the table out of frustration."
+	desc = "An extremely addictive flower, full of peace magic. Someone seems to have superglued this one to the table out of frustration."
 	},
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/kitchen)
@@ -12682,11 +12682,11 @@
 	},
 /obj/item/clothing/head/costume/garland/lily,
 /obj/structure/fluff{
-	icon = 'icons/obj/xenobiology/slimecrossing.dmi';
+	icon = 'icons/obj/science/slimecrossing.dmi';
 	icon_state = "peaceflower";
 	name = "heroine bud";
 	pixel_y = 6;
-	desc = "An extremely addictive flower, full of peace magic. Someone seems to have bolted this one to the table out of frustration."
+	desc = "An extremely addictive flower, full of peace magic. Someone seems to have superglued this one to the table out of frustration."
 	},
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/kitchen)
@@ -18914,7 +18914,7 @@
 /turf/open/misc/asteroid/snow/airless,
 /area/centcom/syndicate_mothership)
 "aZK" = (
-/obj/structure/bookcase/random/poetry,
+/obj/structure/bookcase/random/adult,
 /turf/open/floor/iron/white,
 /area/centcom/wizard_station)
 "aZL" = (
@@ -22086,7 +22086,7 @@
 	pixel_y = -32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/poetry,
+/obj/structure/bookcase/random/adult,
 /turf/open/floor/fakespace,
 /area/centcom/central_command_areas/adminroom)
 "fFk" = (
@@ -22884,11 +22884,11 @@
 	},
 /obj/item/clothing/head/costume/garland/lily,
 /obj/structure/fluff{
-	icon = 'icons/obj/xenobiology/slimecrossing.dmi';
+	icon = 'icons/obj/science/slimecrossing.dmi';
 	icon_state = "peaceflower";
 	name = "heroine bud";
 	pixel_y = 6;
-	desc = "An extremely addictive flower, full of peace magic. Someone seems to have bolted this one to the table out of frustration."
+	desc = "An extremely addictive flower, full of peace magic. Someone seems to have superglued this one to the table out of frustration."
 	},
 /turf/open/floor/glass/reinforced/plasma,
 /area/centcom/central_command_areas/kitchen)
@@ -24968,7 +24968,7 @@
 	pixel_y = -32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/poetry,
+/obj/structure/bookcase/random/adult,
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/adminroom)
 "jED" = (
@@ -25425,7 +25425,7 @@
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/evacuation)
 "kmg" = (
-/obj/structure/bookcase/random/poetry,
+/obj/structure/bookcase/random/adult,
 /obj/machinery/light/floor/has_bulb,
 /turf/open/floor/fakespace,
 /area/centcom/central_command_areas/adminroom)
@@ -27583,11 +27583,11 @@
 	},
 /obj/item/clothing/head/costume/garland/lily,
 /obj/structure/fluff{
-	icon = 'icons/obj/xenobiology/slimecrossing.dmi';
+	icon = 'icons/obj/science/slimecrossing.dmi';
 	icon_state = "peaceflower";
 	name = "heroine bud";
 	pixel_y = 6;
-	desc = "An extremely addictive flower, full of peace magic. Someone seems to have bolted this one to the table out of frustration."
+	desc = "An extremely addictive flower, full of peace magic. Someone seems to have superglued this one to the table out of frustration."
 	},
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/kitchen)
@@ -27735,6 +27735,7 @@
 	pixel_y = 5
 	},
 /obj/structure/table,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/arcade)
 "ocJ" = (
@@ -32089,7 +32090,7 @@
 	pixel_y = 32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/poetry,
+/obj/structure/bookcase/random/adult,
 /obj/structure/railing/wood{
 	color = "#55342b"
 	},
@@ -32646,11 +32647,11 @@
 	},
 /obj/item/clothing/head/costume/garland/lily,
 /obj/structure/fluff{
-	icon = 'icons/obj/xenobiology/slimecrossing.dmi';
+	icon = 'icons/obj/science/slimecrossing.dmi';
 	icon_state = "peaceflower";
 	name = "heroine bud";
 	pixel_y = 6;
-	desc = "An extremely addictive flower, full of peace magic. Someone seems to have bolted this one to the table out of frustration."
+	desc = "An extremely addictive flower, full of peace magic. Someone seems to have superglued this one to the table out of frustration."
 	},
 /turf/open/floor/glass/reinforced/plasma,
 /area/centcom/central_command_areas/kitchen)
@@ -32742,7 +32743,7 @@
 	pixel_y = -32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/poetry,
+/obj/structure/bookcase/random/adult,
 /turf/open/floor/carpet/purple,
 /area/centcom/central_command_areas/adminroom)
 "vNP" = (
