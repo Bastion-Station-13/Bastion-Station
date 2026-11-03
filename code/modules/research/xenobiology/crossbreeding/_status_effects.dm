@@ -81,16 +81,12 @@
 /datum/status_effect/slimerecall/proc/resist_field()
 	SIGNAL_HANDLER
 	interrupted = TRUE
-<<<<<<< HEAD
-	owner.remove_status_effect(src)
-	return COMPONENT_RESIST_ATTEMPTED
-=======
 	qdel(src)
+	return COMPONENT_RESIST_ATTEMPTED
 
 /datum/status_effect/slimerecall/proc/on_update_overlays(mob/living/source, list/overlays)
 	SIGNAL_HANDLER
 	overlays += mutable_appearance('icons/effects/effects.dmi', "chronofield")
->>>>>>> 8ebc55cd (allow regenerative and stable bluespace extracts to be interrupted (#12809))
 
 /datum/status_effect/slimerecall/on_remove()
 	UnregisterSignal(owner, list(COMSIG_LIVING_RESIST, COMSIG_ATOM_UPDATE_OVERLAYS))
