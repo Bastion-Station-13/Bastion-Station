@@ -2,23 +2,23 @@
 /datum/element/water_turf
 	element_flags = ELEMENT_DETACH_ON_HOST_DESTROY
 	var/static/list/shallow_wading_sounds = list(
-		'sound/effects/water/shallowwading1.ogg',
-		'sound/effects/water/shallowwading2.ogg',
-		'sound/effects/water/shallowwading3.ogg',
-		'sound/effects/water/shallowwading4.ogg',
-		'sound/effects/water/shallowwading5.ogg',
-		'sound/effects/water/shallowwading6.ogg',
+		'bastionstation/sound/effects/water/shallowwading1.ogg',
+		'bastionstation/sound/effects/water/shallowwading2.ogg',
+		'bastionstation/sound/effects/water/shallowwading3.ogg',
+		'bastionstation/sound/effects/water/shallowwading4.ogg',
+		'bastionstation/sound/effects/water/shallowwading5.ogg',
+		'bastionstation/sound/effects/water/shallowwading6.ogg',
 	)
 	var/static/list/wading_sounds = list(
-		'sound/effects/water/wading1.ogg',
-		'sound/effects/water/wading2.ogg',
-		'sound/effects/water/wading3.ogg',
+		'bastionstation/sound/effects/water/wading1.ogg',
+		'bastionstation/sound/effects/water/wading2.ogg',
+		'bastionstation/sound/effects/water/wading3.ogg',
 	)
 	var/static/list/deep_wading_sounds = list(
-		'sound/effects/water/deepwading1.ogg',
-		'sound/effects/water/deepwading2.ogg',
-		'sound/effects/water/deepwading3.ogg',
-		'sound/effects/water/deepwading4.ogg',
+		'bastionstation/sound/effects/water/deepwading1.ogg',
+		'bastionstation/sound/effects/water/deepwading2.ogg',
+		'bastionstation/sound/effects/water/deepwading3.ogg',
+		'bastionstation/sound/effects/water/deepwading4.ogg',
 	)
 
 /datum/element/water_turf/Attach(datum/target)

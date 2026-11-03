@@ -9,7 +9,7 @@ SUBSYSTEM_DEF(water_overlays)
 	var/list/configs = list()
 	/// Generated water textures, keyed by "[turf type]_[depth]" and the variant suffix
 	var/list/water_overlay_icons = list()
-	var/overlay_file = 'icons/effects/water_overlay_effects/_32.dmi'
+	var/overlay_file = 'bastionstation/icons/effects/water_overlay_effects/_32.dmi'
 
 /datum/controller/subsystem/water_overlays/Initialize()
 	for(var/turf/open/water/water_type as anything in typesof(/turf/open/water))
