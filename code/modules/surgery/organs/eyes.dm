@@ -166,8 +166,8 @@
 
 		var/obscured = parent.check_obscured_slots(TRUE)
 		if(overlay_ignore_lighting && !(obscured & ITEM_SLOT_EYES))
-			overlays += emissive_appearance_copy(eye_left, src, NONE)
-			overlays += emissive_appearance_copy(eye_right, src, NONE)
+			overlays += emissive_appearance_copy(eye_left, parent, NONE)
+			overlays += emissive_appearance_copy(eye_right, parent, NONE)
 
 		if(my_head?.worn_face_offset)
 			for(var/mutable_appearance/overlay in overlays)
