@@ -27,7 +27,7 @@
 	icon = 'icons/obj/plushes.dmi'
 	icon_state = "tyria"
 	attack_verb_simple = list("fluttered", "flapped")
-	squeak_override = list('sound/voice/laugh/moth/mothlaugh.ogg'=1)
+	squeak_override = list('sound/mobs/humanoids/moth/moth_laugh1.ogg'=1)
 	has_creepy_icons = TRUE
 
 
@@ -36,7 +36,7 @@
 	desc = "Voted cutest monke 2023"
 	icon = 'icons/obj/plushes.dmi'
 	icon_state = "sammi"
-	squeak_override = list('sound/voice/laugh/simian/monkey_laugh_1.ogg'=1)
+	squeak_override = list('sound/mobs/humanoids/simian/monkey_laugh_1.ogg'=1)
 
 /obj/item/toy/plush/knightplush
 	name = "knight plush"
