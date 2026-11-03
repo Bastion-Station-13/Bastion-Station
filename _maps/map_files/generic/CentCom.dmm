@@ -2289,10 +2289,8 @@
 /turf/open/floor/iron/dark/textured_half,
 /area/centcom/syndicate_mothership/control)
 "agn" = (
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/structure/window/reinforced,
+/obj/structure/window/reinforced/spawner/directional/west,
+/obj/structure/window/reinforced/spawner/directional/south,
 /obj/machinery/telecomms/relay,
 /turf/open/floor/iron/textured_large,
 /area/centcom/central_command_areas/adminroom)
@@ -19692,9 +19690,7 @@
 /turf/open/floor/fakespace,
 /area/centcom/central_command_areas/adminroom)
 "bUz" = (
-/obj/structure/window/reinforced{
-	dir = 4
-	},
+/obj/structure/window/reinforced/spawner/directional/east,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
@@ -22597,9 +22593,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/centcom/syndicate_mothership/expansion_bioterrorism)
 "gvv" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
+/obj/structure/window/reinforced/spawner/directional/north,
 /obj/structure/flora/bush/sunny,
 /obj/structure/flora/bush/fullgrass/style_2,
 /obj/structure/flora/bush/flowers_pp,
@@ -26845,9 +26839,7 @@
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/evacuation)
 "mEs" = (
-/obj/structure/window/reinforced{
-	dir = 4
-	},
+/obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/flora/bush/reed,
 /turf/open/water,
 /area/centcom/central_command_areas/adminroom)
@@ -27747,12 +27739,8 @@
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/arcade)
 "ocJ" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/structure/window/reinforced{
-	dir = 4
-	},
+/obj/structure/window/reinforced/spawner/directional/north,
+/obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/flora/bush/fullgrass,
 /obj/structure/flora/bush/flowers_yw,
 /turf/open/floor/grass,
@@ -31817,9 +31805,7 @@
 /turf/open/misc/asteroid,
 /area/centcom/syndicate_mothership/firebase_trident)
 "upf" = (
-/obj/structure/window/reinforced{
-	dir = 8
-	},
+/obj/structure/window/reinforced/spawner/directional/west,
 /obj/machinery/telecomms/message_server,
 /turf/open/floor/iron/textured_large,
 /area/centcom/central_command_areas/adminroom)
@@ -32682,9 +32668,7 @@
 /area/centcom/central_command_areas/admin)
 "vIn" = (
 /obj/structure/flora/bush/reed/style_3,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
+/obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/water,
 /area/centcom/central_command_areas/adminroom)
 "vJG" = (
@@ -33339,7 +33323,7 @@
 /turf/open/water/arena,
 /area/centcom/central_command_areas/admin)
 "wDF" = (
-/obj/structure/window/reinforced,
+/obj/structure/window/reinforced/spawner/directional/south,
 /obj/structure/closet/gimmick,
 /obj/item/storage/box/stockparts/deluxe,
 /obj/item/storage/part_replacer/bluespace/tier4,
