@@ -868,7 +868,7 @@
 	TEST_ASSERT(!(FORCE_MULTIPLIER in attack_modifiers), "A swing outside combat mode should not be boosted")
 	user.istate |= ISTATE_HARM
 	smash.on_item_attack(user, victim, user, list(), attack_modifiers, null)
-	TEST_ASSERT(abs(attack_modifiers[FORCE_MULTIPLIER] - 1.2) < 0.001, "Level 1 Smash should make weapons hit 20% harder, got [attack_modifiers[FORCE_MULTIPLIER]]")
+	TEST_ASSERT(abs(attack_modifiers[FORCE_MULTIPLIER] - 1.4) < 0.001, "Level 1 Smash should make weapons hit 40% harder, got [attack_modifiers[FORCE_MULTIPLIER]]")
 
 	// Upgrading while it is on doesn't stack the old boost
 	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash), "Could not upgrade Electrokinetic Smash")
@@ -941,9 +941,9 @@
 	TEST_ASSERT_EQUAL(beam.range, 4, "The beam should dissipate after 4 tiles")
 
 	// Only the end of the beam hurts
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 6, "The start of the beam should do the weak damage")
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(3), 6, "The middle of the beam should do the weak damage")
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(4), 45, "The end of the beam should do the full damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 10, "The start of the beam should do the weak damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(3), 10, "The middle of the beam should do the weak damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(4), 65, "The end of the beam should do the full damage")
 	TEST_ASSERT_EQUAL(beam.damage_at_distance(5), 0, "Past the end of the beam there should be no damage")
 
 	// Everything is pierced, apart from the one who fired it
@@ -1005,11 +1005,121 @@
 	TEST_ASSERT_EQUAL(laser_action.get_max_charges(), 4, "Level 2 should hold 4 charges")
 	TEST_ASSERT(laser_action.get_charge_time() < 10 SECONDS, "Level 2 should rebuild charges faster")
 	TEST_ASSERT_EQUAL(laser_action.get_max_range(), 5, "Level 2 should reach 5 tiles")
-	TEST_ASSERT_EQUAL(laser_action.get_power_damage(), 60, "Level 2 should do 60 at the end of the beam")
+	TEST_ASSERT_EQUAL(laser_action.get_power_damage(), 90, "Level 2 should do 90 at the end of the beam")
 
 	// The drop key puts it away
 	TEST_ASSERT(SEND_SIGNAL(user, COMSIG_KB_MOB_DROPITEM_DOWN) & COMSIG_KB_ACTIVATED, "The drop key should be taken by the lateral laser")
 	TEST_ASSERT(QDELETED(gun), "The drop key should dispel the lateral laser")
+
+/// Upgrading with a gun out changes the very next shot, and the laser's longest range keeps up with upgrades
+/datum/unit_test/arcfiend/gun_upgrades/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 5000
+	antag.bonus_minds_drained = 3
+	var/coilgun_type = /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun
+	var/laser_type = /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser
+	TEST_ASSERT(antag.purchase_power(coilgun_type), "Could not buy Manifest Coilgun")
+	TEST_ASSERT(antag.purchase_power(laser_type), "Could not buy Lateral Laser")
+
+	// The coilgun's next slug hits harder
+	var/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/coilgun_action = locate() in user.actions
+	TEST_ASSERT(coilgun_action.Activate(user), "Could not grow the coilgun")
+	var/obj/item/gun/energy/arcfiend/coilgun/coilgun = locate() in user.held_items
+	TEST_ASSERT_EQUAL(coilgun.chambered?.loaded_projectile?.damage, 30, "A level 1 slug should do 30 damage")
+	TEST_ASSERT(antag.upgrade_power(coilgun_type), "Could not upgrade Manifest Coilgun")
+	TEST_ASSERT_EQUAL(coilgun.chambered?.loaded_projectile?.damage, 38, "The slug ready when the coilgun is upgraded should do 38 damage")
+	TEST_ASSERT(coilgun_action.dismiss(user), "Could not put the coilgun away")
+
+	// The laser's next beam reaches further and hits harder
+	var/datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/laser_action = locate() in user.actions
+	TEST_ASSERT(laser_action.Activate(user), "Could not grow the lateral laser")
+	var/obj/item/gun/energy/arcfiend/lateral_laser/laser = locate() in user.held_items
+	var/obj/projectile/beam/laser/hitscan/arcfiend_lateral/beam = laser.chambered?.loaded_projectile
+	TEST_ASSERT_EQUAL(beam.travel_range, 4, "A level 1 beam should reach 4 tiles")
+	TEST_ASSERT(antag.upgrade_power(laser_type), "Could not upgrade the lateral laser")
+	beam = laser.chambered?.loaded_projectile
+	TEST_ASSERT_EQUAL(beam.travel_range, 5, "The beam ready when the laser is upgraded should reach 5 tiles")
+	TEST_ASSERT_EQUAL(beam.range, 5, "The beam ready when the laser is upgraded should dissipate after 5 tiles")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(5), 90, "The beam ready when the laser is upgraded should do 90 at the end")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 14, "The beam ready when the laser is upgraded should do 14 along the way")
+
+	// Cycling all the way round to the longest range still keeps up with the next upgrade
+	for(var/expected in list(1, 2, 3, 4, 5))
+		laser.attack_self(user)
+		TEST_ASSERT_EQUAL(laser_action.get_selected_range(), expected, "Using the laser in hand should change the range to [expected]")
+
+	// Whereas a shorter range that was picked on purpose is left alone
+	laser.attack_self(user)
+	laser.attack_self(user)
+	TEST_ASSERT_EQUAL(laser_action.get_selected_range(), 2, "The laser should be set to 2 tiles")
+	TEST_ASSERT(antag.upgrade_power(laser_type), "Could not upgrade the lateral laser to level 3")
+	TEST_ASSERT_EQUAL(laser_action.get_selected_range(), 2, "An upgrade should not change a shorter range that was picked")
+	beam = laser.chambered?.loaded_projectile
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(2), 120, "A short range beam should still get the upgraded damage")
+	for(var/expected in list(3, 4, 5, 6))
+		laser.attack_self(user)
+		TEST_ASSERT_EQUAL(laser_action.get_selected_range(), expected, "Using the laser in hand should change the range to [expected]")
+	TEST_ASSERT_NULL(laser_action.selected_range, "The longest range should be stored as null, so it keeps up with upgrades")
+
+/// Insulated gloves are not shock immunity, so they do nothing against an arcfiend's powers
+/datum/unit_test/arcfiend/insulated_gloves/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 10000
+	antag.bonus_minds_drained = 3
+	user.istate |= ISTATE_HARM
+	var/prod_type = /datum/action/cooldown/arcfiend/grown_item/shock_prod
+	if(!antag.has_power_unlocked(prod_type))
+		TEST_ASSERT(antag.purchase_power(prod_type), "Could not buy Galvanic Prod")
+	for(var/power_type in list(
+		/datum/action/cooldown/arcfiend/brain_scramble,
+		/datum/action/cooldown/arcfiend/arc_discharge,
+		/datum/action/cooldown/arcfiend/thunderclap,
+		/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash,
+		/datum/action/cooldown/arcfiend/jolt,
+	))
+		TEST_ASSERT(antag.purchase_power(power_type), "Could not buy [power_type]")
+
+	var/datum/action/cooldown/arcfiend/brain_scramble/scramble = locate() in user.actions
+	var/mob/living/carbon/human/victim = make_gloved_victim()
+	TEST_ASSERT(scramble.Activate(victim), "Brain Scramble should work on someone in insulated gloves")
+	TEST_ASSERT(victim.getFireLoss() > 0, "Brain Scramble should burn someone in insulated gloves")
+
+	var/datum/action/cooldown/arcfiend/arc_discharge/arc = locate() in user.actions
+	victim = make_gloved_victim()
+	arc.zap(user, victim, 15)
+	TEST_ASSERT(victim.getFireLoss() > 0, "Arc Discharge should burn someone in insulated gloves")
+
+	var/datum/action/cooldown/arcfiend/thunderclap/clap = locate() in user.actions
+	victim = make_gloved_victim()
+	clap.hit_victim(user, victim, 1)
+	TEST_ASSERT(victim.getFireLoss() > 0, "Thunderclap should burn someone in insulated gloves")
+
+	var/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/smash = locate() in user.actions
+	victim = make_gloved_victim()
+	smash.shock(victim, 8, "A test shock")
+	TEST_ASSERT(victim.getFireLoss() > 0, "Electrokinetic Smash should burn someone in insulated gloves")
+
+	var/datum/action/cooldown/arcfiend/jolt/jolt = locate() in user.actions
+	victim = make_gloved_victim()
+	jolt.charged = TRUE
+	TEST_ASSERT(jolt.Activate(victim), "Jolt should work on someone in insulated gloves")
+	TEST_ASSERT(victim.getFireLoss() > 0, "Jolt should burn someone in insulated gloves")
+	TEST_ASSERT(victim.undergoing_cardiac_arrest(), "Jolt should stop the heart of someone in insulated gloves")
+
+	var/datum/action/cooldown/arcfiend/grown_item/shock_prod/prod_action = locate() in user.actions
+	TEST_ASSERT(prod_action.Activate(user), "Could not grow the prod")
+	var/obj/item/melee/arcfiend_prod/prod = locate() in user.held_items
+	victim = make_gloved_victim()
+	TEST_ASSERT(prod_action.try_zap(victim, user, prod), "The prod should zap someone in insulated gloves")
+	TEST_ASSERT(victim.has_status_effect(/datum/status_effect/convulsing), "The prod should make the hands of someone in insulated gloves shake")
+
+/datum/unit_test/arcfiend/insulated_gloves/proc/make_gloved_victim()
+	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human/consistent)
+	var/obj/item/clothing/gloves/color/yellow/gloves = allocate(/obj/item/clothing/gloves/color/yellow)
+	TEST_ASSERT(victim.equip_to_slot_if_possible(gloves, ITEM_SLOT_GLOVES), "Could not put insulated gloves on the victim")
+	return victim
 
 /// Sapping feeds an arcfiend, up to full but never fat
 /datum/unit_test/arcfiend/nourishment/Run()
@@ -1140,7 +1250,8 @@
 	TEST_ASSERT(scramble.Activate(scrambled), "Brain Scramble should work on someone next to the arcfiend")
 	TEST_ASSERT(scrambled.getFireLoss() > 0, "Brain Scramble should burn a little")
 	TEST_ASSERT(scrambled.getFireLoss() < 10, "Brain Scramble should only burn a little, got [scrambled.getFireLoss()]")
-	TEST_ASSERT(scrambled.stamina.loss >= 40 * scrambled.physiology.stamina_mod, "Brain Scramble should drain a lot of stamina, got [scrambled.stamina.loss]")
+	TEST_ASSERT(scrambled.stamina.loss >= 60 * scrambled.physiology.stamina_mod, "Brain Scramble should drain a lot of stamina, got [scrambled.stamina.loss]")
+	TEST_ASSERT(scrambled.has_status_effect(/datum/status_effect/eye_blur), "Brain Scramble should blur the target's eyes")
 	TEST_ASSERT(scrambled.get_organ_loss(ORGAN_SLOT_BRAIN) >= 10, "Brain Scramble should damage the brain, got [scrambled.get_organ_loss(ORGAN_SLOT_BRAIN)]")
 	TEST_ASSERT(HAS_TRAIT(scrambled, TRAIT_CLUMSY), "Brain Scramble should make the target clumsy")
 	scrambled.remove_status_effect(/datum/status_effect/arcfiend_scrambled)
@@ -1150,6 +1261,7 @@
 	arc.zap(user, zapped, 20)
 	TEST_ASSERT(zapped.getFireLoss() > 0, "Arc Discharge should burn")
 	TEST_ASSERT(zapped.stamina.loss > 0, "Arc Discharge should drain stamina")
+	TEST_ASSERT(zapped.has_status_effect(/datum/status_effect/eye_blur), "Arc Discharge should blur the target's eyes")
 
 	// Anyone shock immune takes none of it
 	var/mob/living/carbon/human/immune = allocate(/mob/living/carbon/human/consistent)

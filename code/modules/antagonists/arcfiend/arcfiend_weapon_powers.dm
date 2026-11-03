@@ -135,6 +135,12 @@
 /datum/action/cooldown/arcfiend/grown_item/gun/proc/setup_projectile(obj/projectile/projectile)
 	return
 
+/// The round that is ready was set up for the old level
+/datum/action/cooldown/arcfiend/grown_item/gun/on_upgraded()
+	. = ..()
+	var/obj/item/gun/energy/arcfiend/gun = get_held_item(owner)
+	gun?.rechamber()
+
 /// No cell. Each shot is paid for in power and a charge by the power that grew it, see handle_chamber().
 /obj/item/gun/energy/arcfiend
 	name = "biometal gun"
@@ -200,6 +206,11 @@
 	if(gun_power && chambered.loaded_projectile)
 		gun_power.setup_projectile(chambered.loaded_projectile)
 
+/// Sets up the round that is ready all over again, for when what it should do has changed
+/obj/item/gun/energy/arcfiend/proc/rechamber()
+	chambered = null
+	recharge_newshot()
+
 /obj/item/gun/energy/arcfiend/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
 	// A spent round means the shot was fired, so that is when it is paid for, in power and in a charge.
 	// The game doesn't always pass the shooter in here (a single shot doesn't), so whoever is holding the gun is used instead.
@@ -222,7 +233,7 @@
 	name = "biometal slug"
 	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_coilgun_projectile.dmi'
 	icon_state = "biometal_slug"
-	damage = 20
+	damage = 30
 	embed_type = null
 	shrapnel_type = null
 
@@ -273,7 +284,7 @@
 	return by_level(list(15, 12, 9))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/setup_projectile(obj/projectile/projectile)
-	projectile.damage = by_level(list(20, 25, 30))
+	projectile.damage = by_level(list(30, 38, 45))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/on_grown(mob/living/user, obj/item/grown)
 	user.visible_message(span_warning("A crude gun of lumpy biometal grows out of [user]'s hand!"), span_notice("You grow a biometal coilgun."))
@@ -379,7 +390,7 @@
 	name = "lateral beam"
 	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
 	icon_state = "lateral_laser_projectile"
-	damage = 6
+	damage = 10
 	damage_type = BURN
 	hitscan_light_color_override = "#ffe94d"
 	tracer_type = /obj/effect/projectile/tracer/arcfiend_lateral
@@ -392,9 +403,9 @@
 	/// How far the beam reaches, in tiles. This is also the one distance it does its full damage at.
 	var/travel_range = 4
 	/// The damage done to everything that isn't at the very end of the beam
-	var/weak_damage = 6
+	var/weak_damage = 10
 	/// The damage done to whatever is at exactly the end of the beam
-	var/power_damage = 45
+	var/power_damage = 65
 
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/proc/set_up(range_in_tiles, weak, strong)
 	travel_range = range_in_tiles
@@ -461,8 +472,7 @@
 		return
 	settings.cycle_range(user)
 	// The round that is ready was set up for the old range
-	chambered = null
-	recharge_newshot()
+	rechamber()
 
 /obj/item/gun/energy/arcfiend/lateral_laser/examine(mob/user)
 	. = ..()
@@ -481,8 +491,8 @@
 	unlock_cost = 650
 	upgrade_costs = list(500, 900)
 	upgrade_descriptions = list(
-		"5 tiles. 8 damage on the way, 60 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
-		"6 tiles. 10 damage on the way, 80 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
+		"5 tiles. 14 damage on the way, 90 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
+		"6 tiles. 18 damage on the way, 120 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
 	)
 	grown_type = /obj/item/gun/energy/arcfiend/lateral_laser
 	recharge_sound = ARCFIEND_SOUND_LASER_RELOAD
@@ -507,19 +517,20 @@
 	return by_level(list(4, 5, 6))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_selected_range()
-	selected_range = clamp(selected_range || get_max_range(), 1, get_max_range())
-	return selected_range
+	return clamp(selected_range || get_max_range(), 1, get_max_range())
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_weak_damage()
-	return by_level(list(6, 8, 10))
+	return by_level(list(10, 14, 18))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_power_damage()
-	return by_level(list(45, 60, 80))
+	return by_level(list(65, 90, 120))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/cycle_range(mob/user)
-	selected_range = (get_selected_range() % get_max_range()) + 1
-	to_chat(user, span_notice("You set the lateral laser to [selected_range] tile[selected_range == 1 ? "" : "s"]. Only what is exactly [selected_range] tile[selected_range == 1 ? "" : "s"] away takes its full damage."))
-	user.balloon_alert(user, "range: [selected_range]")
+	var/new_range = (get_selected_range() % get_max_range()) + 1
+	// The longest range is stored as null, so it keeps up with upgrades
+	selected_range = (new_range == get_max_range()) ? null : new_range
+	to_chat(user, span_notice("You set the lateral laser to [new_range] tile[new_range == 1 ? "" : "s"]. Only what is exactly [new_range] tile[new_range == 1 ? "" : "s"] away takes its full damage."))
+	user.balloon_alert(user, "range: [new_range]")
 	playsound(user, ARCFIEND_SOUND_LASER_MODE, 40, TRUE)
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/on_grown(mob/living/user, obj/item/grown)
