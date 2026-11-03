@@ -35,7 +35,7 @@
 		MECHA_R_ARM = 1,
 		MECHA_UTILITY = 3,
 		MECHA_POWER = 1,
-		MECHA_ARMOR = 1,
+		MECHA_ARMOR = 2,
 	)
 	/// Are we currently in the middle of a skyfall jump?
 	var/flying = FALSE

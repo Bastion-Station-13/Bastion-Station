@@ -42,6 +42,7 @@
 	///what equipment flags does this have
 	var/equipment_flags
 	var/movedelay = 0
+	var/unstackable = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/Destroy()
 	if(chassis)
@@ -192,6 +193,13 @@
 		to_chat(user, span_warning("This equipment slot is already full!"))
 		return FALSE
 	return TRUE
+
+	if(unstackable)
+		var/list/obj/item/mecha_parts/mecha_equipment/contents = mech.equip_by_category[equipment_slot]
+		for(var/obj/equipment as anything in contents)
+			if(src.type == equipment.type)
+				to_chat(user, span_warning("You can't stack more of this item ontop itself!"))
+				return FALSE
 
 /**
  * Special Attaching Interaction, used to bypass normal attachment procs.

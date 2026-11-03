@@ -158,6 +158,7 @@
 	//how much the armor of the mech is modified by
 	var/datum/armor/armor_mod
 	movedelay = 0.4
+	unstackable = TRUE
 
 /obj/item/mecha_parts/mecha_equipment/armor/attach(obj/vehicle/sealed/mecha/new_mecha, attach_right)
 	. = ..()
@@ -234,6 +235,7 @@
 	equipment_slot = MECHA_UTILITY
 	movedelay = 0.4
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5, /datum/material/glass = SHEET_MATERIAL_AMOUNT * 2.5, /datum/material/silver = SHEET_MATERIAL_AMOUNT, /datum/material/gold = HALF_SHEET_MATERIAL_AMOUNT)
+	unstackable = TRUE
 	/// Repaired health per second
 	var/health_boost = 1
 	var/icon/droid_overlay
