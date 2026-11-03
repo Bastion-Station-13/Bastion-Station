@@ -541,6 +541,20 @@
 	program_type = /datum/nanite_program/sensor/species
 	category = list("Sensor Nanites")
 
+/datum/design/nanites/sensor_consciousness
+	name = "Consciousness Sensor"
+	desc = "The nanites receive a signal when the host is conscious or not conscious."
+	id = "sensor_consciousness_nanites"
+	program_type = /datum/nanite_program/sensor/consciousness
+	category = list("Sensor Nanites")
+
+/datum/design/nanites/sensor_organ_health
+	name = "Organ Health Sensor"
+	desc = "The nanites receive a signal when the health of one of the host's organs is above/below a target percentage."
+	id = "sensor_organ_health_nanites"
+	program_type = /datum/nanite_program/sensor/organ_health
+	category = list("Sensor Nanites")
+
 ////////////////////NANITE PROTOCOLS//////////////////////////////////////
 //Note about the category name: The UI cuts the last 8 characters from the category name to remove the " Nanites" in the other categories
 //Because of this, Protocols was getting cut down to "P", so i had to add some padding

@@ -87,6 +87,8 @@
 		"sensor_death_nanites",
 		"sensor_health_nanites",
 		"sensor_species_nanites",
+		"sensor_consciousness_nanites",
+		"sensor_organ_health_nanites",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS / 4, TECHWEB_POINT_TYPE_NANITES = 500)
 	announce_channels = list(RADIO_CHANNEL_SCIENCE)
