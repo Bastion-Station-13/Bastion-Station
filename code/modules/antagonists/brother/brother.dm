@@ -15,6 +15,7 @@
 	antag_count_points = 5 //duo antag
 	var/datum/action/bb/comms/comms_action
 	var/datum/action/bb/gear/gear_action
+	var/datum/action/bb/deliver_item/deliver_action
 	var/datum/component/personal_crafting/blood_brother/blood_brother_crafting
 	VAR_PRIVATE/datum/team/brother_team/team
 	///This is used to say who is the big and little brothers. 0 = big, 1 is the middle brother, 2 is little, 3 is little little
@@ -25,6 +26,8 @@
 	var/ui_tab = BB_UI_TAB_OBJECTIVES
 	///Whether this brother's location is shown to the team in the conspirators tab, from using a bond beacon.
 	var/sharing_location = FALSE
+	///Whether this brother has used a bluespace courier implant, which unlocks Deliver Item.
+	var/has_courier_implant = FALSE
 
 /datum/antagonist/brother/create_team(datum/team/brother_team/new_team)
 	if(!new_team)
@@ -77,9 +80,12 @@
 		comms_action = new(src)
 	if(QDELETED(gear_action) && !team.summoned_gear)
 		gear_action = new(src)
+	if(QDELETED(deliver_action) && has_courier_implant)
+		deliver_action = new(src)
 	var/mob/living/target = mob_override || owner.current
 	comms_action.Grant(target)
 	gear_action?.Grant(target)
+	deliver_action?.Grant(target)
 	RegisterSignal(target, COMSIG_MOB_GHOSTIZED, PROC_REF(on_ghostized))
 	target.AddComponent(/datum/component/codeword_hearing, GLOB.syndicate_code_phrase_regex, "blue", src)
 	target.AddComponent(/datum/component/codeword_hearing, GLOB.syndicate_code_response_regex, "orange", src)
@@ -97,6 +103,8 @@
 	QDEL_NULL(comms_action)
 	gear_action?.Remove(mob_override || owner.current)
 	QDEL_NULL(gear_action)
+	deliver_action?.Remove(mob_override || owner.current)
+	QDEL_NULL(deliver_action)
 	QDEL_NULL(blood_brother_crafting)
 
 // Brothers use a team HUD that cycles through the icons of any other antagonists they are, so their team knows who else they answer to.
@@ -158,6 +166,11 @@
 /datum/antagonist/brother/get_preview_icon()
 	return finish_preview_icon(get_base_preview_icon())
 // monkestation end
+
+/datum/antagonist/brother/proc/unlock_deliver_item()
+	has_courier_implant = TRUE
+	deliver_action = new(src)
+	deliver_action.Grant(owner.current)
 
 /datum/antagonist/brother/proc/get_brother_names(add_span = FALSE)
 	var/list/names = list()

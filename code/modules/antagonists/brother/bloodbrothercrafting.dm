@@ -478,6 +478,39 @@
 	)
 	time = 8 SECONDS
 
+/datum/crafting_recipe/blood_brother/bonded_agent_id
+	name = "Bonded Agent ID"
+	desc = "An agent ID with a subspace ansible jammed into it allowing it be linked with other bonded agent id cards and share access, so only one of you has to rob the HoP. Just don't lose yours."
+	category = CAT_BB_GADGETS
+	result = /obj/item/card/id/advanced/chameleon/bonded
+	reqs = list(
+		/obj/item/card/id = 1,
+		/obj/item/stock_parts/subspace/ansible = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+	tool_behaviors = list(
+		TOOL_MULTITOOL,
+		TOOL_WIRECUTTER,
+	)
+	time = 10 SECONDS
+
+/datum/crafting_recipe/blood_brother/makeshift_door_remote
+	name = "Makeshift Door Remote"
+	desc = "A door remote that opens every door on the station and can electrify them for 30 seconds. The battery can't be recharged, so when it's dead, you'll need a new one."
+	category = CAT_BB_GADGETS
+	result = /obj/item/door_remote/makeshift
+	reqs = list(
+		/obj/item/electronics/airlock = 1,
+		/obj/item/assembly/signaler = 1,
+		/obj/item/stock_parts/power_store/cell = 1,
+		/obj/item/stack/cable_coil = 10,
+	)
+	tool_behaviors = list(
+		TOOL_MULTITOOL,
+		TOOL_SCREWDRIVER,
+	)
+	time = 10 SECONDS
+
 /datum/crafting_recipe/blood_brother/scrapper_gloves
 	name = "Scrapper Gloves"
 	desc = "You are both a scrapper (crafting things) and a scrapper (fighting) If you land a combo with these on, your fellow blood brother(s) can land any melee attack on the target and trigger a WOMBO COMBO!!."
@@ -788,6 +821,21 @@
 		TOOL_SCREWDRIVER,
 	)
 	time = 5 SECONDS
+
+/datum/crafting_recipe/blood_brother/bluespace_courier_implant
+	name = "Bluespace Courier Implant"
+	desc = "Use it in hand to link your blood bond to bluespace, letting you teleport anything you're holding to your brothers. Ditch contraband before security finds it, or send your brother a gun in permabrig."
+	category = CAT_BB_SUPPORT
+	result = /obj/item/bluespace_courier_implant
+	reqs = list(
+		/obj/item/stack/ore/bluespace_crystal = 1,
+		/obj/item/stock_parts/subspace/ansible = 1,
+		/obj/item/stack/cable_coil = 10,
+	)
+	tool_behaviors = list(
+		TOOL_MULTITOOL,
+	)
+	time = 10 SECONDS
 
 /datum/crafting_recipe/blood_brother/flash
 	name = "Spare flash"

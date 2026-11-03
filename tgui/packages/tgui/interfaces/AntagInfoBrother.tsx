@@ -529,6 +529,14 @@ const GUIDE_TOPICS: GuideTopic[] = [
     content: (
       <>
         <Box mb={1}>
+          Get a clone scan or blood sample of every brother as soon as you can.{' '}
+          <Box as="span" bold color="bad">
+            I'm not kidding, you will probably lose if you don't.
+          </Box>{' '}
+          Your team escapes together or not at all, so one brother gibbed with
+          no backup means you all fail.
+        </Box>
+        <Box mb={1}>
           Keep in touch. A brother who goes quiet might be in trouble, so check
           the Conspirators tab.
         </Box>
