@@ -20266,13 +20266,11 @@
 /turf/open/floor/iron/dark/textured_large,
 /area/centcom/syndicate_mothership/golden_eye)
 "cLa" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "cLp" = (
 /obj/structure/transit_tube,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "cLJ" = (
 /obj/structure/mirror/magic{
@@ -22657,8 +22655,7 @@
 /area/centcom/central_command_areas/prison)
 "gzJ" = (
 /obj/structure/transit_tube/diagonal/crossing/topleft,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "gzU" = (
 /obj/effect/decal/cleanable/blood/innards,
@@ -23563,8 +23560,7 @@
 /area/centcom/central_command_areas/admin)
 "hCm" = (
 /obj/structure/transit_tube/crossing/horizontal,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "hCn" = (
 /turf/open/floor/iron/smooth_edge{
@@ -24968,8 +24964,7 @@
 /area/centcom/central_command_areas/medical)
 "jDV" = (
 /obj/structure/transit_tube/diagonal/topleft,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "jEb" = (
 /obj/structure/sign{
@@ -26249,8 +26244,7 @@
 /area/centcom/syndicate_mothership/firebase_trident)
 "lxS" = (
 /obj/structure/transit_tube/horizontal,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "lzq" = (
 /obj/structure/filingcabinet/employment,
@@ -26707,8 +26701,7 @@
 /obj/structure/transit_tube/curved{
 	dir = 8
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "mnf" = (
 /obj/structure/bed,
@@ -28291,8 +28284,7 @@
 /area/centcom/central_command_areas/admin)
 "oXu" = (
 /obj/structure/transit_tube/curved/flipped,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "oYy" = (
 /obj/structure/mineral_door/wood{
@@ -28782,8 +28774,7 @@
 /obj/structure/transit_tube/curved{
 	dir = 4
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "pKk" = (
 /obj/effect/turf_decal/bot,
@@ -30230,8 +30221,7 @@
 /obj/structure/transit_tube/curved/flipped{
 	dir = 1
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "rTr" = (
 /obj/structure/closet,
@@ -32214,8 +32204,7 @@
 /area/centcom/central_command_areas/adminroom)
 "uWD" = (
 /obj/structure/transit_tube/crossing,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/turf/open/floor/plating/airless,
 /area/centcom/central_command_areas/mentor)
 "uXc" = (
 /obj/effect/turf_decal/stripes/line{
