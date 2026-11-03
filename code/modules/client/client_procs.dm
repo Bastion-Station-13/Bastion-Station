@@ -299,6 +299,9 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(src.ckey in GLOB.interviews.cooldown_ckeys)
 		qdel(src)
 
+	// an import the player asked for is applied before their preferences are loaded
+	var/preferences_import_message = apply_pending_preferences_import(ckey)
+
 	//preferences datum - also holds some persistent data for the client (because we may as well keep these datums to a minimum)
 	prefs = GLOB.preferences_datums[ckey]
 	if(prefs)
@@ -310,6 +313,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		GLOB.preferences_datums[ckey] = prefs
 	prefs.last_ip = address //these are gonna be used for banning
 	prefs.last_id = computer_id //these are gonna be used for banning
+	if(preferences_import_message)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), src, preferences_import_message), 10 SECONDS)
 
 	if(fexists(roundend_report_file()))
 		ASSIGN_GAME_VERB(src, /client, show_previous_roundend_report)
@@ -1017,6 +1022,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		ASSIGN_GAME_VERB(src, /client, self_playtime)
 	if(!CONFIG_GET(flag/forbid_preferences_export))
 		ASSIGN_GAME_VERB(src, /client, export_preferences)
+	if(!CONFIG_GET(flag/forbid_preferences_import))
+		ASSIGN_GAME_VERB(src, /client, import_preferences)
 
 
 #undef UPLOAD_LIMIT
