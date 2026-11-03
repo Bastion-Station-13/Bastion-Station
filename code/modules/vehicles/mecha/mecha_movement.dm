@@ -145,8 +145,8 @@
 		missing_parts += "power cell"
 	if(isnull(capacitor))
 		missing_parts += "capacitor"
-	if(isnull(servo))
-		missing_parts += "servo"
+	if(isnull(manipulator))
+		missing_parts += "manipulator"
 
 	if(length(missing_parts))
 		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))

@@ -97,7 +97,7 @@
 	if(victim.stat == DEAD)
 		return ..()
 
-	if(!source.combat_mode)
+	if(!source.istate & ISTATE_HARM)
 		step_away(victim, chassis)
 		if(killer_clamp)
 			target.visible_message(span_danger("[chassis] tosses [target] like a piece of paper!"), \
@@ -106,9 +106,6 @@
 			to_chat(source, "[icon2html(src, source)][span_notice("You push [target] out of the way.")]")
 			chassis.visible_message(span_notice("[chassis] pushes [target] out of the way."), \
 			span_notice("[chassis] pushes you aside."))
-		return ..()
-
-	if(victim.check_block(chassis, clamp_damage, name, attack_type = OVERWHELMING_ATTACK))
 		return ..()
 
 	if(iscarbon(victim) && killer_clamp)//meme clamp here
@@ -126,13 +123,13 @@
 			playsound(src, get_dismember_sound(), 80, TRUE)
 			carbon_victim.visible_message(span_danger("[chassis] rips [carbon_victim]'s arms off!"), \
 						span_userdanger("[chassis] rips your arms off!"))
-			log_combat(source, carbon_victim, "removed both arms with a real clamp,", "[name]", "(COMBAT MODE: [uppertext(source.combat_mode)] (DAMTYPE: [uppertext(damtype)])")
+			log_combat(source, carbon_victim, "removed both arms with a real clamp,", "[name]", "(COMBAT MODE: [uppertext(source.istate & ISTATE_HARM)] (DAMTYPE: [uppertext(damtype)])")
 			return ..()
 	var/armor_check = clamp(victim.run_armor_check(null, MELEE) / 3, 0, 100) //our target only benefits from a third of their armor. Because it's a huge ass clamp
 	victim.visible_message(span_danger("[chassis] squeezes [victim]!"), \
 						span_userdanger("[chassis] squeezes you!"),\
 						span_hear("You hear something crack."))
-	log_combat(source, victim, "attacked", "[name]", "(Combat mode: [source.combat_mode ? "On" : "Off"]) (DAMTYPE: [uppertext(damtype)])")
+	log_combat(source, victim, "attacked", "[name]", "(Combat mode: [source.istate & ISTATE_HARM ? "On" : "Off"]) (DAMTYPE: [uppertext(damtype)])")
 	var/final_damage = isalien(victim) ? clamp_damage * 3 : clamp_damage
 	chassis.do_attack_animation(victim)
 	playsound(chassis, clampsound, 30, FALSE, -6)

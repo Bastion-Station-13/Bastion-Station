@@ -1,6 +1,5 @@
 /obj/item/mecha_parts/mecha_equipment/weapon
 	name = "mecha weapon"
-	abstract_type = /obj/item/mecha_parts/mecha_equipment/weapon
 	range = MECHA_RANGED
 	equipment_slot = MECHA_WEAPON
 	destroy_sound = 'sound/vehicles/mecha/weapdestr.ogg'
@@ -73,7 +72,7 @@
 		projectile_obj.aim_projectile(target, source, modifiers, spread)
 		if(isliving(source) && source.client) //dont want it to happen from syndie mecha npc mobs, they do direct fire anyways
 			var/mob/living/shooter = source
-			projectile_obj.hit_prone_targets = shooter.combat_mode
+			projectile_obj.hit_prone_targets = shooter.istate & ISTATE_HARM
 		projectile_obj.fire()
 		if(!projectile_obj.suppressed && firing_effect_type)
 			new firing_effect_type(chassis || get_turf(src), chassis.dir)
@@ -126,6 +125,18 @@
 	fire_sound = 'sound/items/weapons/lasercannonfire.ogg'
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5)
 
+/obj/item/mecha_parts/mecha_equipment/weapon/energy/laser/sentinellascannon
+	equip_cooldown = 50
+	name = "\improper Sentinel Laser Cannon"
+	desc = "A massive turbolaser mounted in a turret."
+	icon_state = "sentinel_cannon_laser"
+	energy_drain = 300
+	projectile = /obj/projectile/bullet/rocket/sentinellaser
+	projectiles_per_shot = 2
+	projectile_delay = 0.1 SECONDS
+	fire_sound = 'sound/items/weapons/marauder.ogg'
+	mech_flags = EXOSUIT_MODULE_SENTINEL
+
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/ion
 	equip_cooldown = 20
 	name = "\improper MKIV ion heavy cannon"
@@ -153,7 +164,7 @@
 	desc = "A weapon for combat exosuits. Shoots powerful destructive blasts capable of demolishing obstacles."
 	icon_state = "mecha_pulse"
 	energy_drain = 1.2 KILO JOULES
-	projectile = /obj/projectile/beam/laser/pulse/heavy
+	projectile = /obj/projectile/beam/pulse/heavy
 	fire_sound = 'sound/items/weapons/marauder.ogg'
 	harmful = TRUE
 

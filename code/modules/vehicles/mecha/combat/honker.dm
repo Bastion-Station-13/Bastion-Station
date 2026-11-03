@@ -60,10 +60,6 @@
 		MECHA_ARMOR = 2,
 	)
 
-/obj/vehicle/sealed/mecha/honker/dark/Initialize(mapload, built_manually)
-	. = ..()
-	add_minimap_blip(src, MINIMAP_SYNDICATE_MECH_BLIP, "syndiemech")
-
 /obj/vehicle/sealed/mecha/honker/dark/loaded
 	equip_by_category = list(
 		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/honker,
@@ -86,7 +82,7 @@
 	cell = new /obj/item/stock_parts/power_store/cell/hyper(src)
 	scanmod = new /obj/item/stock_parts/scanning_module/phasic(src)
 	capacitor = new /obj/item/stock_parts/capacitor/super(src)
-	servo = new /obj/item/stock_parts/servo/pico(src)
+	manipulator = new /obj/item/stock_parts/manipulator/pico(src)
 	update_part_values()
 
 /obj/structure/mecha_wreckage/honker/dark

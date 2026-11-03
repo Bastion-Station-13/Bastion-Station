@@ -11,11 +11,11 @@
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_MECH, mecha_attacker, user)
 	if(!isnull(user))
-		log_combat(user, src, "attacked", mecha_attacker, "(COMBAT MODE: [uppertext(user?.combat_mode)] (DAMTYPE: [uppertext(mecha_attacker.damtype)])")
+		log_combat(user, src, "attacked", mecha_attacker, "(COMBAT MODE: [uppertext(user.istate & ISTATE_HARM)] (DAMTYPE: [uppertext(mecha_attacker.damtype)])")
 	return
 
 /turf/closed/wall/mech_melee_attack(obj/vehicle/sealed/mecha/mecha_attacker, mob/living/user)
-	if(!user.combat_mode)
+	if(!user.istate & ISTATE_HARM)
 		return
 
 	mecha_attacker.do_attack_animation(src)
@@ -36,7 +36,7 @@
 	return 100 //this is an arbitrary "damage" number since the actual damage is rng dismantle
 
 /obj/structure/mech_melee_attack(obj/vehicle/sealed/mecha/mecha_attacker, mob/living/user)
-	if(!user.combat_mode)
+	if(!user.istate & ISTATE_HARM)
 		return 0
 
 	mecha_attacker.do_attack_animation(src)
@@ -52,7 +52,7 @@
 	return take_damage(mecha_attacker.force * 3, mecha_attacker.damtype, "melee", FALSE, get_dir(src, mecha_attacker)) // multiplied by 3 so we can hit objs hard but not be overpowered against mobs.
 
 /obj/machinery/mech_melee_attack(obj/vehicle/sealed/mecha/mecha_attacker, mob/living/user)
-	if(!user.combat_mode)
+	if(!user.istate & ISTATE_HARM)
 		return
 
 	mecha_attacker.do_attack_animation(src)
@@ -68,7 +68,7 @@
 	return take_damage(mecha_attacker.force * 3, mecha_attacker.damtype, "melee", FALSE, get_dir(src, mecha_attacker)) // multiplied by 3 so we can hit objs hard but not be overpowered against mobs.
 
 /obj/structure/window/mech_melee_attack(obj/vehicle/sealed/mecha/mecha_attacker, mob/living/user)
-	if(!user.combat_mode)
+	if(!user.istate & ISTATE_HARM)
 		return
 	if(!can_be_reached())
 		return
@@ -90,7 +90,7 @@
 	return take_damage(mecha_attacker.force * 100, mecha_attacker.damtype, "melee", FALSE, get_dir(src, mecha_attacker))
 
 /obj/vehicle/mech_melee_attack(obj/vehicle/sealed/mecha/mecha_attacker, mob/living/user)
-	if(!user.combat_mode)
+	if(!user.istate & ISTATE_HARM)
 		return FALSE
 
 	mecha_attacker.do_attack_animation(src)
@@ -106,7 +106,7 @@
 	return take_damage(mecha_attacker.force, mecha_attacker.damtype, "melee", FALSE, get_dir(src, mecha_attacker))
 
 /mob/living/mech_melee_attack(obj/vehicle/sealed/mecha/mecha_attacker, mob/living/user)
-	if(istype(user) && !user.combat_mode)
+	if(istype(user) && !user.istate & ISTATE_HARM)
 		step_away(src, mecha_attacker)
 		log_combat(user, src, "pushed", mecha_attacker)
 		visible_message(span_warning("[mecha_attacker] pushes [src] out of the way."), \
@@ -122,8 +122,8 @@
 	if(mecha_attacker.damtype == BRUTE)
 		step_away(src, mecha_attacker, 15)
 
-	if(check_block(mecha_attacker, mecha_attacker.force * 3, "the [mecha_attacker.attack_verbs[1]]", attack_type = OVERWHELMING_ATTACK))
-		return
+//	if(check_block(mecha_attacker, mecha_attacker.force * 3, "the [mecha_attacker.attack_verbs[1]]", attack_type = OVERWHELMING_ATTACK))
+//		return
 
 	switch(mecha_attacker.damtype)
 		if(BRUTE)

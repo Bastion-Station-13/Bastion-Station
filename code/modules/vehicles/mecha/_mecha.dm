@@ -31,12 +31,52 @@
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_on = FALSE
-	light_range = 6
+	light_outer_range = 6
 	generic_canpass = FALSE
 	hud_possible = list(DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD, DIAG_TRACK_HUD, DIAG_CAMERA_HUD)
 	mouse_pointer = 'icons/effects/mouse_pointers/mecha_mouse.dmi'
-	/// Significantly heavier than humans
-	inertia_force_weight = 5
+
+	// Tank desant
+	can_buckle = TRUE
+	buckle_prevents_pull = TRUE
+	max_buckled_mobs = 3
+	/// Mob who is riding on the back
+	var/mob/living/back_desant
+	/// Mob who is riding on the left arm
+	var/mob/living/left_desant
+	/// Mob who is riding on the right arm
+	var/mob/living/right_desant
+	/// Data of current seat positions on desant
+	var/list/seat_data = list(
+		"left" = list(0, 0, 0),
+		"back" = list(0, 0, 0),
+		"right" = list(0, 0, 0),
+	)
+	/// Data of north seat positions on desant
+	var/list/seat_data_north = list(
+		"left" = list(-14, 6, 1),
+		"back" = list(0, 12, 1.5),
+		"right" = list(14, 6, 1),
+	)
+	/// Data of south seat positions on desant
+	var/list/seat_data_south = list(
+		"left" = list(14, 6, -1),
+		"back" = list(0, 12, -1),
+		"right" = list(-14, 6, -1),
+	)
+	/// Data of east seat positions on desant
+	var/list/seat_data_east = list(
+		"left" = list(2, 10, -1),
+		"back" = list(-12, 14, 1),
+		"right" = list(-2, 8, 1),
+	)
+	/// Data of west seat positions on desant
+	var/list/seat_data_west = list(
+		"left" = list(2, 8, 1),
+		"back" = list(12, 14, 1),
+		"right" = list(-2, 10, -1),
+	)
+
 	/// How much energy the mech will consume each time it moves. this is the current active energy consumed
 	var/step_energy_drain = 0.008 * STANDARD_CELL_CHARGE
 	/// How much energy we drain each time we mechpunch someone
@@ -53,13 +93,21 @@
 	var/obj/item/stock_parts/scanning_module/scanmod
 	/// Keeps track of the mech's capacitor
 	var/obj/item/stock_parts/capacitor/capacitor
-	/// Keeps track of the mech's servo motor
-	var/obj/item/stock_parts/servo/servo
+	/// Keeps track of the mech's manipulator motor
+	var/obj/item/stock_parts/manipulator/manipulator
 	/// Contains flags for the mecha
 	var/mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | BEACON_TRACKABLE | AI_COMPATIBLE | BEACON_CONTROLLABLE
 
+	var/encumbrance_gap = 2
+
+	//Bool for night vision on/off
+	var/light_amplification = FALSE
+
+	/// damage amount above which we can take internal damages
+	var/internal_damage_threshold = 15
+
 	/// Spark effects are handled by this datum
-	var/datum/effect_system/basic/spark_spread/spark_system
+	var/datum/effect_system/spark_spread/spark_system
 	/// How powerful our lights are
 	var/lights_power = 6
 	/// Just stop the mech from doing anything
@@ -146,7 +194,7 @@
 	var/list/attack_verbs = list("hit", "hits", "hitting")
 
 	/// Cooldown duration between melee punches
-	var/melee_cooldown = CLICK_CD_SLOW
+	var/melee_cooldown = 10
 
 	/// Time taken to leave the mech
 	var/exit_delay = 2 SECONDS
@@ -226,7 +274,7 @@
 	log_message("[src.name] created.", LOG_MECHA)
 	GLOB.mechas_list += src //global mech list
 	prepare_huds()
-	var/datum/atom_hud/data/diagnostic/diag_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC]
+	var/datum/atom_hud/data/diagnostic/diag_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diag_hud.add_atom_to_hud(src)
 	diag_hud_set_mechhealth()
 	diag_hud_set_mechcell()
@@ -273,7 +321,7 @@
 	QDEL_NULL(cell)
 	QDEL_NULL(scanmod)
 	QDEL_NULL(capacitor)
-	QDEL_NULL(servo)
+	QDEL_NULL(manipulator)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(spark_system)
 	QDEL_NULL(ui_view)
@@ -281,7 +329,7 @@
 	QDEL_NULL(chassis_camera)
 
 	GLOB.mechas_list -= src //global mech list
-	var/datum/atom_hud/data/diagnostic/diag_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC]
+	var/datum/atom_hud/data/diagnostic/diag_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diag_hud.remove_atom_from_hud(src) //YEET
 	return ..()
 
@@ -290,7 +338,7 @@
 	cell = new /obj/item/stock_parts/power_store/cell/high(src)
 	scanmod = new /obj/item/stock_parts/scanning_module(src)
 	capacitor = new /obj/item/stock_parts/capacitor(src)
-	servo = new /obj/item/stock_parts/servo(src)
+	manipulator = new /obj/item/stock_parts/manipulator(src)
 	update_part_values()
 
 /obj/vehicle/sealed/mecha/proc/locate_parts()
@@ -298,13 +346,123 @@
 	diag_hud_set_mechcell()
 	scanmod = locate(/obj/item/stock_parts/scanning_module) in contents
 	capacitor = locate(/obj/item/stock_parts/capacitor) in contents
-	servo = locate(/obj/item/stock_parts/servo) in contents
+	manipulator = locate(/obj/item/stock_parts/manipulator) in contents
 	update_part_values()
 
 
 /obj/vehicle/sealed/mecha/update_icon_state()
 	icon_state = get_mecha_occupancy_state()
 	return ..()
+
+/*
+* TANK DESANT
+* Allows people to grab onto the mechs from outside
+* Three people can board on RIGHT, LEFT, and BACK
+*/
+/obj/vehicle/sealed/mecha/is_buckle_possible(mob/living/target, force = FALSE, check_loc = TRUE)
+	if(!..())
+		return FALSE
+	if(!target.mind || !target.client)
+		return FALSE
+	if(target.IsParalyzed() || target.IsKnockdown() || target.body_position == LYING_DOWN || !(target.mobility_flags & MOBILITY_MOVE))
+		return FALSE
+	if(!length(target.get_empty_held_indexes()))
+		return FALSE
+	return TRUE
+
+/obj/vehicle/sealed/mecha/proc/occupy_desant_hand(mob/living/buckled_mob)
+	if(!buckled_mob || !length(buckled_mob.get_empty_held_indexes()))
+		return
+	var/obj/item/riding_offhand/handhold = new(buckled_mob)
+	handhold.rider = buckled_mob
+	handhold.parent = src
+	var/hand_index = buckled_mob.get_empty_held_index_for_side(LEFT_HANDS) || buckled_mob.get_empty_held_index_for_side(RIGHT_HANDS)
+	if(buckled_mob == left_desant) // FOr aesthetic reasons, you would logically grab it with right hand
+		hand_index = buckled_mob.get_empty_held_index_for_side(RIGHT_HANDS) || buckled_mob.get_empty_held_index_for_side(LEFT_HANDS)
+	if(hand_index)
+		buckled_mob.put_in_hand(handhold, hand_index)
+		return handhold
+	if(buckled_mob.put_in_active_hand(handhold))
+		return handhold
+	qdel(handhold)
+	return null
+
+/obj/vehicle/sealed/mecha/post_buckle_mob(mob/living/buckled_mob)
+	if(buckled_mob.IsParalyzed() || buckled_mob.IsKnockdown() || buckled_mob.body_position == LYING_DOWN)
+		unbuckle_mob(buckled_mob, force = TRUE, can_fall = FALSE)
+		return
+	if(!left_desant)
+		left_desant = buckled_mob
+		buckled_mob.setDir(dir)
+		update_desant_positions()
+		occupy_desant_hand(buckled_mob)
+		return
+	if(!back_desant)
+		back_desant = buckled_mob
+		buckled_mob.setDir(dir)
+		update_desant_positions()
+		occupy_desant_hand(buckled_mob)
+		return
+	if(!right_desant)
+		right_desant = buckled_mob
+		buckled_mob.setDir(dir)
+		update_desant_positions()
+		occupy_desant_hand(buckled_mob)
+		return
+
+/obj/vehicle/sealed/mecha/post_unbuckle_mob(mob/living/unbuckled_mob)
+	for(var/obj/item/riding_offhand/offhand in unbuckled_mob.contents)
+		if(offhand.parent == src)
+			qdel(offhand)
+	unbuckled_mob.forceMove(get_turf(src))
+	if(left_desant == unbuckled_mob)
+		left_desant = null
+		unbuckled_mob.pixel_x = unbuckled_mob.base_pixel_x
+		unbuckled_mob.pixel_y = unbuckled_mob.base_pixel_y
+		unbuckled_mob.layer = initial(unbuckled_mob.layer)
+		update_desant_positions()
+		return
+	if(back_desant == unbuckled_mob)
+		back_desant = null
+		unbuckled_mob.pixel_x = unbuckled_mob.base_pixel_x
+		unbuckled_mob.pixel_y = unbuckled_mob.base_pixel_y
+		unbuckled_mob.layer = initial(unbuckled_mob.layer)
+		update_desant_positions()
+		return
+	if(right_desant == unbuckled_mob)
+		right_desant = null
+		unbuckled_mob.pixel_x = unbuckled_mob.base_pixel_x
+		unbuckled_mob.pixel_y = unbuckled_mob.base_pixel_y
+		unbuckled_mob.layer = initial(unbuckled_mob.layer)
+		update_desant_positions()
+		return
+
+/obj/vehicle/sealed/mecha/proc/update_desant_positions()
+	switch(dir)
+		if(NORTH)
+			seat_data = seat_data_north
+		if(SOUTH)
+			seat_data = seat_data_south
+		if(EAST)
+			seat_data = seat_data_east
+		if(WEST)
+			seat_data = seat_data_west
+
+	if(left_desant)
+		left_desant.pixel_x = seat_data["left"][1]
+		left_desant.pixel_y = seat_data["left"][2]
+		left_desant.layer = src.layer + seat_data["left"][3]
+		left_desant.setDir(dir)
+	if(back_desant)
+		back_desant.pixel_x = seat_data["back"][1]
+		back_desant.pixel_y = seat_data["back"][2]
+		back_desant.layer = src.layer + seat_data["back"][3]
+		back_desant.setDir(dir)
+	if(right_desant)
+		right_desant.pixel_x = seat_data["right"][1]
+		right_desant.pixel_y = seat_data["right"][2]
+		right_desant.layer = src.layer + seat_data["right"][3]
+		right_desant.setDir(dir)
 
 /**
  * Toggles Weapons Safety
@@ -470,10 +628,10 @@
 				continue
 			. += span_notice("[icon2html(ME, user)] \A [ME].")
 	if(mecha_flags & PANEL_OPEN)
-		if(servo)
-			. += span_notice("Servo reduces movement power usage by [100 - round(100 / servo.rating)]%")
+		if(manipulator)
+			. += span_notice("Manipulator reduces movement power usage by [100 - round(100 / manipulator.rating)]%")
 		else
-			. += span_warning("It's missing a servo.")
+			. += span_warning("It's missing a manipulator.")
 		if(capacitor)
 			. += span_notice("Capacitor increases armor against energy attacks by [capacitor.rating * 5].")
 		else
@@ -483,13 +641,16 @@
 	if(!(mecha_flags & IS_ENCLOSED))
 		if(mecha_flags & SILICON_PILOT)
 			. += span_notice("[src] appears to be piloting itself...")
-		else
-			for(var/occupante in occupants)
-				. += span_notice("You can see [occupante] inside.")
-			if(ishuman(user))
-				for(var/obj/item/gun/held_item as anything in user.get_held_items_of_type(/obj/item/gun))
-					. += span_warning("It looks like you can hit the pilot directly if you target the center or above.")
-					break //in case user is holding two guns
+	else
+		for(var/occupante in occupants)
+			. += span_notice("You can see [occupante] inside.")
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			for(var/held_item in H.held_items)
+				if(!isgun(held_item))
+					continue
+				. += span_warning("It looks like you can hit the pilot directly if you target the center or above.")
+				break //in case user is holding two guns
 	. += span_notice("It has a <a href='byond://?src=[REF(src)];list_armor=1'>tag</a> listing its protection classes.")
 
 /obj/vehicle/sealed/mecha/Topic(href, href_list)
@@ -500,7 +661,7 @@
 
 		var/datum/armor/armor = get_armor()
 		var/added_damage_header = FALSE
-		for(var/damage_key in ARMOR_LIST_DAMAGE)
+		for(var/damage_key in ARMOR_LIST_DAMAGE())
 			var/rating = armor.get_rating(damage_key)
 			if(!rating)
 				continue
@@ -510,7 +671,7 @@
 			readout += "[armor_to_protection_name(damage_key)] [armor_to_protection_class(rating)]"
 
 		var/added_durability_header = FALSE
-		for(var/durability_key in ARMOR_LIST_DURABILITY)
+		for(var/durability_key in ARMOR_LIST_DURABILITY())
 			var/rating = armor.get_rating(durability_key)
 			if(!rating)
 				continue
@@ -622,7 +783,7 @@
 
 /obj/vehicle/sealed/mecha/proc/process_occupants(seconds_per_tick)
 	for(var/mob/living/occupant as anything in occupants)
-		if(!(mecha_flags & IS_ENCLOSED) && occupant?.incapacitated) //no sides mean it's easy to just sorta fall out if you're incapacitated.
+		if(!(mecha_flags & IS_ENCLOSED) && occupant?.incapacitated()) //no sides mean it's easy to just sorta fall out if you're incapacitated.
 			mob_exit(occupant, randomstep = TRUE) //bye bye
 			continue
 		if(cell && cell.maxcharge)
@@ -736,14 +897,14 @@
 		return
 	use_energy(melee_energy_drain)
 
-	SEND_SIGNAL(user, COMSIG_MOB_USED_CLICK_MECH_MELEE, src)
+	SEND_SIGNAL(user, COMSIG_MOB_USED_MECH_MELEE, src)
 	if(target.mech_melee_attack(src, user))
 		TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MELEE_ATTACK, melee_cooldown)
 
 /obj/vehicle/sealed/mecha/proc/can_interact_with(atom/target, mob/user, list/modifiers)
 	if(completely_disabled || is_currently_ejecting || (mecha_flags & CANNOT_INTERACT))
 		return FALSE
-	if(user.incapacitated)
+	if(user.incapacitated())
 		return FALSE
 	if(!get_charge())
 		return FALSE
@@ -875,7 +1036,7 @@
 	req_one_access = one_access ? accesses : list()
 
 /// Electrocute user from power celll
-/obj/vehicle/sealed/mecha/shock(mob/living/shocking, chance = 100, shock_source, siemens_coeff)
+/obj/vehicle/sealed/mecha/mech_shock(mob/living/shocking, chance = 100, shock_source, siemens_coeff)
 	if(get_charge() < 1)
 		return FALSE
 	if(isnull(siemens_coeff))
@@ -908,8 +1069,8 @@
 
 /// Update the energy drain according to parts and status
 /obj/vehicle/sealed/mecha/proc/update_energy_drain()
-	if(servo)
-		step_energy_drain = initial(step_energy_drain) / servo.rating
+	if(manipulator)
+		step_energy_drain = initial(step_energy_drain) / manipulator.rating
 	else
 		step_energy_drain = 2 * initial(step_energy_drain)
 

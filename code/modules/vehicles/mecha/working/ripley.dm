@@ -313,7 +313,7 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 			stored.forceMove(droploc)
 	return ..()
 
-/obj/item/mecha_parts/mecha_equipment/ejector/atom_deconstruct(damage_flag)
+/obj/item/mecha_parts/mecha_equipment/ejector/Destroy(damage_flag)
 	drop_contents()
 	return ..()
 
@@ -331,7 +331,7 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 /obj/item/mecha_parts/mecha_equipment/ejector/relay_container_resist_act(mob/living/user, obj/container)
 	to_chat(user, span_notice("You lean on the back of [container] and start pushing so it falls out of [src]."))
 	if(do_after(user, 30 SECONDS, target = container))
-		if(!user || IS_UNCONSCIOUS_OR_CRIT(user) || user.loc != src || container.loc != src )
+		if(!user || user.stat != CONSCIOUS || user.loc != src || container.loc != src )
 			return
 		to_chat(user, span_notice("You successfully pushed [container] out of [src]!"))
 		container.forceMove(drop_location())
@@ -367,6 +367,9 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 		playsound(chassis, 'sound/items/weapons/tap.ogg', 50, TRUE)
 		log_message("Unloaded [crate]. Cargo compartment capacity: [cargo_capacity - contents.len]", LOG_MECHA)
 		return TRUE
+
+/obj/item/mecha_parts/mecha_equipment/ejector/trash
+	cargo_capacity = 5 // you can fit a few things in this locker but not much.
 
 /obj/item/mecha_parts/mecha_equipment/ejector/seccage
 	name = "holding cell"

@@ -6,7 +6,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	layer = ABOVE_MOB_LAYER
 	light_system = OVERLAY_LIGHT
-	light_range = 1
+	light_outer_range = 1
 	light_power = 2
 	light_color = "#79aeeb"
 	/// What mech was this diagnostic sheet generated from? Used for applicability in bounties.

@@ -33,6 +33,9 @@
 
 /obj/vehicle/sealed/mecha/odysseus/mmi_moved_inside(obj/item/mmi/M, mob/user)
 	. = ..()
-	if(!. || isnull(MMI.brainmob))
-		return
-	ADD_TRAIT(MMI.brainmob, TRAIT_MEDICAL_HUD, VEHICLE_TRAIT)
+	if(. && !HAS_TRAIT(M, TRAIT_MEDICAL_HUD))
+		var/datum/atom_hud/hud = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
+		var/mob/living/brain/B = M.brainmob
+		hud.show_to(B)
+
+#warn yeah idk

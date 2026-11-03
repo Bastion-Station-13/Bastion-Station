@@ -73,10 +73,6 @@
 	fire = 100
 	acid = 100
 
-/obj/vehicle/sealed/mecha/gygax/dark/Initialize(mapload)
-	. = ..()
-	add_minimap_blip(src, MINIMAP_SYNDICATE_MECH_BLIP, "syndiemech")
-
 /obj/vehicle/sealed/mecha/gygax/dark/loaded/Initialize(mapload)
 	. = ..()
 	max_ammo()
@@ -85,5 +81,5 @@
 	cell = new /obj/item/stock_parts/power_store/cell/bluespace(src)
 	scanmod = new /obj/item/stock_parts/scanning_module/triphasic(src)
 	capacitor = new /obj/item/stock_parts/capacitor/quadratic(src)
-	servo = new /obj/item/stock_parts/servo/femto(src)
+	manipulator = new /obj/item/stock_parts/manipulator/femto(src)
 	update_part_values()

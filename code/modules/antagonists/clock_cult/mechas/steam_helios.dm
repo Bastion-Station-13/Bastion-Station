@@ -23,6 +23,10 @@
 		MECHA_POWER = 0,
 		MECHA_ARMOR = 1,
 	)
+
+	/// Power we use every time we phaze through something
+	var/phasing_energy_drain = 0.2 * STANDARD_CELL_CHARGE
+
 	phasing_energy_drain = 0
 	possible_int_damage = MECHA_INT_FIRE | MECHA_INT_CONTROL_LOST //fire is the only one that really makes sense but I dont want to have only one int damage possible
 	equip_by_category = list(

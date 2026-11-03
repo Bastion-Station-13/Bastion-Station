@@ -234,4 +234,3 @@
 			diagnostic.mech_data += src
 			ADD_TRAIT(src, TRAIT_MECHA_DIAGNOSTIC_CREATED, REF(src))
 	return TRUE
-

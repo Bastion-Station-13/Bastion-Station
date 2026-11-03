@@ -215,27 +215,27 @@
 			"backward_message" = "removed capacitor",
 		),
 		list(
-			"key" = /obj/item/stock_parts/servo,
+			"key" = /obj/item/stock_parts/manipulator,
 			"action" = ITEM_MOVE_INSIDE,
 			"back_key" = TOOL_SCREWDRIVER,
-			"desc" = "Scanning module is secured, the <b>servo</b> can be added.",
-			"forward_message" = "added servo",
+			"desc" = "Scanning module is secured, the <b>manipulator</b> can be added.",
+			"forward_message" = "added manipulator",
 			"backward_message" = "unsecured capacitor",
 		),
 		list(
 			"key" = TOOL_SCREWDRIVER,
 			"back_key" = TOOL_CROWBAR,
-			"desc" = "Servo is installed, and can be <b>screwed</b> into place.",
-			"forward_message" = "secured servo",
-			"backward_message" = "removed servo",
+			"desc" = "Manipulator is installed, and can be <b>screwed</b> into place.",
+			"forward_message" = "secured manipulator",
+			"backward_message" = "removed manipulator",
 		),
 		list(
 			"key" = /obj/item/stock_parts/power_store/cell,
 			"action" = ITEM_MOVE_INSIDE,
 			"back_key" = TOOL_SCREWDRIVER,
-			"desc" = "Servo is secured, and the <b>power cell</b> can be added.",
+			"desc" = "Manipulator is secured, and the <b>power cell</b> can be added.",
 			"forward_message" = "added power cell",
-			"backward_message" = "unsecured servo",
+			"backward_message" = "unsecured manipulator",
 		),
 		list(
 			"key" = TOOL_SCREWDRIVER,
@@ -560,9 +560,9 @@
 			"desc" = "HONK!!!!!!"
 		),
 		list(
-			"key" = /obj/item/stock_parts/servo,
+			"key" = /obj/item/stock_parts/manipulator,
 			"action" = ITEM_MOVE_INSIDE,
-			"desc" = "Humor <b>servo</b> can be added!",
+			"desc" = "Humor <b>manipulator</b> can be added!",
 			"forward_message" = "added smile"
 		),
 		list(
@@ -615,7 +615,7 @@
 /datum/component/construction/mecha/honker/custom_action(obj/item/I, mob/living/user, diff)
 	if(istype(I, /obj/item/bikehorn))
 		playsound(parent, 'sound/items/bikehorn.ogg', 50, TRUE)
-		user.balloon_alert_to_hearers("*HONK*")
+		user.balloon_alert_to_viewers("*HONK*")
 		return TRUE
 
 	return ..()
@@ -717,27 +717,27 @@
 			"backward_message" = "removed capacitor",
 		),
 		list(
-			"key" = /obj/item/stock_parts/servo,
+			"key" = /obj/item/stock_parts/manipulator,
 			"action" = ITEM_MOVE_INSIDE,
 			"back_key" = TOOL_SCREWDRIVER,
-			"desc" = "Capacitor is secured, the <b>servo</b> can be added.",
-			"forward_message" = "added servo",
+			"desc" = "Capacitor is secured, the <b>manipulator</b> can be added.",
+			"forward_message" = "added manipulator",
 			"backward_message" = "unsecured capacitor",
 		),
 		list(
 			"key" = TOOL_SCREWDRIVER,
 			"back_key" = TOOL_CROWBAR,
-			"desc" = "Servo is installed, and can be <b>screwed</b> into place.",
-			"forward_message" = "secured servo",
-			"backward_message" = "removed servo",
+			"desc" = "Manipulator is installed, and can be <b>screwed</b> into place.",
+			"forward_message" = "secured manipulator",
+			"backward_message" = "removed manipulator",
 		),
 		list(
 			"key" = /obj/item/stack/ore/bluespace_crystal,
 			"amount" = 1,
 			"back_key" = TOOL_SCREWDRIVER,
-			"desc" = "Servo is secured, and the <b>bluespace crystal</b> can be added.",
+			"desc" = "Manipulator is secured, and the <b>bluespace crystal</b> can be added.",
 			"forward_message" = "added bluespace crystal",
-			"backward_message" = "unsecured servo",
+			"backward_message" = "unsecured manipulator",
 		),
 		list(
 			"key" = /obj/item/stack/cable_coil,

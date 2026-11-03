@@ -34,11 +34,6 @@
 		log_message("Permission denied (Attached mobs).", LOG_MECHA)
 		return FALSE
 
-	for(var/obj/item/thing as anything in M.get_held_items())
-		if(!(thing.item_flags & (ABSTRACT|HAND_ITEM)))
-			to_chat(M, span_warning("You can't enter the exosuit while your hands are occupied!"))
-			return FALSE
-
 	return ..()
 
 ///proc called when a new non-mmi mob enters this mech
@@ -112,9 +107,9 @@
 	return TRUE
 
 /obj/vehicle/sealed/mecha/mob_exit(mob/M, silent = FALSE, randomstep = FALSE, forced = FALSE)
-	// FIXME: this code is really bad (shocker). Needs a refactor
 	var/atom/movable/mob_container
 	var/turf/newloc = get_turf(src)
+	var/moved_already = FALSE
 	if(ishuman(M))
 		mob_container = M
 	else if(isbrain(M))
@@ -123,56 +118,57 @@
 		mob_container = brain.container
 	else if(isAI(M))
 		var/mob/living/silicon/ai/AI = M
-		mob_container = AI
 		//stop listening to this signal, as the static update is now handled by the eyeobj's setLoc
 		AI.eyeobj?.UnregisterSignal(src, COMSIG_MOVABLE_MOVED)
 		AI.eyeobj?.forceMove(newloc) //kick the eye out as well
-		AI.controlled_equipment = null
-		AI.remote_control = null
-		if(forced)
-			if(!AI.linked_core) //if the victim AI has no core
-				if (!AI.can_shunt || !length(AI.hacked_apcs))
-					AI.investigate_log("has been gibbed by being forced out of their mech.", INVESTIGATE_DEATHS)
-					/// If an AI with no core (and no shunting abilities) gets forced out of their mech
-					/// (in a way that isn't handled by the normal handling of their mech being destroyed)
-					/// we gib 'em here, too.
-					AI.gib(DROP_ALL_REMAINS)
-					AI = null
-					mecha_flags &= ~SILICON_PILOT
-					return ..()
-				else
-					var/obj/machinery/power/apc/emergency_shunt_apc = pick(AI.hacked_apcs)
-					emergency_shunt_apc.malfoccupy(AI) //get shunted into a random APC (you don't get to choose which)
-					AI = null
-					mecha_flags &= ~SILICON_PILOT
-					return ..()
-		if(!forced && !silent)
-			to_chat(AI, span_notice("Returning to core..."))
-		mecha_flags &= ~SILICON_PILOT
-		AI.resolve_core_link()
-		if(forced)
-			to_chat(AI, span_danger("ZZUZULU.ERR--ERRR-NEUROLOG-- PERCEP--- DIST-B**@"))
-			for(var/count in 1 to 5)
-				addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(do_sparks), rand(10, 20), FALSE, AI), count SECONDS)
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(empulse), get_turf(AI), /*heavy_range = */10, /*light_range = */20, AI), 10 SECONDS)
-		return ..()
-	else if(isliving(M))
-		mob_container = M
+		if(forced)//This should only happen if there are multiple AIs in a round, and at least one is Malf.
+			newloc = null
+			AI.controlled_equipment = null
+			AI.remote_control = null
+			//We ignore Z-levels here because AIs can control mechs from other levels.
+			if(!AI.relocate(silent = TRUE, kill_otherwise = FALSE, ignore_z_levels = TRUE))
+				AI.investigate_log("has been gibbed by being forced out of their mech by another AI.", INVESTIGATE_DEATHS)
+				AI.gib()  //If one Malf decides to steal a mech from another AI (even other Malfs!), they are destroyed, as they have nowhere to go when replaced.
+			else
+				moved_already = TRUE
+			AI = null
+			mecha_flags &= ~SILICON_PILOT
+			return
+		else
+			if(!silent)
+				to_chat(AI, span_notice("Attempting to return to core..."))
+			AI.controlled_equipment = null
+			AI.remote_control = null
+			mob_container = AI
+			newloc = null
+			if(AI.relocate(silent = TRUE, kill_otherwise = FALSE, ignore_z_levels = TRUE))
+				moved_already = TRUE
+			else
+				to_chat(AI, span_userdanger("No cores available. Enabling controls."))
+				AI.controlled_equipment = src
+				AI.remote_control = src
+				return FALSE
 	else
 		return ..()
 	var/mob/living/ejector = M
-	mob_container.forceMove(newloc)//ejecting mob container
-	log_message("[mob_container] moved out.", LOG_MECHA)
-	SStgui.close_user_uis(M, src)
-	if(istype(mob_container, /obj/item/brain_processor))
-		var/obj/item/brain_processor/mmi = mob_container
-		if(mmi.brainmob)
-			ejector.forceMove(mmi)
-			ejector.reset_perspective()
-			remove_occupant(ejector)
-		mmi.update_appearance()
-	setDir(SOUTH)
-	SEND_SIGNAL(src, COMSIG_MECHA_MOB_EXIT)
+	mecha_flags &= ~SILICON_PILOT
+	if(!moved_already)//ejecting mob container
+		if(mob_container.forceMove(newloc))
+			moved_already = TRUE
+
+	if(moved_already)
+		log_message("[mob_container] moved out.", LOG_MECHA)
+		SStgui.close_user_uis(M, src)
+		if(istype(mob_container, /obj/item/mmi))
+			var/obj/item/mmi/mmi = mob_container
+			if(mmi.brainmob)
+				ejector.forceMove(mmi)
+				ejector.reset_perspective()
+				remove_occupant(ejector)
+			mmi.set_mecha(null)
+			mmi.update_appearance()
+		setDir(SOUTH)
+
 	return ..()
 
 /obj/vehicle/sealed/mecha/add_occupant(mob/driver, control_flags)
@@ -201,20 +197,9 @@
 /obj/vehicle/sealed/mecha/container_resist_act(mob/living/user)
 	if(isAI(user))
 		var/mob/living/silicon/ai/AI = user
-		if(!AI.linked_core)
-			to_chat(AI, span_userdanger("Inactive core destroyed. Unable to return."))
-			if(!AI.can_shunt || !AI.hacked_apcs.len)
-				to_chat(AI, span_warning("[AI.can_shunt ? "No hacked APCs available." : "No shunting capabilities."]"))
-				return
-			var/confirm = tgui_alert(AI, "Shunt to a random APC? You won't have anywhere else to go!", "Confirm Emergency Shunt", list("Yes", "No"))
-			if(confirm == "Yes")
-				/// Mechs with open cockpits can have the pilot shot by projectiles, or EMPs may destroy the AI inside
-				/// Alternatively, destroying the mech will shunt the AI if they can shunt, or a deadeye wizard can hit
-				/// them with a teleportation bolt
-				if (AI.stat == DEAD || AI.loc != src)
-					return
-				mob_exit(AI, forced = TRUE)
-			return
+		if(!AI.can_shunt)
+			to_chat(AI, span_notice("You can't leave a mech after dominating it!."))
+			return FALSE
 	to_chat(user, span_notice("You begin the ejection procedure. Equipment is disabled during this process. Hold still to finish ejecting."))
 	is_currently_ejecting = TRUE
 	if(do_after(user, has_gravity() ? exit_delay : 0 , target = src))

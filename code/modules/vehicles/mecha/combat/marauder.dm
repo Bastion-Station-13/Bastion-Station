@@ -68,7 +68,7 @@
 	cell = new /obj/item/stock_parts/power_store/cell/bluespace(src)
 	scanmod = new /obj/item/stock_parts/scanning_module/triphasic(src)
 	capacitor = new /obj/item/stock_parts/capacitor/quadratic(src)
-	servo = new /obj/item/stock_parts/servo/femto(src)
+	manipulator = new /obj/item/stock_parts/manipulator/femto(src)
 	update_part_values()
 
 /obj/vehicle/sealed/mecha/marauder/remove_occupant(mob/driver)
@@ -210,10 +210,6 @@
 	fire = 100
 	acid = 100
 
-/obj/vehicle/sealed/mecha/marauder/mauler/Initialize(mapload)
-	. = ..()
-	add_minimap_blip(src, MINIMAP_SYNDICATE_MECH_BLIP, "syndiemech")
-
 /obj/vehicle/sealed/mecha/marauder/mauler/loaded
 	equip_by_category = list(
 		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg,
@@ -231,5 +227,32 @@
 	cell = new /obj/item/stock_parts/power_store/cell/bluespace(src)
 	scanmod = new /obj/item/stock_parts/scanning_module/triphasic(src)
 	capacitor = new /obj/item/stock_parts/capacitor/quadratic(src)
-	servo = new /obj/item/stock_parts/servo/femto(src)
+	manipulator = new /obj/item/stock_parts/manipulator/femto(src)
 	update_part_values()
+
+/obj/vehicle/sealed/mecha/marauder/mauler/ricky
+	desc = "Heavy-duty, combat exosuit, developed off of the existing Marauder model. Smells faintly of iron and bananas."
+	name = "Ricky's Mauler"
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS //no MMIs
+	max_equip_by_category = list(
+		MECHA_L_ARM = 1,
+		MECHA_R_ARM = 1,
+		MECHA_UTILITY = 4,
+		MECHA_POWER = 1,
+		MECHA_ARMOR = 4,
+	)
+	equip_by_category = list(
+		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg,
+		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack,
+		MECHA_UTILITY = list(/obj/item/mecha_parts/mecha_equipment/radio, /obj/item/mecha_parts/mecha_equipment/air_tank/full, /obj/item/mecha_parts/mecha_equipment/thrusters/ion),
+		MECHA_POWER = list(/obj/item/mecha_parts/mecha_equipment/generator),
+		MECHA_ARMOR = list(/obj/item/mecha_parts/mecha_equipment/armor/antiproj_armor_booster, /obj/item/mecha_parts/mecha_equipment/armor/anticcw_armor_booster),
+	)
+	destruction_sleep_duration = 10
+
+/obj/vehicle/sealed/mecha/marauder/mauler/ricky/mob_try_enter(mob/M)
+	if(!is_simian(M))
+		balloon_alert(M , "cockpit too small!")
+		return
+	else
+		return ..()

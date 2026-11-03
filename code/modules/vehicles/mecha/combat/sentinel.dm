@@ -27,6 +27,9 @@
 	)
 	bumpsmash = TRUE
 
+	/// Bool for zoom on/off
+	var/zoom_mode = FALSE
+
 /datum/armor/mecha_sentinel
 	melee = 10
 	bullet = 35
@@ -64,21 +67,25 @@
 	manipulator = new /obj/item/stock_parts/manipulator/femto(src)
 	update_part_values()
 
+/obj/vehicle/sealed/mecha/marauder/remove_occupant(mob/driver)
+	. = ..()
+	zoom_mode = FALSE
 
 /datum/action/vehicle/sealed/mecha/mech_zoom
 	name = "Zoom"
 	button_icon_state = "mech_zoom_off"
 
-/datum/action/vehicle/sealed/mecha/mech_zoom/Trigger(trigger_flags)
+/datum/action/vehicle/sealed/mecha/sentinel/mech_zoom/Trigger(trigger_flags)
 	if(!..())
 		return
 	if(!owner.client || !chassis || !(owner in chassis.occupants))
 		return
-	chassis.zoom_mode = !chassis.zoom_mode
-	button_icon_state = "mech_zoom_[chassis.zoom_mode ? "on" : "off"]"
+	var/obj/vehicle/sealed/mecha/sentinel/sentinel = chassis
+	sentinel.zoom_mode = !sentinel.zoom_mode
+	button_icon_state = "mech_zoom_[sentinel.zoom_mode ? "on" : "off"]"
 	chassis.log_message("Toggled zoom mode.", LOG_MECHA)
-	to_chat(owner, "[icon2html(chassis, owner)]<font color='[chassis.zoom_mode?"blue":"red"]'>Zoom mode [chassis.zoom_mode?"en":"dis"]abled.</font>")
-	if(chassis.zoom_mode)
+	to_chat(owner, "[icon2html(chassis, owner)]<font color='[sentinel.zoom_mode?"blue":"red"]'>Zoom mode [sentinel.zoom_mode?"en":"dis"]abled.</font>")
+	if(sentinel.zoom_mode)
 		owner.client.view_size.setTo(4.5)
 		owner.playsound_local(src, 'sound/vehicles/mecha/imag_enh.ogg', 50)
 	else
