@@ -44,7 +44,9 @@
 
 /obj/vehicle/sealed/mecha/marauder/Initialize(mapload, built_manually)
 	. = ..()
-	smoke_system = new(src, 3, holder = src)
+	smoke_system = new
+	smoke_system.set_up(3, holder = src, location = src)
+	smoke_system.attach(src)
 
 /obj/vehicle/sealed/mecha/marauder/Destroy()
 	QDEL_NULL(smoke_system)

@@ -77,7 +77,8 @@
 //mecha_kineticgun version of the projectile
 /obj/projectile/kinetic/mech
 	range = 5
-	damage = 60 // up to 60; TG's is 50
+	damage = 50
+	fauna_mod = 1.5
 
 /obj/projectile/kinetic/mech/strike_thing(atom/target)
 	. = ..()
