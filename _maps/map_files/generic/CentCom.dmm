@@ -27468,7 +27468,6 @@
 	pixel_y = 5
 	},
 /obj/structure/table,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/arcade)
 "ocR" = (
@@ -33248,10 +33247,6 @@
 /obj/structure/cable,
 /turf/open/misc/asteroid,
 /area/centcom/syndicate_mothership/firebase_trident)
-"xGe" = (
-/obj/effect/turf_decal/sand/plating,
-/turf/open/misc/sandy_dirt,
-/area/centcom/central_command_areas/admin)
 "xHG" = (
 /obj/structure/sign{
 	name = "wall";
@@ -65316,7 +65311,7 @@ fXa
 fDz
 mvd
 vHF
-xGe
+pCH
 xXt
 btE
 btE

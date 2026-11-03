@@ -71,7 +71,7 @@
 					if(HAS_TRAIT(dude, TRAIT_DARKSPAWN_CREEP))
 						return
 				to_chat(H, span_userdanger("The light singes you!"))
-				H.playsound_local(H, 'sound/weapons/sear.ogg', max(30, 40 * light_amount), TRUE)
+				H.playsound_local(H, 'sound/items/weapons/sear.ogg', max(30, 40 * light_amount), TRUE)
 				H.adjustCloneLoss(light_burning * 0.2)
 			if(SHADOW_SPECIES_BRIGHT_LIGHT to INFINITY) //but quick death in the light
 				var/datum/antagonist/darkspawn/dude = IS_DARKSPAWN(H)
@@ -79,7 +79,7 @@
 					if(HAS_TRAIT(dude, TRAIT_DARKSPAWN_CREEP))
 						return
 				to_chat(H, span_userdanger("The light burns you!"))
-				H.playsound_local(H, 'sound/weapons/sear.ogg', max(40, 65 * light_amount), TRUE)
+				H.playsound_local(H, 'sound/items/weapons/sear.ogg', max(40, 65 * light_amount), TRUE)
 				H.adjustCloneLoss(light_burning)
 
 /datum/species/shadow/check_roundstart_eligible()
@@ -163,7 +163,6 @@
 	name = "Nightmare"
 	id = SPECIES_NIGHTMARE
 	examine_limb_id = SPECIES_SHADOW
-	burnmod = 1.5
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE
 	no_equip_flags = ITEM_SLOT_MASK | ITEM_SLOT_OCLOTHING | ITEM_SLOT_GLOVES | ITEM_SLOT_FEET | ITEM_SLOT_ICLOTHING | ITEM_SLOT_SUITSTORE
 	inherent_traits = list(
@@ -279,7 +278,7 @@
 			H.physiology.stamina_mod = antag.stam_mod
 
 /datum/species/shadow/darkspawn/spec_death(gibbed, mob/living/carbon/human/H)
-	playsound(H, 'sound/creatures/darkspawn/darkspawn_death.ogg', 50, FALSE)
+	playsound(H, 'sound/mobs/non-humanoids/darkspawn/darkspawn_death.ogg', 50, FALSE)
 
 /datum/species/shadow/darkspawn/check_roundstart_eligible()
 	return FALSE
@@ -388,7 +387,7 @@
 		span_warning("[user] raises [src] to [user.p_their()] mouth and tears into it with [user.p_their()] teeth!"),
 		span_danger("[src] feels unnaturally cold in your hands. You raise [src] to your mouth and devour it!")
 	)
-	playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+	playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 
 	user.visible_message(
 		span_warning("Blood erupts from [user]'s arm as it reforms into a weapon!"),
@@ -434,7 +433,7 @@
 		to_chat(owner, span_userdanger("You feel the shadows invade your skin, leaping into the center of your chest! You're alive!"))
 		SEND_SOUND(owner, sound('sound/effects/ghost.ogg'))
 	owner.visible_message(span_warning("[owner] staggers to [owner.p_their()] feet!"))
-	playsound(owner, 'sound/hallucinations/far_noise.ogg', 50, TRUE)
+	playsound(owner, 'sound/effects/hallucinations/far_noise.ogg', 50, TRUE)
 	respawn_progress = 0
 
 #define PASSIVE_SNUFF_LIMIT 0.5
@@ -448,7 +447,7 @@
 	force = 18
 	lefthand_file = 'icons/mob/inhands/antag/darkspawn/darkspawn_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/antag/darkspawn/darkspawn_righthand.dmi'
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	item_flags = ABSTRACT
 	w_class = WEIGHT_CLASS_HUGE
 	sharpness = SHARP_EDGED
@@ -659,7 +658,7 @@
 		return
 	if(!do_after(user, 8 SECONDS))
 		return
-	playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+	playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	if(target_mob == user)
 		Insert(user)
@@ -669,7 +668,7 @@
 /obj/item/organ/internal/heart/shadow_ritual/attack_self(mob/user, modifiers)
 	if(!do_after(user, 8 SECONDS))
 		return
-	playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+	playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	Insert(user)
 
@@ -742,7 +741,7 @@
 		to_chat(owner, span_userdanger("You feel the shadows invade your skin, leaping from the center of your chest! You're alive!"))
 	SEND_SOUND(owner, sound('sound/effects/ghost.ogg'))
 	owner.visible_message(span_warning("[owner] staggers to [owner.p_their()] feet!"))
-	playsound(owner, 'sound/hallucinations/far_noise.ogg', 50, 1)
+	playsound(owner, 'sound/effects/hallucinations/far_noise.ogg', 50, 1)
 	respawn_progress = 0
 
 
