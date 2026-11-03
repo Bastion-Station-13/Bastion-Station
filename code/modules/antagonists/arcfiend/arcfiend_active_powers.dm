@@ -271,7 +271,7 @@
 	victim.apply_status_effect(/datum/status_effect/arcfiend_scrambled, duration)
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		var/level = get_level()
-		victim.apply_damage(list(8, 10, 12)[level], BURN)
+		victim.apply_damage(list(3, 4, 5)[level], BURN)
 		victim.apply_damage(list(60, 80, 100)[level], STAMINA)
 		victim.adjust_eye_blur(duration)
 	if(victim.client)
@@ -347,7 +347,8 @@
 		return FALSE
 
 	var/level = get_level()
-	var/damage = list(25, 35, 45)[level]
+	var/damage = list(15, 20, 25)[level]
+	var/stamina_damage = list(25, 35, 45)[level]
 	var/arcs_left = level
 	var/mob/living/victim = isliving(target) ? target : locate(/mob/living) in get_turf(target)
 	if(victim == owner)
@@ -367,8 +368,9 @@
 	var/atom/source = owner
 	while(victim)
 		already_hit += victim
-		zap(source, victim, damage)
+		zap(source, victim, damage, stamina_damage)
 		damage = round(damage * 0.6)
+		stamina_damage = round(stamina_damage * 0.6)
 		source = victim
 		victim = (arcs_left-- > 0) ? find_next_victim(source, already_hit) : null
 		if(victim)
@@ -392,12 +394,12 @@
 	return closest
 
 /// Hits someone with the arc
-/datum/action/cooldown/arcfiend/arc_discharge/proc/zap(atom/source, mob/living/victim, damage)
+/datum/action/cooldown/arcfiend/arc_discharge/proc/zap(atom/source, mob/living/victim, damage, stamina_damage)
 	if(HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		victim.visible_message(span_warning("The lightning washes harmlessly over [victim]!"))
 		return
 	victim.apply_damage(damage, BURN, spread_damage = TRUE)
-	victim.apply_damage(damage, STAMINA)
+	victim.apply_damage(stamina_damage, STAMINA)
 	victim.adjust_temp_blindness(by_level(list(5 SECONDS, 6 SECONDS, 7 SECONDS)))
 	victim.adjust_eye_blur(by_level(list(8 SECONDS, 10 SECONDS, 12 SECONDS)))
 	victim.flash_act(1, visual = TRUE)
@@ -443,7 +445,7 @@
 
 /// The burn damage right next to the edge of the throwing range, before falloff
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_burn()
-	return by_level(list(10, 14, 18))
+	return by_level(list(4, 5, 6))
 
 /// The stamina damage right next to the edge of the throwing range, before falloff
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_stamina()
@@ -563,8 +565,8 @@
 	unlock_cost = 500
 	upgrade_costs = list(400, 800)
 	upgrade_descriptions = list(
-		"Hits 60% harder, more burn, arcs more often.",
-		"Hits 80% harder, more burn, arcs can reach two others.",
+		"Hits 30% harder, more burn, arcs more often.",
+		"Hits 40% harder, more burn, arcs can reach two others.",
 	)
 	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi'
 	effect_state = "smash_arms"
@@ -588,7 +590,7 @@
 
 /// How much harder the weapons we swing and our punches hit
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/get_hit_multiplier()
-	return by_level(list(1.4, 1.6, 1.8))
+	return by_level(list(1.2, 1.3, 1.4))
 
 /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/apply_effect(mob/living/user)
 	RegisterSignal(user, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_item_attack))
@@ -644,7 +646,7 @@
 		return
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), effect_icon, "smash_hit", 7)
 	var/level = get_level()
-	var/damage = list(12, 18, 24)[level]
+	var/damage = list(8, 12, 16)[level]
 	shock(victim, damage, "[owner]'s electrified blow shocks you!")
 	if(!prob(list(25, 40, 55)[level]))
 		return
@@ -1027,7 +1029,7 @@
 	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
 	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
 	if(lethal)
-		stop_heart(victim, list(60, 75, 90)[level])
+		stop_heart(victim, list(40, 50, 60)[level])
 	else
 		restart_heart(victim)
 	StartCooldown(list(45 SECONDS, 35 SECONDS, 25 SECONDS)[level])

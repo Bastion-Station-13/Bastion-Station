@@ -868,7 +868,7 @@
 	TEST_ASSERT(!(FORCE_MULTIPLIER in attack_modifiers), "A swing outside combat mode should not be boosted")
 	user.istate |= ISTATE_HARM
 	smash.on_item_attack(user, victim, user, list(), attack_modifiers, null)
-	TEST_ASSERT(abs(attack_modifiers[FORCE_MULTIPLIER] - 1.4) < 0.001, "Level 1 Smash should make weapons hit 40% harder, got [attack_modifiers[FORCE_MULTIPLIER]]")
+	TEST_ASSERT(abs(attack_modifiers[FORCE_MULTIPLIER] - 1.2) < 0.001, "Level 1 Smash should make weapons hit 20% harder, got [attack_modifiers[FORCE_MULTIPLIER]]")
 
 	// Upgrading while it is on doesn't stack the old boost
 	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash), "Could not upgrade Electrokinetic Smash")
@@ -941,9 +941,9 @@
 	TEST_ASSERT_EQUAL(beam.range, 4, "The beam should dissipate after 4 tiles")
 
 	// Only the end of the beam hurts
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 10, "The start of the beam should do the weak damage")
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(3), 10, "The middle of the beam should do the weak damage")
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(4), 65, "The end of the beam should do the full damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 6, "The start of the beam should do the weak damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(3), 6, "The middle of the beam should do the weak damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(4), 45, "The end of the beam should do the full damage")
 	TEST_ASSERT_EQUAL(beam.damage_at_distance(5), 0, "Past the end of the beam there should be no damage")
 
 	// Everything is pierced, apart from the one who fired it
@@ -1005,7 +1005,7 @@
 	TEST_ASSERT_EQUAL(laser_action.get_max_charges(), 4, "Level 2 should hold 4 charges")
 	TEST_ASSERT(laser_action.get_charge_time() < 10 SECONDS, "Level 2 should rebuild charges faster")
 	TEST_ASSERT_EQUAL(laser_action.get_max_range(), 5, "Level 2 should reach 5 tiles")
-	TEST_ASSERT_EQUAL(laser_action.get_power_damage(), 90, "Level 2 should do 90 at the end of the beam")
+	TEST_ASSERT_EQUAL(laser_action.get_power_damage(), 60, "Level 2 should do 60 at the end of the beam")
 
 	// The drop key puts it away
 	TEST_ASSERT(SEND_SIGNAL(user, COMSIG_KB_MOB_DROPITEM_DOWN) & COMSIG_KB_ACTIVATED, "The drop key should be taken by the lateral laser")
@@ -1026,9 +1026,9 @@
 	var/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/coilgun_action = locate() in user.actions
 	TEST_ASSERT(coilgun_action.Activate(user), "Could not grow the coilgun")
 	var/obj/item/gun/energy/arcfiend/coilgun/coilgun = locate() in user.held_items
-	TEST_ASSERT_EQUAL(coilgun.chambered?.loaded_projectile?.damage, 30, "A level 1 slug should do 30 damage")
+	TEST_ASSERT_EQUAL(coilgun.chambered?.loaded_projectile?.damage, 20, "A level 1 slug should do 20 damage")
 	TEST_ASSERT(antag.upgrade_power(coilgun_type), "Could not upgrade Manifest Coilgun")
-	TEST_ASSERT_EQUAL(coilgun.chambered?.loaded_projectile?.damage, 38, "The slug ready when the coilgun is upgraded should do 38 damage")
+	TEST_ASSERT_EQUAL(coilgun.chambered?.loaded_projectile?.damage, 25, "The slug ready when the coilgun is upgraded should do 25 damage")
 	TEST_ASSERT(coilgun_action.dismiss(user), "Could not put the coilgun away")
 
 	// The laser's next beam reaches further and hits harder
@@ -1041,8 +1041,8 @@
 	beam = laser.chambered?.loaded_projectile
 	TEST_ASSERT_EQUAL(beam.travel_range, 5, "The beam ready when the laser is upgraded should reach 5 tiles")
 	TEST_ASSERT_EQUAL(beam.range, 5, "The beam ready when the laser is upgraded should dissipate after 5 tiles")
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(5), 90, "The beam ready when the laser is upgraded should do 90 at the end")
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 14, "The beam ready when the laser is upgraded should do 14 along the way")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(5), 60, "The beam ready when the laser is upgraded should do 60 at the end")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(1), 8, "The beam ready when the laser is upgraded should do 8 along the way")
 
 	// Cycling all the way round to the longest range still keeps up with the next upgrade
 	for(var/expected in list(1, 2, 3, 4, 5))
@@ -1056,7 +1056,7 @@
 	TEST_ASSERT(antag.upgrade_power(laser_type), "Could not upgrade the lateral laser to level 3")
 	TEST_ASSERT_EQUAL(laser_action.get_selected_range(), 2, "An upgrade should not change a shorter range that was picked")
 	beam = laser.chambered?.loaded_projectile
-	TEST_ASSERT_EQUAL(beam.damage_at_distance(2), 120, "A short range beam should still get the upgraded damage")
+	TEST_ASSERT_EQUAL(beam.damage_at_distance(2), 80, "A short range beam should still get the upgraded damage")
 	for(var/expected in list(3, 4, 5, 6))
 		laser.attack_self(user)
 		TEST_ASSERT_EQUAL(laser_action.get_selected_range(), expected, "Using the laser in hand should change the range to [expected]")
@@ -1088,7 +1088,7 @@
 
 	var/datum/action/cooldown/arcfiend/arc_discharge/arc = locate() in user.actions
 	victim = make_gloved_victim()
-	arc.zap(user, victim, 15)
+	arc.zap(user, victim, 15, 25)
 	TEST_ASSERT(victim.getFireLoss() > 0, "Arc Discharge should burn someone in insulated gloves")
 
 	var/datum/action/cooldown/arcfiend/thunderclap/clap = locate() in user.actions
@@ -1258,7 +1258,7 @@
 	TEST_ASSERT(!HAS_TRAIT(scrambled, TRAIT_CLUMSY), "The target should stop being clumsy when it wears off")
 
 	var/mob/living/carbon/human/zapped = allocate(/mob/living/carbon/human/consistent)
-	arc.zap(user, zapped, 20)
+	arc.zap(user, zapped, 20, 35)
 	TEST_ASSERT(zapped.getFireLoss() > 0, "Arc Discharge should burn")
 	TEST_ASSERT(zapped.stamina.loss > 0, "Arc Discharge should drain stamina")
 	TEST_ASSERT(zapped.has_status_effect(/datum/status_effect/eye_blur), "Arc Discharge should blur the target's eyes")
@@ -1266,7 +1266,7 @@
 	// Anyone shock immune takes none of it
 	var/mob/living/carbon/human/immune = allocate(/mob/living/carbon/human/consistent)
 	ADD_TRAIT(immune, TRAIT_SHOCKIMMUNE, TRAIT_SOURCE_UNIT_TESTS)
-	arc.zap(user, immune, 20)
+	arc.zap(user, immune, 20, 35)
 	TEST_ASSERT_EQUAL(immune.getFireLoss(), 0, "Arc Discharge should not burn someone shock immune")
 	TEST_ASSERT_EQUAL(immune.stamina.loss, 0, "Arc Discharge should not drain the stamina of someone shock immune")
 
