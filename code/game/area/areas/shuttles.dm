@@ -72,7 +72,7 @@
 	area_limited_icon_smoothing = /area/shuttle/hunter
 
 /area/shuttle/hunter/russian
-	name = "Russian Cargo Hauler"
+	name = "Russian Cargo Runner"
 
 /area/shuttle/hunter/spacepol
 	name = "Spacepol Cutter"

@@ -16,6 +16,7 @@
 /area/shuttle/hunter/spacepol)
 "ae" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/effect/turf_decal/delivery/blue,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/spacepol)
 "af" = (
@@ -78,6 +79,7 @@
 /obj/item/radio/intercom/command/directional/north{
 	desc = "An intercom with extended range, usually used by Spacepol to disclose their presence and objectives to stations they intend to board. Occasionally used for other purposes."
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/spacepol)
 "ey" = (
@@ -86,6 +88,7 @@
 	id = "hunter_spacepol_windows";
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/shuttle/hunter/spacepol)
 "hB" = (
@@ -108,6 +111,9 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/mapping_helpers/airalarm/unlocked,
 /turf/open/floor/iron/textured_large,
 /area/shuttle/hunter/spacepol)
 "lQ" = (
@@ -175,6 +181,7 @@
 /area/shuttle/hunter/spacepol)
 "rZ" = (
 /obj/machinery/light/directional/north,
+/obj/structure/cable,
 /turf/open/floor/catwalk_floor/iron,
 /area/shuttle/hunter/spacepol)
 "st" = (
@@ -211,6 +218,7 @@
 /obj/machinery/computer/shuttle/hunter{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/spacepol)
 "vO" = (
@@ -237,6 +245,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/spacepol)
 "wT" = (
@@ -292,6 +301,7 @@
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
 "Kj" = (
+/obj/structure/cable,
 /turf/open/floor/catwalk_floor/iron,
 /area/shuttle/hunter/spacepol)
 "Kn" = (
@@ -362,6 +372,7 @@
 	id = "hunter_spacepol_windows";
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/shuttle/hunter/spacepol)
 "RO" = (
