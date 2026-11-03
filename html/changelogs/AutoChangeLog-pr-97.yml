@@ -1,0 +1,7 @@
+author: "Longestarmlonglaw"
+delete-after: True
+changes:
+  - rscadd: "Added requistions to cargo, doing research unlocks advanced weaponry to be bought there as opposed to being printable kits from security's techfab"
+  - rscadd: " Requisitioned guns come with electronic firing pins."
+  - rscdel: "Removed most gun kit crafting recipes and their protolathe designs. The hellfire and event horizon remain unchanged."
+  - balance: "Tesla cannons no longer require flux cores"
