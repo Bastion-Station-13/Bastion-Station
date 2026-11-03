@@ -1045,7 +1045,6 @@
 "aqM" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/dark_blue,
-/obj/machinery/atm/directional/east,
 /turf/open/floor/iron/dark/corner{
 	dir = 4
 	},
@@ -1963,7 +1962,6 @@
 /obj/effect/turf_decal/tile/dark_red/half{
 	dir = 1
 	},
-/obj/machinery/atm/directional/east,
 /turf/open/floor/iron/half,
 /area/station/hallway/secondary/command)
 "aED" = (
@@ -21516,7 +21514,6 @@
 /obj/machinery/camera/directional/south{
 	c_tag = "Central Primary Hallway - Courtroom"
 	},
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "guq" = (
@@ -39897,7 +39894,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
 /obj/machinery/light/directional/south,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
 "lIJ" = (
@@ -41941,7 +41937,6 @@
 "mlJ" = (
 /obj/machinery/light/cold/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "mlL" = (
@@ -43064,14 +43059,6 @@
 	},
 /turf/open/floor/glass/reinforced,
 /area/station/hallway/primary/central/fore)
-"mDs" = (
-/obj/effect/turf_decal/tile/blue/opposingcorners,
-/obj/effect/turf_decal/tile/dark_blue/opposingcorners,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
 "mDx" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/effect/landmark/start/station_engineer,
@@ -43601,10 +43588,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/medical/morgue)
-"mKM" = (
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "mKO" = (
 /obj/structure/table/glass,
 /obj/item/paper_bin{
@@ -48632,7 +48615,6 @@
 	network = list("ss13","medbay")
 	},
 /obj/machinery/light/cold/directional/east,
-/obj/machinery/atm/directional/east,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/medical/medbay/lobby)
 "olm" = (
@@ -52744,18 +52726,6 @@
 /obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/chapel)
-"pyy" = (
-/obj/effect/turf_decal/tile/blue/opposingcorners{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/dark_blue/opposingcorners{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
 "pyC" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple/layer2{
 	dir = 9
@@ -67689,12 +67659,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/escape)
-"tWb" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron,
-/area/station/hallway/secondary/command)
 "tWo" = (
 /obj/structure/chair/sofa/bench/left,
 /obj/effect/turf_decal/siding/wood{
@@ -68353,12 +68317,6 @@
 "ugC" = (
 /turf/open/floor/carpet/green,
 /area/station/command/heads_quarters/nt_rep)
-"ugG" = (
-/obj/effect/turf_decal/tile/dark_blue/opposingcorners,
-/obj/effect/turf_decal/tile/blue/opposingcorners,
-/obj/machinery/atm/directional/east,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
 "ugJ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -71301,11 +71259,6 @@
 /obj/machinery/arc_forge,
 /turf/open/floor/iron,
 /area/station/service/forge)
-"uZk" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron/small,
-/area/station/hallway/secondary/exit/departure_lounge)
 "uZr" = (
 /obj/effect/turf_decal/tile/purple/opposingcorners{
 	dir = 1
@@ -73661,7 +73614,6 @@
 	},
 /obj/effect/turf_decal/stripes/end,
 /obj/effect/turf_decal/box,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/common/carpshop)
 "vGh" = (
@@ -73866,7 +73818,6 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/east,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "vJD" = (
@@ -112318,7 +112269,7 @@ iMZ
 ktf
 arU
 lIW
-ugG
+eMd
 nXE
 oTb
 vmq
@@ -117707,7 +117658,7 @@ vcr
 vcr
 vcr
 vcr
-mDs
+cJE
 vbN
 vbN
 vbN
@@ -117719,7 +117670,7 @@ lNk
 lNk
 lNk
 lNk
-pyy
+eWT
 cCu
 vcr
 vcr
@@ -182994,7 +182945,7 @@ lBU
 jQr
 btz
 vxB
-tWb
+vtk
 aqE
 lQr
 lQr
@@ -186337,7 +186288,7 @@ leT
 bDG
 mkn
 fKs
-mKM
+fKs
 fKs
 fKs
 ixG
@@ -191478,7 +191429,7 @@ kgP
 oyX
 eUK
 tpP
-uZk
+oUx
 wLQ
 vAB
 qww

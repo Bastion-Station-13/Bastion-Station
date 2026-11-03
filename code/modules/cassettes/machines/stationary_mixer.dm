@@ -200,7 +200,7 @@
 		return FALSE
 	busy = TRUE
 	SStgui.update_uis(src)
-	var/list/metadata = SSfloxy.fetch_media_metadata(url)
+	var/list/metadata = fetch_cassette_metadata(url, user)
 	busy = FALSE
 	if(!metadata)
 		balloon_alert(user, "failed to fetch music metadata!")
