@@ -776,7 +776,7 @@
 	TEST_ASSERT(weapon_action.Activate(user), "Could not grow the coilgun")
 	var/obj/item/gun/energy/arcfiend/coilgun/gun = locate() in user.held_items
 	TEST_ASSERT_NOTNULL(gun, "The coilgun should be in the arcfiend's hand")
-	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 4, "The magazine should start full at 4 slugs")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 7, "The magazine should start full at 7 slugs")
 	TEST_ASSERT(gun.can_shoot(), "A full magazine and plenty of power should be able to shoot")
 
 	// Every fired shot costs power and a slug. The gun hands out a spent round once a shot is fired.
@@ -785,15 +785,15 @@
 	// The game calls this with no shooter after a single shot, so that is how it is called here too
 	gun.chambered.loaded_projectile = null
 	gun.process_chamber()
-	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 3, "A shot should use up a slug")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 6, "A shot should use up a slug")
 	TEST_ASSERT_EQUAL(antag.power, power_before - 15, "A shot should cost 15 power")
 	TEST_ASSERT_NOTNULL(gun.chambered?.loaded_projectile, "A fresh round should be ready after a shot, or the second shot just clicks")
-	for(var/i in 1 to 3)
+	for(var/i in 1 to 6)
 		TEST_ASSERT(gun.can_shoot(), "There should still be slugs to shoot")
 		TEST_ASSERT_NOTNULL(gun.chambered?.loaded_projectile, "A round should be ready for shot [i + 1]")
 		gun.chambered.loaded_projectile = null
 		gun.process_chamber()
-	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 0, "Four shots should empty the magazine")
+	TEST_ASSERT_EQUAL(weapon_action.get_charges(), 0, "Seven shots should empty the magazine")
 	TEST_ASSERT(!gun.can_shoot(), "An empty magazine should not shoot, however much power there is")
 	TEST_ASSERT(antag.power > 1000, "The test should still have plenty of power left")
 
@@ -813,7 +813,7 @@
 
 	// A bigger magazine with upgrades
 	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun), "Could not upgrade Manifest Coilgun")
-	TEST_ASSERT_EQUAL(weapon_action.get_max_charges(), 5, "Level 2 should hold 5 slugs")
+	TEST_ASSERT_EQUAL(weapon_action.get_max_charges(), 8, "Level 2 should hold 8 slugs")
 	TEST_ASSERT(weapon_action.get_charge_time() < 8 SECONDS, "Level 2 should rebuild slugs faster")
 
 /// Myoelectric Stimulation speeds up do-afters, clicking and shooting, and gives all of it back exactly when switched off

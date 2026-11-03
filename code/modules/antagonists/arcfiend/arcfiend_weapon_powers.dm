@@ -242,7 +242,6 @@
 	fire_sound = ARCFIEND_SOUND_COILGUN_FIRE
 	select_name = "slug"
 	e_cost = 0
-	delay = 0.8 SECONDS
 
 /// Biometal gun that doesn't use gunpowder, the electricity propels the bullets.
 /obj/item/gun/energy/arcfiend/coilgun
@@ -259,7 +258,7 @@
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun
 	name = "Manifest Coilgun"
 	desc = "Your nanites weave a crude coilgun out of biometal in your hand."
-	shop_desc = "Grants you Manifest Coilgun, which grows a biometal coilgun in your hand. It is free to summon and put away, but each shot costs power and a slug. It holds 4 slugs and regrows one every 8 seconds, even while put away."
+	shop_desc = "Grants you Manifest Coilgun, which grows a biometal coilgun in your hand. It is free to summon and put away, but each shot costs power and a slug. It holds 7 slugs and regrows one every 8 seconds, even while put away."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_manifest_coilgun.dmi'
 	button_icon_state = "manifest_coilgun"
 	shop_listed = TRUE
@@ -267,15 +266,15 @@
 	unlock_cost = 600
 	upgrade_costs = list(500, 900)
 	upgrade_descriptions = list(
-		"Hits harder, cheaper shots. Holds 5, regrows every 6 seconds.",
-		"Hits harder, cheaper shots. Holds 6, regrows every 4 seconds.",
+		"Hits harder, cheaper shots. Holds 8, regrows every 6 seconds.",
+		"Hits harder, cheaper shots. Holds 10, regrows every 4 seconds.",
 	)
 	grown_type = /obj/item/gun/energy/arcfiend/coilgun
 	charge_name = "slug"
 	recharge_sound = ARCFIEND_SOUND_COILGUN_RELOAD
 
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/get_max_charges()
-	return by_level(list(4, 5, 6))
+	return by_level(list(7, 8, 10))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/get_charge_time()
 	return by_level(list(8 SECONDS, 6 SECONDS, 4 SECONDS))
