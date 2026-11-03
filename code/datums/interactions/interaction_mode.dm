@@ -39,6 +39,7 @@ GLOBAL_REAL_VAR(list/available_interaction_modes = list(
 /datum/interaction_mode/proc/reload_hud(mob/M)
 	if (UI)
 		owner.mob.hud_used?.static_inventory -= UI
+		QDEL_NULL(UI)
 	if (M.hud_used?.has_interaction_ui)
 		M.hud_used.static_inventory += procure_hud(owner.mob, owner.mob.hud_used)
 

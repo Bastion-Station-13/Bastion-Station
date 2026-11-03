@@ -140,7 +140,6 @@
 #define ORGAN_SLOT_ZOMBIE "zombie_infection"
 #define ORGAN_SLOT_BRAIN_TUMOR "brain_tumor"
 #define ORGAN_SLOT_BUTT "butt"
-#define ORGAN_SLOT_BLADDER "bladder"
 #define ORGAN_SLOT_LINK "cyber_link"
 #define ORGAN_SLOT_RIGHT_LEG_AUG "r_leg_device"
 #define ORGAN_SLOT_LEFT_LEG_AUG "l_leg_device"
@@ -166,6 +165,8 @@
 #define ORGAN_SLOT_EXTERNAL_FLORAN_LEAVES "floran_leaves"
 #define ORGAN_SLOT_EXTERNAL_FLUFF "fluff"
 #define ORGAN_SLOT_EXTERNAL_FEATHERS "feathers"
+#define ORGAN_SLOT_EXTERNAL_EARS "external_ears"
+
 
 /// Xenomorph organ slots
 #define ORGAN_SLOT_XENO_ACIDGLAND "acid_gland"

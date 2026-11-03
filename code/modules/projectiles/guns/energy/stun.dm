@@ -32,7 +32,7 @@
 	name = "hybrid taser"
 	desc = "A dual-mode taser designed to fire both short-range high-power electrodes and long-range disabler beams."
 	icon_state = "advtaser"
-	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/disabler)
+	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/disabler/e_gun)
 	ammo_x_offset = 2
 
 /obj/item/gun/energy/e_gun/advtaser/evil
@@ -43,14 +43,12 @@
 	desc = "An integrated hybrid taser that draws directly from a cyborg's power cell. The weapon contains a limiter to prevent the cyborg's power cell from overheating."
 	can_charge = FALSE
 	use_cyborg_cell = TRUE
+	has_manufacturer = FALSE
 
 /obj/item/gun/energy/e_gun/advtaser/cyborg/add_seclight_point()
 	return
 
 /obj/item/gun/energy/e_gun/advtaser/cyborg/emp_act()
-	return
-
-/obj/item/gun/energy/e_gun/advtaser/cyborg/give_manufacturer_examine()
 	return
 
 /obj/item/gun/energy/disabler

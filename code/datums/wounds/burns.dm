@@ -45,6 +45,13 @@
 	/// Once we reach infestation beyond WOUND_INFESTATION_SEPSIS, we get this many warnings before the limb is completely paralyzed (you'd have to ignore a really bad burn for a really long time for this to happen)
 	var/strikes_to_lose_limb = 3
 
+/// Applies toxin damage from this wound, making sure to make sure that people with TRAIT_TOXINLOVER still receive toxin damage, typically oozelings
+/datum/wound/burn/flesh/proc/apply_tox_damage(amount)
+	if (HAS_TRAIT(victim, TRAIT_TOXINLOVER))
+		victim.adjustToxLoss(-amount)
+	else
+		victim.adjustToxLoss(amount)
+
 /datum/wound/burn/flesh/handle_process(seconds_per_tick, times_fired)
 
 	if (QDELETED(victim) || HAS_TRAIT(victim, TRAIT_STASIS))
@@ -52,7 +59,7 @@
 
 	. = ..()
 	if(strikes_to_lose_limb <= 0) // we've already hit sepsis, nothing more to do
-		victim.adjustToxLoss(0.25 * seconds_per_tick)
+		apply_tox_damage(0.25 * seconds_per_tick)
 		if(SPT_PROB(0.5, seconds_per_tick))
 			victim.visible_message(span_danger("The infection on the remnants of [victim]'s [limb.plaintext_zone] shift and bubble nauseatingly!"), span_warning("You can feel the infection on the remnants of your [limb.plaintext_zone] coursing through your veins!"), vision_distance = COMBAT_MESSAGE_RANGE)
 		return
@@ -103,7 +110,7 @@
 
 		if(WOUND_INFECTION_MODERATE to WOUND_INFECTION_SEVERE)
 			if(SPT_PROB(15, seconds_per_tick))
-				victim.adjustToxLoss(0.2)
+				apply_tox_damage(0.2)
 				if(prob(6))
 					to_chat(victim, span_warning("The blisters on your [limb.plaintext_zone] ooze a strange pus..."))
 
@@ -119,7 +126,7 @@
 				return
 
 			if(SPT_PROB(10, seconds_per_tick))
-				victim.adjustToxLoss(0.5)
+				apply_tox_damage(0.5)
 
 		if(WOUND_INFECTION_CRITICAL to WOUND_INFECTION_SEPTIC)
 			if(!disabling)
@@ -135,9 +142,9 @@
 			if(SPT_PROB(2.48, seconds_per_tick))
 				if(prob(20))
 					to_chat(victim, span_warning("You contemplate life without your [limb.plaintext_zone]..."))
-					victim.adjustToxLoss(0.75)
+					apply_tox_damage(0.75)
 				else
-					victim.adjustToxLoss(1)
+					apply_tox_damage(1)
 
 		if(WOUND_INFECTION_SEPTIC to INFINITY)
 			if(SPT_PROB(0.5 * infestation, seconds_per_tick))
@@ -177,7 +184,7 @@
 			if(4 to INFINITY)
 				bandage_condition = "clean"
 
-		condition += " underneath a dressing of [bandage_condition] [limb.current_gauze.name]"
+		condition += " underneath a dressing of [bandage_condition] [limb.current_gauze.name]."
 	else
 		switch(infestation)
 			if(WOUND_INFECTION_MODERATE to WOUND_INFECTION_SEVERE)
@@ -241,22 +248,13 @@
 	new burn common procs
 */
 
-/// if someone is using ointment or mesh on our burns
-/datum/wound/burn/flesh/proc/treat_burn_flesh_wound(obj/item/stack/medical/I, mob/user)
-	user.visible_message(span_notice("[user] begins applying [I] to [victim]'s [limb.plaintext_zone]..."), span_notice("You begin applying [I] to [user == victim ? "your" : "[victim]'s"] [limb.plaintext_zone]..."))
-	if (I.amount <= 0)
+/// Checks if the wound is in a state that ointment or flesh will help
+/datum/wound/burn/flesh/proc/can_be_ointmented_or_meshed()
+	if(infestation > 0 && sanitization < infestation)
 		return TRUE
-	if(!I.try_heal(victim, user, TRUE))
+	if(flesh_damage > 0 && flesh_healing <= flesh_damage)
 		return TRUE
-	user.visible_message(span_green("[user] applies [I] to [victim]."), span_green("You apply [I] to [user == victim ? "your" : "[victim]'s"] [limb.plaintext_zone]."))
-	sanitization += I.sanitization
-	flesh_healing += I.flesh_regeneration
-
-	if((infestation <= 0 || sanitization >= infestation) && (flesh_damage <= 0 || flesh_healing > flesh_damage))
-		to_chat(user, span_notice("You've done all you can with [I], now you must wait for the flesh on [victim]'s [limb.plaintext_zone] to recover."))
-		return TRUE
-	else
-		return try_treating(I, user)
+	return FALSE
 
 /// Paramedic UV penlights
 /datum/wound/burn/flesh/proc/uv(obj/item/flashlight/pen/medical_pen, mob/user)
@@ -291,17 +289,9 @@
 
 	return TRUE
 
-/datum/wound/burn/flesh/treat(obj/item/I, mob/user)
-	if(istype(I, /obj/item/stack/medical))
-		var/obj/item/stack/medical/medical_item = I
-		if(istype(I, /obj/item/stack/medical/mesh))
-			var/obj/item/stack/medical/mesh/mesh_check = I
-			if(!mesh_check.is_open)
-				to_chat(user, span_warning("You need to open [mesh_check] first."))
-				return
-		return treat_burn_flesh_wound(medical_item, user)
-	else if(istype(I, /obj/item/flashlight/pen))
-		return uv(I, user)
+/datum/wound/burn/flesh/treat(obj/item/tool, mob/user)
+	if(istype(tool, /obj/item/flashlight/pen))
+		return uv(tool, user)
 
 // people complained about burns not healing on stasis beds, so in addition to checking if it's cured, they also get the special ability to very slowly heal on stasis beds if they have the healing effects stored
 /datum/wound/burn/flesh/on_stasis(seconds_per_tick, times_fired)

@@ -25,19 +25,20 @@
 
 	var/super_throw = FALSE
 	var/gun_flags = NONE
-	var/fire_sound = 'sound/weapons/gun/pistol/shot.ogg'
+	var/fire_sound = 'sound/items/weapons/gun/pistol/shot.ogg'
 	var/vary_fire_sound = TRUE
 	var/fire_sound_volume = 50
-	var/dry_fire_sound = 'sound/weapons/gun/general/dry_fire.ogg'
+	var/dry_fire_sound = 'sound/items/weapons/gun/general/dry_fire.ogg'
 	var/dry_fire_sound_volume = 30
 	var/suppressed = null //whether or not a message is displayed when fired
 	var/can_suppress = FALSE
-	var/suppressed_sound = 'sound/weapons/gun/general/heavy_shot_suppressed.ogg'
+	var/suppressed_sound = 'sound/items/weapons/gun/general/heavy_shot_suppressed.ogg'
 	var/suppressed_volume = 60
 	var/can_unsuppress = TRUE
 	var/recoil = 0 //boom boom shake the room
 	var/clumsy_check = TRUE
 	var/obj/item/ammo_casing/chambered = null
+	var/bullet_override = null //override the bullet fired, regardless of what bullet is in the magazine
 	trigger_guard = TRIGGER_GUARD_NORMAL //trigger guard on the weapon, hulks can't fire them with their big meaty fingers
 	var/sawn_desc = null //description change if weapon is sawn-off
 	var/sawn_off = FALSE
@@ -509,6 +510,17 @@
 			addtimer(CALLBACK(src, PROC_REF(process_burst), user, target, message, params, zone_override, sprd, randomized_gun_spread, randomized_bonus_spread, rand_spr, i), modified_delay * (i - 1))
 	else
 		if(chambered)
+			if(!isnull(bullet_override))
+				if(ispath(bullet_override, /obj/item/ammo_casing/))
+					chambered = new bullet_override
+				else if(ispath(bullet_override, /obj/projectile))
+					chambered.loaded_projectile = new bullet_override
+				else
+					var/atom/movable/item_to_shoot = new bullet_override(user.loc)
+					item_to_shoot.throw_at(target, 12, 2)
+					fire_sounds()
+					return
+
 			if(HAS_TRAIT(user, TRAIT_PACIFISM)) // If the user has the pacifist trait, then they won't be able to fire [src] if the round chambered inside of [src] is lethal.
 				if(chambered.harmful) // Is the bullet chambered harmful?
 					to_chat(user, span_warning("[src] is lethally chambered! You don't want to risk harming anyone..."))

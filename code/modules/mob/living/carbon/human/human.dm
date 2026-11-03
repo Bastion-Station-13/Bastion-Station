@@ -1,5 +1,5 @@
 /mob/living/carbon/human/Initialize(mapload)
-	add_verb(src, /mob/living/proc/mob_sleep)
+	ASSIGN_GAME_VERB(src, /mob/living, mob_sleep)
 	add_verb(src, /mob/living/proc/toggle_resting)
 
 	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
@@ -434,10 +434,7 @@
 /mob/living/carbon/human/try_inject(mob/user, target_zone, injection_flags)
 	. = ..()
 	if(!. && (injection_flags & INJECT_TRY_SHOW_ERROR_MESSAGE) && user)
-		if(!target_zone)
-			target_zone = get_bodypart(check_zone(user.zone_selected))
-		var/obj/item/bodypart/the_part = isbodypart(target_zone) ? target_zone : get_bodypart(check_zone(target_zone)) //keep these synced
-		to_chat(user, span_alert("There is no exposed flesh or thin material on [p_their()] [the_part.name]."))
+		balloon_alert(user, "no exposed skin on [target_zone || check_zone(user.zone_selected)]!")
 
 /mob/living/carbon/human/get_footprint_sprite()
 	var/obj/item/bodypart/leg/L = get_bodypart(BODY_ZONE_R_LEG) || get_bodypart(BODY_ZONE_L_LEG)
@@ -500,7 +497,11 @@
 				if(WANTED_PAROLE)
 					threatcount += 2
 				if(WANTED_SEARCH)
-					threatcount += 2
+					//On red alert, beepsky attempts to detain search warrants just like arrest warrants
+					if (SSsecurity_level.current_security_level.number_level >= SEC_LEVEL_RED)
+						threatcount += 5
+					else
+						threatcount += 2
 
 	if(istype(head, /obj/item/clothing/head/hats/tophat/syndicate))
 		threatcount += 2

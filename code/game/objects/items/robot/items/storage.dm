@@ -180,9 +180,7 @@
 	return NONE
 
 /// A right-click verb, for those not using hotkey mode.
-/obj/item/borg/apparatus/verb/verb_drop_stored_item()
-	set category = "Object"
-	set name = "Drop"
+GAME_VERB(/obj/item/borg/apparatus, verb_drop_stored_item, "Drop", "Object")
 
 	if(usr != loc || !stored)
 		return
@@ -332,8 +330,9 @@
 	whitelist_storables = list(
 		/obj/item/stack/sheet,
 		/obj/item/stack/rods,
-		/obj/item/stack/ore/bluespace_crystal,
 		/obj/item/stack/tile,
+		/obj/item/stack/conveyor,
+		/obj/item/stack/ore/bluespace_crystal,
 		/obj/item/flatpacked_machine
 	)
 
@@ -371,6 +370,7 @@
 		/obj/item/electronics,
 		/obj/item/stock_parts,
 		/obj/item/assembly,
+		/obj/item/conveyor_switch_construct,
 		/obj/item/flatpacked_machine
 	)
 	allow_electronics_interaction = TRUE

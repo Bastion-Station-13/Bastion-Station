@@ -96,9 +96,6 @@
 	rider.stamina.adjust(-instability* 3 * tony_hawk)
 	playsound(src, 'sound/effects/bang.ogg', 40, TRUE)
 	if(!iscarbon(rider) || rider.stamina.loss >= 100 || grinding || iscarbon(bumped_thing))
-		var/mob/living/carbon/carbon_rider = rider
-		if (istype(carbon_rider))
-			carbon_rider.impact_fart()
 		var/atom/throw_target = get_edge_target_turf(rider, pick(GLOB.cardinals))
 		unbuckle_mob(rider)
 		if((istype(bumped_thing, /obj/machinery/disposal/bin)))
@@ -120,7 +117,6 @@
 			if(grinding)
 				grinding_mulitipler = 2
 			victim.Knockdown(4 * grinding_mulitipler SECONDS)
-			victim.impact_fart()
 	else
 		var/backdir = turn(dir, 180)
 		step(src, backdir)
@@ -158,7 +154,7 @@
 			sparks.start() //the most radical way to start plasma fires
 	for(var/mob/living/carbon/victim in location)
 		if(victim.body_position == LYING_DOWN)
-			playsound(location, 'sound/items/trayhit2.ogg', 40)
+			playsound(location, 'sound/items/trayhit/trayhit2.ogg', 40)
 			victim.apply_damage(damage = 25, damagetype = BRUTE, def_zone = victim.get_random_valid_zone(even_weights = TRUE), wound_bonus = 20)
 			victim.Paralyze((1.5 / tony_hawk) SECONDS)
 			skater.stamina.adjust(-instability * tony_hawk)

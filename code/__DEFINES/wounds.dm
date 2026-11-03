@@ -71,12 +71,14 @@ GLOBAL_LIST_INIT(wound_severities_chronological, list(
 #define BIO_FLESH (1<<1)
 /// Has metal - allows the victim to suffer robotic blunt and burn wounds
 #define BIO_METAL (1<<2)
+/// Has wood - should probably be able to catch on fire, or something
+#define BIO_WOOD (1<<3)
 /// Is wired internally - allows the victim to suffer electrical wounds (robotic T1-T3 slash/pierce)
-#define BIO_WIRED (1<<3)
+#define BIO_WIRED (1<<4)
 /// Has bloodflow - can suffer bleeding wounds and can bleed
-#define BIO_BLOODED (1<<4)
+#define BIO_BLOODED (1<<5)
 /// Is connected by a joint - can suffer T1 bone blunt wounds (dislocation)
-#define BIO_JOINTED (1<<5)
+#define BIO_JOINTED (1<<6)
 /// Robotic - can suffer all metal/wired wounds, such as: UNIMPLEMENTED PLEASE UPDATE ONCE SYNTH WOUNDS 9/5/2023 ~Niko
 #define BIO_ROBOTIC (BIO_METAL|BIO_WIRED)
 /// Has flesh and bone - See BIO_BONE and BIO_FLESH
@@ -85,6 +87,8 @@ GLOBAL_LIST_INIT(wound_severities_chronological, list(
 #define BIO_STANDARD_UNJOINTED (BIO_FLESH_BONE|BIO_BLOODED)
 /// Standard humanoid limbs - can bleed and suffer all flesh/bone wounds, such as: T1-3 slash/pierce/burn/blunt. Can also bleed, and be dislocated. Think human arms and legs
 #define BIO_STANDARD_JOINTED (BIO_STANDARD_UNJOINTED|BIO_JOINTED)
+/// Slimy body, can have external bleeding wounds, or internal bleeding in organelles. Used for species such as oozelings that have blood but no bones to break.
+#define BIO_SLIME (BIO_FLESH|BIO_BLOODED)
 
 // "Where" a specific biostate is within a given limb
 // Interior is hard shit, the last line, shit like bones
@@ -307,8 +311,8 @@ GLOBAL_LIST_INIT(biotypes_to_scar_file, list(
 // ~random wound balance defines
 /// how quickly sanitization removes infestation and decays per second
 #define WOUND_BURN_SANITIZATION_RATE 0.075
-/// how much blood you can lose per tick per slash max.
-#define WOUND_SLASH_MAX_BLOODFLOW 4.5
+/// how much blood you can lose per tick per wound max.
+#define WOUND_MAX_BLOODFLOW 4.5
 /// further slash attacks on a bodypart with a slash wound have their blood_flow further increased by damage * this (10 damage slash adds .25 flow)
 #define WOUND_SLASH_DAMAGE_FLOW_COEFF 0.025
 /// if we suffer a bone wound to the head that creates brain traumas, the timer for the trauma cycle is +/- by this percent (0-100)

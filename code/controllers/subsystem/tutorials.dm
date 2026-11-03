@@ -1,3 +1,5 @@
+/* Tutorials currently disabled due to being broken + woefully incomplete.
+
 /// Namespace for housing code relating to giving contextual tutorials to users.
 SUBSYSTEM_DEF(tutorials)
 	name = "Tutorials"
@@ -109,3 +111,4 @@ SUBSYSTEM_DEF(tutorials)
 		return
 
 	tutorial_manager.mark_as_completed(ckey)
+*/

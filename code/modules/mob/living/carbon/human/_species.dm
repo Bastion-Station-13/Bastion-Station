@@ -171,8 +171,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	///Replaces default butt with a different organ
 	var/obj/item/organ/internal/butt/mutantbutt = /obj/item/organ/internal/butt
 
-	///Replaces default bladder with a different organ
-	var/obj/item/organ/internal/bladder/mutantbladder = /obj/item/organ/internal/bladder
 	/// Flat modifier on all damage taken via [apply_damage][/mob/living/proc/apply_damage] (so being punched, shot, etc.)
 	/// IE: 10 = 10% less damage taken.
 	var/damage_modifier = 0
@@ -363,8 +361,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			return mutantstomach
 		if(ORGAN_SLOT_BUTT)
 			return mutantbutt
-		if(ORGAN_SLOT_BLADDER)
-			return mutantbladder
 		else
 			CRASH("Invalid organ slot [slot]")
 
@@ -395,7 +391,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		ORGAN_SLOT_SPLEEN,
 		ORGAN_SLOT_STOMACH,
 		ORGAN_SLOT_BUTT,
-		ORGAN_SLOT_BLADDER,
 	)
 
 	for(var/slot in organ_slots)
@@ -750,6 +745,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			//MONKESTATION EDITS END
 
 	if(standing.len)
+		for(var/image/overlay in standing)
+			species_human.apply_height(overlay, ENTIRE_BODY)
 		species_human.overlays_standing[BODY_LAYER] = standing
 
 	species_human.apply_overlay(BODY_LAYER)
@@ -857,12 +854,12 @@ GLOBAL_LIST_EMPTY(features_by_species)
 								accessory_overlay.color = source.dna.features["animehalocolor"]
 				else
 					accessory_overlay.color = forced_colour
-			standing += accessory_overlay
+			var/list/accessory_overlays = list(accessory_overlay)
 			if(accessory.is_emissive)
-				standing += emissive_appearance_copy(accessory_overlay, source)
+				accessory_overlays += emissive_appearance_copy(accessory_overlay, source)
 
 			if(length(accessory.body_slots) || length(accessory.external_slots) || istype(source, /mob/living/carbon/human/dummy/extra_tall))
-				standing += return_accessory_layer(layer, accessory, source, accessory_overlay.color)
+				accessory_overlays += return_accessory_layer(layer, accessory, source, accessory_overlay.color)
 
 			if(accessory.hasinner)
 				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
@@ -874,9 +871,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 				if(accessory.center)
 					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)
 
-				standing += inner_accessory_overlay
+				accessory_overlays += inner_accessory_overlay
 				if(accessory.is_emissive)
-					standing += emissive_appearance_copy(accessory_overlay, source)
+					accessory_overlays += emissive_appearance_copy(accessory_overlay, source)
+
+			var/body_area = (bodypart == "ears" || bodypart == "caps") ? UPPER_BODY : ENTIRE_BODY
+			for(var/image/overlay in accessory_overlays)
+				source.apply_height(overlay, body_area)
+			standing += accessory_overlays
 
 		source.overlays_standing[layer] = standing.Copy()
 		standing = list()
@@ -1270,7 +1272,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 					target.Knockdown(200)
 				else
 					target.Knockdown(50)
-				playsound(get_turf(target), 'sound/effects/glassbr1.ogg')
+				playsound(get_turf(target), 'sound/effects/glass/glassbr1.ogg')
 		else//other attacks deal full raw damage + 1.5x in stamina damage
 			target.apply_damage(damage, attack_type, affecting, armor_block, attack_direction = attack_direction)
 			target.apply_damage(damage * 1.5, STAMINA, affecting, armor_block)
@@ -1430,7 +1432,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	to_store += mutantstomach
 	to_store += mutantappendix
 	to_store += mutantbutt
-	to_store += mutantbladder
 	//We don't cache mutant hands because it's not constrained enough, too high a potential for failure
 	return to_store
 

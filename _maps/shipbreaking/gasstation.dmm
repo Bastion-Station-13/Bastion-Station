@@ -534,7 +534,6 @@
 /turf/open/floor/mineral/titanium,
 /area/template_noop)
 "BY" = (
-/obj/effect/decal/cleanable/piss_stain,
 /obj/item/food/urinalcake,
 /turf/open/floor/iron/freezer,
 /area/template_noop)
@@ -624,7 +623,6 @@
 	pixel_y = 16
 	},
 /obj/machinery/door/window/right/directional/south,
-/obj/effect/decal/cleanable/piss_stain,
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/iron/freezer,
 /area/template_noop)
@@ -634,11 +632,6 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/space/basic,
-/area/template_noop)
-"Kg" = (
-/obj/machinery/atm/directional/north,
-/obj/effect/mapping_helpers/broken_floor,
-/turf/open/floor/plating,
 /area/template_noop)
 "Kv" = (
 /turf/closed/wall/mineral/titanium,
@@ -966,7 +959,7 @@ oA
 oA
 oA
 Kv
-Kg
+up
 ah
 ah
 uH

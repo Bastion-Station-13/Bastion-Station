@@ -59,6 +59,14 @@
 	icon_state = "meown_shoes"
 	squeak_sound = list('sound/effects/footstep/meowstep1.ogg'=1) //mew mew mew mew
 
+/obj/item/clothing/shoes/clown_shoes/moffers
+	name = "moffers"
+	desc = "No moths were harmed in the making of these slippers."
+	worn_icon = 'bastionstation/icons/mob/clothing/feet.dmi'
+	icon = 'bastionstation/icons/obj/clothing/shoes.dmi'
+	icon_state = "moffers"
+	squeak_sound = list('sound/effects/footstep/moffstep01.ogg'=1) //like sweet music to my ears
+
 /obj/item/clothing/shoes/clown_shoes/ducky_shoes
 	name = "ducky shoes"
 	desc = "I got boots, that go *quack quack quack quack quack."

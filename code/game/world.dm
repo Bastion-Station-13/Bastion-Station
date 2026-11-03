@@ -425,11 +425,16 @@ GLOBAL_VAR(restart_counter)
 		var/server_name = CONFIG_GET(string/servername)
 		if (server_name)
 			new_status += "<b>[server_name]</b> "
+		var/discordurl = CONFIG_GET(string/discordurl)
+		if(discordurl)
+			new_status += "(<a href=\"[discordurl]\">Discord</a>)"
 		if(!CONFIG_GET(flag/norespawn))
-			features += "respawn"
+			features += "Respawn enabled"
 		if(!CONFIG_GET(flag/allow_ai))
 			features += "AI disabled"
 		hostedby = CONFIG_GET(string/hostedby)
+
+	features += "Beginner friendly"
 
 	if (CONFIG_GET(flag/station_name_in_hub_entry))
 		new_status += " &#8212; <b>[station_name()]</b>"
@@ -444,16 +449,18 @@ GLOBAL_VAR(restart_counter)
 	if(length(features))
 		new_status += ": [jointext(features, ", ")]"
 
-	new_status += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
-	new_status += "<br>Roleplay: \[<b>Medium-Rare</b>\]"
+	new_status += "<br>M&RP: \[<b>Mechanics & Roleplay</b>\]"
+
+	new_status += "<br>Current Game Master: <b>[GLOB.called_gamemaster ? capitalize(GLOB.called_gamemaster) : "None"]</b>"
 
 	new_status += "<br>Time: <b>[gameTimestamp("hh:mm")]</b>"
 	if(SSmapping.current_map)
 		new_status += "<br>Map: <b>[SSmapping.current_map.map_path == CUSTOM_MAP_PATH ? "Uncharted Territory" : SSmapping.current_map.map_name]</b>"
+	/*
 	var/alert_text = SSsecurity_level.get_current_level_as_text()
 	if(alert_text)
 		new_status += "<br>Alert: <b>[capitalize(alert_text)]</b>"
-
+	*/
 	status = new_status
 
 /world/proc/update_hub_visibility(new_visibility)

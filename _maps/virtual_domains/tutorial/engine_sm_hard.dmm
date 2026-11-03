@@ -1112,10 +1112,6 @@
 	},
 /turf/open/floor/iron/freezer,
 /area/virtual_domain/powered_lighting)
-"QI" = (
-/obj/effect/decal/cleanable/piss_stain,
-/turf/open/floor/plastic,
-/area/virtual_domain/powered_lighting)
 "QY" = (
 /turf/open/space/basic,
 /area/space)
@@ -1868,7 +1864,7 @@ Ra
 xb
 xF
 XL
-QI
+xb
 Ra
 Bx
 jD

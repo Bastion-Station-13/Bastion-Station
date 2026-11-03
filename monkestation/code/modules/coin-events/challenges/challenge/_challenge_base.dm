@@ -1,8 +1,6 @@
 /datum/challenge
 	///the challenge name
 	var/challenge_name = "God's Weakest Challenge"
-	///the challenge payout
-	var/challenge_payout = 100
 	///our host
 	var/datum/persistent_client/host
 	///have we failed if we are a fail action

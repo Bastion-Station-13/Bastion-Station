@@ -54,15 +54,6 @@
 ///Third Borg module slot.
 #define BORG_CHOOSE_MODULE_THREE 3
 
-#define SKIN_ICON "skin_icon"
-#define SKIN_ICON_STATE "skin_icon_state"
-#define SKIN_PIXEL_X "skin_pixel_x"
-#define SKIN_PIXEL_Y "skin_pixel_y"
-#define SKIN_LIGHT_KEY "skin_light_key"
-#define SKIN_HAT_OFFSET "skin_hat_offset"
-#define SKIN_BADGE_OFFSET "skin_badge_offset"
-#define SKIN_TRAITS "skin_traits"
-
 /** Simple Animal BOT defines */
 
 //Assembly defines
@@ -161,6 +152,8 @@ DEFINE_BITFIELD(bot_cover_flags, list(
 #define BOT_IDLE "Idle"
 /// Found target, hunting
 #define BOT_HUNT "In Pursuit"
+/// Found target on green alert, 'hunting' to annoy them
+#define BOT_GREEN_HUNT "In Warning Pursuit"
 /// Start patrol
 #define BOT_START_PATROL "Beginning Patrol"
 /// Patrolling

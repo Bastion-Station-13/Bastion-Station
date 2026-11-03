@@ -20,7 +20,7 @@
 
 /datum/antagonist/ert/generic/greet()
 	..()
-	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ert.ogg', 100, 0, use_reverb = FALSE)
+	owner.current.playsound_local(get_turf(owner.current), 'sound/music/antag/ert.ogg', 100, 0, use_reverb = FALSE)
 
 /datum/outfit/centcom/ert/generic
 	name = "Emergency Response Officer"
@@ -595,13 +595,6 @@
 		QDEL_NULL(butt)
 		butt = new/obj/item/organ/internal/butt/clown
 		butt.Insert(H)
-
-	var/obj/item/organ/internal/bladder/bladder = H.get_organ_slot(ORGAN_SLOT_BLADDER)
-	if(bladder)
-		bladder.Remove(H, 1)
-		QDEL_NULL(bladder)
-		bladder = new/obj/item/organ/internal/bladder/clown
-		bladder.Insert(H)
 
 /datum/antagonist/ert/generic/clown/funny
 	name = "Code Honk! Entertainment Response Officer"

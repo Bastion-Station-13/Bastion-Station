@@ -40,7 +40,7 @@
 	add_verb(src, /mob/living/proc/toggle_resting)
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
-/mob/living/basic/mothroach/toggle_resting()
+/mob/living/basic/mothroach/set_resting(new_resting, silent, instant)
 	. = ..()
 	if(stat == DEAD)
 		return
@@ -55,14 +55,14 @@
 	if(src.stat == DEAD)
 		return
 	else
-		playsound(loc, 'sound/voice/moth/scream_moth.ogg', 50, TRUE)
+		playsound(loc, 'sound/mobs/humanoids/moth/scream_moth.ogg', 50, TRUE)
 
 /mob/living/basic/mothroach/attackby(obj/item/attacking_item, mob/living/user, params)
 	. = ..()
 	if(src.stat == DEAD)
 		return
 	else
-		playsound(loc, 'sound/voice/moth/scream_moth.ogg', 50, TRUE)
+		playsound(loc, 'sound/mobs/humanoids/moth/scream_moth.ogg', 50, TRUE)
 
 /datum/ai_controller/basic_controller/mothroach
 	blackboard = list()

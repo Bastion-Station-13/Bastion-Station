@@ -17,9 +17,9 @@
 	mecha_attacker.do_attack_animation(src)
 	switch(mecha_attacker.damtype)
 		if(BRUTE)
-			playsound(src, 'sound/weapons/punch4.ogg', 50, TRUE)
+			playsound(src, 'sound/items/weapons/punch4.ogg', 50, TRUE)
 		if(BURN)
-			playsound(src, 'sound/items/welder.ogg', 50, TRUE)
+			playsound(src, 'sound/items/tools/welder.ogg', 50, TRUE)
 		else
 			return 0
 	mecha_attacker.visible_message(span_danger("[mecha_attacker] hits [src]!"), span_danger("You hit [src]!"), null, COMBAT_MESSAGE_RANGE)
@@ -35,9 +35,9 @@
 	mecha_attacker.do_attack_animation(src)
 	switch(mecha_attacker.damtype)
 		if(BRUTE)
-			playsound(src, 'sound/weapons/punch4.ogg', 50, TRUE)
+			playsound(src, 'sound/items/weapons/punch4.ogg', 50, TRUE)
 		if(BURN)
-			playsound(src, 'sound/items/welder.ogg', 50, TRUE)
+			playsound(src, 'sound/items/tools/welder.ogg', 50, TRUE)
 		else
 			return 0
 	mecha_attacker.visible_message(span_danger("[mecha_attacker] hits [src]!"), span_danger("You hit [src]!"), null, COMBAT_MESSAGE_RANGE)
@@ -57,6 +57,13 @@
 						span_warning("[mecha_attacker] pushes you out of the way."), span_hear("You hear aggressive shuffling!"), 5, list(mecha_attacker))
 		to_chat(mecha_attacker, span_danger("You push [src] out of the way."))
 		return 0
+
+	// Shakes off any desant if hit
+	if(buckled == mecha_attacker)
+		var/turf/shaketarget = get_edge_target_turf(src, pick(NORTH, SOUTH, EAST, WEST))
+		mecha_attacker.unbuckle_mob(src, TRUE)
+		Knockdown(1 SECONDS)
+		src.throw_at(shaketarget, 1, 2, src)
 
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("You don't want to harm other living beings!"))
@@ -82,10 +89,10 @@
 					Knockdown(4.5 SECONDS)
 					src.throw_at(throwtarget, 1, 1, src)
 					selected_zone.receive_damage((dmg * 0.15), 0, updating_health = TRUE)
-				playsound(src, 'sound/weapons/punch4.ogg', 50, TRUE)
+				playsound(src, 'sound/items/weapons/punch4.ogg', 50, TRUE)
 			if(FIRE)
 				selected_zone.receive_damage(0, dmg, updating_health = TRUE)
-				playsound(src, 'sound/items/welder.ogg', 50, TRUE)
+				playsound(src, 'sound/items/tools/welder.ogg', 50, TRUE)
 			if(TOX)
 				playsound(src, 'sound/effects/spray2.ogg', 50, TRUE)
 				if((reagents.get_reagent_amount(/datum/reagent/cryptobiolin) + mecha_attacker.force) < mecha_attacker.force*2)

@@ -297,11 +297,16 @@
 /obj/item/storage/lockbox/order/Initialize(mapload, datum/bank_account/_buyer_account)
 	. = ..()
 	buyer_account = _buyer_account
+	if(IS_DEPARTMENTAL_ACCOUNT(buyer_account))
+		department_purchase = TRUE
+		department_account = buyer_account
 	ADD_TRAIT(src, TRAIT_NO_MISSING_ITEM_ERROR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NO_MANIFEST_CONTENTS_ERROR, TRAIT_GENERIC)
 
 /obj/item/storage/lockbox/order/can_unlock(mob/living/user, obj/item/card/id/id_card, silent = FALSE)
 	if(id_card.registered_account == buyer_account)
+		return TRUE
+	if(department_purchase && id_card.registered_account?.account_job?.paycheck_department == department_account.department_id)
 		return TRUE
 	if(!silent)
 		balloon_alert(user, "incorrect bank account!")

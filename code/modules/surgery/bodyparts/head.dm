@@ -1,7 +1,7 @@
 /obj/item/bodypart/head
 	name = BODY_ZONE_HEAD
 	desc = "Didn't make sense not to live for fun, your brain gets smart but your head gets dumb."
-	icon = 'icons/mob/species/human/bodyparts.dmi'
+	icon = 'icons/mob/human/bodyparts.dmi'
 	icon_state = "default_human_head"
 	max_damage = 200
 	body_zone = BODY_ZONE_HEAD
@@ -20,8 +20,8 @@
 	is_dimorphic = TRUE
 	unarmed_attack_verb = "bite"
 	unarmed_attack_effect = ATTACK_EFFECT_BITE
-	unarmed_attack_sound = 'sound/weapons/bite.ogg'
-	unarmed_miss_sound = 'sound/weapons/bite.ogg'
+	unarmed_attack_sound = 'sound/items/weapons/bite.ogg'
+	unarmed_miss_sound = 'sound/items/weapons/bite.ogg'
 	unarmed_damage_low = 1 // Yeah, biteing is pretty weak, blame the monkey super-nerf
 	unarmed_damage_high = 3
 	unarmed_stun_threshold = 4
@@ -171,17 +171,19 @@
 	var/atom/drop_loc = drop_location()
 	for(var/obj/item/head_item in src)
 		if(head_item == brain)
+			var/obj/item/organ/internal/brain/dropped_brain = brain
 			if(user)
 				user.visible_message(span_warning("[user] saws [src] open and pulls out a brain!"), span_notice("You saw [src] open and pull out a brain."))
 			if(brainmob)
+				var/mob/living/brain/brainmob_to_transfer = brainmob
 				brainmob.container = null
-				brainmob.forceMove(brain)
-				brain.brainmob = brainmob
-				brainmob = null
+				brainmob = null // brainmob needs to be null before the brain is moved.
+				brainmob_to_transfer.forceMove(dropped_brain) // brain variable becomes null here after it is moved.
+				dropped_brain.brainmob = brainmob_to_transfer
 			if(violent_removal && prob(rand(80, 100))) //ghetto surgery can damage the brain.
 				to_chat(user, span_warning("[brain] was damaged in the process!"))
-				brain.set_organ_damage(brain.maxHealth)
-			brain.forceMove(drop_loc)
+				dropped_brain.set_organ_damage(dropped_brain.maxHealth)
+			dropped_brain.forceMove(drop_loc)
 			brain = null
 			update_icon_dropped()
 		else
@@ -214,13 +216,17 @@
 /obj/item/bodypart/head/get_limb_icon(dropped, mob/living/carbon/update_on)
 	. = ..()
 
-	. += get_hair_and_lips_icon(dropped)
+	var/list/hair_and_lips = get_hair_and_lips_icon(dropped)
+	if(!dropped && !isnull(owner))
+		for(var/image/hair_overlay in hair_and_lips)
+			owner.apply_height(hair_overlay, ENTIRE_BODY)
+	. += hair_and_lips
 	// We need to get the eyes if we are dropped (ugh)
 	if(dropped)
 		// eyes
 		// This is a bit of copy/paste code from eyes.dm:generate_body_overlay
 		if(eyes?.eye_icon_state && (head_flags & HEAD_EYESPRITES))
-			var/eye_icon = owner?.dna?.species.eyes_icon || 'icons/mob/species/human/human_face.dmi' //Non-Modular change - Gives modular eye icons for certain species.
+			var/eye_icon = owner?.dna?.species.eyes_icon || 'bastionstation/icons/mob/species/human/human_face.dmi' //Bastion station change, put your species eyes here instead of the old file or else it'll sprite error when they're decapitated!!
 			var/image/eye_left = image(eye_icon, "[eyes.eye_icon_state]_l", -BODY_LAYER, SOUTH)
 			var/image/eye_right = image(eye_icon, "[eyes.eye_icon_state]_r", -BODY_LAYER, SOUTH)
 			if(head_flags & HEAD_EYECOLOR)
@@ -273,8 +279,8 @@
 */
 
 /obj/item/bodypart/head/alien
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "alien_head"
 	limb_id = BODYPART_ID_ALIEN
 	is_dimorphic = FALSE
@@ -286,8 +292,8 @@
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
 
 /obj/item/bodypart/head/larva
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "larva_head"
 	limb_id = BODYPART_ID_LARVA
 	is_dimorphic = FALSE

@@ -52,6 +52,7 @@
 		subsystem = locate(life_subsystem_type) in Master.subsystems
 	STOP_PROCESSING(subsystem, src)
 	GLOB.infected_contact_mobs -= src
+	clear_pathogen_image()
 	if(imaginary_group)
 		imaginary_group -= src
 		QDEL_LIST(imaginary_group)
@@ -387,7 +388,7 @@
 	SEND_SIGNAL(src, COMSIG_LIVING_START_PULL, AM, state, force)
 
 	if(!supress_message)
-		var/sound_to_play = 'sound/weapons/thudswoosh.ogg'
+		var/sound_to_play = 'sound/items/weapons/thudswoosh.ogg'
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna.species.grab_sound)
@@ -486,12 +487,10 @@
 
 //mob verbs are a lot faster than object verbs
 //for more info on why this is not atom/pull, see examinate() in mob.dm
-/mob/living/verb/pulled(atom/movable/AM as mob|obj in oview(1))
-	set name = "Pull"
-	set category = "Object"
-
-	if(istype(AM) && Adjacent(AM))
-		start_pulling(AM)
+GAME_VERB_CONTEXT_RANGE(/mob/living, pulled, "Pull", "", "Object", /atom/movable, oview(1))
+	VERB_ARG_TYPED_RANGE(thing_pulled, VERB_ARG_TYPE_MOB | VERB_ARG_TYPE_OBJ, VERB_ARG_SOURCE_VIEW, /atom/movable, 1)
+	if(istype(thing_pulled) && Adjacent(thing_pulled))
+		start_pulling(thing_pulled)
 	else if(!(istate & ISTATE_HARM)) //Don;'t cancel pulls if misclicking in combat mode.
 		stop_pulling()
 
@@ -503,9 +502,8 @@
 	update_pull_movespeed()
 	update_pull_hud_icon()
 
-/mob/living/verb/stop_pulling1()
-	set name = "Stop Pulling"
-	set category = "IC"
+GAME_VERB(/mob/living, stop_pulling1, "Stop Pulling", "IC")
+
 	stop_pulling()
 
 //same as above
@@ -522,8 +520,9 @@
 	log_message("points at [pointing_at]", LOG_EMOTE)
 	visible_message("<span class='infoplain'>[span_name("[src]")] points at [pointing_at].</span>", span_notice("You point at [pointing_at]."))
 
-/mob/living/verb/succumb(whispered as null)
-	set hidden = TRUE
+GAME_VERB_HIDDEN(/mob/living, succumb, "succumb")
+	VERB_ARG(whispered, VERB_ARG_TYPE_NUM, VERB_ARG_SOURCE_INPUT)
+
 	if (!CAN_SUCCUMB(src))
 		if(HAS_TRAIT(src, TRAIT_SUCCUMB_OVERRIDE))
 			if(whispered)
@@ -596,9 +595,7 @@
 
 // MOB PROCS //END
 
-/mob/living/proc/mob_sleep()
-	set name = "Sleep"
-	set category = "IC"
+GAME_VERB(/mob/living, mob_sleep, "Sleep", "IC")
 
 	if(IsSleeping())
 		to_chat(src, span_warning("You are already sleeping!"))
@@ -653,9 +650,7 @@
 		account = I.registered_account
 		return account
 
-/mob/living/proc/toggle_resting()
-	set name = "Rest"
-	set category = "IC"
+GAME_VERB_PROC(/mob/living, toggle_resting, "Rest", "IC")
 
 	set_resting(!resting, FALSE)
 
@@ -885,6 +880,9 @@
 	// The signal is called after everything else so components can properly check the updated values
 	SEND_SIGNAL(src, COMSIG_LIVING_REVIVE, full_heal_flags)
 
+	if(persistent_client)
+		COOLDOWN_RESET(persistent_client, respawn_timer)
+
 /**
  * Heals up the mob up to [heal_to] of the main damage types.
  * EX: If heal_to is 50, and they have 150 brute damage, they will heal 100 brute (up to 50 brute damage)
@@ -1095,10 +1093,7 @@
 		return FALSE
 	return TRUE
 
-/mob/living/verb/resist()
-	set name = "Resist"
-	set category = "IC"
-
+/mob/living/proc/resist()
 	DEFAULT_QUEUE_OR_CALL_VERB(VERB_CALLBACK(src, PROC_REF(execute_resist)))
 
 ///proc extender of [/mob/living/verb/resist] meant to make the process queable if the server is overloaded when the verb is called
@@ -1379,7 +1374,7 @@
 	if(G.trigger_guard != TRIGGER_GUARD_ALLOW_ALL && (!ISADVANCEDTOOLUSER(src) && !HAS_TRAIT(src, TRAIT_GUN_NATURAL)))
 		to_chat(src, span_warning("You try to fire [G], but can't use the trigger!"))
 		return FALSE
-	if(G.trigger_guard == TRIGGER_GUARD_NORMAL && HAS_TRAIT(src, TRAIT_CHUNKYFINGERS))
+	if(G.trigger_guard == TRIGGER_GUARD_NORMAL && HAS_TRAIT(src, TRAIT_CHUNKYFINGERS) && is_holding(G)) // not in our hands means telekinesis, so no fingers involved
 		balloon_alert(src, "fingers are too big!")
 		return FALSE
 	return TRUE
@@ -1837,8 +1832,8 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 	SEND_SIGNAL(src, COMSIG_MOB_PICKED_UP, user, holder) // monkestation edit: COMSIG_MOB_PICKED_UP
 
 /mob/living/proc/set_name()
-	numba = rand(1, 1000)
-	name = "[name] ([numba])"
+	identifier = rand(1, 999)
+	name = "[name] ([identifier])"
 	real_name = name
 
 /mob/living/proc/mob_try_pickup(mob/living/user, instant=FALSE)
