@@ -68,8 +68,6 @@
 	bullet = 5
 	laser = 5
 
-#warn clarke pickup body HUD sprite, marauder smoke not work, paddy siren HUD sprite, clarke sleeper/paddy claw sprite, mech rcd animation is off,
-
 /obj/vehicle/sealed/mecha/ripley/mk2
 	desc = "Autonomous Power Loader Unit MK-II. This prototype Ripley is refitted with a pressurized cabin, trading its prior speed for atmospheric protection and armor."
 	name = "\improper APLU MK-II \"Ripley\""
