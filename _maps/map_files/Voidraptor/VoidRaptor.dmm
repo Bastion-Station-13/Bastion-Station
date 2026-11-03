@@ -38534,6 +38534,7 @@
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
 	},
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/iron/dark/textured_corner{
 	dir = 1
 	},

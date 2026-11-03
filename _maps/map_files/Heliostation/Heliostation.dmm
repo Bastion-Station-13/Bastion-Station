@@ -29845,6 +29845,14 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron/white,
 /area/station/medical/chemistry)
+"esu" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/mob/living/basic/mothroach/moffioso,
+/turf/open/floor/iron,
+/area/station/security/prison)
 "esw" = (
 /obj/structure/chair/sofa/right/brown{
 	desc = "Made of very expensive furs, probably from an endangered animal.";
@@ -103608,7 +103616,7 @@ ulM
 vMa
 bFO
 agk
-bFO
+esu
 exl
 pQc
 bFO

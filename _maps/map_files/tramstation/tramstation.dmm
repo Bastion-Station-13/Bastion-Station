@@ -22925,7 +22925,7 @@
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
 	},
-/mob/living/carbon/human/species/monkey/dukeman,
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/iron,
 /area/station/security/prison)
 "gcE" = (
