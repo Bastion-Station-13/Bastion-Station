@@ -1,6 +1,7 @@
 /obj/vehicle/sealed/mecha/ripley
 	desc = "Autonomous Power Loader Unit MK-I. Designed primarily around heavy lifting, the Ripley can be outfitted with utility equipment to fill a number of roles."
 	name = "\improper APLU MK-I \"Ripley\""
+	icon = 'icons/mecha/mecha.dmi'
 	icon_state = "ripley"
 	base_icon_state = "ripley"
 	silicon_icon_state = "ripley-empty"

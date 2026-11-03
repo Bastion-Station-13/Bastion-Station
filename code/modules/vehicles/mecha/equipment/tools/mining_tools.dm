@@ -19,6 +19,7 @@
 	tool_behaviour = TOOL_DRILL
 	toolspeed = 0.9
 	mech_flags = EXOSUIT_MODULE_WORKING | EXOSUIT_MODULE_COMBAT
+	movedelay = 0.2
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5)
 	var/drill_delay = 7
 	var/drill_level = DRILL_BASIC
@@ -213,7 +214,7 @@
 		def_zone,
 		blocked = target.run_armor_check(def_zone, MELEE),
 		wound_bonus = 30,
-		exposed_wound_bonus = 50,
+		bare_wound_bonus = 50,
 		sharpness = SHARP_POINTY
 	)
 
@@ -224,7 +225,7 @@
 	name = "diamond-tipped exosuit drill"
 	desc = "Equipment for engineering and combat exosuits. This is an upgraded version of the drill that'll pierce the heavens!"
 	icon_state = "mecha_diamond_drill"
-	equip_cooldown = 10
+	equip_cooldown = 1 SECONDS
 	drill_delay = 4
 	drill_level = DRILL_HARDENED
 	force = 15
@@ -238,6 +239,7 @@
 	equip_cooldown = 1.5 SECONDS
 	equipment_slot = MECHA_UTILITY
 	mech_flags = EXOSUIT_MODULE_WORKING
+	movedelay = 0.2
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 2.5, /datum/material/glass = SHEET_MATERIAL_AMOUNT * 1.25)
 	var/scanning_time = 0
 	COOLDOWN_DECLARE(area_scan_cooldown)
@@ -291,6 +293,7 @@
 	desc = "what looks to be a drill atleast the size of you, tears through anything like butter."
 	equip_cooldown = 1 SECONDS // it is not slow as shit
 	force = 15 // force low or it 1 taps.
+	movedelay = 0.3
 	mech_flags = EXOSUIT_MODULE_DRILL
 	drill_level = DRILL_HARDENED
 	drill_delay = 1.2

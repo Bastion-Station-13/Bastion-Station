@@ -80,7 +80,7 @@
 	///How much energy we drain each time we mechpunch someone
 	var/melee_energy_drain = 15
 	///Power we use to have the lights on
-	var/light_energy_drain = 2
+	var/light_power_drain = 2
 	///Modifiers for directional damage reduction
 	var/list/facing_modifiers = list(MECHA_FRONT_ARMOUR = 0.5, MECHA_SIDE_ARMOUR = 1, MECHA_BACK_ARMOUR = 1.5)
 	/// If we cant use our equipment(such as due to EMP)
