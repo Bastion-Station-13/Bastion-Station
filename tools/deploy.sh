@@ -20,7 +20,8 @@ mkdir -p \
     $1/tgui/public \
     $1/tgui/packages/tgfont/dist \
     $1/goon/icons \
-    $1/monkestation/code
+    $1/monkestation/code \
+    $1/bastionstation
 
 if [ -d ".git" ]; then
   mkdir -p $1/.git/logs
@@ -38,6 +39,7 @@ cp -r tgui/public/* $1/tgui/public/
 cp -r tgui/packages/tgfont/dist/* $1/tgui/packages/tgfont/dist/
 cp -r goon/icons/* $1/goon/icons/
 cp -r monkestation/code/* $1/monkestation/code/
+cp -r bastionstation/* $1/bastionstation/
 
 #remove .dm files from _maps
 

@@ -1,6 +1,7 @@
 /datum/component/carbon_sprint
 	var/mob/living/carbon/carbon_parent
 	var/sprinting = FALSE
+	var/key_held = FALSE
 	var/sustained_moves = 0
 	var/sprint_stamina_modifier = 1
 	var/last_dust
@@ -19,6 +20,7 @@
 
 /datum/component/carbon_sprint/UnregisterFromParent()
 	. = ..()
+	key_held = FALSE
 	UnregisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE)
 	UnregisterSignal(carbon_parent, COMSIG_KB_CARBON_SPRINT_DOWN)
 	UnregisterSignal(carbon_parent, COMSIG_KB_CARBON_SPRINT_UP)
@@ -65,9 +67,13 @@
 		stopSprint()
 
 /datum/component/carbon_sprint/proc/keyDown()
+	if(key_held)
+		return
+	key_held = TRUE
 	RegisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE, PROC_REF(onMobMove))
 
 /datum/component/carbon_sprint/proc/keyUp()
+	key_held = FALSE
 	UnregisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE)
 	stopSprint()
 

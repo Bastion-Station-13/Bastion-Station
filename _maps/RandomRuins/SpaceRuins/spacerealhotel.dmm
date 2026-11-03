@@ -4065,14 +4065,6 @@
 	dir = 8
 	},
 /area/ruin/space/has_grav/hotel)
-"Oo" = (
-/obj/machinery/light/directional/east,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm/directional/east,
-/turf/open/floor/wood/tile,
-/area/ruin/space/has_grav/hotel)
 "Ou" = (
 /obj/machinery/light/directional/north,
 /obj/item/kirbyplants{
@@ -7928,7 +7920,7 @@ Gn
 Gn
 rN
 Am
-Oo
+qc
 QS
 Am
 Am

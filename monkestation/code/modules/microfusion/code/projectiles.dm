@@ -16,7 +16,7 @@
 /obj/projectile/beam/laser/microfusion
 	name = "microfusion laser"
 	icon = 'monkestation/code/modules/microfusion/icons/projectiles.dmi'
-	damage = 22
+	damage = 24
 
 //Currently unused - needs to have stamina dmg re-balanced if it's ever added in
 /obj/projectile/beam/microfusion_disabler
@@ -26,7 +26,7 @@
 	damage = 41
 	damage_type = STAMINA
 	armor_flag = ENERGY
-	hitsound = 'sound/weapons/tap.ogg'
+	hitsound = 'sound/items/weapons/tap.ogg'
 	eyeblur = 0
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
 	light_color = LIGHT_COLOR_BLUE
@@ -92,7 +92,7 @@
 	color = COLOR_VIVID_YELLOW
 	light_color = COLOR_VIVID_YELLOW
 	damage_type = STAMINA
-	damage = 22
+	damage = 24
 	armor_flag = ENERGY
 	hitsound = 'sound/misc/slip.ogg'
 	impact_type = /obj/effect/projectile/impact/disabler

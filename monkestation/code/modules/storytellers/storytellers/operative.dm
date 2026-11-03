@@ -18,6 +18,6 @@
 		EVENT_TRACK_OBJECTIVES = 1
 		)
 	tag_multipliers = list(TAG_ALIEN = 0.4, TAG_CREW_ANTAG = 1.1)
-	population_min = 50
+	population_min = 40
 	weight = 1
 	base_antag_points = -5

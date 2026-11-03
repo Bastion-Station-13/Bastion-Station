@@ -268,6 +268,10 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_HARDLY_WOUNDED "hard_limb_wound"
 #define TRAIT_NEVER_WOUNDED "never_wounded"
 #define TRAIT_NO_HUSK "no_husk"
+
+/// This trait lets you attach limbs to any player without surgery.
+#define TRAIT_EASY_ATTACH "easy_attach"
+
 /// Mob recovers from addictions at an accelerated rate
 #define TRAIT_ADDICTIONRESILIENT "addiction_resilient"
 #define TRAIT_TOXINLOVER "toxinlover"
