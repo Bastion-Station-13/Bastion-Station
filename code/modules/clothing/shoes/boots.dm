@@ -23,6 +23,7 @@
 	. = ..()
 
 	create_storage(storage_type = /datum/storage/pockets/shoes)
+	AddComponent(/datum/component/shoesteps/combine_boot_sounds)
 
 /obj/item/clothing/shoes/combat/swat //overpowered boots for death squads
 	name = "\improper SWAT boots"

@@ -14,9 +14,6 @@
 	exp_granted_type = EXP_TYPE_CREW
 	config_tag = "BLUESHIELD"
 
-	allow_bureaucratic_error = FALSE
-	allow_overflow = FALSE
-
 	outfit = /datum/outfit/job/blueshield
 	plasmaman_outfit = /datum/outfit/plasmaman/blueshield
 

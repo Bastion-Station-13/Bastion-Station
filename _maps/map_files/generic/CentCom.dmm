@@ -18914,7 +18914,7 @@
 /turf/open/misc/asteroid/snow/airless,
 /area/centcom/syndicate_mothership)
 "aZK" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/iron/white,
 /area/centcom/wizard_station)
 "aZL" = (
@@ -22086,7 +22086,7 @@
 	pixel_y = -32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/fakespace,
 /area/centcom/central_command_areas/adminroom)
 "fFk" = (
@@ -24968,7 +24968,7 @@
 	pixel_y = -32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/adminroom)
 "jED" = (
@@ -25425,7 +25425,7 @@
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/evacuation)
 "kmg" = (
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/machinery/light/floor/has_bulb,
 /turf/open/floor/fakespace,
 /area/centcom/central_command_areas/adminroom)
@@ -27735,7 +27735,6 @@
 	pixel_y = 5
 	},
 /obj/structure/table,
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/arcade)
 "ocJ" = (
@@ -32090,7 +32089,7 @@
 	pixel_y = 32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /obj/structure/railing/wood{
 	color = "#55342b"
 	},
@@ -32743,7 +32742,7 @@
 	pixel_y = -32;
 	layer = 2.8
 	},
-/obj/structure/bookcase/random/adult,
+/obj/structure/bookcase/random/poetry,
 /turf/open/floor/carpet/purple,
 /area/centcom/central_command_areas/adminroom)
 "vNP" = (

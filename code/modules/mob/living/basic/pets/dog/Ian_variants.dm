@@ -4,7 +4,7 @@
 /datum/ian_variant
 	var/name = "Ian"
 	var/desc = "He's the HoP's beloved corgi."
-	var/icon = 'icons/mob/simple/pets.dmi'
+	var/icon = 'bastionstation/icons/mob/simple/pets.dmi'
 	var/base_icon_state = "corgi"
 	var/icon_living = "corgi"
 	var/icon_dead = "corgi_dead"

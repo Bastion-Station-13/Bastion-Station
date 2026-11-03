@@ -166,8 +166,8 @@
 
 		var/obscured = parent.check_obscured_slots(TRUE)
 		if(overlay_ignore_lighting && !(obscured & ITEM_SLOT_EYES))
-			overlays += emissive_appearance_copy(eye_left, src, NONE)
-			overlays += emissive_appearance_copy(eye_right, src, NONE)
+			overlays += emissive_appearance_copy(eye_left, parent, NONE)
+			overlays += emissive_appearance_copy(eye_right, parent, NONE)
 
 		if(my_head?.worn_face_offset)
 			for(var/mutable_appearance/overlay in overlays)
@@ -701,6 +701,16 @@
 	desc = "These eyes seem to have increased sensitivity to bright light, with no improvement to low light vision."
 	eye_icon_state = "motheyes"
 	icon_state = "eyeballs-moth"
+	flash_protect = FLASH_PROTECTION_SENSITIVE
+	overlay_ignore_lighting = TRUE
+
+/obj/item/organ/internal/eyes/shadekin
+	name = "shadekin eyes"
+	desc = "The eyes of a shadekin, you heard they are adapted to darkness better than most other species, however they are also more sensitive to light."
+	icon = 'bastionstation/icons/obj/medical/organs/organs.dmi'
+	eye_icon_state = "shadekin_eyes"
+	icon_state = "eyeballs-shadekin"
+	lighting_cutoff = LIGHTING_CUTOFF_MEDIUM
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
 

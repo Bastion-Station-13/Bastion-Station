@@ -26,7 +26,6 @@
 	// monkestation start
 	expected_types += /obj/item/stamp/qm
 	expected_types += /obj/item/radio/radio_mic
-	expected_types += /obj/machinery/atm
 	expected_types += /obj/machinery/cassette_deck
 	expected_types += /obj/machinery/dj_station
 	expected_types += /obj/machinery/cassette_postbox
@@ -34,6 +33,7 @@
 	expected_types += /obj/machinery/station_map/engineering
 	expected_types += /obj/structure/cassette_rack/prefilled
 	expected_types += /obj/effect/landmark/start/gary
+	expected_types += /mob/living/basic/mothroach/moffioso
 	ignored_types  += /obj/machinery/cryopod/prison
 	// monkestation end
 

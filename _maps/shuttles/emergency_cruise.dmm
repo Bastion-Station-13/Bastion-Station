@@ -1112,10 +1112,6 @@
 /obj/structure/table/reinforced/plastitaniumglass,
 /turf/open/floor/plastic,
 /area/shuttle/escape/luxury)
-"uQ" = (
-/obj/machinery/atm/directional/north,
-/turf/open/floor/wood/tile,
-/area/shuttle/escape)
 "uV" = (
 /turf/closed/wall/mineral/plastitanium,
 /area/shuttle/escape)
@@ -3019,7 +3015,7 @@ Cy
 YZ
 YZ
 YZ
-uQ
+xf
 xf
 xf
 Dq

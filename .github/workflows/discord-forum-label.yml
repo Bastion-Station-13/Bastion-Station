@@ -1,0 +1,69 @@
+# Created by Ossa/SYNAPSE
+name: Create Discord Forum for PR
+
+# Controls when the workflow will run
+# Use of pull_request_target is so the workflow can access the secret webhook. Will only run from the main repo, not forks.
+# Runs only when something is labeled
+on:
+  pull_request_target:
+    types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  create-forum-post:
+    # Since all labels will be detected by the on request
+    # This will ensure the job only runs when we apply a 'Needs Discussion Thread' label to a PR
+    # Label is case sensitive, so make sure to use the exact label name
+    if: github.event.label.name == 'Needs Discussion Thread'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Discord Forum Post
+        env:
+          # This is the secret created with the FOURMS webhook URL
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        # The CLEAN_BODY is just to shorten down the PR-Body to a snippet of the first 10 lines. Should ignore hidden GitHub text.
+        run: |
+          set -e
+
+          # Prepare a short snippet of the PR body
+          CLEAN_BODY=$(echo "$PR_BODY" | head -n 10)
+
+          # Build JSON payload
+          JSON_PAYLOAD=$(cat <<JSON
+          {
+            "thread_name": "PR #${PR_NUMBER} - ${PR_TITLE}",
+            "content": "**New PR Discussion Opened!**\n\n**Author:** ${PR_USER}\n**Link:** ${PR_URL}"
+          }
+          JSON
+          )
+
+          # Send to Discord webhook
+          curl -sS -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK_URL"
+
+      - name: Comment Discord Discussion Link on PR
+        uses: actions/github-script@v7
+        env:
+          # The Discord PR Discussion URL Secret
+          # Made this a secret so that downstream using the same workflow do not link BastionSS13's PR discussion thread, and can just use their own instead.
+          DISCORD_PR_DISCUSSION_URL: ${{ secrets.DISCORD_PR_DISCUSSION_URL }}
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const discordUrl = process.env.DISCORD_PR_DISCUSSION_URL;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: `A discord discussion thread has been opened for this PR in #pr-discussion:\n${discordUrl}`,
+            });

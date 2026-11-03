@@ -1,0 +1,6 @@
+author: "chumtoad154"
+delete-after: True
+changes:
+  - rscadd: "Marish, a unique language for shadekin"
+  - bugfix: "fixed a few bugs related to their sprites"
+  - code_imp: "updated eye_icon to point to bastionstation/icons/mob/species/human/human_face.dmi because asset modularization"

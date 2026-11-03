@@ -79,8 +79,8 @@
 	name = "\improper Detective's Office"
 	icon_state = "detective"
 	ambientsounds = list(
-		'sound/ambience/ambidet1.ogg',
-		'sound/ambience/ambidet2.ogg',
+		'sound/ambience/security/ambidet1.ogg',
+		'sound/ambience/security/ambidet2.ogg',
 		)
 
 /area/station/security/detectives_office/private_investigators_office
@@ -108,6 +108,7 @@
 
 /area/station/security/mechbay
 	name = "Security Mechbay"
+	icon = 'bastionstation/icons/area/areas_station.dmi'
 	icon_state = "sec_mechbay"
 
 /*

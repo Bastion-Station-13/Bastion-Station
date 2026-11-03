@@ -19,7 +19,7 @@
 	///How much base damage this clamp does
 	var/clamp_damage = 20
 	///Audio for using the hydraulic clamp
-	var/clampsound = 'sound/mecha/hydraulic.ogg'
+	var/clampsound = 'sound/vehicles/mecha/hydraulic.ogg'
 	///Chassis but typed for the cargo_hold var
 	var/obj/vehicle/sealed/mecha/ripley/workmech
 
@@ -408,6 +408,7 @@
 /obj/item/mecha_parts/mecha_equipment/ripleyupgrade/paddy
 	name = "Paddy Conversion Kit"
 	desc = "A hardpoint modification kit for an Autonomous Power Loader Unit \"Ripley\" MK-I exosuit, to convert it to the Paddy lightweight security design. This kit cannot be removed, once applied."
+	icon = 'bastionstation/icons/mecha/mecha_equipment.dmi'
 	icon_state = "paddyupgrade"
 	mech_flags = EXOSUIT_MODULE_RIPLEY
 	result = /obj/vehicle/sealed/mecha/ripley/paddy
