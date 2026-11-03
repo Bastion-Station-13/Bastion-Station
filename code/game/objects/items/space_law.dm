@@ -139,7 +139,7 @@
 	. = ..()
 	// The skillchip prohibits you from disrepecting the law
 	if(HAS_TRAIT(user, TRAIT_JUSTICE))
-		user.playsound_local(user, 'sound/voice/beepsky/justice.ogg', 100)
+		user.playsound_local(user, 'sound/mobs/non-humanoids/beepsky/justice.ogg', 100)
 		user.Paralyze(4 SECONDS)
 		to_chat(user, span_cultlarge("DO NOT DISRESPECT THE LAW"))
 		lightningbolt(user)
