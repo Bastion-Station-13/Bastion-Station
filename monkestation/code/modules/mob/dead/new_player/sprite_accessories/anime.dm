@@ -60,6 +60,32 @@
 	icon_state = "cat"
 	hasinner = TRUE
 
+// Everything from big cat ears to round cat ears is ported from https://github.com/lizardqueenlexi/orbstation/pull/360 Credit to them.
+/datum/sprite_accessory/anime_head/cat/big
+	name = "Big Cat Ears"
+	icon = 'bastionstation/icons/mob/anime/anime_head.dmi'
+	icon_state = "big"
+
+/datum/sprite_accessory/anime_head/cat/miqo
+	name = "Coeurl Ears"
+	icon = 'bastionstation/icons/mob/anime/anime_head.dmi'
+	icon_state = "miqo"
+
+/datum/sprite_accessory/anime_head/cat/fold
+	name = "Fold Cat Ears"
+	icon = 'bastionstation/icons/mob/anime/anime_head.dmi'
+	icon_state = "fold"
+
+/datum/sprite_accessory/anime_head/cat/lynx
+	name = "Lynx Ears"
+	icon = 'bastionstation/icons/mob/anime/anime_head.dmi'
+	icon_state = "lynx"
+
+/datum/sprite_accessory/anime_head/cat/round
+	name = "Round Cat Ears"
+	icon = 'bastionstation/icons/mob/anime/anime_head.dmi'
+	icon_state = "round"
+
 /datum/sprite_accessory/anime_head/rabbit
 	name = "Rabbit Ears"
 	icon_state = "rabbit"

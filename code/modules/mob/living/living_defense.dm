@@ -12,6 +12,8 @@
 	//the if "armor" check is because this is used for everything on /living, including humans
 	if(armour_penetration)
 		our_armor = clamp(round((our_armor * ((100 - armour_penetration) * 0.01)), 1) - armour_ignorance, min(our_armor, 0), 100) //Armor penetration is now a percent reduction - I.E. 20 AP = armor is 20% *less* effective
+	// negative AP makes armor stronger, so it shouldn't claim to have penetrated it
+	if(armour_penetration > 0)
 		if(penetrated_text)
 			to_chat(src, span_userdanger("[penetrated_text]"))
 		else
@@ -24,6 +26,8 @@
 	else
 		if(soften_text)
 			to_chat(src, span_warning("[soften_text]"))
+		else if(weak_against_armour || armour_penetration < 0)
+			to_chat(src, span_warning("Your armor heavily softens the blow!"))
 		else
 			to_chat(src, span_warning("Your armor softens the blow!"))
 	return our_armor

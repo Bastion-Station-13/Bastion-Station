@@ -50,6 +50,7 @@
 	race = /datum/species/teratoma
 
 /obj/item/organ/internal/tongue/teratoma
+	human_voice = FALSE
 	liked_foodtypes = MEAT | BUGS | GORE | GROSS | RAW
 	disliked_foodtypes = CLOTH
 
