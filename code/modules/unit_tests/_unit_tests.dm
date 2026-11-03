@@ -124,6 +124,7 @@
 #include "circuit_component_category.dm"
 #include "closets.dm"
 #include "combat.dm"
+#include "combat_boots_noisemaker.dm"
 #include "component_tests.dm"
 #include "connect_loc.dm"
 #include "container_sanity.dm"
