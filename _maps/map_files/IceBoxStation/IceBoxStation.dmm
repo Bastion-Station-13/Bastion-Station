@@ -6578,7 +6578,7 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/mob/living/carbon/human/species/monkey/dukeman,
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/iron/dark/textured_corner{
 	dir = 8
 	},
