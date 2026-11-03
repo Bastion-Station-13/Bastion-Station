@@ -8,9 +8,11 @@
 	max_integrity = 200
 	armor_type = /datum/armor/mecha_phazon
 	max_temperature = 25000
-	accesses = list(ACCESS_MECH_SCIENCE, ACCESS_MECH_SECURITY)
 	destruction_sleep_duration = 40
 	exit_delay = 40
+	encumbrance_gap = 1.6
+
+	internal_damage_threshold = 20
 	wreckage = /obj/structure/mecha_wreckage/phazon
 	mech_type = EXOSUIT_MODULE_PHAZON
 	force = 15

@@ -115,7 +115,7 @@
 
 /obj/vehicle/sealed/mecha/projectile_hit(obj/projectile/hitting_projectile, def_zone, piercing_hit, blocked)
 	// Determine our potential to shoot through the mech and into the cockpit, hitting the pilot
-	var/kill_the_meat = hitting_projectile.armour_penetration
+	var/kill_the_meat = (hitting_projectile.armour_penetration / 2 + hitting_projectile.armour_ignorance)
 	if(hitting_projectile.armor_flag)
 		kill_the_meat -= get_armor_rating(hitting_projectile.armor_flag)
 	kill_the_meat = clamp(kill_the_meat, 0, 100)

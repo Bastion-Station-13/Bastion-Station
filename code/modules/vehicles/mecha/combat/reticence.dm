@@ -10,6 +10,8 @@
 	force = 30
 	destruction_sleep_duration = 1
 	exit_delay = 40
+	encumbrance_gap = 2
+	internal_damage_threshold = 25
 	wreckage = /obj/structure/mecha_wreckage/reticence
 	accesses = list(ACCESS_MECH_SCIENCE, ACCESS_THEATRE)
 	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | QUIET_STEPS | QUIET_TURNS | MMI_COMPATIBLE | AI_COMPATIBLE

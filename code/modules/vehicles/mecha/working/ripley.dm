@@ -68,14 +68,16 @@
 	bullet = 5
 	laser = 5
 
+#warn clarke pickup body HUD sprite, marauder smoke not work, paddy siren HUD sprite, clarke sleeper/paddy claw sprite, mech rcd animation is off,
+
 /obj/vehicle/sealed/mecha/ripley/mk2
 	desc = "Autonomous Power Loader Unit MK-II. This prototype Ripley is refitted with a pressurized cabin, trading its prior speed for atmospheric protection and armor."
 	name = "\improper APLU MK-II \"Ripley\""
 	icon_state = "ripleymkii"
 	base_icon_state = "ripleymkii"
 	fast_pressure_step_in = 2 //step_in while in low pressure conditions
-	slow_pressure_step_in = 4 //step_in while in normal pressure conditions
-	movedelay = 4
+	slow_pressure_step_in = 3 //step_in while in normal pressure conditions
+	movedelay = 3 // Bastion edit, down from 4
 	encumbrance_gap = 2.4
 	max_temperature = 30000
 	max_integrity = 250

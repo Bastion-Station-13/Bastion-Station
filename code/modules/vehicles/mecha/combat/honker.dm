@@ -11,6 +11,8 @@
 	max_temperature = 25000
 	destruction_sleep_duration = 40
 	exit_delay = 40
+	encumbrance_gap = 2
+	internal_damage_threshold = 20
 	accesses = list(ACCESS_MECH_SCIENCE, ACCESS_THEATRE)
 	wreckage = /obj/structure/mecha_wreckage/honker
 	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | BEACON_TRACKABLE | AI_COMPATIBLE | BEACON_CONTROLLABLE
@@ -20,7 +22,7 @@
 		MECHA_R_ARM = 1,
 		MECHA_UTILITY = 4,
 		MECHA_POWER = 1,
-		MECHA_ARMOR = 0,
+		MECHA_ARMOR = 1,
 	)
 	var/squeak = TRUE
 
