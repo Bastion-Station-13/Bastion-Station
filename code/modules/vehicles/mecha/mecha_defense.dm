@@ -429,7 +429,7 @@
 		return
 
 	user.put_in_hands(part_to_remove)
-	CheckParts()
+	locate_parts()
 	diag_hud_set_mechcell()
 	tool.play_tool_sound(src)
 
