@@ -56,7 +56,7 @@
 /datum/ai_planning_subtree/random_speech/mouse
 	speech_chance = 1
 	speak = list("Squeak!", "SQUEAK!", "Squeak?")
-	sound = list('sound/effects/mousesqueek.ogg')
+	sound = list('sound/mobs/non-humanoids/mouse/mousesqueek.ogg')
 	emote_hear = list("squeaks.")
 	emote_see = list("runs in a circle.", "shakes.")
 
@@ -172,14 +172,14 @@
 
 /datum/ai_planning_subtree/random_speech/pony
 	speech_chance = 3
-	sound = list('sound/creatures/pony/whinny01.ogg', 'sound/creatures/pony/whinny02.ogg', 'sound/creatures/pony/whinny03.ogg')
+	sound = list('sound/mobs/non-humanoids/pony/whinny01.ogg', 'sound/mobs/non-humanoids/pony/whinny02.ogg', 'sound/mobs/non-humanoids/pony/whinny03.ogg')
 	emote_hear = list("whinnies!")
-emote_see = list("horses around.")
+	emote_see = list("horses around.")
 
 
 /datum/ai_planning_subtree/random_speech/pony/tamed
 	speech_chance = 3
-	sound = list('sound/creatures/pony/snort.ogg')
+	sound = list('sound/mobs/non-humanoids/pony/snort.ogg')
 	emote_hear = list("snorts.")
 	emote_see = list("snorts.")
 
