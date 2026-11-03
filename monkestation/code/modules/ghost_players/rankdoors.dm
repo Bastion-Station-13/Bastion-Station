@@ -53,7 +53,7 @@
 			playsound(src, 'sound/machines/airlock/close.ogg', 30, TRUE)
 		if("deny")
 			//Deny animation would be nice to have.
-			playsound(src, 'sound/machines/deniedbeep.ogg', 30, TRUE)
+			playsound(src, 'sound/machines/airlock/access_denied.ogg', 30, TRUE)
 
 /obj/machinery/door/admin_rank/emp_act(severity)
 	return
