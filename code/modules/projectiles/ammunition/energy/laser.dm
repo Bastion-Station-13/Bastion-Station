@@ -5,6 +5,9 @@
 	select_sound = 'sound/items/weapons/gun/energy/egun_toggle_laser.ogg'
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/red
 
+/obj/item/ammo_casing/energy/laser/e_gun
+	e_cost = LASER_SHOTS(14, STANDARD_CELL_CHARGE)
+
 /obj/item/ammo_casing/energy/laser/hitscan
 	projectile_type = /obj/projectile/beam/laser/hitscan
 	fire_sound = 'sound/items/weapons/lasercannonfire.ogg'

@@ -216,13 +216,17 @@
 /obj/item/bodypart/head/get_limb_icon(dropped, mob/living/carbon/update_on)
 	. = ..()
 
-	. += get_hair_and_lips_icon(dropped)
+	var/list/hair_and_lips = get_hair_and_lips_icon(dropped)
+	if(!dropped && !isnull(owner))
+		for(var/image/hair_overlay in hair_and_lips)
+			owner.apply_height(hair_overlay, ENTIRE_BODY)
+	. += hair_and_lips
 	// We need to get the eyes if we are dropped (ugh)
 	if(dropped)
 		// eyes
 		// This is a bit of copy/paste code from eyes.dm:generate_body_overlay
 		if(eyes?.eye_icon_state && (head_flags & HEAD_EYESPRITES))
-			var/eye_icon = owner?.dna?.species.eyes_icon || 'icons/mob/species/human/human_face.dmi' //Non-Modular change - Gives modular eye icons for certain species.
+			var/eye_icon = owner?.dna?.species.eyes_icon || 'bastionstation/icons/mob/species/human/human_face.dmi' //Bastion station change, put your species eyes here instead of the old file or else it'll sprite error when they're decapitated!!
 			var/image/eye_left = image(eye_icon, "[eyes.eye_icon_state]_l", -BODY_LAYER, SOUTH)
 			var/image/eye_right = image(eye_icon, "[eyes.eye_icon_state]_r", -BODY_LAYER, SOUTH)
 			if(head_flags & HEAD_EYECOLOR)
