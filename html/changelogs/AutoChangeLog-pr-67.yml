@@ -1,0 +1,7 @@
+author: "Mantlecrawler"
+delete-after: True
+changes:
+  - rscadd: "The Ashen Whetstone, a new necropolis chest tendril loot item."
+  - rscadd: "It can be used on crushers & pkas to buff them, and has one use."
+  - rscadd: "Crushers gain additional damage, backstab damage, and armour pierce"
+  - rscadd: "PKAs gain 40% mod capacity"
