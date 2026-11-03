@@ -342,7 +342,6 @@
 	dir = 1;
 	name = "old bloody sofa"
 	},
-/obj/machinery/atm/directional/south,
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/cult,
 /area/station/commons/lounge)
@@ -644,7 +643,6 @@
 	dir = 4;
 	name = "old bloody sofa"
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/cult,
 /area/station/commons/lounge)
 "HO" = (

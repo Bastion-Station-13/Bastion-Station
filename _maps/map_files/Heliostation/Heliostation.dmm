@@ -40914,11 +40914,6 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark/textured,
 /area/station/science/ordnance/testlab)
-"iCY" = (
-/obj/structure/cable,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/starboard)
 "iDa" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/structure/cable,
@@ -44896,7 +44891,6 @@
 	},
 /obj/effect/landmark/start/hangover,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/atm/directional/east,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "kaW" = (
@@ -45531,11 +45525,6 @@
 /obj/structure/bed/medical,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
-"kok" = (
-/obj/effect/turf_decal/trimline/neutral/filled/line,
-/obj/machinery/atm/directional/south,
-/turf/open/floor/iron,
-/area/station/hallway/secondary/command)
 "kox" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -49024,11 +49013,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/security/warden)
-"lIW" = (
-/obj/machinery/light/directional/north,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/port)
 "lJs" = (
 /obj/effect/landmark/start/depsec/supply,
 /obj/effect/turf_decal/tile/red/half/contrasted{
@@ -55781,11 +55765,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/science/research)
-"ogs" = (
-/obj/structure/cable,
-/obj/machinery/atm/directional/west,
-/turf/open/floor/iron,
-/area/station/hallway/primary/aft)
 "ogB" = (
 /obj/machinery/door/poddoor/preopen{
 	id = "Virology Breach";
@@ -56707,7 +56686,6 @@
 	c_tag = "Command Hallway - Gateway";
 	name = "Hallway Camera"
 	},
-/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/dark/side{
 	dir = 1
 	},
@@ -64600,10 +64578,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/station/engineering/lobby)
-"ruN" = (
-/obj/machinery/atm/directional/east,
-/turf/open/floor/iron,
-/area/station/hallway/primary/fore)
 "ruP" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance{
@@ -68827,7 +68801,6 @@
 /obj/effect/turf_decal/trimline/purple/filled/line,
 /obj/item/kirbyplants/random,
 /obj/machinery/light/directional/south,
-/obj/machinery/atm/directional/south,
 /turf/open/floor/iron/white,
 /area/station/science/lobby)
 "tea" = (
@@ -77483,11 +77456,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
-"wsO" = (
-/obj/machinery/light/directional/north,
-/obj/machinery/atm/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
 "wsS" = (
 /obj/effect/turf_decal/tile/purple/anticorner,
 /obj/effect/turf_decal/stripes/line{
@@ -102165,7 +102133,7 @@ azQ
 azQ
 azQ
 azQ
-lIW
+bsS
 btP
 xTF
 bsI
@@ -110903,7 +110871,7 @@ bik
 bik
 bqG
 bhf
-wsO
+bsZ
 bwl
 fxK
 bwl
@@ -114778,7 +114746,7 @@ bJB
 bJB
 bRf
 bJd
-ogs
+bJe
 bJe
 gzE
 umj
@@ -115754,7 +115722,7 @@ aGB
 aqp
 rau
 amb
-ruN
+alc
 alc
 buj
 alc
@@ -117025,7 +116993,7 @@ xbM
 aax
 fvd
 cOl
-kok
+eTY
 sGL
 sGL
 aKq
@@ -129150,7 +129118,7 @@ boF
 dnI
 brB
 bhK
-iCY
+btm
 btm
 qBP
 btm
