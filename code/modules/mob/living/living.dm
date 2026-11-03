@@ -52,6 +52,7 @@
 		subsystem = locate(life_subsystem_type) in Master.subsystems
 	STOP_PROCESSING(subsystem, src)
 	GLOB.infected_contact_mobs -= src
+	clear_pathogen_image()
 	if(imaginary_group)
 		imaginary_group -= src
 		QDEL_LIST(imaginary_group)
@@ -387,7 +388,7 @@
 	SEND_SIGNAL(src, COMSIG_LIVING_START_PULL, AM, state, force)
 
 	if(!supress_message)
-		var/sound_to_play = 'sound/weapons/thudswoosh.ogg'
+		var/sound_to_play = 'sound/items/weapons/thudswoosh.ogg'
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna.species.grab_sound)
@@ -486,8 +487,8 @@
 
 //mob verbs are a lot faster than object verbs
 //for more info on why this is not atom/pull, see examinate() in mob.dm
-GAME_VERB_CONTEXT(/mob/living, pulled, "Pull", "", "Object", /atom/movable)
-	VERB_ARG_TYPED(thing_pulled, VERB_ARG_TYPE_MOB | VERB_ARG_TYPE_OBJ, VERB_ARG_SOURCE_VIEW, /atom/movable)
+GAME_VERB_CONTEXT_RANGE(/mob/living, pulled, "Pull", "", "Object", /atom/movable, oview(1))
+	VERB_ARG_TYPED_RANGE(thing_pulled, VERB_ARG_TYPE_MOB | VERB_ARG_TYPE_OBJ, VERB_ARG_SOURCE_VIEW, /atom/movable, 1)
 	if(istype(thing_pulled) && Adjacent(thing_pulled))
 		start_pulling(thing_pulled)
 	else if(!(istate & ISTATE_HARM)) //Don;'t cancel pulls if misclicking in combat mode.
@@ -1831,8 +1832,8 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 	SEND_SIGNAL(src, COMSIG_MOB_PICKED_UP, user, holder) // monkestation edit: COMSIG_MOB_PICKED_UP
 
 /mob/living/proc/set_name()
-	numba = rand(1, 1000)
-	name = "[name] ([numba])"
+	identifier = rand(1, 999)
+	name = "[name] ([identifier])"
 	real_name = name
 
 /mob/living/proc/mob_try_pickup(mob/living/user, instant=FALSE)

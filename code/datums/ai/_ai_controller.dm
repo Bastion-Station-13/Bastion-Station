@@ -173,7 +173,7 @@ multiple modular subtrees with behaviors
 			return FALSE
 	return TRUE
 
-/datum/ai_controller/proc/recalculate_idle()
+/datum/ai_controller/proc/recalculate_idle(datum/exited)
 	if(ai_status == AI_STATUS_OFF)
 		return
 
@@ -203,7 +203,7 @@ multiple modular subtrees with behaviors
 /datum/ai_controller/proc/on_client_exit(datum/source, datum/exited)
 	SIGNAL_HANDLER
 
-	recalculate_idle()
+	recalculate_idle(exited)
 
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
