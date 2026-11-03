@@ -5,10 +5,11 @@
 	icon_state = "mecha_air_tank"
 	equipment_slot = MECHA_UTILITY
 	can_be_toggled = TRUE
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5)
 	///Whether the pressurization should start automatically when the cabin is sealed airtight
 	var/auto_pressurize_on_seal = TRUE
 	///The internal air tank obj of the mech
-	var/obj/machinery/portable_atmospherics/canister/internal_tank
+	var/obj/machinery/portable_atmospherics/canister/mecha/internal_tank
 	///Volume of this air tank
 	var/volume = TANK_STANDARD_VOLUME * 10
 	///Maximum pressure of this air tank
@@ -24,6 +25,9 @@
 	var/tank_pump_direction = PUMP_IN
 	///Target pressure of the pump
 	var/tank_pump_pressure = ONE_ATMOSPHERE
+
+/obj/machinery/portable_atmospherics/canister/mecha
+	custom_materials = null
 
 /obj/item/mecha_parts/mecha_equipment/air_tank/Initialize(mapload)
 	. = ..()
@@ -105,8 +109,8 @@
 		"auto_pressurize_on_seal" = auto_pressurize_on_seal,
 		"port_connected" = internal_tank?.connected_port ? TRUE : FALSE,
 		"tank_release_pressure" = round(internal_tank.release_pressure),
-		"tank_release_pressure_min" = internal_tank.can_min_release_pressure,
-		"tank_release_pressure_max" = internal_tank.can_max_release_pressure,
+		"tank_release_pressure_min" = CAN_MIN_RELEASE_PRESSURE,
+		"tank_release_pressure_max" = CAN_MAX_RELEASE_PRESSURE,
 		"tank_pump_active" = tank_pump_active,
 		"tank_pump_direction" = tank_pump_direction,
 		"tank_pump_pressure" = round(tank_pump_pressure),
@@ -120,7 +124,7 @@
 	switch(action)
 		if("set_cabin_pressure")
 			var/new_pressure = text2num(params["new_pressure"])
-			internal_tank.release_pressure = clamp(round(new_pressure), internal_tank.can_min_release_pressure, internal_tank.can_max_release_pressure)
+			internal_tank.release_pressure = clamp(round(new_pressure), CAN_MIN_RELEASE_PRESSURE, CAN_MAX_RELEASE_PRESSURE)
 			return TRUE
 		if("toggle_port")
 			if(internal_tank.connected_port)

@@ -2,7 +2,6 @@
 	desc = "Produced by \"Tyranny of Honk, INC\", this exosuit is designed as heavy clown-support. Used to spread the fun and joy of life. HONK!"
 	name = "\improper H.O.N.K"
 	ui_theme = "neutral"
-	icon = 'icons/mob/rideables/mecha.dmi'
 	icon_state = "honker"
 	base_icon_state = "honker"
 	movedelay = 3
@@ -12,17 +11,16 @@
 	max_temperature = 25000
 	destruction_sleep_duration = 40
 	exit_delay = 40
-	encumbrance_gap = 2
-	internal_damage_threshold = 20
+	accesses = list(ACCESS_MECH_SCIENCE, ACCESS_THEATRE)
 	wreckage = /obj/structure/mecha_wreckage/honker
-	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | BEACON_TRACKABLE | AI_COMPATIBLE | BEACON_CONTROLLABLE
 	mech_type = EXOSUIT_MODULE_HONK
 	max_equip_by_category = list(
 		MECHA_L_ARM = 1,
 		MECHA_R_ARM = 1,
 		MECHA_UTILITY = 4,
 		MECHA_POWER = 1,
-		MECHA_ARMOR = 1,
+		MECHA_ARMOR = 0,
 	)
 	var/squeak = TRUE
 
@@ -31,20 +29,14 @@
 	fire = 100
 	acid = 100
 
+/obj/vehicle/sealed/mecha/honker/Initialize(mapload, built_manually)
+	. = ..()
+	AddElementTrait(TRAIT_WADDLING, REF(src), /datum/element/waddling)
+
 /obj/vehicle/sealed/mecha/honker/play_stepsound()
 	if(squeak)
-		playsound(src, SFX_CLOWN_STEP, 70, 1)
+		playsound(src, /datum/sound_effect/clown_step, 70, 1)
 	squeak = !squeak
-
-
-/obj/vehicle/sealed/mecha/honker/loaded
-	equip_by_category = list(
-		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/honker,
-		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/punching_glove,
-		MECHA_UTILITY = list(),
-		MECHA_POWER = list(),
-		MECHA_ARMOR = list(),
-	)
 
 
 //DARK H.O.N.K.
@@ -59,14 +51,18 @@
 	max_temperature = 35000
 	accesses = list(ACCESS_SYNDICATE)
 	wreckage = /obj/structure/mecha_wreckage/honker/dark
-	mecha_flags = ID_LOCK_ON | CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE
+	mecha_flags = ID_LOCK_ON | CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | AI_COMPATIBLE
 	max_equip_by_category = list(
 		MECHA_L_ARM = 1,
 		MECHA_R_ARM = 1,
 		MECHA_UTILITY = 3,
 		MECHA_POWER = 1,
-		MECHA_ARMOR = 3,
+		MECHA_ARMOR = 2,
 	)
+
+/obj/vehicle/sealed/mecha/honker/dark/Initialize(mapload, built_manually)
+	. = ..()
+	add_minimap_blip(src, MINIMAP_SYNDICATE_MECH_BLIP, "syndiemech")
 
 /obj/vehicle/sealed/mecha/honker/dark/loaded
 	equip_by_category = list(
@@ -90,7 +86,7 @@
 	cell = new /obj/item/stock_parts/power_store/cell/hyper(src)
 	scanmod = new /obj/item/stock_parts/scanning_module/phasic(src)
 	capacitor = new /obj/item/stock_parts/capacitor/super(src)
-	manipulator = new /obj/item/stock_parts/manipulator/pico(src)
+	servo = new /obj/item/stock_parts/servo/pico(src)
 	update_part_values()
 
 /obj/structure/mecha_wreckage/honker/dark

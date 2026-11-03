@@ -21,11 +21,21 @@
 		//we can reach it and it's in front of us? grab it!
 		if(ore.Adjacent(src) && ((get_dir(src, ore) & dir) || ore.loc == loc))
 			ore.forceMove(ore_box)
+	for(var/obj/item/boulder/boulder in range(1, src))
+		//As above, but for boulders
+		if(boulder.Adjacent(src) && ((get_dir(src, boulder) & dir) || boulder.loc == loc))
+			boulder.forceMove(ore_box)
+
 
 ///Plays the mech step sound effect. Split from movement procs so that other mechs (HONK) can override this one specific part.
 /obj/vehicle/sealed/mecha/proc/play_stepsound()
 	if(mecha_flags & QUIET_STEPS)
 		return
+
+	// if we are on the second step of the diagonal movement, don't play step sound
+	if(src.moving_diagonally == SECOND_DIAG_STEP)
+		return
+
 	playsound(src, stepsound, 40, TRUE)
 
 // Do whatever you do to mobs to these fuckers too
@@ -39,7 +49,7 @@
 		if(!istype(backup) || !movement_dir || backup.anchored || continuous_move) //get_spacemove_backup() already checks if a returned turf is solid, so we can just go
 			return TRUE
 		last_pushoff = world.time
-		if(backup.newtonian_move(turn(movement_dir, 180), instant = TRUE))
+		if(backup.newtonian_move(dir2angle(REVERSE_DIR(movement_dir)), instant = TRUE))
 			backup.last_pushoff = world.time
 			step_silent = TRUE
 			if(return_drivers())
@@ -67,44 +77,23 @@
 /obj/vehicle/sealed/mecha/vehicle_move(direction, forcerotate = FALSE)
 	if(!COOLDOWN_FINISHED(src, cooldown_vehicle_move))
 		return FALSE
-	COOLDOWN_START(src, cooldown_vehicle_move, get_movedelay())
+
+	COOLDOWN_START(src, cooldown_vehicle_move, movedelay)
+
 	if(completely_disabled)
 		return FALSE
+
 	if(!direction)
 		return FALSE
+
+	if(!can_move(direction))
+		return FALSE
+
 	if(ismovable(loc)) //Mech is inside an object, tell it we moved
 		var/atom/loc_atom = loc
 		return loc_atom.relaymove(src, direction)
-	var/obj/machinery/portable_atmospherics/canister/internal_tank = get_internal_tank()
-	if(internal_tank?.connected_port)
-		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
-			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Unable to move while connected to the air system port!")]")
-			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
-		return FALSE
 
 	if(!Process_Spacemove(direction))
-		return FALSE
-	if(zoom_mode)
-		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
-			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Unable to move while in zoom mode!")]")
-			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
-		return FALSE
-	var/list/missing_parts = list()
-	if(isnull(cell))
-		missing_parts += "power cell"
-	if(isnull(capacitor))
-		missing_parts += "capacitor"
-	if(isnull(manipulator))
-		missing_parts += "micro-manipulator"
-	if(length(missing_parts))
-		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
-			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Missing [english_list(missing_parts)].")]")
-			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
-		return FALSE
-	if(!use_energy(step_energy_drain))
-		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
-			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Insufficient power to move!")]")
-			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
 		return FALSE
 
 	var/olddir = dir
@@ -124,20 +113,53 @@
 				break
 
 	//if we're not facing the way we're going rotate us
+	// if we're not strafing or if we are forced to rotate or if we are holding down the key
 	if(dir != direction && (!strafe || forcerotate || keyheld))
-		if(dir != direction && !(mecha_flags & QUIET_TURNS) && !step_silent)
-			playsound(src,turnsound,40,TRUE)
 		setDir(direction)
+		if(!(mecha_flags & QUIET_TURNS))
+			playsound(src, turnsound, 40, TRUE)
 		if(keyheld || !pivot_step) //If we pivot step, we don't return here so we don't just come to a stop
 			return TRUE
 
 	set_glide_size(DELAY_TO_GLIDE_SIZE(get_movedelay()))
 	//Otherwise just walk normally
 	. = try_step_multiz(direction)
-	if(phasing)
-		use_energy(phasing_energy_drain)
+
 	if(strafe)
 		setDir(olddir)
+
+/// Check if anything is blocking our movement
+/obj/vehicle/sealed/mecha/proc/can_move(direction)
+	if(toppled)
+		return FALSE
+
+	var/obj/machinery/portable_atmospherics/canister/internal_tank = get_internal_tank()
+	if(internal_tank?.connected_port)
+		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
+			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Unable to move while connected to the air system port!")]")
+			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
+		return FALSE
+
+	var/list/missing_parts = list()
+	if(isnull(cell))
+		missing_parts += "power cell"
+	if(isnull(capacitor))
+		missing_parts += "capacitor"
+	if(isnull(servo))
+		missing_parts += "servo"
+
+	if(length(missing_parts))
+		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
+			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Missing [english_list(missing_parts)].")]")
+			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
+		return FALSE
+
+	if((step_energy_drain != 0) && !use_energy(step_energy_drain))
+		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
+			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Insufficient power to move!")]")
+			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
+		return FALSE
+	return TRUE
 
 /obj/vehicle/sealed/mecha/Bump(atom/obstacle)
 	. = ..()
@@ -192,3 +214,10 @@
 
 //	return max(1, round(tally, 0.1))	// Round the total to the nearest 10th. Can't go lower than 1 tick. Even humans have a delay longer than that.
 	return movedelay + round(tally, 0.1)
+/obj/vehicle/sealed/mecha/proc/right_self(fallen_angle)
+	if(!toppled)
+		return
+	toppled = FALSE
+	var/matrix/to_turn = turn(transform, 360 - fallen_angle)
+	animate(src, transform = to_turn, 0.5 SECONDS)
+	playsound(src, 'sound/vehicles/mecha/nominal.ogg', 50)

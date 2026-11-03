@@ -181,7 +181,7 @@
 	max_integrity = 10000
 	anchored = TRUE
 	light_system = OVERLAY_LIGHT
-	light_outer_range = 2.8
+	light_range = 2.8
 	light_power = 1
 	light_color = LIGHT_COLOR_FAINT_CYAN
 	light_on = FALSE
