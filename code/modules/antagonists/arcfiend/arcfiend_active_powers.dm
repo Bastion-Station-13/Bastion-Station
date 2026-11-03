@@ -271,8 +271,8 @@
 	victim.apply_status_effect(/datum/status_effect/arcfiend_scrambled, duration)
 	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
 		var/level = get_level()
-		victim.apply_damage(list(3, 4, 5)[level], BURN)
-		victim.apply_damage(list(60, 80, 100)[level], STAMINA)
+		victim.apply_damage(list(4, 5, 6)[level], BURN)
+		victim.apply_damage(list(65, 85, 100)[level], STAMINA)
 		victim.adjust_eye_blur(duration)
 	if(victim.client)
 		shake_camera(victim, duration, 3)
@@ -347,8 +347,8 @@
 		return FALSE
 
 	var/level = get_level()
-	var/damage = list(15, 20, 25)[level]
-	var/stamina_damage = list(25, 35, 45)[level]
+	var/damage = list(17, 22, 28)[level]
+	var/stamina_damage = list(28, 38, 50)[level]
 	var/arcs_left = level
 	var/mob/living/victim = isliving(target) ? target : locate(/mob/living) in get_turf(target)
 	if(victim == owner)
@@ -445,11 +445,11 @@
 
 /// The burn damage right next to the edge of the throwing range, before falloff
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_burn()
-	return by_level(list(4, 5, 6))
+	return by_level(list(5, 6, 7))
 
 /// The stamina damage right next to the edge of the throwing range, before falloff
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_stamina()
-	return by_level(list(50, 65, 80))
+	return by_level(list(55, 70, 85))
 
 /// How long it takes to recharge
 /datum/action/cooldown/arcfiend/thunderclap/proc/get_recharge_time()
@@ -646,7 +646,7 @@
 		return
 	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), effect_icon, "smash_hit", 7)
 	var/level = get_level()
-	var/damage = list(8, 12, 16)[level]
+	var/damage = list(9, 13, 18)[level]
 	shock(victim, damage, "[owner]'s electrified blow shocks you!")
 	if(!prob(list(25, 40, 55)[level]))
 		return
@@ -743,8 +743,8 @@
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jamming_field.dmi'
 	button_icon_state = "jamming_field"
 	shop_listed = TRUE
-	shop_tier = 2
-	unlock_cost = 450
+	shop_tier = 1
+	unlock_cost = 300
 	upgrade_costs = list(300, 600)
 	upgrade_descriptions = list(
 		"Reaches 9 tiles. Cheaper to run.",
@@ -1029,7 +1029,7 @@
 	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
 	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
 	if(lethal)
-		stop_heart(victim, list(40, 50, 60)[level])
+		stop_heart(victim, list(45, 55, 65)[level])
 	else
 		restart_heart(victim)
 	StartCooldown(list(45 SECONDS, 35 SECONDS, 25 SECONDS)[level])

@@ -233,7 +233,7 @@
 	name = "biometal slug"
 	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_coilgun_projectile.dmi'
 	icon_state = "biometal_slug"
-	damage = 20
+	damage = 22
 	embed_type = null
 	shrapnel_type = null
 
@@ -284,7 +284,7 @@
 	return by_level(list(15, 12, 9))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/setup_projectile(obj/projectile/projectile)
-	projectile.damage = by_level(list(20, 25, 30))
+	projectile.damage = by_level(list(22, 27, 33))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/manifest_coilgun/on_grown(mob/living/user, obj/item/grown)
 	user.visible_message(span_warning("A crude gun of lumpy biometal grows out of [user]'s hand!"), span_notice("You grow a biometal coilgun."))
@@ -390,7 +390,7 @@
 	name = "lateral beam"
 	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_lateral_laser_fx.dmi'
 	icon_state = "lateral_laser_projectile"
-	damage = 6
+	damage = 7
 	damage_type = BURN
 	hitscan_light_color_override = "#ffe94d"
 	tracer_type = /obj/effect/projectile/tracer/arcfiend_lateral
@@ -403,9 +403,9 @@
 	/// How far the beam reaches, in tiles. This is also the one distance it does its full damage at.
 	var/travel_range = 4
 	/// The damage done to everything that isn't at the very end of the beam
-	var/weak_damage = 6
+	var/weak_damage = 7
 	/// The damage done to whatever is at exactly the end of the beam
-	var/power_damage = 45
+	var/power_damage = 50
 
 /obj/projectile/beam/laser/hitscan/arcfiend_lateral/proc/set_up(range_in_tiles, weak, strong)
 	travel_range = range_in_tiles
@@ -491,8 +491,8 @@
 	unlock_cost = 650
 	upgrade_costs = list(500, 900)
 	upgrade_descriptions = list(
-		"5 tiles. 8 damage on the way, 60 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
-		"6 tiles. 10 damage on the way, 80 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
+		"5 tiles. 9 damage on the way, 65 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
+		"6 tiles. 11 damage on the way, 85 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
 	)
 	grown_type = /obj/item/gun/energy/arcfiend/lateral_laser
 	recharge_sound = ARCFIEND_SOUND_LASER_RELOAD
@@ -520,10 +520,10 @@
 	return clamp(selected_range || get_max_range(), 1, get_max_range())
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_weak_damage()
-	return by_level(list(6, 8, 10))
+	return by_level(list(7, 9, 11))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/get_power_damage()
-	return by_level(list(45, 60, 80))
+	return by_level(list(50, 65, 85))
 
 /datum/action/cooldown/arcfiend/grown_item/gun/lateral_laser/proc/cycle_range(mob/user)
 	var/new_range = (get_selected_range() % get_max_range()) + 1
