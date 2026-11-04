@@ -12,6 +12,8 @@
 	//the if "armor" check is because this is used for everything on /living, including humans
 	if(armour_penetration)
 		our_armor = clamp(round((our_armor * ((100 - armour_penetration) * 0.01)), 1) - armour_ignorance, min(our_armor, 0), 100) //Armor penetration is now a percent reduction - I.E. 20 AP = armor is 20% *less* effective
+	// negative AP makes armor stronger, so it shouldn't claim to have penetrated it
+	if(armour_penetration > 0)
 		if(penetrated_text)
 			to_chat(src, span_userdanger("[penetrated_text]"))
 		else
@@ -24,6 +26,8 @@
 	else
 		if(soften_text)
 			to_chat(src, span_warning("[soften_text]"))
+		else if(weak_against_armour || armour_penetration < 0)
+			to_chat(src, span_warning("Your armor heavily softens the blow!"))
 		else
 			to_chat(src, span_warning("Your armor softens the blow!"))
 	return our_armor
@@ -208,7 +212,7 @@
 			blocked = TRUE
 			return SUCCESSFUL_BLOCK
 		else
-			playsound(loc, 'sound/weapons/genhit.ogg', 50, TRUE, -1) //Item sounds are handled in the item itself
+			playsound(loc, 'sound/items/weapons/genhit.ogg', 50, TRUE, -1) //Item sounds are handled in the item itself
 		return ..()
 
 	var/obj/item/thrown_item = AM
@@ -302,7 +306,7 @@
 	if(user.grab_state >= user.max_grab)
 		return
 	user.changeNext_move(CLICK_CD_GRABBING)
-	var/sound_to_play = 'sound/weapons/thudswoosh.ogg'
+	var/sound_to_play = 'sound/items/weapons/thudswoosh.ogg'
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.dna.species.grab_sound)
@@ -459,7 +463,7 @@
 	user.do_attack_animation(src, ATTACK_EFFECT_BITE)
 	if (prob(75))
 		log_combat(user, src, "attacked")
-		playsound(loc, 'sound/weapons/bite.ogg', 50, TRUE, -1)
+		playsound(loc, 'sound/items/weapons/bite.ogg', 50, TRUE, -1)
 		visible_message(span_danger("[user.name] bites [src]!"), \
 						span_userdanger("[user.name] bites you!"), span_hear("You hear a chomp!"), COMBAT_MESSAGE_RANGE, user)
 		to_chat(user, span_danger("You bite [src]!"))
@@ -486,7 +490,7 @@
 			visible_message(span_danger("[L.name] bites [src]!"), \
 							span_userdanger("[L.name] bites you!"), span_hear("You hear a chomp!"), COMBAT_MESSAGE_RANGE, L)
 			to_chat(L, span_danger("You bite [src]!"))
-			playsound(loc, 'sound/weapons/bite.ogg', 50, TRUE, -1)
+			playsound(loc, 'sound/items/weapons/bite.ogg', 50, TRUE, -1)
 			return TRUE
 		else
 			visible_message(span_danger("[L.name]'s bite misses [src]!"), \
@@ -582,7 +586,7 @@
 		GLOB.cult_narsie.souls += 1
 		if((GLOB.cult_narsie.souls == GLOB.cult_narsie.soul_goal) && (GLOB.cult_narsie.resolved == FALSE))
 			GLOB.cult_narsie.resolved = TRUE
-			sound_to_playing_players('sound/machines/alarm.ogg')
+			sound_to_playing_players('sound/announcer/alarm/nuke_alarm.ogg')
 			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cult_ending_helper), CULT_VICTORY_MASS_CONVERSION), 120)
 			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)), 270)
 	if(client)

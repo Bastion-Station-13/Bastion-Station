@@ -1667,11 +1667,6 @@
 	},
 /turf/open/floor/fakesand,
 /area/station/commons/lounge)
-"Wq" = (
-/obj/machinery/atm/directional/north,
-/obj/effect/turf_decal/sand,
-/turf/open/misc/beach/sand,
-/area/station/commons/lounge)
 "WJ" = (
 /obj/structure/chair{
 	dir = 1
@@ -2228,7 +2223,7 @@ LK
 LK
 LK
 LK
-Wq
+CQ
 LT
 my
 uA
