@@ -143,6 +143,13 @@
 	icon_state = "seraph-broken"
 	welder_salvage = list(/obj/item/stack/sheet/mineral/titanium, /obj/item/stack/sheet/mineral/diamond, /obj/item/stack/sheet/iron, /obj/item/stack/rods)
 
+/obj/structure/mecha_wreckage/fiend
+	name = "\improper Fiend wreckage"
+	desc = "With how rare these things are, some collector's definitely going to be pissed."
+	icon = 'bastionstation/icons/centcom_fluff.dmi'
+	icon_state = "fiend-broken"
+	welder_salvage = list(/obj/item/stack/sheet/mineral/titanium, /obj/item/stack/sheet/mineral/diamond, /obj/item/stack/sheet/iron, /obj/item/stack/rods)
+
 /obj/structure/mecha_wreckage/reticence
 	name = "\improper Reticence wreckage"
 	icon_state = "reticence-broken"

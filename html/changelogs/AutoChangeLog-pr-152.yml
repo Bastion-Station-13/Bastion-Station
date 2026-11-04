@@ -1,9 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - balance: "Sets lasers from 22 -> 24 damage (as opposed to 25 on current monke and /tg/)."
-  - balance: "Sets hellfire lasers from 25 -> 30 damage."
-  - balance: "Reverts a previous (accidental) nerf to laser carbines, setting them back from 9 -> 10 dmg."
-  - balance: "Lowers e-gun lethal capacity from 16 -> 14."
-  - balance: "Increases e-gun disabler capacity, and hybrid taser disabler capacity, from 20 -> 25."
-  - balance: "Buffs nightmare by removing its 1.5x modifier to burn damage."

@@ -471,7 +471,7 @@ GAME_VERB(/obj/item/gun/ballistic/revolver, spin, "Spin Chamber", "Object")
 
 /obj/item/gun/ballistic/revolver/handcannon
 	name = "\improper NT-500 'The Corporate Layoff'"
-	desc = "A revolver made for a NT Admiral, its said that its dealt with hundreds, if not thousands of employees."
+	desc = "A gold-plated .500 Magnum revolver custom-made for officers of Nanotrasen's admiralty. Rumour has it that hundreds, if not thousands, of employees have met their fate at the hands of this gun."
 	icon_state = "handcannon"
 	fire_sound = 'monkestation/code/modules/blueshift/sounds/revolver_heavy.ogg'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/handcannon
