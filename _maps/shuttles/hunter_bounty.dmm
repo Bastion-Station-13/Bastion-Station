@@ -18,6 +18,7 @@
 "aK" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/layer_manifold/general/hidden,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "aW" = (
@@ -28,6 +29,7 @@
 /obj/machinery/door/airlock/bathroom,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "cD" = (
@@ -47,6 +49,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "dn" = (
@@ -76,6 +79,7 @@
 	pixel_x = 0;
 	pixel_y = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/grimey,
 /area/shuttle/hunter/bounty)
 "dE" = (
@@ -83,6 +87,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/bot_white,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "dL" = (
@@ -90,12 +95,14 @@
 /obj/machinery/power/terminal,
 /obj/structure/cable,
 /obj/machinery/light/small/directional/west,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "dO" = (
 /obj/machinery/airalarm/directional/east,
 /obj/effect/mapping_helpers/airalarm/unlocked,
 /obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "ew" = (
@@ -113,6 +120,7 @@
 /area/shuttle/hunter/bounty)
 "eO" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "eW" = (
@@ -127,6 +135,7 @@
 "fw" = (
 /obj/machinery/fugitive_locator,
 /obj/effect/turf_decal/bot,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "gu" = (
@@ -168,6 +177,7 @@
 /obj/item/ammo_box/c9mm,
 /obj/item/ammo_box/c9mm/fire,
 /obj/item/ammo_box/c9mm/fire,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/grimey,
 /area/shuttle/hunter/bounty)
 "iG" = (
@@ -190,6 +200,7 @@
 	pixel_x = 0;
 	pixel_y = 5
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/grimey,
 /area/shuttle/hunter/bounty)
 "ju" = (
@@ -208,6 +219,7 @@
 "lg" = (
 /obj/structure/table/reinforced,
 /obj/machinery/biogenerator/foodricator,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "lO" = (
@@ -221,6 +233,7 @@
 /obj/effect/mapping_helpers/broken_floor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
 /area/shuttle/hunter/bounty)
 "nc" = (
@@ -236,6 +249,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "nU" = (
@@ -244,10 +258,13 @@
 /obj/item/clothing/head/utility/hardhat/welding/orange,
 /obj/item/storage/box/lights/mixed,
 /obj/item/storage/toolbox/electrical,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "oh" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark,
+/obj/structure/closet/secure_closet/freezer,
+/obj/machinery/light/small/directional/east,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "pg" = (
@@ -258,13 +275,23 @@
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "rk" = (
+/obj/structure/sink/kitchen/directional/south,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
+/area/shuttle/hunter/bounty)
+"rs" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "ru" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "rR" = (
@@ -276,16 +303,19 @@
 "sk" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/launchpad,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "sv" = (
 /obj/machinery/airalarm/directional/east,
 /obj/effect/mapping_helpers/airalarm/all_access,
 /obj/effect/mapping_helpers/airalarm/unlocked,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "sE" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "ti" = (
@@ -297,14 +327,17 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "tx" = (
-/obj/machinery/light/small/directional/east,
 /obj/structure/table/reinforced,
+/obj/item/knife/kitchen,
+/obj/structure/closet/generic/wall/directional/east,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "tT" = (
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "ua" = (
@@ -314,6 +347,7 @@
 /obj/machinery/light/directional/west,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
 /area/shuttle/hunter/bounty)
 "uj" = (
@@ -323,6 +357,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plastic,
 /area/shuttle/hunter/bounty)
 "uy" = (
@@ -331,6 +366,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/bot,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "wl" = (
@@ -342,6 +378,7 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 10
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/grimey,
 /area/shuttle/hunter/bounty)
 "xx" = (
@@ -351,6 +388,7 @@
 	x_offset = 6
 	},
 /obj/effect/turf_decal/bot,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "xS" = (
@@ -359,10 +397,12 @@
 "xV" = (
 /obj/structure/table/reinforced,
 /obj/machinery/chem_dispenser/frontier_appliance,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "zr" = (
 /obj/effect/mapping_helpers/broken_floor,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "zQ" = (
@@ -374,6 +414,7 @@
 	pixel_x = 0;
 	pixel_y = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "AL" = (
@@ -387,6 +428,7 @@
 /obj/effect/turf_decal/siding/thinplating{
 	dir = 6
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/noslip,
 /area/shuttle/hunter/bounty)
 "BQ" = (
@@ -394,6 +436,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "BX" = (
@@ -415,6 +458,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "Cj" = (
@@ -445,16 +489,19 @@
 /obj/effect/turf_decal/bot,
 /obj/structure/cargo_shelf,
 /obj/machinery/light/directional/east,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "DY" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "Eq" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
 /obj/machinery/suit_storage_unit/spaceruin,
 /obj/effect/turf_decal/bot,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "Fd" = (
@@ -465,6 +512,7 @@
 /area/shuttle/hunter/bounty)
 "Fi" = (
 /obj/machinery/atmospherics/components/tank/air,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "Fm" = (
@@ -509,6 +557,7 @@
 /obj/effect/mapping_helpers/airalarm/unlocked,
 /obj/effect/mapping_helpers/airalarm/all_access,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "Hf" = (
@@ -525,7 +574,12 @@
 	pixel_x = -6;
 	pixel_y = -9
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
+/area/shuttle/hunter/bounty)
+"HQ" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "IY" = (
 /obj/effect/turf_decal/siding/wood{
@@ -551,6 +605,16 @@
 /obj/structure/sign/poster/contraband/bountyhunters/directional/north,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/wood,
+/area/shuttle/hunter/bounty)
+"Lq" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/wood,
 /area/shuttle/hunter/bounty)
 "Lx" = (
@@ -601,12 +665,21 @@
 /obj/item/tank/jetpack/carbondioxide,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
+"NS" = (
+/obj/effect/turf_decal/siding/wood,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
+/area/shuttle/hunter/bounty)
 "Oa" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden,
 /turf/open/floor/engine/hull/reinforced,
 /area/shuttle/hunter/bounty)
 "Of" = (
 /obj/machinery/atmospherics/pipe/layer_manifold/general/hidden,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "OZ" = (
@@ -621,11 +694,17 @@
 "PT" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/closet/generic/wall/directional/east,
+/obj/item/mop,
+/obj/item/pushbroom,
+/obj/item/reagent_containers/cup/bucket,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plastic,
 /area/shuttle/hunter/bounty)
 "Qa" = (
 /obj/machinery/power/port_gen/pacman/super,
 /obj/structure/cable,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "QF" = (
@@ -644,11 +723,13 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/grimey,
 /area/shuttle/hunter/bounty)
 "RQ" = (
 /obj/machinery/power/smes/super/full,
 /obj/structure/cable,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/shuttle/hunter/bounty)
 "RR" = (
@@ -664,6 +745,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden,
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/effect/turf_decal/delivery/blue,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "SE" = (
@@ -686,6 +768,7 @@
 	pixel_y = -1
 	},
 /obj/machinery/light/directional/west,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "Ta" = (
@@ -694,6 +777,7 @@
 /obj/machinery/computer/launchpad{
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "Tc" = (
@@ -720,6 +804,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "UA" = (
@@ -733,11 +818,12 @@
 /area/shuttle/hunter/bounty)
 "UP" = (
 /obj/machinery/light/small/directional/north,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "Vf" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark,
-/obj/machinery/biogenerator/medstation/directional/west,
+/obj/structure/extinguisher_cabinet/directional/west,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "Vm" = (
@@ -746,6 +832,7 @@
 "Vo" = (
 /obj/machinery/griddle/frontier_tabletop,
 /obj/structure/table/reinforced,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "Wj" = (
@@ -782,6 +869,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "Xd" = (
@@ -792,6 +880,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plastic,
 /area/shuttle/hunter/bounty)
 "Xt" = (
@@ -803,6 +892,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden,
 /obj/machinery/recharge_station,
 /obj/effect/turf_decal/bot,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth_large,
 /area/shuttle/hunter/bounty)
 "XJ" = (
@@ -815,6 +905,7 @@
 /obj/machinery/airalarm/directional/north,
 /obj/effect/mapping_helpers/airalarm/all_access,
 /obj/effect/mapping_helpers/airalarm/unlocked,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "XK" = (
@@ -822,6 +913,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "XR" = (
@@ -868,6 +960,7 @@
 /obj/machinery/door/poddoor{
 	id = "hunter_bounty_cargo"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "Zk" = (
@@ -888,6 +981,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
 /area/shuttle/hunter/bounty)
 
@@ -1005,7 +1099,7 @@ Wj
 nc
 XR
 Fd
-Gg
+NS
 Zk
 is
 Rf
@@ -1013,7 +1107,7 @@ Vm
 "}
 (9,1,1) = {"
 Zb
-le
+HQ
 fa
 Xt
 ew
@@ -1028,9 +1122,9 @@ Vm
 "}
 (10,1,1) = {"
 Zb
-le
+HQ
 de
-le
+HQ
 Wj
 nc
 cG
@@ -1047,7 +1141,7 @@ tT
 DD
 dO
 Vm
-nc
+Lq
 RR
 as
 Gp
@@ -1093,7 +1187,7 @@ DY
 BQ
 Vf
 cD
-le
+HQ
 Vm
 XJ
 SE
@@ -1107,8 +1201,8 @@ Vm
 rk
 FS
 lO
-cD
-cD
+rs
+rs
 dn
 cD
 gu

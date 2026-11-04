@@ -191,6 +191,7 @@
 "jL" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/sign/poster/contraband/nri_rations/directional/west,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/hunter/russian)
 "jO" = (
@@ -497,6 +498,26 @@
 	dir = 1
 	},
 /obj/structure/closet/crate/freezer,
+/obj/item/food/rationpack,
+/obj/item/food/rationpack,
+/obj/item/food/rationpack,
+/obj/item/food/rationpack,
+/obj/item/food/rationpack,
+/obj/item/food/rationpack,
+/obj/item/reagent_containers/condiment/milk/small_ration,
+/obj/item/reagent_containers/condiment/sugar/small_ration,
+/obj/item/reagent_containers/cup/glass/waterbottle/large,
+/obj/item/reagent_containers/cup/glass/waterbottle/large,
+/obj/item/reagent_containers/cup/glass/waterbottle/large,
+/obj/item/reagent_containers/cup/glass/waterbottle/large,
+/obj/item/reagent_containers/cup/glass/waterbottle/large,
+/obj/item/reagent_containers/cup/glass/waterbottle/large,
+/obj/item/food/canned/beans,
+/obj/item/food/canned/beans,
+/obj/item/food/canned/beans,
+/obj/item/food/canned/beans,
+/obj/item/food/ready_donk/donkhiladas,
+/obj/item/food/ready_donk/mac_n_cheese,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/hunter/russian)
 "FK" = (
