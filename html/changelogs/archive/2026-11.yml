@@ -1,0 +1,203 @@
+2026-11-04:
+  Absolucy:
+  - bugfix: Blood splatters from flying drops land on the wall they hit instead of
+      mid-room.
+  - bugfix: Flying blood drops carry diseases to their splatter.
+  - bugfix: Items and blood drops flung in zero gravity stop instead of drifting forever.
+  - admin: select equipment's quirk and holy/unholy options work again, and now apply
+      to the person being dressed
+  - bugfix: fixed AI advanced tracking probably lagging the shit out of the server.
+  - bugfix: big floods cause way less lag
+  - bugfix: burning liquid no longer spams smoke, and burnt-out fires actually go
+      out
+  - bugfix: Relogging no longer stacks a new combat mode button your hud each time
+  - balance: Stabilized and Regenerative bluespace extracts now have a 3 second window
+      where you can shove someone to prevent them from being teleported (or they can
+      resist out of it if they want)
+  - bugfix: Hopefully reduced FPS lag when there's a lot of people of varying heights
+      wearing clothes and such.
+  Addust:
+  - rscadd: new offices for four admins, two reserved spots for admins to map their
+      own
+  - rscadd: new mentor office block accessible at centcom via teleporter and transit
+      tube
+  - rscadd: new mech exclusive to an admin office (they asked nicely)
+  - spellcheck: rewrites the examine text for killermankey's baller as fuck old foxhole
+      mechs
+  - spellcheck: rewrites examine text for the super big .500 magnum fuck you admin
+      revolver as well
+  - rscadd: new admin doors that check privileges before opening
+  - rscdel: some old admin offices have been vaporised
+  Ben10Omintrix, tattle:
+  - bugfix: Basic mobs that couldn't find anything to attack no longer freeze up forever,
+      duct spiders spin webs again.
+  - bugfix: Basic mobs play sounds on their audible emotes, with new sounds for insects,
+      mice, crabs, chickens, chicks and ponies.
+  - bugfix: Chickens and chicks cluck and cheep on their own now.
+  Gboster-0:
+  - rscadd: Mice can now be used as wirecutters.
+  HIDgamer:
+  - bugfix: 'fixed cassettes failing to play due to floxy not being set up
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - bugfix: 'fixed SoundCloud links not playing in the music panel
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - rscadd: 'added 42 new sound files
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - rscadd: added nanite volume sensor amount option
+  - rscadd: added nanite consciousness sensor and rule
+  - rscadd: added nanite organ health sensor and rule
+  - rscadd: added nanite program rules
+  - bugfix: fixed Sent Code (False) fix
+  - bugfix: fixed nanite sensors never sending their signal codes
+  - rscadd: 'added the Nanites for Dummies handbook
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  - rscadd: 'added combat boots now noisemaker
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+  JupiterJaeden:
+  - rscadd: Adds new behavior to beepsky whenever the station is on green alert- instead
+      of immediately stunning suspects, he will yell at them to turn themselves in
+      and follow them around annoyingly while playing a siren noise. Beepsky will
+      move faster than usual when doing this, but not quite as fast as regular movespeed.
+      Suspects are counted as 'complying' when they are handcuffed, pulled by a security
+      officer, inside the security department, or at the entrance to the brig. This
+      behavior does not apply if either the target or beepsky himself is in a 'high-security'
+      area such as the armory, where he will behave normally. He will also still retaliate
+      as normal if attacked.
+  - rscadd: When the station is on red alert, beepsky will stun and arrest people
+      with search warrants as if they were arrest warrants.
+  - balance: Sets lasers from 22 -> 24 damage (as opposed to 25 on current monke and
+      /tg/).
+  - balance: Sets hellfire lasers from 25 -> 30 damage.
+  - balance: Reverts a previous (accidental) nerf to laser carbines, setting them
+      back from 9 -> 10 dmg.
+  - balance: Lowers e-gun lethal capacity from 16 -> 14.
+  - balance: Increases e-gun disabler capacity, and hybrid taser disabler capacity,
+      from 20 -> 25.
+  - balance: Buffs nightmare by removing its 1.5x modifier to burn damage.
+  JupiterJaeden, Glitchythenerd:
+  - rscadd: Adds Moffioso, the dastardly mothroach street enforcer of the Moffia.
+      He's been locked away in permabrig for his crimes, and replaces the Ook monkey
+      that previously spawned in prison. Credit to Glitchythenerd for the sprites!
+  - rscdel: Removes the 'dukeman' (Ook) monkey from the game.
+  - bugfix: Fixes a bug where mothroaches would not have their icon correctly updated
+      when they toggled resting.
+  LettuceGuardian:
+  - rscadd: Two new tactical sec jumpsuits. Nanotrasen advises that LARPing in company
+      time leads to lower efficiency.
+  - rscadd: Roll up sleeves for the syndicate combat jumpsuit.
+  - rscadd: Autopsy scanners spawn inside surgery bags.
+  - rscadd: Deforest satchel can store ambubags.
+  Longestarmlonglaw:
+  - rscadd: Added requistions to cargo, doing research unlocks advanced weaponry to
+      be bought there as opposed to being printable kits from security's techfab
+  - rscadd: ' Requisitioned guns come with electronic firing pins.'
+  - rscdel: Removed most gun kit crafting recipes and their protolathe designs. The
+      hellfire and event horizon remain unchanged.
+  - balance: Tesla cannons no longer require flux cores
+  - bugfix: fixed not being able to unlock crates you bought with the budget without
+      a budget card.
+  - rscadd: Added 5 new cat ears ported from orbstation.
+  - qol: Getting hit by an attack that is either weak against armor or has negative
+      AP says your armor "heavily softens" the blow.
+  - bugfix: Fixed attack feedback messages saying your armor "was penetrated" even
+      if the attack has negative AP.
+  Mantlecrawler:
+  - rscadd: The Ashen Whetstone, a new necropolis chest tendril loot item.
+  - rscadd: It can be used on crushers & pkas to buff them, and has one use.
+  - rscadd: Crushers gain additional damage, backstab damage, and armour pierce
+  - rscadd: PKAs gain 40% mod capacity
+  - rscdel: Challenges no longer pay out fake coins
+  Melbert:
+  - rscadd: Adds Carptongue language, spoken by space carps.
+  - rscadd: Space dragons can speak Draconic and Carptongue.
+  - rscadd: Ash drakes and ice whelps now speak Draconic.
+  - rscadd: Fire sharks now speak Carptongue.
+  - rscadd: Sleeping carp grants you Carptongue.
+  Runian:
+  - rscadd: Engineering cyborgs can pick up conveyor belts and switches.
+  - rscadd: Using a screwdriver on an unattached sign will attach to it to a wall
+      you're facing.
+  SirNightKnight:
+  - balance: chamaeleon gas masks are pepperproof.
+  SmArtKar:
+  - bugfix: Hulk and infusions no longer color or texture robotic limbs.
+  - bugfix: Limbs attached while you have a carp infusion or hulk now match the rest
+      of your body.
+  - bugfix: Getting deconverted from cult no longer leaves you with black eyes.
+  - bugfix: Eye color effects (cult, weed, silverscale, demoneye) no longer mess up
+      your eye color when they overlap.
+  Tractor-Maam:
+  - spellcheck: Integration Cog installs now say "apc" in their balloon alert instead
+      of "aPC".
+  - rscadd: AIs in shells now receive download alerts
+  - rscadd: AI download alerts now make an audio cue.
+  - balance: AI Control Consoles now stop downloads when depowered (previously paused)
+  - bugfix: the silent variable on control console upload ai now actually makes it
+      silent.
+  - bugfix: 'Cyborgs will now link to AIs again.
+
+      fix; AI Uploads now work again.'
+  V2LenKagamine:
+  - map: Slightly nudges down asteroid magnet on Helio to avoid killing shuttles [Hopefully]
+  - map: Add tiny fans to all [or at least most] of Helio airlocks
+  - map: Slightly nudges ordinance launcher to accomidate asteroid magnet
+  ashallaryn:
+  - image: added hair_bedhead_glorppy sprites
+  - image: added hair_bedhead_nestia sprites
+  - image: updated hair sprite for hair_floorlength_bedhead "Floorlength Bedhead"
+  - image: updated hair sprite for hair_longer_bedhead "Longer Bedhead"
+  - image: updated hair sprite for hair_long_bedhead "Long Bedhead"
+  - image: updated hair sprite for hair_longstraightponytail "Ponytail (Long)"
+  - image: updated hair sprite for hair_highponytail "Ponytail (High)"
+  chumtoad154:
+  - rscadd: Marish, a unique language for shadekin
+  - bugfix: fixed a few bugs related to their sprites
+  - code_imp: updated eye_icon to point to bastionstation/icons/mob/species/human/human_face.dmi
+      because asset modularization
+  chumtoadmonke:
+  - rscdel: Removed infectious exo-locomotion program
+  - balance: Brainwashing nanites will check if you have a mindshield
+  notghosti:
+  - bugfix: '"Reconnect to shell" verb, action, and key bind now all properly reconnect
+      you the last shell used as a AI'
+  - bugfix: Drones have the following traits returned, Unobservant, silicon access,
+      and reagent scanner
+  - balance: War op declaration is swapped from world time to station time.
+  - balance: Nuke disk guaranteed nukeop spawn now respects maximum antags. And if
+      fails will try again in 5 minutes.
+  - bugfix: Nuke disk no longer tracks time at half the rate of intended

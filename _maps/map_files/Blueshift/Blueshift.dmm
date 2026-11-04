@@ -74613,6 +74613,7 @@
 /obj/effect/turf_decal/trimline/red/filled/warning{
 	dir = 4
 	},
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/iron/dark/side{
 	dir = 4
 	},

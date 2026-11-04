@@ -1,5 +1,0 @@
-author: "Longestarmlonglaw"
-delete-after: True
-changes:
-  - qol: "Getting hit by an attack that is either weak against armor or has negative AP says your armor \"heavily softens\" the blow."
-  - bugfix: "Fixed attack feedback messages saying your armor \"was penetrated\" even if the attack has negative AP."
