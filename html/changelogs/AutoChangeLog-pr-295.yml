@@ -1,6 +1,0 @@
-author: "JupiterJaeden, Glitchythenerd"
-delete-after: True
-changes:
-  - rscadd: "Adds Moffioso, the dastardly mothroach street enforcer of the Moffia. He's been locked away in permabrig for his crimes, and replaces the Ook monkey that previously spawned in prison. Credit to Glitchythenerd for the sprites!"
-  - rscdel: "Removes the 'dukeman' (Ook) monkey from the game."
-  - bugfix: "Fixes a bug where mothroaches would not have their icon correctly updated when they toggled resting."
