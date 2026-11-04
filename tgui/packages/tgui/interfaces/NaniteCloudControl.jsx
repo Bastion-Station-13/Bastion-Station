@@ -541,14 +541,30 @@ export const NaniteCloudBackupDetails = (props) => {
                     </>
                   }
                 >
+                  {rules.length > 1 && (
+                    <Box mb={1} italic>
+                      {`Reads as: ${program.rule_summary}`}
+                    </Box>
+                  )}
                   {program.has_rules ? (
                     rules.map((rule) => (
-                      <Box key={rule.display}>
+                      <Box key={rule.id}>
                         <Button
                           icon="minus-circle"
                           color="bad"
                           onClick={() =>
                             act('remove_rule', {
+                              program_id: program.id,
+                              rule_id: rule.id,
+                            })
+                          }
+                        />
+                        <Button
+                          icon="link"
+                          tooltip="Rules in the same group are combined the opposite way first: all of them when the program meets any, any of them when it meets all"
+                          content={rule.group ? `Group ${rule.group}` : 'No group'}
+                          onClick={() =>
+                            act('cycle_rule_group', {
                               program_id: program.id,
                               rule_id: rule.id,
                             })
@@ -586,6 +602,12 @@ export const NaniteProgramHub = (props) => {
             icon={detail_view ? 'info' : 'list'}
             content={detail_view ? 'Detailed' : 'Compact'}
             onClick={() => act('toggle_details')}
+          />
+          <Button
+            icon="book"
+            content="Nanites for Dummies"
+            tooltip="Prints a copy of the nanite handbook"
+            onClick={() => act('print_manual')}
           />
           <Button
             icon="sync"

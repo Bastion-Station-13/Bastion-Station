@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/mecha/trash_tank
-	desc = "A trashcart that seems to be repurposed as the basis of a tank hull. with a turret and an electric engine strapped into it. It's a miracle it's even working"
+	desc = "A trash-cart converted into some sort of improvised tank, with tracks thrown together out of spare conveyor belts and a turret made out of some disposals equipment. By some miracle, it does run."
 	name = "trash tank"
 	icon = 'icons/mob/rideables/mecha.dmi'
 	icon_state = "trash_tank"
@@ -51,6 +51,7 @@
 
 /obj/vehicle/sealed/mecha/trash_tank/proc/upgrade()
 	name = "up-armoured trash tank"
+	desc = "A trash-cart converted into some sort of improvised tank, with tracks thrown together out of spare conveyor belts and a turret made out of some disposals equipment. By some miracle, it does run. Additional applique armour has been bolted onto it."
 	icon_state = "trash_tank-armoured"
 	base_icon_state = "trash_tank-armoured"
 	update_appearance()

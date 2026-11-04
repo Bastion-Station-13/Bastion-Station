@@ -1,0 +1,5 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - rscadd: "Adds new behavior to beepsky whenever the station is on green alert- instead of immediately stunning suspects, he will yell at them to turn themselves in and follow them around annoyingly while playing a siren noise. Beepsky will move faster than usual when doing this, but not quite as fast as regular movespeed. Suspects are counted as 'complying' when they are handcuffed, pulled by a security officer, inside the security department, or at the entrance to the brig. This behavior does not apply if either the target or beepsky himself is in a 'high-security' area such as the armory, where he will behave normally. He will also still retaliate as normal if attacked."
+  - rscadd: "When the station is on red alert, beepsky will stun and arrest people with search warrants as if they were arrest warrants."
