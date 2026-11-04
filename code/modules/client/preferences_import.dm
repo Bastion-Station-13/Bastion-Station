@@ -102,7 +102,8 @@ GLOBAL_LIST_INIT(preferences_import_key_types, list(
 		return result["error"]
 
 	// what the server keeps is read from the saved file when the import is applied, so make sure it is current
-	parent.client_token_holder?.convert_tokens_to_list()
+	if(istype(parent, /client))
+		parent.client_token_holder?.convert_tokens_to_list()
 	save_preferences()
 
 	var/pending_path = preferences_import_pending_path(parent_ckey)
@@ -146,7 +147,7 @@ GLOBAL_LIST_INIT(preferences_import_key_types, list(
 		return list("error" = "That file is too old to import.")
 
 	var/list/clean = list()
-	var/characters = 0
+	var/list/slots = list()
 	for(var/key in tree)
 		if(!istext(key) || length(key) > 64 || (key in GLOB.preferences_import_kept_keys))
 			continue
@@ -159,25 +160,111 @@ GLOBAL_LIST_INIT(preferences_import_key_types, list(
 				clean[key] = value
 			continue
 
-		if(copytext(key, 1, 10) == "character")
-			var/slot_text = copytext(key, 10)
-			var/slot = text2num(slot_text)
+		// some settings have names that start with character too, only character and a number is a slot
+		var/slot_text = copytext(key, 10)
+		var/slot = copytext(key, 1, 10) == "character" ? text2num(slot_text) : null
+		if(!isnull(slot))
 			if("[slot]" != slot_text || slot != round(slot) || slot < 1 || slot > target.max_save_slots || !islist(value))
+				continue
+			if(!preferences_import_character_ok(value, target))
 				continue
 			sanitize_imported_character(value, target)
 			clean[key] = value
-			characters++
+			slots += slot
 			continue
 
 		var/datum/preference/preference = GLOB.preference_entries_by_key[key]
 		if(preference?.savefile_identifier == PREFERENCE_PLAYER)
 			clean[key] = value
 
-	if(!characters)
+	if(!length(slots))
 		return list("error" = "That file has no characters in it.")
+
+	for(var/key in list("toggles", "chat_toggles"))
+		if(!(key in clean))
+			continue
+		var/bits = sanitize_integer(clean[key], 0, SHORT_REAL_LIMIT - 1, -1)
+		if(bits == -1)
+			clean -= key
+		else
+			clean[key] = bits
+	for(var/key in list("be_special", "ignoring", "favorite_outfits"))
+		if(islist(clean[key]))
+			clean[key] = preferences_import_text_entries(clean[key])
+	if(islist(clean["job_preferences_overall"]))
+		clean["job_preferences_overall"] = preferences_import_clean_job_preferences(clean["job_preferences_overall"])
+	if(islist(clean["channel_volume"]))
+		clean["channel_volume"] = preferences_import_clean_volumes(clean["channel_volume"])
+	if(islist(clean["key_bindings"]))
+		clean["key_bindings"] = preferences_import_clean_key_bindings(clean["key_bindings"])
+	preferences_import_fix_slots(clean, slots)
 	return list("tree" = clean)
 
-/// Removes what the player couldn't pick themselves from an imported character, the loadout is only checked when it is picked
+/// A character needs a version the game can load, or loading it throws it away and makes a new one
+/proc/preferences_import_character_ok(list/character, datum/preferences/target)
+	if(!isnum(character["version"]))
+		return FALSE
+	if(!isnull(character["modular_version"]) && !isnum(character["modular_version"]))
+		character -= "modular_version"
+	return target.save_data_needs_update(character) != -2 && target.save_data_needs_update_monkestation(character) != -2
+
+/// Only the text in a list, a number in it would be an index when the game looks it up
+/proc/preferences_import_text_entries(list/entries)
+	var/list/clean = list()
+	for(var/entry in entries)
+		if(istext(entry))
+			clean += entry
+	return clean
+
+/// The sliders save a number from 0 to 100 for each sound channel
+/proc/preferences_import_clean_volumes(list/volumes)
+	var/list/clean = list()
+	for(var/channel in volumes)
+		if(!istext(channel) || isnull(text2num(channel)))
+			continue
+		var/volume = volumes[channel]
+		if(isnum(volume))
+			clean[channel] = clamp(volume, 0, 100)
+	return clean
+
+/// Key bindings are the name of an action with the list of keys it is on
+/proc/preferences_import_clean_key_bindings(list/bindings)
+	var/list/clean = list()
+	for(var/action in bindings)
+		if(!istext(action) || !(action in GLOB.keybindings_by_name))
+			continue
+		var/list/keys = bindings[action]
+		if(islist(keys))
+			clean[action] = preferences_import_text_entries(keys)
+	return clean
+
+/// Job preferences are the name of a job with low, medium or high
+/proc/preferences_import_clean_job_preferences(list/job_preferences)
+	var/list/clean = list()
+	for(var/job_name in job_preferences)
+		if(!istext(job_name) || !SSjob.GetJob(job_name))
+			continue
+		var/level = job_preferences[job_name]
+		if(level == JP_LOW || level == JP_MEDIUM || level == JP_HIGH)
+			clean[job_name] = level
+	return clean
+
+/// The default and enabled characters have to be ones that were imported
+/proc/preferences_import_fix_slots(list/clean, list/slots)
+	var/first_slot = min(slots)
+	if(!(clean["default_slot"] in slots))
+		clean["default_slot"] = first_slot
+	if(!(clean["default_character"] in slots))
+		clean["default_character"] = first_slot
+	var/list/enabled = list()
+	for(var/slot in clean["enabled_characters"])
+		if(slot in slots)
+			enabled |= slot
+	if(!length(enabled))
+		enabled += clean["default_character"]
+	clean["enabled_characters"] = enabled
+
+/// Removes what the player couldn't pick themselves from an imported character, the loadout and job titles are only checked when they are picked
 /proc/sanitize_imported_character(list/character, datum/preferences/target)
 	var/list/clean_loadout = list()
 	var/list/loadout = character["loadout_list"]
@@ -195,6 +282,32 @@ GLOBAL_LIST_INIT(preferences_import_key_types, list(
 			var/info = loadout[path_text]
 			clean_loadout[path_text] = islist(info) ? info : list()
 	character["loadout_list"] = clean_loadout
+
+	// a quirk that doesn't exist, or isn't text, stops the character from loading
+	var/list/valid_quirks = SSquirks.get_quirks()
+	var/list/clean_quirks = list()
+	var/list/quirks = character["all_quirks"]
+	if(islist(quirks))
+		for(var/quirk_name in quirks)
+			if(istext(quirk_name) && valid_quirks[quirk_name])
+				clean_quirks |= quirk_name
+	character["all_quirks"] = clean_quirks
+
+	var/list/job_preferences = character["job_preferences"]
+	character["job_preferences"] = islist(job_preferences) ? preferences_import_clean_job_preferences(job_preferences) : list()
+
+	// the job menu only gives the titles a job has
+	var/list/clean_titles = list()
+	var/list/titles = character["alt_job_titles"]
+	if(islist(titles))
+		for(var/job_name in titles)
+			if(!istext(job_name))
+				continue
+			var/title = titles[job_name]
+			var/datum/job/job = SSjob.GetJob(job_name)
+			if(job && istext(title) && (title in job.alt_titles))
+				clean_titles[job_name] = title
+	character["alt_job_titles"] = clean_titles
 
 	// these are positions in the inventory the player owns, which an import never changes
 	var/list/clean_special = list()
