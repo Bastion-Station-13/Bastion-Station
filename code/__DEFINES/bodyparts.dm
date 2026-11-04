@@ -8,4 +8,10 @@
 #define LIMB_COLOR_ATOM_COLOR 30
 
 // Overlay priorities
+<<<<<<< HEAD
 #define BODYPART_OVERLAY_CARP_INFUSION 1
+=======
+#define BODYPART_OVERLAY_FISH_INFUSION 1
+#define BODYPART_OVERLAY_CARP_INFUSION 2
+#define BODYPART_OVERLAY_MESH 3
+>>>>>>> b43bdec8 ([PORT] Tails and wings get meshed over by suits (#12778))
