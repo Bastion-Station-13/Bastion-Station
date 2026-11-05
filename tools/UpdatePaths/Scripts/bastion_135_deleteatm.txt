@@ -1,0 +1,2 @@
+/obj/machinery/atm : @DELETE
+/obj/machinery/atm/@SUBTYPES : @DELETE
