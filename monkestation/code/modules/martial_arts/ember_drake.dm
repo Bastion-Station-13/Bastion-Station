@@ -303,28 +303,21 @@
 		span_danger("[attacker] finishes off [defender] and skins it in one motion!"),
 		span_userdanger("[attacker] finishes you off!"),
 	)
+	// Drops everything a crusher kill would
+	if(ismegafauna(defender))
+		var/mob/living/simple_animal/hostile/megafauna/megafauna = defender
+		if(megafauna.crusher_loot)
+			megafauna.spawn_crusher_loot()
+	else if(istype(defender, /mob/living/basic/mining))
+		var/mob/living/basic/mining/mining_mob = defender
+		if(mining_mob.crusher_loot)
+			var/turf/drop_turf = get_turf(defender)
+			for(var/loot_type in islist(mining_mob.crusher_loot) ? mining_mob.crusher_loot : list(mining_mob.crusher_loot))
+				new loot_type(drop_turf)
 	defender.adjustBruteLoss(defender.maxHealth * 2, forced = TRUE)
 	if(defender.stat != DEAD)
 		defender.death()
-	var/turf/drop_turf = get_turf(defender)
-	var/list/trophies = get_crusher_trophies(defender)
 	defender.gib()
-	for(var/trophy_type in trophies)
-		new trophy_type(drop_turf)
-
-/// The crusher trophies this fauna would drop for a crusher kill, without the rest of its crusher loot
-/datum/martial_art/ember_drake/proc/get_crusher_trophies(mob/living/defender)
-	var/crusher_loot
-	if(istype(defender, /mob/living/basic/mining))
-		var/mob/living/basic/mining/mining_mob = defender
-		crusher_loot = mining_mob.crusher_loot
-	else if(ismegafauna(defender))
-		var/mob/living/simple_animal/hostile/megafauna/megafauna = defender
-		crusher_loot = megafauna.crusher_loot
-	. = list()
-	for(var/loot_type in islist(crusher_loot) ? crusher_loot : list(crusher_loot))
-		if(ispath(loot_type, /obj/item/crusher_trophy))
-			. += loot_type
 
 /datum/martial_art/ember_drake/proc/ember_breath(mob/living/attacker, mob/living/defender)
 	var/datum/action/cooldown/mob_cooldown/fire_breath/ash_breath = locate() in attacker.actions
@@ -357,11 +350,11 @@
 	defender.ignite_mob()
 
 // Status effects
-// Not giving this alert a sprite because it only ever applies to fauna... which are ai controlled and not player controlled.
+// The alert type is a placeholder because it dosen't have a sprite yet. I will work on one later. DO NOT MERGE UNLESS IT HAS A SPRITE.
 /datum/status_effect/ember_drake_ashed
 	id = "ember_drake_ashed"
 	status_type = STATUS_EFFECT_REFRESH
-	alert_type = null
+	alert_type = /atom/movable/screen/alert/status_effect/ember_drake_ashed
 	duration = 4 SECONDS
 	var/mutable_appearance/ash_overlay
 
@@ -386,6 +379,12 @@
 /datum/status_effect/ember_drake_ashed/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
 	owner.cut_overlay(ash_overlay)
+
+/atom/movable/screen/alert/status_effect/ember_drake_ashed
+	name = "Ashed"
+	desc = "Ash is in your eyes! You can't see, and probably can't attack either."
+	icon = 'icons/hud/screen_alert.dmi'
+	icon_state = "blind"
 
 /datum/status_effect/ember_flayed
 	id = "ember_flayed"
@@ -419,13 +418,13 @@ GAME_VERB_PROC_DESC(/mob/living/carbon/human, ember_drake_help, "Recall Teaching
 	to_chat(usr, "<b><i>You close your eyes and remember the hunts of the Ember Drake...</i></b>")
 
 	to_chat(usr, span_notice("Tail Lash</span>: Disarm Harm. Knocks people back and winds them. Hurts and stuns fauna."))
-	to_chat(usr, span_notice("Ash in the Eyes</span>: Grab Harm. Blinds people. Fauna loses its target and can't attack for a few seconds."))
-	to_chat(usr, span_notice("Drake's Bite</span>: Harm Harm Harm. A bite that always leaves a bleeding wound. On fauna it hits harder and heals you."))
-	to_chat(usr, span_notice("Pin the Prey</span>: Disarm Disarm Grab. Knocks people down into an aggressive grab. Pins fauna in place."))
-	to_chat(usr, span_notice("Skin the Hunt</span>: Grab Disarm Harm. Flays people, so melee hits them harder, and heals you a little. Finishes off badly wounded fauna and skins it on the spot."))
-	to_chat(usr, span_notice("Ember Breath</span>: Harm Disarm Harm. Fires your fire breath, if you have one ready. If you don't, you snap a burst of embers at the target instead."))
-	to_chat(usr, "<b><i>Your art is strongest against fauna, fair against people in the wilds, and weaker on the station.</i></b>")
-	to_chat(usr, "<b><i>In throw mode you block melee attacks, and in the wilds you can deflect kinetic accelerator shots. Fauna can't bite as deep through your hide, goliath tentacles can't hold you, and your scales resist wounds.</i></b>")
+	to_chat(usr, span_notice("Ash in the Eyes</span>: Grab Harm. Toss ash into a victim's eyes to blind them. Fauna lose the ability to attack for a few seconds instead."))
+	to_chat(usr, span_notice("Drake's Bite</span>: Harm Harm Harm. Bite a target to inflict a bleeding wound. Biting a beast results in a stronger bite and a mild heal."))
+	to_chat(usr, span_notice("Pin the Prey</span>: Disarm Disarm Grab. Knocks an invader down into an aggressive grab Fauna get pinned in place, but still retain the ability to attack."))
+	to_chat(usr, span_notice("Skin the Hunt</span>: Grab Disarm Harm. Flay some skin off someone so melee strikes hurt more against them and also mildly heal you. It also finishes off badly wounded fauna instakilling them on the spot and granting a crusher trophy ontop of the previous loot"))
+	to_chat(usr, span_notice("Ember Breath</span>: Harm Disarm Harm. Unleash your fire breath, if you have one ready. If you don't, snap a burst of embers at the target instead giving them some firestacks."))
+	to_chat(usr, "<b><i>This art was made for hunting the beasts of the wilds, it's not the most effective against people and is heavily weakened off lavaland.</i></b>")
+	to_chat(usr, "<b><i>Throw mode lets you block melee hits, and on lavaland lets you deflect kinetic accelerator shots. Your hide also becomes toughened against the strikes of fauna, you become immune to being restrained by goliath tentacles, and you're harder to wound.</i></b>")
 
 #undef TAIL_LASH_COMBO
 #undef ASH_IN_THE_EYES_COMBO

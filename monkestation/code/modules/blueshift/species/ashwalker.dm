@@ -1,9 +1,9 @@
 /**
  * 10 minutes = ash storm immunity
  * 20 minutes = armor
- * 30 minutes = base punch
+ * 30 minutes = extra punch damage, and unlocks the ability to use ember drake martial arts
  * 40 minutes = lavaproof
- * 50 minutes = firebreath
+ * 50 minutes = firebreath. firebreath is used as part of ember drake combo Ember Breath
  */
 
 /datum/component/ash_age
@@ -31,7 +31,7 @@
 	SIGNAL_HANDLER
 	// if the world time hasn't yet passed the time required for evolution
 	if(world.time < (evo_time + stage_time))
-		to_chat(human_target, span_warning("More time is necessary to evolve-- ten minutes between each evolution..."))
+		to_chat(human_target, span_warning("More time is necessary to evolve-- [DisplayTimeText(evo_time + stage_time - world.time, 1)] until the next evolution..."))
 		return
 	// since it was time, go up a stage and now we check what to add
 	current_stage++

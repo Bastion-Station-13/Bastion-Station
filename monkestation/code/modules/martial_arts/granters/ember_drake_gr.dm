@@ -9,51 +9,41 @@
 	icon_state = "emberscroll"
 	remarks = list(
 		"I must prove myself worthy of the elders of the tribe...",
-		"Strike the beast where its hide is thinnest...",
-		"Ash in the eyes blinds even a drake...",
-		"Pin the prey before it can turn on you...",
-		"Breathe your fire when the moment is right...",
+		"I should pin and blind prey so my fellow tribemates can finish them off.",
+		"So you CAN kill megafauna with your bare hands, but it takes a lot of skill and patience.",
+		"Why do i suddenly become weaker when i leave the wastes? I don't get it.",
 		"I don't think this would combine with other martial arts...",
-		"Hsss...",
+		"This will be helpful against those invaders.",
 	)
 
-/// Ashwalkers have primitive brains and can't read, but the scroll has drawings, so lizards can follow it anyway
-/obj/item/book/granter/martial/ember_drake/attack_self(mob/living/user)
-	if(!islizard(user) || HAS_TRAIT(user, TRAIT_LITERATE))
-		return ..()
-	ADD_TRAIT(user, TRAIT_LITERATE, REF(src))
-	. = ..()
-	REMOVE_TRAIT(user, TRAIT_LITERATE, REF(src))
+/// Ashwalkers can't read, but the scroll is mostly drawings, so lizards can follow it anyway
+/obj/item/book/granter/martial/ember_drake/get_reading_checks(mob/living/user)
+	if(islizard(user))
+		return READING_CHECK_LIGHT
+	return ..()
 
 /obj/item/book/granter/martial/ember_drake/on_reading_start(mob/user)
 	if(user.has_language(/datum/language/draconic, UNDERSTOOD_LANGUAGE))
 		return ..()
-	to_chat(user, span_notice("You can't read a word of Draconic, but you don't need to. Your body follows the drawings of the hunt on its own."))
+	to_chat(user, span_notice("You can't understand a word of Draconic, but the drawings are easy enough to follow."))
 
 /obj/item/book/granter/martial/ember_drake/on_reading_finished(mob/living/carbon/user)
 	. = ..()
-	update_appearance()
-
-/obj/item/book/granter/martial/ember_drake/update_appearance(updates)
-	. = ..()
-	if(uses <= 0)
-		name = "scorched scroll"
-		desc = "A scroll of scorched hide. Whatever was drawn on it has flaked away to ash."
-		icon_state = "emberscroll_blank"
-	else
-		name = initial(name)
-		desc = initial(desc)
-		icon_state = initial(icon_state)
+	if(uses > 0)
+		return
+	visible_message(span_notice("[src] crumbles into ash."))
+	new /obj/effect/decal/cleanable/ash(get_turf(src))
+	qdel(src)
 
 /obj/item/book/granter/martial/ember_drake/can_learn(mob/user)
 	if(!islizard(user))
 		if(user.has_language(/datum/language/draconic, UNDERSTOOD_LANGUAGE))
 			to_chat(user, span_warning("You can read Draconic just fine. The movements are the problem: half of them need a tail, and the rest need scales."))
 		else
-			to_chat(user, span_warning("The markings are draconic, and they mean nothing to you."))
+			to_chat(user, span_warning("It's just a few sentences in draconic and crude doodles of lizards beating up animals."))
 		return FALSE
 	if(!ember_drake_age_ready(user))
-		to_chat(user, span_warning("The movements blur before your eyes. Your body is too young for this. Age further before you return to it."))
+		to_chat(user, span_warning("You try to read the scroll, but you're not old enough for this yet. Come back after you've evolved some more."))
 		return FALSE
 	return ..()
 
