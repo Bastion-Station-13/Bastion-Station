@@ -34,6 +34,7 @@
 #define NES_SENT_CODE_SIGNAL_INVERTED "Sent Code (Signal, Inverted)"
 #define NES_SENT_CODE_TRIGGER "Sent Code (Trigger)"
 #define NES_SENT_CODE_TRIGGER_INVERTED "Sent Code (Trigger, Inverted)"
+#define NES_SENT_CODE_FALSE "Sent Code (False)"
 #define NES_DELAY "Delay"
 #define NES_MODE "Mode"
 #define NES_COMM_CODE "Comm Code"
@@ -41,7 +42,10 @@
 #define NES_HEALTH_PERCENT "Health Percent"
 #define NES_DIRECTION "Direction"
 #define NES_NANITE_PERCENT "Nanite Percent"
+#define NES_NANITE_AMOUNT "Nanite Amount"
 #define NES_BLOOD_PERCENT "Blood Percent"
+#define NES_ORGAN "Organ"
+#define NES_ORGAN_PERCENT "Organ Health"
 #define NES_NUTRITION_PERCENT "Nutrition Percent"
 #define NES_DAMAGE_TYPE "Damage Type"
 #define NES_DAMAGE "Damage"
@@ -62,3 +66,6 @@
 #define NES_INVALID_PHRASE "Invalid Phrase"
 #define NES_PHRASE_REPLACEMENT "Phrase Replacement"
 #define NES_REPLACEMENT_MODE "Replacement Mode"
+
+/// How many rule groups a nanite program can use
+#define NANITE_RULE_GROUPS 3

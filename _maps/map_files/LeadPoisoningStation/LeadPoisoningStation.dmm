@@ -40325,6 +40325,10 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/floor2/fore)
+"tkY" = (
+/mob/living/basic/mothroach/moffioso,
+/turf/open/floor/iron/diagonal,
+/area/station/security/prison)
 "tle" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
@@ -97075,7 +97079,7 @@ fcy
 iQt
 kqh
 fez
-fez
+tkY
 fCI
 fez
 ndt

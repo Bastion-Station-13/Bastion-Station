@@ -8308,7 +8308,7 @@
 /obj/effect/turf_decal/trimline/orange/filled/line{
 	dir = 5
 	},
-/mob/living/carbon/human/species/monkey/dukeman,
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/iron/dark/herringbone,
 /area/station/security/prison)
 "cFC" = (

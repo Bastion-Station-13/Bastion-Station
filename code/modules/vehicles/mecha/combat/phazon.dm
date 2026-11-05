@@ -1,6 +1,6 @@
 /obj/vehicle/sealed/mecha/phazon
+	desc = "This is a Phazon exosuit. The pinnacle of scientific research and pride of Nanotrasen, it uses cutting edge bluespace technology and expensive materials to be able to phase through walls, among other advances."
 	name = "\improper Phazon"
-	desc = "This is a Phazon exosuit. The pinnacle of scientific research and pride of Nanotrasen, it uses cutting edge anomalous technology and expensive materials."
 	icon_state = "phazon"
 	base_icon_state = "phazon"
 	movedelay = 2
