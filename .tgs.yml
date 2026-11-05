@@ -3,7 +3,11 @@
 version: 1
 # The BYOND version to use (kept in sync with dependencies.sh by the "TGS Test Suite" CI job)
 # Must be interpreted as a string, keep quoted
+<<<<<<< HEAD
 byond: "516.1663"
+=======
+byond: "516.1687"
+>>>>>>> d76cbd15 (update all our github actions/CI stuff with tg's latest improvements (#12918))
 # Folders to create in "<instance_path>/Configuration/GameStaticFiles/"
 static_files:
   # Config directory should be static
