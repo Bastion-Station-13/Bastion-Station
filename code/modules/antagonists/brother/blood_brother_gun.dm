@@ -366,10 +366,11 @@
 	var/obj/item/blood_brother_gun_part/receiver/receiver = get_part(BB_GUN_PART_RECEIVER)
 	gun.fire_delay = (receiver?.bb_fire_interval || get_base_fire_delay()) * get_fire_delay_multiplier()
 
-/// Returns how much the installed lens and the gun's fire mode slow down or speed up the gun's firing.
+/// Returns how much the installed receiver and lens and the gun's fire mode slow down or speed up the gun's firing.
 /datum/component/blood_brother_gun/proc/get_fire_delay_multiplier()
+	var/obj/item/blood_brother_gun_part/receiver/receiver = get_part(BB_GUN_PART_RECEIVER)
 	var/obj/item/blood_brother_gun_part/lens/lens = get_part(BB_GUN_PART_LENS)
-	return (lens ? lens.bb_fire_delay_multiplier : 1) * fire_mode_delay_multiplier
+	return (receiver ? receiver.bb_fire_delay_multiplier : 1) * (lens ? lens.bb_fire_delay_multiplier : 1) * fire_mode_delay_multiplier
 
 /// Applies the installed lens's effects to the gun, replacing those of the previous lens.
 /// Damage, speed and fire rate are handled with the receiver, armour penetration, knockdown and teleporting in on_ready_projectile().

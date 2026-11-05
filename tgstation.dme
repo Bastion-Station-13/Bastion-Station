@@ -3407,6 +3407,7 @@
 #include "code\modules\antagonists\brother\patchwork_armor.dm"
 #include "code\modules\antagonists\brother\pin_clamp.dm"
 #include "code\modules\antagonists\brother\rapid_combat_device.dm"
+#include "code\modules\antagonists\brother\scrap_akm.dm"
 #include "code\modules\antagonists\brother\scrap_revolver.dm"
 #include "code\modules\antagonists\brother\scrapper_gloves.dm"
 #include "code\modules\antagonists\brother\smokebomb_lungs.dm"

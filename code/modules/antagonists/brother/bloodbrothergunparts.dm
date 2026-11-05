@@ -88,6 +88,8 @@
 	var/bb_projectile_speed_multiplier = 1
 	/// Firing interval for this receiver. Used as the gun's delay between shots.
 	var/bb_fire_interval
+	/// Multiplier applied to the delay between shots. Below 1 fires faster.
+	var/bb_fire_delay_multiplier = 1
 
 /obj/item/blood_brother_gun_part/receiver/get_effect_lines()
 	. = ..()
@@ -98,6 +100,8 @@
 		. += "Projectile speed [percent_text(bb_projectile_speed_multiplier)]."
 	if(bb_fire_interval)
 		. += "Fires every [bb_fire_interval / (1 SECONDS)] seconds."
+	if(bb_fire_delay_multiplier != 1)
+		. += "Time between shots [percent_text(bb_fire_delay_multiplier)]."
 
 /obj/item/blood_brother_gun_part/barrel
 	name = "barrel"
@@ -297,7 +301,7 @@
 	bb_receiver_type = BB_GUN_RECEIVER_AUTOMATIC
 	bb_damage_multiplier = 1
 	bb_projectile_speed_multiplier = 1
-	bb_fire_interval = 0.2 SECONDS
+	bb_fire_delay_multiplier = 0.5
 
 /obj/item/blood_brother_gun_part/receiver/rifle
 	name = "rifle receiver"

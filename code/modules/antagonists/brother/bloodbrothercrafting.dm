@@ -677,6 +677,26 @@
 		/obj/item/stock_parts/capacitor = 2,
 	)
 
+/datum/crafting_recipe/blood_brother/scrap_akm
+	name = "Scrap AKM"
+	desc = "AK-47s for everyone! (Ignore the fact that it's an AKM and not an ak-47) Also comes with no magazine when crafted."
+	category = CAT_BB_WEAPONS
+	result = /obj/item/gun/ballistic/automatic/scrap_akm
+	reqs = list(
+		/obj/item/weaponcrafting/receiver = 1,
+		/obj/item/weaponcrafting/stock = 1,
+		/obj/item/pipe = 2,
+		/obj/item/stack/sheet/plasteel = 5,
+		/obj/item/stack/sheet/mineral/wood = 5,
+		/obj/item/stack/sticky_tape = 1,
+	)
+	tool_behaviors = list(
+		TOOL_WELDER,
+		TOOL_WRENCH,
+		TOOL_SCREWDRIVER,
+	)
+	time = 15 SECONDS
+
 /datum/crafting_recipe/blood_brother/ned_kelly_armor
 	name = "Ned Kelly Armor"
 	desc = "Heavy plate over your chest, groin and arms. Wear it with the Ned Kelly helmet and nothing can stun you. Nothing covers the legs just like the real thing!"
@@ -762,6 +782,32 @@
 		TOOL_SCREWDRIVER,
 	)
 	time = 5 SECONDS
+
+/datum/crafting_recipe/blood_brother/akm_magazine
+	name = "AKM Magazine"
+	desc = "Iron bent into a curved magazine, and welding fuel packed into enough homemade rounds to fill it. Comes loaded with 30 rounds."
+	category = CAT_BB_AMMUNITION
+	result = /obj/item/ammo_box/magazine/akm
+	reqs = list(
+		/obj/item/stack/sheet/iron = 10,
+		/datum/reagent/fuel = 30,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+	)
+	time = 10 SECONDS
+
+/datum/crafting_recipe/blood_brother/a762x39_box
+	name = "7.62x39 Ammo Box"
+	desc = "A cardboard box of 60 loose scrap rounds for refilling your AKM magazines."
+	category = CAT_BB_AMMUNITION
+	result = /obj/item/ammo_box/a762x39
+	reqs = list(
+		/obj/item/stack/sheet/iron = 16,
+		/datum/reagent/fuel = 50,
+		/obj/item/stack/sheet/cardboard = 1,
+	)
+	time = 15 SECONDS
 
 /// Converts a regular .38 speedloader into a special one. Not a recipe itself, as it has no name or result.
 /datum/crafting_recipe/blood_brother/c38_speedloader
