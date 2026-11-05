@@ -292,6 +292,7 @@
 	new_arm_owner.update_worn_gloves()
 
 
+<<<<<<< HEAD
 /obj/item/bodypart/leg/drop_limb(special, dismembered, violent)
 	if(owner && !special)
 		if(owner.legcuffed)
@@ -302,6 +303,20 @@
 		if(owner.shoes)
 			owner.dropItemToGround(owner.shoes, TRUE, violent = violent)
 	return ..()
+=======
+/obj/item/bodypart/leg/drop_limb(special, dismembered, violent, move_to_floor = TRUE)
+	var/mob/living/carbon/leg_owner = owner
+	. = ..()
+	if(special || !leg_owner)
+		return
+	if(leg_owner.legcuffed)
+		leg_owner.legcuffed.forceMove(leg_owner.drop_location())
+		leg_owner.legcuffed.dropped(leg_owner)
+		leg_owner.legcuffed = null
+		leg_owner.update_worn_legcuffs()
+	if(leg_owner.shoes)
+		leg_owner.dropItemToGround(leg_owner.shoes, TRUE, violent = violent)
+>>>>>>> bf0c5981 ([PORT] MODsuits no longer need all parts deployed + portable suit (#12903))
 
 /obj/item/bodypart/head/drop_limb(special, dismembered, violent)
 	if(!special)
