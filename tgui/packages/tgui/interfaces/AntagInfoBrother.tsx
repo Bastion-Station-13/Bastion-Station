@@ -430,12 +430,66 @@ const GUIDE_TOPICS: GuideTopic[] = [
           You can't recruit people who are mindshielded, people who already
           belong to another blood brother bond or serve another master, the
           targets of your objectives, or anyone without a mind. Examine a flash
-          for more details.
+          for more details. To get around a mindshield, see the{' '}
+          <b>Security & Command</b> topic.
         </Box>
         <Box>
           Your flash <b>can</b> recruit other antagonists. Only <i>your</i>{' '}
           targets are off limits, so a traitor sent to kill you can still be
           flashed. Turn your hunter into your brother!
+        </Box>
+      </>
+    ),
+  },
+  {
+    title: 'Security & Command',
+    icon: 'user-shield',
+    content: (
+      <>
+        <Box mb={1}>
+          Security and command make the best brothers you can get. They have the
+          guns and the access, and the crew trusts them, so nobody will see it
+          coming. The catch is that they have <b>mindshields</b>, and a flash
+          won't work on anyone with one. It's worth the trouble though, because
+          your conversion is{' '}
+          <Box as="span" bold color="bad">
+            PERMANENT
+          </Box>
+          . A mindshield can only stop it from happening, it can't undo it.
+        </Box>
+        <Box mb={1}>
+          First you have to kidnap them. Use stuns to take them down and a{' '}
+          <b>makeshift radio jammer</b> so they can't call for help. You can
+          also just kill them and revive them later, but that's extra work.
+        </Box>
+        <Box mb={1}>
+          Get them somewhere private and do <b>implant removal</b> surgery on
+          their chest. If they have more than one implant the newest comes out
+          first, so keep going until the mindshield is out.
+        </Box>
+        <Box mb={1}>
+          Then flash them while they're awake.{' '}
+          <Box as="span" bold color="bad">
+            Security and command don't get to refuse.
+          </Box>{' '}
+          It still uses up one of your bond's conversions, and the targets of
+          your objectives are still off limits.
+        </Box>
+        <Box mb={1}>
+          Sort out a new mindshield before you let them go. Security HUDs show
+          who has one, so if an officer or head of staff gets caught without it,
+          expect your new brother to get arrested or killed. Hold an empty{' '}
+          <b>implant case</b> during the surgery in your offhand to save the old
+          one, or it gets destroyed, then load it into an <b>implanter</b> and
+          put it back in after you've flashed them. If you can't save it, you
+          can get another from cargo or a SecTech.
+        </Box>
+        <Box>
+          Out of conversions, but still want a brother in security or command?
+          Kill one of them and put your brother's brain in their body instead.
+          It doesn't cost a conversion since nobody new is joining the bond, and
+          the mindshield stays with the body, so your brother looks clean on
+          security HUDs without any extra work.
         </Box>
       </>
     ),
@@ -529,7 +583,8 @@ const GUIDE_TOPICS: GuideTopic[] = [
     content: (
       <>
         <Box mb={1}>
-          Get a clone scan or blood sample of every brother as soon as you can.{' '}
+          Get a clone scan, or a blood sample for pod cloning, of every brother
+          as soon as you can.{' '}
           <Box as="span" bold color="bad">
             I'm not kidding, you will probably lose if you don't.
           </Box>{' '}
@@ -548,12 +603,6 @@ const GUIDE_TOPICS: GuideTopic[] = [
           Don't flash people near security, or near the crew at all. A flash is
           loud and easy to recognize, which makes it a very good way to get
           caught.
-        </Box>
-        <Box mb={1}>
-          A mindshield stops you from recruiting someone, but it can't break a
-          bond that already exists. If you can kidnap a member of security or
-          command and get their mindshield out, flash them. They stay your
-          brother even if they're implanted again later.
         </Box>
         <Box>
           Your bond is permanent. Cultists and darkspawn thralls can be

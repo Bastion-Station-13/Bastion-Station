@@ -400,6 +400,22 @@
 	// Accept either cyborg arm, but never any other kind of arm.
 	blacklist |= typesof(/obj/item/bodypart/arm) - typesof(/obj/item/bodypart/arm/left/robot) - typesof(/obj/item/bodypart/arm/right/robot)
 
+/datum/crafting_recipe/blood_brother/toolset_implant/surgical
+	name = "Surgical Toolset Arm Implant"
+	desc = "A whole surgery tray crammed into a cyborg arm, ready to be shoved into you. Either cyborg arm will do."
+	result = /obj/item/organ/internal/cyberimp/arm/item_set/surgery
+	reqs = list(
+		/obj/item/bodypart/arm = 1,
+		/obj/item/retractor = 1,
+		/obj/item/hemostat = 1,
+		/obj/item/cautery = 1,
+		/obj/item/surgicaldrill = 1,
+		/obj/item/scalpel = 1,
+		/obj/item/circular_saw = 1,
+		/obj/item/surgical_drapes = 1,
+		/obj/item/stack/cable_coil = 10,
+	)
+
 /datum/crafting_recipe/blood_brother/smokebomb_lungs
 	name = "Smokebomb Lungs"
 	desc = "Cybernetic lungs packed with smoke powder, so you can breathe out a cloud to vanish like a ninja. Any cybernetic lungs will do."
