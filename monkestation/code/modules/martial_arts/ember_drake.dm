@@ -218,7 +218,7 @@
 	log_combat(attacker, defender, "threw ash in the eyes of (Ember Drake)")
 	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_DISARM)
-	playsound(defender, 'sound/weapons/thudswoosh.ogg', 50, TRUE, -1)
+	playsound(defender, 'sound/items/weapons/thudswoosh.ogg', 50, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] throws a fistful of ash into [defender]'s eyes!"),
 		span_userdanger("[attacker] throws a fistful of ash into your eyes!"),
@@ -233,7 +233,7 @@
 	log_combat(attacker, defender, "drake bit (Ember Drake)")
 	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_BITE)
-	playsound(defender, 'sound/weapons/bite.ogg', 50, TRUE, -1)
+	playsound(defender, 'sound/items/weapons/bite.ogg', 50, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] sinks [attacker.p_their()] teeth into [defender]!"),
 		span_userdanger("[attacker] sinks [attacker.p_their()] teeth into you!"),
@@ -256,7 +256,7 @@
 	log_combat(attacker, defender, "pinned (Ember Drake)")
 	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_SMASH)
-	playsound(defender, 'sound/weapons/punch1.ogg', 50, TRUE, -1)
+	playsound(defender, 'sound/items/weapons/punch1.ogg', 50, TRUE, -1)
 	if(setting == EMBER_SETTING_FAUNA)
 		defender.visible_message(
 			span_danger("[attacker] pins [defender] in place!"),
@@ -277,7 +277,7 @@
 	log_combat(attacker, defender, "skinned (Ember Drake)")
 	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_CLAW)
-	playsound(defender, 'sound/weapons/slash.ogg', 50, TRUE, -1)
+	playsound(defender, 'sound/items/weapons/slash.ogg', 50, TRUE, -1)
 	if(setting == EMBER_SETTING_FAUNA)
 		var/kill_below = ismegafauna(defender) ? SKIN_THE_HUNT_MEGAFAUNA_KILL_BELOW : SKIN_THE_HUNT_KILL_BELOW
 		if(defender.stat != DEAD && defender.health <= defender.maxHealth * kill_below)
@@ -344,7 +344,7 @@
 	log_combat(attacker, defender, "cinder snapped (Ember Drake)")
 	var/setting = get_setting(attacker, defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_CLAW)
-	playsound(defender, 'sound/magic/fireball.ogg', 40, TRUE, -1)
+	playsound(defender, 'sound/effects/magic/fireball.ogg', 40, TRUE, -1)
 	defender.visible_message(
 		span_danger("[attacker] snaps a burst of embers into [defender]'s face!"),
 		span_userdanger("[attacker] snaps a burst of embers into your face!"),
