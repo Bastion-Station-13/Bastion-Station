@@ -152,8 +152,8 @@ const InformationTab = () => {
           </Box>
           <Box mt={1}>
             You're still flesh, though. Bullets, blades and fire hurt you like
-            anyone else, and an outside EMP will sear you and scatter your
-            stored power. Be careful who sees you feeding.
+            anyone else, and an EMP will sear you and scatter your stored power.
+            Be careful who sees you feeding.
           </Box>
         </Section>
       </Stack.Item>

@@ -22,11 +22,30 @@
 		JOB_AI,
 		JOB_CYBORG,
 	)
-	base_antags = 1
-	maximum_antags = 2
+	enemy_roles = list(
+		JOB_AI,
+		JOB_CYBORG,
+		JOB_CAPTAIN,
+		JOB_BLUESHIELD,
+		JOB_DETECTIVE,
+		JOB_HEAD_OF_SECURITY,
+		JOB_SECURITY_OFFICER,
+		JOB_SECURITY_ASSISTANT,
+		JOB_BRIG_PHYSICIAN,
+		JOB_WARDEN,
+		// arcfiends will be hell on a shift with no engineers
+		JOB_CHIEF_ENGINEER,
+		JOB_STATION_ENGINEER,
+		JOB_ATMOSPHERIC_TECHNICIAN,
+		JOB_NETWORK_ADMIN,
+	)
+	required_enemies = 4
+	base_antags = 2
+	maximum_antags = 3
 	denominator = 30
-	weight = 4
-	min_players = 25
+	weight = 14
+	min_players = 20
+	shared_occurence_type = SHARED_ARCFIEND
 	event_icon_state = "traitor"
 
 /datum/round_event_control/antagonist/arcfiend/roundstart
@@ -39,6 +58,7 @@
 	name = "Arcfiend Sleeper"
 	antag_flag = ROLE_ARCFIEND_MIDROUND
 	prompted_picking = TRUE
-	maximum_antags = 1
-	weight = 6
-	min_players = 20
+	maximum_antags = 2
+	weight = 14
+	min_players = 25
+	max_occurrences = 3

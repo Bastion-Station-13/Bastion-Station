@@ -12,7 +12,6 @@
 	hud_icon = 'bastionstation/icons/mob/huds/arcfiend/arcfiend_antag_hud.dmi'
 	antag_hud_name = "arcfiend"
 	show_to_ghosts = TRUE
-	// Plays for whoever is made an arcfiend, when the greeting is shown
 	stinger_sound = ARCFIEND_SOUND_STINGER
 
 	/// Power currently stored. Spent on both abilities and upgrades.
@@ -32,6 +31,7 @@
 		/datum/action/cooldown/arcfiend/ride_lightning,
 		/datum/action/cooldown/arcfiend/charge,
 		/datum/action/cooldown/arcfiend/grown_item/shock_prod,
+		/datum/action/cooldown/arcfiend/jumpstart,
 	)
 	/// Assoc list of power type to the upgrade level we bought it to. Anything missing is level 1.
 	var/list/power_levels = list()
@@ -47,9 +47,6 @@
 	var/bonus_minds_drained = 0
 	/// Unique minds that must be drained before each shop tier unlocks. Index is the tier.
 	var/static/list/tier_mind_requirements = list(0, 1, 3)
-
-	/// Set while we are casting our own EMP, so that it doesn't hurt us
-	var/emitting_emp = FALSE
 
 	/// The hidden cables we can see, as an assoc list of the cable's ref to the image of it shown to our client
 	var/list/cable_images = list()
@@ -123,54 +120,23 @@
 	cable_images = list()
 	cable_sight_client = null
 
-/// A grounding implant shuts off everything but sapping and charging, including whatever was already running
-/datum/antagonist/arcfiend/proc/on_grounded(mob/living/source)
-	SIGNAL_HANDLER
-	to_chat(source, span_userdanger("Your current drains away into something in your chest. Your powers won't answer you!"))
-	for(var/power_type in owned_powers)
-		var/datum/action/cooldown/arcfiend/power = owned_powers[power_type]
-		if(power.works_while_grounded)
-			continue
-		var/datum/action/cooldown/arcfiend/toggle/toggle_power = power
-		if(istype(toggle_power) && toggle_power.active)
-			toggle_power.switch_off()
-		var/datum/action/cooldown/arcfiend/grown_item/grown_power = power
-		if(istype(grown_power))
-			grown_power.put_away(source)
-		if(source.click_intercept == power)
-			power.unset_click_ability(source, refund_cooldown = TRUE)
-		power.build_all_button_icons(UPDATE_BUTTON_STATUS)
-
-/datum/antagonist/arcfiend/proc/on_ungrounded(mob/living/source)
-	SIGNAL_HANDLER
-	to_chat(source, span_notice("The current flows freely through you again."))
-	for(var/power_type in owned_powers)
-		var/datum/action/cooldown/arcfiend/power = owned_powers[power_type]
-		power.build_all_button_icons(UPDATE_BUTTON_STATUS)
-
 /datum/antagonist/arcfiend/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	if(!current_mob)
 		return
 	handle_clown_mutation(current_mob, mob_override ? null : "Your power allows you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
-	// Full body insulation
 	current_mob.add_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE), ARCFIEND_TRAIT)
 	// Their heart can't be stopped, but they still need it: if it takes enough damage to fail, it stops like anyone's would
 	ADD_TRAIT(current_mob, TRAIT_HEART_ATTACK_IMMUNE, ARCFIEND_TRAIT)
-	// Cable sight is handled in on_life
 	current_mob.add_traits(list(TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.show_to(current_mob)
-	// We act as a faraday cage for everything we carry, but not for ourselves
 	RegisterSignal(current_mob, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
-	// Pressing the drop key dispels the things we grow, instead of trying to drop them
 	RegisterSignal(current_mob, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(on_drop_key))
 	RegisterSignal(current_mob, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 	RegisterSignal(current_mob, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
-	RegisterSignal(current_mob, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), PROC_REF(on_grounded))
-	RegisterSignal(current_mob, SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED), PROC_REF(on_ungrounded))
 
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.SetInvisibility(INVISIBILITY_NONE, id = type)
@@ -187,7 +153,7 @@
 	current_mob.remove_traits(list(TRAIT_SHOCKIMMUNE, TRAIT_TESLA_SHOCKIMMUNE, TRAIT_AIRLOCK_SHOCKIMMUNE, TRAIT_KNOW_ALL_WIRES, TRAIT_DIAGNOSTIC_HUD, TRAIT_HEART_ATTACK_IMMUNE), ARCFIEND_TRAIT)
 	var/datum/atom_hud/diagnostic_hud = GLOB.huds[DATA_HUD_DIAGNOSTIC_BASIC]
 	diagnostic_hud.hide_from(current_mob)
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE, COMSIG_MOVABLE_MOVED, SIGNAL_ADDTRAIT(TRAIT_ARCFIEND_GROUNDED), SIGNAL_REMOVETRAIT(TRAIT_ARCFIEND_GROUNDED)))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EMP_ACT, COMSIG_KB_MOB_DROPITEM_DOWN, COMSIG_LIVING_DEATH, COMSIG_LIVING_LIFE, COMSIG_MOVABLE_MOVED))
 	clear_cable_sight()
 	if(current_mob.hud_used?.arcfiend_counter)
 		current_mob.hud_used.arcfiend_counter.RemoveInvisibility(type)
@@ -326,19 +292,15 @@
 	return get_minds_drained() >= required
 
 /// Signal proc for COMSIG_ATOM_EMP_ACT on our mob.
-/// Everything we carry is protected, including cybernetics and guns. We aren't, unless the EMP is our own.
+/// Everything we carry is protected, including cybernetics and guns. We aren't.
 /datum/antagonist/arcfiend/proc/on_emp_act(mob/living/source, severity)
 	SIGNAL_HANDLER
-	if(emitting_emp)
-		return EMP_PROTECT_ALL
-	// An EMP throws us out of the cables and stuns us
 	var/obj/effect/dummy/phased_mob/arcfiend_lightning/ride = source.loc
 	if(istype(ride))
 		ride.cut_out("An electromagnetic pulse throws you out of the wires!", ARCFIEND_RIDE_EMP_STUN)
 	var/heavy = (severity == EMP_HEAVY)
 	source.apply_damage(heavy ? ARCFIEND_EMP_HEAVY_DAMAGE : ARCFIEND_EMP_LIGHT_DAMAGE, BURN, spread_damage = TRUE)
 	source.set_jitter_if_lower(10 SECONDS)
-	// The pulse also scatters part of our stored power
 	var/power_lost = round(power * (heavy ? ARCFIEND_EMP_HEAVY_POWER_LOSS : ARCFIEND_EMP_LIGHT_POWER_LOSS))
 	if(power_lost > 0)
 		spend_power(power_lost)

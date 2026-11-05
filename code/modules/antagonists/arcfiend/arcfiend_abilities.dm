@@ -9,8 +9,6 @@
 	check_flags = AB_CHECK_CONSCIOUS | AB_CHECK_HANDS_BLOCKED | AB_CHECK_IMMOBILE
 	/// Power spent each time this is used
 	var/power_cost = 0
-	/// Whether this still works with a grounding implant in
-	var/works_while_grounded = FALSE
 
 	/// Whether this power shows up in the shop
 	var/shop_listed = TRUE
@@ -117,7 +115,6 @@
 	if(LAZYACCESS(modifiers, SHIFT_CLICK) || LAZYACCESS(modifiers, CTRL_CLICK) || LAZYACCESS(modifiers, ALT_CLICK) || LAZYACCESS(modifiers, MIDDLE_CLICK))
 		return FALSE
 	if(needs_mob_target && target && !isliving(target))
-		// Only said every few seconds, so a few missclicks aren't a wall of messages
 		if(world.time >= next_miss_message)
 			user.balloon_alert(user, "click on a person!")
 			next_miss_message = world.time + 3 SECONDS
@@ -161,7 +158,6 @@
 	hand = new(user)
 	hand.name = "crackling hand ([name])"
 	if(hand_inhand_state)
-		// This power has a look of its own for the hand, so it isn't tinted like the plain one
 		if(hand_icon)
 			hand.icon = hand_icon
 			hand.icon_state = hand_icon_state
@@ -290,10 +286,6 @@
 	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
 	if(!arcfiend)
 		return FALSE
-	if(!works_while_grounded && HAS_TRAIT(owner, TRAIT_ARCFIEND_GROUNDED))
-		if(feedback)
-			owner.balloon_alert(owner, "grounded!")
-		return FALSE
 	if(!arcfiend.has_power(power_cost))
 		if(feedback)
 			owner.balloon_alert(owner, "not enough power!")
@@ -305,7 +297,6 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/sap_power
 	name = "Sap Power"
-	works_while_grounded = TRUE
 	desc = "Your hand crackles, ready to drink the power out of whatever it touches."
 	shop_desc = "Grants you Sap Power, the ability to drain whatever you are touching. Machines and cables give a trickle of power, while living people and cyborgs give far more and are hurt in the process. Draining is loud and bright. The power also sates your hunger, but cannot make you fat."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_sap_power.dmi'
@@ -403,7 +394,6 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/charge
 	name = "Charge"
-	works_while_grounded = TRUE
 	desc = "Your nanites push your stored power out through your hands and into a cell."
 	shop_desc = "Grants you Charge, which spends your power to charge the cell of an item you are holding, or of a cyborg you are pulling. Magical items will not accept the charge."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_charge.dmi'
@@ -485,6 +475,10 @@
 /atom/proc/arcfiend_drain(mob/living/arcfiend, datum/antagonist/arcfiend/antag, seconds)
 	return 0
 
+/// Moves up to this much power from the source to the arcfiend, with no side effects. Returns how much power the arcfiend gained.
+/atom/proc/arcfiend_take_power(datum/antagonist/arcfiend/antag, units)
+	return 0
+
 /// How much more power the arcfiend has room for
 /datum/antagonist/arcfiend/proc/get_power_room()
 	return max(power_cap - power, 0)
@@ -496,11 +490,14 @@
 /obj/machinery/power/apc/arcfiend_drain(mob/living/arcfiend, datum/antagonist/arcfiend/antag, seconds)
 	if(!can_arcfiend_drain(arcfiend))
 		return 0
-	var/units = min(ARCFIEND_DRAIN_APC * seconds, antag.get_power_room())
-	var/energy_used = cell.use(units * ARCFIEND_JOULES_PER_POWER, force = TRUE)
-	. = antag.add_power(energy_used / ARCFIEND_JOULES_PER_POWER)
+	. = arcfiend_take_power(antag, ARCFIEND_DRAIN_APC * seconds)
 	if(prob(ARCFIEND_SAP_APC_BREAK_PROB * seconds))
 		set_broken()
+
+/obj/machinery/power/apc/arcfiend_take_power(datum/antagonist/arcfiend/antag, units)
+	units = min(units, antag.get_power_room())
+	var/energy_used = cell.use(units * ARCFIEND_JOULES_PER_POWER, force = TRUE)
+	return antag.add_power(energy_used / ARCFIEND_JOULES_PER_POWER)
 
 //SMES//
 /obj/machinery/power/smes/can_arcfiend_drain(mob/living/arcfiend)
@@ -514,7 +511,10 @@
 /obj/machinery/power/smes/arcfiend_drain(mob/living/arcfiend, datum/antagonist/arcfiend/antag, seconds)
 	if(!can_arcfiend_drain(arcfiend))
 		return 0
-	var/units = min(ARCFIEND_DRAIN_SMES * seconds, antag.get_power_room())
+	return arcfiend_take_power(antag, ARCFIEND_DRAIN_SMES * seconds)
+
+/obj/machinery/power/smes/arcfiend_take_power(datum/antagonist/arcfiend/antag, units)
+	units = min(units, antag.get_power_room())
 	var/energy_used = abs(adjust_charge(-units * ARCFIEND_SMES_JOULES_PER_POWER))
 	return antag.add_power(energy_used / ARCFIEND_SMES_JOULES_PER_POWER)
 
@@ -525,7 +525,10 @@
 /obj/structure/cable/arcfiend_drain(mob/living/arcfiend, datum/antagonist/arcfiend/antag, seconds)
 	if(!can_arcfiend_drain(arcfiend))
 		return 0
-	var/units = min(ARCFIEND_DRAIN_CABLE * seconds, antag.get_power_room())
+	return arcfiend_take_power(antag, ARCFIEND_DRAIN_CABLE * seconds)
+
+/obj/structure/cable/arcfiend_take_power(datum/antagonist/arcfiend/antag, units)
+	units = min(units, antag.get_power_room())
 	var/energy_taken = min(units * ARCFIEND_JOULES_PER_POWER, surplus())
 	add_load(energy_taken)
 	return antag.add_power(energy_taken / ARCFIEND_JOULES_PER_POWER)
@@ -537,7 +540,6 @@
 /obj/machinery/arcfiend_drain(mob/living/arcfiend, datum/antagonist/arcfiend/antag, seconds)
 	if(!can_arcfiend_drain(arcfiend))
 		return 0
-	// Slow, and scaled to how much power the machine idles on
 	var/units = clamp(round(idle_power_usage / ARCFIEND_JOULES_PER_POWER), 1, ARCFIEND_DRAIN_MACHINE_MAX) * seconds
 	units = min(units, antag.get_power_room())
 	var/energy_used = use_energy(units * ARCFIEND_JOULES_PER_POWER)
@@ -618,7 +620,6 @@
 	return "[ARCFIEND_RIDE_ENTRY_COST]+"
 
 /datum/action/cooldown/arcfiend/ride_lightning/IsAvailable(feedback = FALSE)
-	// Leaving the cables is always free
 	if(riding())
 		return (owner.stat == CONSCIOUS) && (next_use_time <= world.time)
 	return ..()
@@ -675,7 +676,6 @@
 		transitioning = FALSE
 		return FALSE
 	transitioning = FALSE
-	// The power is only taken once we actually go in
 	if(!arcfiend.spend_power(ARCFIEND_RIDE_ENTRY_COST))
 		return FALSE
 
@@ -777,7 +777,6 @@
 	arcfiend?.update_cable_sight()
 
 /obj/effect/dummy/phased_mob/arcfiend_lightning/process(seconds_per_tick)
-	// The cable we're riding on has been removed entirely
 	if(!(locate(/obj/structure/cable) in get_turf(src)))
 		cut_out()
 		return
@@ -835,7 +834,6 @@
  * Like a changeling's Void Adaption, they are actions with owner_has_control off, so the shop and upgrades treat them like any other power.
  */
 /datum/action/cooldown/arcfiend/passive
-	works_while_grounded = TRUE
 	owner_has_control = FALSE
 	// There is no button whose status needs keeping up to date
 	check_flags = NONE
@@ -921,8 +919,8 @@
 	desc = "The nanites resonate through your organs, slowly repairing any damage to them."
 	shop_listed = TRUE
 	shop_tier = 2
-	unlock_cost = 450
-	upgrade_costs = list(300)
+	unlock_cost = 300
+	upgrade_costs = list(450)
 	upgrade_descriptions = list(
 		"Fixes organs 2x as fast.",
 	)
@@ -944,8 +942,8 @@
 	desc = "Your nanites let you sense the electric field of everything around you like a shark, allowing you to see in the dark."
 	shop_listed = TRUE
 	shop_tier = 2
-	unlock_cost = 400
-	upgrade_costs = list(350)
+	unlock_cost = 350
+	upgrade_costs = list(400)
 	upgrade_descriptions = list(
 		"Living things show up through walls.",
 	)
@@ -979,7 +977,7 @@
 	unlock_cost = 150
 	upgrade_costs = list(200)
 	upgrade_descriptions = list(
-		"Wet and icy floors can't slip you.",
+		"Protects you from all slipping.",
 	)
 
 /datum/action/cooldown/arcfiend/passive/capacitive_soles/apply_passive(mob/living/user, level)
@@ -989,6 +987,217 @@
 
 /datum/action/cooldown/arcfiend/passive/capacitive_soles/remove_passive(mob/living/user)
 	user.remove_traits(list(TRAIT_SILENT_FOOTSTEPS, TRAIT_NO_SLIP_ALL), ARCFIEND_TRAIT)
+
+//////////////////////////////////////////////////////////////////////////
+//---------------------------------Grid Leech---------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/passive/grid_leech
+	name = "Grid Leech"
+	ticks_with_life = TRUE
+	desc = "You slowly and silently drain power from nearby APCs, SMES units and cables, even through walls."
+	shop_listed = TRUE
+	shop_tier = 3
+	unlock_cost = 500
+	upgrade_costs = list(800, 900)
+	upgrade_descriptions = list(
+		"Drains 2x as fast.",
+		"Drains 3x as fast.",
+	)
+
+// On a working grid this can never drain an APC to 0 on its own, the recharge rate heavily outpaces it. Draining manually is way faster.
+/datum/action/cooldown/arcfiend/passive/grid_leech/passive_tick(mob/living/user, seconds_per_tick)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || arcfiend.get_power_room() <= 0)
+		return
+	// APCs come first, otherwise the cables that are everywhere would mean they never get touched
+	var/static/list/leech_order = list(/obj/machinery/power/apc, /obj/machinery/power/smes, /obj/structure/cable)
+	var/list/nearby = range(ARCFIEND_LEECH_RANGE, get_turf(user))
+	var/units = ARCFIEND_LEECH_RATE * get_level() * seconds_per_tick
+	for(var/source_type in leech_order)
+		for(var/atom/source as anything in nearby)
+			if(!istype(source, source_type) || !source.can_arcfiend_drain(user))
+				continue
+			units -= source.arcfiend_take_power(arcfiend, units)
+			if(units <= 0)
+				return
+
+//////////////////////////////////////////////////////////////////////////
+//----------------------------Vaporize Restraints-----------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/vaporize_restraints
+	name = "Vaporize Restraints"
+	desc = "You dump a burst of current through whatever is holding your hands, vaporizing it in a blinding flash that blinds and confuses anyone right next to you. Can be used while stunned."
+	shop_desc = "Grants you Vaporize Restraints, which instantly destroys your handcuffs and blinds and confuses anyone next to you. It can be used while stunned."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_vaporize_restraints.dmi'
+	button_icon_state = "vaporize_restraints"
+	// This has to work with your hands cuffed, that is the point of it
+	check_flags = AB_CHECK_CONSCIOUS
+	cooldown_time = 60 SECONDS
+	power_cost = 100
+	shop_listed = TRUE
+	shop_tier = 2
+	unlock_cost = 150
+	upgrade_costs = list(200, 400)
+	upgrade_descriptions = list(
+		"The flash reaches 2 tiles, recharges in 45 seconds.",
+		"Also vaporizes bolas and anything else on your legs, recharges in 30 seconds.",
+	)
+
+/datum/action/cooldown/arcfiend/vaporize_restraints/Activate(atom/target)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || !iscarbon(owner))
+		return FALSE
+	var/mob/living/carbon/user = owner
+	var/list/obj/item/restraints = list()
+	if(user.handcuffed)
+		restraints += user.handcuffed
+	if(user.legcuffed && get_level() >= 3)
+		restraints += user.legcuffed
+	if(!length(restraints))
+		user.balloon_alert(user, "nothing to vaporize!")
+		return FALSE
+	if(!arcfiend.spend_power(power_cost))
+		return FALSE
+	user.visible_message(
+		span_danger("[user] vaporizes [english_list(restraints)] in a blinding flash!"),
+		span_notice("You vaporize [english_list(restraints)]."),
+	)
+	QDEL_LIST(restraints)
+	add_visual(user, "vaporize", 'bastionstation/icons/effects/arcfiend/arcfiend_vaporize_restraints_effect.dmi', "vaporize_restraints", 8, TRUE)
+	do_sparks(4, FALSE, user)
+	user.flash_lighting_fx(5, 4, "#ffe94d", 1 SECONDS)
+	playsound(user, ARCFIEND_SOUND_VAPORIZE, 70, TRUE)
+	for(var/mob/living/victim in view(by_level(list(1, 2, 2)), user))
+		if(victim == user || victim.stat == DEAD)
+			continue
+		victim.adjust_temp_blindness(4 SECONDS)
+		victim.adjust_confusion(6 SECONDS)
+		victim.flash_act(1, visual = TRUE)
+		to_chat(victim, span_userdanger("A blinding flash from [user] leaves you reeling!"))
+	StartCooldown(by_level(list(60 SECONDS, 45 SECONDS, 30 SECONDS)))
+	return TRUE
+
+//////////////////////////////////////////////////////////////////////////
+//---------------------------------Jumpstart----------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/looping_sound/arcfiend_jumpstart
+	mid_sounds = ARCFIEND_SOUND_JUMPSTART_LOOP
+	mid_length = 2 SECONDS
+	volume = 20
+
+/datum/action/cooldown/arcfiend/jumpstart
+	name = "Jumpstart"
+	desc = "When you are dead, your stored power can restart your body. It takes a while, and everyone nearby will see it happening."
+	shop_desc = "Grants you Jumpstart, which can only be used while you are dead. Your corpse charges up for 20 seconds, sparking and flickering the lights, then you come back fully healed, though missing limbs stay missing. It costs 200 power, which you need to still have when the charge finishes, and takes 5 minutes to recharge."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jumpstart.dmi'
+	button_icon_state = "jumpstart"
+	// This is used while dead, that is the point of it
+	check_flags = NONE
+	cooldown_time = 5 MINUTES
+	power_cost = 200
+	/// How long the corpse has to charge up for
+	var/charge_time = 20 SECONDS
+	/// The timer that revives us when the charge is done
+	var/charge_timer
+	/// The timer that makes a scene while we charge
+	var/pulse_timer
+	/// The sound of the charge
+	var/datum/looping_sound/arcfiend_jumpstart/charge_loop
+
+/datum/action/cooldown/arcfiend/jumpstart/Grant(mob/granted_to)
+	. = ..()
+	if(owner)
+		RegisterSignal(granted_to, COMSIG_MOB_STATCHANGE, PROC_REF(on_stat_change), override = TRUE)
+
+/datum/action/cooldown/arcfiend/jumpstart/Remove(mob/remove_from)
+	stop_charging()
+	return ..()
+
+/datum/action/cooldown/arcfiend/jumpstart/Destroy()
+	stop_charging()
+	return ..()
+
+/datum/action/cooldown/arcfiend/jumpstart/IsAvailable(feedback = FALSE)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(owner.stat != DEAD)
+		if(feedback)
+			owner.balloon_alert(owner, "you aren't dead!")
+		return FALSE
+	return TRUE
+
+/datum/action/cooldown/arcfiend/jumpstart/Activate(atom/target)
+	if(!isliving(owner) || owner.stat != DEAD)
+		return FALSE
+	if(charge_timer)
+		owner.balloon_alert(owner, "already charging!")
+		return FALSE
+	var/mob/living/user = owner
+	user.visible_message(
+		span_danger("[user]'s corpse starts to crackle with electricity!"),
+		span_notice("You pour your stored power into your dead heart..."),
+	)
+	add_visual(user, "jumpstart", 'bastionstation/icons/effects/arcfiend/arcfiend_jumpstart.dmi', "jumpstart_charging", bright = TRUE)
+	charge_loop = new(user, TRUE)
+	charge_timer = addtimer(CALLBACK(src, PROC_REF(finish_charging)), charge_time, TIMER_STOPPABLE)
+	pulse_timer = addtimer(CALLBACK(src, PROC_REF(charge_pulse)), 2 SECONDS, TIMER_LOOP | TIMER_STOPPABLE)
+	return TRUE
+
+/// Nobody in the room can miss this
+/datum/action/cooldown/arcfiend/jumpstart/proc/charge_pulse()
+	var/mob/living/user = owner
+	do_sparks(3, FALSE, user)
+	user.flash_lighting_fx(4, 3, "#ffe94d", 1 SECONDS)
+	user.do_jitter_animation(100)
+	user.visible_message(span_danger("[user]'s corpse convulses as current arcs across it!"), ignored_mobs = list(user))
+	for(var/obj/machinery/light/nearby_light in range(3, user))
+		if(prob(40))
+			INVOKE_ASYNC(nearby_light, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
+
+/// Calls the charge off, without reviving anyone
+/datum/action/cooldown/arcfiend/jumpstart/proc/stop_charging()
+	deltimer(charge_timer)
+	charge_timer = null
+	deltimer(pulse_timer)
+	pulse_timer = null
+	QDEL_NULL(charge_loop)
+	remove_visual("jumpstart")
+
+/datum/action/cooldown/arcfiend/jumpstart/proc/finish_charging()
+	stop_charging()
+	var/mob/living/user = owner
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend?.has_power(power_cost))
+		to_chat(user, span_warning("You don't have enough power left to restart your heart!"))
+		return
+	// The same healing as a changeling's revive, including leaving out limbs
+	user.revive((HEAL_DAMAGE|HEAL_BODY|HEAL_STATUS|HEAL_CC_STATUS) & ~HEAL_LIMBS, revival_policy = POLICY_ANTAGONISTIC_REVIVAL)
+	// A human's revive() doesn't return whether it worked, so this is how to tell
+	if(user.stat == DEAD)
+		to_chat(user, span_warning("The current finds nothing it can wake up in this body."))
+		return
+	arcfiend.spend_power(power_cost)
+	add_visual(user, "jumpstart", 'bastionstation/icons/effects/arcfiend/arcfiend_jumpstart.dmi', "jumpstart_revive", 8, TRUE)
+	do_sparks(6, FALSE, user)
+	user.flash_lighting_fx(7, 5, "#ffe94d", 1 SECONDS)
+	playsound(user, ARCFIEND_SOUND_JUMPSTART_REVIVE, 80, TRUE)
+	user.visible_message(
+		span_userdanger("[user] jolts back to life in a burst of electricity!"),
+		span_notice("Your heart slams back into motion. You're alive."),
+	)
+	StartCooldown()
+
+/// Someone bringing us back some other way ends the charge, and the button only lights up while we are dead
+/datum/action/cooldown/arcfiend/jumpstart/proc/on_stat_change(mob/living/source, new_stat, old_stat)
+	SIGNAL_HANDLER
+	if(new_stat == old_stat)
+		return
+	if(old_stat == DEAD)
+		stop_charging()
+	if(new_stat == DEAD && IsAvailable())
+		to_chat(source, span_boldnotice("You have enough power to Jumpstart your heart. Use it when you're ready."))
+	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 //////////////////////////////////////////////////////////////////////////
 //--------------------------------Surge Reflex--------------------------//
@@ -1003,8 +1212,8 @@
 	cooldown_time = 60 SECONDS
 	power_cost = 100
 	shop_tier = 1
-	unlock_cost = 250
-	upgrade_costs = list(200, 450)
+	unlock_cost = 200
+	upgrade_costs = list(250, 450)
 	upgrade_descriptions = list(
 		"Heals more, recharges in 40 seconds.",
 		"Heals more, recharges in 25 seconds.",
@@ -1023,7 +1232,8 @@
 	user.SetParalyzed(0)
 	user.SetImmobilized(0)
 	var/heal_amount = 5 + 10 * level
-	user.heal_overall_damage(brute = heal_amount, burn = heal_amount, stamina = 100)
+	user.heal_overall_damage(brute = heal_amount, burn = heal_amount)
+	user.stamina.revitalize(forced = TRUE)
 	do_sparks(4, FALSE, user)
 	var/surge_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_surge_reflex.dmi'
 	for(var/repeat in 0 to 2)

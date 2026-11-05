@@ -12,9 +12,6 @@
 /// How much nutrition an arcfiend gets for every unit of power they sap, up to being full but never fat
 #define ARCFIEND_NUTRITION_PER_POWER 0.25
 
-/// The organ slot of the grounding implant, it occupies it's own slot so it never competes for things like reviver implants or other cybernetics that go in the chest.
-#define ORGAN_SLOT_ARCFIEND_GROUNDING "arcfiend_grounding"
-
 /// The highest upgrade level any power has. Level 1 is the base power.
 #define ARCFIEND_MAX_POWER_LEVEL 3
 
@@ -39,6 +36,11 @@
 #define ARCFIEND_DRAIN_MOB 40
 #define ARCFIEND_DRAIN_CYBORG 40
 #define ARCFIEND_DRAIN_MACHINE_MAX 8
+
+/// Power gained per second by Grid Leech, for each level of it
+#define ARCFIEND_LEECH_RATE 1
+/// How many tiles away Grid Leech can reach
+#define ARCFIEND_LEECH_RANGE 5
 
 /// Burn damage per second dealt to a human being sapped
 #define ARCFIEND_SAP_MOB_BURN 5
@@ -75,6 +77,9 @@
 /// Fraction of its stored power an arcfiend loses to a light EMP
 #define ARCFIEND_EMP_LIGHT_POWER_LOSS 0.1
 
+/// The percent chance Magnetic Shield has of stopping a projectile
+#define ARCFIEND_SHIELD_BLOCK_CHANCE 50
+
 // The sounds of the arcfiend powers. Anything missing here has no sound of its own and uses a stock one.
 #define ARCFIEND_SOUND_STINGER 'bastionstation/sound/arcfiend/arcfiend_stinger.ogg'
 #define ARCFIEND_SOUND_TOGGLE_ON 'bastionstation/sound/arcfiend/toggle_on.ogg'
@@ -93,7 +98,6 @@
 #define ARCFIEND_SOUND_THUNDERCLAP_WINDUP 'bastionstation/sound/arcfiend/thunderclap_windup.ogg'
 #define ARCFIEND_SOUND_THUNDERCLAP_BOOM 'bastionstation/sound/arcfiend/thunderclap_boom.ogg'
 #define ARCFIEND_SOUND_SMASH_HIT 'bastionstation/sound/arcfiend/smash_hit.ogg'
-#define ARCFIEND_SOUND_EMP_BURST 'bastionstation/sound/arcfiend/emp_burst.ogg'
 #define ARCFIEND_SOUND_JOLT_WINDUP 'bastionstation/sound/arcfiend/jolt_windup.ogg'
 #define ARCFIEND_SOUND_JOLT_STOP 'bastionstation/sound/arcfiend/jolt_stop.ogg'
 #define ARCFIEND_SOUND_JOLT_RESTART 'bastionstation/sound/arcfiend/jolt_restart.ogg'
@@ -106,3 +110,10 @@
 #define ARCFIEND_SOUND_PROD_HIT 'bastionstation/sound/arcfiend/prod_hit.ogg'
 #define ARCFIEND_SOUND_PROD_ZAP 'bastionstation/sound/arcfiend/prod_zap.ogg'
 #define ARCFIEND_SOUND_PROD_RECHARGED 'bastionstation/sound/arcfiend/prod_recharged.ogg'
+#define ARCFIEND_SOUND_SHIELD_UP 'bastionstation/sound/arcfiend/magnetic_shield_up.ogg'
+#define ARCFIEND_SOUND_SHIELD_DOWN 'bastionstation/sound/arcfiend/magnetic_shield_down.ogg'
+#define ARCFIEND_SOUND_SHIELD_BLOCK 'bastionstation/sound/arcfiend/magnetic_shield_block.ogg'
+#define ARCFIEND_SOUND_SHIELD_EMP 'bastionstation/sound/arcfiend/magnetic_shield_emp.ogg'
+#define ARCFIEND_SOUND_VAPORIZE 'bastionstation/sound/arcfiend/vaporize_restraints.ogg'
+#define ARCFIEND_SOUND_JUMPSTART_LOOP 'bastionstation/sound/arcfiend/jumpstart_charging_loop.ogg'
+#define ARCFIEND_SOUND_JUMPSTART_REVIVE 'bastionstation/sound/arcfiend/jumpstart_revive.ogg'

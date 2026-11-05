@@ -53,6 +53,9 @@
 		'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi' = list("smash_hit", "smash_chain"),
 		'bastionstation/icons/effects/arcfiend/arcfiend_sap_power.dmi' = list("sap_power_aura", "sap_power_link", "sap_power_source"),
 		'bastionstation/icons/effects/arcfiend/arcfiend_surge_reflex.dmi' = list("surge_reflex"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_magnetic_shield.dmi' = list("magnetic_shield_field", "magnetic_shield_up", "magnetic_shield_down", "magnetic_shield_block", "magnetic_shield_break"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_vaporize_restraints_effect.dmi' = list("vaporize_restraints"),
+		'bastionstation/icons/effects/arcfiend/arcfiend_jumpstart.dmi' = list("jumpstart_charging", "jumpstart_revive"),
 		'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap.dmi' = list("thunderclap_charge"),
 		'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_struck.dmi' = list("thunderclap_struck"),
 		'bastionstation/icons/effects/arcfiend/arcfiend_tether_hook.dmi' = list("hook"),
@@ -108,7 +111,7 @@
 	TEST_ASSERT_EQUAL(user.physiology.stamina_mod, 1, "An arcfiend should take stamina damage like anyone else")
 	TEST_ASSERT_EQUAL(user.physiology.brute_mod, 1, "An arcfiend should not resist brute damage")
 
-	for(var/power_type in list(/datum/action/cooldown/arcfiend/sap_power, /datum/action/cooldown/arcfiend/ride_lightning, /datum/action/cooldown/arcfiend/charge, /datum/action/cooldown/arcfiend/grown_item/shock_prod))
+	for(var/power_type in list(/datum/action/cooldown/arcfiend/sap_power, /datum/action/cooldown/arcfiend/ride_lightning, /datum/action/cooldown/arcfiend/charge, /datum/action/cooldown/arcfiend/grown_item/shock_prod, /datum/action/cooldown/arcfiend/jumpstart))
 		TEST_ASSERT_NOTNULL(locate(power_type) in user.actions, "An arcfiend should start with [power_type]")
 
 	var/found_drain_objective = FALSE
@@ -183,7 +186,7 @@
 	var/list/data = antag.ui_data(user)
 	var/list/shop_powers = get_arcfiend_shop_powers()
 	TEST_ASSERT_EQUAL(length(data["powers"]), length(shop_powers), "Every shop power should be in the shop data")
-	TEST_ASSERT(length(shop_powers) >= 8, "Expected at least the 3 starters and 5 passive/surge powers in the shop, got [length(shop_powers)]")
+	TEST_ASSERT(length(shop_powers) >= 11, "Expected at least the 5 starters and 6 other powers in the shop, got [length(shop_powers)]")
 	for(var/list/power_data as anything in data["powers"])
 		if(power_data["path"] == "[sap_type]")
 			TEST_ASSERT_EQUAL(power_data["max_level"], 3, "Sap Power should show 3 levels in the shop")
@@ -252,7 +255,7 @@
 	TEST_ASSERT(!HAS_TRAIT(user, TRAIT_SILENT_FOOTSTEPS), "Losing the antag should remove silent footsteps")
 	TEST_ASSERT(!HAS_TRAIT(user, TRAIT_NO_SLIP_ALL), "Losing the antag should remove no-slip")
 
-/// Surge Reflex clears stuns and heals
+/// Surge Reflex clears stuns, heals, and restores all stamina
 /datum/unit_test/arcfiend/surge_reflex/Run()
 	if(!make_arcfiend())
 		return
@@ -264,6 +267,8 @@
 	user.Paralyze(20 SECONDS)
 	user.Knockdown(20 SECONDS)
 	user.adjustBruteLoss(40)
+	user.stamina.adjust(-50)
+	TEST_ASSERT(user.stamina.current < user.stamina.maximum, "The test could not drain the arcfiend's stamina")
 	TEST_ASSERT(user.IsParalyzed(), "The test could not paralyze the arcfiend")
 	var/power_before = antag.power
 	var/brute_before = user.getBruteLoss()
@@ -271,6 +276,7 @@
 	TEST_ASSERT(!user.IsParalyzed(), "Surge Reflex should clear paralysis")
 	TEST_ASSERT(!user.IsKnockdown(), "Surge Reflex should clear knockdowns")
 	TEST_ASSERT(user.getBruteLoss() < brute_before, "Surge Reflex should heal")
+	TEST_ASSERT_EQUAL(user.stamina.current, user.stamina.maximum, "Surge Reflex should restore all stamina")
 	TEST_ASSERT_EQUAL(antag.power, power_before - surge.power_cost, "Surge Reflex should cost its power")
 	TEST_ASSERT(next_use_time_is_in_future(surge), "Surge Reflex should go on cooldown")
 
@@ -313,16 +319,6 @@
 	TEST_ASSERT(user.getFireLoss() > burn_before, "A light EMP should burn the arcfiend")
 	TEST_ASSERT_EQUAL(antag.power, 900, "A light EMP should scatter 10% of the stored power")
 	TEST_ASSERT_EQUAL(arcfiend_gun.cell.charge, gun_charge, "An arcfiend's carried gun should be safe from light EMPs too")
-
-	// Their own EMP does nothing to them
-	antag.power = 1000
-	burn_before = user.getFireLoss()
-	antag.emitting_emp = TRUE
-	user.emp_act(EMP_HEAVY)
-	antag.emitting_emp = FALSE
-	TEST_ASSERT_EQUAL(user.getFireLoss(), burn_before, "An arcfiend's own EMP should not burn them")
-	TEST_ASSERT_EQUAL(antag.power, 1000, "An arcfiend's own EMP should not scatter their power")
-	TEST_ASSERT_EQUAL(arcfiend_gun.cell.charge, gun_charge, "An arcfiend's own EMP should not drain their gun")
 
 /// Sap Power takes from what it should and gives to the arcfiend, and upgrades make it faster
 /datum/unit_test/arcfiend/sap/Run()
@@ -603,7 +599,7 @@
 	TEST_ASSERT(QDELETED(second_hand), "Using the power should put the glowing hand away")
 	TEST_ASSERT_NULL(user.click_intercept, "Using the power should stop it waiting for a click")
 
-/// An EMP reaches an arcfiend riding the cables, throws them out and stuns them. Their own EMP does not.
+/// An EMP reaches an arcfiend riding the cables, throws them out and stuns them
 /datum/unit_test/arcfiend/ride_emp/Run()
 	if(!make_arcfiend())
 		return
@@ -624,19 +620,6 @@
 	TEST_ASSERT(user.getFireLoss() > 0, "An EMP should still burn a riding arcfiend")
 	TEST_ASSERT(antag.power < power_before, "An EMP should still scatter a riding arcfiend's power")
 	TEST_ASSERT(QDELETED(ride_dummy), "The ride should be over")
-
-	// Their own EMP
-	user.SetParalyzed(0)
-	ride.next_use_time = 0
-	antag.power = 1000
-	TEST_ASSERT(ride.Activate(user), "Could not ride the cables a second time")
-	var/obj/effect/dummy/phased_mob/arcfiend_lightning/second_ride = user.loc
-	TEST_ASSERT(istype(second_ride), "The arcfiend should be riding a second time")
-	antag.emitting_emp = TRUE
-	second_ride.emp_act(EMP_HEAVY)
-	antag.emitting_emp = FALSE
-	TEST_ASSERT_EQUAL(user.loc, second_ride, "An arcfiend's own EMP should not throw them out of the wires")
-	TEST_ASSERT(!user.IsParalyzed(), "An arcfiend's own EMP should not stun them")
 
 /// An arcfiend can see what every kind of wire does, including ones that nobody else's skills cover
 /datum/unit_test/arcfiend/all_wires/Run()
@@ -745,7 +728,7 @@
 	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human/consistent)
 	user.istate &= ~ISTATE_SECONDARY
 	prod.attack(victim, user)
-	TEST_ASSERT(victim.getFireLoss() >= 9, "A hit with the prod should burn for about 10, got [victim.getFireLoss()]")
+	TEST_ASSERT(victim.getFireLoss() >= 14, "A hit with the prod should burn for about 15, got [victim.getFireLoss()]")
 	TEST_ASSERT_EQUAL(antag.power, 1000, "A hit with the prod should be free")
 	// Knockdown is not checked: the test human is occasionally knocked down for 6 seconds after a hit for a reason that was never found. What matters is that this was not a zap.
 	TEST_ASSERT(!victim.has_status_effect(/datum/status_effect/convulsing), "A plain hit should not make the victim's hands shake like a zap does")
@@ -757,7 +740,6 @@
 	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash), "Could not buy Electrokinetic Smash")
 	var/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/smash = locate() in user.actions
 	TEST_ASSERT(smash.Activate(user), "Could not switch on Electrokinetic Smash")
-	user.istate |= ISTATE_HARM
 	var/mob/living/carbon/human/second_victim = allocate(/mob/living/carbon/human/consistent)
 	var/power_before = antag.power
 	prod.attack(second_victim, user)
@@ -844,7 +826,7 @@
 	TEST_ASSERT(abs(user.gun_fire_delay_modifier - 1) < 0.001, "Shooting speed should be back to normal, got [user.gun_fire_delay_modifier]")
 	TEST_ASSERT(abs(user.cached_multiplicative_actions_slowdown - slowdown_before) < 0.001, "Do-after speed should be back to normal")
 
-/// Electrokinetic Smash makes punches and weapons hit harder, and gives the punch damage back exactly when switched off
+/// Electrokinetic Smash makes punches hit harder and never miss, and gives the punch damage back exactly when switched off
 /datum/unit_test/arcfiend/smash_damage/Run()
 	if(!make_arcfiend())
 		return
@@ -856,29 +838,169 @@
 	TEST_ASSERT_NOTNULL(arm, "The arcfiend has no arm to punch with")
 	var/low_before = arm.unarmed_damage_low
 	var/high_before = arm.unarmed_damage_high
+	TEST_ASSERT_EQUAL(low_before, 5, "This test expects an arm that punches for 5")
+	TEST_ASSERT(!HAS_TRAIT(user, TRAIT_PERFECT_ATTACKER), "Punches should be able to miss with Smash off")
 
 	TEST_ASSERT(smash.Activate(user), "Could not switch on Electrokinetic Smash")
-	TEST_ASSERT(arm.unarmed_damage_low > low_before || arm.unarmed_damage_high > high_before, "Punches should hit harder with Smash on")
+	TEST_ASSERT_EQUAL(arm.unarmed_damage_low, 6, "Level 1 Smash should make punches do 6")
+	TEST_ASSERT_EQUAL(arm.unarmed_damage_high, 6, "Level 1 Smash should make punches do 6")
+	TEST_ASSERT(HAS_TRAIT(user, TRAIT_PERFECT_ATTACKER), "Punches should never miss with Smash on")
 
-	// A weapon swing gets a force multiplier, but only in combat mode
-	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human/consistent)
-	var/list/attack_modifiers = list()
-	user.istate &= ~ISTATE_HARM
-	smash.on_item_attack(user, victim, user, list(), attack_modifiers, null)
-	TEST_ASSERT(!(FORCE_MULTIPLIER in attack_modifiers), "A swing outside combat mode should not be boosted")
-	user.istate |= ISTATE_HARM
-	smash.on_item_attack(user, victim, user, list(), attack_modifiers, null)
-	TEST_ASSERT(abs(attack_modifiers[FORCE_MULTIPLIER] - 1.2) < 0.001, "Level 1 Smash should make weapons hit 20% harder, got [attack_modifiers[FORCE_MULTIPLIER]]")
-
-	// Upgrading while it is on doesn't stack the old boost
+	// Upgrading while it is on doesn't stack the old boost, and every level counts
 	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash), "Could not upgrade Electrokinetic Smash")
-	var/low_boosted = arm.unarmed_damage_low
-	TEST_ASSERT(low_boosted >= low_before, "An upgrade should not lose the boost")
+	TEST_ASSERT_EQUAL(arm.unarmed_damage_low, 7, "Level 2 Smash should make punches do 7")
+	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash), "Could not upgrade Electrokinetic Smash to level 3")
+	TEST_ASSERT_EQUAL(arm.unarmed_damage_low, 8, "Level 3 Smash should make punches do 8")
+	TEST_ASSERT_EQUAL(arm.unarmed_damage_high, 8, "Level 3 Smash should make punches do 8")
+	TEST_ASSERT(HAS_TRAIT(user, TRAIT_PERFECT_ATTACKER), "An upgrade should not lose the no-miss")
 
 	// Switching off puts the punch damage back
 	TEST_ASSERT(smash.Activate(user), "Could not switch off Electrokinetic Smash")
 	TEST_ASSERT_EQUAL(arm.unarmed_damage_low, low_before, "Punch damage should be back to normal")
 	TEST_ASSERT_EQUAL(arm.unarmed_damage_high, high_before, "Punch damage should be back to normal")
+	TEST_ASSERT(!HAS_TRAIT(user, TRAIT_PERFECT_ATTACKER), "Punches should be able to miss again")
+
+/// Electrokinetic Smash shocks whoever a punch or weapon really hits, in combat mode or not, and leaves everything else alone
+/datum/unit_test/arcfiend/smash_shock/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 2500
+	antag.bonus_minds_drained = 3
+	var/smash_type = /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash
+	TEST_ASSERT(antag.purchase_power(smash_type), "Could not buy Electrokinetic Smash")
+	var/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/smash = locate() in user.actions
+	TEST_ASSERT(smash.Activate(user), "Could not switch on Electrokinetic Smash")
+	antag.power = 2500
+	user.istate &= ~(ISTATE_HARM | ISTATE_SECONDARY | ISTATE_CONTROL)
+
+	// Hugs, grabs and shoves aren't hits
+	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human/consistent)
+	victim.forceMove(get_step(get_turf(user), EAST))
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	user.istate |= ISTATE_CONTROL
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	user.stop_pulling()
+	user.istate &= ~ISTATE_CONTROL
+	user.istate |= ISTATE_SECONDARY
+	victim.attack_hand(user, list(RIGHT_CLICK = TRUE))
+	user.istate &= ~ISTATE_SECONDARY
+	TEST_ASSERT_EQUAL(victim.getFireLoss(), 0, "Hugs, grabs and shoves should not shock")
+	TEST_ASSERT_EQUAL(antag.power, 2500, "Hugs, grabs and shoves should not cost power")
+
+	// Neither is a blocked punch or swing
+	var/obj/item/storage/toolbox/toolbox = allocate(/obj/item/storage/toolbox)
+	user.put_in_active_hand(toolbox, forced = TRUE)
+	RegisterSignal(victim, COMSIG_LIVING_CHECK_BLOCK, PROC_REF(block_attack))
+	user.istate |= ISTATE_HARM
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	victim.attackby(toolbox, user)
+	UnregisterSignal(victim, COMSIG_LIVING_CHECK_BLOCK)
+	TEST_ASSERT_EQUAL(victim.getFireLoss(), 0, "A blocked hit should not shock")
+	TEST_ASSERT_EQUAL(antag.power, 2500, "A blocked hit should not cost power")
+
+	// Or anything that can't really hit someone
+	toolbox.item_flags |= NOBLUDGEON
+	victim.attackby(toolbox, user)
+	toolbox.item_flags &= ~NOBLUDGEON
+	var/old_force = toolbox.force
+	toolbox.force = 0
+	victim.attackby(toolbox, user)
+	toolbox.force = old_force
+	TEST_ASSERT_EQUAL(victim.getFireLoss(), 0, "An item that doesn't hit should not shock")
+	TEST_ASSERT_EQUAL(antag.power, 2500, "An item that doesn't hit should not cost power")
+
+	// A real swing shocks outside combat mode, once, and the weapon itself is no stronger
+	user.istate &= ~ISTATE_HARM
+	victim = allocate(/mob/living/carbon/human/consistent)
+	victim.attackby(toolbox, user)
+	TEST_ASSERT(abs(victim.getBruteLoss() - toolbox.force) < 1, "Smash should not change a weapon's damage, got [victim.getBruteLoss()]")
+	TEST_ASSERT(abs(victim.getFireLoss() - 10) < 1, "A level 1 shock should burn for 10, got [victim.getFireLoss()]")
+	TEST_ASSERT_EQUAL(antag.power, 2500 - smash.hit_cost, "A real swing should cost the hit cost")
+
+	// A real punch shocks too, once
+	user.istate |= ISTATE_HARM
+	victim = allocate(/mob/living/carbon/human/consistent)
+	var/power_before = antag.power
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	TEST_ASSERT(victim.getBruteLoss() > 0, "The punch should have landed")
+	TEST_ASSERT(abs(victim.getFireLoss() - 10) < 1, "A level 1 shock should burn for 10, got [victim.getFireLoss()]")
+	TEST_ASSERT_EQUAL(antag.power, power_before - smash.hit_cost, "A real punch should cost the hit cost")
+
+	// Humans are shocked by the punch itself, not the click. Anything else is shocked by the click, but only in combat mode.
+	var/mob/living/basic/mouse/mouse = allocate(/mob/living/basic/mouse)
+	power_before = antag.power
+	smash.on_unarmed_attack(user, victim, TRUE)
+	TEST_ASSERT_EQUAL(antag.power, power_before, "Clicking a human should not shock them on top of the punch")
+	user.istate &= ~ISTATE_HARM
+	smash.on_unarmed_attack(user, mouse, TRUE)
+	TEST_ASSERT_EQUAL(antag.power, power_before, "Touching a non-human outside combat mode should not shock them")
+	user.istate |= ISTATE_HARM
+	smash.on_unarmed_attack(user, mouse, TRUE)
+	TEST_ASSERT_EQUAL(antag.power, power_before - smash.hit_cost, "Punching a non-human should shock them")
+
+	// The shock immune still take the punch and still cost the power
+	victim = allocate(/mob/living/carbon/human/consistent)
+	ADD_TRAIT(victim, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
+	power_before = antag.power
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	TEST_ASSERT(victim.getBruteLoss() > 0, "The shock immune should still take the punch")
+	TEST_ASSERT_EQUAL(victim.getFireLoss(), 0, "The shock immune should not be burned")
+	TEST_ASSERT_EQUAL(antag.power, power_before - smash.hit_cost, "Shocking the shock immune should still cost power")
+
+	// The burn goes up with each level
+	antag.power = 2500
+	TEST_ASSERT(antag.upgrade_power(smash_type), "Could not upgrade Electrokinetic Smash")
+	victim = allocate(/mob/living/carbon/human/consistent)
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	TEST_ASSERT(abs(victim.getFireLoss() - 15) < 1, "A level 2 shock should burn for 15, got [victim.getFireLoss()]")
+	antag.power = 2500
+	TEST_ASSERT(antag.upgrade_power(smash_type), "Could not upgrade Electrokinetic Smash to level 3")
+	victim = allocate(/mob/living/carbon/human/consistent)
+	victim.attack_hand(user, list(RIGHT_CLICK = FALSE))
+	TEST_ASSERT(abs(victim.getFireLoss() - 21) < 1, "A level 3 shock should burn for 21, got [victim.getFireLoss()]")
+
+	// A blocked swing leaves the weapon waiting for a hit, which must not count once Smash is off
+	RegisterSignal(victim, COMSIG_LIVING_CHECK_BLOCK, PROC_REF(block_attack))
+	victim.attackby(toolbox, user)
+	UnregisterSignal(victim, COMSIG_LIVING_CHECK_BLOCK)
+	TEST_ASSERT(smash.Activate(user), "Could not switch off Electrokinetic Smash")
+	victim = allocate(/mob/living/carbon/human/consistent)
+	power_before = antag.power
+	victim.attackby(toolbox, user)
+	TEST_ASSERT_EQUAL(victim.getFireLoss(), 0, "A swing with Smash off should not shock")
+	TEST_ASSERT_EQUAL(antag.power, power_before, "A swing with Smash off should not cost power")
+
+/datum/unit_test/arcfiend/smash_shock/proc/block_attack(mob/living/source)
+	SIGNAL_HANDLER
+	return SUCCESSFUL_BLOCK
+
+/// Electrokinetic Smash's arcs jump to someone nearby for less burn. It's a chance, so this keeps hitting until one does.
+/datum/unit_test/arcfiend/smash_arc/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 2500
+	antag.bonus_minds_drained = 3
+	var/smash_type = /datum/action/cooldown/arcfiend/toggle/electrokinetic_smash
+	TEST_ASSERT(antag.purchase_power(smash_type), "Could not buy Electrokinetic Smash")
+	TEST_ASSERT(antag.upgrade_power(smash_type), "Could not upgrade Electrokinetic Smash")
+	TEST_ASSERT(antag.upgrade_power(smash_type), "Could not upgrade Electrokinetic Smash to level 3")
+	var/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/smash = locate() in user.actions
+	TEST_ASSERT(smash.Activate(user), "Could not switch on Electrokinetic Smash")
+
+	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human/consistent)
+	var/mob/living/carbon/human/bystander = allocate(/mob/living/carbon/human/consistent)
+	bystander.forceMove(get_step(get_turf(victim), EAST))
+	var/arced = FALSE
+	for(var/i in 1 to 50)
+		antag.power = 2500
+		victim.fully_heal()
+		bystander.fully_heal()
+		smash.discharge(victim)
+		if(bystander.getFireLoss() > 0)
+			arced = TRUE
+			break
+	TEST_ASSERT(arced, "A level 3 shock should have arced to the bystander in 50 tries")
+	TEST_ASSERT(abs(bystander.getFireLoss() - 13) < 1, "A level 3 arc should burn for 13, got [bystander.getFireLoss()]")
 
 /// Jolt brings back the dead even with no soul in them. When it can't, the power is still spent and the arcfiend's intuition says why.
 /datum/unit_test/arcfiend/jolt_revive/Run()
@@ -1388,3 +1510,229 @@
 	TEST_ASSERT_EQUAL(clap.get_outer_range(), 8, "Level 2 should reach 8 tiles")
 	TEST_ASSERT_EQUAL(clap.get_throw_distance(), 4, "Level 2 should throw 4 tiles")
 	TEST_ASSERT(clap.get_windup() < 1.5 SECONDS, "Level 2 should have a shorter windup")
+
+/// Grid Leech slowly takes power from what's nearby, without breaking it, and stops once the pool is full
+/datum/unit_test/arcfiend/grid_leech/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 2500
+	TEST_ASSERT(!antag.purchase_power(/datum/action/cooldown/arcfiend/passive/grid_leech), "Grid Leech should need 3 drained minds")
+	antag.bonus_minds_drained = 3
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/passive/grid_leech), "Could not buy Grid Leech")
+	var/datum/action/cooldown/arcfiend/passive/grid_leech/leech = antag.get_power_instance(/datum/action/cooldown/arcfiend/passive/grid_leech)
+	TEST_ASSERT_NOTNULL(leech, "The arcfiend should own Grid Leech")
+
+	var/obj/machinery/power/apc/apc = allocate(/obj/machinery/power/apc)
+	// The test world doesn't give a new APC its battery, so it gets one here
+	if(!apc.cell)
+		apc.cell = new /obj/item/stock_parts/power_store/battery/upgraded(apc)
+	var/apc_charge = apc.cell.charge
+
+	antag.power = 1000
+	leech.passive_tick(user, 2)
+	TEST_ASSERT(abs(antag.power - (1000 + ARCFIEND_LEECH_RATE * 2)) < 0.001, "Two seconds of level 1 Grid Leech should give [ARCFIEND_LEECH_RATE * 2] power, got [antag.power - 1000]")
+	TEST_ASSERT(apc.cell.charge < apc_charge, "Grid Leech should drain the nearby APC")
+
+	// Unlike Sap Power, it never breaks what it drains
+	for(var/i in 1 to 50)
+		leech.passive_tick(user, 2)
+	TEST_ASSERT(!(apc.machine_stat & BROKEN), "Grid Leech should not break the APC")
+
+	// A full pool takes nothing
+	antag.power = antag.power_cap
+	apc_charge = apc.cell.charge
+	leech.passive_tick(user, 2)
+	TEST_ASSERT_EQUAL(apc.cell.charge, apc_charge, "A full pool should not drain the APC")
+
+	// Upgrades make it faster
+	antag.power = 2000
+	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/passive/grid_leech), "Could not upgrade Grid Leech")
+	antag.power = 1000
+	leech.passive_tick(user, 2)
+	TEST_ASSERT(abs(antag.power - (1000 + ARCFIEND_LEECH_RATE * 4)) < 0.001, "Two seconds of level 2 Grid Leech should give [ARCFIEND_LEECH_RATE * 4] power, got [antag.power - 1000]")
+
+/// Magnetic Shield stops half of what's shot at it and always stops electric shots, reflects what it can, and an EMP knocks it out
+/datum/unit_test/arcfiend/magnetic_shield/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 2500
+	antag.bonus_minds_drained = 3
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/toggle/magnetic_shield), "Could not buy Magnetic Shield")
+	var/datum/action/cooldown/arcfiend/toggle/magnetic_shield/shield = locate() in user.actions
+	TEST_ASSERT_NOTNULL(shield, "The arcfiend should have Magnetic Shield")
+
+	// With the shield down nothing is stopped
+	var/obj/projectile/energy/electrode/electrode = allocate(/obj/projectile/energy/electrode)
+	TEST_ASSERT_EQUAL(shoot(electrode), NONE, "An electrode should not be stopped with the shield off")
+
+	// Switching it on pulls out a taser that is already in
+	var/mob/living/carbon/human/shooter = allocate(/mob/living/carbon/human/consistent)
+	var/obj/item/gun/energy/laser/taser = allocate(/obj/item/gun/energy/laser)
+	user.apply_status_effect(/datum/status_effect/tased, taser, shooter)
+	TEST_ASSERT(user.has_status_effect(/datum/status_effect/tased), "The test could not tase the arcfiend")
+	TEST_ASSERT(shield.Activate(user), "Could not switch on Magnetic Shield")
+	TEST_ASSERT(shield.active, "Magnetic Shield should be on")
+	TEST_ASSERT(!user.has_status_effect(/datum/status_effect/tased), "Switching on Magnetic Shield should end a tase")
+
+	// Electric shots always get stopped, and the ones that can be reflected are
+	var/obj/projectile/energy/tesla/tesla = allocate(/obj/projectile/energy/tesla)
+	var/obj/projectile/energy/tesla_cannon/tesla_orb = allocate(/obj/projectile/energy/tesla_cannon)
+	for(var/i in 1 to 20)
+		TEST_ASSERT(shoot(electrode) & COMPONENT_BULLET_BLOCKED, "An electrode should always be stopped")
+		TEST_ASSERT(shoot(tesla) & COMPONENT_BULLET_PIERCED, "A tesla bolt should always be reflected")
+		TEST_ASSERT(shoot(tesla_orb) & COMPONENT_BULLET_PIERCED, "A tesla orb should always be reflected")
+
+	// Anything else is a coin flip. Energy shots are reflected, others are just stopped.
+	var/obj/projectile/beam/laser/laser = allocate(/obj/projectile/beam/laser)
+	var/obj/projectile/bullet/bullet = allocate(/obj/projectile/bullet)
+	var/laser_reflected = 0
+	var/bullet_stopped = 0
+	for(var/i in 1 to 100)
+		var/laser_result = shoot(laser)
+		TEST_ASSERT(!(laser_result & COMPONENT_BULLET_BLOCKED), "A laser should be reflected, not stopped")
+		if(laser_result & COMPONENT_BULLET_PIERCED)
+			laser_reflected++
+		var/bullet_result = shoot(bullet)
+		TEST_ASSERT(!(bullet_result & COMPONENT_BULLET_PIERCED), "A bullet should be stopped, not reflected")
+		if(bullet_result & COMPONENT_BULLET_BLOCKED)
+			bullet_stopped++
+	TEST_ASSERT(laser_reflected > 0 && laser_reflected < 100, "Some lasers should get through and some shouldn't, reflected [laser_reflected] of 100")
+	TEST_ASSERT(bullet_stopped > 0 && bullet_stopped < 100, "Some bullets should get through and some shouldn't, stopped [bullet_stopped] of 100")
+
+	// Harmless shots aren't stopped, which is how an ion bolt gets through to knock the shield out
+	var/obj/projectile/ion/ion = allocate(/obj/projectile/ion)
+	for(var/i in 1 to 20)
+		TEST_ASSERT_EQUAL(shoot(ion), NONE, "An ion bolt should get through the shield")
+
+	// You can't block your own shot at yourself
+	laser.firer = user
+	laser.original = user
+	for(var/i in 1 to 20)
+		TEST_ASSERT_EQUAL(shoot(laser), NONE, "The shield should not stop a shot the arcfiend fired at themselves")
+
+	// An EMP knocks it out for a long time
+	user.emp_act(EMP_LIGHT)
+	TEST_ASSERT(!shield.active, "An EMP should shut off Magnetic Shield")
+	TEST_ASSERT(shield.next_use_time > world.time + 60 SECONDS, "An EMP should put Magnetic Shield on a long cooldown")
+	TEST_ASSERT(!shield.IsAvailable(), "Magnetic Shield should be unavailable after an EMP")
+	TEST_ASSERT_EQUAL(shoot(electrode), NONE, "A shield knocked out by an EMP should stop nothing")
+
+/// Sends the signal a projectile sends when it hits the arcfiend, returning what the shield did about it
+/datum/unit_test/arcfiend/magnetic_shield/proc/shoot(obj/projectile/shot)
+	return SEND_SIGNAL(user, COMSIG_ATOM_PRE_BULLET_ACT, shot, BODY_ZONE_CHEST, FALSE, 0)
+
+/// Vaporize Restraints is a tier 2 power, destroys cuffs even when stunned, flashes those nearby, and gets to legcuffs at level 3
+/datum/unit_test/arcfiend/vaporize_restraints/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 1000
+	TEST_ASSERT_NULL(locate(/datum/action/cooldown/arcfiend/vaporize_restraints) in user.actions, "Vaporize Restraints should not come with the antag")
+	TEST_ASSERT(!antag.purchase_power(/datum/action/cooldown/arcfiend/vaporize_restraints), "Vaporize Restraints should need a drained mind")
+	antag.bonus_minds_drained = 3
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/vaporize_restraints), "Could not buy Vaporize Restraints")
+	antag.power = 1000
+	var/datum/action/cooldown/arcfiend/vaporize_restraints/vaporize = locate() in user.actions
+	TEST_ASSERT_NOTNULL(vaporize, "The arcfiend should have Vaporize Restraints")
+
+	// Nothing to vaporize
+	TEST_ASSERT(!vaporize.Activate(user), "Vaporize Restraints should do nothing with no restraints")
+	TEST_ASSERT_EQUAL(antag.power, 1000, "Having nothing to vaporize should be free")
+
+	// Legcuffs are out of reach at first
+	var/obj/item/restraints/legcuffs/bola/bola = allocate(/obj/item/restraints/legcuffs/bola)
+	user.equip_to_slot(bola, ITEM_SLOT_LEGCUFFED)
+	TEST_ASSERT_EQUAL(user.legcuffed, bola, "The test could not put a bola on the arcfiend")
+	TEST_ASSERT(!vaporize.Activate(user), "Level 1 Vaporize Restraints should not reach a bola")
+	TEST_ASSERT_EQUAL(user.legcuffed, bola, "The bola should still be there")
+	TEST_ASSERT_EQUAL(antag.power, 1000, "Failing to reach a bola should be free")
+
+	// It works while cuffed and stunned, and level 1 only reaches those right next to the arcfiend
+	var/mob/living/carbon/human/close = allocate(/mob/living/carbon/human/consistent)
+	var/mob/living/carbon/human/far = allocate(/mob/living/carbon/human/consistent)
+	far.forceMove(get_step(get_step(get_turf(user), EAST), EAST))
+	var/obj/item/restraints/handcuffs/cuffs = allocate(/obj/item/restraints/handcuffs)
+	user.equip_to_slot(cuffs, ITEM_SLOT_HANDCUFFED)
+	TEST_ASSERT_EQUAL(user.handcuffed, cuffs, "The test could not cuff the arcfiend")
+	user.Paralyze(20 SECONDS)
+	TEST_ASSERT(vaporize.IsAvailable(), "Vaporize Restraints should be usable while cuffed and stunned")
+	TEST_ASSERT(vaporize.Activate(user), "Vaporize Restraints should go off")
+	TEST_ASSERT(QDELETED(cuffs), "The cuffs should be destroyed")
+	TEST_ASSERT_NULL(user.handcuffed, "The arcfiend should no longer be cuffed")
+	TEST_ASSERT_EQUAL(user.legcuffed, bola, "Level 1 Vaporize Restraints should leave the bola alone")
+	TEST_ASSERT_EQUAL(antag.power, 1000 - vaporize.power_cost, "Vaporize Restraints should cost its power")
+	TEST_ASSERT(vaporize.next_use_time > world.time, "Vaporize Restraints should go on cooldown")
+	TEST_ASSERT(close.has_status_effect(/datum/status_effect/temporary_blindness), "Someone next to the arcfiend should be blinded")
+	TEST_ASSERT(close.has_status_effect(/datum/status_effect/confusion), "Someone next to the arcfiend should be confused")
+	TEST_ASSERT(!far.has_status_effect(/datum/status_effect/temporary_blindness), "Level 1 should not reach someone 2 tiles away")
+
+	// Level 2 reaches 2 tiles
+	antag.power = 2000
+	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/vaporize_restraints), "Could not upgrade Vaporize Restraints")
+	vaporize.next_use_time = 0
+	cuffs = allocate(/obj/item/restraints/handcuffs)
+	user.equip_to_slot(cuffs, ITEM_SLOT_HANDCUFFED)
+	TEST_ASSERT(vaporize.Activate(user), "Level 2 Vaporize Restraints should go off")
+	TEST_ASSERT(far.has_status_effect(/datum/status_effect/temporary_blindness), "Level 2 should reach someone 2 tiles away")
+
+	// Level 3 reaches the bola
+	TEST_ASSERT(antag.upgrade_power(/datum/action/cooldown/arcfiend/vaporize_restraints), "Could not upgrade Vaporize Restraints to level 3")
+	vaporize.next_use_time = 0
+	TEST_ASSERT(vaporize.Activate(user), "Level 3 Vaporize Restraints should go off with only a bola on")
+	TEST_ASSERT(QDELETED(bola), "The bola should be destroyed")
+	TEST_ASSERT_NULL(user.legcuffed, "The arcfiend should no longer have anything on their legs")
+
+/// Jumpstart comes with the antag, can't be upgraded, only works when dead, and takes its power when the charge finishes
+/datum/unit_test/arcfiend/jumpstart/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 500
+	var/jumpstart_type = /datum/action/cooldown/arcfiend/jumpstart
+	var/datum/action/cooldown/arcfiend/jumpstart/jumpstart = locate() in user.actions
+	TEST_ASSERT_NOTNULL(jumpstart, "Jumpstart should come with the antag")
+	TEST_ASSERT_EQUAL(antag.get_max_power_level(jumpstart_type), 1, "Jumpstart should not be upgradable")
+	TEST_ASSERT_EQUAL(jumpstart.power_cost, 200, "Jumpstart should cost 200 power")
+	TEST_ASSERT(!jumpstart.IsAvailable(), "Jumpstart should not be usable while alive")
+	TEST_ASSERT(!jumpstart.Trigger(), "Clicking Jumpstart while alive should do nothing")
+	TEST_ASSERT(!jumpstart.Activate(user), "Jumpstart should not start charging while alive")
+	TEST_ASSERT_NULL(jumpstart.charge_timer, "Jumpstart should not be charging while alive")
+
+	// A full charge brings them back
+	user.adjustBruteLoss(50)
+	user.death()
+	TEST_ASSERT_EQUAL(user.stat, DEAD, "The test could not kill the arcfiend")
+	TEST_ASSERT(jumpstart.IsAvailable(), "Jumpstart should be usable while dead")
+	TEST_ASSERT(jumpstart.Activate(user), "Jumpstart should start charging")
+	TEST_ASSERT_NOTNULL(jumpstart.charge_timer, "Jumpstart should be charging")
+	TEST_ASSERT_NOTNULL(jumpstart.visuals?["jumpstart"], "A charging corpse should show it")
+	TEST_ASSERT(!jumpstart.Activate(user), "Jumpstart should not start charging twice")
+	TEST_ASSERT_EQUAL(antag.power, 500, "Jumpstart should not cost anything until the charge finishes")
+	jumpstart.finish_charging()
+	TEST_ASSERT_NULL(jumpstart.charge_timer, "Jumpstart should have finished charging")
+	TEST_ASSERT(user.stat != DEAD, "Jumpstart should bring the arcfiend back")
+	TEST_ASSERT_EQUAL(user.getBruteLoss(), 0, "Jumpstart should heal the arcfiend")
+	TEST_ASSERT_EQUAL(antag.power, 300, "Jumpstart should cost 200 power")
+	TEST_ASSERT(jumpstart.next_use_time > world.time, "Jumpstart should go on cooldown")
+
+	// Too little power to start
+	user.death()
+	jumpstart.next_use_time = 0
+	antag.power = 100
+	TEST_ASSERT(!jumpstart.IsAvailable(), "Jumpstart should need its power to start")
+
+	// Losing the power during the charge means staying dead, and it isn't wasted
+	antag.power = 500
+	TEST_ASSERT(jumpstart.Activate(user), "Jumpstart should start charging again")
+	antag.power = 100
+	jumpstart.finish_charging()
+	TEST_ASSERT_EQUAL(user.stat, DEAD, "Jumpstart should fail without the power left to finish")
+	TEST_ASSERT_EQUAL(antag.power, 100, "A failed Jumpstart should cost nothing")
+	TEST_ASSERT(jumpstart.next_use_time <= world.time, "A failed Jumpstart should not go on cooldown")
+
+	// Being revived some other way ends the charge
+	antag.power = 500
+	TEST_ASSERT(jumpstart.Activate(user), "Jumpstart should start charging a third time")
+	user.revive(ADMIN_HEAL_ALL)
+	TEST_ASSERT(user.stat != DEAD, "The test could not revive the arcfiend")
+	TEST_ASSERT_NULL(jumpstart.charge_timer, "Being revived should end the charge")
+	TEST_ASSERT_NULL(jumpstart.visuals?["jumpstart"], "Being revived should take the charging sprite off")
+	TEST_ASSERT_EQUAL(antag.power, 500, "Being revived by someone else should cost nothing")

@@ -263,8 +263,8 @@
 	button_icon_state = "manifest_coilgun"
 	shop_listed = TRUE
 	shop_tier = 2
-	unlock_cost = 600
-	upgrade_costs = list(500, 900)
+	unlock_cost = 500
+	upgrade_costs = list(600, 900)
 	upgrade_descriptions = list(
 		"Hits harder, cheaper shots. Holds 8, regrows every 6 seconds.",
 		"Hits harder, cheaper shots. Holds 10, regrows every 4 seconds.",
@@ -308,8 +308,8 @@
 	cooldown_time = 6 SECONDS
 	power_cost = 50
 	shop_tier = 2
-	unlock_cost = 450
-	upgrade_costs = list(350, 700)
+	unlock_cost = 350
+	upgrade_costs = list(450, 700)
 	upgrade_descriptions = list(
 		"Reaches 8 tiles, recharges faster, and can pull light items to you.",
 		"Reaches 10 tiles, faster recharging.",
@@ -326,7 +326,6 @@
 		user.balloon_alert(user, "can't reach that!")
 		return FALSE
 
-	// Upgraded, a light item is yanked to us instead of us going to it
 	var/pull_item = FALSE
 	if(level >= 2 && isitem(target))
 		var/obj/item/item_target = target
@@ -336,7 +335,6 @@
 	if(!pull_item)
 		landing = get_turf(target)
 		if(!isturf(target) || landing.is_blocked_turf(TRUE))
-			// Solid things and people stop the hook, so we land in front of them
 			landing = get_step_towards(get_turf(target), user)
 		if(!landing || landing == get_turf(user) || landing.is_blocked_turf(TRUE))
 			user.balloon_alert(user, "no room to land!")
@@ -487,8 +485,8 @@
 	button_icon_state = "lateral_laser"
 	shop_listed = TRUE
 	shop_tier = 2
-	unlock_cost = 650
-	upgrade_costs = list(500, 900)
+	unlock_cost = 500
+	upgrade_costs = list(650, 900)
 	upgrade_descriptions = list(
 		"5 tiles. 9 damage on the way, 65 at the end. Cheaper shots. Holds 4, regrows every 8 seconds.",
 		"6 tiles. 11 damage on the way, 85 at the end. Cheaper shots. Holds 5, regrows every 6 seconds.",
