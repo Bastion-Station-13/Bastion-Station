@@ -672,6 +672,9 @@
 	target.apply_status_effect(/datum/status_effect/convulsing)
 	playsound(user, ARCFIEND_SOUND_PROD_ZAP, 50, TRUE, -1)
 	do_sparks(2, FALSE, target)
+	if(ishuman(target))
+		var/mob/living/carbon/human/human_target = target
+		human_target.electrocution_animation(1 SECONDS)
 	if(target.mob_biotypes & MOB_ORGANIC)
 		target.emote("gasp")
 	log_combat(user, target, "zapped", prod)

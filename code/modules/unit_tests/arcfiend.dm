@@ -280,6 +280,18 @@
 	TEST_ASSERT_EQUAL(antag.power, power_before - surge.power_cost, "Surge Reflex should cost its power")
 	TEST_ASSERT(next_use_time_is_in_future(surge), "Surge Reflex should go on cooldown")
 
+	// For a few seconds after, nothing can stun or slow them down
+	TEST_ASSERT(HAS_TRAIT(user, TRAIT_STUNIMMUNE), "Surge Reflex should make the arcfiend immune to stuns")
+	TEST_ASSERT(HAS_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN), "Surge Reflex should stop damage from slowing the arcfiend down")
+	user.Paralyze(5 SECONDS)
+	TEST_ASSERT(!user.IsParalyzed(), "The arcfiend shouldn't be paralyzed right after Surge Reflex")
+	surge.end_immunity(user)
+	TEST_ASSERT(!HAS_TRAIT(user, TRAIT_STUNIMMUNE), "The stun immunity should wear off")
+	TEST_ASSERT(!HAS_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN), "The damage slowdown immunity should wear off")
+	user.Paralyze(5 SECONDS)
+	TEST_ASSERT(user.IsParalyzed(), "The arcfiend should be stunnable again once it wears off")
+	user.SetParalyzed(0)
+
 	// Without the power it can't be used
 	antag.power = 0
 	surge.next_use_time = 0

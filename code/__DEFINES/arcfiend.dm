@@ -80,6 +80,9 @@
 /// The percent chance Magnetic Shield has of stopping a projectile
 #define ARCFIEND_SHIELD_BLOCK_CHANCE 50
 
+/// How long Surge Reflex stops you from being stunned or slowed down by damage
+#define ARCFIEND_SURGE_IMMUNITY_TIME (5 SECONDS)
+
 // The sounds of the arcfiend powers. Anything missing here has no sound of its own and uses a stock one.
 #define ARCFIEND_SOUND_STINGER 'bastionstation/sound/arcfiend/arcfiend_stinger.ogg'
 #define ARCFIEND_SOUND_TOGGLE_ON 'bastionstation/sound/arcfiend/toggle_on.ogg'

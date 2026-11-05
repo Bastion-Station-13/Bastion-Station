@@ -414,6 +414,9 @@
 	victim.flash_act(1, visual = TRUE)
 	to_chat(victim, span_userdanger("A bolt of lightning slams into you!"))
 	do_sparks(2, FALSE, victim)
+	if(ishuman(victim))
+		var/mob/living/carbon/human/human_victim = victim
+		human_victim.electrocution_animation(1 SECONDS)
 
 #undef ARCFIEND_OVERDRIVE_TRAIT
 
@@ -525,6 +528,9 @@
 		victim.apply_damage(get_stamina() * falloff, STAMINA)
 		victim.set_jitter_if_lower(4 SECONDS * falloff)
 		victim.adjust_eye_blur(8 SECONDS * falloff)
+		if(ishuman(victim))
+			var/mob/living/carbon/human/human_victim = victim
+			human_victim.electrocution_animation(1 SECONDS)
 	victim.flash_act(1, visual = TRUE, length = 4 SECONDS * falloff)
 	if(victim.client)
 		shake_camera(victim, 3, 1)
@@ -1104,6 +1110,9 @@
 /datum/action/cooldown/arcfiend/jolt/proc/stop_heart(mob/living/carbon/victim, burn_damage)
 	victim.apply_damage(burn_damage, BURN, spread_damage = TRUE)
 	victim.set_jitter_if_lower(20 SECONDS)
+	if(ishuman(victim) && !HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+		var/mob/living/carbon/human/human_victim = victim
+		human_victim.electrocution_animation(2 SECONDS)
 	if(victim.needs_heart() && !victim.undergoing_cardiac_arrest())
 		victim.set_heartattack(TRUE)
 	// Another arcfiend's heart can't be stopped, so all they get is the burns

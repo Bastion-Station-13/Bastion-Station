@@ -1204,7 +1204,7 @@
 //////////////////////////////////////////////////////////////////////////
 /datum/action/cooldown/arcfiend/surge_reflex
 	name = "Surge Reflex"
-	desc = "You shock your own muscles back into action, clearing stuns and stamina damage and healing a small amount of damage. Can be used while stunned."
+	desc = "You shock your own muscles back into action, clearing stuns and stamina damage and healing a small amount of damage. For a few seconds after, you can't be stunned or slowed down by injuries. Can be used while stunned."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_surge_reflex.dmi'
 	button_icon_state = "surge_reflex"
 	// This has to work while stunned, that is the point of it
@@ -1234,6 +1234,8 @@
 	var/heal_amount = 5 + 10 * level
 	user.heal_overall_damage(brute = heal_amount, burn = heal_amount)
 	user.stamina.revitalize(forced = TRUE)
+	user.add_traits(list(TRAIT_STUNIMMUNE, TRAIT_IGNOREDAMAGESLOWDOWN), REF(src))
+	addtimer(CALLBACK(src, PROC_REF(end_immunity), user), ARCFIEND_SURGE_IMMUNITY_TIME, TIMER_UNIQUE|TIMER_OVERRIDE)
 	do_sparks(4, FALSE, user)
 	var/surge_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_surge_reflex.dmi'
 	for(var/repeat in 0 to 2)
@@ -1243,3 +1245,10 @@
 	user.visible_message(span_danger("[user] convulses as a surge of electricity crackles over [user.p_their()] body!"), span_notice("You shake off the blow as the nanites surge through you."))
 	StartCooldown(by_level(list(60 SECONDS, 40 SECONDS, 25 SECONDS)))
 	return TRUE
+
+/datum/action/cooldown/arcfiend/surge_reflex/Remove(mob/remove_from)
+	end_immunity(remove_from)
+	return ..()
+
+/datum/action/cooldown/arcfiend/surge_reflex/proc/end_immunity(mob/living/user)
+	user?.remove_traits(list(TRAIT_STUNIMMUNE, TRAIT_IGNOREDAMAGESLOWDOWN), REF(src))
