@@ -1,4 +1,4 @@
-#define SHOULD_DISABLE_FOOTSTEPS(source) ((SSlag_switch.measures[DISABLE_FOOTSTEPS] && !(HAS_TRAIT(source, TRAIT_BYPASS_MEASURES))) || HAS_TRAIT(source, TRAIT_SILENT_FOOTSTEPS))
+	#define SHOULD_DISABLE_FOOTSTEPS(source) ((SSlag_switch.measures[DISABLE_FOOTSTEPS] && !(HAS_TRAIT(source, TRAIT_BYPASS_MEASURES))) || HAS_TRAIT(source, TRAIT_SILENT_FOOTSTEPS))
 
 ///Footstep element. Plays footsteps at parents location when it is appropriate.
 /datum/element/footstep
@@ -164,14 +164,12 @@
 		if(gotten?.step_sounds)
 			heard_clients = playsound(source.loc, pick(gotten.step_sounds), 50, TRUE, falloff_distance = 1, vary = sound_vary)
 		else
-			var/list/sounds = GLOB.barefootstep[barefoot_type]
-			if(!length(sounds))
-				return
-
-			heard_clients = playsound(source.loc, pick(sounds[1]),
-				sounds[2] * volume * volume_multiplier,
-				TRUE,
-				sounds[3] + e_range + range_adjustment, falloff_distance = 1, vary = sound_vary, mixer_channel = CHANNEL_SOUND_FOOTSTEPS)
+			var/static/list/bare_footstep_sounds = GLOB.barefootstep[barefoot_type]
+			if(!isnull(barefoot_type) && bare_footstep_sounds[barefoot_type]) // barefoot_type can be null
+				heard_clients = playsound(source.loc, pick(bare_footstep_sounds[barefoot_type][1]),
+					bare_footstep_sounds[barefoot_type][2] * volume * volume_multiplier,
+					TRUE,
+					bare_footstep_sounds[barefoot_type][3] + e_range + range_adjustment, falloff_distance = 1, vary = sound_vary)
 
 	if(heard_clients)
 		play_fov_effect(source, 5, "footstep", direction, ignore_self = TRUE, override_list = heard_clients)
