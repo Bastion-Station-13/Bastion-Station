@@ -294,6 +294,4 @@ GLOBAL_LIST_INIT(royale_extra_loot, list(
 		/obj/item/ammo_box/magazine/uzim9mm = 3,
 		/obj/item/ammo_box/magazine/tommygunm45 = 3,
 		/obj/item/ammo_box/magazine/wt550m9 = 1,
-		/obj/item/ammo_box/magazine/wt550m9/wtap = 1,
-		/obj/item/ammo_box/magazine/wt550m9/wtic = 1,
 ))

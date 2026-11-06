@@ -50,7 +50,7 @@
 /obj/item/storage/toolbox/ammobox/wt550m9{
 	pixel_y = 6
 	},
-/obj/item/storage/toolbox/ammobox/wt550m9ap,
+/obj/item/storage/toolbox/ammobox/wt550m9laser,
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/smooth,
 /area/shuttle/pirate)

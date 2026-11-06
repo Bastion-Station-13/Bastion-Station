@@ -235,11 +235,6 @@
 	ammo_type = /obj/item/ammo_casing/c46x30mm
 	max_ammo = 20
 
-/obj/item/ammo_box/c46x30mm/ap
-	name = "ammo box (4.6x30mm AP)"
-	ammo_type = /obj/item/ammo_casing/c46x30mm/ap
-
-
 /obj/item/ammo_box/c27_54cesarzowa
 	name = "ammo box (.27-54 Cesarzowa piercing)"
 	desc = "A box of .27-54 Cesarzowa piercing pistol rounds, holds eighteen cartridges."
