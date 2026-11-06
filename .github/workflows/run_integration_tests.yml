@@ -54,6 +54,7 @@ jobs:
             tools/ci/install_rust_g.sh
             tools/ci/mysql_config.cnf
             tools/ci/run_server.sh
+            bastionstation
 
       - name: Configure BYOND version
         uses: ./.github/actions/configure_byond_version
