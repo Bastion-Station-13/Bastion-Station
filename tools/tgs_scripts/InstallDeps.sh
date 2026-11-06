@@ -19,9 +19,9 @@ if ! ( [ -x "$has_git" ] && [ -x "$has_curl" ] && [ -x "$has_pip3" ] && [ -x "$h
 	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	echo "We are about to try installing native dependencies, we will use 'sudo' if possible for this, but it may fail because the tgstation-server user doesn't have passwordless sudo."
 	echo "WE DO NOT RECOMMEND GRANTING PASSWORDLESS SUDO!!! Instead, install all the dependencies yourself with the following command:"
-	echo "............................................................................................................................................"
+	echo ".................................................................................................................................................."
 	echo "sudo apt-get install -y lib32z1 git pkg-config libssl-dev:i386 libssl-dev zlib1g-dev:i386 curl libclang-dev g++-multilib python3 python3-pip unzip"
-	echo "............................................................................................................................................"
+	echo ".................................................................................................................................................."
 	echo "Attempting to install apt dependencies..."
 	if ! [ -x "$has_sudo" ]; then
 		dpkg --add-architecture i386
