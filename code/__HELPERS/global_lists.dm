@@ -20,7 +20,11 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails, GLOB.tails_list, add_blank = TRUE)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/human, GLOB.tails_list_human, add_blank = TRUE)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/lizard, GLOB.tails_list_lizard, add_blank = TRUE)
+<<<<<<< HEAD
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/shadekin, GLOB.tails_list_shadekin, add_blank = TRUE)
+=======
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/fish, GLOB.tails_list_fish)
+>>>>>>> f92f8fa3 ([PORT] Fish infusion (#12708))
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/snouts, GLOB.snouts_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/horns,GLOB.horns_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/ears, GLOB.ears_list)
