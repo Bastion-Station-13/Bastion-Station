@@ -11,10 +11,17 @@
 	var/datum/bb_gear/chosen_gear
 	/// The index of GLOB.color_list_blood_brothers to use to generate the color.
 	var/static/next_color = 1
-	var/brothers_left = 2
+	/// How many more people the team can convert. Any brother can spend them.
+	var/conversion_charges = 1
+	/// Chance for the team to start with another conversion charge, rolled again after every success
 	var/brother_chance = 10
 	///List of people who rejected being our brother
 	var/list/rejected_brothers = list()
+
+/datum/team/brother_team/New(starting_members)
+	. = ..()
+	while(prob(brother_chance))
+		conversion_charges++
 
 /datum/team/brother_team/add_member(datum/mind/new_member)
 	. = ..()
@@ -22,7 +29,7 @@
 		add_brother(new_member.current)
 	roll_for_color()
 
-/datum/team/brother_team/remove_member(datum/mind/member)
+/datum/team/brother_team/remove_member(datum/mind/member, removal_message)
 	if (!(member in members))
 		return
 	. = ..()
@@ -33,8 +40,9 @@
 	if (isnull(member.current))
 		return
 	for (var/datum/mind/brother_mind as anything in members)
-		to_chat(brother_mind, span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
+		to_chat(brother_mind, removal_message || span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
 	update_name()
+	update_ranks()
 
 /// Adds a new brother to the team
 /datum/team/brother_team/proc/add_brother(mob/living/new_brother, source)
@@ -44,6 +52,24 @@
 	var/datum/antagonist/brother/brother = new_brother.mind.has_antag_datum(/datum/antagonist/brother)
 	brother.brotherRank = members.len - 1
 	return TRUE
+
+/// Re-ranks the brothers by the order they joined, so the oldest remaining brother is always the Big Brother
+/datum/team/brother_team/proc/update_ranks()
+	for (var/i in 1 to length(members))
+		var/datum/mind/brother_mind = members[i]
+		var/datum/antagonist/brother/blood_bond = brother_mind.has_antag_datum(/datum/antagonist/brother)
+		if (isnull(blood_bond) || blood_bond.brotherRank == i - 1)
+			continue
+		blood_bond.set_brother_rank(i - 1)
+		to_chat(brother_mind.current, span_notice("You are now the [span_bold(blood_bond.get_rank_title())]."))
+
+/// Changes how many conversions the team has left, and lets every brother know
+/datum/team/brother_team/proc/adjust_conversion_charges(amount)
+	conversion_charges = max(conversion_charges + amount, 0)
+	for(var/datum/mind/member as anything in members)
+		var/datum/antagonist/brother/bond = member.has_antag_datum(/datum/antagonist/brother)
+		bond?.update_conversion_ability()
+		to_chat(member.current, span_notice("Your bond can convert [conversion_charges] more [conversion_charges == 1 ? "person" : "people"]."))
 
 /datum/team/brother_team/proc/update_name()
 	var/list/last_names = list()
