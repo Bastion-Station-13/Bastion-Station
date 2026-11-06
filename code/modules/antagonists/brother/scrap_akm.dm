@@ -35,7 +35,7 @@
 
 /obj/item/ammo_box/magazine/akm
 	name = "AKM magazine"
-	desc = "A banana magazine bent out of iron. It holds 7.62x39 scrap rounds."
+	desc = "Because you'll have to reload eventually. It holds 7.62x39 scrap rounds."
 	icon = 'bastionstation/icons/obj/weapons/guns/scrap_akm_ammo.dmi'
 	icon_state = "akm_mag"
 	base_icon_state = "akm_mag"

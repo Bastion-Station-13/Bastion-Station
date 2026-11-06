@@ -626,6 +626,23 @@
 		/obj/item/stack/cable_coil = 5,
 	)
 
+/datum/crafting_recipe/blood_brother/thermals
+	name = "Thermal Goggles"
+	desc = "Now you can see through walls! Just have to add an infrared emitter to some night vision goggles. Sadly it won't have the eye protection of night vision sunglasses, so don't charge into fights with security or you'll get flashbanged."
+	category = CAT_BB_GADGETS
+	result = /obj/item/clothing/glasses/thermal
+	reqs = list(
+		/obj/item/clothing/glasses/night = 1,
+		/obj/item/assembly/infra = 1,
+		/obj/item/stock_parts/scanning_module/adv = 1,
+		/obj/item/stack/cable_coil = 10,
+	)
+	tool_behaviors = list(
+		TOOL_SCREWDRIVER,
+		TOOL_WIRECUTTER,
+	)
+	time = 10 SECONDS
+
 /datum/crafting_recipe/blood_brother/scrap_revolver
 	name = "Scrap Revolver"
 	desc = "A crude revolver built around a matter bin cylinder that can be modified to accept either .38 or 12 gauge rounds."
