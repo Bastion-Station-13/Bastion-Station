@@ -169,7 +169,7 @@ const InformationTab = () => {
             objectiveFollowup={
               <ReplaceObjectivesButton
                 can_change_objective={can_change_objective}
-                button_title="Go Off the Grid"
+                button_title="Acquire Spark of Inspiration"
                 button_colour="yellow"
               />
             }
