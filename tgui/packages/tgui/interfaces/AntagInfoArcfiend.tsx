@@ -12,7 +12,11 @@ import {
   Tabs,
 } from '../components';
 import { Window } from '../layouts';
-import { type Objective, ObjectivePrintout } from './common/Objectives';
+import {
+  type Objective,
+  ObjectivePrintout,
+  ReplaceObjectivesButton,
+} from './common/Objectives';
 
 const ARCFIEND_YELLOW = '#ffe94d';
 
@@ -43,6 +47,7 @@ type Info = {
   total_drained: number;
   minds_drained: number;
   objectives: Objective[];
+  can_change_objective: BooleanLike;
   powers: Power[];
   tier_requirements: number[];
 };
@@ -137,7 +142,7 @@ export const AntagInfoArcfiend = () => {
 
 const InformationTab = () => {
   const { data } = useBackend<Info>();
-  const { antag_name, objectives } = data;
+  const { antag_name, objectives, can_change_objective } = data;
   return (
     <Stack vertical fill>
       <Stack.Item>
@@ -159,7 +164,16 @@ const InformationTab = () => {
       </Stack.Item>
       <Stack.Item grow>
         <Section fill scrollable>
-          <ObjectivePrintout objectives={objectives} />
+          <ObjectivePrintout
+            objectives={objectives}
+            objectiveFollowup={
+              <ReplaceObjectivesButton
+                can_change_objective={can_change_objective}
+                button_title="Go Off the Grid"
+                button_colour="yellow"
+              />
+            }
+          />
         </Section>
       </Stack.Item>
     </Stack>

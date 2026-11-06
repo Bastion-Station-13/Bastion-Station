@@ -3,15 +3,14 @@
 	roundend_category = "arcfiends"
 	antagpanel_category = "Arcfiend"
 	job_rank = ROLE_ARCFIEND
-	antag_moodlet = /datum/mood_event/focused
+	antag_moodlet = /datum/mood_event/arcfiend
 	hijack_speed = 0.5 //same as traitors, 10 seconds per hijack stage
 	show_name_in_check_antagonists = TRUE
 	ui_name = "AntagInfoArcfiend"
 	can_assign_self_objectives = TRUE
-	default_custom_objective = "Drain the station dry."
+	default_custom_objective = "Feed on as much power as possible."
 	hud_icon = 'bastionstation/icons/mob/huds/arcfiend/arcfiend_antag_hud.dmi'
 	antag_hud_name = "arcfiend"
-	show_to_ghosts = TRUE
 	stinger_sound = ARCFIEND_SOUND_STINGER
 
 	/// Power currently stored. Spent on both abilities and upgrades.
@@ -553,6 +552,7 @@
 	data["total_drained"] = round(total_drained)
 	data["minds_drained"] = get_minds_drained()
 	data["objectives"] = get_objectives()
+	data["can_change_objective"] = can_assign_self_objectives
 
 	var/list/powers_data = list()
 	var/list/shop_powers = get_arcfiend_shop_powers()
@@ -604,3 +604,8 @@
 			if(upgrade_power(power_type))
 				ui.send_update()
 			return TRUE
+
+/datum/mood_event/arcfiend
+	description = "I can feel the current running through every wire. All of it is mine for the taking!"
+	mood_change = 4
+	hidden = TRUE
