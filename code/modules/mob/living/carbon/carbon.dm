@@ -1182,12 +1182,12 @@
 
 /mob/living/carbon/wash(clean_types)
 	. = ..()
-
 	// Wash equipped stuff that cannot be covered
 	for(var/obj/item/held_thing in held_items)
 		if(held_thing.wash(clean_types))
 			. = TRUE
 
+<<<<<<< HEAD
 	if(back?.wash(clean_types))
 		update_worn_back(0)
 		. = TRUE
@@ -1223,6 +1223,18 @@
 	if(gloves && !(obscured & ITEM_SLOT_GLOVES) && gloves.wash(clean_types))
 		update_worn_gloves()
 		. = TRUE
+=======
+	// Check and wash stuff that isn't covered
+	var/covered = check_covered_slots()
+	for(var/obj/item/worn as anything in get_equipped_items())
+		var/slot = get_slot_by_item(worn)
+		// Don't wash glasses if something other than them is covering our eyes
+		if(slot == ITEM_SLOT_EYES && is_eyes_covered(ITEM_SLOT_MASK|ITEM_SLOT_HEAD))
+			continue
+		if(!(covered & slot))
+			// /obj/item/wash() already updates our clothing slot
+			. ||= worn.wash(clean_types)
+>>>>>>> 98c7cce1 ([PORT] Covered slots are their own thing (transparent_protection fixes) (#12797))
 
 /// if any of our bodyparts are bleeding
 /mob/living/carbon/proc/is_bleeding()
