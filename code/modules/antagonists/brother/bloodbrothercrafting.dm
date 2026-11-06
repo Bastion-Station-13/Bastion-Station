@@ -628,7 +628,7 @@
 
 /datum/crafting_recipe/blood_brother/thermals
 	name = "Thermal Goggles"
-	desc = "Now you can see through walls! Just have to add an infrared emitter to some night vision goggles. Sadly it won't have the eye protection of night vision sunglasses, so don't charge into fights with security or you'll get flashbanged."
+	desc = "Now you can see through walls! Sadly it won't have the eye protection of night vision sunglasses, so don't charge into fights with security or you'll get flashbanged."
 	category = CAT_BB_GADGETS
 	result = /obj/item/clothing/glasses/thermal
 	reqs = list(
