@@ -64,9 +64,16 @@
 	else
 		. += "Use in-hand to tie it up to wear as a hat!"
 
-/obj/item/clothing/mask/kitsune/attack_self(mob/user)
-	weldingvisortoggle(user)
+/obj/item/clothing/mask/kitsune/update_icon_state()
+	. = ..()
+	icon_state = "[initial(icon_state)][up ? "up" : ""]"
+
+/obj/item/clothing/mask/kitsune/visor_toggling(mob/living/user)
+	. = ..()
 	alternate_worn_layer = up ? ABOVE_BODY_FRONT_HEAD_LAYER : null
+
+/obj/item/clothing/mask/kitsune/attack_self(mob/user)
+	adjust_visor(user)
 
 /obj/item/clothing/mask/kitsune/click_alt(mob/living/user)
 	weldingvisortoggle(user)
