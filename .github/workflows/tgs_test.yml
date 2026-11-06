@@ -66,7 +66,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v7
 
-      - name: Install xmllint
+      - name: Install unzip
       - run: sudo apt install unzip -y
 
       - name: Test TGS Integration
