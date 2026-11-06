@@ -77,6 +77,22 @@
 //mecha_kineticgun version of the projectile
 /obj/projectile/kinetic/mech
 	range = 5
+	damage = 50
+	fauna_mod = 1.5
+
+/obj/projectile/kinetic/mech/strike_thing(atom/target)
+	. = ..()
+	new /obj/effect/temp_visual/explosion/fast(get_turf(target))
+
+	for(var/turf/closed/mineral/mineral_turf in RANGE_TURFS(2, target) - target)
+		mineral_turf.gets_drilled(firer, 0.1)
+
+	for(var/mob/living/living_mob in range(2, target) - firer - target)
+		if(!ismining(living_mob))
+			continue
+		var/armor = living_mob.run_armor_check(def_zone, armor_flag, armour_penetration = armour_penetration)
+		living_mob.apply_damage(damage, damage_type, def_zone, armor)
+		to_chat(living_mob, span_userdanger("You're struck by a [name]!"))
 
 //smg version
 /obj/projectile/kinetic/smg
