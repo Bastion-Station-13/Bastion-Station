@@ -446,7 +446,11 @@
 	. = SEND_SIGNAL(src, COMSIG_MOB_MIDDLECLICKON, A, params)
 	if(. & COMSIG_MOB_CANCEL_CLICKON)
 		return
+<<<<<<< HEAD
 	swap_hand()
+=======
+	cycle_hand(WEST, FALSE)
+>>>>>>> 61a2a584 ([PORT] Moths get 4 arms (#12806))
 
 /**
  * Shift click
@@ -550,9 +554,14 @@
 
 /atom/movable/screen/click_catcher/Click(location, control, params)
 	var/list/modifiers = params2list(params)
+<<<<<<< HEAD
 	if(LAZYACCESS(modifiers, MIDDLE_CLICK) && iscarbon(usr))
 		var/mob/living/carbon/C = usr
 		C.swap_hand()
+=======
+	if(LAZYACCESS(modifiers, MIDDLE_CLICK) && ismob(usr))
+		usr.cycle_hand(WEST, FALSE)
+>>>>>>> 61a2a584 ([PORT] Moths get 4 arms (#12806))
 	else
 		var/turf/click_turf = parse_caught_click_modifiers(modifiers, get_turf(usr.client ? usr.client.eye : usr), usr.client)
 		if (click_turf)
