@@ -6,6 +6,7 @@ import { Box, Button, Section, Stack, Table, Tabs } from '../../components';
 import { logger } from '../../logging';
 import { CharacterPreview } from '../common/CharacterPreview';
 import type { LoadoutData, PreferencesMenuData } from './data';
+import { sortLoadoutItems } from './loadoutSort';
 import { NameInput } from './names';
 
 const CLOTHING_CELL_SIZE = 64;
@@ -83,6 +84,10 @@ export const LoadoutManager = (props) => {
   const selectedTab = loadout_tabs.find((curTab) => {
     return curTab.name === selectedTabName;
   });
+  const sortedContents = useMemo(
+    () => sortLoadoutItems(selectedTab?.contents ?? []),
+    [selectedTab],
+  );
 
   return (
     <Stack height={`${CLOTHING_SIDEBAR_ROWS * CLOTHING_CELL_SIZE}px`}>
@@ -142,7 +147,7 @@ export const LoadoutManager = (props) => {
                 }
               >
                 <Table>
-                  {selectedTab.contents
+                  {sortedContents
                     .filter(
                       (item) =>
                         !!item.unusual_placement ||
