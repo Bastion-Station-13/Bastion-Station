@@ -572,6 +572,14 @@ SMART_CACHE_ASSETS
 ## Minimum number settable for this is 1.
 SECONDS_COOLDOWN_FOR_PREFERENCES_EXPORT 10
 
+## If this remains commented out, players can import a preferences file they exported earlier. The file is checked, then the player is disconnected and it is applied when they reconnect.
+## Their antag tokens and rep, job xp and owned items are kept, only the preferences and characters are replaced.
+#FORBID_PREFERENCES_IMPORT
+
+## The time (in seconds) that a player must wait between import attempts.
+## Minimum number settable for this is 1.
+SECONDS_COOLDOWN_FOR_PREFERENCES_IMPORT 60
+
 ## Uncomment to allow the station name to be in the hub entry.
 ## You should only enable this if you can guarantee a station name doesn't break BYOND's TOS.
 ## BYOND staff have gotten upset at us in the past for inappropriate station names.

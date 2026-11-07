@@ -156,3 +156,13 @@
 
 /// The key used for sprite accessories that should never actually be applied to the player.
 #define SPRITE_ACCESSORY_NONE "None"
+
+// Importing preferences from an uploaded file
+/// The biggest file a player can upload to import, in bytes
+#define PREFERENCES_IMPORT_MAX_SIZE 524288
+/// The most entries the top level of an imported file can have
+#define PREFERENCES_IMPORT_MAX_KEYS 300
+/// The most loadout items one imported character can have
+#define PREFERENCES_IMPORT_MAX_LOADOUT 150
+/// The file an import waits in until the player reconnects, next to their preferences
+#define PREFERENCES_IMPORT_PENDING_FILE "preferences_import.json"
