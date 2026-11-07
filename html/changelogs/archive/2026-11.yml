@@ -201,3 +201,22 @@
   - balance: Nuke disk guaranteed nukeop spawn now respects maximum antags. And if
       fails will try again in 5 minutes.
   - bugfix: Nuke disk no longer tracks time at half the rate of intended
+2026-11-07:
+  Absolucy:
+  - rscadd: (LemonInTheDark) Wall lights now shine out from the wall in a cone instead
+      of a circle
+  - rscadd: (LemonInTheDark) Light shining through open space gets dimmer on each
+      floor it reaches.
+  - rscadd: (LemonInTheDark) Starlight is brighter and blends into the hull better.
+  - rscadd: (MrMelbert) cable explosions flicker nearby lights, also cables are squishier
+  - balance: (MrMelbert) Cables have less integrity, and are much tougher to bombs
+      while hidden under the floor.
+  - bugfix: The tram indicator now actually points its light into the room.
+  - bugfix: Starlight around the hull keeps its intended falloff, and empty space
+      around shuttles no longer lights up.
+  - bugfix: Bar signs, chem masters, explosion flashes, a few spell projectiles, primitive
+      forges and translucent floors now actually give off light.
+  JupiterJaeden:
+  - code_imp: Fixes the 'TGS Test Suite' check on github actions.
+  notghosti:
+  - qol: Max CPU speed set to twice the original speed. Instead of 10.
