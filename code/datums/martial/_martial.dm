@@ -22,6 +22,8 @@
 	/// A modifier to the chance of escaping a grab.
 	/// IE: grab_escape_chance_modifier = -10 means 10% less chance to escape a grab
 	var/grab_escape_chance_modifier = 0
+	/// If TRUE, this art works on targets with TRAIT_MARTIAL_ARTS_IMMUNE, such as megafauna
+	var/ignores_martial_arts_immunity = FALSE
 
 /datum/martial_art/serialize_list(list/options, list/semvers)
 	. = ..()
