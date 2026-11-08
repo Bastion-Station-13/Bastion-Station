@@ -251,6 +251,9 @@
 /obj/machinery/door/airlock/external/glass{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
 "yZ" = (
@@ -349,6 +352,9 @@
 	},
 /obj/structure/fans/tiny,
 /obj/machinery/door/airlock/external/glass{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
 /turf/open/floor/catwalk_floor/iron_dark,
