@@ -220,3 +220,26 @@
   - code_imp: Fixes the 'TGS Test Suite' check on github actions.
   notghosti:
   - qol: Max CPU speed set to twice the original speed. Instead of 10.
+2026-11-08:
+  Absolucy:
+  - bugfix: Fixed runechat colors being unreadabley dark sometimes.
+  JupiterJaeden:
+  - qol: Adds seclite mounts for nearly every major security firearm.
+  - rscdel: Removes the barnyard curse granting spellbook from the paper wizard ruin
+      and the summon magic event. Wizards themselves can still get it.
+  ThePooba:
+  - bugfix: dont starve and animal voices work again
+  V2LenKagamine:
+  - rscadd: '''Ass Pic'' smite. Spawns an ass pick, puts in targets hand if possible.'
+  - rscadd: Status affect 'Feeling funny';rotates client move by +-90/180 every 15
+      seconds.
+  - qol: '''Select Equipment'' now requires ''R_SPAWN'' permissions from ''R_FUN'''
+  ma44, MrMelbert, AnturK, leaKsi, TiviPlus, StrangeWeirdKitten, SmArtKar, afonamo, jlsnow301, FalloutFalcon:
+  - bugfix: Fixed a bunch of places where players could send unsanitized HTML to other
+      players or admins.
+  - bugfix: Cassette song titles are properly encoded in chat and admin messages.
+  - bugfix: Safes, the message monitor, netpods, limbgrowers, launch pads and a few
+      other machines validate their inputs properly.
+  - bugfix: Number inputs reject NaN.
+  - admin: View variables topic calls require R_VAREDIT.
+  - server: World topics require the comms key unless they're meant to be public.
