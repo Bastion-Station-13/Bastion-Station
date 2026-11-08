@@ -299,9 +299,17 @@
 		if(25 to 35)
 			heating = 0.66 KELVIN
 		if(35 to INFINITY)
+<<<<<<< HEAD
 			heating = 1.2 KELVIN
 
 	affected_mob.adjust_bodytemperature(heating * REM * seconds_per_tick, max_temp = CELCIUS_TO_KELVIN(39 CELCIUS))
+=======
+			heating = 20
+			if(isslime(affected_mob))
+				heating = rand(20, 25)
+	// Spicy food makes you hot but stops before it starts burning you, upgraded microwaves put a lot of it in donk pockets
+	affected_mob.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT * REM * seconds_per_tick, max_temp = affected_mob.get_body_temp_heat_damage_limit())
+>>>>>>> 01f5166c (Some temperature fixes (#12936))
 	return ..()
 
 /datum/reagent/consumable/frostoil
