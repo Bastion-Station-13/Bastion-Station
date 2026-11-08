@@ -238,7 +238,6 @@
 	dir = 4;
 	name = "Cockpit"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -252,7 +251,6 @@
 /obj/machinery/door/airlock/external/glass{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
 "yZ" = (
@@ -353,7 +351,6 @@
 /obj/machinery/door/airlock/external/glass{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/any/away/bounty_hunter,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/shuttle/hunter/spacepol)
 "MP" = (

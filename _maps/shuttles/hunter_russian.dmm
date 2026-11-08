@@ -291,6 +291,9 @@
 /obj/item/storage/fancy/cigarettes,
 /obj/item/storage/fancy/cigarettes,
 /obj/item/storage/fancy/cigarettes,
+/obj/item/gun/ballistic/revolver/nagant,
+/obj/item/ammo_box/n762,
+/obj/item/ammo_box/n762,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/hunter/russian)
 "tj" = (
@@ -467,6 +470,17 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 1
 	},
+/obj/structure/closet/crate/freezer,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
+/obj/item/food/grown/potato,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/hunter/russian)
 "Ej" = (
@@ -921,7 +935,7 @@ LQ
 "}
 (4,1,1) = {"
 LQ
-MO
+Jh
 kL
 LW
 sR
@@ -937,7 +951,7 @@ LQ
 "}
 (5,1,1) = {"
 LQ
-WG
+MO
 Ys
 Gu
 bK
@@ -953,7 +967,7 @@ LQ
 "}
 (6,1,1) = {"
 LQ
-Jh
+WG
 Lk
 LW
 cZ
@@ -974,8 +988,8 @@ LQ
 LQ
 Se
 LQ
-Me
-Me
+pB
+pB
 LQ
 Nr
 LQ
@@ -1038,8 +1052,8 @@ LQ
 LQ
 IV
 LQ
-pB
-pB
+Me
+Me
 LQ
 vY
 LQ
