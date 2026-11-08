@@ -166,7 +166,10 @@
 #define ORGAN_SLOT_EXTERNAL_FLUFF "fluff"
 #define ORGAN_SLOT_EXTERNAL_FEATHERS "feathers"
 #define ORGAN_SLOT_EXTERNAL_EARS "external_ears"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 
 /// Xenomorph organ slots
 #define ORGAN_SLOT_XENO_ACIDGLAND "acid_gland"

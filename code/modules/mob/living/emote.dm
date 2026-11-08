@@ -194,8 +194,16 @@
 	vary = TRUE
 	mob_type_allowed_typecache = list(/mob/living/carbon, /mob/living/silicon/pai)
 
+<<<<<<< HEAD
 /datum/emote/living/mar/get_sound(mob/living/user)
 	return 'bastionstation/sound/creatures/mar.ogg'
+=======
+/datum/emote/living/mar/can_run_emote(mob/user, status_check, intentional)
+	return ..() && isshadekin(user)
+
+/datum/emote/living/mar/get_sound(mob/living/user)
+	return 'sound/creatures/mar.ogg'
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 
 /datum/emote/living/frown
 	key = "frown"

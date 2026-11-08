@@ -2629,7 +2629,11 @@ MONKESTATION EDIT
 	color_src = FALSE
 
 /datum/sprite_accessory/tails/shadekin
+<<<<<<< HEAD
 	icon = 'bastionstation/icons/mob/species/shadekin/shadekin_tails.dmi'
+=======
+	icon = 'icons/mob/species/shadekin/shadekin_tails.dmi'
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 	palette_key = MUTANT_COLOR_SECONDARY
 
 /datum/sprite_accessory/tails/shadekin/shadekinc
@@ -2773,7 +2777,11 @@ MONKESTATION EDIT
 	palette_key = MUTANT_COLOR
 
 /datum/sprite_accessory/ears/shadekin
+<<<<<<< HEAD
 	icon = 'bastionstation/icons/mob/species/shadekin/shadekin_ears.dmi'
+=======
+	icon = 'icons/mob/species/shadekin/shadekin_ears.dmi'
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 	palette_key = MUTANT_COLOR
 
 /datum/sprite_accessory/ears/shadekin/shadekinearc

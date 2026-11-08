@@ -7,6 +7,10 @@
 	mutanteyes = /obj/item/organ/internal/eyes/shadekin
 	mutantears = /obj/item/organ/internal/ears/shadekin
 	mutanttongue = /obj/item/organ/internal/tongue/shadekin
+<<<<<<< HEAD
+=======
+	mutantlungs = null
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 	species_language_holder = /datum/language_holder/shadekin
 
 	inherent_traits = list(
@@ -33,8 +37,11 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/shadekin,
 	)
 
+<<<<<<< HEAD
 	eyes_icon = 'bastionstation/icons/mob/species/shadekin/shadekin_eyes.dmi'
 
+=======
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 
 /datum/species/shadekin/create_pref_unique_perks()
 	var/list/to_add = list()
@@ -83,11 +90,20 @@
 	if(!isturf(owner_turf))
 		return
 
+<<<<<<< HEAD
 	if(GET_SIMPLE_LUMCOUNT(owner_turf) < SHADOW_SPECIES_DIM_LIGHT)
 		owner.apply_status_effect(/datum/status_effect/shadekin_regeneration)
 		owner.clear_mood_event("shadekin_light")
 
 	else if(GET_SIMPLE_LUMCOUNT(owner_turf) > SHADOW_SPECIES_DIM_LIGHT)
+=======
+	var/lumcount = GET_SIMPLE_LUMCOUNT(owner_turf)
+	if(lumcount < SHADOW_SPECIES_DIM_LIGHT)
+		owner.apply_status_effect(/datum/status_effect/shadekin_regeneration)
+		owner.clear_mood_event("shadekin_light")
+
+	else if(lumcount > SHADOW_SPECIES_DIM_LIGHT)
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 		owner.remove_status_effect(/datum/status_effect/shadekin_regeneration)
 		owner.add_mood_event("shadekin_light", /datum/mood_event/shadekin_light)
 
@@ -108,14 +124,22 @@
 /atom/movable/screen/alert/status_effect/shadekin_regeneration
 	name = "Dark Regeneration"
 	desc = "Darkness passes through your body, slowly healing your wounds!"
+<<<<<<< HEAD
 	icon = 'bastionstation/icons/hud/screen_alert.dmi'
+=======
+	icon = 'icons/hud/screen_alert.dmi'
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 	icon_state = "shaderegen"
 	var/datum/status_effect/shadekin_regeneration
 
 /obj/item/organ/external/ears/shadekin
 	name = "Protruding shadekin ears"
 	desc = "The external, protruding part of the shadekin's ears. doesn't seem to affect their hearing."
+<<<<<<< HEAD
 	icon = 'bastionstation/icons/obj/medical/organs/organs.dmi'
+=======
+	icon = 'icons/obj/medical/organs/organs.dmi'
+>>>>>>> 1dc600dd ([PORT] Shadekin Species (#12898))
 	icon_state = "shadekin-visual-ears"
 	preference = "feature_shadekin_ears"
 	bodypart_overlay = /datum/bodypart_overlay/mutant/ears/shadekin
