@@ -236,6 +236,14 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
 /area/shuttle/hunter/bounty)
+"nb" = (
+/obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
+/obj/structure/cable,
+/obj/machinery/door/poddoor{
+	id = "hunter_bounty_windows"
+	},
+/turf/open/floor/plating,
+/area/shuttle/hunter/bounty)
 "nc" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -392,7 +400,8 @@
 /obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
 /obj/structure/cable,
 /obj/machinery/door/poddoor{
-	id = "hunter_bounty_windows"
+	id = "hunter_bounty_windows";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
@@ -429,6 +438,7 @@
 "zr" = (
 /obj/effect/mapping_helpers/broken_floor,
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/bin,
 /turf/open/floor/iron/dark,
 /area/shuttle/hunter/bounty)
 "zQ" = (
@@ -617,15 +627,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/wood,
-/area/shuttle/hunter/bounty)
-"Jg" = (
-/obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
-/obj/structure/cable,
-/obj/machinery/door/poddoor{
-	id = "hunter_bounty_windows";
-	dir = 4
-	},
-/turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "JT" = (
 /obj/effect/turf_decal/bot,
@@ -1067,7 +1068,7 @@ BY
 sE
 dE
 Eq
-wl
+nb
 Oa
 "}
 (4,1,1) = {"
@@ -1233,7 +1234,7 @@ XJ
 SE
 Mm
 Ta
-wl
+nb
 "}
 (15,1,1) = {"
 YY
@@ -1248,7 +1249,7 @@ cD
 gu
 Tc
 sk
-wl
+nb
 "}
 (16,1,1) = {"
 xS
@@ -1274,9 +1275,9 @@ Vm
 Vm
 Vm
 Vm
-Jg
-Jg
-Jg
+wl
+wl
+wl
 YY
 xS
 "}
