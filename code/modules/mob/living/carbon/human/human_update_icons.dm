@@ -52,7 +52,11 @@ There are several things that need to be remembered:
 		!HAS_TRAIT(item, TRAIT_ALWAYS_RENDER) && \
 		( \
 			HAS_TRAIT(item, TRAIT_NO_WORN_ICON) \
+<<<<<<< HEAD
 			|| (check_obscured_slots(transparent_protection = TRUE) & slot) \
+=======
+			|| (hidden_slots_to_inventory_slots(obscured_slots) & slot) \
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		) \
 	) { \
 		return; \
@@ -157,6 +161,11 @@ There are several things that need to be remembered:
 	if(wear_id)
 		var/obj/item/worn_item = wear_id
 		update_hud_id(worn_item)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		var/icon_file = 'icons/mob/clothing/id.dmi'
 
 		id_overlay = wear_id.build_worn_icon(default_layer = ID_LAYER, default_icon_file = icon_file)
@@ -269,7 +278,11 @@ There are several things that need to be remembered:
 	apply_overlay(GLASSES_LAYER)
 
 
+<<<<<<< HEAD
 /mob/living/carbon/human/update_inv_ears()
+=======
+/mob/living/carbon/human/update_worn_ears()
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 	remove_overlay(EARS_LAYER)
 
 	var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
@@ -486,6 +499,11 @@ There are several things that need to be remembered:
 	if(wear_suit)
 		var/obj/item/worn_item = wear_suit
 		update_hud_wear_suit(worn_item)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		var/icon_file = DEFAULT_SUIT_FILE
 
 		var/mutant_override = FALSE
@@ -579,6 +597,11 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = back
 		var/mutable_appearance/back_overlay
 		update_hud_back(worn_item)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		var/icon_file = 'icons/mob/clothing/back.dmi'
 
 		var/mutant_override = FALSE

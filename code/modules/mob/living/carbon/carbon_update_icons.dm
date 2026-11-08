@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /mob/living/carbon/human/update_clothing(slot_flags)
 	if(slot_flags & ITEM_SLOT_BACK)
 		update_worn_back()
@@ -33,6 +34,9 @@
 		update_pockets()
 
 	/// Updates features and clothing attached to a specific limb with limb-specific offsets
+=======
+/// Updates features and clothing attached to a specific limb with limb-specific offsets
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 /mob/living/carbon/proc/update_features(feature_key)
 	switch(feature_key)
 		if(OFFSET_UNIFORM)
@@ -430,7 +434,11 @@
 		inv.update_appearance()
 
 	if(wear_mask)
+<<<<<<< HEAD
 		if(!(check_obscured_slots() & ITEM_SLOT_MASK))
+=======
+		if(!(obscured_slots & HIDEMASK))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 			overlays_standing[FACEMASK_LAYER] = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = 'icons/mob/clothing/mask.dmi')
 		update_hud_wear_mask(wear_mask)
 
@@ -444,7 +452,11 @@
 		inv.update_appearance()
 
 	if(wear_neck)
+<<<<<<< HEAD
 		if(!(check_obscured_slots() & ITEM_SLOT_NECK))
+=======
+		if(!(obscured_slots & HIDENECK))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 			overlays_standing[NECK_LAYER] = wear_neck.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = 'icons/mob/clothing/neck.dmi')
 		update_hud_neck(wear_neck)
 
@@ -484,7 +496,12 @@
 		inv.update_appearance()
 
 	if(head)
+<<<<<<< HEAD
 		overlays_standing[HEAD_LAYER] = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = 'icons/mob/clothing/head/default.dmi')
+=======
+		if(!(obscured_slots & HIDEHEADGEAR))
+			overlays_standing[HEAD_LAYER] = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = 'icons/mob/clothing/head/default.dmi')
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		update_hud_head(head)
 
 	apply_overlay(HEAD_LAYER)

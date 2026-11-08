@@ -92,7 +92,17 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 		qdel(delete)
 
 /mob/living/carbon/human/dummy/has_equipped(obj/item/item, slot, initial = FALSE)
+<<<<<<< HEAD
 	return item.visual_equipped(src, slot, initial)
+=======
+	SHOULD_CALL_PARENT(FALSE) // assuming direct control
+	item.item_flags |= IN_INVENTORY
+	if(!item.visual_equipped(src, slot, initial))
+		return FALSE
+
+	add_item_coverage(item)
+	return TRUE
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 /mob/living/carbon/human/dummy/proc/wipe_state()
 	delete_equipment()

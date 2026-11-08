@@ -147,7 +147,7 @@
 		ITEM_SLOT_HANDCUFFED,
 		ITEM_SLOT_LEGCUFFED,
 	)
-	var/list/obscured = check_obscured_slots()
+	var/obscured = hidden_slots_to_inventory_slots(obscured_slots)
 	var/list/visible_items = list()
 	for (var/slot in visible_slots)
 		if (obscured & slot)
@@ -339,12 +339,24 @@
 		s_store = null
 		if(!QDELETED(src))
 			update_suit_storage()
+<<<<<<< HEAD
 	update_equipment_speed_mods()
+=======
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 	// Send a signal for when we unequip an item that used to cover our feet/shoes. Used for bloody feet
 	if((I.body_parts_covered & FEET) || (I.flags_inv | I.transparent_protection) & HIDESHOES)
 		SEND_SIGNAL(src, COMSIG_CARBON_UNEQUIP_SHOECOVER, I, force, newloc, no_move, invdrop, silent)
 
+<<<<<<< HEAD
+=======
+/mob/living/carbon/human/item_coverage_changed(added_slots, removed_slots)
+	. = ..()
+	if((added_slots|removed_slots) & HIDEFACE)
+		sec_hud_set_security_status()
+		name = get_visible_name()
+
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 /mob/living/carbon/human/toggle_internals(obj/item/tank, is_external = FALSE)
 	// Just close the tank if it's the one the mob already has open.
 	var/obj/item/existing_tank = is_external ? external : internal

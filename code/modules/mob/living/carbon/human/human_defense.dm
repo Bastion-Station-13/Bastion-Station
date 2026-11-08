@@ -395,7 +395,7 @@
 				to_chat(src, span_notice("You feel your heart beating again!"))
 	electrocution_animation(40)
 
-/mob/living/carbon/human/acid_act(acidpwr, acid_volume, bodyzone_hit) //todo: update this to utilize check_obscured_slots() //and make sure it's check_obscured_slots(TRUE) to stop aciding through visors etc
+/mob/living/carbon/human/acid_act(acidpwr, acid_volume, bodyzone_hit) //todo: update this to utilize obscured_slots //and make sure it's check_obscured_slots(TRUE) to stop aciding through visors etc
 	var/list/damaged = list()
 	var/list/inventory_items_to_kill = list()
 	var/acidity = acidpwr * min(acid_volume*0.005, 0.1)
@@ -756,6 +756,7 @@
 
 /mob/living/carbon/human/proc/burn_clothing(seconds_per_tick, times_fired, stacks)
 	var/list/burning_items = list()
+<<<<<<< HEAD
 	var/obscured = check_obscured_slots(TRUE)
 	//HEAD//
 
@@ -766,19 +767,37 @@
 	if(wear_neck && !(obscured & ITEM_SLOT_NECK))
 		burning_items += wear_neck
 	if(ears && !(obscured & ITEM_SLOT_EARS))
+=======
+	//HEAD//
+
+	if(glasses && !(covered_slots & HIDEEYES))
+		burning_items += glasses
+	// monkestation edit: masks don't burn while you're on fire
+	if(wear_neck && !(covered_slots & HIDENECK))
+		burning_items += wear_neck
+	if(ears && !(covered_slots & HIDEEARS))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		burning_items += ears
 	if(head)
 		burning_items += head
 
 	//CHEST//
+<<<<<<< HEAD
 	if(w_uniform && !(obscured & ITEM_SLOT_ICLOTHING))
+=======
+	if(w_uniform && !(covered_slots & HIDEJUMPSUIT))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		burning_items += w_uniform
 	if(wear_suit)
 		burning_items += wear_suit
 
 	//ARMS & HANDS//
 	var/obj/item/clothing/arm_clothes = null
+<<<<<<< HEAD
 	if(gloves && !(obscured & ITEM_SLOT_GLOVES))
+=======
+	if(gloves && !(covered_slots & HIDEGLOVES))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		arm_clothes = gloves
 	else if(wear_suit && ((wear_suit.body_parts_covered & HANDS) || (wear_suit.body_parts_covered & ARMS)))
 		arm_clothes = wear_suit
@@ -789,7 +808,11 @@
 
 	//LEGS & FEET//
 	var/obj/item/clothing/leg_clothes = null
+<<<<<<< HEAD
 	if(shoes && !(obscured & ITEM_SLOT_FEET))
+=======
+	if(shoes && !(covered_slots & HIDESHOES))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		leg_clothes = shoes
 	else if(wear_suit && ((wear_suit.body_parts_covered & FEET) || (wear_suit.body_parts_covered & LEGS)))
 		leg_clothes = wear_suit

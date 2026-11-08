@@ -90,9 +90,19 @@
 	var/mob/living/carbon/human/human = bodypart_owner.owner
 	if(!istype(human))
 		return TRUE
+<<<<<<< HEAD
 	if(human.wear_suit && (human.wear_suit.flags_inv & HIDEJUMPSUIT))
 		return FALSE
 	if(human.w_uniform?.flags_inv & HIDETAIL)
+=======
+	if(human.obscured_slots & HIDETAIL)
+		return FALSE
+	if(!(human.obscured_slots & HIDEJUMPSUIT))
+		return TRUE
+	if(!mesh_in_suits)
+		return FALSE
+	if(!(locate(/datum/bodypart_texture/mesh) in bodypart_owner.bodypart_textures))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		return FALSE
 	return TRUE
 

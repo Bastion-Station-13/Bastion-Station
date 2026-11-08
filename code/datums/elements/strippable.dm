@@ -265,7 +265,18 @@
 			? STRIPPABLE_OBSCURING_COMPLETELY \
 			: STRIPPABLE_OBSCURING_NONE
 
+<<<<<<< HEAD
 	return FALSE
+=======
+	var/mob/living/carbon/carbon_source = source
+	if (hidden_slots_to_inventory_slots(carbon_source.obscured_slots) & item_slot)
+		return STRIPPABLE_OBSCURING_COMPLETELY
+
+	if (hidden_slots_to_inventory_slots(carbon_source.covered_slots) & item_slot)
+		return STRIPPABLE_OBSCURING_INACCESSIBLE
+
+	return STRIPPABLE_OBSCURING_NONE
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 /datum/strippable_item/mob_item_slot/start_unequip(atom/source, mob/user)
 	. = ..()

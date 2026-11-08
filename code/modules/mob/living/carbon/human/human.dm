@@ -620,8 +620,12 @@
  * Returns false if we couldn't wash our hands due to them being obscured, otherwise true
  */
 /mob/living/carbon/human/proc/wash_hands(clean_types)
+<<<<<<< HEAD
 	var/obscured = check_obscured_slots()
 	if(obscured & ITEM_SLOT_GLOVES)
+=======
+	if(covered_slots & HIDEGLOVES)
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		return FALSE
 
 	if(gloves)
@@ -645,9 +649,13 @@
 		update_worn_glasses()
 		. = TRUE
 
+<<<<<<< HEAD
 	var/obscured = check_obscured_slots()
 	if(wear_mask && !(obscured & ITEM_SLOT_MASK) && wear_mask.wash(clean_types))
 		update_worn_mask()
+=======
+	if(wear_mask && !(covered_slots & HIDEMASK) && wear_mask.wash(clean_types))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		. = TRUE
 
 /**
@@ -676,7 +684,11 @@
 		. = TRUE
 
 	// Wash hands if exposed
+<<<<<<< HEAD
 	if(!gloves && (clean_types & CLEAN_TYPE_BLOOD) && blood_in_hands > 0 && !(obscured & ITEM_SLOT_GLOVES))
+=======
+	if(!gloves && (clean_types & CLEAN_TYPE_BLOOD) && blood_in_hands > 0 && !(covered_slots & HIDEGLOVES))
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 		blood_in_hands = 0
 		update_worn_gloves()
 		. = TRUE
