@@ -70,3 +70,9 @@
 #define ALERT_BITRUNNER_GLITCH "bitrunning_glitch"
 
 #define ALERT_BRAINWASHED "brainwashed"
+<<<<<<< HEAD
+=======
+
+#define ALERT_EMAGGED_SPIDERBOT "emagged_spiderbot"
+#define ALERT_SILICON_RECORDING "silicon_recording"
+>>>>>>> aba1724d (PORT/ Paradise Station Robotics (#12089))
