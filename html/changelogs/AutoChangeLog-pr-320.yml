@@ -1,4 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - rscdel: "Removes the barnyard curse granting spellbook from the paper wizard ruin and the summon magic event. Wizards themselves can still get it."
