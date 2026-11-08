@@ -118,9 +118,6 @@
 /obj/item/gun/ballistic/fingergun_emote/attackby()
 	return
 
-/obj/item/gun/ballistic/fingergun_emote/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
-	return ITEM_INTERACT_BLOCKING
-
 /obj/item/gun/ballistic/fingergun_emote/eject_magazine()
 	return
 
