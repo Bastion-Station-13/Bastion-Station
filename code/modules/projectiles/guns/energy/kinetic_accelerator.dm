@@ -16,6 +16,8 @@
 	///The max capacity of modkits the PKA can have installed at once.
 	var/max_mod_capacity = 100
 	var/disablemodification = FALSE //monkeedit - stops removal and addition of mods
+	///If this item has been enhanced by a ashen whetstone
+	var/enhanced = FALSE
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/add_bayonet_point()
 	AddComponent(/datum/component/bayonet_attachable, offset_x = 20, offset_y = 12)
@@ -61,10 +63,13 @@
 		. += span_info("You can use a <b>crowbar</b> to remove all modules or <b>right-click</b> with an empty hand to remove a specific one.")
 		for(var/obj/item/borg/upgrade/modkit/modkit_upgrade as anything in modkits)
 			. += span_notice("There is \a [modkit_upgrade] installed, using <b>[modkit_upgrade.cost]%</b> capacity.")
+	if(enhanced)
+		. += span_boldholoparasite("It is caked in ash, and glows like brimstone.")
+
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/crowbar_act(mob/living/user, obj/item/I)
 	. = TRUE
-	if(modkits.len && !disablemodification) //monkeedit
+	if(modkits.len && !disablemodification)
 		to_chat(user, span_notice("You pry all the modifications out."))
 		I.play_tool_sound(src, 100)
 		for(var/obj/item/borg/upgrade/modkit/modkit_upgrade as anything in modkits)

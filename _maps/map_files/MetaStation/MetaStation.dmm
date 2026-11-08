@@ -57301,7 +57301,7 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "tJH" = (
-/mob/living/carbon/human/species/monkey/dukeman,
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/iron/dark/side{
 	dir = 1
 	},

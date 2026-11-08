@@ -25,6 +25,9 @@
 
 	var/datum/nanite_program/current_program	//The nanite program currently in the programming (middle) section.
 
+	/// Keeps the handbook from being printed over and over
+	COOLDOWN_DECLARE(manual_cooldown)
+
 /obj/machinery/computer/nanite_cloud_controller/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive(trait_source = ROUNDSTART_TRAIT)
@@ -54,6 +57,17 @@
 		return CLICK_ACTION_SUCCESS
 
 	return CLICK_ACTION_BLOCKING
+
+/// Prints a copy of the nanite handbook, not more often than the cooldown allows
+/obj/machinery/computer/nanite_cloud_controller/proc/print_manual(mob/user)
+	if(!COOLDOWN_FINISHED(src, manual_cooldown))
+		if(user)
+			balloon_alert(user, "printer is busy")
+		return FALSE
+	COOLDOWN_START(src, manual_cooldown, 10 SECONDS)
+	playsound(src, 'sound/machines/terminal/terminal_prompt.ogg', 50, FALSE)
+	new /obj/item/book/manual/nanites(drop_location())
+	return TRUE
 
 /obj/machinery/computer/nanite_cloud_controller/proc/eject(mob/living/user)
 	if(!disk)
@@ -160,6 +174,7 @@
 					var/datum/nanite_rule/nanite_rule = X
 					var/list/rule = list()
 					rule["display"] = nanite_rule.display()
+					rule["group"] = nanite_rule.group
 					rule["program_id"] = id
 					rule["id"] = rule_id
 					rules += list(rule)
@@ -168,6 +183,7 @@
 				if(LAZYLEN(rules))
 					cloud_program["has_rules"] = TRUE
 				cloud_program["all_rules_required"] = P.all_rules_required
+				cloud_program["rule_summary"] = P.get_rule_summary()
 
 				var/list/extra_settings = P.get_extra_settings_frontend()
 				cloud_program["extra_settings"] = extra_settings
@@ -217,6 +233,9 @@
 	switch(action)
 		if("eject")
 			eject(usr)
+			. = TRUE
+		if("print_manual")
+			print_manual(usr)
 			. = TRUE
 		if("set_view")
 			current_view = text2num(params["view"])
@@ -282,6 +301,17 @@
 					investigate_log("[key_name(usr)] removed rule [rule.display()] from program [P.name] in cloud #[current_view]", INVESTIGATE_NANITES)
 					rule.remove()
 			. = TRUE
+		if("cycle_rule_group")
+			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
+			if(backup)
+				playsound(src, 'sound/machines/terminal/terminal_prompt.ogg', 50, FALSE)
+				var/datum/component/nanites/nanites = backup.nanites
+				var/datum/nanite_program/P = nanites.programs[text2num(params["program_id"])]
+				var/datum/nanite_rule/rule = P?.rules[text2num(params["rule_id"])]
+				if(rule)
+					rule.group = (rule.group + 1) % (NANITE_RULE_GROUPS + 1)
+					investigate_log("[key_name(usr)] moved rule [rule.display()] of program [P.name] to group [rule.group] in cloud #[current_view]", INVESTIGATE_NANITES)
+				. = TRUE
 		if("toggle_rule_logic")
 			var/datum/nanite_cloud_backup/backup = get_backup(current_view)
 			if(backup)

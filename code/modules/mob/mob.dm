@@ -33,6 +33,7 @@
 	persistent_client?.set_mob(null)
 
 	unset_machine()
+	active_storage?.hide_contents(src)
 	clear_fullscreens()
 	remove_from_mob_list()
 	remove_from_dead_mob_list()
@@ -1073,7 +1074,7 @@ GAME_VERB_NATIVE(/mob, DisDblClick, ".dblclick", null, argu = null as anything, 
 
 	if(ishuman(src))
 		var/mob/living/carbon/human/human = src
-		human.apply_height_filters(antimagic_effect)
+		human.apply_height(antimagic_effect, ENTIRE_BODY)
 
 	mob_light(range = 2, color = antimagic_color, duration = 5 SECONDS)
 	add_overlay(antimagic_effect)
