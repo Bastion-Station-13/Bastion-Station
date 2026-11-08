@@ -174,6 +174,7 @@
 #include "linked_xenobio_pens.dm"
 #include "load_map_security.dm"
 #include "loadout_duplicates.dm"
+#include "loadout_icons.dm"
 #include "lootpanel.dm"
 #include "lungs.dm"
 #include "machine_disassembly.dm"

@@ -13,7 +13,8 @@
 
 /datum/preference_middleware/loadout/get_ui_assets()
 	return list(
-		get_asset_datum(/datum/asset/json/loadout_items)
+		get_asset_datum(/datum/asset/json/loadout_items),
+		get_asset_datum(/datum/asset/spritesheet_batched/loadout_items),
 	)
 
 /datum/preference_middleware/loadout/get_ui_static_data()
@@ -169,6 +170,9 @@
 		formatted_item["is_donator_only"] = FALSE
 		formatted_item["is_ckey_whitelisted"] = FALSE
 		formatted_item["unusual_spawning_requirements"] = TRUE
+		var/obj/item/unusual_type = text2path(data[array_index]["unusual_type"])
+		if(ispath(unusual_type, /obj/item) && !loadout_icon_needs_spritesheet(unusual_type))
+			add_loadout_icon_data(formatted_item, unusual_type)
 
 		formatted_list[array_index++] = formatted_item
 

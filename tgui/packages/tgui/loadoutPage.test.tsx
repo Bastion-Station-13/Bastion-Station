@@ -69,9 +69,13 @@ const render = async (tab: string) => {
   });
 };
 
+// first cell of a row is the icon, the name comes after it
+const nameCell = (row: Element) =>
+  row.querySelectorAll('[class*="Stack__item"]')[1];
+
 const shownNames = () =>
   Array.from(container.querySelectorAll('tr')).map((row) =>
-    row.querySelector('[class*="Stack__item"]')?.textContent?.trim(),
+    nameCell(row)?.textContent?.trim(),
   );
 
 describe('LoadoutManager item order', () => {
@@ -124,5 +128,93 @@ describe('LoadoutManager item order', () => {
   it('also sorts the extra categories that come from the server per player', async () => {
     await render('Unusuals');
     expect(shownNames()).toEqual(['Alpha', 'Zap']);
+  });
+});
+
+describe('LoadoutManager item icons', () => {
+  const FILE_ICON = item('Plain Hat', {
+    icon: 'icons/obj/hats.dmi',
+    icon_state: 'plain_hat',
+  });
+  const SHEET_ICON = item('Grey Hat', { icon: 'objitemgreyhat' });
+  const NO_ICON = item('Mystery Hat');
+  const ITEMS = [FILE_ICON, SHEET_ICON, NO_ICON];
+  const rowOf = (name: string) =>
+    Array.from(container.querySelectorAll('tr')).find(
+      (row) => nameCell(row)?.textContent?.trim() === name,
+    ) as Element;
+
+  // DmIcon looks the icon file up in this map
+  const globals = globalThis as { Byond?: unknown };
+  let byond: unknown;
+  beforeEach(() => {
+    byond = globals.Byond;
+    globals.Byond = { iconRefMap: { 'icons/obj/hats.dmi': '[0xc000001]' } };
+    loadoutItems = [
+      { name: 'Head', title: 'Head Slot Items', contents: ITEMS },
+    ];
+    store.set(gameDataAtom, {
+      selected_loadout: [],
+      selected_unusuals: [],
+      user_is_donator: false,
+      available_items: ITEMS.map((entry) => entry.path),
+      extra_tabs: [],
+      character_preview_view: 'preview',
+    });
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    root = createRoot(container);
+  });
+
+  afterEach(async () => {
+    await act(async () => root.unmount());
+    container.remove();
+    globals.Byond = byond;
+  });
+
+  it('draws an item from its icon file', async () => {
+    await render('Head');
+    const image = rowOf('Plain Hat').querySelector('img');
+    expect(image?.getAttribute('src')).toStartWith(
+      '[0xc000001]?state=plain_hat',
+    );
+  });
+
+  it('draws greyscale items from the loadout spritesheet', async () => {
+    await render('Head');
+    const sprite = rowOf('Grey Hat').querySelector(
+      '.loadout_items32x32.objitemgreyhat',
+    );
+    expect(sprite).not.toBeNull();
+    expect(rowOf('Grey Hat').querySelector('img')).toBeNull();
+  });
+
+  it('shows a larger icon while hovering over the name', async () => {
+    await render('Head');
+    const name = nameCell(rowOf('Plain Hat')).firstElementChild as Element;
+    const iconWidths = () =>
+      Array.from(document.querySelectorAll('img')).map((image) =>
+        Number.parseFloat(image.style.width),
+      );
+    expect(iconWidths().length).toBe(1);
+    await act(async () => {
+      name.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+      // the tooltip opens once the pointer has moved over the name and rested
+      const move = new MouseEvent('mousemove', { bubbles: true });
+      Object.defineProperty(move, 'movementX', { value: 5 });
+      Object.defineProperty(move, 'movementY', { value: 5 });
+      name.dispatchEvent(move);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    });
+    const [small, large] = iconWidths();
+    expect(iconWidths().length).toBe(2);
+    expect(large).toBeCloseTo(small * 2, 2);
+  });
+
+  it('leaves the icon empty for an item that has none', async () => {
+    await render('Head');
+    const row = rowOf('Mystery Hat');
+    expect(row.querySelector('img')).toBeNull();
+    expect(row.querySelector('[class*="loadout_items32x32"]')).toBeNull();
   });
 });

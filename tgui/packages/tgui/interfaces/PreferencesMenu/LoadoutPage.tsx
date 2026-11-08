@@ -2,10 +2,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { resolveAsset } from 'tgui/assets';
 import { fetchRetry } from 'tgui-core/http';
 import { useBackend, useSharedState } from '../../backend';
-import { Box, Button, Section, Stack, Table, Tabs } from '../../components';
+import {
+  Box,
+  Button,
+  Section,
+  Stack,
+  Table,
+  Tabs,
+  Tooltip,
+} from '../../components';
 import { logger } from '../../logging';
 import { CharacterPreview } from '../common/CharacterPreview';
 import type { LoadoutData, PreferencesMenuData } from './data';
+import { LoadoutIcon } from './LoadoutIcon';
 import { sortLoadoutItems } from './loadoutSort';
 import { NameInput } from './names';
 
@@ -161,9 +170,30 @@ export const LoadoutManager = (props) => {
                           index % 2 === 0 ? '#19181e' : '#16151b'
                         }
                       >
-                        <Stack fontSize="15px">
+                        <Stack fontSize="15px" align="center">
+                          <Stack.Item>
+                            <LoadoutIcon
+                              icon={item.icon}
+                              icon_state={item.icon_state}
+                            />
+                          </Stack.Item>
                           <Stack.Item grow align="left">
-                            {item.name}
+                            {item.icon ? (
+                              <Tooltip
+                                content={
+                                  <LoadoutIcon
+                                    icon={item.icon}
+                                    icon_state={item.icon_state}
+                                    size={64}
+                                  />
+                                }
+                                position="right"
+                              >
+                                <Box>{item.name}</Box>
+                              </Tooltip>
+                            ) : (
+                              item.name
+                            )}
                           </Stack.Item>
                           {!!item.is_greyscale && (
                             <Stack.Item>

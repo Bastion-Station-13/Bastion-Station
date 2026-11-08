@@ -3967,6 +3967,7 @@
 #include "code\modules\asset_cache\assets\vv.dm"
 #include "code\modules\asset_cache\spritesheet\batched\batched_spritesheet.dm"
 #include "code\modules\asset_cache\spritesheet\batched\job_icons.dm"
+#include "code\modules\asset_cache\spritesheet\batched\loadout_items.dm"
 #include "code\modules\asset_cache\spritesheet\batched\loadout_store.dm"
 #include "code\modules\asset_cache\spritesheet\batched\universal_icon.dm"
 #include "code\modules\asset_cache\spritesheet\legacy\legacy_spritesheet.dm"
