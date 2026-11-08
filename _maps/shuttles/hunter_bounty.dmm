@@ -265,6 +265,21 @@
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /obj/structure/closet/secure_closet/freezer,
 /obj/machinery/light/small/directional/east,
+/obj/effect/spawner/random/food_or_drink/donkpockets,
+/obj/effect/spawner/random/food_or_drink/donkpockets,
+/obj/item/storage/box/donkpockets,
+/obj/item/storage/box/donkpockets,
+/obj/item/food/ready_donk,
+/obj/item/food/ready_donk,
+/obj/item/food/ready_donk/country_chicken,
+/obj/item/food/ready_donk/nachos_grandes,
+/obj/item/food/ready_donk/salisbury_steak,
+/obj/item/food/ready_donk/mac_n_cheese,
+/obj/item/food/ready_donk/donkrange_chicken,
+/obj/item/storage/fancy/egg_box,
+/obj/item/reagent_containers/condiment/milk,
+/obj/item/reagent_containers/condiment/milk,
+/obj/item/reagent_containers/condiment/enzyme,
 /turf/open/floor/iron/kitchen/small,
 /area/shuttle/hunter/bounty)
 "pg" = (
@@ -338,6 +353,10 @@
 /area/shuttle/hunter/bounty)
 "tT" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/medical,
+/obj/item/storage/medkit/regular,
+/obj/item/storage/medkit/fire,
+/obj/item/storage/medkit/brute,
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "ua" = (
@@ -372,6 +391,9 @@
 "wl" = (
 /obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
 /obj/structure/cable,
+/obj/machinery/door/poddoor{
+	id = "hunter_bounty_windows"
+	},
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "xn" = (
@@ -389,6 +411,10 @@
 	},
 /obj/effect/turf_decal/bot,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/button/door/directional/south{
+	id = "hunter_bounty_windows";
+	name = "Window Controls"
+	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/shuttle/hunter/bounty)
 "xS" = (
@@ -592,6 +618,15 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/wood,
 /area/shuttle/hunter/bounty)
+"Jg" = (
+/obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
+/obj/structure/cable,
+/obj/machinery/door/poddoor{
+	id = "hunter_bounty_windows";
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/shuttle/hunter/bounty)
 "JT" = (
 /obj/effect/turf_decal/bot,
 /obj/structure/cargo_shelf,
@@ -621,6 +656,9 @@
 /obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden,
+/obj/machinery/door/poddoor{
+	id = "hunter_bounty_windows"
+	},
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "LV" = (
@@ -724,6 +762,7 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_box/advanced/s12gauge/beehive,
 /turf/open/floor/carpet/grimey,
 /area/shuttle/hunter/bounty)
 "RQ" = (
@@ -914,6 +953,7 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/emcloset/wall/directional/west,
 /turf/open/floor/plating,
 /area/shuttle/hunter/bounty)
 "XR" = (
@@ -1234,9 +1274,9 @@ Vm
 Vm
 Vm
 Vm
-wl
-wl
-wl
+Jg
+Jg
+Jg
 YY
 xS
 "}
