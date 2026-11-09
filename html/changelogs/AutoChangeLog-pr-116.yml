@@ -1,4 +1,0 @@
-author: "Mantlecrawler"
-delete-after: True
-changes:
-  - rscdel: "Challenges no longer pay out fake coins"

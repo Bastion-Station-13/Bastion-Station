@@ -59,6 +59,13 @@
 /obj/item/gun/ballistic/shotgun/riot/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_NANOTRASEN)
 
+/obj/item/gun/ballistic/shotgun/riot/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 20, \
+		overlay_y = 11)
+
 // SolFed shotgun (I.E resprited riot shotgun from blueshift)
 
 /obj/item/gun/ballistic/shotgun/riot/sol
@@ -92,6 +99,13 @@
 
 /obj/item/gun/ballistic/shotgun/riot/sol/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_CARWO)
+
+/obj/item/gun/ballistic/shotgun/riot/sol/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 33, \
+		overlay_y = 12)
 
 /obj/item/gun/ballistic/shotgun/riot/sol/examine(mob/user)
 	. = ..()
@@ -154,6 +168,13 @@
 /obj/item/gun/ballistic/shotgun/automatic/combat/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_NANOTRASEN)
 
+/obj/item/gun/ballistic/shotgun/automatic/combat/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 20, \
+		overlay_y = 11)
+
 /obj/item/gun/ballistic/shotgun/automatic/combat/compact
 	name = "compact shotgun"
 	desc = "A compact version of the semi automatic combat shotgun. For close encounters."
@@ -161,6 +182,13 @@
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
 	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/gun/ballistic/shotgun/automatic/combat/compact/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 16, \
+		overlay_y = 11)
 
 
 //Dual Feed Shotgun
