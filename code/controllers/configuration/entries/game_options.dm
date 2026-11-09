@@ -463,3 +463,16 @@
 
 /datum/config_entry/flag/give_tutorials_without_db
 
+<<<<<<< HEAD
+=======
+/datum/config_entry/string/metacurrency_name
+	config_entry_value = "Monkecoins"
+
+//Custom Shuttles
+//Shuttle size limiter
+/datum/config_entry/number/max_shuttle_count
+	default = 6
+
+/datum/config_entry/number/max_shuttle_size
+	default = 250
+>>>>>>> f8676acf ([PORT] Shuttle crafting (revival of #10160) (#12701))
