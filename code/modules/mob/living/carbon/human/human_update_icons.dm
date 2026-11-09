@@ -132,7 +132,12 @@ There are several things that need to be remembered:
 			isinhands = FALSE,
 			female_uniform = woman ? uniform.female_sprite_flags : null,
 			override_state = target_overlay,
+<<<<<<< HEAD
 			override_file = handled_by_bodytype ? icon_file : null,
+=======
+			override_file = handled_by_bodyshape ? icon_file : null,
+			bodyshape = bodyshape,
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 		)
 
 		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
@@ -141,7 +146,10 @@ There are several things that need to be remembered:
 			apply_height(uniform_overlay, ENTIRE_BODY)
 		overlays_standing[UNIFORM_LAYER] = uniform_overlay
 		apply_overlay(UNIFORM_LAYER)
+<<<<<<< HEAD
 		check_body_shape(BODYTYPE_DIGITIGRADE, ITEM_SLOT_ICLOTHING)
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 
 	update_mutant_bodyparts()
 
@@ -159,7 +167,7 @@ There are several things that need to be remembered:
 		update_hud_id(worn_item)
 		var/icon_file = 'icons/mob/clothing/id.dmi'
 
-		id_overlay = wear_id.build_worn_icon(default_layer = ID_LAYER, default_icon_file = icon_file)
+		id_overlay = wear_id.build_worn_icon(default_layer = ID_LAYER, default_icon_file = icon_file, bodyshape = bodyshape)
 
 		if(!id_overlay)
 			return
@@ -207,7 +215,7 @@ There are several things that need to be remembered:
 
 	var/icon_file = 'icons/mob/clothing/hands.dmi'
 
-	var/mutable_appearance/gloves_overlay = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = icon_file)
+	var/mutable_appearance/gloves_overlay = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = icon_file, bodyshape = bodyshape)
 
 	var/feature_y_offset = 0
 	//needs to be typed, hand_bodyparts can have nulls
@@ -261,7 +269,7 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		var/mutable_appearance/glasses_overlay = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
+		var/mutable_appearance/glasses_overlay = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 		if(!mutant_override)
 			my_head.worn_glasses_offset?.apply_offset(glasses_overlay)
 		apply_height(glasses_overlay, UPPER_BODY)
@@ -295,7 +303,7 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		var/mutable_appearance/ears_overlay = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
+		var/mutable_appearance/ears_overlay = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 		if(!mutant_override)
 			my_head.worn_ears_offset?.apply_offset(ears_overlay)
 		apply_height(ears_overlay, UPPER_BODY)
@@ -326,7 +334,7 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		var/mutable_appearance/neck_overlay = worn_item.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
+		var/mutable_appearance/neck_overlay = worn_item.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 			my_chest?.worn_neck_offset?.apply_offset(neck_overlay)
@@ -372,6 +380,7 @@ There are several things that need to be remembered:
 			default_layer = SHOES_LAYER,
 			default_icon_file = icon_file,
 			override_file = (mutant_override || handled_by_bodytype) ? icon_file : null,
+			bodyshape = bodyshape,
 		)
 		if(!shoes_overlay)
 			return
@@ -391,7 +400,10 @@ There are several things that need to be remembered:
 		overlays_standing[SHOES_LAYER] = shoes_overlay
 
 	apply_overlay(SHOES_LAYER)
+<<<<<<< HEAD
 	check_body_shape(BODYTYPE_DIGITIGRADE, ITEM_SLOT_FEET)
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 
 /mob/living/carbon/human/update_suit_storage()
 	remove_overlay(SUIT_STORE_LAYER)
@@ -434,7 +446,7 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		var/mutable_appearance/head_overlay = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
+		var/mutable_appearance/head_overlay = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 		if(!mutant_override)
 			var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
 			my_head?.worn_head_offset?.apply_offset(head_overlay)
@@ -443,7 +455,10 @@ There are several things that need to be remembered:
 
 	update_mutant_bodyparts()
 	apply_overlay(HEAD_LAYER)
+<<<<<<< HEAD
 	check_body_shape(BODYTYPE_SNOUTED, ITEM_SLOT_HEAD)
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 
 /mob/living/carbon/human/update_worn_belt()
 	remove_overlay(BELT_LAYER)
@@ -467,7 +482,7 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		var/mutable_appearance/belt_overlay = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
+		var/mutable_appearance/belt_overlay = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 			my_chest?.worn_belt_offset?.apply_offset(belt_overlay)
@@ -499,6 +514,7 @@ There are several things that need to be remembered:
 			default_layer = SUIT_LAYER,
 			default_icon_file = icon_file,
 			override_file = mutant_override ? icon_file : null,
+			bodyshape = bodyshape,
 		)
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
@@ -509,7 +525,10 @@ There are several things that need to be remembered:
 	update_mutant_bodyparts()
 
 	apply_overlay(SUIT_LAYER)
+<<<<<<< HEAD
 	check_body_shape(BODYTYPE_DIGITIGRADE, ITEM_SLOT_OCLOTHING)
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 
 
 /mob/living/carbon/human/update_pockets()
@@ -559,14 +578,17 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
+		var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 		if(!mutant_override)
 			my_head.worn_mask_offset?.apply_offset(mask_overlay)
 		apply_height(mask_overlay, UPPER_BODY)
 		overlays_standing[FACEMASK_LAYER] = mask_overlay
 
 	apply_overlay(FACEMASK_LAYER)
+<<<<<<< HEAD
 	check_body_shape(BODYTYPE_SNOUTED, ITEM_SLOT_MASK)
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 
 /mob/living/carbon/human/update_worn_back()
 	remove_overlay(BACK_LAYER)
@@ -588,7 +610,7 @@ There are several things that need to be remembered:
 				icon_file = species_icon_file
 				mutant_override = TRUE
 
-		back_overlay = back.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = icon_file , override_file = mutant_override ? icon_file : null)
+		back_overlay = back.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = icon_file , override_file = mutant_override ? icon_file : null, bodyshape = bodyshape)
 
 		if(!back_overlay)
 			return
@@ -623,7 +645,7 @@ There are several things that need to be remembered:
 
 		var/mutable_appearance/hand_overlay
 		var/icon_file = held_index % 2 == 0 ? worn_item.righthand_file : worn_item.lefthand_file
-		hand_overlay = worn_item.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = TRUE)
+		hand_overlay = worn_item.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = TRUE, bodyshape = bodyshape)
 		var/obj/item/bodypart/arm/held_in_hand = hand_bodyparts[held_index]
 		held_in_hand?.held_hand_offset?.apply_offset(hand_overlay)
 		apply_height(hand_overlay, LOWER_BODY)
@@ -861,6 +883,7 @@ generate/load female uniform sprites matching all previously decided variables
 	female_uniform = NO_FEMALE_UNIFORM,
 	override_state = null,
 	override_file = null,
+	bodyshape = NONE,
 )
 
 	//Find a valid icon_state from variables+arguments
@@ -870,9 +893,12 @@ generate/load female uniform sprites matching all previously decided variables
 	//Find a valid layer from variables+arguments
 	var/layer2use = alternate_worn_layer || default_layer
 
+<<<<<<< HEAD
 	var/mob/living/carbon/wearer = loc
 	var/is_digi = istype(wearer) && (wearer.dna?.species?.bodytype & BODYTYPE_DIGITIGRADE) && !wearer.is_digitigrade_squished()
 
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 	var/mutable_appearance/standing // this is the actual resulting MA
 	var/icon/building_icon // used to construct an icon across multiple procs before converting it to MA
 	if(female_uniform)
@@ -883,7 +909,7 @@ generate/load female uniform sprites matching all previously decided variables
 			greyscale_colors = greyscale_colors,
 		)
 
-	if(!isinhands && is_digi && (supports_variations_flags & CLOTHING_DIGITIGRADE_MASK))
+	if(!isinhands && (bodyshape & BODYSHAPE_DIGITIGRADE) && (supports_variations_flags & CLOTHING_DIGITIGRADE_MASK))
 		building_icon = wear_digi_version(
 			base_icon = building_icon || icon(file2use, t_state),
 			item = src,
@@ -1000,6 +1026,7 @@ generate/load female uniform sprites matching all previously decided variables
 	update_worn_mask()
 
 /**
+<<<<<<< HEAD
  * Used to perform regular updates to the limbs of humans with special bodyshapes
  *
  * * check_shapes: The bodyshapes to check for.
@@ -1038,6 +1065,8 @@ generate/load female uniform sprites matching all previously decided variables
 				thing.update_slot_icon()
 
 /**
+=======
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
  * Applies an offset or a filter to an appearance accordance to the height of our mob
  *
  * * appearance - The appearance to apply the height changes to

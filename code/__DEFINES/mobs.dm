@@ -128,6 +128,17 @@
 #define BODYTYPE_ORGANIC (1<<0)
 ///The limb is robotic.
 #define BODYTYPE_ROBOTIC (1<<1)
+<<<<<<< HEAD
+=======
+///A placeholder bodytype for xeno larva, so their limbs cannot be attached to anything.
+#define BODYTYPE_LARVA_PLACEHOLDER (1<<2)
+///The limb is from a xenomorph.
+#define BODYTYPE_ALIEN (1<<3)
+/// Analagous to BODYSHAPE_DIGITIGRADE, though this one is not removed if the mob's shape changed
+#define BODYTYPE_DIGITIGRADE (1<<4)
+
+// Bodyshape defines for how things can be worn, i.e., what "shape" the mob sprite is
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 ///The limb fits the human mold. This is not meant to be literal, if the sprite "fits" on a human, it is "humanoid", regardless of origin.
 #define BODYTYPE_HUMANOID (1<<2)
 ///The limb is digitigrade.
