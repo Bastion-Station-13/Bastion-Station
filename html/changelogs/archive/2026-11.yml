@@ -243,3 +243,15 @@
   - bugfix: Number inputs reject NaN.
   - admin: View variables topic calls require R_VAREDIT.
   - server: World topics require the comms key unless they're meant to be public.
+2026-11-10:
+  SirNightKnight:
+  - rscadd: ghosts/observers have new unique speak emotes.
+  V2LenKagamine:
+  - bugfix: Deconstructing a slot machine doubles what you put in
+  - bugfix: missing discover text on powergen type artifacts
+  big-boss-crate:
+  - rscadd: added the *plink emote
+  - sound: added plink.ogg and plonk.ogg (equal chance for either to trigger when
+      using the emote)
+  notghosti:
+  - bugfix: Queueing research now creates a research history entry.
