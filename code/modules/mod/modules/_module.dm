@@ -117,8 +117,12 @@
 			balloon_alert(mod.wearer, "[src] activated, [used_button]-click to use")
 	active = TRUE
 	COOLDOWN_START(src, cooldown_timer, cooldown_time)
-	mod.wearer.update_clothing(mod.slot_flags)
 	SEND_SIGNAL(src, COMSIG_MODULE_ACTIVATED)
+<<<<<<< HEAD
+=======
+	on_activation()
+	update_clothing_slots()
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	return TRUE
 
 /// Called when the module is deactivated
@@ -135,9 +139,27 @@
 		else
 			UnregisterSignal(mod.wearer, used_signal)
 			used_signal = null
-	mod.wearer.update_clothing(mod.slot_flags)
 	SEND_SIGNAL(src, COMSIG_MODULE_DEACTIVATED, mod.wearer)
+<<<<<<< HEAD
+=======
+	on_deactivation(display_message = TRUE, deleting = FALSE)
+	update_clothing_slots()
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	return TRUE
+
+/// Call to update all slots visually affected by this module
+/obj/item/mod/module/proc/update_clothing_slots()
+	if(!mod.wearer)
+		return
+
+	var/updated_slots = mod.slot_flags
+	if (mask_worn_overlay)
+		for (var/obj/item/part as anything in mod.get_parts())
+			updated_slots |= part.slot_flags
+	else if (length(required_slots))
+		for (var/slot in required_slots)
+			updated_slots |= slot
+	mod.wearer.update_clothing(updated_slots)
 
 /// Called when the module is used
 /obj/item/mod/module/proc/on_use()
@@ -155,7 +177,7 @@
 		return FALSE
 	COOLDOWN_START(src, cooldown_timer, cooldown_time)
 	addtimer(CALLBACK(mod.wearer, TYPE_PROC_REF(/mob, update_clothing), mod.slot_flags), cooldown_time+1) //need to run it a bit after the cooldown starts to avoid conflicts
-	mod.wearer.update_clothing(mod.slot_flags)
+	update_clothing_slots()
 	SEND_SIGNAL(src, COMSIG_MODULE_USED)
 	return TRUE
 
@@ -191,11 +213,35 @@
 
 /// Called from MODsuit's install() proc, so when the module is installed.
 /obj/item/mod/module/proc/on_install()
-	return
+	SHOULD_CALL_PARENT(TRUE)
+
+	if (mask_worn_overlay)
+		for (var/obj/item/part as anything in mod.get_parts(all = TRUE))
+			RegisterSignal(part, COMSIG_ITEM_GET_SEPARATE_WORN_OVERLAYS, PROC_REF(add_module_overlay))
+		return
+
+	if (!length(required_slots))
+		RegisterSignal(mod, COMSIG_ITEM_GET_SEPARATE_WORN_OVERLAYS, PROC_REF(add_module_overlay))
+		return
+
+	var/obj/item/part = mod.get_part_from_slot(required_slots[1])
+	RegisterSignal(part, COMSIG_ITEM_GET_SEPARATE_WORN_OVERLAYS, PROC_REF(add_module_overlay))
 
 /// Called from MODsuit's uninstall() proc, so when the module is uninstalled.
 /obj/item/mod/module/proc/on_uninstall(deleting = FALSE)
-	return
+	SHOULD_CALL_PARENT(TRUE)
+
+	if (mask_worn_overlay)
+		for (var/obj/item/part as anything in mod.get_parts(all = TRUE))
+			UnregisterSignal(part, COMSIG_ITEM_GET_SEPARATE_WORN_OVERLAYS)
+		return
+
+	if (!length(required_slots))
+		UnregisterSignal(mod, COMSIG_ITEM_GET_SEPARATE_WORN_OVERLAYS)
+		return
+
+	var/obj/item/part = mod.get_part_from_slot(required_slots[1])
+	UnregisterSignal(part, COMSIG_ITEM_GET_SEPARATE_WORN_OVERLAYS)
 
 /// Called when the MODsuit is activated
 /obj/item/mod/module/proc/on_suit_activation()
@@ -264,14 +310,36 @@
 		qdel(src)
 
 /// Adds the worn overlays to the suit.
-/obj/item/mod/module/proc/add_module_overlay(obj/item/source, list/overlays, mutable_appearance/standing, isinhands, icon_file)
+/obj/item/mod/module/proc/add_module_overlay(obj/item/source, list/overlays, mutable_appearance/standing, mutable_appearance/draw_target, isinhands, icon_file)
 	SIGNAL_HANDLER
 
-	overlays += generate_worn_overlay(standing)
+	if (isinhands)
+		return
+
+	var/list/added_overlays = generate_worn_overlay(source, standing)
+	if (!added_overlays)
+		return
+
+	if (!mask_worn_overlay)
+		overlays += added_overlays
+		return
+
+	for (var/mutable_appearance/overlay as anything in added_overlays)
+		overlay.add_filter("mod_mask_overlay", 1, alpha_mask_filter(icon = icon(draw_target.icon, draw_target.icon_state)))
+		overlays += overlay
 
 /// Generates an icon to be used for the suit's worn overlays
-/obj/item/mod/module/proc/generate_worn_overlay(mutable_appearance/standing)
+/obj/item/mod/module/proc/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
+	if(!mask_worn_overlay)
+		if(!has_required_parts(mod.mod_parts, need_active = TRUE))
+			return
+	else
+		var/datum/mod_part/part_datum = mod.get_part_datum(source)
+		if (!part_datum?.sealed)
+			return
+
 	. = list()
+<<<<<<< HEAD
 	if(!mod.active)
 		return
 	var/used_overlay
@@ -288,6 +356,30 @@
 		module_icon.appearance_flags |= RESET_COLOR
 	. += module_icon
 
+=======
+	var/used_overlay = get_current_overlay_state()
+	if (!used_overlay)
+		return
+
+	var/mutable_appearance/module_icon = mutable_appearance(overlay_icon_file, used_overlay, layer = standing.layer + 0.1)
+	if(use_mod_colors)
+		module_icon.color = mod.color
+		if (mod.cached_color_filter)
+			module_icon = filter_appearance_recursive(module_icon, mod.cached_color_filter)
+
+	. += module_icon
+
+/// Returns the overlay state the module should use right now.
+/obj/item/mod/module/proc/get_current_overlay_state()
+	if(overlay_state_use && !COOLDOWN_FINISHED(src, cooldown_timer))
+		return overlay_state_use
+	if(overlay_state_active && active)
+		return overlay_state_active
+	if(overlay_state_inactive)
+		return overlay_state_inactive
+	return null
+
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 /// Updates the signal used by active modules to be activated
 /obj/item/mod/module/proc/update_signal(value)
 	switch(value)

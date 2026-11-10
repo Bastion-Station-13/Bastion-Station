@@ -179,6 +179,13 @@
 		QDEL_NULL(core)
 	QDEL_NULL(wires)
 	QDEL_NULL(mod_link)
+<<<<<<< HEAD
+=======
+	for(var/part_key in mod_parts)
+		var/datum/mod_part/part_datum = mod_parts[part_key]
+		mod_parts -= part_key
+		qdel(part_datum)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	return ..()
 
 /obj/item/mod/control/atom_destruction(damage_flag)
@@ -475,6 +482,50 @@
 	icon_state = "[skin]-[base_icon_state][active ? "-sealed" : ""]"
 	return ..()
 
+<<<<<<< HEAD
+=======
+/// Returns a list of all the part items of the suit, including the control unit if all is TRUE.
+/obj/item/mod/control/proc/get_parts(all = FALSE)
+	. = list()
+	for(var/key in mod_parts)
+		var/datum/mod_part/part = mod_parts[key]
+		if(!all && part.part_item == src)
+			continue
+		. += part.part_item
+
+/// Returns a list of all the part datums of the suit, including the control unit if all is TRUE.
+/obj/item/mod/control/proc/get_part_datums(all = FALSE)
+	. = list()
+	for(var/key in mod_parts)
+		var/datum/mod_part/part = mod_parts[key]
+		if(!all && part.part_item == src)
+			continue
+		. += part
+
+/// Returns the part datum of the given part item.
+/obj/item/mod/control/proc/get_part_datum(obj/item/part)
+	RETURN_TYPE(/datum/mod_part)
+	var/datum/mod_part/potential_part = mod_parts["[part.slot_flags]"]
+	if(potential_part?.part_item == part)
+		return potential_part
+	for(var/datum/mod_part/mod_part in get_part_datums())
+		if(mod_part.part_item == part)
+			return mod_part
+	CRASH("get_part_datum called with incorrect item [part] passed.")
+
+/// Returns the part item that goes in the given slot, if any.
+/obj/item/mod/control/proc/get_part_from_slot(slot)
+	RETURN_TYPE(/obj/item)
+	return get_part_datum_from_slot(slot)?.part_item
+
+/// Returns the part datum of the part that goes in the given slot, if any.
+/obj/item/mod/control/proc/get_part_datum_from_slot(slot)
+	RETURN_TYPE(/datum/mod_part)
+	for (var/part_key in mod_parts)
+		if (text2num(part_key) & slot)
+			return mod_parts[part_key]
+
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 /obj/item/mod/control/proc/set_wearer(mob/living/carbon/human/user)
 	if (wearer == user)
 		// This should also not happen.
@@ -501,16 +552,39 @@
 	SEND_SIGNAL(src, COMSIG_MOD_WEARER_UNSET, wearer)
 	wearer = null
 
+<<<<<<< HEAD
+=======
+/// Returns the slot flags of all sealed parts, removing the unsealed ones from the given list.
+/obj/item/mod/control/proc/get_sealed_slots(list/parts)
+	var/covered_slots = NONE
+	for(var/obj/item/part as anything in parts)
+		if(!get_part_datum(part).sealed)
+			parts -= part
+			continue
+		covered_slots |= part.slot_flags
+	return covered_slots
+
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 /obj/item/mod/control/proc/clean_up()
 	if(active || activating)
 		for(var/obj/item/mod/module/module as anything in modules)
 			if(!module.active)
 				continue
+<<<<<<< HEAD
 			module.on_deactivation(display_message = FALSE)
 		for(var/obj/item/part as anything in mod_parts)
 			seal_part(part, seal = FALSE)
 	for(var/obj/item/part as anything in mod_parts)
 		retract(null, part)
+=======
+			module.deactivate(display_message = FALSE)
+		for(var/obj/item/part as anything in get_parts())
+			seal_part(part, is_sealed = FALSE)
+	for(var/obj/item/part as anything in get_parts())
+		if(part.loc == src)
+			continue
+		INVOKE_ASYNC(src, PROC_REF(retract), wearer, part, /* instant = */ TRUE) // async to appease spaceman DMM because the branch we don't run has a do_after
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	if(active)
 		finish_activation(on = FALSE)
 		mod_link?.end_call()
@@ -584,7 +658,6 @@
 	modules += new_module
 	complexity += new_module.complexity
 	new_module.mod = src
-	new_module.RegisterSignal(src, COMSIG_ITEM_GET_WORN_OVERLAYS, TYPE_PROC_REF(/obj/item/mod/module, add_module_overlay))
 	new_module.on_install()
 	if(wearer)
 		new_module.on_equip()
@@ -602,8 +675,12 @@
 	if(active)
 		old_module.on_suit_deactivation(deleting = deleting)
 		if(old_module.active)
+<<<<<<< HEAD
 			old_module.on_deactivation(display_message = !deleting, deleting = deleting)
 	old_module.UnregisterSignal(src, COMSIG_ITEM_GET_WORN_OVERLAYS)
+=======
+			old_module.deactivate(display_message = !deleting, deleting = deleting)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	old_module.on_uninstall(deleting = deleting)
 	QDEL_LIST_ASSOC_VAL(old_module.pinned_to)
 	old_module.mod = null

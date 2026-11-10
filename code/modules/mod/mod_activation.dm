@@ -86,7 +86,18 @@
 			RegisterSignal(part, COMSIG_ATOM_EXITED, PROC_REF(on_overslot_exit))
 	if(wearer.equip_to_slot_if_possible(part, part.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
 		ADD_TRAIT(part, TRAIT_NODROP, MOD_TRAIT)
+<<<<<<< HEAD
 		if(!user)
+=======
+		wearer.update_clothing(slot_flags|part.slot_flags)
+		SEND_SIGNAL(src, COMSIG_MOD_PART_DEPLOYED, user, part_datum)
+		if(user)
+			wearer.visible_message(span_notice("[wearer]'s [part.name] deploy[part.p_s()] with a mechanical hiss."),
+				span_notice("[part] deploy[part.p_s()] with a mechanical hiss."),
+				span_hear("You hear a mechanical hiss."))
+			playsound(src, 'sound/vehicles/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+		if(!active || part_datum.sealed)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 			return TRUE
 		wearer.visible_message(span_notice("[wearer]'s [part.name] deploy[part.p_s()] with a mechanical hiss."),
 			span_notice("[part] deploy[part.p_s()] with a mechanical hiss."),
@@ -107,6 +118,21 @@
 			return FALSE
 		balloon_alert(user, "[part.name] already retracted!")
 		playsound(src, 'sound/machines/scanner/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
+<<<<<<< HEAD
+=======
+		return FALSE
+	if(SEND_SIGNAL(src, COMSIG_MOD_PART_RETRACTING, user, part_datum) & MOD_CANCEL_RETRACTION)
+		return FALSE
+	var/unsealing = FALSE
+	if(active && part_datum.sealed)
+		unsealing = TRUE
+		if(instant)
+			seal_part(part, is_sealed = FALSE)
+		else if(!delayed_seal_part(part))
+			balloon_alert(user, "can't unseal!")
+			playsound(src, 'sound/machines/scanner/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
+			return FALSE
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	REMOVE_TRAIT(part, TRAIT_NODROP, MOD_TRAIT)
 	wearer.transferItemToLoc(part, src, force = TRUE)
 	if(overslotting_parts[part])
@@ -114,13 +140,23 @@
 		var/obj/item/overslot = overslotting_parts[part]
 		if(!wearer.equip_to_slot_if_possible(overslot, overslot.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
 			wearer.dropItemToGround(overslot, force = TRUE, silent = TRUE)
+<<<<<<< HEAD
 		overslotting_parts[part] = null
+=======
+	wearer.update_clothing(slot_flags|part.slot_flags)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	if(!user)
 		return
 	wearer.visible_message(span_notice("[wearer]'s [part.name] retract[part.p_s()] back into [src] with a mechanical hiss."),
 		span_notice("[part] retract[part.p_s()] back into [src] with a mechanical hiss."),
 		span_hear("You hear a mechanical hiss."))
+<<<<<<< HEAD
 	playsound(src, 'sound/vehicles/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+=======
+	if (!unsealing)
+		playsound(src, 'sound/vehicles/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+	return TRUE
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /// Starts the activation sequence, where parts of the suit activate one by one until the whole suit is on
 /obj/item/mod/control/proc/toggle_activate(mob/user, force_deactivate = FALSE)
@@ -209,6 +245,7 @@
 		part.flags_cover &= ~part.visor_flags_cover
 		part.flags_inv &= ~part.visor_flags_inv
 		part.clothing_flags &= ~part.visor_flags
+<<<<<<< HEAD
 		part.min_cold_protection_temperature = null
 		part.max_heat_protection_temperature = null
 		part.alternate_worn_layer = mod_parts[part]
@@ -228,6 +265,33 @@
 		if (!seal && wearer?.invalid_internals())
 			wearer.cutoff_internals()
 	wearer.update_cached_insulation()
+=======
+		part.heat_protection = NONE
+		part.cold_protection = NONE
+		part.alternate_worn_layer = part_datum.unsealed_layer
+	wearer.update_clothing(part.slot_flags | slot_flags)
+	wearer.refresh_obscured()
+	if((part.clothing_flags & (MASKINTERNALS|HEADINTERNALS)) && wearer.invalid_internals())
+		wearer.cutoff_internals()
+	SEND_SIGNAL(src, COMSIG_MOD_PART_SEALED, part_datum)
+	if(is_sealed)
+		if (!active)
+			return
+		for(var/obj/item/mod/module/module as anything in modules)
+			if(module.part_activated || !module.has_required_parts(mod_parts, need_active = TRUE))
+				continue
+			module.on_part_activation()
+			module.part_activated = TRUE
+	else
+		for(var/obj/item/mod/module/module as anything in modules)
+			if(!module.part_activated || module.has_required_parts(mod_parts, need_active = TRUE))
+				continue
+			module.on_part_deactivation()
+			module.part_activated = FALSE
+			if(!module.active || (module.allow_flags & MODULE_ALLOW_INACTIVE))
+				continue
+			module.deactivate(display_message = FALSE)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /// Finishes the suit's activation
 /obj/item/mod/control/proc/finish_activation(on)
@@ -241,7 +305,14 @@
 	update_speed()
 	if(!(locate(/obj/item/mod/module/chameleon) in modules)) // monkestation edit: janky bugfix for chameleon modules
 		update_icon_state()
+<<<<<<< HEAD
 	wearer.update_clothing(slot_flags)
+=======
+	var/updated_slots = slot_flags
+	for (var/slot_key in mod_parts)
+		updated_slots |= text2num(slot_key)
+	wearer.update_clothing(updated_slots)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /// Quickly deploys all the suit parts and if successful, seals them and turns on the suit. Intended mostly for outfits.
 /obj/item/mod/control/proc/quick_activation()

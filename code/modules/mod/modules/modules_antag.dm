@@ -120,8 +120,12 @@
 	removable = FALSE
 	incompatible_modules = list(/obj/item/mod/module/insignia)
 	overlay_state_inactive = "module_insignia"
+<<<<<<< HEAD
+=======
+	mask_worn_overlay = TRUE
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
-/obj/item/mod/module/insignia/generate_worn_overlay(mutable_appearance/standing)
+/obj/item/mod/module/insignia/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
 	overlay_state_inactive = "[initial(overlay_state_inactive)]-[mod.skin]"
 	. = ..()
 	for(var/mutable_appearance/appearance as anything in .)
@@ -299,11 +303,13 @@
 	var/static/list/cached_disguises = list()
 
 /obj/item/mod/module/chameleon/on_install()
+	. = ..()
 	undo_disguise()
 	current_disguise = null
 	RegisterSignal(mod, COMSIG_ATOM_UPDATE_ICON_STATE, PROC_REF(on_update_icon_state))
 
 /obj/item/mod/module/chameleon/on_uninstall(deleting = FALSE)
+	. = ..()
 	UnregisterSignal(mod, COMSIG_ATOM_UPDATE_ICON_STATE)
 	if(deleting)
 		return
@@ -389,8 +395,8 @@
 	mod.righthand_file = initial(current_disguise.righthand_file)
 	mod.worn_icon_state = initial(current_disguise.worn_icon_state)
 	mod.inhand_icon_state = initial(current_disguise.inhand_icon_state)
-	if(updating)
-		mod.wearer?.update_clothing(mod.slot_flags)
+	if(updating && mod.wearer)
+		update_clothing_slots()
 
 /obj/item/mod/module/chameleon/proc/undo_disguise(updating = TRUE)
 	mod.name = "[mod.theme.name] [initial(mod.name)]"
@@ -406,7 +412,8 @@
 	mod.inhand_icon_state = initial(mod.inhand_icon_state)
 	if(updating)
 		mod.update_icon_state()
-		mod.wearer?.update_clothing(mod.slot_flags)
+		if(mod.wearer)
+			update_clothing_slots()
 
 /obj/item/mod/module/chameleon/proc/get_slot_disguises(slot) as /list
 	if(cached_disguises["[slot]"]) // let's avoid repeated sorts on a list that'll always be the same for the same input
@@ -435,10 +442,12 @@
 	var/old_size
 
 /obj/item/mod/module/plate_compression/on_install()
+	. = ..()
 	old_size = mod.w_class
 	mod.w_class = new_size
 
 /obj/item/mod/module/plate_compression/on_uninstall(deleting = FALSE)
+	. = ..()
 	mod.w_class = old_size
 	old_size = null
 	if(!mod.loc)
@@ -477,9 +486,11 @@
 	incompatible_modules = list(/obj/item/mod/module/infiltrator, /obj/item/mod/module/welding)
 
 /obj/item/mod/module/infiltrator/on_install()
+	. = ..()
 	ADD_TRAIT(mod, TRAIT_EXAMINE_SKIP, REF(src))
 
 /obj/item/mod/module/infiltrator/on_uninstall(deleting = FALSE)
+	. = ..()
 	REMOVE_TRAIT(mod, TRAIT_EXAMINE_SKIP, REF(src))
 
 /obj/item/mod/module/infiltrator/on_suit_activation()
