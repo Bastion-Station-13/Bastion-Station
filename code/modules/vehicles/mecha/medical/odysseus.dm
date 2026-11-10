@@ -37,5 +37,3 @@
 		var/datum/atom_hud/hud = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
 		var/mob/living/brain/B = M.brainmob
 		hud.show_to(B)
-
-#warn yeah idk

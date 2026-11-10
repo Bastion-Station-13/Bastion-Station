@@ -181,6 +181,7 @@
 				to_chat(user, span_warning("\The [mech]'s left arm is full![mech.equip_by_category[MECHA_R_ARM] || !mech.max_equip_by_category[MECHA_R_ARM] ? "" : " Try right arm!"]"))
 				return FALSE
 		return TRUE
+
 	if(unstackable)
 		var/list/obj/item/mecha_parts/mecha_equipment/contents = mech.equip_by_category[equipment_slot]
 		for(var/obj/equipment as anything in contents)
@@ -192,13 +193,6 @@
 		to_chat(user, span_warning("This equipment slot is already full!"))
 		return FALSE
 	return TRUE
-
-	if(unstackable)
-		var/list/obj/item/mecha_parts/mecha_equipment/contents = mech.equip_by_category[equipment_slot]
-		for(var/obj/equipment as anything in contents)
-			if(src.type == equipment.type)
-				to_chat(user, span_warning("You can't stack more of this item ontop itself!"))
-				return FALSE
 
 /**
  * Special Attaching Interaction, used to bypass normal attachment procs.
