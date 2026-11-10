@@ -121,7 +121,7 @@
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "dark_hos"
 	inhand_icon_state = null
-	body_parts_covered = CHEST|ARMS
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 
 /obj/item/clothing/head/costume/dark_hos
 	name = "\improper Dark Head of Security Cap"
@@ -148,7 +148,7 @@
 	icon_state = "wbunder"
 	worn_icon_state = "wbunder"
 	inhand_icon_state = null
-	body_parts_covered = LEGS
+	body_parts_covered = GROIN|LEGS
 
 /obj/item/clothing/neck/whitebeard
 	name = "Whitebeard's Jacket"
@@ -163,7 +163,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "beegirl"
-	body_parts_covered = CHEST|ARMS
+	body_parts_covered = CHEST|GROIN|ARMS
 	inhand_icon_state = null
 
 
@@ -234,7 +234,7 @@
 	icon_state = "aotuniform"
 	worn_icon_state = "aotuniform"
 	inhand_icon_state = null
-	body_parts_covered = CHEST|ARMS|LEGS
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 
 
 /obj/item/clothing/head/hooded/aotcloak
@@ -331,8 +331,13 @@
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "org_thirteen"
 	inhand_icon_state = null
+<<<<<<< HEAD
 	body_parts_covered = CHEST|ARMS
 
+=======
+	body_parts_covered = CHEST|GROIN|ARMS
+	cold_protection = CHEST|ARMS
+>>>>>>> 5a41cc24 (ensure clothes cover what their sprites imply they cover (#12915))
 	allowed = list()
 	armor_type = /datum/armor/hooded_wintercoat
 	hoodtype = /obj/item/clothing/head/hooded/org_thirteen
@@ -406,6 +411,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "jacket_oliver"
+	body_parts_covered = CHEST|GROIN|ARMS
 	toggle_noun = "scarf"
 
 /obj/item/clothing/suit/toggle/jacket_oliver/Initialize(mapload)
@@ -436,7 +442,7 @@
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "gumball_wizard_robe"
 	inhand_icon_state = null
-	body_parts_covered = CHEST|ARMS|LEGS
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 
 /obj/item/clothing/head/costume/gumball_wizard_hat
 	name = "\improper Gumball Wizard Robe"
@@ -560,6 +566,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "mothysmantle"
+	body_parts_covered = CHEST|ARMS
 	inhand_icon_state = null
 	hoodtype = /obj/item/clothing/head/hooded/mothysmantle
 /obj/item/clothing/head/hooded/mothysmantle
@@ -619,6 +626,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "linen_tombstone_shroud"
+	body_parts_covered = NECK|CHEST|ARMS
 	worn_icon_state = "linen_tombstone_shroud"
 
 /obj/item/clothing/head/costume/samuraihelmetmask
@@ -690,6 +698,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "whitefurshawl"
+	body_parts_covered = NECK|CHEST|ARMS
 	worn_icon_state = "whitefurshawl"
 
 /obj/item/clothing/suit/toggle/labcoat/elchorico_big_labcoat
@@ -722,6 +731,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "traumatic_veteran_jacket"
+	body_parts_covered = CHEST|GROIN|ARMS
 	worn_icon_state = "traumatic_veteran_jacket"
 	toggle_noun = "zipper"
 
@@ -757,6 +767,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "ironhammer_commander_jacket"
+	body_parts_covered = CHEST|GROIN|ARMS
 	worn_icon_state = "ironhammer_commander_jacket"
 
 /obj/item/clothing/head/costume/clown_king_crown
@@ -773,6 +784,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "clown_king_cloak"
+	body_parts_covered = NECK|CHEST|ARMS
 	worn_icon_state = "clown_king_cloak"
 
 /obj/item/clothing/suit/star_father_suit
@@ -781,6 +793,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "star_father_suit"
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	worn_icon_state = "star_father_suit"
 	alternative_screams = list(	'monkestation/code/modules/donator/sounds/starfathersuit_scream_1.ogg',
 								'monkestation/code/modules/donator/sounds/starfathersuit_scream_2.ogg',
@@ -794,6 +807,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "peacejacket"
+	body_parts_covered = CHEST|GROIN|ARMS
 	worn_icon_state = "peacejacket"
 
 /obj/item/clothing/under/rank/medical/scrubs/donator_greyscale
@@ -823,6 +837,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "old_lab_coat"
+	body_parts_covered = CHEST|GROIN|ARMS
 	worn_icon_state = "old_lab_coat"
 
 /obj/item/clothing/glasses/hud/security/aviators
@@ -868,6 +883,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "robo-trenchcoat"
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	worn_icon_state = "robo-trenchcoat"
 
 /obj/item/clothing/mask/gas/owl_mask/hunter_owl
@@ -979,6 +995,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "monkey_jacket"
+	body_parts_covered = CHEST|GROIN|ARMS
 	worn_icon_state = "monkey_jacket"
 
 /obj/item/clothing/head/hats/bananotrasen_super_hat
@@ -995,6 +1012,7 @@
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "commissar_jacket"
+	body_parts_covered = NECK|CHEST|GROIN|ARMS
 	inhand_icon_state = null
 	slot_flags = ITEM_SLOT_OCLOTHING | ITEM_SLOT_NECK
 
@@ -1023,12 +1041,13 @@
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	icon_state = "tsukihime_executor"
 	inhand_icon_state = null
-	body_parts_covered = CHEST|GROIN
+	body_parts_covered = CHEST|GROIN|ARMS
 
 /obj/item/clothing/suit/hooded/cloak/red_regal_mantle
 	name = "red regal mantle"
 	desc = "A mantle fit for a king! It also has a 'golden' crown in one of it's pockets."
 	icon_state = "red_regal_mantle"
+	body_parts_covered = CHEST|GROIN|ARMS
 	icon = 'monkestation/code/modules/donator/icons/obj/clothing.dmi'
 	worn_icon = 'monkestation/code/modules/donator/icons/mob/clothing.dmi'
 	hoodtype = /obj/item/clothing/head/costume/crown/red_regal_mantle // It's funny

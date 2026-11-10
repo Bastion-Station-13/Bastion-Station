@@ -251,8 +251,13 @@
 	icon = 'monkestation/code/modules/blueshift/icons/obj.dmi'
 	worn_icon = 'monkestation/code/modules/blueshift/icons/worn.dmi'
 	icon_state = "syndievest_winter"
+<<<<<<< HEAD
 	body_parts_covered = CHEST|GROIN
 
+=======
+	body_parts_covered = CHEST|GROIN|ARMS
+	cold_protection = CHEST|GROIN|ARMS
+>>>>>>> 5a41cc24 (ensure clothes cover what their sprites imply they cover (#12915))
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
 
