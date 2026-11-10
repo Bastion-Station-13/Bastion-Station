@@ -12,4 +12,9 @@
 /datum/bodypart_overlay/simple/gyro
 	icon = 'monkestation/code/modules/factory_type_beat/icons/mining_machines.dmi'
 	icon_state = "gyrotron-3000"
+<<<<<<< HEAD
 	layers = EXTERNAL_FRONT
+=======
+	layers = list(EXTERNAL_FRONT = BODY_FRONT_LAYER)
+	overlay_flags = NONE
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
