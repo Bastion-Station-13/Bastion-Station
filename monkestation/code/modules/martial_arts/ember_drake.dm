@@ -350,7 +350,6 @@
 	defender.ignite_mob()
 
 // Status effects
-// The alert type is a placeholder because it dosen't have a sprite yet. I will work on one later. DO NOT MERGE UNLESS IT HAS A SPRITE.
 /datum/status_effect/ember_drake_ashed
 	id = "ember_drake_ashed"
 	status_type = STATUS_EFFECT_REFRESH
@@ -374,17 +373,21 @@
 	ash_overlay.pixel_x = (owner_size["width"] - ICON_SIZE_X) / 2
 	ash_overlay.pixel_y = (owner_size["height"] - ICON_SIZE_Y) / 2
 	owner.add_overlay(ash_overlay)
+	owner.overlay_fullscreen(id, /atom/movable/screen/fullscreen/blind)
+	owner.add_client_colour(/datum/client_colour/monochrome/blind)
 	return TRUE
 
 /datum/status_effect/ember_drake_ashed/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
 	owner.cut_overlay(ash_overlay)
+	owner.clear_fullscreen(id)
+	owner.remove_client_colour(/datum/client_colour/monochrome/blind)
 
 /atom/movable/screen/alert/status_effect/ember_drake_ashed
 	name = "Ashed"
 	desc = "Ash is in your eyes! You can't see, and probably can't attack either."
-	icon = 'icons/hud/screen_alert.dmi'
-	icon_state = "blind"
+	icon = 'bastionstation/icons/hud/screen_alert.dmi'
+	icon_state = "ashed"
 
 /datum/status_effect/ember_flayed
 	id = "ember_flayed"
