@@ -161,7 +161,12 @@
 #include "hydroponics_validate_genes.dm"
 #include "id_access.dm"
 #include "inhands.dm"
+<<<<<<< HEAD
 #include "interaction_mode_reload_hud.dm"
+=======
+#include "ipc_brain_installation.dm"
+#include "ipc_construction.dm"
+>>>>>>> aba1724d (PORT/ Paradise Station Robotics (#12089))
 #include "json_savefile_importing.dm"
 #include "keybinding_init.dm"
 #include "knockoff_component.dm"
@@ -254,6 +259,7 @@
 #include "spell_names.dm"
 #include "spell_shapeshift.dm"
 #include "spell_timestop.dm"
+#include "spiderbot.dm"
 #include "spritesheets.dm"
 #include "stack_singular_name.dm"
 #include "station_trait_tests.dm"
