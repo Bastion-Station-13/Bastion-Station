@@ -1,3 +1,31 @@
+<<<<<<< HEAD
+=======
+/// Convers HIDEX to ITEM_SLOT_X, should be phased out in favor of using latter everywhere later
+/proc/hidden_slots_to_inventory_slots(hidden_slots)
+	var/obscured = NONE
+	if(hidden_slots & HIDENECK)
+		obscured |= ITEM_SLOT_NECK
+	if(hidden_slots & HIDEMASK)
+		obscured |= ITEM_SLOT_MASK
+	if(hidden_slots & HIDEBELT)
+		obscured |= ITEM_SLOT_BELT
+	if(hidden_slots & HIDEEYES)
+		obscured |= ITEM_SLOT_EYES
+	if(hidden_slots & HIDEEARS)
+		obscured |= ITEM_SLOT_EARS
+	if(hidden_slots & HIDEGLOVES)
+		obscured |= ITEM_SLOT_GLOVES
+	if(hidden_slots & HIDEJUMPSUIT)
+		obscured |= ITEM_SLOT_ICLOTHING
+	if(hidden_slots & HIDESHOES)
+		obscured |= ITEM_SLOT_FEET
+	if(hidden_slots & HIDESUITSTORAGE)
+		obscured |= ITEM_SLOT_SUITSTORE
+	if(hidden_slots & HIDEHEADGEAR)
+		obscured |= ITEM_SLOT_HEAD
+	return obscured
+
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 /mob/living/carbon/get_item_by_slot(slot_id)
 	switch(slot_id)
 		if(ITEM_SLOT_BACK)
@@ -108,7 +136,6 @@
 			update_worn_neck(I)
 		if(ITEM_SLOT_HANDCUFFED)
 			set_handcuffed(I)
-			update_handcuffed()
 		if(ITEM_SLOT_LEGCUFFED)
 			legcuffed = I
 			update_worn_legcuffs()
@@ -137,9 +164,29 @@
 /mob/living/carbon/get_equipped_speed_mod_items()
 	return ..() + get_all_worn_items()
 
+<<<<<<< HEAD
 /// This proc is called after an item has been successfully handled and equipped to a slot.
 /mob/living/carbon/proc/has_equipped(obj/item/item, slot, initial = FALSE)
 	return item.on_equipped(src, slot, initial)
+=======
+/mob/living/carbon/has_equipped(obj/item/item, slot, initial = FALSE)
+	. = ..()
+	if(!.)
+		return
+
+	update_equipment_speed_mods()
+	hud_used?.update_locked_slots()
+	add_item_coverage(item)
+
+/mob/living/carbon/has_unequipped(obj/item/item)
+	. = ..() // NB: ATP the item is still in the slot, but no longer has the IN_INVENTORY flag (so is not returned by get_equipped_items)
+	if(!.)
+		return
+
+	update_equipment_speed_mods()
+	hud_used?.update_locked_slots()
+	remove_item_coverage(item)
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 /mob/living/carbon/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
 	. = ..() //Sets the default return value to what the parent returns.
@@ -167,8 +214,6 @@
 		set_handcuffed(null)
 		if(buckled?.buckle_requires_restraints)
 			buckled.unbuckle_mob(src)
-		if(!QDELETED(src))
-			update_handcuffed()
 	else if(I == legcuffed)
 		legcuffed = null
 		if(!QDELETED(src))
@@ -185,7 +230,48 @@
 		if(!QDELETED(src))
 			update_mob_action_buttons(UPDATE_BUTTON_STATUS)
 
+<<<<<<< HEAD
 	update_equipment_speed_mods()
+=======
+/// Adds the passed item's coverage to the mob's coverage related flags
+/mob/living/carbon/proc/add_item_coverage(obj/item/item)
+	var/pre_coverage = obscured_slots
+	obscured_slots |= item.flags_inv
+	covered_slots |= item.flags_inv | item.transparent_protection
+	if(pre_coverage != obscured_slots)
+		item_coverage_changed(obscured_slots & ~pre_coverage, pre_coverage & ~obscured_slots)
+
+/// Removes the passed item's coverage from the mob's coverage related flags
+/mob/living/carbon/proc/remove_item_coverage(obj/item/item)
+	refresh_obscured() // No way to remove a single item's coverage without recalculating everything
+
+/mob/living/carbon/refresh_obscured()
+	var/pre_coverage = obscured_slots
+
+	obscured_slots = NONE
+	covered_slots = NONE
+	for(var/obj/item/other_equipped_item as anything in get_equipped_items())
+		obscured_slots |= other_equipped_item.flags_inv
+		covered_slots |= other_equipped_item.flags_inv | other_equipped_item.transparent_protection
+
+	if(HAS_TRAIT(src, TRAIT_HUSK) || HAS_TRAIT(src, TRAIT_INVISIBLE_MAN))
+		obscured_slots |= HIDEHAIR|HIDEFACIALHAIR
+
+	if(pre_coverage != obscured_slots)
+		item_coverage_changed(obscured_slots & ~pre_coverage, pre_coverage & ~obscured_slots)
+
+/**
+ * Called when a mob's obscured slots change
+ *
+ * Args
+ * * added_slots - slots that were added to obscured_slots
+ * * removed_slots - slots that were removed from obscured_slots
+ */
+/mob/living/carbon/proc/item_coverage_changed(added_slots, removed_slots)
+	update_clothing(hidden_slots_to_inventory_slots(added_slots|removed_slots))
+	if((added_slots|removed_slots) & (HIDEJUMPSUIT|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT|HIDEMUTWINGS|HIDEANTENNAE))
+		update_body()
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 /// Returns the helmet if an air tank compatible helmet is equipped.
 /mob/living/carbon/proc/can_breathe_helmet()

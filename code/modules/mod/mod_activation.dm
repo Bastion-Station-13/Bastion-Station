@@ -209,6 +209,7 @@
 		part.flags_cover &= ~part.visor_flags_cover
 		part.flags_inv &= ~part.visor_flags_inv
 		part.clothing_flags &= ~part.visor_flags
+<<<<<<< HEAD
 		part.min_cold_protection_temperature = null
 		part.max_heat_protection_temperature = null
 		part.alternate_worn_layer = mod_parts[part]
@@ -228,6 +229,34 @@
 		if (!seal && wearer?.invalid_internals())
 			wearer.cutoff_internals()
 	wearer.update_cached_insulation()
+=======
+		part.heat_protection = NONE
+		part.cold_protection = NONE
+		part.alternate_worn_layer = part_datum.unsealed_layer
+	generate_suit_mask()
+	wearer.update_clothing(part.slot_flags | slot_flags)
+	wearer.refresh_obscured()
+	if((part.clothing_flags & (MASKINTERNALS|HEADINTERNALS)) && wearer.invalid_internals())
+		wearer.cutoff_internals()
+	SEND_SIGNAL(src, COMSIG_MOD_PART_SEALED, part_datum)
+	if(is_sealed)
+		if (!active)
+			return
+		for(var/obj/item/mod/module/module as anything in modules)
+			if(module.part_activated || !module.has_required_parts(mod_parts, need_active = TRUE))
+				continue
+			module.on_part_activation()
+			module.part_activated = TRUE
+	else
+		for(var/obj/item/mod/module/module as anything in modules)
+			if(!module.part_activated || module.has_required_parts(mod_parts, need_active = TRUE))
+				continue
+			module.on_part_deactivation()
+			module.part_activated = FALSE
+			if(!module.active || (module.allow_flags & MODULE_ALLOW_INACTIVE))
+				continue
+			module.deactivate(display_message = FALSE)
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 /// Finishes the suit's activation
 /obj/item/mod/control/proc/finish_activation(on)

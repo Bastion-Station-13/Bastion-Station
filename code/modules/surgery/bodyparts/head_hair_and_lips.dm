@@ -11,6 +11,7 @@
 	hair_hidden = FALSE
 	facial_hair_hidden = FALSE
 	if(human_head_owner)
+<<<<<<< HEAD
 		if(human_head_owner.head)
 			var/obj/item/hat = human_head_owner.head
 			if(hat.flags_inv & HIDEHAIR)
@@ -42,6 +43,10 @@
 		if(HAS_TRAIT(human_head_owner, TRAIT_INVISIBLE_MAN) || HAS_TRAIT(human_head_owner, TRAIT_HUSK))
 			hair_hidden = TRUE
 			facial_hair_hidden = TRUE
+=======
+		hair_hidden = !!(human_head_owner.obscured_slots & HIDEHAIR)
+		facial_hair_hidden = !!(human_head_owner.obscured_slots & HIDEFACIALHAIR)
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 	if(is_husked)
 		hair_hidden = TRUE
 		facial_hair_hidden = TRUE

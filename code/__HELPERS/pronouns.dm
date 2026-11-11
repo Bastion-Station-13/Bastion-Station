@@ -259,75 +259,62 @@
 
 //humans need special handling, because they can have their gender hidden
 /mob/living/carbon/human/p_they(capitalized, temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_their(capitalized, temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_theirs(capitalized, temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_them(capitalized, temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_have(temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_are(temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_were(temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_do(temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_s(temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
 /mob/living/carbon/human/p_es(temp_gender)
-	var/obscured = check_obscured_slots()
-	var/skipface = !is_face_visible()
-	if((obscured & ITEM_SLOT_ICLOTHING) && skipface)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
 		temp_gender = PLURAL
 	return ..()
 
+<<<<<<< HEAD
+=======
+/mob/living/carbon/human/p_themselves(temp_gender)
+	if((obscured_slots & (HIDEJUMPSUIT|HIDEFACE)) == (HIDEJUMPSUIT|HIDEFACE))
+		temp_gender = PLURAL
+	return ..()
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 //clothing need special handling due to pairs of items, ie gloves vs a singular glove, shoes, ect.
 /obj/item/clothing/p_they(capitalized, temp_gender)

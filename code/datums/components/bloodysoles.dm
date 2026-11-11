@@ -43,7 +43,11 @@
  * Returns true if the parent item is obscured by something else that the wielder is wearing
  */
 /datum/component/bloodysoles/proc/is_obscured()
+<<<<<<< HEAD
 	return (wielder.check_obscured_slots(TRUE) & equipped_slot) || is_under_feet_covered()
+=======
+	return (hidden_slots_to_inventory_slots(wielder.covered_slots) & equipped_slot) || is_under_feet_covered()
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 
 /**
  * Returns true if the parent item is worn in the ITEM_SLOT_ICLOTHING slot and the

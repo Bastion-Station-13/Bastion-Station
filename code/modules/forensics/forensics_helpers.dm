@@ -188,7 +188,11 @@
 
 	var/dirty_hands = !!(target_flags & (ITEM_SLOT_GLOVES|ITEM_SLOT_HANDS))
 	var/dirty_feet = !!(target_flags & ITEM_SLOT_FEET)
+<<<<<<< HEAD
 	var/slots_to_bloody = target_flags & ~check_obscured_slots()
+=======
+	var/slots_to_bloody = target_flags & ~hidden_slots_to_inventory_slots(covered_slots)
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 	var/list/all_worn = get_equipped_items()
 	for(var/obj/item/thing as anything in all_worn)
 		if(thing.slot_flags & slots_to_bloody)

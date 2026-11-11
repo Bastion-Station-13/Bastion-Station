@@ -602,12 +602,22 @@ BLIND     // can't see anything
 	if(user.is_holding(src))
 		user.update_held_items()
 		return TRUE
+<<<<<<< HEAD
 	user.update_clothing(slot_flags)
 	if(!iscarbon(user))
 		return TRUE
 	var/mob/living/carbon/carbon_user = user
 	if(up)
 		carbon_user.head_update(src, forced = 1)
+=======
+	// masks pushed up into hats change their slot_flags, so also redraw the slot we're actually worn in
+	user.update_clothing(slot_flags | user.get_slot_by_item(src))
+	if(!iscarbon(user))
+		return TRUE
+	var/mob/living/carbon/carbon_user = user
+	if(visor_flags_inv)
+		carbon_user.refresh_obscured()
+>>>>>>> 3c84aca1 ([PORT] Obscured and covered slots are tracked on the mob (#12798))
 	if(visor_vars_to_toggle & VISOR_TINT)
 		carbon_user.update_tint()
 	if((visor_flags & (MASKINTERNALS|HEADINTERNALS)) && carbon_user.invalid_internals())
