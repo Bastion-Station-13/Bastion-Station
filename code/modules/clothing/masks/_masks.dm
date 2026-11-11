@@ -59,6 +59,7 @@
 		if(adjusted_flags)
 			slot_flags = adjusted_flags
 
+<<<<<<< HEAD
 	if(!istype(user))
 		return
 
@@ -68,6 +69,15 @@
 	if(loc == user)
 		// Update action button icon for adjusted mask, if someone is holding it.
 		user.update_mob_action_buttons()
+=======
+/obj/item/clothing/mask/update_icon_state()
+	. = ..()
+	var/base_state = base_icon_state || initial(icon_state)
+	// something else picked our sprite (reskins, vape screws, dead facehuggers), so leave it alone
+	if(icon_state != base_state && icon_state != "[base_state]_up")
+		return
+	icon_state = "[base_state][up ? "_up" : ""]"
+>>>>>>> f8f498fb (Masks don't reset their look when changing z levels (#12885))
 
 /**
  * Proc called in lungs.dm to act if wearing a mask with filters, used to reduce the filters durability, return a changed gas mixture depending on the filter status
