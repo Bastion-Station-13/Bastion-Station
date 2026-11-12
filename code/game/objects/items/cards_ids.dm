@@ -1370,8 +1370,14 @@
 	var/time_left = 0
 	/// if the card has been given a custom name.
 	var/named = FALSE
+	///needed to send messages to sec radio
+	var/obj/item/radio/sec_radio
 
+/obj/item/card/id/advanced/prisoner/Initialize(mapload)
+	. = ..()
 
+	sec_radio = new/obj/item/radio(src)
+	sec_radio.set_listening(FALSE)
 
 /obj/item/card/id/advanced/prisoner/attackby(obj/item/card/id/C, mob/user)
 	..()
@@ -1443,6 +1449,8 @@
 	time_left -= seconds_per_tick
 	if(time_left <= 0)
 		say("Sentence time has been served. Thank you for your cooperation in our corporate rehabilitation program!")
+		sec_radio.set_frequency(FREQ_SECURITY)
+		sec_radio.talk_into(src, "Timer has expired. Releasing prisoner.", FREQ_SECURITY)
 		STOP_PROCESSING(SSobj, src)
 
 /obj/item/card/id/advanced/prisoner/attack_self(mob/user)
