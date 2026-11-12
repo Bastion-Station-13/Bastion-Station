@@ -891,7 +891,7 @@
 
 	// Spawn in the window so we don't merge with a floor splatter and delete ourselves before attaching.
 	var/obj/effect/decal/cleanable/final_splatter = new /obj/effect/decal/cleanable/blood/splatter/over_window(the_window, null, GET_ATOM_BLOOD_DNA(src))
-		the_window.vis_contents += final_splatter
+	the_window.vis_contents += final_splatter
 	expire()
 	return TRUE
 
