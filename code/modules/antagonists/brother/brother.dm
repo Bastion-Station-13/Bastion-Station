@@ -407,6 +407,9 @@
 	// Ghosts and the lobby aren't new roles, and the ghost cafe lets you go back to your body
 	if(isobserver(new_mob) || isnewplayer(new_mob) || istype(new_mob, /mob/living/carbon/human/ghost))
 		return
+	// Bitrunning avatars and other temporary bodies send you back to your real one. (This should also cover things like ghost minigame deathmatches)
+	if(owner.current && (HAS_TRAIT(owner.current, TRAIT_MIND_TEMPORARILY_GONE) || istype(owner.current.loc, /obj/machinery/netpod)))
+		return
 	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "taken on another role", "took on another role")
 
 /**
