@@ -28,6 +28,8 @@
 	var/sharing_location = FALSE
 	///Whether this brother has used a bluespace courier implant, which unlocks Deliver Item.
 	var/has_courier_implant = FALSE
+	///Whether this brother was given the contraband security HUD implant for being the starting brother.
+	var/gave_hud = FALSE
 
 /datum/antagonist/brother/create_team(datum/team/brother_team/new_team)
 	if(!new_team)
@@ -60,6 +62,10 @@
 		if(team.conversion_charges > 1)
 			to_chat(carbon_owner, span_boldwarning("The Syndicate have higher expectations from you than others. Your bond can convert [team.conversion_charges] people, and you have been given a flash for each."))
 			carbon_owner.balloon_alert(carbon_owner, "extra flashes granted!")
+		var/obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate/hud = new()
+		hud.Insert(carbon_owner)
+		gave_hud = TRUE
+		to_chat(carbon_owner, span_notice("Your eyes have been implanted with a cybernetic security HUD, which will help you keep track of who is mindshield-implanted, and therefore unable to be recruited."))
 
 	return ..()
 
@@ -71,6 +77,12 @@
 	if(body)
 		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
 		UnregisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+	if(gave_hud && iscarbon(body))
+		var/mob/living/carbon/carbon_body = body
+		var/obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate/hud = carbon_body.get_organ_slot(ORGAN_SLOT_HUD)
+		if(istype(hud))
+			hud.Remove(carbon_body)
+			qdel(hud)
 	return ..()
 
 // Apply team-specific antag HUD.

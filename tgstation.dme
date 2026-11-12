@@ -3402,6 +3402,7 @@
 #include "code\modules\antagonists\brother\glockenspiel.dm"
 #include "code\modules\antagonists\brother\hardlight_cannon.dm"
 #include "code\modules\antagonists\brother\makeshift_door_remote.dm"
+#include "code\modules\antagonists\brother\mares_leg.dm"
 #include "code\modules\antagonists\brother\ned_kelly_armor.dm"
 #include "code\modules\antagonists\brother\nv_shades.dm"
 #include "code\modules\antagonists\brother\patchwork_armor.dm"

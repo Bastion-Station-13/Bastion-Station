@@ -662,6 +662,24 @@
 		/obj/item/surgicaldrill,
 	)
 
+/datum/crafting_recipe/blood_brother/mares_leg
+	name = "Sawn off Lever Action Rifle"
+	desc = "A trimmed down lever action rifle with a scope. Actually it's a lie because the lever works itself after every shot automatically, making this a semi auto. Why does the lever exist?."
+	category = CAT_BB_WEAPONS
+	result = /obj/item/gun/ballistic/mares_leg
+	reqs = list(
+		/obj/item/weaponcrafting/receiver = 1,
+		/obj/item/weaponcrafting/stock = 1,
+		/obj/item/pipe = 1,
+		/obj/item/stack/sheet/plasteel = 3,
+		/obj/item/stack/sticky_tape = 1,
+	)
+	tool_behaviors = list(
+		TOOL_WELDER,
+		TOOL_SCREWDRIVER,
+	)
+	time = 6 SECONDS
+
 /datum/crafting_recipe/blood_brother/glockenspiel
 	name = "GLOCK-inspiel"
 	desc = "Combine a glock with a glockenspiel and you get this abomination. It even has a switch to toggle full auto like a real glock!."
