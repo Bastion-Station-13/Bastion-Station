@@ -200,7 +200,7 @@
 		return FALSE
 	busy = TRUE
 	SStgui.update_uis(src)
-	var/list/metadata = SSfloxy.fetch_media_metadata(url)
+	var/list/metadata = fetch_cassette_metadata(url, user)
 	busy = FALSE
 	if(!metadata)
 		balloon_alert(user, "failed to fetch music metadata!")
@@ -212,7 +212,7 @@
 	tape.cassette_data.status = CASSETTE_STATUS_UNAPPROVED // reset to unapproved
 	SStgui.update_uis(src)
 	balloon_alert(user, "track added!")
-	to_chat(user, span_notice("Added new track \"[metadata["title"]]\" to [tape]"))
+	to_chat(user, span_notice("Added new track \"[html_encode(metadata["title"])]\" to [tape]"))
 	playsound(src, 'sound/items/weapons/handcuffs.ogg', vol = 20, vary = TRUE, mixer_channel = CHANNEL_MACHINERY)
 	return TRUE
 

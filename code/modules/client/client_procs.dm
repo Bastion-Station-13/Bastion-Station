@@ -129,10 +129,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
-	//Monkestation Edit Begin
 	if(mentor_friend(href_list))
 		return
-	//Monkestation Edit End
+	if(mentor_client_procs(href_list))
+		return
 
 	switch(href_list["_src_"])
 		if("holder")
@@ -665,6 +665,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	SSambience.remove_ambience_client(src)
 	SSmouse_entered.hovers -= src
 	SSping.currentrun -= src
+	QDEL_NULL(imode)
 	QDEL_NULL(view_size)
 	QDEL_NULL(void)
 	QDEL_NULL(tooltips)

@@ -54822,7 +54822,7 @@
 /obj/item/bedsheet/dorms{
 	dir = 4
 	},
-/mob/living/carbon/human/species/monkey/dukeman,
+/mob/living/basic/mothroach/moffioso,
 /turf/open/floor/plastic,
 /area/station/security/prison/safe)
 "rGH" = (

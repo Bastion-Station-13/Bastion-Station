@@ -104,14 +104,6 @@
 	program_type = /datum/nanite_program/emp
 	category = list("Utility Nanites")
 
-/datum/design/nanites/spreading
-	name = "Infective Exo-Locomotion"
-	desc = "The nanites gain the ability to survive for brief periods outside of the human body, as well as the ability to start new colonies without an integration process; \
-			resulting in an extremely infective strain of nanites."
-	id = "spreading_nanites"
-	program_type = /datum/nanite_program/spreading
-	category = list("Utility Nanites")
-
 /datum/design/nanites/nanite_sting
 	name = "Nanite Sting"
 	desc = "When triggered, projects a nearly invisible spike of nanites that attempts to infect a nearby non-host with a copy of the host's nanites cluster."
@@ -547,6 +539,20 @@
 	desc = "The nanites receive a singal when they detect that the host is/isn't the target species."
 	id = "sensor_species_nanites"
 	program_type = /datum/nanite_program/sensor/species
+	category = list("Sensor Nanites")
+
+/datum/design/nanites/sensor_consciousness
+	name = "Consciousness Sensor"
+	desc = "The nanites receive a signal when the host is conscious or not conscious."
+	id = "sensor_consciousness_nanites"
+	program_type = /datum/nanite_program/sensor/consciousness
+	category = list("Sensor Nanites")
+
+/datum/design/nanites/sensor_organ_health
+	name = "Organ Health Sensor"
+	desc = "The nanites receive a signal when the health of one of the host's organs is above/below a target percentage."
+	id = "sensor_organ_health_nanites"
+	program_type = /datum/nanite_program/sensor/organ_health
 	category = list("Sensor Nanites")
 
 ////////////////////NANITE PROTOCOLS//////////////////////////////////////

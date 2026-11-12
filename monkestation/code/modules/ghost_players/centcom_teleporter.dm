@@ -2,7 +2,7 @@
 //can be used to teleport to any other centcom_teleporter(admin teleporters can only be used by people with R_ADMIN)
 /obj/structure/centcom_teleporter
 	name = "centcom teleporter"
-	desc = "Can teleport you to any other centcom teleporter you have access to."
+	desc = "Part of CentCom's network of interlinked teleporters. For internal use only. Validates identity of its users by directly scanning their soul, so you aren't sneaking past this."
 
 	resistance_flags = INDESTRUCTIBLE
 	anchored = TRUE
@@ -40,8 +40,8 @@
 		return
 
 	if((choice.needed_rights != RIGHTS_NONE) && !check_rights_for(user.client, choice.needed_rights))
-		to_chat(user, span_warning("You dont have the admin rights to teleport here."))
-		message_admins("[user][ADMIN_LOOKUPFLW(user)] is trying to use a centcom teleporter they dont have access to.") //these should not be visible to them so tell admins
+		to_chat(user, span_warning("You don't have access to that teleporter."))
+		message_admins("[user][ADMIN_LOOKUPFLW(user)] is trying to use a centcom teleporter they don't have access to.") //these should not be visible to them so tell admins
 		return
 
 	do_teleport(user, get_turf(choice), no_effects = TRUE, forced = TRUE)
@@ -59,5 +59,9 @@
 /obj/structure/centcom_teleporter/admin_offices
 	name = "admin offices teleporter"
 	needed_rights = R_ADMIN
+
+/obj/structure/centcom_teleporter/mentor_offices
+	name = "mentor offices teleporter"
+	needed_rights = R_MENTOR
 
 #undef RIGHTS_NONE

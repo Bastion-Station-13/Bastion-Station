@@ -4,7 +4,7 @@
 /datum/component/shoesteps
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/list/custom_sounds = list()
-	var/sounds = FALSE // So shoe noises arent activated on spawn.
+	var/sounds = TRUE
 
 /datum/component/shoesteps/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
@@ -428,6 +428,9 @@ extra range addition
 		FOOTSTEP_BALL = list(list(
 			'sound/effects/ballpit.ogg'), 100, 0),
 	)
+
+/datum/component/shoesteps/tap_shoes/default_off
+	sounds = FALSE //Starts off by default - mainly for laceup shoes as they spawn on a lot of jobs.
 
 /obj/item/clothing/shoes/clown_shoes/orchestra
 	name = "musical shoes"
