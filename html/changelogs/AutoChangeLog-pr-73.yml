@@ -1,0 +1,7 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - rscadd: "Re-enables revolutionaries for natural spawning! (with a weight of 3)"
+  - balance: "Revolutionaries now guarantee an automatic, unrecallable shuttle call upon revolutionary victory."
+  - balance: "After 35 mins into the a revolution round, all head revs and command members are marked with an unremovable GPS signal. No more hiding, fight to win!"
+  - admin: "The traitor panel now correctly displays a player's antag preferences for revolutionary."
