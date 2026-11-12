@@ -1,9 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - rscadd: "Adds a 'witch' alternative title to chaplains."
-  - admin: "Removes the 'you're an important role/antag' pop-up for players when cryo'ing; instead adds better automatic notifying of admins when somebody who is an important/antag role goes to cryo."
-  - rscadd: "Noisemakers for shoes (that have them) now start on by default again (except laceup shoes, which are still default off)."
-  - qol: "Adds a radio message to security when a genpop prisoner sentence is up, just like brig cells."
-  - config: "Removes 'shiftC' as the default keybind for hold to walk, as it didnt work correctly with C as default toggle to walk. Just set hold to walk unbound (by default) instead."
-  - rscadd: "Makes syndicate teleporters force show at the top of item stacks (like bodyparts), for environmental storytelling."

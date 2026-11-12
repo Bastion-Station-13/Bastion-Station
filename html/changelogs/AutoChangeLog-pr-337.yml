@@ -1,4 +1,0 @@
-author: "Addust"
-delete-after: True
-changes:
-  - bugfix: "occult rituals have been used on Deep Storage's life support system to prevent them from causing things to break on the git side"

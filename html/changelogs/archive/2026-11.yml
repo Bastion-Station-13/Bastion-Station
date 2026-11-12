@@ -255,3 +255,33 @@
       using the emote)
   notghosti:
   - bugfix: Queueing research now creates a research history entry.
+2026-11-12:
+  Addust:
+  - bugfix: occult rituals have been used on Deep Storage's life support system to
+      prevent them from causing things to break on the git side
+  JupiterJaeden:
+  - rscadd: Patreon lobby button is back, and now links to bastion station 13's new
+      patreon (https://patreon.com/bastion_station_13).
+  - rscadd: Adds a 'witch' alternative title to chaplains.
+  - admin: Removes the 'you're an important role/antag' pop-up for players when cryo'ing;
+      instead adds better automatic notifying of admins when somebody who is an important/antag
+      role goes to cryo.
+  - rscadd: Noisemakers for shoes (that have them) now start on by default again (except
+      laceup shoes, which are still default off).
+  - qol: Adds a radio message to security when a genpop prisoner sentence is up, just
+      like brig cells.
+  - config: Removes 'shiftC' as the default keybind for hold to walk, as it didnt
+      work correctly with C as default toggle to walk. Just set hold to walk unbound
+      (by default) instead.
+  - rscadd: Makes syndicate teleporters force show at the top of item stacks (like
+      bodyparts), for environmental storytelling.
+  - rscadd: Re-enables revolutionaries for natural spawning! (with a weight of 3)
+  - balance: Revolutionaries now guarantee an automatic, unrecallable shuttle call
+      upon revolutionary victory.
+  - balance: After 35 mins into the a revolution round, all head revs and command
+      members are marked with an unremovable GPS signal. No more hiding, fight to
+      win!
+  - admin: The traitor panel now correctly displays a player's antag preferences for
+      revolutionary.
+  addust on glitchy's behalf:
+  - rscadd: glitchy's office is in
