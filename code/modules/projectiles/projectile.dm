@@ -329,9 +329,17 @@
 		damage += damage_falloff_tile
 	if(stamina_falloff_tile && stamina >= 0)
 		stamina += stamina_falloff_tile
-	if(armour_penetration_falloff_tile)
+
+	if(armour_penetration - armour_penetration_falloff_tile <= 0)
+		armour_penetration = 0
+		weak_against_armour = TRUE
+	else if(armour_penetration)
 		armour_penetration += armour_penetration_falloff_tile
-	if(armour_penetration_falloff_tile)
+
+	if(armour_ignorance - armour_ignorance_falloff_tile <= 0)
+		armour_ignorance = 0
+		weak_against_armour = TRUE
+	else if(armour_ignorance)
 		armour_ignorance += armour_ignorance_falloff_tile
 
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_RANGE)
