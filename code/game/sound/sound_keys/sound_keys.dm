@@ -656,3 +656,21 @@
 		'sound/effects/magic/void_deflect2.ogg',
 		'sound/effects/magic/void_deflect3.ogg',
 	)
+
+/datum/sound_effect/generic_device_pickup
+	file_paths = list(
+		'sound/items/generic_device/generic_device_pickup1.ogg',
+		'sound/items/generic_device/generic_device_pickup2.ogg',
+		'sound/items/generic_device/generic_device_pickup3.ogg',
+		'sound/items/generic_device/generic_device_pickup4.ogg',
+		'sound/items/generic_device/generic_device_pickup5.ogg',
+	)
+
+/datum/sound_effect/generic_device_drop
+	file_paths = list(
+		'sound/items/generic_device/generic_device_drop1.ogg',
+		'sound/items/generic_device/generic_device_drop2.ogg',
+		'sound/items/generic_device/generic_device_drop3.ogg',
+		'sound/items/generic_device/generic_device_drop4.ogg',
+		'sound/items/generic_device/generic_device_drop5.ogg',
+	)
