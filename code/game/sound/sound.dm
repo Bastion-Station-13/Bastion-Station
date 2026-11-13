@@ -94,13 +94,8 @@
 	sound_to_use.channel = channel || SSsounds.random_available_channel()
 	sound_to_use.volume = vol
 
-<<<<<<< HEAD
 	if (HAS_TRAIT_FROM(src, TRAIT_HARD_OF_HEARING, EAR_DAMAGE))
 		sound_to_use.volume *= 0.2
-=======
-	if((mixer_channel == CHANNEL_PRUDE) && client?.prefs?.read_preference(/datum/preference/toggle/prude_mode))
-		return
->>>>>>> becdb148 ([PORT] Boombox and spatial looping sounds (#12745))
 
 	if(vary)
 		if(frequency)
