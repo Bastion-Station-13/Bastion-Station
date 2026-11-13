@@ -95,7 +95,7 @@ export const FishCatalog = (props) => {
                     {currentFish.size} cm
                   </LabeledList.Item>
                   <LabeledList.Item label="Average weight">
-                    {currentFish.weight} g
+                    {currentFish.weight} kiloclam
                   </LabeledList.Item>
                   <LabeledList.Item label="Fishing and Aquarium tips">
                     <LabeledList>

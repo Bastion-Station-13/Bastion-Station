@@ -56,6 +56,11 @@
 		"extinguisher",
 		"pocketfireextinguisher",
 		"fax",
+<<<<<<< HEAD
+=======
+		"fish_case",
+		"aquarium_kit",
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 		"fishing_rod",
 		"fishing_line",
 		"fishing_hook",

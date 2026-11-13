@@ -480,6 +480,13 @@
 		/obj/item/clothing/shoes/heels = 2, //MONKESTATION ADDITION
 		/obj/item/clothing/accessory/badge/lawyer = 2,
 		/obj/item/radio/headset/headset_srv = 2,
+<<<<<<< HEAD
+=======
+		/obj/item/reagent_containers/cup/fish_feed = 1,
+	)
+	premium = list(
+		/obj/item/mod/control/pre_equipped/portable_suit = 1,
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	)
 	refill_canister = /obj/item/vending_refill/wardrobe/law_wardrobe
 	payment_department = ACCOUNT_SRV

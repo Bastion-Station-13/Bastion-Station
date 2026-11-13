@@ -1,26 +1,19 @@
 /// Allows movables to be inserted/displayed in aquariums.
 /datum/component/aquarium_content
-	/// Keeps track of our current aquarium.
-	var/obj/structure/aquarium/current_aquarium
 
-	//This is visual effect holder that will end up in aquarium's vis_contents
-	var/obj/effect/vc_obj
-
-	/// Base px offset of the visual object in current aquarium aka current base position
-	var/base_px = 0
-	/// Base px offset of the visual object in current aquarium aka current base position
-	var/base_py = 0
-	//Current layer for the visual object
-	var/base_layer
-
+	/// This is visual effect holder that will end up in aquarium's vis_contents
+	var/obj/effect/aquarium/vc_obj
 
 	/**
-	 *  Fish sprite how to:
-	 *  Need to be centered on 16,16 in the dmi and facing left by default.
-	 *  sprite_height/sprite_width is the size it will have in aquarium and used to control animation boundaries.
-	 *  source_height/source_width is the size of the original icon (ideally only the non-empty parts)
+	 * Fish sprite how to:
+	 * The aquarium icon state needs to be centered on 16,16 in the dmi and facing left by default.
+	 * sprite_width/sprite_height are the sizes it will have in aquarium and used to control animation boundaries.
+	 * Ideally these two vars represent the size of the aquarium icon state, but they can be one or two units shorter
+	 * to give more room for the visual to float around inside the aquarium, since the aquarium tank frame overlay will likely
+	 * cover the extra pixels anyway.
 	 */
 
+<<<<<<< HEAD
 
 	/// Icon used for in aquarium sprite
 	var/icon = 'icons/obj/aquarium.dmi'
@@ -45,15 +38,18 @@
 	var/source_width = 32
 	var/source_height = 32
 
+=======
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	/// Currently playing animation
 	var/current_animation
 
 	/// Does this behviour need additional processing in aquarium, will be added to SSobj processing on insertion
 	var/processing = FALSE
 
-	/// TODO: Change this into trait checked on aquarium insertion
-	var/unique = FALSE
+	/// Signals for the aquarium we're in that trigger an animation update
+	var/list/animation_update_signals
 
+<<<<<<< HEAD
 	/// Proc used to retrieve current animation state from the parent, optional
 	var/animation_getter
 
@@ -76,15 +72,23 @@
 		InitializeFromProp()
 	else
 		InitializeOther()
+=======
+/datum/component/aquarium_content/Initialize(animation_update_signals)
+	if(!isitem(parent))
+		return COMPONENT_INCOMPATIBLE
+
+	src.animation_update_signals = islist(animation_update_signals) ? animation_update_signals : list(animation_update_signals)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 
 	ADD_TRAIT(parent, TRAIT_AQUARIUM_CONTENT, REF(src))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(enter_aquarium))
 
 	//If component is added to something already in aquarium at the time initialize it properly.
 	var/atom/movable/movable_parent = parent
-	if(istype(movable_parent.loc, /obj/structure/aquarium))
+	if(movable_parent.loc && HAS_TRAIT(movable_parent.loc, TRAIT_IS_AQUARIUM))
 		on_inserted(movable_parent.loc)
 
+<<<<<<< HEAD
 /// Sets visuals properties for fish
 /datum/component/aquarium_content/proc/InitializeFromFish()
 	var/obj/item/fish/fish = parent
@@ -138,18 +142,23 @@
 	. = ..()
 	REMOVE_TRAIT(parent, TRAIT_AQUARIUM_CONTENT, REF(src))
 
+=======
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 /datum/component/aquarium_content/Destroy(force)
-	if(current_aquarium)
-		remove_from_aquarium()
+	var/atom/movable/movable = parent
+	if(movable.loc && HAS_TRAIT(movable.loc, TRAIT_IS_AQUARIUM))
+		remove_from_aquarium(movable.loc)
 	QDEL_NULL(vc_obj)
+	REMOVE_TRAIT(parent, TRAIT_AQUARIUM_CONTENT, REF(src))
 	return ..()
 
 /datum/component/aquarium_content/proc/enter_aquarium(datum/source, OldLoc, Dir, Forced)
 	SIGNAL_HANDLER
 	var/atom/movable/movable_parent = parent
-	if(istype(movable_parent.loc, /obj/structure/aquarium))
+	if(HAS_TRAIT(movable_parent.loc, TRAIT_IS_AQUARIUM))
 		on_inserted(movable_parent.loc)
 
+<<<<<<< HEAD
 /datum/component/aquarium_content/proc/is_ready_to_insert(obj/structure/aquarium/aquarium)
 	//This is kinda awful but we're unaware of other fish
 	if(unique)
@@ -165,21 +174,29 @@
 	RegisterSignal(current_aquarium, COMSIG_ATOM_EXITED, PROC_REF(on_removed))
 	RegisterSignal(current_aquarium, COMSIG_AQUARIUM_SURFACE_CHANGED, PROC_REF(on_surface_changed))
 	RegisterSignal(current_aquarium, COMSIG_AQUARIUM_FLUID_CHANGED, PROC_REF(on_fluid_changed))
+=======
+/// Called when the parent is put inside an aquarium, registers the signals and adds the visual overlay
+/datum/component/aquarium_content/proc/on_inserted(atom/movable/aquarium)
+	RegisterSignal(aquarium, COMSIG_ATOM_EXITED, PROC_REF(on_removed))
+	RegisterSignal(aquarium, COMSIG_AQUARIUM_FLUID_CHANGED, PROC_REF(on_fluid_changed))
+	RegisterSignals(aquarium, animation_update_signals, PROC_REF(animation_update_signal_proc))
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 
 	if(processing)
 		START_PROCESSING(SSobj, src)
 
 	//If we don't have vc object yet build it
 	if(!vc_obj)
-		vc_obj = generate_base_vc()
+		generate_base_vc(aquarium)
 
 	//Set default position and layer
 	set_vc_base_position()
 	generate_animation(reset = TRUE)
 
 	//Finally add it to to objects vis_contents
-	current_aquarium.vis_contents |= vc_obj
+	aquarium.vis_contents |= vc_obj
 
+<<<<<<< HEAD
 /// Aquarium surface changed in some way, we need to recalculate base position and aninmation
 /datum/component/aquarium_content/proc/on_surface_changed()
 	SIGNAL_HANDLER
@@ -187,97 +204,46 @@
 	generate_animation(reset = TRUE) //our animation start point changed, gotta redo
 
 /datum/component/aquarium_content/proc/on_fluid_changed()
+=======
+/// Updates the visual overlay when the fluid type of the aquarium changes
+/datum/component/aquarium_content/proc/on_fluid_changed(datum/source, new_fluid_type)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	SIGNAL_HANDLER
+	vc_obj.fluid_type = new_fluid_type
 	generate_animation()
 
-/datum/component/aquarium_content/proc/remove_visual_from_aquarium()
-	current_aquarium.vis_contents -= vc_obj
-	if(base_layer)
-		current_aquarium.free_layer(base_layer)
+///Called when one of the signals in the 'animation_update_signals' is sent
+/datum/component/aquarium_content/proc/animation_update_signal_proc(datum/source)
+	generate_animation()
+
+///Sends a signal to the parent to get them to update the aquarium animation of the visual object
+/datum/component/aquarium_content/proc/generate_animation(reset = FALSE)
+	var/atom/movable/movable = parent
+	SEND_SIGNAL(movable, COMSIG_AQUARIUM_CONTENT_DO_ANIMATION, reset ? null : current_animation, vc_obj)
 
 /// Generates common visual object, propeties that don't depend on aquarium surface
-/datum/component/aquarium_content/proc/generate_base_vc()
-	var/obj/effect/visual = new
-	apply_appearance(visual)
-	visual.vis_flags |= VIS_INHERIT_ID | VIS_INHERIT_PLANE //plane so it shows properly in containers on inventory ui for handheld cases
-	return visual
+/datum/component/aquarium_content/proc/generate_base_vc(atom/movable/aquarium)
+	vc_obj = new
+	vc_obj.vis_flags |= VIS_INHERIT_ID | VIS_INHERIT_PLANE //plane so it shows properly in containers on inventory ui for handheld cases
+	update_vc_color(parent)
+	RegisterSignal(parent, COMSIG_ATOM_COLOR_UPDATED, PROC_REF(update_vc_color))
+	SEND_SIGNAL(parent, COMSIG_AQUARIUM_CONTENT_GENERATE_APPEARANCE, vc_obj, aquarium)
 
-/// Applies icon,color and base scaling to our visual holder
-/datum/component/aquarium_content/proc/apply_appearance(obj/effect/holder)
-	holder.icon = icon
-	holder.icon_state = icon_state
-	holder.transform = matrix(base_transform)
-	if(aquarium_vc_color)
-		holder.color = aquarium_vc_color
-
-
-/// Actually animates the vc holder
-/datum/component/aquarium_content/proc/generate_animation(reset=FALSE)
-	if(!current_aquarium)
-		return
-	var/next_animation = animation_getter ? call(parent,animation_getter)() : null
-	if(current_animation == next_animation && !reset)
-		return
-	current_animation = next_animation
-	switch(current_animation)
-		if(AQUARIUM_ANIMATION_FISH_SWIM)
-			swim_animation()
-			return
-		if(AQUARIUM_ANIMATION_FISH_DEAD)
-			dead_animation()
-			return
-
-
-/// Create looping random path animation, pixel offsets parameters include offsets already
-/datum/component/aquarium_content/proc/swim_animation()
-	var/avg_width = round(sprite_width / 2)
-	var/avg_height = round(sprite_height / 2)
-
-	var/list/aq_properties = current_aquarium.get_surface_properties()
-	var/px_min = aq_properties[AQUARIUM_PROPERTIES_PX_MIN] + avg_width - 16
-	var/px_max = aq_properties[AQUARIUM_PROPERTIES_PX_MAX] - avg_width - 16
-	var/py_min = aq_properties[AQUARIUM_PROPERTIES_PY_MIN] + avg_height - 16
-	var/py_max = aq_properties[AQUARIUM_PROPERTIES_PY_MAX] - avg_width - 16
-
-	var/origin_x = base_px
-	var/origin_y = base_py
-	var/prev_x = origin_x
-	var/prev_y = origin_y
-	animate(vc_obj, pixel_x = origin_x, time = 0, loop = -1) //Just to start the animation
-	var/move_number = rand(3, 5) //maybe unhardcode this
-	for(var/i in 1 to move_number)
-		//If it's last movement, move back to start otherwise move to some random point
-		var/target_x = i == move_number ? origin_x : rand(px_min,px_max) //could do with enforcing minimal delta for prettier zigzags
-		var/target_y = i == move_number ? origin_y : rand(py_min,py_max)
-		var/dx = prev_x - target_x
-		var/dy = prev_y - target_y
-		prev_x = target_x
-		prev_y = target_y
-		var/dist = abs(dx) + abs(dy)
-		var/eyeballed_time = dist * 2 //2ds per px
-		//Face the direction we're going
-		var/matrix/dir_mx = matrix(base_transform)
-		if(dx <= 0) //assuming default sprite is facing left here
-			dir_mx.Scale(-1, 1)
-		animate(transform = dir_mx, time = 0, loop = -1)
-		animate(pixel_x = target_x, pixel_y = target_y, time = eyeballed_time, loop = -1)
-
-/datum/component/aquarium_content/proc/dead_animation()
-	//Set base_py to lowest possible value
-	var/avg_height = round(sprite_height / 2)
-	var/list/aq_properties = current_aquarium.get_surface_properties()
-	var/py_min = aq_properties[AQUARIUM_PROPERTIES_PY_MIN] + avg_height - 16
-	base_py = py_min
-	animate(vc_obj, pixel_y = py_min, time = 1) //flop to bottom and end current animation.
+/// Updates the color of the visual overlay to match the parent
+/datum/component/aquarium_content/proc/update_vc_color(atom/movable/source)
+	SIGNAL_HANDLER
+	var/color_to_use = source.color
+	if(!color_to_use && isfish(source)) //Small bit of snowflake code for those fish overlays that are greyscale.
+		var/obj/item/fish/fish = source
+		color_to_use = fish.aquarium_vc_color
+	vc_obj.color = color_to_use
 
 /datum/component/aquarium_content/proc/set_vc_base_position()
-	if(randomize_position)
-		randomize_base_position()
-	if(base_layer)
-		current_aquarium.free_layer(base_layer)
-	base_layer = current_aquarium.request_layer(layer_mode)
-	vc_obj.layer = base_layer
+	var/atom/movable/movable = parent
+	SEND_SIGNAL(movable.loc, COMSIG_AQUARIUM_SET_VISUAL, vc_obj) //set the necessary layer as well as the pixel bounds first
+	SEND_SIGNAL(movable, COMSIG_AQUARIUM_CONTENT_RANDOMIZE_POSITION, movable.loc, vc_obj)
 
+<<<<<<< HEAD
 /datum/component/aquarium_content/proc/randomize_base_position()
 	var/list/aq_properties = current_aquarium.get_surface_properties()
 	var/avg_width = round(sprite_width / 2)
@@ -294,12 +260,39 @@
 	vc_obj.pixel_y = base_py
 
 /datum/component/aquarium_content/proc/on_removed(datum/source, atom/movable/gone, direction)
+=======
+/// Called when something leaves the aquarium, removes the parent from it if it was the one leaving
+/datum/component/aquarium_content/proc/on_removed(atom/movable/aquarium, atom/movable/gone, direction)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	SIGNAL_HANDLER
 	if(parent != gone)
 		return
-	remove_from_aquarium()
+	remove_from_aquarium(aquarium)
 
+<<<<<<< HEAD
 /datum/component/aquarium_content/proc/remove_from_aquarium()
 	UnregisterSignal(current_aquarium, list(COMSIG_AQUARIUM_SURFACE_CHANGED, COMSIG_AQUARIUM_FLUID_CHANGED, COMSIG_ATOM_ATTACKBY, COMSIG_ATOM_EXITED))
 	remove_visual_from_aquarium()
 	current_aquarium = null
+=======
+/// Unregisters the aquarium signals and removes the visual overlay from it
+/datum/component/aquarium_content/proc/remove_from_aquarium(atom/movable/aquarium)
+	UnregisterSignal(aquarium, list(COMSIG_AQUARIUM_FLUID_CHANGED, COMSIG_ATOM_EXITED) + animation_update_signals)
+	SEND_SIGNAL(aquarium, COMSIG_AQUARIUM_REMOVE_VISUAL, vc_obj)
+
+///The visual overlay of the aquarium content. It can hold a few vars with values about the component of the aquarium it's in.
+/obj/effect/aquarium
+	layer = 0 //set on set_vc_base_position
+	/// How the visual will be layered
+	var/layer_mode = AQUARIUM_LAYER_MODE_AUTO
+	///minimum pixel x, inherited from the aquarium
+	var/aquarium_zone_min_pw
+	///maximum pixel x, inherited from the aquarium
+	var/aquarium_zone_max_pw
+	///minimum pixel y, inherited from the aquarium
+	var/aquarium_zone_min_pz
+	///maximum pixel y, inherited from the aquarium
+	var/aquarium_zone_max_pz
+	///The current fluid type, inherited fom the aquarium
+	var/fluid_type
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))

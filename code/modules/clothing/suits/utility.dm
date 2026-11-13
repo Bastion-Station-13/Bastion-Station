@@ -39,6 +39,14 @@
 	equip_delay_other = 60
 	resistance_flags = FIRE_PROOF
 
+<<<<<<< HEAD
+=======
+/obj/item/clothing/suit/utility/fire/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_CHEST, /datum/bodypart_texture/mesh/firesuit)
+	AddComponent(/datum/component/adjust_fishing_difficulty, 7)
+
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 /datum/armor/utility_fire
 	melee = 15
 	bullet = 5
@@ -98,6 +106,16 @@
 	equip_delay_other = 70
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	resistance_flags = NONE
+<<<<<<< HEAD
+=======
+	/// Type of texture applied by this
+	var/texture_type = /datum/bodypart_texture/mesh/bombsuit
+
+/obj/item/clothing/head/utility/bomb_hood/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_HEAD, texture_type)
+	AddComponent(/datum/component/adjust_fishing_difficulty, 8)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 
 /datum/armor/utility_bomb_hood
 	melee = 20
@@ -126,6 +144,16 @@
 	strip_delay = 70
 	equip_delay_other = 70
 	resistance_flags = NONE
+<<<<<<< HEAD
+=======
+	/// Type of texture applied by this
+	var/texture_type = /datum/bodypart_texture/mesh/bombsuit
+
+/obj/item/clothing/suit/utility/bomb_suit/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_CHEST, texture_type)
+	AddComponent(/datum/component/adjust_fishing_difficulty, 8)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 
 /datum/armor/utility_bomb_suit
 	melee = 20
@@ -177,6 +205,11 @@
 /obj/item/clothing/head/utility/radiation/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/radiation_protected_clothing)
+<<<<<<< HEAD
+=======
+	AddComponent(/datum/component/adjust_fishing_difficulty, 7)
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_HEAD, /datum/bodypart_texture/mesh/black)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 
 /obj/item/clothing/suit/utility/radiation
 	name = "radiation suit"
@@ -201,3 +234,8 @@
 /obj/item/clothing/suit/utility/radiation/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/radiation_protected_clothing)
+<<<<<<< HEAD
+=======
+	AddComponent(/datum/component/adjust_fishing_difficulty, 7)
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_CHEST, /datum/bodypart_texture/mesh/black)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
