@@ -75,6 +75,9 @@
 	/// Whether the gun is jammed, and won't fire until it's racked.
 	var/jammed = FALSE
 
+/obj/item/gun/ballistic/automatic/scrap_akm/give_manufacturer_examine()
+	AddElement(/datum/element/manufacturer_examine, COMPANY_BLOOD_BROTHER)
+
 /obj/item/gun/ballistic/automatic/scrap_akm/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/blood_brother_gun, \

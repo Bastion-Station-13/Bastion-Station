@@ -16,6 +16,9 @@
 	weapon_weight = WEAPON_HEAVY
 	shaded_charge = TRUE
 
+/obj/item/gun/energy/laser/hardlight/give_manufacturer_examine()
+	AddElement(/datum/element/manufacturer_examine, COMPANY_BLOOD_BROTHER)
+
 /obj/item/gun/energy/laser/hardlight/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/blood_brother_gun, \

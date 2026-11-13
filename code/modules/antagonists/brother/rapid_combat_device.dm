@@ -29,6 +29,9 @@
 	dead_cell = TRUE
 	pinless = TRUE
 
+/obj/item/gun/energy/rapid_combat_device/give_manufacturer_examine()
+	AddElement(/datum/element/manufacturer_examine, COMPANY_BLOOD_BROTHER)
+
 /obj/item/gun/energy/rapid_combat_device/Initialize(mapload)
 	. = ..()
 	// The cell is only a matter counter, so EMPs and chargers can't touch it.

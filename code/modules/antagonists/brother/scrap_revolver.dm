@@ -38,6 +38,9 @@
 	pinless = TRUE
 	spawnwithmagazine = TRUE
 
+/obj/item/gun/ballistic/revolver/scrap/give_manufacturer_examine()
+	AddElement(/datum/element/manufacturer_examine, COMPANY_BLOOD_BROTHER)
+
 /obj/item/gun/ballistic/revolver/scrap/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/blood_brother_gun, \

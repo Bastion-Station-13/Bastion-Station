@@ -38,6 +38,9 @@
 		'bastionstation/sound/items/weapons/gun/glockenspiel/glockenspiel_shot_alt_g.ogg',
 	)
 
+/obj/item/gun/ballistic/automatic/pistol/glockenspiel/give_manufacturer_examine()
+	AddElement(/datum/element/manufacturer_examine, COMPANY_BLOOD_BROTHER)
+
 /obj/item/gun/ballistic/automatic/pistol/glockenspiel/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/blood_brother_gun, \

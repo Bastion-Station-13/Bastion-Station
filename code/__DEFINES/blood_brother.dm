@@ -21,3 +21,6 @@
 #define BB_GUN_RECEIVER_AUTOMATIC "automatic"
 #define BB_GUN_RECEIVER_RIFLE "rifle"
 #define BB_GUN_RECEIVER_CARBINE "carbine"
+
+// Blood Brothers make their own guns. This shows up on ALL guns made by blood brothers, anyone looking to add any guns for BBs in the future should use this.
+#define COMPANY_BLOOD_BROTHER "It has <b>[span_grey("no manufacturer markings")]</b>."

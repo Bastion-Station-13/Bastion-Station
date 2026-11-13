@@ -31,6 +31,9 @@
 	projectile_damage_multiplier = 40 / 60
 	pinless = TRUE
 
+/obj/item/gun/ballistic/mares_leg/give_manufacturer_examine()
+	AddElement(/datum/element/manufacturer_examine, COMPANY_BLOOD_BROTHER)
+
 /obj/item/gun/ballistic/mares_leg/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/scope, range_modifier = 1.5)
