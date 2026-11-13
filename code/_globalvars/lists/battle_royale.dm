@@ -239,7 +239,6 @@ GLOBAL_LIST_INIT(royale_misc_loot, list(
 		/obj/item/bikehorn/golden = 1,
 		/obj/item/bikehorn/airhorn = 1,
 		/obj/item/book_of_babel = 1,
-		/obj/item/book/granter/action/spell/barnyard = 1,
 		/obj/item/choice_beacon/augments = 1, //putting this here as you need an autosurgeon for it to be useful
 		/obj/item/choice_beacon/pet = 1,
 		/obj/item/clothing/glasses/salesman = 1,

@@ -201,3 +201,87 @@
   - balance: Nuke disk guaranteed nukeop spawn now respects maximum antags. And if
       fails will try again in 5 minutes.
   - bugfix: Nuke disk no longer tracks time at half the rate of intended
+2026-11-07:
+  Absolucy:
+  - rscadd: (LemonInTheDark) Wall lights now shine out from the wall in a cone instead
+      of a circle
+  - rscadd: (LemonInTheDark) Light shining through open space gets dimmer on each
+      floor it reaches.
+  - rscadd: (LemonInTheDark) Starlight is brighter and blends into the hull better.
+  - rscadd: (MrMelbert) cable explosions flicker nearby lights, also cables are squishier
+  - balance: (MrMelbert) Cables have less integrity, and are much tougher to bombs
+      while hidden under the floor.
+  - bugfix: The tram indicator now actually points its light into the room.
+  - bugfix: Starlight around the hull keeps its intended falloff, and empty space
+      around shuttles no longer lights up.
+  - bugfix: Bar signs, chem masters, explosion flashes, a few spell projectiles, primitive
+      forges and translucent floors now actually give off light.
+  JupiterJaeden:
+  - code_imp: Fixes the 'TGS Test Suite' check on github actions.
+  notghosti:
+  - qol: Max CPU speed set to twice the original speed. Instead of 10.
+2026-11-08:
+  Absolucy:
+  - bugfix: Fixed runechat colors being unreadabley dark sometimes.
+  JupiterJaeden:
+  - qol: Adds seclite mounts for nearly every major security firearm.
+  - rscdel: Removes the barnyard curse granting spellbook from the paper wizard ruin
+      and the summon magic event. Wizards themselves can still get it.
+  ThePooba:
+  - bugfix: dont starve and animal voices work again
+  V2LenKagamine:
+  - rscadd: '''Ass Pic'' smite. Spawns an ass pick, puts in targets hand if possible.'
+  - rscadd: Status affect 'Feeling funny';rotates client move by +-90/180 every 15
+      seconds.
+  - qol: '''Select Equipment'' now requires ''R_SPAWN'' permissions from ''R_FUN'''
+  ma44, MrMelbert, AnturK, leaKsi, TiviPlus, StrangeWeirdKitten, SmArtKar, afonamo, jlsnow301, FalloutFalcon:
+  - bugfix: Fixed a bunch of places where players could send unsanitized HTML to other
+      players or admins.
+  - bugfix: Cassette song titles are properly encoded in chat and admin messages.
+  - bugfix: Safes, the message monitor, netpods, limbgrowers, launch pads and a few
+      other machines validate their inputs properly.
+  - bugfix: Number inputs reject NaN.
+  - admin: View variables topic calls require R_VAREDIT.
+  - server: World topics require the comms key unless they're meant to be public.
+2026-11-10:
+  SirNightKnight:
+  - rscadd: ghosts/observers have new unique speak emotes.
+  V2LenKagamine:
+  - bugfix: Deconstructing a slot machine doubles what you put in
+  - bugfix: missing discover text on powergen type artifacts
+  big-boss-crate:
+  - rscadd: added the *plink emote
+  - sound: added plink.ogg and plonk.ogg (equal chance for either to trigger when
+      using the emote)
+  notghosti:
+  - bugfix: Queueing research now creates a research history entry.
+2026-11-12:
+  Addust:
+  - bugfix: occult rituals have been used on Deep Storage's life support system to
+      prevent them from causing things to break on the git side
+  JupiterJaeden:
+  - rscadd: Patreon lobby button is back, and now links to bastion station 13's new
+      patreon (https://patreon.com/bastion_station_13).
+  - rscadd: Adds a 'witch' alternative title to chaplains.
+  - admin: Removes the 'you're an important role/antag' pop-up for players when cryo'ing;
+      instead adds better automatic notifying of admins when somebody who is an important/antag
+      role goes to cryo.
+  - rscadd: Noisemakers for shoes (that have them) now start on by default again (except
+      laceup shoes, which are still default off).
+  - qol: Adds a radio message to security when a genpop prisoner sentence is up, just
+      like brig cells.
+  - config: Removes 'shiftC' as the default keybind for hold to walk, as it didnt
+      work correctly with C as default toggle to walk. Just set hold to walk unbound
+      (by default) instead.
+  - rscadd: Makes syndicate teleporters force show at the top of item stacks (like
+      bodyparts), for environmental storytelling.
+  - rscadd: Re-enables revolutionaries for natural spawning! (with a weight of 3)
+  - balance: Revolutionaries now guarantee an automatic, unrecallable shuttle call
+      upon revolutionary victory.
+  - balance: After 35 mins into the a revolution round, all head revs and command
+      members are marked with an unremovable GPS signal. No more hiding, fight to
+      win!
+  - admin: The traitor panel now correctly displays a player's antag preferences for
+      revolutionary.
+  addust on glitchy's behalf:
+  - rscadd: glitchy's office is in
