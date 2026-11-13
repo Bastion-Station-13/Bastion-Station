@@ -440,7 +440,7 @@
 	name = "ears"
 	desc = "A pair of ears."
 	zone = BODY_ZONE_HEAD
-	slot = ORGAN_SLOT_EXTERNAL_EARS
+	slot = ORGAN_SLOT_EXTERNAL_ANIME_HEAD
 	preference = "ears"
 	bodypart_overlay = /datum/bodypart_overlay/mutant/ears
 
