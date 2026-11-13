@@ -21,10 +21,20 @@
 		guns_typecache = typecacheof(list(/obj/item/gun/ballistic, /obj/item/gun/energy, /obj/item/gun/grenadelauncher, /obj/item/gun/chem, /obj/item/gun/syringe, /obj/item/gun/microfusion))
 //monkestation edit on previous line: adds microfusion guns
 /obj/item/mod/module/magnetic_harness/on_install()
+<<<<<<< HEAD
 	already_allowed_guns = guns_typecache & mod.chestplate.allowed
 	mod.chestplate.allowed |= guns_typecache
+=======
+	. = ..()
+	var/obj/item/clothing/suit = mod.get_part_from_slot(ITEM_SLOT_OCLOTHING)
+	if(!istype(suit))
+		return
+	already_allowed_guns = guns_typecache & suit.allowed
+	suit.allowed |= guns_typecache
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /obj/item/mod/module/magnetic_harness/on_uninstall(deleting = FALSE)
+	. = ..()
 	if(deleting)
 		return
 	mod.chestplate.allowed -= (guns_typecache - already_allowed_guns)
@@ -133,6 +143,7 @@
 		balloon_alert(mod.wearer, "holster full!")
 
 /obj/item/mod/module/holster/on_uninstall(deleting = FALSE)
+	. = ..()
 	if(holstered)
 		holstered.forceMove(drop_location())
 
