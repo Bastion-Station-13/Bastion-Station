@@ -78,7 +78,7 @@
 /obj/item/storage/box/music_tapes
 	name = "box of music tapes"
 	desc = "Contains several proprietary, company approved songs for waving above your head on your own jukebox."
-	illustration = "music"
+	illustration = "ntlogo"
 
 /obj/item/storage/box/music_tapes/PopulateContents()
 	var/list/items_inside = list(
