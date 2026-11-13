@@ -296,9 +296,13 @@ Security HUDs! Basic mode shows only the job.
 /mob/living/carbon/human/proc/sec_hud_set_ID()
 	var/image/holder = hud_list[ID_HUD]
 	holder.pixel_z = get_cached_height() - world.icon_size
+	var/obj/item/card/id/id_card = wear_id?.GetID()
 	var/sechud_icon_state = wear_id?.get_sechud_job_icon_state()
 	if(!sechud_icon_state || HAS_TRAIT(src, TRAIT_UNKNOWN))
 		sechud_icon_state = "hudno_id"
+		holder.icon = 'icons/mob/huds/hud.dmi'
+	else
+		holder.icon = id_card?.trim?.sechud_icon || 'icons/mob/huds/hud.dmi'
 	holder.icon_state = sechud_icon_state
 	sec_hud_set_security_status()
 //monkestation edit start

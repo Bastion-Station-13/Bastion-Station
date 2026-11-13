@@ -234,6 +234,10 @@ SUBSYSTEM_DEF(job)
 		JobDebug("AR has failed, player has no mind or job is null, Player: [player], Rank: [isnull(job) ? "null" : job.type]")
 		return FALSE
 
+	if(job.latejoin_only && !latejoin)
+		JobDebug("AR rejected roundstart-only assignment for latejoin job, Player: [player], Job: [job]")
+		return FALSE
+
 	if(do_eligibility_checks && (check_job_eligibility(player, job, "AR", add_job_to_log = TRUE) != JOB_AVAILABLE))
 		return FALSE
 
@@ -1204,6 +1208,9 @@ SUBSYSTEM_DEF(job)
 /// Handle all the stuff for temp assignments at round start job selection
 /datum/controller/subsystem/job/proc/handle_temp_assignments(mob/dead/new_player/player, datum/job/job)
 	if(!player ||!player.mind || !job)
+		return FALSE
+	if(job.latejoin_only)
+		JobDebug("h_t_a rejected roundstart assignment for latejoin-only job, Player: [player], Job: [job]")
 		return FALSE
 
 	unassigned -= player

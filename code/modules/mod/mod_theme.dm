@@ -1085,6 +1085,45 @@
 	acid = 90
 	wound = 25
 
+/datum/mod_theme/security_special_operative
+	name = "SSO"
+	desc = "A special-operations MODsuit for Security Special Operatives with top-tier protection and a reinforced module capacity."
+	default_skin = "sso"
+	armor_type = /datum/armor/mod_theme_syndicate
+	complexity_max = 17
+	slowdown_active = 0
+	slowdown_inactive = 0.5
+	inbuilt_modules = list()
+	skins = list(
+		"sso" = list(
+			MOD_ICON_OVERRIDE = 'bastionstation/icons/security_special_operative/ssmodsuit_clothing.dmi',
+			MOD_WORN_ICON_OVERRIDE = 'bastionstation/icons/security_special_operative/ssomodsuitmob_clothing.dmi',
+			HELMET_FLAGS = list(
+				UNSEALED_LAYER = NECK_LAYER,
+				UNSEALED_CLOTHING = SNUG_FIT,
+				SEALED_CLOTHING = THICKMATERIAL|STOPSPRESSUREDAMAGE|HEADINTERNALS,
+				UNSEALED_INVISIBILITY = HIDEFACIALHAIR,
+				SEALED_INVISIBILITY = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT,
+				SEALED_COVER = HEADCOVERSMOUTH|HEADCOVERSEYES|PEPPERPROOF,
+			),
+			CHESTPLATE_FLAGS = list(
+				UNSEALED_CLOTHING = THICKMATERIAL,
+				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
+				SEALED_INVISIBILITY = HIDEJUMPSUIT,
+			),
+			GAUNTLETS_FLAGS = list(
+				UNSEALED_CLOTHING = THICKMATERIAL,
+				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
+				CAN_OVERSLOT = TRUE,
+			),
+			BOOTS_FLAGS = list(
+				UNSEALED_CLOTHING = THICKMATERIAL,
+				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
+				CAN_OVERSLOT = TRUE,
+			),
+		),
+	)
+
 /datum/mod_theme/elite
 	name = "elite"
 	desc = "An elite suit upgraded by Cybersun Industries, offering upgraded armor values."
