@@ -46,7 +46,51 @@
 			desc += " It's utterly flawless! Quality:[smithed_quality]"
 
 	if(damage_state)
+<<<<<<< HEAD:monkestation/code/modules/smithing/items/clothing.dm
 		add_filter("damage_filter", 1, alpha_mask_filter(icon = icon('monkestation/code/modules/smithing/icons/forge_items.dmi', damage_state), flags = MASK_INVERSE))
+=======
+		add_filter("damage_filter", 1, alpha_mask_filter(icon = icon('icons/modules/smithing/forge_items.dmi', damage_state), flags = MASK_INVERSE))
+
+	max_integrity = round(200 * (smithed_quality/100))
+
+	if(material_stats.conductivity <= 10)
+		siemens_coefficient = 0
+
+	var/datum/armor/temp = new() //Scuffed, but no idea how to better.
+	set_armor(temp.generate_new_with_modifiers(list(
+		ACID = clamp(round((material_stats.density / 1.6) * (smithed_quality/100)),10,100),
+		BOMB = clamp(round(((material_stats.density + material_stats.hardness)/3.2) * (smithed_quality/100)),10,100),
+		BULLET = clamp(round(((material_stats.density + material_stats.hardness)/6.4) * (smithed_quality/100)),10,50),
+		ENERGY = clamp(round((material_stats.refractiveness / 3.2) * (smithed_quality/100)),10,50),
+		FIRE = clamp(round(((100-material_stats.thermal)/1.6) * (smithed_quality/100)),10,100),
+		LASER = clamp(round(((material_stats.refractiveness + material_stats.density)/6.4) * (smithed_quality/100)),10,50),
+		MELEE = clamp(round(((material_stats.density + material_stats.hardness)/3.2) * (smithed_quality/100)),10,100),
+		WOUND = clamp(round((material_stats.density/1.6) * (smithed_quality/100)),10,100)
+	)))
+	QDEL_NULL(temp) //Thanks now back to the void with you
+
+	if(material_stats)
+		for(var/datum/material_trait/trait as anything in material_stats.material_traits)
+			var/datum/material_trait/newtrait = new trait.type
+			//Why are we calling this here? Because we modify force and other stats that are normally in init
+			newtrait.post_parent_init(src)
+	complete = TRUE
+	update_name()
+
+/obj/item/clothing/smithed_clothes/Initialize(mapload,obj/item/created_from,quality)
+	. = ..()
+
+	smithed_quality = quality
+
+	if(!created_from)
+		created_from = new /obj/item/stack/sheet/mineral/gold
+
+	if(isstack(created_from) && !created_from.material_stats)
+		var/obj/item/stack/stack = created_from
+		create_stats_from_material(stack.material_type)
+	else
+		create_stats_from_material_stats(created_from.material_stats)
+>>>>>>> e3564302 (Forge Clamps, Artifacts and a really old bug for some reason. (#12996)):code/modules/smithing/items/clothing.dm
 
 	if(material_stats.thermal <= 50)
 		resistance_flags |= FIRE_PROOF
