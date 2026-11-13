@@ -177,7 +177,11 @@
 #include "lootpanel.dm"
 #include "lungs.dm"
 #include "machine_disassembly.dm"
+<<<<<<< HEAD
 #include "machinery_zero_integrity.dm"
+=======
+#include "map_landmarks.dm"
+>>>>>>> adf8dc8b (catch station traits up to tg mostly (#12924))
 #include "mapload_space_verification.dm"
 #include "mapping.dm"
 #include "mecha_damage.dm"
