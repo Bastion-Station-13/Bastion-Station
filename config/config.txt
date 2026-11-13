@@ -189,6 +189,9 @@ GUEST_BAN
 ## Github address
 GITHUBURL https://github.com/Monkestation/Monkestation2.0/
 
+## Patreon address (currently just default patreon site, may make an authenticator/ckey linking website later)
+PATREON_LINK_WEBSITE https://patreon.com/bastion_station_13
+
 ## Discord bot command prefix, if the discord bot is used
 # DISCORDBOTCOMMANDPREFIX ?
 
@@ -206,7 +209,7 @@ GITHUBURL https://github.com/Monkestation/Monkestation2.0/
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
 # BANAPPEALS http://justanotherday.example.com
 
-## System command that invokes youtube-dl, used by Play Internet Sound.
+## System command that invokes youtube-dl, used by Play Internet Sound and by cassettes when Floxy isn't set up.
 ## You can install youtube-dl with
 ## "pip install youtube-dl" if you have pip installed
 ## from https://github.com/rg3/youtube-dl/releases

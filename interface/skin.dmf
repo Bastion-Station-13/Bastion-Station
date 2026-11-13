@@ -215,15 +215,15 @@ window "infobuttons"
 		saved-params = "is-checked"
 		text = "Wiki"
 		command = "wiki"
-	elem "forum"
+	elem "discord"
 		type = BUTTON
 		pos = 240,5
 		size = 76x25
 		anchor1 = 36,0
 		anchor2 = 48,100
 		saved-params = "is-checked"
-		text = "Forum"
-		command = "forum"
+		text = "Discord"
+		command = "discord"
 	elem "github"
 		type = BUTTON
 		pos = 320,5

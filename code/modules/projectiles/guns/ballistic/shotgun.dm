@@ -8,10 +8,10 @@
 	inhand_icon_state = "shotgun"
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	fire_sound = 'sound/weapons/gun/shotgun/shot.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shot.ogg'
 	fire_sound_volume = 90
-	rack_sound = 'sound/weapons/gun/shotgun/shotgunpump.ogg'
-	load_sound = 'sound/weapons/gun/shotgun/insert_shell.ogg'
+	rack_sound = 'sound/items/weapons/gun/shotgun/shotgunpump.ogg'
+	load_sound = 'sound/items/weapons/gun/shotgun/insert_shell.ogg'
 	w_class = WEIGHT_CLASS_BULKY
 	force = 10
 	flags_1 = CONDUCT_1
@@ -59,6 +59,13 @@
 /obj/item/gun/ballistic/shotgun/riot/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_NANOTRASEN)
 
+/obj/item/gun/ballistic/shotgun/riot/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 20, \
+		overlay_y = 11)
+
 // SolFed shotgun (I.E resprited riot shotgun from blueshift)
 
 /obj/item/gun/ballistic/shotgun/riot/sol
@@ -92,6 +99,13 @@
 
 /obj/item/gun/ballistic/shotgun/riot/sol/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_CARWO)
+
+/obj/item/gun/ballistic/shotgun/riot/sol/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 33, \
+		overlay_y = 12)
 
 /obj/item/gun/ballistic/shotgun/riot/sol/examine(mob/user)
 	. = ..()
@@ -134,8 +148,8 @@
 
 // Automatic Shotguns//
 /obj/item/gun/ballistic/shotgun/automatic
-	fire_sound = 'sound/weapons/gun/shotgun/shotgun_small.ogg'
-	load_sound = 'sound/weapons/gun/shotgun/shotgun_shell_insert.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shotgun_small.ogg'
+	load_sound = 'sound/items/weapons/gun/shotgun/shotgun_shell_insert.ogg'
 
 /obj/item/gun/ballistic/shotgun/automatic/shoot_live_shot(mob/living/user)
 	..()
@@ -154,6 +168,13 @@
 /obj/item/gun/ballistic/shotgun/automatic/combat/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_NANOTRASEN)
 
+/obj/item/gun/ballistic/shotgun/automatic/combat/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 20, \
+		overlay_y = 11)
+
 /obj/item/gun/ballistic/shotgun/automatic/combat/compact
 	name = "compact shotgun"
 	desc = "A compact version of the semi automatic combat shotgun. For close encounters."
@@ -161,6 +182,13 @@
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
 	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/gun/ballistic/shotgun/automatic/combat/compact/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 16, \
+		overlay_y = 11)
 
 
 //Dual Feed Shotgun
@@ -246,8 +274,8 @@
 	burst_size = 1
 	fire_delay = 0
 	pin = /obj/item/firing_pin/implant/pindicate
-	rack_sound = 'sound/weapons/gun/shotgun/rack.ogg'
-	fire_sound = 'sound/weapons/gun/shotgun/shot_alt.ogg'
+	rack_sound = 'sound/items/weapons/gun/shotgun/rack.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shot_alt.ogg'
 	actions_types = list()
 	mag_display = TRUE
 	empty_indicator = TRUE
@@ -439,7 +467,7 @@
 	sharpness = SHARP_POINTY //it does in fact, have a hook on it
 	attack_verb_continuous = list("slashes", "hooks", "stabs")
 	attack_verb_simple = list("slash", "hook", "stab")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	//our hook gun!
 	var/obj/item/gun/magic/hook/bounty/hook
 
@@ -528,9 +556,9 @@
 	unique_reskin = null
 	recoil = 5
 	weapon_weight = WEAPON_LIGHT
-	fire_sound = 'sound/weapons/gun/shotgun/quadfire.ogg'
-	rack_sound = 'sound/weapons/gun/shotgun/quadrack.ogg'
-	load_sound = 'sound/weapons/gun/shotgun/quadinsert.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/quadfire.ogg'
+	rack_sound = 'sound/items/weapons/gun/shotgun/quadrack.ogg'
+	load_sound = 'sound/items/weapons/gun/shotgun/quadinsert.ogg'
 	fire_sound_volume = 50
 	rack_sound_volume = 50
 	can_be_sawn_off = FALSE
@@ -583,7 +611,7 @@
 	bolt_type = BOLT_TYPE_LOCKING
 	semi_auto = TRUE
 	internal_magazine = FALSE
-	rack_sound = 'sound/weapons/gun/general/bolt_rack.ogg'
+	rack_sound = 'sound/items/weapons/gun/general/bolt_rack.ogg'
 
 //LEGALLY DISTINCT autoshotgun!
 /obj/item/gun/ballistic/shotgun/semiauto/syndicate
@@ -596,7 +624,7 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/autoshotgun/syndicate
 	show_bolt_icon = TRUE
 	can_suppress = TRUE
-	fire_sound = 'sound/weapons/gun/shotgun/shotgun_small.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shotgun_small.ogg'
 	suppressed_sound = 'monkestation/code/modules/blueshift/sounds/suppressed_heavy.ogg'
 	pbk_gentle = FALSE
 
@@ -611,7 +639,7 @@
 	icon_state = "protokshotgunauto"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/autoshotgun/kinetic
 	pin = /obj/item/firing_pin/wastes
-	fire_sound = 'sound/weapons/gun/sniper/shot.ogg'
+	fire_sound = 'sound/items/weapons/gun/sniper/shot.ogg'
 	pb_knockback = 0
 	show_bolt_icon = FALSE
 
@@ -638,7 +666,7 @@
 	unique_reskin = list()
 	can_be_sawn_off = FALSE
 	sharpness = SHARP_EDGED
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("slashes", "cuts", "cleaves", "chops", "swipes")
 	attack_verb_simple = list("cleave", "chop", "cut", "swipe", "slash")
 	pb_knockback = 0 //you may have your point blank, but you dont get a fling    Why tf are they worried about this when half the mining guns instantly kill you

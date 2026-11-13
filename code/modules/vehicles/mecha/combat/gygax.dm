@@ -1,6 +1,7 @@
 /obj/vehicle/sealed/mecha/gygax
 	desc = "A lightweight, security exosuit. Popular among private and corporate security."
 	name = "\improper Gygax"
+	icon = 'icons/mob/rideables/mecha.dmi'
 	icon_state = "gygax"
 	base_icon_state = "gygax"
 	movedelay = 3
@@ -33,7 +34,7 @@
 	acid = 100
 
 /obj/vehicle/sealed/mecha/gygax/dark
-	desc = "A lightweight exosuit, painted in a dark scheme. This model appears to have some modifications."
+	desc = "A lightweight security exosuit, repainted in the colours of the Syndicate. Optimised for hit and run attacks and is more durable than the civilian model."
 	name = "\improper Dark Gygax"
 	ui_theme = "syndicate"
 	icon_state = "darkgygax"

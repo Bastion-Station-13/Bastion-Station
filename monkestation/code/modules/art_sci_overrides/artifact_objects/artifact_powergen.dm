@@ -29,6 +29,7 @@ ARTIFACT_SETUP(/obj/machinery/power/generator_artifact, SSmachines, null, /datum
 	) //narnar doesnt need power
 
 	valid_type_paths = list(/obj/machinery/power/generator_artifact)
+	examine_discovered = "Looks like it generates power, somehow."
 	research_value = TECHWEB_TIER_4_POINTS //Holy moly lucky you!
 	activation_message = "begins emitting a faint, droning hum."
 	deactivation_message = "shortcircuits!"
@@ -57,7 +58,7 @@ ARTIFACT_SETUP(/obj/machinery/power/generator_artifact, SSmachines, null, /datum
 		return
 
 	our_artifact.holder.Beam(user, icon_state = "lightning[rand(1,12)]", time = 0.5 SECONDS)
-	playsound(get_turf(powerholder), 'sound/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
+	playsound(get_turf(powerholder), 'sound/effects/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
 	var/damage = user.electrocute_act(power_gen / 2 KW, powerholder, flags = SHOCK_NOSTUN)
 	to_chat(user, span_userdanger("You are hit by a burst of electricity from [our_artifact.holder]!"))
 	if(damage > 80)
@@ -82,7 +83,7 @@ ARTIFACT_SETUP(/obj/machinery/power/generator_artifact, SSmachines, null, /datum
 	//minor to medium side effects
 	if(power_gen >= (SHITFUCK_THRESHOLD / 3))
 		powerholder.visible_message(span_danger("\The [our_artifact.holder] lets out a shower of thunder!"), span_hear("You hear a loud electrical crack!"))
-		playsound(get_turf(powerholder), 'sound/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
+		playsound(get_turf(powerholder), 'sound/effects/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
 		tesla_zap(powerholder, rand(2,3), power_gen / 3500)
 
 	//SHIT IS FUCK

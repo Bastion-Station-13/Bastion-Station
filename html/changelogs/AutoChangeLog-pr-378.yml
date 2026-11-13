@@ -1,0 +1,5 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - rscadd: "Added new lobby tracks for bastion station! This includes all of the classic /tg/ tracks, plus saturday night fish fry, banned from argo, space asshole, carmen miranda's ghost, man of war, nothing wrong with megacorpos, hip-beepsky-hop, spacestation melody, and I fought the law."
+  - rscdel: "Removes most of the monkestation lobby tracks. The following were kept: HoverGoat, Space Station 3, Rare Brotherman Bill, and Look Forward."

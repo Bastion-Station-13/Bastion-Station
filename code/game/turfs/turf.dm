@@ -5,6 +5,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	icon = 'icons/turf/floors.dmi'
 	vis_flags = VIS_INHERIT_ID // Important for interaction with and visualization of openspace.
 	luminosity = 1
+	light_height = LIGHTING_HEIGHT_FLOOR
 
 	/// Turf bitflags, see code/__DEFINES/flags.dm
 	var/turf_flags = NONE
@@ -41,7 +42,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	var/requires_activation //add to air processing after initialize?
 	var/changing_turf = FALSE
 
-	var/bullet_bounce_sound = 'sound/weapons/gun/general/mag_bullet_remove.ogg' //sound played when a shell casing is ejected ontop of the turf.
+	var/bullet_bounce_sound = 'sound/items/weapons/gun/general/mag_bullet_remove.ogg' //sound played when a shell casing is ejected ontop of the turf.
 	var/bullet_sizzle = FALSE //used by ammo_casing/bounce_away() to determine if the shell casing should make a sizzle sound when it's ejected over the turf
 							//IE if the turf is supposed to be water, set TRUE.
 
@@ -543,9 +544,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/proc/can_lay_cable()
 	return can_have_cabling() && underfloor_accessibility >= UNDERFLOOR_INTERACTABLE
-
-/turf/proc/visibilityChanged()
-	SScameras.update_visibility(src)
 
 /turf/proc/burn_tile()
 	return

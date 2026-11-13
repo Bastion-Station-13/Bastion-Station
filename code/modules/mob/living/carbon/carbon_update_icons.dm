@@ -348,6 +348,7 @@
 	if(isnull(damage_overlay))
 		return
 
+	apply_height(damage_overlay, ENTIRE_BODY)
 	overlays_standing[DAMAGE_LAYER] = damage_overlay
 	apply_overlay(DAMAGE_LAYER)
 
@@ -370,6 +371,7 @@
 	if(isnull(wound_overlay))
 		return
 
+	apply_height(wound_overlay, ENTIRE_BODY)
 	overlays_standing[WOUND_LAYER] = wound_overlay
 	apply_overlay(WOUND_LAYER)
 
@@ -394,7 +396,7 @@
 			if(render_head)
 				limb_bandage_overlay = iter_part.current_gauze.build_worn_icon(
 					default_layer = -UPPER_BANDAGE_LAYER, // proc inverts it for us
-					override_file = 'icons/mob/effects/bandage.dmi',
+					override_file = 'icons/mob/human/bandage.dmi',
 					override_state = iter_part.current_gauze.worn_icon_state, // future todo : icon states for dirty bandages as well
 					)
 				limb_bandage_overlay.color = iter_part.current_gauze.overlay_color
@@ -402,16 +404,18 @@
 			else
 				limb_bandage_overlay = iter_part.current_gauze.build_worn_icon(
 					default_layer = -BANDAGE_LAYER, // proc inverts it for us
-					override_file = 'icons/mob/effects/bandage.dmi',
+					override_file = 'icons/mob/human/bandage.dmi',
 					override_state = iter_part.current_gauze.worn_icon_state, // future todo : icon states for dirty bandages as well
 					)
 				limb_bandage_overlay.color = iter_part.current_gauze.overlay_color
 				bandage_overlay.add_overlay(limb_bandage_overlay)
 
 	if(!isnull(bandage_overlay))
+		apply_height(bandage_overlay, ENTIRE_BODY)
 		overlays_standing[BANDAGE_LAYER] = bandage_overlay
 		apply_overlay(BANDAGE_LAYER)
 	if(!isnull(upper_bandage_overlay))
+		apply_height(upper_bandage_overlay, ENTIRE_BODY)
 		overlays_standing[UPPER_BANDAGE_LAYER] = upper_bandage_overlay
 		apply_overlay(UPPER_BANDAGE_LAYER)
 
@@ -463,7 +467,9 @@
 	remove_overlay(LEGCUFF_LAYER)
 	clear_alert("legcuffed")
 	if(legcuffed)
-		overlays_standing[LEGCUFF_LAYER] = mutable_appearance('icons/mob/simple/mob.dmi', "legcuff1", -LEGCUFF_LAYER)
+		var/mutable_appearance/legcuff_overlay = mutable_appearance('icons/mob/simple/mob.dmi', "legcuff1", -LEGCUFF_LAYER)
+		apply_height(legcuff_overlay, ENTIRE_BODY)
+		overlays_standing[LEGCUFF_LAYER] = legcuff_overlay
 		apply_overlay(LEGCUFF_LAYER)
 		throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed, new_master = src.legcuffed)
 
@@ -490,7 +496,7 @@
 		var/mutable_appearance/handcuff_overlay = mutable_appearance('icons/mob/simple/mob.dmi', "handcuff1", -HANDCUFF_LAYER)
 		if(handcuffed.blocks_emissive != EMISSIVE_BLOCK_NONE)
 			handcuff_overlay.overlays += emissive_blocker(handcuff_overlay.icon, handcuff_overlay.icon_state, src, alpha = handcuff_overlay.alpha)
-
+		apply_height(handcuff_overlay, LOWER_BODY) // low hanging
 		overlays_standing[HANDCUFF_LAYER] = handcuff_overlay
 		apply_overlay(HANDCUFF_LAYER)
 
@@ -607,7 +613,7 @@
 	if(is_invisible)
 		. += "-invisible"
 	for(var/datum/bodypart_overlay/overlay as anything in bodypart_overlays)
-		if(!overlay.can_draw_on_bodypart(owner))
+		if(!overlay.can_draw_on_bodypart(src, owner))
 			continue
 		. += "-[jointext(overlay.generate_icon_cache(), "-")]"
 	if(ishuman(owner))

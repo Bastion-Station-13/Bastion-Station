@@ -466,12 +466,6 @@
 /obj/machinery/camera/autoname/directional/west,
 /turf/open/floor/wood,
 /area/station/commons/lounge)
-"Vd" = (
-/obj/machinery/atm/directional/north,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/wood,
-/area/station/commons/lounge)
 "VL" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -601,7 +595,7 @@ LH
 EK
 "}
 (8,1,1) = {"
-Vd
+HP
 Xr
 Df
 Xr
