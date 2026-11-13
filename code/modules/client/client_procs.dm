@@ -129,10 +129,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
-	//Monkestation Edit Begin
 	if(mentor_friend(href_list))
 		return
-	//Monkestation Edit End
+	if(mentor_client_procs(href_list))
+		return
 
 	switch(href_list["_src_"])
 		if("holder")
@@ -665,12 +665,9 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	SSambience.remove_ambience_client(src)
 	SSmouse_entered.hovers -= src
 	SSping.currentrun -= src
-<<<<<<< HEAD
-=======
 	SSsound_tokens.clients_needing_update -= src
 	SSsound_tokens.currentrun -= src
 	QDEL_NULL(imode)
->>>>>>> becdb148 ([PORT] Boombox and spatial looping sounds (#12745))
 	QDEL_NULL(view_size)
 	QDEL_NULL(void)
 	QDEL_NULL(tooltips)
@@ -1220,7 +1217,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	for(var/procpath/verb_to_init as anything in verbstoprocess)
 		if(!verb_to_init || verb_to_init.hidden)
 			continue
-		if(!SSverbs.verbs_by_verb_path[verb_to_init] && !SSadmin_verbs.admin_verbs_by_verb_path[verb_to_init])
+		var/datum/verb_metadata/meta = SSverbs.verbs_by_verb_path[verb_to_init]
+		if(!meta && !SSadmin_verbs.admin_verbs_by_verb_path[verb_to_init])
+			continue
+		if(meta?.src_based)
 			continue
 		panel_verbs += list(SSverbs.serialize_verb(verb_to_init))
 	tgui_panel?.window?.send_message("verbs/init", list("verbs" = panel_verbs))

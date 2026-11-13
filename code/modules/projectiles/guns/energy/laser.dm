@@ -12,6 +12,13 @@
 /obj/item/gun/energy/laser/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_ALLSTAR)
 
+/obj/item/gun/energy/laser/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 18, \
+		overlay_y = 12)
+
 /obj/item/gun/energy/laser/cannon
 	name = "\improper Allstar SC-1B laser cannon"
 	desc = "An advanced energy-based laser cannon that fires heavily concentrated beams of light which pass through glass and thin metal."
@@ -33,7 +40,7 @@
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	inhand_icon_state = "lasrifle"
 	fire_delay = 10
-	fire_sound = 'sound/weapons/gun/shotgun/shot.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shot.ogg'
 	fire_sound_volume = 90
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/lasrifle)
 
@@ -50,6 +57,13 @@
 	desc = "An basic energy-based laser auto-carbine that rapidly fires weakened, concentrated beams of light which pass through glass and thin metal."
 	icon_state = "laser_carbine"
 	ammo_type = list(/obj/item/ammo_casing/energy/lasergun/carbine)
+
+/obj/item/gun/energy/laser/carbine/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 18, \
+		overlay_y = 13)
 
 /obj/item/gun/energy/laser/carbine/Initialize(mapload)
 	. = ..()
@@ -159,7 +173,7 @@
 /obj/item/ammo_casing/energy/laser/accelerator
 	projectile_type = /obj/projectile/beam/laser/accelerator
 	select_name = "accelerator"
-	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	fire_sound = 'sound/items/weapons/lasercannonfire.ogg'
 
 /obj/projectile/beam/laser/accelerator
 	name = "accelerator laser"

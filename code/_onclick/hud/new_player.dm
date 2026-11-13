@@ -316,19 +316,20 @@
 	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME)
 
 
-// /atom/movable/screen/lobby/button/patreon_link
-// 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
-// 	icon_state = "patreon"
-// 	base_icon_state = "patreon"
-// 	screen_loc = "TOP:-126,CENTER:86"
+/atom/movable/screen/lobby/button/patreon_link
+	icon = 'icons/hud/lobby/bottom_buttons.dmi'
+	icon_state = "patreon"
+	base_icon_state = "patreon"
+	screen_loc = "TOP:-126,CENTER:86"
 
-// /atom/movable/screen/lobby/button/patreon_link/Click(location, control, params)
-// 	. = ..()
-// 	if(!.)
-// 		return
-// 	if(!CONFIG_GET(string/patreon_link_website))
-// 		return
-// 	hud.mymob.client << link("[CONFIG_GET(string/patreon_link_website)]?ckey=[hud.mymob.client.ckey]")
+/atom/movable/screen/lobby/button/patreon_link/Click(location, control, params)
+	. = ..()
+	if(!.)
+		return
+	if(!CONFIG_GET(string/patreon_link_website))
+		return
+	//hud.mymob.client << link("[CONFIG_GET(string/patreon_link_website)]?ckey=[hud.mymob.client.ckey]")
+	hud.mymob.client << link("[CONFIG_GET(string/patreon_link_website)]")
 
 /atom/movable/screen/lobby/button/intents
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
@@ -632,7 +633,7 @@
 /atom/movable/screen/lobby/button/roach/Click(location, control, params)
 	. = ..()
 	if(.)
-		SEND_SOUND(usr, 'sound/voice/moth/scream_moth.ogg')
+		SEND_SOUND(usr, 'sound/mobs/humanoids/moth/scream_moth.ogg')
 
 /atom/movable/screen/lobby/overflow_alert
 	screen_loc = "TOP:-48,CENTER-2.7"
@@ -715,7 +716,7 @@
 	. = ..()
 	if(!. || !usr.client.is_localhost() || !check_rights_for(usr.client, R_SERVER))
 		return
-	SEND_SOUND(hud.mymob, sound('sound/effects/cartoon_splat.ogg', volume = 40))
+	SEND_SOUND(hud.mymob, sound('sound/effects/cartoon_sfx/cartoon_splat.ogg', volume = 40))
 	SSticker.start_immediately = TRUE
 	if(SSticker.current_state == GAME_STATE_STARTUP)
 		to_chat(usr, span_admin("The server is still setting up, but the round will be started as soon as possible."))

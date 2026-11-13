@@ -443,11 +443,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	GLOB.joined_player_list -= stored_ckey
 	GLOB.manifest.general -= crewfile
 
-	if(human_occupant?.account_id)
-		var/datum/bank_account/account = SSeconomy.bank_accounts_by_id["[human_occupant.account_id]"]
-		if(account)
-			GLOB.lottery_ticket_owners -= account
-
 	QDEL_NULL(occupant)
 	open_machine()
 	name = initial(name)
@@ -604,6 +599,24 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 	return holy_successors
 
+/obj/machinery/cryopod/proc/notify_admins(mob/living/dropped, mob/user)
+	if (!dropped.mind)
+		return
+	var/cryo_target = ""
+	var/overridden = allow_timer_override ? "overridden " : ""
+	var/datum/antagonist/antag = dropped.mind.has_antag_datum(/datum/antagonist)
+	if (antag)
+		cryo_target = "[key_name(dropped)] (with antagonist role: [antag.name])"
+	else if (dropped.mind.assigned_role?.req_admin_notify)
+		cryo_target = "[key_name(dropped)] (with important role: [dropped.mind.assigned_role.title])"
+	else
+		cryo_target = "[key_name(dropped)]"
+
+	if (user)
+		message_admins("[key_name(user)] has put [cryo_target] into a [overridden]stasis pod. [ADMIN_JMP(src)]")
+	else
+		message_admins("[cryo_target] entered a [overridden]stasis pod. [ADMIN_JMP(src)]")
+
 /obj/machinery/cryopod/mouse_drop_receive(mob/living/dropped, mob/user, params)
 	if(isobserver(dropped) && dropped == user)
 		attempt_return(dropped)
@@ -628,7 +641,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		if(tgui_alert(user, "Would you like to place [dropped] into [src]?", "Place into Cryopod?", list("Yes", "No")) != "No")
 			to_chat(user, span_danger("You put [dropped] into [src]. [dropped.p_theyre(capitalized = TRUE)] in the cryopod."))
 			log_admin("[key_name(user)] has put [key_name(dropped)] into a overridden stasis pod.")
-			message_admins("[key_name(user)] has put [key_name(dropped)] into a overridden stasis pod. [ADMIN_JMP(src)]")
+			notify_admins(dropped, user)
 
 			add_fingerprint(dropped)
 
@@ -645,11 +658,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 					message_admins("[key_name(user)] has attempted to put [key_name(dropped)] into a stasis pod. [ADMIN_JMP(src)]")
 					return
 				else if(tgui_alert(user, "Would you like to place [dropped] into [src]?", "Place into Cryopod?", list("Yes", "No")) == "Yes")
-					if(dropped.mind.assigned_role.req_admin_notify)
-						tgui_alert(user, "They are an important role! [AHELP_FIRST_MESSAGE]")
+					//if(dropped.mind.assigned_role.req_admin_notify)
+					//	tgui_alert(user, "They are an important role! [AHELP_FIRST_MESSAGE]")
 					to_chat(user, span_danger("You put [dropped] into [src]. [dropped.p_theyre(capitalized = TRUE)] in the cryopod."))
 					log_admin("[key_name(user)] has put [key_name(dropped)] into a stasis pod.")
-					message_admins("[key_name(user)] has put [key_name(dropped)] into a stasis pod. [ADMIN_JMP(src)]")
+					notify_admins(dropped, user)
 
 					add_fingerprint(dropped)
 
@@ -665,12 +678,14 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	if(dropped == user && (tgui_alert(dropped, "Would you like to enter cryosleep?", "Enter Cryopod?", list("Yes", "No")) != "Yes"))
 		return
 
+	/*
 	if(dropped == user)
 		if(dropped.mind.assigned_role.req_admin_notify)
 			tgui_alert(dropped, "You're an important role! [AHELP_FIRST_MESSAGE]")
 		var/datum/antagonist/antag = dropped.mind.has_antag_datum(/datum/antagonist)
 		if(antag)
 			tgui_alert(dropped, "You're \a [antag.name]! [AHELP_FIRST_MESSAGE]")
+	*/
 
 	if(LAZYLEN(dropped.buckled_mobs) > 0)
 		if(dropped == user)
@@ -695,7 +710,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	to_chat(dropped, span_warning("<b>If you ghost, log out or close your client now, your character will shortly be temporarily removed from the round. You may awaken from cryosleep by dragging yourself back into the cryopod after 15 minutes have passed.</b>"))
 
 	log_admin("[key_name(dropped)] entered a stasis pod.")
-	message_admins("[key_name_admin(dropped)] entered a stasis pod. [ADMIN_JMP(src)]")
+	notify_admins(dropped, null)
 	add_fingerprint(dropped)
 
 	close_machine(dropped)

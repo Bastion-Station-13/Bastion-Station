@@ -582,7 +582,7 @@
  * * new_fee - The new fee to be set.
  */
 /obj/item/card/id/proc/set_holopay_fee(new_fee)
-	if(!isnum(new_fee))
+	if(!isnum(new_fee) || isnan(new_fee))
 		CRASH("User input a non number into the holopay fee field.")
 	if(new_fee < holopay_min_fee || new_fee > holopay_max_fee)
 		CRASH("User input a number outside of the valid range into the holopay fee field.")
@@ -800,7 +800,7 @@
 		if(HAS_TRAIT(src, TRAIT_TASTEFULLY_THICK_ID_CARD) && (user.is_holding(src) || (user.CanReach(src) && user.put_in_hands(src, ignore_animation = FALSE))))
 			ADD_TRAIT(src, TRAIT_NODROP, "psycho")
 			. += span_hypnophrase("Look at that subtle coloring... The tasteful thickness of it. Oh my God, it even has a watermark...")
-			var/sound/slowbeat = sound('sound/health/slowbeat.ogg', repeat = TRUE)
+			var/sound/slowbeat = sound('sound/effects/health/slowbeat.ogg', repeat = TRUE)
 			user.playsound_local(get_turf(src), slowbeat, 40, 0, channel = CHANNEL_HEARTBEAT, use_reverb = FALSE)
 			if(isliving(user))
 				var/mob/living/living_user = user
@@ -1370,8 +1370,14 @@
 	var/time_left = 0
 	/// if the card has been given a custom name.
 	var/named = FALSE
+	///needed to send messages to sec radio
+	var/obj/item/radio/sec_radio
 
+/obj/item/card/id/advanced/prisoner/Initialize(mapload)
+	. = ..()
 
+	sec_radio = new/obj/item/radio(src)
+	sec_radio.set_listening(FALSE)
 
 /obj/item/card/id/advanced/prisoner/attackby(obj/item/card/id/C, mob/user)
 	..()
@@ -1443,6 +1449,8 @@
 	time_left -= seconds_per_tick
 	if(time_left <= 0)
 		say("Sentence time has been served. Thank you for your cooperation in our corporate rehabilitation program!")
+		sec_radio.set_frequency(FREQ_SECURITY)
+		sec_radio.talk_into(src, "Timer has expired. Releasing prisoner.", FREQ_SECURITY)
 		STOP_PROCESSING(SSobj, src)
 
 /obj/item/card/id/advanced/prisoner/attack_self(mob/user)

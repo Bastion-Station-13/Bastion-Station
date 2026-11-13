@@ -54,7 +54,7 @@
 /obj/machinery/vending
 	name = "\improper Vendomat"
 	desc = "A generic vending machine."
-	icon = 'icons/obj/vending.dmi'
+	icon = 'icons/obj/machines/vending.dmi'
 	icon_state = "generic"
 	layer = BELOW_OBJ_LAYER
 	density = TRUE
@@ -68,7 +68,7 @@
 	payment_department = ACCOUNT_SRV
 	light_power = 0.7
 	light_outer_range = MINIMUM_USEFUL_LIGHT_RANGE
-	clicksound = 'sound/machines/pda_button1.ogg'
+	clicksound = 'sound/machines/pda_button/pda_button1.ogg'
 
 	/// Is the machine active (No sales pitches if off)!
 	var/active = 1
@@ -831,7 +831,7 @@
 
 				living_target.Paralyze(paralyze_time)
 				living_target.emote("scream")
-				playsound(living_target, 'sound/effects/blobattack.ogg', 40, TRUE)
+				playsound(living_target, 'sound/effects/blob/blobattack.ogg', 40, TRUE)
 				playsound(living_target, 'sound/effects/splat.ogg', 50, TRUE)
 				post_crush_living(living_target, was_alive)
 				flags_to_return |= (SUCCESSFULLY_CRUSHED_MOB|SUCCESSFULLY_CRUSHED_ATOM)
@@ -1623,15 +1623,19 @@
 			linked_account = C.registered_account
 			speak("\The [src] has been linked to [C].")
 
-	if(compartmentLoadAccessCheck(user))
-		if(IS_WRITING_UTENSIL(attacking_item))
-			name = tgui_input_text(user, "Set name", "Name", name, 20)
-			desc = tgui_input_text(user, "Set description", "Description", desc, 60)
-			slogan_list += tgui_input_text(user, "Set slogan", "Slogan", "Epic", 60)
-			last_slogan = world.time + rand(0, slogan_delay)
-			return
+	if(!compartmentLoadAccessCheck(user) || !IS_WRITING_UTENSIL(attacking_item))
+		return ..()
 
-	return ..()
+	var/new_name = reject_bad_name(tgui_input_text(user, "Set name", "Name", name, 20), allow_numbers = TRUE, strict = TRUE, cap_after_symbols = FALSE)
+	if (new_name)
+		name = new_name
+	var/new_desc = reject_bad_text(tgui_input_text(user, "Set description", "Description", desc, 60))
+	if (new_desc)
+		desc = new_desc
+	var/new_slogan = reject_bad_text(tgui_input_text(user, "Set slogan", "Slogan", "Epic", 60))
+	if (new_slogan)
+		slogan_list += new_slogan
+		last_slogan = world.time + rand(0, slogan_delay)
 
 /obj/machinery/vending/custom/crowbar_act(mob/living/user, obj/item/I)
 	return FALSE

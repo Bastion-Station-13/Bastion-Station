@@ -56,7 +56,7 @@
 	if(inserted_tape)
 		. += span_info("The \"<b>[inserted_tape.cassette_data.name]</b>\" cassette is inserted.")
 		if(current_song)
-			. += span_info("The track \"<b>[current_song.name]</b>\" is [playing ? "playing" : "selected"].")
+			. += span_info("The track \"<b>[html_encode(current_song.name)]</b>\" is [playing ? "playing" : "selected"].")
 		. += span_info("<b>Ctrl-Click</b> to eject the tape.")
 	else
 		. += span_info("No tape is inserted.")
@@ -128,7 +128,7 @@
 	var/list/songs = inserted_tape.get_current_side()?.songs
 	if(length(songs) > 0)
 		var/datum/cassette_song/first_song = songs[1]
-		SSfloxy.queue_media(first_song.url)
+		queue_cassette_media(first_song.url)
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/walkman/item_ctrl_click(mob/user)
@@ -212,7 +212,7 @@
 	var/new_idx = WRAP_UP(current_song ? side.songs.Find(current_song) : 0, song_amt)
 	var/datum/cassette_song/new_track = side.songs[new_idx]
 	busy = TRUE
-	var/list/info = SSfloxy.download_and_wait(new_track.url, timeout = 30 SECONDS, discard_failed = TRUE)
+	var/list/info = get_cassette_media(new_track.url, user)
 	busy = FALSE
 	if(!info || info["status"] == FLOXY_STATUS_FAILED)
 		user.balloon_alert(user, "failed to select track #[new_idx]")
@@ -244,7 +244,7 @@
 	if(current_song.duration > 0)
 		playing_extra_data["duration"] = DisplayTimeText(current_song.duration * 1 SECONDS)
 	user.balloon_alert(user, "track #[new_idx] selected")
-	to_chat(user, span_notice("Selected track <b>\"[current_song.name]\"</b>."))
+	to_chat(user, span_notice("Selected track <b>\"[html_encode(current_song.name)]\"</b>."))
 
 /*
 	ACTION BUTTONS
