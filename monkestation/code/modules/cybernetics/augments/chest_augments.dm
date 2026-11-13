@@ -51,7 +51,12 @@
 /datum/bodypart_overlay/simple/sandy
 	icon = 'monkestation/code/modules/cybernetics/icons/implants.dmi'
 	icon_state = "sandy_overlay"
+<<<<<<< HEAD
 	layers = EXTERNAL_ADJACENT
+=======
+	layers = list(EXTERNAL_ADJACENT = BODY_ADJ_LAYER)
+	overlay_flags = NONE
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
 
 
 /obj/item/organ/internal/cyberimp/chest/sandevistan/refurbished
@@ -540,7 +545,12 @@
 /datum/bodypart_overlay/simple/dualwield
 	icon = 'monkestation/code/modules/cybernetics/icons/implants.dmi'
 	icon_state = "ccms_overlay"
+<<<<<<< HEAD
 	layers = EXTERNAL_ADJACENT
+=======
+	layers = list(EXTERNAL_ADJACENT = BODY_ADJ_LAYER)
+	overlay_flags = NONE
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
 
 /obj/item/organ/internal/cyberimp/chest/dualwield
 	name = "C.C.M.S implant"

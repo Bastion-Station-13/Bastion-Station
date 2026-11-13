@@ -133,7 +133,12 @@
 /datum/bodypart_overlay/simple/razorwire
 	icon = 'monkestation/code/modules/cybernetics/icons/implants.dmi'
 	icon_state = "razorwire_right"
+<<<<<<< HEAD
 	layers = EXTERNAL_FRONT
+=======
+	layers = list(EXTERNAL_FRONT = BODY_FRONT_LAYER)
+	overlay_flags = NONE
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
 
 /datum/bodypart_overlay/simple/razorwire/unique_properties(obj/item/organ/internal/cyberimp/called_from)
 	if(called_from.zone == BODY_ZONE_L_ARM)
@@ -165,6 +170,7 @@
 	icon = 'monkestation/code/modules/cybernetics/icons/implants_onmob.dmi'
 	layers = EXTERNAL_FRONT // look into novas external front over
 	icon_state = "steel_right"
+	overlay_flags = NONE
 
 /datum/bodypart_overlay/simple/steel_drill/unique_properties(obj/item/organ/internal/cyberimp/called_from)
 	if(called_from.zone == BODY_ZONE_L_ARM)

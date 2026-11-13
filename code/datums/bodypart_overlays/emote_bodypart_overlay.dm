@@ -1,6 +1,11 @@
 ///Variant of bodypart_overlay for displaying emote overlays. See [/datum/emote/living/blush/run_emote] for an example on how to use one of these.
 /datum/bodypart_overlay/simple/emote
 	icon = 'icons/mob/human/emote_visuals.dmi'
+<<<<<<< HEAD
+=======
+	layers = list(EXTERNAL_ADJACENT = BODY_ADJ_LAYER)
+	overlay_flags = NONE
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
 	offset_location = UPPER_BODY
 	///The body zone to attach the overlay to, overlay won't be added if no bodypart can be found with this
 	var/attached_body_zone = BODY_ZONE_CHEST
