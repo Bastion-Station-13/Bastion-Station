@@ -1089,7 +1089,7 @@
 	name = "SSO"
 	desc = "A special-operations MODsuit for Security Special Operatives with top-tier protection and a reinforced module capacity."
 	default_skin = "sso"
-	armor_type = /datum/armor/mod_theme_syndicate
+	armor_type = /datum/armor/mod_theme_security_special_operative
 	complexity_max = 17
 	slowdown_active = 0
 	slowdown_inactive = 0.5
@@ -1123,6 +1123,17 @@
 			),
 		),
 	)
+
+/datum/armor/mod_theme_security_special_operative
+	melee = 40
+	bullet = 35
+	laser = 30
+	energy = 40
+	bomb = 35
+	bio = 100
+	fire = 100
+	acid = 75
+	wound = 20
 
 /datum/mod_theme/elite
 	name = "elite"
