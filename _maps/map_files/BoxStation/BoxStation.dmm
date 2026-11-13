@@ -930,7 +930,7 @@
 /obj/effect/turf_decal/tile/purple/fourcorners,
 /obj/machinery/light/directional/north,
 /obj/structure/sign/departments/science/directional/north,
-/obj/item/kirbyplants/random,
+/obj/machinery/computer/extract_requests,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/starboard)
 "apU" = (
@@ -12748,11 +12748,16 @@
 /area/station/hallway/secondary/exit/departure_lounge)
 "edf" = (
 /obj/machinery/biomass_recycler,
+<<<<<<< HEAD
 /obj/item/stack/biomass,
 /obj/item/stack/biomass,
 /obj/item/stack/biomass,
 /obj/item/stack/biomass,
 /obj/item/stack/biomass,
+=======
+/obj/item/stack/biomass/twenty,
+/obj/machinery/computer/extract_orders/directional/east,
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "edg" = (
