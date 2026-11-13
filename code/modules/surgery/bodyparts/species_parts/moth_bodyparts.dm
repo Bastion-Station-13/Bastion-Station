@@ -59,3 +59,83 @@
 	limb_id = SPECIES_MOTH
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
+<<<<<<< HEAD
+=======
+	style_icons = list(LIMB_STYLE_TUNDRA = 'icons/mob/human/species/tundramoths/bodyparts.dmi')
+
+	brute_modifier = BRUTE_MOD
+	burn_modifier = BURN_MOD
+	wound_resistance = /obj/item/bodypart/leg/right::wound_resistance + WOUND_RES_LIMB_MALUS
+
+/obj/item/bodypart/arm/left/moth/inner
+	body_zone = null
+	held_index = 3
+	bodypart_flags = BODYPART_UNREMOVABLE | BODYPART_ABSTRACT | BODYPART_VIRGIN
+	plaintext_zone = "left chest-arm"
+
+/obj/item/bodypart/arm/left/moth/inner/Initialize(mapload)
+	held_hand_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HELD,
+		offset_x = list("north" = 2, "south" = -2, "east" = 2, "west" = -8),
+		offset_y = list("south" = -12), // shhh
+	)
+	. = ..()
+	name = "left chest-arm" // goes after the parent call, which names limbs by their (null) body zone
+
+/obj/item/bodypart/arm/left/moth/inner/drop_limb(special, dismembered, violent, move_to_floor = TRUE)
+	if(special)
+		return ..()
+	return FALSE
+
+/obj/item/bodypart/arm/left/moth/inner/generate_icon_key()
+	return list()
+
+/obj/item/bodypart/arm/right/moth/inner
+	body_zone = null
+	held_index = 4
+	bodypart_flags = BODYPART_UNREMOVABLE | BODYPART_ABSTRACT | BODYPART_VIRGIN
+	plaintext_zone = "right chest-arm"
+
+/obj/item/bodypart/arm/right/moth/inner/Initialize(mapload)
+	held_hand_offset = new(
+		attached_part = src,
+		feature_key = OFFSET_HELD,
+		offset_x = list("north" = -2, "south" = 2, "east" = 8, "west" = -2),
+		offset_y = list("south" = -12),
+	)
+	. = ..()
+	name = "right chest-arm"
+
+/obj/item/bodypart/arm/right/moth/inner/drop_limb(special, dismembered, violent, move_to_floor = TRUE)
+	if(special)
+		return ..()
+	return FALSE
+
+/obj/item/bodypart/arm/right/moth/inner/generate_icon_key()
+	return list()
+
+// TODO: should be mutant overlay at some point?
+/datum/bodypart_overlay/simple/moth_arms
+	layers = list(EXTERNAL_FRONT = BODY_FRONT_LAYER)
+	icon = 'icons/mob/human/species/moth/moth_arms.dmi'
+	icon_state = "m_moth_arms_generic_FRONT"
+	/// Icon state used when the chest is greyscaled (mutant colors), so the arms get the same color as the body
+	var/greyscale_icon_state = "m_moth_arms_greyscale_FRONT"
+	/// Icon states used for each limb style, so the arms match the rest of the body
+	var/static/list/style_icon_states = list(LIMB_STYLE_TUNDRA = "m_moth_arms_tundra_FRONT")
+
+/datum/bodypart_overlay/simple/moth_arms/get_image(obj/item/bodypart/limb, layer_index, layer_real)
+	if(limb?.should_draw_greyscale)
+		return image(icon, greyscale_icon_state, layer = layer_real)
+	var/style = limb?.get_drawn_limb_style()
+	return image(icon, (style && style_icon_states[style]) || icon_state, layer = layer_real)
+
+/datum/bodypart_overlay/simple/moth_arms/color_image(image/overlay, obj/item/bodypart/limb, layer_index)
+	overlay.color = limb?.should_draw_greyscale ? limb.draw_color : null
+
+#undef BRUTE_MOD
+#undef BURN_MOD
+#undef WOUND_RES_LIMB_MALUS
+#undef WOUND_RES_CORE_MALUS
+>>>>>>> 9185c73a ([PORT] Bodypart overlays can use any number of layers (#12780))
