@@ -15,7 +15,13 @@
 	flags_inv = HIDEMASK|HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	interaction_flags_click = NEED_DEXTERITY
 	clothing_traits = list(TRAIT_SNOWSTORM_IMMUNE)
+<<<<<<< HEAD
 
+=======
+	cold_protection = HEAD
+	///How much this helmet affects fishing difficulty
+	var/fishing_modifier = 3
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 
 	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
@@ -52,7 +58,13 @@
 	slowdown = 1
 	armor_type = /datum/armor/suit_space
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+<<<<<<< HEAD
 
+=======
+	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
+	///How much this suit affects fishing difficulty
+	var/fishing_modifier = 5
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT_OFF
 
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
@@ -80,6 +92,8 @@
 
 /obj/item/clothing/suit/space/Initialize(mapload)
 	. = ..()
+	if(fishing_modifier)
+		AddComponent(/datum/component/adjust_fishing_difficulty, fishing_modifier)
 	if(ispath(cell))
 		cell = new cell(src)
 
@@ -324,3 +338,9 @@
 	return FIRELOSS
 
 #undef THERMAL_REGULATOR_COST
+
+
+/obj/item/clothing/head/helmet/space/Initialize(mapload)
+	. = ..()
+	if(fishing_modifier)
+		AddComponent(/datum/component/adjust_fishing_difficulty, fishing_modifier)

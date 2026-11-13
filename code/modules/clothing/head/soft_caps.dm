@@ -176,7 +176,13 @@ GAME_VERB(/obj/item/clothing/head/soft, flipcap, "Flip cap", "Object")
 
 /obj/item/clothing/head/soft/fishing_hat/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddElement(/datum/element/skill_reward, /datum/skill/fishing)
+=======
+	AddComponent(/datum/component/adjust_fishing_difficulty, -5)
+	if(add_element) //monkestation edit
+		AddElement(/datum/element/skill_reward, /datum/skill/fishing)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 
 #define PROPHAT_MOOD "prophat"
 
