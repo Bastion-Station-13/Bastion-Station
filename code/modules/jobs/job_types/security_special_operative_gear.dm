@@ -291,7 +291,7 @@
 /obj/item/melee/baton/security/security_special_operative
 	name = "advanced stun baton"
 	desc = "An always-on stun baton tuned to incapacitate in three hits. Press Z to overclock it for a brief knockdown strike."
-	icon = 'bastionstation/icons/obj/weapons/baton.dmi'
+	icon = 'bastionstation/icons/security_special_operative/weapon/baton.dmi'
 	base_icon_state = "qrfbaton"
 	active = TRUE
 	preload_cell_type = /obj/item/stock_parts/power_store/cell/infinite
