@@ -245,7 +245,7 @@
 
 /obj/item/melee/energy/blade/security_special_operative
 	name = "Energy Hausewhr"
-	desc = "A compact energy blade with less striking power than a standard energy sword."
+	desc = "A stylish self-defense blade meant for SSOs on the field."
 	icon = 'bastionstation/icons/security_special_operative/weapon/ssosword.dmi'
 	icon_state = "hauswehr"
 	base_icon_state = "hauswehr"
