@@ -114,7 +114,7 @@
 
 /obj/item/organ/external/ears/shadekin
 	name = "Protruding shadekin ears"
-	desc = "The external, protruding part of the shadekin's ears. doesn't seem to affect their hearing."
+	desc = "The external, protruding part of the shadekin's ears. Doesn't seem to affect their hearing."
 	icon = 'icons/obj/medical/organs/organs.dmi'
 	icon_state = "shadekin-visual-ears"
 	preference = "feature_shadekin_ears"
