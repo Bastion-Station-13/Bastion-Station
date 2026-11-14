@@ -11,10 +11,17 @@
 	var/datum/bb_gear/chosen_gear
 	/// The index of GLOB.color_list_blood_brothers to use to generate the color.
 	var/static/next_color = 1
-	var/brothers_left = 2
+	/// How many more people the team can convert. Any brother can spend them.
+	var/conversion_charges = 1
+	/// Chance for the team to start with another conversion charge, rolled again after every success
 	var/brother_chance = 10
 	///List of people who rejected being our brother
 	var/list/rejected_brothers = list()
+
+/datum/team/brother_team/New(starting_members)
+	. = ..()
+	while(prob(brother_chance))
+		conversion_charges++
 
 /datum/team/brother_team/add_member(datum/mind/new_member)
 	. = ..()
@@ -22,7 +29,7 @@
 		add_brother(new_member.current)
 	roll_for_color()
 
-/datum/team/brother_team/remove_member(datum/mind/member)
+/datum/team/brother_team/remove_member(datum/mind/member, removal_message)
 	if (!(member in members))
 		return
 	. = ..()
@@ -33,8 +40,9 @@
 	if (isnull(member.current))
 		return
 	for (var/datum/mind/brother_mind as anything in members)
-		to_chat(brother_mind, span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
+		to_chat(brother_mind, removal_message || span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
 	update_name()
+	update_ranks()
 
 /// Adds a new brother to the team
 /datum/team/brother_team/proc/add_brother(mob/living/new_brother, source)
@@ -44,6 +52,24 @@
 	var/datum/antagonist/brother/brother = new_brother.mind.has_antag_datum(/datum/antagonist/brother)
 	brother.brotherRank = members.len - 1
 	return TRUE
+
+/// Re-ranks the brothers by the order they joined, so the oldest remaining brother is always the Big Brother
+/datum/team/brother_team/proc/update_ranks()
+	for (var/i in 1 to length(members))
+		var/datum/mind/brother_mind = members[i]
+		var/datum/antagonist/brother/blood_bond = brother_mind.has_antag_datum(/datum/antagonist/brother)
+		if (isnull(blood_bond) || blood_bond.brotherRank == i - 1)
+			continue
+		blood_bond.set_brother_rank(i - 1)
+		to_chat(brother_mind.current, span_notice("You are now the [span_bold(blood_bond.get_rank_title())]."))
+
+/// Changes how many conversions the team has left, and lets every brother know
+/datum/team/brother_team/proc/adjust_conversion_charges(amount)
+	conversion_charges = max(conversion_charges + amount, 0)
+	for(var/datum/mind/member as anything in members)
+		var/datum/antagonist/brother/bond = member.has_antag_datum(/datum/antagonist/brother)
+		bond?.update_conversion_ability()
+		to_chat(member.current, span_notice("Your bond can convert [conversion_charges] more [conversion_charges == 1 ? "person" : "people"]."))
 
 /datum/team/brother_team/proc/update_name()
 	var/list/last_names = list()
@@ -71,9 +97,9 @@
 		forge_single_objective()
 	if(is_hijacker)
 		if(!locate(/datum/objective/hijack) in objectives)
-			add_objective(new /datum/objective/hijack)
+			add_objective(new /datum/objective/hijack/brother)
 	else if(!locate(/datum/objective/escape) in objectives)
-		add_objective(new /datum/objective/escape)
+		add_objective(new /datum/objective/escape/brother)
 
 	for(var/datum/mind/brother as anything in members)
 		var/datum/antagonist/brother/blood_bond = brother.has_antag_datum(/datum/antagonist/brother)
@@ -99,6 +125,34 @@
 
 /datum/objective/convert_brother/check_completion()
 	return length(team?.members) > 1
+
+/// After some heavy thinking, im making it so only one brother has to escape.
+/datum/objective/escape/brother
+	name = "blood brother escape"
+	explanation_text = "Have at least one member of your team escape on the shuttle or an escape pod alive and without being in custody."
+	team_explanation_text = "Have at least one member of your team escape on the shuttle or an escape pod alive and without being in custody."
+	admin_grantable = TRUE
+
+/datum/objective/escape/brother/check_completion()
+	for(var/datum/mind/brother as anything in get_owners())
+		if(considered_escaped(brother))
+			return TRUE
+	return FALSE
+
+/// Same as escape, only one brother has to be alive on the hijacked shuttle. Not gonna post my entire phliosophy on this in code comments, but trust me.
+/datum/objective/hijack/brother
+	name = "blood brother hijack"
+	explanation_text = "Hijack the emergency shuttle by hacking its navigational protocols through the control console (alt click emergency shuttle console). At least one member of your team must be alive on board."
+	team_explanation_text = "Hijack the emergency shuttle by hacking its navigational protocols through the control console (alt click emergency shuttle console). At least one member of your team must be alive on board."
+	admin_grantable = TRUE
+
+/datum/objective/hijack/brother/check_completion()
+	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
+		return FALSE
+	for(var/datum/mind/brother as anything in get_owners())
+		if(considered_alive(brother) && SSshuttle.emergency.shuttle_areas[get_area(brother.current)])
+			return SSshuttle.emergency.is_hijacked()
+	return FALSE
 
 /datum/team/brother_team/proc/roll_for_color()
 	if(!isnull(color) || !length(members))

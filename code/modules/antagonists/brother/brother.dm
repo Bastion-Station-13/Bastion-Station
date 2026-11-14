@@ -3,6 +3,7 @@
 	antagpanel_category = "Brother"
 	job_rank = ROLE_BROTHER
 	var/special_role = ROLE_BROTHER
+	hud_icon = 'bastionstation/icons/mob/huds/brother_drip_heart_hud.dmi'
 	antag_hud_name = "brother"
 	hijack_speed = 0.5
 	ui_name = "AntagInfoBrother"
@@ -14,11 +15,21 @@
 	antag_count_points = 5 //duo antag
 	var/datum/action/bb/comms/comms_action
 	var/datum/action/bb/gear/gear_action
+	var/datum/action/bb/deliver_item/deliver_action
+	var/datum/component/personal_crafting/blood_brother/blood_brother_crafting
 	VAR_PRIVATE/datum/team/brother_team/team
 	///This is used to say who is the big and little brothers. 0 = big, 1 is the middle brother, 2 is little, 3 is little little
 	var/brotherRank = 0
 	///Whether the confirmation UI popup is active or not
 	var/popup = FALSE
+	///The tab currently open in the brother panel, as a BB_UI_TAB_* define.
+	var/ui_tab = BB_UI_TAB_OBJECTIVES
+	///Whether this brother's location is shown to the team in the conspirators tab, from using a bond beacon.
+	var/sharing_location = FALSE
+	///Whether this brother has used a bluespace courier implant, which unlocks Deliver Item.
+	var/has_courier_implant = FALSE
+	///Whether this brother was given the contraband security HUD implant for being the starting brother.
+	var/gave_hud = FALSE
 
 /datum/antagonist/brother/create_team(datum/team/brother_team/new_team)
 	if(!new_team)
@@ -36,28 +47,42 @@
 	owner.special_role = special_role
 	finalize_brother()
 
-	team.brothers_left -= 1
+	update_conversion_ability()
+	RegisterSignal(owner, COMSIG_MIND_DNR, PROC_REF(on_dnr))
+	RegisterSignal(owner, COMSIG_MIND_CRYOED, PROC_REF(on_cryoed))
+	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_LOGGED_IN, PROC_REF(on_mob_logged_in))
+	owner.current.add_mob_memory(/datum/memory/key/codewords)
+	owner.current.add_mob_memory(/datum/memory/key/codewords/responses)
 
-	if (prob(team.brother_chance))
-		team.brothers_left += 1
-
-	if (team.brothers_left > 0)
-		var/mob/living/carbon/carbon_owner = owner.current
-		if (istype(carbon_owner))
+	// The big brother starts the bond, with a flash for every conversion the team rolled
+	var/mob/living/carbon/carbon_owner = owner.current
+	if(istype(carbon_owner) && !length(team.members - owner))
+		for(var/i in 1 to team.conversion_charges)
 			carbon_owner.equip_conspicuous_item(new /obj/item/assembly/flash)
-			carbon_owner.AddComponentFrom(REF(src), /datum/component/can_flash_from_behind)
-			RegisterSignal(carbon_owner, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, PROC_REF(on_mob_successful_flashed_carbon))
-
-			if (brotherRank > 0)
-				to_chat(carbon_owner, span_boldwarning("The Syndicate have higher expectations from you than others. They have granted you an extra flash to convert another person."))
-				carbon_owner.balloon_alert(carbon_owner, "extra flash granted!")
+		if(team.conversion_charges > 1)
+			to_chat(carbon_owner, span_boldwarning("The Syndicate have higher expectations from you than others. Your bond can convert [team.conversion_charges] people, and you have been given a flash for each."))
+			carbon_owner.balloon_alert(carbon_owner, "extra flashes granted!")
+		var/obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate/hud = new()
+		hud.Insert(carbon_owner)
+		gave_hud = TRUE
+		to_chat(carbon_owner, span_notice("Your eyes have been implanted with a cybernetic security HUD, which will help you keep track of who is mindshield-implanted, and therefore unable to be recruited."))
 
 	return ..()
 
 /datum/antagonist/brother/on_removal()
 	owner.special_role = null
-	owner.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
-	UnregisterSignal(owner, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+	UnregisterSignal(owner, list(COMSIG_MIND_DNR, COMSIG_MIND_CRYOED))
+	UnregisterSignal(SSdcs, COMSIG_GLOB_MOB_LOGGED_IN)
+	var/mob/living/body = owner.current
+	if(body)
+		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+		UnregisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+	if(gave_hud && iscarbon(body))
+		var/mob/living/carbon/carbon_body = body
+		var/obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate/hud = carbon_body.get_organ_slot(ORGAN_SLOT_HUD)
+		if(istype(hud))
+			hud.Remove(carbon_body)
+			qdel(hud)
 	return ..()
 
 // Apply team-specific antag HUD.
@@ -67,17 +92,51 @@
 		comms_action = new(src)
 	if(QDELETED(gear_action) && !team.summoned_gear)
 		gear_action = new(src)
+	if(QDELETED(deliver_action) && has_courier_implant)
+		deliver_action = new(src)
 	var/mob/living/target = mob_override || owner.current
 	comms_action.Grant(target)
 	gear_action?.Grant(target)
+	deliver_action?.Grant(target)
+	RegisterSignal(target, COMSIG_MOB_GHOSTIZED, PROC_REF(on_ghostized))
+	target.AddComponent(/datum/component/codeword_hearing, GLOB.syndicate_code_phrase_regex, "blue", src)
+	target.AddComponent(/datum/component/codeword_hearing, GLOB.syndicate_code_response_regex, "orange", src)
+	if(QDELETED(blood_brother_crafting))
+		blood_brother_crafting = target.AddComponent(/datum/component/personal_crafting/blood_brother)
 	add_team_hud(target, /datum/antagonist/brother, REF(team))
 
 /datum/antagonist/brother/remove_innate_effects(mob/living/mob_override)
 	. = ..()
+	UnregisterSignal(mob_override || owner.current, COMSIG_MOB_GHOSTIZED)
+	var/mob/living/old_body = mob_override || owner.current
+	for(var/datum/component/codeword_hearing/component as anything in old_body.GetComponents(/datum/component/codeword_hearing))
+		component.delete_if_from_source(src)
 	comms_action?.Remove(mob_override || owner.current)
 	QDEL_NULL(comms_action)
 	gear_action?.Remove(mob_override || owner.current)
 	QDEL_NULL(gear_action)
+	deliver_action?.Remove(mob_override || owner.current)
+	QDEL_NULL(deliver_action)
+	QDEL_NULL(blood_brother_crafting)
+
+// Brothers use a team HUD that cycles through the icons of any other antagonists they are, so their team knows who else they answer to.
+/datum/antagonist/brother/add_team_hud(mob/target, antag_to_check, passed_hud_keys)
+	// Clear out the HUD on our old body, if we've moved into a new one.
+	qdel(team_hud_ref?.resolve())
+	QDEL_NULL(team_hud_ref)
+
+	team_hud_ref = WEAKREF(target.add_alt_appearance(
+		/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother,
+		"antag_team_hud_[REF(src)]",
+		hud_image_on(target),
+		antag_to_check || type,
+		passed_hud_keys || hud_keys,
+		owner,
+	))
+
+	// Add HUDs that they couldn't see before
+	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
+		antag_hud.apply_to_new_mob(owner.current)
 
 /datum/antagonist/brother/antag_panel_data()
 	return "Conspirators : [get_brother_names()]"
@@ -120,6 +179,11 @@
 	return finish_preview_icon(get_base_preview_icon())
 // monkestation end
 
+/datum/antagonist/brother/proc/unlock_deliver_item()
+	has_courier_implant = TRUE
+	deliver_action = new(src)
+	deliver_action.Grant(owner.current)
+
 /datum/antagonist/brother/proc/get_brother_names(add_span = FALSE)
 	var/list/names = list()
 	for(var/datum/mind/brother as anything in team.members - owner)
@@ -129,6 +193,8 @@
 /datum/antagonist/brother/greet()
 	to_chat(owner.current, span_alertsyndie("You are the [owner.special_role]."))
 	owner.announce_objectives()
+	to_chat(owner.current, "<b>Code Phrases</b>: [span_blue(jointext(GLOB.syndicate_code_phrase, ", "))]")
+	to_chat(owner.current, "<b>Code Responses</b>: [span_orange(jointext(GLOB.syndicate_code_response, ", "))]")
 
 /datum/antagonist/brother/proc/finalize_brother()
 	play_stinger()
@@ -143,11 +209,149 @@
 	message_admins("[key_name_admin(admin)] made [key_name_admin(new_owner)] into a blood brother.")
 	log_admin("[key_name(admin)] made [key_name(new_owner)] into a blood brother.")
 
+/// Admin button in the traitor panel next to the "brother" antag button to add a player to a pre-existing blood brother team.
+/datum/antagonist/brother/add_to_team
+	name = "Add to team"
+
+/datum/antagonist/brother/add_to_team/admin_add(datum/mind/new_owner, mob/admin)
+	var/list/teams = list()
+	for(var/datum/team/brother_team/team in GLOB.antagonist_teams)
+		var/list/names = list()
+		for(var/datum/mind/member as anything in team.members)
+			names += member.name
+		teams["[team.name] ([english_list(names)])"] = team
+	if(!length(teams))
+		to_chat(admin, span_warning("There are no blood brother teams to add [new_owner.name] to."))
+		return
+	var/choice = tgui_input_list(admin, "Which team should [new_owner.name] join?", "Add to blood brother team", teams)
+	var/datum/team/brother_team/team = teams[choice]
+	if(!choice || QDELETED(team) || QDELETED(new_owner))
+		return
+	if(new_owner.has_antag_datum(/datum/antagonist/brother))
+		to_chat(admin, span_warning("[new_owner.name] is already a blood brother."))
+		return
+	new_owner.add_antag_datum(/datum/antagonist/brother, team)
+	var/datum/antagonist/brother/bond = new_owner.has_antag_datum(/datum/antagonist/brother)
+	bond.set_brother_rank(length(team.members) - 1)
+	team.notify_whos_who()
+	message_admins("[key_name_admin(admin)] added [key_name_admin(new_owner)] to [team.name].")
+	log_admin("[key_name(admin)] added [key_name(new_owner)] to [team.name].")
+
+/datum/antagonist/brother/get_admin_commands()
+	. = ..()
+	.["Adjust conversion charges"] = CALLBACK(src, PROC_REF(admin_adjust_conversion_charges))
+
+/datum/antagonist/brother/proc/admin_adjust_conversion_charges(mob/admin)
+	var/amount = tgui_input_number(admin, "[team.name] can convert [team.conversion_charges] more. How many charges to add? Use a negative number to remove some.", "Adjust conversion charges", 0, 100, -team.conversion_charges)
+	if(!amount || QDELETED(team))
+		return
+	team.adjust_conversion_charges(amount)
+	message_admins("[key_name_admin(admin)] [amount > 0 ? "gave [amount] conversion charge\s to" : "took [-amount] conversion charge\s from"] [team.name], who now have [team.conversion_charges].")
+	log_admin("[key_name(admin)] [amount > 0 ? "gave [amount] conversion charge\s to" : "took [-amount] conversion charge\s from"] [team.name], who now have [team.conversion_charges].")
+
+/// Returns this brother's rank within the team, such as "Big Brother" or "Little Little Brother".
+/datum/antagonist/brother/proc/get_rank_title()
+	if(brotherRank <= 0)
+		return "Big Brother"
+	var/rank_title = ""
+	for(var/littleness in 2 to brotherRank)
+		rank_title += "Little "
+	return rank_title + "Brother"
+
+/// Opens the brother panel on the given tab, or switches an already open panel to it.
+/datum/antagonist/brother/proc/open_tab(tab)
+	if(tab in list(BB_UI_TAB_OBJECTIVES, BB_UI_TAB_CONSPIRATORS, BB_UI_TAB_CRAFTING, BB_UI_TAB_GUIDE))
+		ui_tab = tab
+	ui_interact(owner.current)
+
+/datum/antagonist/brother/ui_assets(mob/user)
+	return list(get_asset_datum(/datum/asset/spritesheet_batched/crafting))
+
 /datum/antagonist/brother/ui_static_data(mob/user)
 	var/list/data = list()
 	data["antag_name"] = name
 	data["objectives"] = get_objectives()
+	data["phrases"] = jointext(GLOB.syndicate_code_phrase, ", ")
+	data["responses"] = jointext(GLOB.syndicate_code_response, ", ")
+	if(!QDELETED(blood_brother_crafting))
+		merge_ui_data(data, blood_brother_crafting.ui_static_data(user))
 	return data
+
+/datum/antagonist/brother/ui_data(mob/user)
+	var/list/data = list()
+	data["tab"] = ui_tab
+	data["rank"] = get_rank_title()
+	data["team_name"] = team?.name
+	data["conspirators"] = get_conspirator_data()
+	data["conversion_charges"] = team?.conversion_charges
+	data["gear_chosen"] = team?.chosen_gear?.name
+	data["gear_summoned"] = team?.summoned_gear
+	// Checking what can be crafted scans everything around the user, so only do it while the crafting tab is open.
+	if(ui_tab == BB_UI_TAB_CRAFTING && !QDELETED(blood_brother_crafting))
+		merge_ui_data(data, blood_brother_crafting.ui_data(user))
+	return data
+
+/// Copies every key and value of the crafting component's UI data into ours, so the crafting tab can use it.
+/datum/antagonist/brother/proc/merge_ui_data(list/data, list/crafting_data)
+	for(var/key in crafting_data)
+		data[key] = crafting_data[key]
+
+/// Returns the name, rank, health and (if shared) location of every member of the team, for the conspirators tab.
+/datum/antagonist/brother/proc/get_conspirator_data()
+	var/list/conspirators = list()
+	for(var/datum/mind/member as anything in team?.members)
+		var/datum/antagonist/brother/their_bond = member.has_antag_datum(/datum/antagonist/brother)
+		var/list/entry = list(
+			"ref" = REF(member),
+			"name" = member.name,
+			"rank" = their_bond?.get_rank_title(),
+			"job" = member.assigned_role?.title,
+			"is_you" = member == owner,
+		)
+		var/mob/living/body = member.current
+		if(!istype(body))
+			entry["status"] = "missing"
+		else
+			switch(body.stat)
+				if(CONSCIOUS)
+					entry["status"] = "conscious"
+				if(SOFT_CRIT, UNCONSCIOUS)
+					entry["status"] = "unconscious"
+				if(HARD_CRIT)
+					entry["status"] = "critical"
+				else
+					entry["status"] = "dead"
+			entry["health"] = body.health
+			entry["max_health"] = body.maxHealth
+			entry["brute"] = body.getBruteLoss()
+			entry["burn"] = body.getFireLoss()
+			entry["toxin"] = body.getToxLoss()
+			entry["oxygen"] = body.getOxyLoss()
+			var/turf/body_turf = get_turf(body)
+			if(their_bond?.sharing_location && body_turf)
+				entry["location"] = "[get_area_name(body_turf, TRUE)] ([body_turf.x], [body_turf.y])"
+		conspirators += list(entry)
+	return conspirators
+
+/datum/antagonist/brother/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(. || isobserver(ui.user))
+		return
+	switch(action)
+		if("set_tab")
+			var/tab = params["tab"]
+			if(!(tab in list(BB_UI_TAB_OBJECTIVES, BB_UI_TAB_CONSPIRATORS, BB_UI_TAB_CRAFTING, BB_UI_TAB_GUIDE)))
+				return
+			ui_tab = tab
+			return TRUE
+		// Crafting actions are handed off to the crafting component, which the crafting tab displays.
+		if("make", "toggle_recipes", "toggle_compact")
+			if(QDELETED(blood_brother_crafting))
+				return
+			var/datum/ui_state/crafting_state = blood_brother_crafting.ui_state(ui.user)
+			if(crafting_state.can_use_topic(blood_brother_crafting, ui.user) < UI_INTERACTIVE)
+				return
+			return blood_brother_crafting.ui_act(action, params, ui, crafting_state)
 
 /datum/antagonist/brother/antag_token(datum/mind/hosts_mind, mob/spender)
 	var/datum/team/brother_team/team = new
@@ -167,13 +371,7 @@
 	if(!istext(message) || !length(message) || QDELETED(owner) || QDELETED(team))
 		return
 	owner.current.log_talk(html_decode(message), LOG_SAY, tag = "blood brother")
-	var/name_rank = "Big Brother"
-	if(brotherRank > 0)
-		name_rank = ""
-		for (var/littleness in 2 to brotherRank)
-			name_rank += "Little "
-		name_rank += "Brother"
-	var/formatted_msg = "<span class='[team.color]'><b><i>\[Blood Bond\]</i> [span_name("[name_rank]: [owner.name]")]</b>: [message]</span>"
+	var/formatted_msg = "<span class='[team.color]'><b><i>\[Blood Bond\]</i> [span_name("[get_rank_title()]: [owner.name]")]</b>: [message]</span>"
 	for(var/datum/mind/brother as anything in team.members)
 		var/mob/living/target = brother.current
 		if(QDELETED(target))
@@ -186,10 +384,77 @@
 		var/link = FOLLOW_LINK(dead_mob, owner.current)
 		to_chat(dead_mob, "[link] [formatted_msg]", type = MESSAGE_TYPE_RADIO)
 
+/// Brothers can convert, and flash people from behind, for as long as the team has conversion charges left
+/datum/antagonist/brother/proc/update_conversion_ability()
+	var/mob/living/carbon/body = owner.current
+	if(!istype(body))
+		return
+	if(team?.conversion_charges > 0)
+		body.AddComponentFrom(REF(src), /datum/component/can_flash_from_behind)
+		RegisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, PROC_REF(on_mob_successful_flashed_carbon), override = TRUE)
+	else
+		body.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+		UnregisterSignal(body, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
+
+/datum/antagonist/brother/proc/on_dnr(datum/mind/source)
+	SIGNAL_HANDLER
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "chosen not to be revived", "chose not to be revived")
+
+/datum/antagonist/brother/proc/on_cryoed(datum/mind/source, mob/living/body)
+	SIGNAL_HANDLER
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "entered cryosleep", "entered cryosleep")
+
+/// Ghosting out of a living body leaves a ghost that can't go back, which counts as abandoning the bond
+/datum/antagonist/brother/proc/on_ghostized(mob/living/source)
+	SIGNAL_HANDLER
+	if(source.stat == DEAD || owner.get_ghost(even_if_they_cant_reenter = TRUE))
+		return
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "left their body for good", "left your body for good")
+
+/// Catches our player taking a new body, such as a ghost role or a midround antagonist
+/datum/antagonist/brother/proc/on_mob_logged_in(datum/source, mob/new_mob)
+	SIGNAL_HANDLER
+	if(new_mob.mind == owner || new_mob.ckey != ckey(owner.key))
+		return
+	// Ghosts and the lobby aren't new roles, and the ghost cafe lets you go back to your body
+	if(isobserver(new_mob) || isnewplayer(new_mob) || istype(new_mob, /mob/living/carbon/human/ghost))
+		return
+	// Bitrunning avatars and other temporary bodies send you back to your real one. (This should also cover things like ghost minigame deathmatches)
+	if(owner.current && (HAS_TRAIT(owner.current, TRAIT_MIND_TEMPORARILY_GONE) || istype(owner.current.loc, /obj/machinery/netpod)))
+		return
+	INVOKE_ASYNC(src, PROC_REF(abandon_bond), "taken on another role", "took on another role")
+
+/**
+ * Boots this brother from the team and gives the team back a conversion charge
+ *
+ * Arguments:
+ * * their_reason - what the brother did, as told to the rest of the team ("entered cryosleep")
+ * * your_reason - what the brother did, as told to the brother themselves
+ */
+/datum/antagonist/brother/proc/abandon_bond(their_reason, your_reason)
+	var/datum/team/brother_team/bond = team
+	if(QDELETED(src) || QDELETED(bond))
+		return
+	var/brother_name = owner.current?.real_name || owner.name
+	// They're likely a ghost or in another body by now, so find them by their client
+	var/client/leaver = GLOB.directory[ckey(owner.key)]
+	owner.current?.log_message("was removed from their blood brother team for abandoning it (has [their_reason]).", LOG_GAME)
+	if(length(bond.members) == 1)
+		message_admins("[ADMIN_LOOKUPFLW(owner.current)], the last member of [bond.name], has [their_reason]. The blood brother team is gone.")
+	bond.remove_member(owner, span_warning("[span_bold(brother_name)] has [their_reason], and is no longer your brother. You have been refunded a conversion charge."))
+	if(leaver)
+		to_chat(leaver, span_userdanger("You [your_reason], and have abandoned your blood bond. You are no longer a blood brother."))
+	if(!QDELETED(bond))
+		bond.adjust_conversion_charges(1)
+
 /datum/antagonist/brother/proc/on_mob_successful_flashed_carbon(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash)
 	//SIGNAL_HANDLER
 
 	if (flashed.stat == DEAD)
+		return
+
+	if (team.conversion_charges <= 0)
+		flashed.balloon_alert(source, "no conversions left!")
 		return
 
 	if (flashed.stat != CONSCIOUS)
@@ -199,12 +464,6 @@
 	if (isnull(flashed.mind) || !GET_CLIENT(flashed))
 		flashed.balloon_alert(source, "[flashed.p_their()] mind is vacant!")
 		return
-
-	// monkestation edit: dont try to convert banned people
-	if(is_banned_from(flashed.ckey, list(ROLE_BROTHER, ROLE_SYNDICATE)))
-		flashed.balloon_alert(source, "cannot become brother!")
-		return
-	// monkestation end
 
 	for(var/datum/objective/brother_objective as anything in source.mind.get_all_objectives())
 		// If the objective has a target, are we flashing them?
@@ -227,19 +486,61 @@
 	//The first BB flash against someone should sleep them. They get a popup if they want to join the BB team or not. If they say no they cant be BB flashed anymore
 	flashed.SetSleeping(30 SECONDS)
 	flash.burn_out()
+	if(is_banned_from(flashed.ckey, list(ROLE_BROTHER, ROLE_SYNDICATE)))
+		replace_banned_recruit(source, flashed)
+		return
 	join_brother_flashed_popup(source, flashed, flash)
 
 /datum/antagonist/brother/proc/set_brother_rank(newRank)
 	brotherRank = newRank
 
+/// Antag banned players don't get to dodge conversion. They're kicked out of their body for good, and a ghost gets it instead.
+/datum/antagonist/brother/proc/replace_banned_recruit(mob/living/source, mob/living/carbon/flashed)
+	set waitfor = FALSE
+
+	to_chat(flashed, span_userdanger("You are banned from playing as a blood brother, so you have been removed from your body and it has been offered to ghosts. Appeal your ban if you want to avoid this in the future!"))
+	message_admins("[ADMIN_LOOKUPFLW(flashed)] was flashed by blood brother [ADMIN_LOOKUPFLW(source)] while antag banned, and has been ghosted. Their body is being offered to ghosts.")
+	log_game("[key_name(flashed)] was ghosted for being antag banned when flashed by blood brother [key_name(source)]")
+	flashed.ghostize(can_reenter_corpse = FALSE)
+
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(
+		check_jobban = ROLE_BROTHER,
+		role = ROLE_BROTHER,
+		poll_time = 60 SECONDS,
+		checked_target = flashed,
+		alert_pic = flashed,
+		role_name_text = "blood brother recruit",
+	)
+	if(isnull(chosen_one) || QDELETED(src) || QDELETED(flashed))
+		log_game("No ghost took the body of [key_name(flashed)] after they were ghosted for being antag banned.")
+		return
+	flashed.PossessByPlayer(chosen_one.key)
+	if (team.conversion_charges <= 0 || !team.add_brother(flashed, key_name(source)))
+		return
+	message_admins("[ADMIN_LOOKUPFLW(flashed)] has taken over an antag banned player's body and joined [team.name].")
+	log_game("[key_name(flashed)] took over an antag banned player's body and was made into a blood brother by [key_name(source)]")
+	team.adjust_conversion_charges(-1)
+	flashed.balloon_alert(source, "converted")
+	flashed.SetSleeping(0 SECONDS)
+
 /datum/antagonist/brother/proc/join_brother_flashed_popup(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash)
 	if(popup)
 		return
-	popup = TRUE
-	var/response = tgui_alert(flashed, "Visions of a life with [source] as your brother pass through your mind.", "Become brothers?", list("Become a brother", "Reject Brotherhood"), timeout = 30 SECONDS)
-	popup = FALSE
+	var/response = "Become a brother"
+	// Security and command had to be kidnapped and have their mindshield pulled out to get this far, so they don't get a say
+	if(flashed.mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY | DEPARTMENT_BITFLAG_COMMAND))
+		to_chat(flashed, span_big(span_hypnophrase("Without your mindshield, the visions of a life with [source] as your brother overwhelm you.")))
+	else
+		popup = TRUE
+		response = tgui_alert(flashed, "Visions of a life with [source] as your brother pass through your mind.", "Become brothers?", list("Become a brother", "Reject Brotherhood"), timeout = 30 SECONDS)
+		popup = FALSE
 
 	if(response == "Become a brother")
+		// Another brother may have used the last charge while this one was deciding
+		if (team.conversion_charges <= 0)
+			flashed.balloon_alert(source, "no conversions left!")
+			flashed.SetSleeping(0 SECONDS)
+			return
 		if (!team.add_brother(flashed, key_name(source))) // Shouldn't happen given the former, more specific checks but just in case
 			flashed.balloon_alert(source, "failed!")
 			return
@@ -255,12 +556,67 @@
 			antagonist = owner.current, \
 		)
 		flashed.balloon_alert(source, "converted")
-
-		UnregisterSignal(source, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
-		source.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+		team.adjust_conversion_charges(-1)
 	else
 		team.rejected_brothers.Add(flashed)
 		source.balloon_alert(source, "[flashed.name] has rejected you")
 		to_chat(flashed, span_big(span_hypnophrase("You wake up forgetting why exactly you fell asleep, and the brotherly visions you had during your sleep")))
 
 	flashed.SetSleeping(0 SECONDS)
+
+/// The team HUD shown above a brother. If they are any other antagonists, it cycles between the brother icon and each of theirs.
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother
+	antag_datum_type = /datum/antagonist/brother
+	/// The mind of the brother this HUD is shown above.
+	var/datum/mind/mind
+	/// The icon and icon state of each antag HUD to cycle between, with the brother HUD first.
+	var/list/hud_states = list()
+	/// Which entry of hud_states is currently shown.
+	var/index = 1
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/New(key, image/I, antag_datum_type, valid_keys, datum/mind/mind)
+	src.mind = mind
+	RegisterSignals(mind, list(COMSIG_ANTAGONIST_GAINED, COMSIG_ANTAGONIST_REMOVED), PROC_REF(on_antagonists_changed))
+	. = ..()
+	update_hud_states()
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/Destroy()
+	STOP_PROCESSING(SSantag_hud, src)
+	if(mind)
+		UnregisterSignal(mind, list(COMSIG_ANTAGONIST_GAINED, COMSIG_ANTAGONIST_REMOVED))
+		mind = null
+	return ..()
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/process(seconds_per_tick)
+	index = (index % length(hud_states)) + 1
+	show_hud_state()
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/proc/on_antagonists_changed(datum/mind/source)
+	SIGNAL_HANDLER
+	// No longer a brother, so the team shouldn't see this anymore.
+	if(!source.has_antag_datum(/datum/antagonist/brother))
+		qdel(src)
+		return
+	update_hud_states()
+
+/// Rebuilds the list of HUDs to cycle between, starting with the brother HUD followed by those of any other antagonists the brother is.
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/proc/update_hud_states()
+	var/datum/antagonist/brother/bond = mind.has_antag_datum(/datum/antagonist/brother)
+	hud_states = list(list(bond.hud_icon, bond.antag_hud_name))
+	for(var/datum/antagonist/antagonist as anything in mind.antag_datums)
+		if(antagonist == bond || isnull(antagonist.antag_hud_name))
+			continue
+		hud_states += list(list(antagonist.hud_icon, antagonist.antag_hud_name))
+
+	index = 1
+	show_hud_state()
+	if(length(hud_states) > 1)
+		START_PROCESSING(SSantag_hud, src)
+	else
+		STOP_PROCESSING(SSantag_hud, src)
+
+/// Sets the HUD image to the icon of the current entry in hud_states.
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/brother/proc/show_hud_state()
+	var/list/hud_state = hud_states[index]
+	image.icon = hud_state[1]
+	image.icon_state = hud_state[2]

@@ -147,7 +147,7 @@
 
 /obj/machinery/assembler/proc/create_recipes()
 	for(var/datum/crafting_recipe/recipe as anything in GLOB.crafting_recipes)
-		if(initial(recipe.non_craftable) || !initial(recipe.always_available))
+		if(initial(recipe.non_craftable) || !initial(recipe.always_available) || recipe.blood_brother_only)
 			continue
 		legal_crafting_recipes += recipe
 
