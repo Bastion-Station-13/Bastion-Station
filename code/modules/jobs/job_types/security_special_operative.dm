@@ -86,6 +86,7 @@
 /obj/item/modular_computer/pda/security_special_operative
 	name = "security special operative PDA"
 	greyscale_colors = "#C81E1E#EAB308"
+	SETUP_MAP_ICONS("pda", "/obj/item/modular_computer/pda/security")
 	inserted_item = /obj/item/pen/red/security
 	starting_programs = list(
 		/datum/computer_file/program/records/security,
@@ -104,7 +105,7 @@
 
 /datum/security_special_operative_kit_item/lethal/heavy_combat_shotgun
 	name = "Heavy Combat Shotgun"
-	desc = "A compact, two-handed combat shotgun with a ten-shell capacity and a box of buckshot."
+	desc = "A compact, two-handed shotgun with a twelve-shell capacity and a box of buckshot."
 	category = "Lethal"
 	item_type = /obj/item/storage/toolbox/guncase/security_special_operative/heavy_combat_shotgun
 
@@ -134,7 +135,7 @@
 
 /datum/security_special_operative_kit_item/sidearm/energy_hausewhr
 	name = "Energy Hausewhr"
-	desc = "A compact energy blade with less striking power than a standard energy sword."
+	desc = "A stylish, powerful blade for Special Operatives."
 	category = "Sidearm"
 	item_type = /obj/item/melee/energy/blade/security_special_operative
 
@@ -145,7 +146,7 @@
 	item_type = /obj/item/melee/baton/security/security_special_operative
 
 /datum/security_special_operative_kit_item/nonlethal/wavegun
-	name = "Wavegun"
+	name = "Sancai Wavegun"
 	desc = "A self-recharging energy weapon with a slow, heavy stamina orb, a wall-piercing shot, and a ricocheting shot."
 	category = "Non-lethal"
 	item_type = /obj/item/gun/energy/recharge/security_special_operative/wavegun
@@ -245,8 +246,8 @@
 	item_type = /obj/item/storage/box/security_special_operative/engineer
 
 /datum/security_special_operative_kit_item/utility/experimental_energy_shield
-	name = "Experimental Energy Shield Module"
-	desc = "A weakened MODsuit shield module with limited protective charges."
+	name = "MOD Experimental Energy Shield Module"
+	desc = "An experimental MODsuit shield module with limited protective charges."
 	category = "Utility"
 	point_cost = 2
 	item_type = /obj/item/mod/module/energy_shield/security_special_operative

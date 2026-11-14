@@ -259,9 +259,9 @@
 	pickup_sound = 'sound/items/unsheath.ogg'
 	drop_sound = 'sound/items/sheath.ogg'
 	sharpness = SHARP_EDGED
-	force = 22
+	force = 21
 	throwforce = 20
-	armour_penetration = 15
+	armour_penetration = 30
 
 /obj/item/storage/toolbox/guncase/security_special_operative
 	name = "SSO weapon case"
@@ -462,6 +462,8 @@
 	name = "debilitating wave"
 	icon_state = "wave_debilitate"
 	speed = 0.65
+	armour_ignorance = 100
+	armour_penetration = 100
 	stamina = 65
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
 
@@ -476,6 +478,9 @@
 	icon_state = "wave_transverse"
 	stamina = 25
 	range = 4
+	armour_ignorance = 100
+	armour_penetration = 100
+
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF
 	projectile_phasing = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
@@ -486,6 +491,8 @@
 	stamina = 10
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/green_laser
 	ricochets_max = 7
+	armour_ignorance = 100
+	armour_penetration = 100
 	ricochet_chance = 140
 	ricochet_auto_aim_angle = 20
 	ricochet_auto_aim_range = 5
@@ -681,7 +688,7 @@
 	new /obj/item/storage/medkit/fire(src)
 
 /obj/item/mod/module/energy_shield/security_special_operative
-	name = "experimental energy shield module"
+	name = "MOD experimental energy shield module"
 	desc = "A prototype MOD shield with two protective charges and a slower recharge cycle."
 	max_charges = 2
 	recharge_start_delay = 40 SECONDS
@@ -715,6 +722,9 @@
 
 /obj/item/antag_spawner/loadout/security_special_operative_support/do_special_things(mob/living/carbon/human/support_unit, mob/user)
 	support_unit.mind.set_assigned_role(SSjob.GetJobType(/datum/job/security_officer))
+	support_unit.gender = pick(MALE, FEMALE)
+	support_unit.fully_replace_character_name(support_unit.real_name, pick(GLOB.commando_names))
+	support_unit.randomize_human_appearance()
 
 #undef CALIBER_SSO_BONER
 #undef CALIBER_SSO_HERSTAL
