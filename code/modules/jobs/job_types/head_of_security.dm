@@ -74,6 +74,7 @@
 		/obj/item/stamp/head/hos,
 		)
 	implants = list(/obj/item/implant/mindshield)
+	skillchips = list(/obj/item/skillchip/job/security)
 
 /datum/outfit/job/hos/mod
 	name = "Head of Security (MODsuit)"
