@@ -1,4 +1,0 @@
-author: "JupiterJaeden"
-delete-after: True
-changes:
-  - rscadd: "Wall lights now once again illuminate in a 360 degree circle around them instead of a 170 cone (still blocked by walls). Should improve map lighting again."
