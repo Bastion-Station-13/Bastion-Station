@@ -4287,6 +4287,7 @@
 #include "code\modules\client\message.dm"
 #include "code\modules\client\persistent_client.dm"
 #include "code\modules\client\preferences.dm"
+#include "code\modules\client\preferences_import.dm"
 #include "code\modules\client\preferences_menu.dm"
 #include "code\modules\client\preferences_savefile.dm"
 #include "code\modules\client\preferences\_preference.dm"
