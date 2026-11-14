@@ -298,7 +298,10 @@
 	name = "advanced stun baton"
 	desc = "An always-on stun baton tuned to incapacitate in three hits. Press Z to overclock it for a brief knockdown strike."
 	icon = 'bastionstation/icons/security_special_operative/weapon/baton.dmi'
+	inhand_icon_state = "qrfbaton"
 	base_icon_state = "qrfbaton"
+	lefthand_file = 'bastionstation/icons/security_special_operative/weapon/ssoinhand_left.dmi'
+	righthand_file = 'bastionstation/icons/security_special_operative/weapon/ssoinhand_right.dmi'
 	active = TRUE
 	preload_cell_type = /obj/item/stock_parts/power_store/cell/infinite
 	can_remove_cell = FALSE
@@ -317,6 +320,11 @@
 /obj/item/melee/baton/security/security_special_operative/update_icon_state()
 	. = ..()
 	icon_state = overclock_active ? "qrfbaton_overclock" : "qrfbaton"
+	inhand_icon_state = overclock_active ? "qrfbaton_overclock" : "qrfbaton"
+	if(ismob(loc))
+		var/mob/holder = loc
+		holder.update_held_items()
+
 
 /obj/item/melee/baton/security/security_special_operative/attack_self(mob/user)
 	if(overclock_active)
