@@ -37,6 +37,7 @@
 		formatted_item["is_donator_only"] = !isnull(item.donator_only)
 		formatted_item["is_ckey_whitelisted"] = !isnull(item.ckeywhitelist)
 		formatted_item["required_season"] = item.required_season
+		add_loadout_icon_data(formatted_item, item.item_path)
 		if(LAZYLEN(item.additional_tooltip_contents))
 			formatted_item["tooltip_text"] = jointext(item.additional_tooltip_contents, "\n")
 
