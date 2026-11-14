@@ -31,7 +31,7 @@
 	id_trim = /datum/id_trim/job/security_special_operative
 	uniform = /obj/item/clothing/under/rank/security/private/corporal
 	suit = /obj/item/clothing/suit/armor/vest/alt/sec
-	r_hand = /obj/item/mod/control/pre_equipped/security_special_operative
+	back = /obj/item/mod/control/pre_equipped/security_special_operative
 	belt = /obj/item/modular_computer/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
