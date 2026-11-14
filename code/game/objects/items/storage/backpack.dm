@@ -190,6 +190,10 @@
 	icon_state = "backpack-private-security"
 	inhand_icon_state = "privatesecuritypack"
 
+/obj/item/storage/backpack/security/private/spacepol
+	name = "spacepol backpack"
+	desc = "A backpack issued by SpacePol to their officers."
+
 /obj/item/storage/backpack/secmed
 	name = "security medical backpack"
 	desc = "A security-grade backpack, now in security grey!"

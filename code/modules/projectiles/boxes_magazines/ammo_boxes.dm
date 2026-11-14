@@ -549,11 +549,16 @@
 	max_ammo = 16
 
 /obj/item/ammo_box/advanced/s12gauge/incendiary
-	name = "incendiary Slug ammo box"
+	name = "incendiary slug ammo box"
 	desc = "A box of incendiary slug shells. These will ignite targets and leave a trail of fire behind them."
 	icon_state = "incendiary"
 	ammo_type = /obj/item/ammo_casing/shotgun/incendiary
 	max_ammo = 16
+
+/obj/item/ammo_box/advanced/s12gauge/incendiary/no_trail
+	name = "precision incendiary slug ammo box"
+	desc = "A box of incendiary slug shells. These will ignite targets, though a coating has been applied to prevent them from leaving a trail of fire."
+	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/no_trail
 
 /obj/item/ammo_box/advanced/s12gauge/honkshot
 	name = "confetti Honkshot ammo box"
