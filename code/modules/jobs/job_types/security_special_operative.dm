@@ -32,7 +32,7 @@
 	uniform = /obj/item/clothing/under/rank/security/private/corporal
 	suit = /obj/item/clothing/suit/armor/vest/alt/sec
 	back = /obj/item/mod/control/pre_equipped/security_special_operative
-	belt = /obj/item/modular_computer/pda/security_special_operative
+	belt = /obj/item/modular_computer/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black/security
@@ -83,17 +83,18 @@
 	)
 	job = /datum/job/security_special_operative
 
-/obj/item/modular_computer/pda/security_special_operative
-	name = "security special operative PDA"
-	greyscale_colors = "#C81E1E#EAB308"
+/obj/item/modular_computer/pda/security
+	name = "security PDA"
 	SETUP_MAP_ICONS("pda", "/obj/item/modular_computer/pda/security")
+	greyscale_colors = "#EA3232#0000cc"
 	inserted_item = /obj/item/pen/red/security
 	starting_programs = list(
 		/datum/computer_file/program/records/security,
 		/datum/computer_file/program/crew_manifest,
 		/datum/computer_file/program/robocontrol,
-		/datum/computer_file/program/lifeline,
+		/datum/computer_file/program/lifeline
 	)
+
 
 /// Catalog entries can be added as subtypes; costs are paid from that category's point pool.
 /datum/security_special_operative_kit_item
