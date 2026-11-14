@@ -28,7 +28,7 @@
 	if(user.is_blind())
 		to_chat(user, span_warning("You are blind and can't read anything!"))
 		return FALSE
-	if(!isliving(user) || !user.can_read(src))
+	if(!isliving(user) || !user.can_read(src, get_reading_checks(user)))
 		return FALSE
 	if(!can_learn(user))
 		return FALSE
@@ -75,6 +75,10 @@
 
 /// Effects that occur whenever the book is read when it has no uses left.
 /obj/item/book/granter/proc/recoil(mob/living/user)
+
+/// The reading checks the user has to pass before they can read this
+/obj/item/book/granter/proc/get_reading_checks(mob/living/user)
+	return READING_CHECK_LITERACY|READING_CHECK_LIGHT
 
 /// Checks if the user can learn whatever this granter... grants
 /obj/item/book/granter/proc/can_learn(mob/living/user)
