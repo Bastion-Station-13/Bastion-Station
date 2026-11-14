@@ -1,0 +1,1200 @@
+/// Trait source for what Overdrive Sprint gives, so it can be taken away without touching anything else
+#define ARCFIEND_OVERDRIVE_TRAIT "arcfiend_overdrive"
+
+//////////////////////////////////////////////////////////////////////////
+//------------------------------Toggled powers--------------------------//
+//////////////////////////////////////////////////////////////////////////
+/**
+ * A power that is switched on and off, and drains power every second while it is on.
+ * Switching it off is always possible. It switches itself off when the power runs out.
+ */
+/datum/action/cooldown/arcfiend/toggle
+	shop_listed = FALSE
+	cooldown_time = 1 SECONDS
+	/// The least power we need to have to switch this on
+	var/minimum_power_to_start = 20
+	/// Whether we are on
+	var/active = FALSE
+	/// Timer that drains power each second while we are on
+	var/upkeep_timer
+	/// The sprites that show this is on, if it has them: the icon file and the base state. Each needs a "_on" and "_off" version too, which play once.
+	var/effect_icon
+	var/effect_state
+	/// How long the "_on" and "_off" sprites play for, in ticks
+	var/effect_on_time = 0
+	var/effect_off_time = 0
+	/// The timer that switches from the "_on" sprite to the looping one
+	var/effect_timer
+
+/// How much power this costs every second while on. Override this.
+/datum/action/cooldown/arcfiend/toggle/proc/get_upkeep()
+	return 1
+
+/datum/action/cooldown/arcfiend/toggle/get_cost_text()
+	return "[get_upkeep_text()]. Needs at least [minimum_power_to_start] stored power to switch on"
+
+/// What keeping this switched on costs, the first part of the cost text
+/datum/action/cooldown/arcfiend/toggle/proc/get_upkeep_text()
+	return "[get_upkeep()] power every second while on"
+
+/datum/action/cooldown/arcfiend/toggle/get_cost_label()
+	return "[get_upkeep()]/s"
+
+/// Applies our effects to the owner. Override this.
+/datum/action/cooldown/arcfiend/toggle/proc/apply_effect(mob/living/user)
+	return
+
+/// Removes everything apply_effect did. Override this.
+/datum/action/cooldown/arcfiend/toggle/proc/remove_effect(mob/living/user)
+	return
+
+/// What everyone nearby sees when this is switched on, if anything. Override this.
+/datum/action/cooldown/arcfiend/toggle/proc/get_on_message(mob/living/user)
+	return null
+
+/// What everyone nearby sees when this is switched off, if anything. Override this.
+/datum/action/cooldown/arcfiend/toggle/proc/get_off_message(mob/living/user)
+	return null
+
+/// What this sounds like when it is switched on
+/datum/action/cooldown/arcfiend/toggle/proc/get_on_sound()
+	return ARCFIEND_SOUND_TOGGLE_ON
+
+/// What this sounds like when it is switched off
+/datum/action/cooldown/arcfiend/toggle/proc/get_off_sound()
+	return ARCFIEND_SOUND_TOGGLE_OFF
+
+/// Shows that the user is charged up: this power's own sprites if it has them, otherwise a faint pulsing yellow glow
+/datum/action/cooldown/arcfiend/toggle/proc/add_glow(mob/living/user, glow_name)
+	if(effect_icon)
+		add_visual(user, "body", effect_icon, "[effect_state]_on", effect_on_time)
+		if(effect_timer)
+			deltimer(effect_timer)
+		effect_timer = addtimer(CALLBACK(src, PROC_REF(loop_body_effect), user), effect_on_time, TIMER_STOPPABLE)
+		return
+	user.add_filter(glow_name, 2, list("type" = "outline", "color" = "#ffe94d", "alpha" = 30, "size" = 1))
+	var/filter = user.get_filter(glow_name)
+	animate(filter, alpha = 120, time = 0.6 SECONDS, loop = -1)
+	animate(alpha = 30, time = 0.6 SECONDS)
+
+/// Once the "_on" sprite has played, the looping one takes over for as long as this stays on
+/datum/action/cooldown/arcfiend/toggle/proc/loop_body_effect(mob/living/user)
+	effect_timer = null
+	if(active)
+		add_visual(user, "body", effect_icon, effect_state)
+
+/datum/action/cooldown/arcfiend/toggle/proc/remove_glow(mob/living/user, glow_name)
+	if(effect_icon)
+		if(effect_timer)
+			deltimer(effect_timer)
+			effect_timer = null
+		add_visual(user, "body", effect_icon, "[effect_state]_off", effect_off_time)
+		return
+	var/filter = user.get_filter(glow_name)
+	if(filter)
+		animate(filter)
+		user.remove_filter(glow_name)
+
+/datum/action/cooldown/arcfiend/toggle/is_action_active(atom/movable/screen/movable/action_button/current_button)
+	return active
+
+/// A toggle that is on shows its "_on" icon, if its icon file has one. A power with no sprite of its own yet keeps its placeholder.
+/datum/action/cooldown/arcfiend/toggle/apply_button_icon(atom/movable/screen/movable/action_button/current_button, force = FALSE)
+	if(QDELETED(current_button) || !button_icon || !button_icon_state)
+		return
+	var/shown_state = button_icon_state
+	if(active && (("[button_icon_state]_on") in icon_states(button_icon)))
+		shown_state = "[button_icon_state]_on"
+	if(current_button.icon_state == shown_state && current_button.icon == button_icon && !force)
+		return
+	current_button.icon = button_icon
+	current_button.icon_state = shown_state
+
+/datum/action/cooldown/arcfiend/toggle/Activate(atom/target)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || !isliving(owner))
+		return FALSE
+	if(active)
+		switch_off()
+		StartCooldown()
+		return TRUE
+	if(!arcfiend.has_power(minimum_power_to_start))
+		owner.balloon_alert(owner, "not enough power!")
+		to_chat(owner, span_warning("You need at least [minimum_power_to_start] power to switch on [name]."))
+		return FALSE
+	switch_on()
+	StartCooldown()
+	return TRUE
+
+/datum/action/cooldown/arcfiend/toggle/proc/switch_on()
+	active = TRUE
+	owner.balloon_alert(owner, "[name] on")
+	to_chat(owner, span_notice("You switch on [name]. It drains [get_upkeep()] power every second."))
+	var/on_message = get_on_message(owner)
+	if(on_message)
+		owner.visible_message(span_warning(on_message), ignored_mobs = list(owner))
+	do_sparks(2, FALSE, owner)
+	playsound(owner, get_on_sound(), 30, TRUE)
+	apply_effect(owner)
+	upkeep_timer = addtimer(CALLBACK(src, PROC_REF(upkeep_tick)), 1 SECONDS, TIMER_LOOP | TIMER_STOPPABLE)
+	build_all_button_icons(UPDATE_BUTTON_STATUS | UPDATE_BUTTON_ICON)
+
+/datum/action/cooldown/arcfiend/toggle/proc/switch_off()
+	active = FALSE
+	deltimer(upkeep_timer)
+	upkeep_timer = null
+	if(owner)
+		owner.balloon_alert(owner, "[name] off")
+		to_chat(owner, span_notice("You switch off [name]."))
+		var/off_sound = get_off_sound()
+		if(off_sound)
+			playsound(owner, off_sound, 30, TRUE)
+		var/off_message = get_off_message(owner)
+		if(off_message)
+			owner.visible_message(span_notice(off_message), ignored_mobs = list(owner))
+		remove_effect(owner)
+	build_all_button_icons(UPDATE_BUTTON_STATUS | UPDATE_BUTTON_ICON)
+
+/datum/action/cooldown/arcfiend/toggle/proc/upkeep_tick()
+	if(!active)
+		return
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!owner || owner.stat == DEAD || !arcfiend)
+		switch_off()
+		return
+	if(!arcfiend.spend_power(get_upkeep()))
+		to_chat(owner, span_warning("You run out of power and [name] shuts off."))
+		switch_off()
+
+/datum/action/cooldown/arcfiend/toggle/on_upgraded()
+	if(active && owner)
+		remove_effect(owner)
+		apply_effect(owner)
+
+/datum/action/cooldown/arcfiend/toggle/Remove(mob/remove_from)
+	if(active)
+		switch_off()
+	return ..()
+
+/datum/action/cooldown/arcfiend/toggle/Destroy()
+	if(upkeep_timer)
+		deltimer(upkeep_timer)
+		upkeep_timer = null
+	if(effect_timer)
+		deltimer(effect_timer)
+		effect_timer = null
+	return ..()
+
+//////////////////////////////////////////////////////////////////////////
+//----------------------------Overdrive Sprint--------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/movespeed_modifier/arcfiend_overdrive
+	variable = TRUE
+
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint
+	name = "Overdrive Sprint"
+	desc = "Current surges through your legs, letting you run far faster and protecting you from all slipping. Drains power every second."
+	shop_desc = "Grants you Overdrive Sprint, a toggle that lets you run much faster and protects you from all slipping. Drains power every second while active."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_overdrive_sprint.dmi'
+	button_icon_state = "overdrive_sprint"
+	shop_listed = TRUE
+	shop_tier = 1
+	unlock_cost = 250
+	upgrade_costs = list(250, 500)
+	upgrade_descriptions = list(
+		"Faster and cheaper to run.",
+		"Faster still, cheaper still.",
+	)
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_overdrive.dmi'
+	effect_state = "overdrive_legs"
+	effect_on_time = 7
+	effect_off_time = 9
+
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/get_upkeep()
+	return by_level(list(3, 2.5, 2))
+
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/apply_effect(mob/living/user)
+	var/speed_bonus = by_level(list(0.35, 0.5, 0.65))
+	user.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive, multiplicative_slowdown = -speed_bonus)
+	ADD_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
+	add_glow(user, "arcfiend_overdrive_glow")
+	add_visual(user, "activate", effect_icon, "overdrive_activate", 6)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_overdrive_move))
+
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/remove_effect(mob/living/user)
+	user.remove_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive)
+	REMOVE_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+	remove_glow(user, "arcfiend_overdrive_glow")
+
+/// Leaves a trail of sparks on the tile they just left
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/proc/on_overdrive_move(mob/living/source, atom/old_loc, movement_dir, forced, list/old_locs)
+	SIGNAL_HANDLER
+	if(isturf(old_loc) && movement_dir)
+		new /obj/effect/temp_visual/arcfiend_flash(old_loc, effect_icon, "overdrive_trail", 9, movement_dir)
+
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/get_on_message(mob/living/user)
+	return "[user] crackles with energy, sparks trailing behind [user.p_them()]!"
+
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/get_off_message(mob/living/user)
+	return "The energy around [user] dies down."
+
+//////////////////////////////////////////////////////////////////////////
+//-----------------------------Brain Scramble---------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/brain_scramble
+	name = "Brain Scramble"
+	desc = "Send a surge through a target's skull, scrambling their mind."
+	shop_desc = "Grants you Brain Scramble, a touch power that burns the target, drains their stamina and damages their brain. For 8 seconds they are confused, dizzy, slurring and clumsy."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_brain_scramble.dmi'
+	button_icon_state = "brain_scramble"
+	click_to_activate = TRUE
+	needs_mob_target = TRUE
+	shows_hand = TRUE
+	hand_message = "Your hand is charged. Touch someone next to you, or use the power again to cancel."
+	cooldown_time = 12 SECONDS
+	power_cost = 40
+	shop_tier = 1
+	unlock_cost = 200
+	upgrade_costs = list(250, 450)
+	upgrade_descriptions = list(
+		"Lasts 12 seconds, hurts a bit more.",
+		"Lasts 16 seconds, hurts a bit more.",
+	)
+
+/datum/action/cooldown/arcfiend/brain_scramble/Activate(atom/target)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || !isliving(target) || target == owner)
+		return FALSE
+	if(!owner.Adjacent(target))
+		owner.balloon_alert(owner, "too far away!")
+		return FALSE
+	if(!arcfiend.spend_power(power_cost))
+		return FALSE
+	var/mob/living/victim = target
+	var/duration = by_level(list(8 SECONDS, 12 SECONDS, 16 SECONDS))
+	victim.adjust_confusion(duration)
+	victim.adjust_slurring(duration)
+	victim.set_dizzy_if_lower(duration)
+	victim.adjustOrganLoss(ORGAN_SLOT_BRAIN, by_level(list(10, 15, 20)))
+	victim.apply_status_effect(/datum/status_effect/arcfiend_scrambled, duration)
+	if(!HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+		var/level = get_level()
+		victim.apply_damage(list(4, 5, 6)[level], BURN)
+		victim.apply_damage(list(65, 85, 100)[level], STAMINA)
+		victim.adjust_eye_blur(duration)
+	if(victim.client)
+		shake_camera(victim, duration, 3)
+	do_sparks(2, FALSE, victim)
+	playsound(victim, ARCFIEND_SOUND_BRAIN_SCRAMBLE, 60, TRUE)
+	owner.visible_message(
+		span_danger("[owner] touches [victim], and [victim.p_their()] whole body jolts with static!"),
+		span_notice("You scramble [victim]'s nerves."),
+	)
+	to_chat(victim, span_userdanger("Static roars through your head and you can't think straight!"))
+	StartCooldown()
+	return TRUE
+
+/// Brain Scramble's clumsiness. Scrambling again refreshes the duration.
+/datum/status_effect/arcfiend_scrambled
+	id = "arcfiend_scrambled"
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = null
+	duration = 8 SECONDS
+
+/datum/status_effect/arcfiend_scrambled/on_creation(mob/living/new_owner, set_duration)
+	if(isnum(set_duration))
+		duration = set_duration
+	return ..()
+
+/datum/status_effect/arcfiend_scrambled/on_apply()
+	ADD_TRAIT(owner, TRAIT_CLUMSY, TRAIT_STATUS_EFFECT(id))
+	return TRUE
+
+/datum/status_effect/arcfiend_scrambled/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_CLUMSY, TRAIT_STATUS_EFFECT(id))
+
+/datum/status_effect/arcfiend_scrambled/refresh(effect, set_duration)
+	if(isnum(set_duration))
+		duration = world.time + set_duration
+
+//////////////////////////////////////////////////////////////////////////
+//-----------------------------Arc Discharge----------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/arc_discharge
+	name = "Arc Discharge"
+	desc = "Hurl a bolt of lightning from your hand at a target."
+	shop_desc = "Grants you Arc Discharge, a ranged power that fires a bolt of lightning at a target you can see. It burns them, drains their stamina and briefly blinds them, then jumps to anyone standing near them. Shock immune targets are unaffected."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_arc_discharge.dmi'
+	button_icon_state = "arc_discharge"
+	click_to_activate = TRUE
+	needs_mob_target = TRUE
+	shows_hand = TRUE
+	hand_message = "Your hand is charged. Click someone you can see to fire, or use the power again to cancel."
+	cooldown_time = 8 SECONDS
+	power_cost = 60
+	shop_tier = 1
+	unlock_cost = 300
+	upgrade_costs = list(300, 600)
+	upgrade_descriptions = list(
+		"Hits harder, jumps to a second target.",
+		"Hits harder, jumps to a third target.",
+	)
+	/// How far away we can fire
+	var/bolt_range = 7
+	/// How far each arc can jump to a new target
+	var/chain_range = 3
+
+/datum/action/cooldown/arcfiend/arc_discharge/Activate(atom/target)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || !isliving(target) || target == owner)
+		return FALSE
+	if(!can_see(owner, target, bolt_range))
+		owner.balloon_alert(owner, "can't reach that!")
+		return FALSE
+	if(!arcfiend.spend_power(power_cost))
+		return FALSE
+
+	var/level = get_level()
+	var/damage = list(17, 22, 28)[level]
+	var/stamina_damage = list(28, 38, 50)[level]
+	var/arcs_left = level
+	var/mob/living/victim = isliving(target) ? target : locate(/mob/living) in get_turf(target)
+	if(victim == owner)
+		victim = null
+
+	playsound(owner, ARCFIEND_SOUND_ARC_DISCHARGE, 50, TRUE)
+	owner.Beam(victim || target, icon_state = "lightning[rand(1, 12)]", time = 5)
+	owner.visible_message(
+		span_danger("[owner] flings a bolt of lightning at [victim || target]!"),
+		span_notice("You fling a bolt of lightning at [victim || target]."),
+	)
+	if(!victim)
+		StartCooldown()
+		return TRUE
+
+	var/list/already_hit = list(owner)
+	var/atom/source = owner
+	while(victim)
+		already_hit += victim
+		zap(source, victim, damage, stamina_damage)
+		damage = round(damage * 0.6, 1)
+		stamina_damage = round(stamina_damage * 0.6, 1)
+		source = victim
+		victim = (arcs_left-- > 0) ? find_next_victim(source, already_hit) : null
+		if(victim)
+			source.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
+	StartCooldown()
+	return TRUE
+
+/// The nearest living thing the arc can jump to from this one
+/datum/action/cooldown/arcfiend/arc_discharge/proc/find_next_victim(atom/source, list/already_hit)
+	var/mob/living/closest
+	var/closest_dist = INFINITY
+	for(var/mob/living/candidate in oview(chain_range, source))
+		if(candidate in already_hit)
+			continue
+		if(candidate.stat == DEAD || !can_see(source, candidate, chain_range))
+			continue
+		var/candidate_dist = get_dist(source, candidate)
+		if(candidate_dist < closest_dist)
+			closest = candidate
+			closest_dist = candidate_dist
+	return closest
+
+/// Hits someone with the arc
+/datum/action/cooldown/arcfiend/arc_discharge/proc/zap(atom/source, mob/living/victim, damage, stamina_damage)
+	if(HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+		victim.visible_message(span_warning("The lightning washes harmlessly over [victim]!"))
+		return
+	victim.apply_damage(damage, BURN, spread_damage = TRUE)
+	victim.apply_damage(stamina_damage, STAMINA)
+	victim.adjust_temp_blindness(by_level(list(5 SECONDS, 6 SECONDS, 7 SECONDS)))
+	victim.adjust_eye_blur(by_level(list(8 SECONDS, 10 SECONDS, 12 SECONDS)))
+	victim.flash_act(1, visual = TRUE)
+	to_chat(victim, span_userdanger("A bolt of lightning slams into you!"))
+	do_sparks(2, FALSE, victim)
+	if(ishuman(victim))
+		var/mob/living/carbon/human/human_victim = victim
+		human_victim.electrocution_animation(1 SECONDS)
+
+#undef ARCFIEND_OVERDRIVE_TRAIT
+
+//////////////////////////////////////////////////////////////////////////
+//-------------------------------Thunderclap----------------------------//
+//////////////////////////////////////////////////////////////////////////
+
+/// No hand, using the power starts the windup
+/datum/action/cooldown/arcfiend/thunderclap
+	name = "Thunderclap"
+	desc = "Gather charge in your body, then release it all at once in a shockwave."
+	shop_desc = "Grants you Thunderclap. After a charge-up that everyone nearby can see, you release a shockwave that burns, drains the stamina of and flashes everyone in range, weaker the further they are from you. Anyone within 2 tiles is also thrown back."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_thunderclap.dmi'
+	button_icon_state = "thunderclap"
+	cooldown_time = 30 SECONDS
+	power_cost = 120
+	shop_tier = 2
+	unlock_cost = 450
+	upgrade_costs = list(550, 850)
+	upgrade_descriptions = list(
+		"Throws 4 tiles, reaches 8. Hits harder, charges faster, 25 second cooldown.",
+		"Throws 5 tiles, reaches 9. Hits harder, charges faster, 20 second cooldown.",
+	)
+	/// Whether we are in the middle of the windup, so it can't be started twice
+	var/winding_up = FALSE
+
+/// How long the windup takes
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_windup()
+	return by_level(list(1.5 SECONDS, 1.25 SECONDS, 1 SECONDS))
+
+/// How far people within 2 tiles are thrown
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_throw_distance()
+	return by_level(list(3, 4, 5))
+
+/// How far away the burn, stamina damage and flash reach
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_outer_range()
+	return by_level(list(7, 8, 9))
+
+/// The burn damage right next to the edge of the throwing range, before falloff
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_burn()
+	return by_level(list(5, 6, 7))
+
+/// The stamina damage right next to the edge of the throwing range, before falloff
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_stamina()
+	return by_level(list(55, 70, 85))
+
+/// How long it takes to recharge
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_recharge_time()
+	return by_level(list(30 SECONDS, 25 SECONDS, 20 SECONDS))
+
+/// How much of the full effect someone this many tiles away gets. It never drops to nothing within range.
+/datum/action/cooldown/arcfiend/thunderclap/proc/get_falloff(distance)
+	return max(1 - (distance - 1) / get_outer_range(), 0.15)
+
+/datum/action/cooldown/arcfiend/thunderclap/Activate(atom/target)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || !isliving(owner) || winding_up)
+		return FALSE
+	var/mob/living/user = owner
+	winding_up = TRUE
+	user.visible_message(
+		span_danger("[user] starts glowing brighter and brighter, the air around [user.p_them()] crackling and tightening!"),
+		span_notice("You gather the charge in your body. Anyone close will be thrown, and everyone nearby will feel it."),
+	)
+	user.balloon_alert_to_viewers("charging!")
+	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_WINDUP, 80, TRUE, extrarange = 8)
+	add_visual(user, "charge", 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap.dmi', "thunderclap_charge")
+	var/finished = do_after(user, get_windup(), progress = FALSE, timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_thunderclap")
+	remove_visual("charge")
+	winding_up = FALSE
+	if(!finished)
+		user.balloon_alert(user, "interrupted!")
+		return FALSE
+	if(!arcfiend.spend_power(power_cost))
+		return FALSE
+	burst(user)
+	StartCooldown(get_recharge_time())
+	return TRUE
+
+/datum/action/cooldown/arcfiend/thunderclap/proc/burst(mob/living/user)
+	new /obj/effect/temp_visual/arcfiend_thunderclap(get_turf(user), get_outer_range())
+	do_sparks(6, FALSE, user)
+	playsound(user, ARCFIEND_SOUND_THUNDERCLAP_BOOM, 100, TRUE, extrarange = 15)
+	user.flash_lighting_fx(7, 5, "#ffe94d", 1 SECONDS)
+	user.visible_message(span_danger("[user] releases a burst of electricity!"), span_notice("You release the charge."))
+	var/list/caught = list()
+	for(var/atom/movable/nearby in view(get_outer_range(), user))
+		if(isliving(nearby))
+			var/mob/living/victim = nearby
+			if(victim != user && victim.stat != DEAD)
+				hit_victim(user, victim, get_dist(user, victim))
+				caught += victim
+		else if(istype(nearby, /obj/machinery/light) && prob(50))
+			INVOKE_ASYNC(nearby, TYPE_PROC_REF(/obj/machinery/light, flicker), rand(2, 4))
+	if(!length(caught))
+		user.balloon_alert(user, "nobody caught!")
+		return
+	user.balloon_alert(user, "caught [length(caught)]!")
+	to_chat(user, span_notice("Your shockwave catches [english_list(caught)]."))
+
+/// What the burst does to one person, depending on how far away they are
+/datum/action/cooldown/arcfiend/thunderclap/proc/hit_victim(mob/living/user, mob/living/victim, distance)
+	var/falloff = get_falloff(distance)
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_struck.dmi', "thunderclap_struck", 5)
+	do_sparks(2, FALSE, victim)
+	var/shock_immune = HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE)
+	if(!shock_immune)
+		victim.apply_damage(get_burn() * falloff, BURN)
+		victim.apply_damage(get_stamina() * falloff, STAMINA)
+		victim.set_jitter_if_lower(4 SECONDS * falloff)
+		victim.adjust_eye_blur(8 SECONDS * falloff)
+		if(ishuman(victim))
+			var/mob/living/carbon/human/human_victim = victim
+			human_victim.electrocution_animation(1 SECONDS)
+	victim.flash_act(1, visual = TRUE, length = 4 SECONDS * falloff)
+	if(victim.client)
+		shake_camera(victim, 3, 1)
+	if(distance > 2)
+		if(shock_immune)
+			to_chat(victim, span_warning("A burst of electricity from [user] washes harmlessly over you."))
+		else
+			to_chat(victim, span_userdanger("A burst of electricity from [user] washes over you, burning and draining you!"))
+		return
+	to_chat(victim, span_userdanger("A shockwave of electricity throws you away from [user]!"))
+	if(!victim.anchored)
+		var/turf/away = get_edge_target_turf(victim, get_dir(user, victim) || victim.dir)
+		victim.throw_at(away, get_throw_distance(), 2, user, spin = FALSE)
+
+
+/// Thunderclap's ring. The 160x160 sprite is scaled to the burst's range.
+/obj/effect/temp_visual/arcfiend_thunderclap
+	icon = 'bastionstation/icons/effects/arcfiend/arcfiend_thunderclap_160.dmi'
+	icon_state = "thunderclap_release"
+	duration = 1 SECONDS // The frames add up to this
+	randomdir = FALSE
+	plane = ABOVE_LIGHTING_PLANE
+	layer = FLY_LAYER
+	// Centers the 160x160 sprite on the tile
+	pixel_x = -64
+	pixel_y = -64
+
+/obj/effect/temp_visual/arcfiend_thunderclap/Initialize(mapload, outer_range = 7)
+	. = ..()
+	// The ring is about 150 pixels across, and should reach the edge of the burst
+	var/ring_scale = (outer_range * 2 * 32) / 150
+	transform = transform.Scale(ring_scale, ring_scale)
+
+//////////////////////////////////////////////////////////////////////////
+//---------------------------Electrokinetic Smash-----------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash
+	name = "Electrokinetic Smash"
+	desc = "Current runs through your fists and weapons, shocking whatever you hit. Your punches hit harder and never miss."
+	shop_desc = "Grants you Electrokinetic Smash, a toggle that makes your punches hit harder and never miss. Every hit with a weapon or your fists also burns and can arc to people nearby. Drains power every second, and a little more with each hit."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_electrokinetic_smash.dmi'
+	button_icon_state = "electrokinetic_smash"
+	shop_listed = TRUE
+	shop_tier = 2
+	unlock_cost = 400
+	upgrade_costs = list(500, 800)
+	upgrade_descriptions = list(
+		"Punches hit 40% harder, more burn, arcs more often.",
+		"Punches hit 60% harder, more burn, arcs can reach two others.",
+	)
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi'
+	effect_state = "smash_arms"
+	effect_on_time = 7
+	effect_off_time = 9
+	/// Power each hit costs, on top of the upkeep
+	var/hit_cost = 8
+	/// How far an arc can jump
+	var/chain_range = 2
+	/// The arms we have boosted, each with how much we added to its low and high punch damage, so we can take exactly that away again
+	var/list/boosted_arms = list()
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_upkeep()
+	return 1
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_upkeep_text()
+	return "[get_upkeep()] power every second while on, plus [hit_cost] for every hit that shocks someone"
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_cost_label()
+	return "[get_upkeep()]/s+"
+
+/// How much harder our punches hit. Punch damage has to stay a whole number, so the steps are big enough for every level to count.
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/get_punch_multiplier()
+	return by_level(list(1.2, 1.4, 1.6))
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/apply_effect(mob/living/user)
+	RegisterSignal(user, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_item_attack))
+	RegisterSignal(user, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
+	RegisterSignal(user, COMSIG_HUMAN_PUNCHED, PROC_REF(on_punched))
+	ADD_TRAIT(user, TRAIT_PERFECT_ATTACKER, REF(src))
+	add_glow(user, "arcfiend_smash_glow")
+	// Punch damage is rolled from the damage range of the arm doing the punching, so that is what gets boosted
+	if(iscarbon(user))
+		var/mob/living/carbon/carbon_user = user
+		for(var/obj/item/bodypart/arm/arm in carbon_user.bodyparts)
+			var/low_bonus = round(arm.unarmed_damage_low * (get_punch_multiplier() - 1), 1)
+			var/high_bonus = round(arm.unarmed_damage_high * (get_punch_multiplier() - 1), 1)
+			arm.unarmed_damage_low += low_bonus
+			arm.unarmed_damage_high += high_bonus
+			boosted_arms[arm] = list(low_bonus, high_bonus)
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/remove_effect(mob/living/user)
+	UnregisterSignal(user, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_HUMAN_PUNCHED))
+	REMOVE_TRAIT(user, TRAIT_PERFECT_ATTACKER, REF(src))
+	remove_glow(user, "arcfiend_smash_glow")
+	for(var/obj/item/bodypart/arm/arm as anything in boosted_arms)
+		if(QDELETED(arm))
+			continue
+		arm.unarmed_damage_low -= boosted_arms[arm][1]
+		arm.unarmed_damage_high -= boosted_arms[arm][2]
+	boosted_arms.Cut()
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_on_message(mob/living/user)
+	return "[user]'s hands start crackling with electricity!"
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/get_off_message(mob/living/user)
+	return "The electricity around [user]'s hands fades."
+
+/// Signal proc for COMSIG_MOB_ITEM_ATTACK. Returning anything here would cancel the attack, so we never do.
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/on_item_attack(mob/living/source, mob/living/target, mob/living/user, list/modifiers, list/attack_modifiers, obj/item/weapon)
+	SIGNAL_HANDLER
+	// We can't tell yet if this swing will land, so the weapon tells us when it does
+	if(isliving(target) && !(weapon.item_flags & NOBLUDGEON))
+		RegisterSignal(weapon, COMSIG_ITEM_ATTACK_ZONE, PROC_REF(on_weapon_landed), override = TRUE)
+	return NONE
+
+/// Signal proc for COMSIG_ITEM_ATTACK_ZONE, which a weapon only sends once a swing at a mob has got past any block
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/on_weapon_landed(obj/item/source, mob/living/target, mob/living/user, hit_zone)
+	SIGNAL_HANDLER
+	UnregisterSignal(source, COMSIG_ITEM_ATTACK_ZONE)
+	if(active && user == owner && source.force > 0)
+		discharge(target)
+
+/// Signal proc for COMSIG_HUMAN_PUNCHED, which is only sent for a punch that landed on a human
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/on_punched(mob/living/source, mob/living/target, damage, attack_type, obj/item/bodypart/affecting)
+	SIGNAL_HANDLER
+	discharge(target)
+
+/// Signal proc for COMSIG_HUMAN_MELEE_UNARMED_ATTACK. Everything that isn't a human takes punches another way, and never sends COMSIG_HUMAN_PUNCHED.
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(proximity && isliving(target) && !ishuman(target) && (source.istate & ISTATE_HARM) && !(source.istate & ISTATE_SECONDARY))
+		discharge(target)
+
+/// Burns whoever we hit, and maybe arcs on to others
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/discharge(mob/living/victim)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!arcfiend || victim == owner || victim.stat == DEAD)
+		return
+	if(!arcfiend.spend_power(hit_cost))
+		return
+	new /obj/effect/temp_visual/arcfiend_flash(get_turf(victim), effect_icon, "smash_hit", 7)
+	var/level = get_level()
+	var/damage = list(10, 15, 21)[level]
+	shock(victim, damage, "[owner]'s electrified blow shocks you!")
+	if(!prob(list(25, 40, 55)[level]))
+		return
+	var/arcs_left = (level == 3) ? 2 : 1
+	var/list/already_hit = list(owner, victim)
+	var/atom/source = victim
+	while(arcs_left-- > 0)
+		var/list/candidates = list()
+		for(var/mob/living/candidate in oview(chain_range, source))
+			if(!(candidate in already_hit) && candidate.stat != DEAD)
+				candidates += candidate
+		if(!length(candidates))
+			return
+		var/mob/living/next_victim = pick(candidates)
+		already_hit += next_victim
+		source.Beam(next_victim, icon = 'bastionstation/icons/effects/arcfiend/arcfiend_electrokinetic_smash.dmi', icon_state = "smash_chain", time = 5)
+		damage = round(damage * 0.6, 1)
+		shock(next_victim, damage, "A stray arc of electricity shocks you!")
+		source = next_victim
+
+/datum/action/cooldown/arcfiend/toggle/electrokinetic_smash/proc/shock(mob/living/victim, damage, victim_message)
+	if(HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+		return
+	victim.apply_damage(damage, BURN, spread_damage = TRUE)
+	do_sparks(2, FALSE, victim)
+	playsound(victim, ARCFIEND_SOUND_SMASH_HIT, 40, TRUE)
+	to_chat(victim, span_userdanger(victim_message))
+
+//////////////////////////////////////////////////////////////////////////
+//--------------------------Myoelectric Stimulation---------------------//
+//////////////////////////////////////////////////////////////////////////
+/// Makes everything done with the hands take less time
+/datum/actionspeed_modifier/arcfiend_stimulation
+	variable = TRUE
+
+/datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation
+	name = "Myoelectric Stimulation"
+	desc = "Current drives your arm muscles far past their normal limits, letting you work, attack and shoot faster."
+	shop_desc = "Grants you Myoelectric Stimulation, a toggle that lets you work, attack, shoot and click faster. Drains power every second while active."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_myoelectric_stimulation.dmi'
+	button_icon_state = "myoelectric_stimulation"
+	shop_listed = TRUE
+	shop_tier = 2
+	unlock_cost = 400
+	upgrade_costs = list(500, 800)
+	upgrade_descriptions = list(
+		"Work 35% quicker, attack 30% faster. Cheaper to run.",
+		"Work 45% quicker, attack 40% faster. Cheaper still.",
+	)
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_myoelectric.dmi'
+	effect_state = "myoelectric_arms"
+	effect_on_time = 7
+	effect_off_time = 12
+	/// What the click and gun delay multipliers were multiplied by when this was switched on, so we can divide it out exactly
+	var/applied_speed_factor = 1
+
+/datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/get_upkeep()
+	return by_level(list(2, 1.5, 1))
+
+/datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/apply_effect(mob/living/user)
+	var/level = get_level()
+	user.add_or_update_variable_actionspeed_modifier(/datum/actionspeed_modifier/arcfiend_stimulation, multiplicative_slowdown = -list(0.25, 0.35, 0.45)[level])
+	applied_speed_factor = list(0.8, 0.7, 0.6)[level]
+	user.next_move_modifier *= applied_speed_factor
+	user.gun_fire_delay_modifier *= applied_speed_factor
+	add_glow(user, "arcfiend_stimulation_glow")
+
+/datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/remove_effect(mob/living/user)
+	user.remove_actionspeed_modifier(/datum/actionspeed_modifier/arcfiend_stimulation)
+	user.next_move_modifier /= applied_speed_factor
+	user.gun_fire_delay_modifier /= applied_speed_factor
+	applied_speed_factor = 1
+	remove_glow(user, "arcfiend_stimulation_glow")
+
+/datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/get_on_message(mob/living/user)
+	return "[user]'s arms start twitching with electricity!"
+
+/datum/action/cooldown/arcfiend/toggle/myoelectric_stimulation/get_off_message(mob/living/user)
+	return "The electricity in [user]'s arms dies down."
+
+//////////////////////////////////////////////////////////////////////////
+//------------------------------Jamming Field---------------------------//
+//////////////////////////////////////////////////////////////////////////
+/// The jammer an arcfiend carries inside of themselves while their jamming field is on
+/obj/item/jammer/arcfiend
+	name = "jamming field"
+	item_flags = ABSTRACT
+	range = 6
+
+/datum/action/cooldown/arcfiend/toggle/jamming_field
+	name = "Jamming Field"
+	desc = "A field of electrical interference radiates from your body, killing nearby radios, PDAs and sensors."
+	shop_desc = "Grants you Jamming Field, a toggle that disables radios, PDAs, GPS and suit sensors near you. You glow while it is active, making it obvious who is responsible. Drains power every second."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jamming_field.dmi'
+	button_icon_state = "jamming_field"
+	shop_listed = TRUE
+	shop_tier = 1
+	unlock_cost = 300
+	upgrade_costs = list(300, 600)
+	upgrade_descriptions = list(
+		"Reaches 9 tiles. Cheaper to run.",
+		"Reaches 12 tiles. Cheaper still.",
+	)
+	/// The jammer we carry while on
+	var/obj/item/jammer/arcfiend/field
+	/// The aura's name
+	var/aura_name = "arcfiend_jamming_aura"
+	effect_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_jamming.dmi'
+	effect_state = "jamming_aura"
+	effect_on_time = 8
+	effect_off_time = 5
+
+/datum/action/cooldown/arcfiend/toggle/jamming_field/get_upkeep()
+	return by_level(list(2, 1.5, 1))
+
+/datum/action/cooldown/arcfiend/toggle/jamming_field/get_on_message(mob/living/user)
+	return "[user] is wrapped in a pulsing field of static!"
+
+/datum/action/cooldown/arcfiend/toggle/jamming_field/get_off_message(mob/living/user)
+	return "The field of static around [user] collapses."
+
+/datum/action/cooldown/arcfiend/toggle/jamming_field/apply_effect(mob/living/user)
+	field = new(user)
+	field.range = by_level(list(6, 9, 12))
+	field.active = TRUE
+	GLOB.active_jammers |= field
+	add_glow(user, aura_name)
+	user.set_light_range_power_color(3, 1.5, "#ffe94d")
+	user.set_light_on(TRUE)
+
+/datum/action/cooldown/arcfiend/toggle/jamming_field/remove_effect(mob/living/user)
+	if(field)
+		GLOB.active_jammers -= field
+		QDEL_NULL(field)
+	remove_glow(user, aura_name)
+	user.set_light_on(FALSE)
+
+//////////////////////////////////////////////////////////////////////////
+//------------------------------Electric Emag---------------------------//
+//////////////////////////////////////////////////////////////////////////
+/// Paid for in its owner's power, see get_emag_cost()
+/obj/item/card/emag/arcfiend
+	name = "electric emag"
+	desc = "A card of biometal grown out of an arcfiend's hand. It hacks whatever it touches, expending power."
+	icon = 'bastionstation/icons/obj/antags/arcfiend/arcfiend_emag.dmi'
+	icon_state = "arcfiend_emag"
+	inhand_icon_state = "arcfiend_emag"
+	lefthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_emag_lefthand.dmi'
+	righthand_file = 'bastionstation/icons/mob/inhands/antag/arcfiend/arcfiend_emag_righthand.dmi'
+	item_flags = NO_MAT_REDEMPTION | NOBLUDGEON | ABSTRACT | DROPDEL
+	slot_flags = NONE
+	microwaveable = FALSE
+
+/obj/item/card/emag/arcfiend/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, ARCFIEND_TRAIT)
+	type_blacklist = null
+
+/// How much power it costs to emag this
+/obj/item/card/emag/arcfiend/proc/get_emag_cost(atom/target, datum/antagonist/arcfiend/arcfiend)
+	var/cost = 50
+	if(issilicon(target))
+		cost = ARCFIEND_EMAG_CYBORG_COST
+	else if(istype(target, /obj/machinery/computer))
+		cost = 150
+	else if(istype(target, /obj/machinery/door))
+		cost = 60
+	else if(ismachinery(target))
+		cost = 100
+	else if(isobj(target))
+		cost = ARCFIEND_EMAG_OBJECT_COST
+	var/level = arcfiend.get_power_level(/datum/action/cooldown/arcfiend/grown_item/electric_emag)
+	return round(cost * ARCFIEND_EMAG_LEVEL_MULTIPLIERS[clamp(level, 1, ARCFIEND_MAX_POWER_LEVEL)])
+
+/obj/item/card/emag/arcfiend/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(SHOULD_SKIP_INTERACTION(interacting_with, src, user))
+		return NONE
+	var/datum/antagonist/arcfiend/arcfiend = user.mind?.has_antag_datum(/datum/antagonist/arcfiend)
+	if(!arcfiend)
+		return ..()
+	var/cost = get_emag_cost(interacting_with, arcfiend)
+	if(!arcfiend.has_power(cost))
+		user.balloon_alert(user, "need [cost] power!")
+		return ITEM_INTERACT_BLOCKING
+	if(!can_emag(interacting_with, user))
+		return ITEM_INTERACT_BLOCKING
+	log_combat(user, interacting_with, "attempted to emag")
+	if(interacting_with.emag_act(user, src))
+		arcfiend.spend_power(cost)
+		SSblackbox.record_feedback("tally", "atom_emagged", 1, interacting_with.type)
+		return ITEM_INTERACT_SUCCESS
+	return NONE
+
+/datum/action/cooldown/arcfiend/grown_item/electric_emag
+	name = "Electric Emag"
+	desc = "Your nanites shape a card of biometal in your hand that hacks whatever it touches."
+	shop_desc = "Grants you Electric Emag, which grows an emag in your hand. It is free to summon and put away, but every hack costs power. Doors are cheap, consoles cost more, and cyborgs cost a great deal."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_electric_emag.dmi'
+	button_icon_state = "electric_emag"
+	shop_listed = TRUE
+	shop_tier = 2
+	unlock_cost = 400
+	upgrade_costs = list(500, 800)
+	upgrade_descriptions = list(
+		"Hacking is 25% cheaper.",
+		"Hacking is 50% cheaper.",
+	)
+	grown_type = /obj/item/card/emag/arcfiend
+
+/datum/action/cooldown/arcfiend/grown_item/electric_emag/get_cost_text()
+	var/multiplier = by_level(ARCFIEND_EMAG_LEVEL_MULTIPLIERS)
+	return "[round(ARCFIEND_EMAG_OBJECT_COST * multiplier)] to [round(ARCFIEND_EMAG_CYBORG_COST * multiplier)] power per hack, depending on the target"
+
+/datum/action/cooldown/arcfiend/grown_item/electric_emag/get_cost_label()
+	return "[round(ARCFIEND_EMAG_OBJECT_COST * by_level(ARCFIEND_EMAG_LEVEL_MULTIPLIERS))]+"
+
+/datum/action/cooldown/arcfiend/grown_item/electric_emag/on_grown(mob/living/user, obj/item/grown)
+	user.visible_message(span_warning("A card of crackling biometal grows out of [user]'s hand!"), span_notice("You grow an electric emag."))
+
+//////////////////////////////////////////////////////////////////////////
+//-----------------------------Magnetic Shield--------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield
+	name = "Magnetic Shield"
+	desc = "A magnetic field around your body catches incoming shots, and throws energy shots straight back. An EMP will knock it out."
+	shop_desc = "Grants you Magnetic Shield, a toggle with a 50% chance to stop any projectile that would hit you, and energy shots it stops get reflected. Tasers and tesla shots always get stopped, and switching it on shakes off any taser already in you. Getting hit by an EMP shuts it off and puts it on a long cooldown. Drains power every second while active."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_magnetic_shield.dmi'
+	button_icon_state = "magnetic_shield"
+	shop_listed = TRUE
+	shop_tier = 2
+	unlock_cost = 400
+	minimum_power_to_start = 50
+	upgrade_costs = list(500, 700)
+	upgrade_descriptions = list(
+		"Cheaper to run, recovers from an EMP in 75 seconds.",
+		"Cheaper still, recovers from an EMP in 60 seconds.",
+	)
+	/// The sprites of the field. These don't follow the usual toggle sprite names, so they aren't effect_icon.
+	var/shield_icon = 'bastionstation/icons/effects/arcfiend/arcfiend_magnetic_shield.dmi'
+	/// Set while an EMP is what is switching us off
+	var/shorted_out = FALSE
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/get_upkeep()
+	return by_level(list(5, 4, 3))
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/get_on_sound()
+	return ARCFIEND_SOUND_SHIELD_UP
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/get_off_sound()
+	return shorted_out ? null : ARCFIEND_SOUND_SHIELD_DOWN
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/apply_effect(mob/living/user)
+	RegisterSignal(user, COMSIG_ATOM_PRE_BULLET_ACT, PROC_REF(on_pre_bullet_act))
+	RegisterSignal(user, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp))
+	for(var/datum/status_effect/tased/tase in user.status_effects)
+		tase.end_tase()
+	add_visual(user, "body", shield_icon, "magnetic_shield_up", 4)
+	effect_timer = addtimer(CALLBACK(src, PROC_REF(show_field), user), 4, TIMER_STOPPABLE)
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/remove_effect(mob/living/user)
+	UnregisterSignal(user, list(COMSIG_ATOM_PRE_BULLET_ACT, COMSIG_ATOM_EMP_ACT))
+	if(effect_timer)
+		deltimer(effect_timer)
+		effect_timer = null
+	if(shorted_out)
+		add_visual(user, "body", shield_icon, "magnetic_shield_break", 9)
+	else
+		add_visual(user, "body", shield_icon, "magnetic_shield_down", 6)
+
+/// Once the field has finished coming up, the looping sprite takes over for as long as it stays on
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/proc/show_field(mob/living/user)
+	effect_timer = null
+	if(active)
+		add_visual(user, "body", shield_icon, "magnetic_shield_field")
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/get_on_message(mob/living/user)
+	return "The air around [user] starts to hum and shimmer!"
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/get_off_message(mob/living/user)
+	return shorted_out ? "The shimmering field around [user] bursts apart!" : "The shimmering field around [user] fades away."
+
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/proc/on_pre_bullet_act(mob/living/source, obj/projectile/hitting_projectile, def_zone, piercing_hit, blocked)
+	SIGNAL_HANDLER
+	if(hitting_projectile.firer == source && hitting_projectile.original == source)
+		return NONE
+	var/static/list/always_stopped = typecacheof(list(/obj/projectile/energy/electrode, /obj/projectile/energy/tesla, /obj/projectile/energy/tesla_cannon))
+	if(!always_stopped[hitting_projectile.type] && (!hitting_projectile.is_hostile_projectile() || !prob(ARCFIEND_SHIELD_BLOCK_CHANCE)))
+		return NONE
+	add_visual(source, "block", shield_icon, "magnetic_shield_block", 5)
+	playsound(source, ARCFIEND_SOUND_SHIELD_BLOCK, 50, TRUE)
+	if(hitting_projectile.reflectable)
+		source.visible_message(
+			span_danger("[hitting_projectile] is thrown back by the field around [source]!"),
+			span_userdanger("Your magnetic shield throws back [hitting_projectile]!"),
+		)
+		hitting_projectile.reflect(source)
+		return COMPONENT_BULLET_PIERCED
+	source.visible_message(
+		span_danger("[hitting_projectile] is stopped by the field around [source]!"),
+		span_userdanger("Your magnetic shield stops [hitting_projectile]!"),
+	)
+	return COMPONENT_BULLET_BLOCKED
+
+/// Any EMP knocks the field out, and it takes a long time to recover
+/datum/action/cooldown/arcfiend/toggle/magnetic_shield/proc/on_emp(mob/living/source, severity)
+	SIGNAL_HANDLER
+	shorted_out = TRUE
+	switch_off()
+	shorted_out = FALSE
+	playsound(source, ARCFIEND_SOUND_SHIELD_EMP, 70, TRUE)
+	to_chat(source, span_userdanger("The pulse tears your magnetic shield apart!"))
+	StartCooldown(by_level(list(90 SECONDS, 75 SECONDS, 60 SECONDS)))
+
+//////////////////////////////////////////////////////////////////////////
+//----------------------------------Jolt--------------------------------//
+//////////////////////////////////////////////////////////////////////////
+/datum/action/cooldown/arcfiend/jolt
+	name = "Jolt"
+	desc = "Build up a powerful charge in your hand to stop or restart a heart."
+	shop_desc = "Grants you Jolt, which charges up your hand over a few seconds while you keep moving. Touch someone in combat mode to stop their heart and burn them badly, or out of combat mode to restart it like a defibrillator, even reviving the dead. Use the charge quickly, or it fades. A failed revival still costs the power, but you will sense why it failed."
+	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jolt.dmi'
+	button_icon_state = "jolt"
+	click_to_activate = TRUE
+	needs_mob_target = TRUE
+	shows_hand = TRUE
+	hand_message = "Your hand is charged. Touch someone next to you to jolt them, or use the power again to let the charge go. In combat mode it stops their heart, otherwise it restarts it."
+	cooldown_time = 45 SECONDS
+	power_cost = 200
+	shop_tier = 3
+	unlock_cost = 700
+	upgrade_costs = list(1000, 1200)
+	upgrade_descriptions = list(
+		"Faster charge and cooldown, more burn.",
+		"Faster still, even more burn.",
+	)
+	/// Whether we are in the middle of charging up
+	var/charging = FALSE
+	/// Whether our hand holds a charge, ready for the next touch
+	var/charged = FALSE
+	/// The timer that lets a held charge fade
+	var/charge_timer
+
+/datum/action/cooldown/arcfiend/jolt/Destroy()
+	deltimer(charge_timer)
+	return ..()
+
+/datum/action/cooldown/arcfiend/jolt/Trigger(trigger_flags, atom/target)
+	if(charging)
+		return FALSE
+	if(charged)
+		return ..()
+	if(!IsAvailable(feedback = TRUE))
+		return FALSE
+	INVOKE_ASYNC(src, PROC_REF(charge_up))
+	return TRUE
+
+/// The windup happens before the touch, and you can move while it builds
+/datum/action/cooldown/arcfiend/jolt/proc/charge_up()
+	var/mob/living/user = owner
+	charging = TRUE
+	user.visible_message(
+		span_danger("[user]'s hand starts to crackle with a building charge!"),
+		span_notice("You start gathering a massive charge in your hand..."),
+	)
+	playsound(user, ARCFIEND_SOUND_JOLT_WINDUP, 60, TRUE)
+	var/finished = do_after(user, list(6 SECONDS, 5 SECONDS, 4 SECONDS)[get_level()], timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_jolt")
+	charging = FALSE
+	if(QDELETED(src) || owner != user)
+		return
+	if(!finished || !IsAvailable())
+		user.balloon_alert(user, "interrupted!")
+		return
+	charged = TRUE
+	charge_timer = addtimer(CALLBACK(src, PROC_REF(lose_charge)), ARCFIEND_JOLT_CHARGE_DURATION, TIMER_STOPPABLE)
+	Trigger()
+
+/datum/action/cooldown/arcfiend/jolt/proc/lose_charge()
+	if(!charged)
+		return
+	to_chat(owner, span_warning("The charge in your hand fades away."))
+	if(owner?.click_intercept == src)
+		unset_click_ability(owner, refund_cooldown = TRUE)
+	else
+		discharge()
+
+/datum/action/cooldown/arcfiend/jolt/proc/discharge()
+	charged = FALSE
+	deltimer(charge_timer)
+	charge_timer = null
+
+/datum/action/cooldown/arcfiend/jolt/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
+	. = ..()
+	if(refund_cooldown)
+		discharge()
+
+/datum/action/cooldown/arcfiend/jolt/Activate(atom/target)
+	var/datum/antagonist/arcfiend/arcfiend = get_arcfiend()
+	if(!charged || !arcfiend || !iscarbon(target) || target == owner)
+		return FALSE
+	if(!owner.Adjacent(target))
+		owner.balloon_alert(owner, "too far away!")
+		return FALSE
+	var/mob/living/carbon/victim = target
+	var/mob/living/user = owner
+	var/lethal = !!(user.istate & ISTATE_HARM)
+	if(lethal)
+		if(HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+			user.balloon_alert(user, "they're immune!")
+			return FALSE
+	else if(victim.stat != DEAD && !victim.undergoing_cardiac_arrest())
+		user.balloon_alert(user, "they don't need it!")
+		return FALSE
+	// Any dead body can be tried. Why it failed is only told after the charge is spent, see get_failure_feeling().
+
+	if(!arcfiend.spend_power(power_cost))
+		return FALSE
+	discharge()
+
+	var/level = get_level()
+	user.visible_message(
+		span_danger("[user] slams a crackling hand into [victim]'s chest!"),
+		span_notice("You release the charge into [victim]."),
+	)
+	do_sparks(5, FALSE, victim)
+	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
+	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
+	if(lethal)
+		stop_heart(victim, list(45, 55, 65)[level])
+	else
+		restart_heart(victim)
+	StartCooldown(list(45 SECONDS, 35 SECONDS, 25 SECONDS)[level])
+	return TRUE
+
+/datum/action/cooldown/arcfiend/jolt/proc/stop_heart(mob/living/carbon/victim, burn_damage)
+	victim.apply_damage(burn_damage, BURN, spread_damage = TRUE)
+	victim.set_jitter_if_lower(20 SECONDS)
+	if(ishuman(victim) && !HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
+		var/mob/living/carbon/human/human_victim = victim
+		human_victim.electrocution_animation(2 SECONDS)
+	if(victim.needs_heart() && !victim.undergoing_cardiac_arrest())
+		victim.set_heartattack(TRUE)
+	// Another arcfiend's heart can't be stopped, so all they get is the burns
+	if(HAS_TRAIT(victim, TRAIT_HEART_ATTACK_IMMUNE) && !victim.undergoing_cardiac_arrest())
+		victim.visible_message(span_danger("[victim] convulses violently, but [victim.p_their()] heart keeps beating through the jolt!"), span_userdanger("A jolt of lightning tears through your chest, but your heart keeps beating!"))
+		return
+	victim.visible_message(span_danger("[victim] convulses violently, [victim.p_their()] heart giving out!"), span_userdanger("A jolt of lightning tears through your chest, and your heart stops!"))
+
+/// What the arcfiend's intuition tells them about why a body can't be revived. Null means it can be.
+/datum/action/cooldown/arcfiend/jolt/proc/get_failure_feeling(defib_result)
+	switch(defib_result)
+		if(DEFIB_FAIL_SUICIDE)
+			return "You reach for their spark and find nothing to catch. They let go of it themselves, and nothing you do will pull it back."
+		if(DEFIB_FAIL_HUSK)
+			return "There is nothing left in this body for the current to hold on to. It is dried out, a husk, and the charge just bleeds away. It would need mending before anything could wake in it."
+		if(DEFIB_FAIL_BLACKLISTED)
+			return "Something has sealed them away. The current finds no way in, and you sense that it never will."
+		if(DEFIB_FAIL_TISSUE_DAMAGE)
+			return "The flesh is too ravaged to carry the current. It scatters through torn muscle and leaks away. Mend the worst of the damage and try again."
+		if(DEFIB_FAIL_NO_HEART)
+			return "You feel for a heartbeat to restart and find only emptiness where a heart should be."
+		if(DEFIB_FAIL_FAILING_HEART)
+			return "Their heart is too damaged to take the beat. It quivers under the current and falls still. Mend it and try again."
+		if(DEFIB_FAIL_NO_BRAIN)
+			return "The current runs all the way through them and finds nobody home. There is nothing in the skull that could wake."
+		if(DEFIB_FAIL_FAILING_BRAIN)
+			return "Their mind is too damaged to wake. You sense it flicker under the current and fade. Mend it and try again."
+		if(DEFIB_FAIL_NO_INTELLIGENCE)
+			return "You sense no spark of a mind left to call back. Whatever lived here is long gone."
+	return null
+
+/// Tells the arcfiend what their intuition says, as a quiet thought and not an announcement
+/datum/action/cooldown/arcfiend/jolt/proc/intuit(message)
+	to_chat(owner, span_notice("<i>[message]</i>"))
+
+/// Restarts a stopped heart, or brings back the dead like a defibrillator would. The power has already been spent by now.
+/datum/action/cooldown/arcfiend/jolt/proc/restart_heart(mob/living/carbon/victim)
+	if(victim.stat != DEAD)
+		var/obj/item/organ/internal/heart/heart = victim.get_organ_by_type(/obj/item/organ/internal/heart)
+		if(heart && (heart.organ_flags & ORGAN_FAILING))
+			victim.visible_message(span_warning("The jolt rolls over [victim], but [victim.p_their()] heart will not take the beat."))
+			intuit(get_failure_feeling(DEFIB_FAIL_FAILING_HEART))
+			return FALSE
+		victim.set_heartattack(FALSE)
+		victim.emote("gasp")
+		victim.visible_message(span_notice("[victim] jolts and gasps as [victim.p_their()] heart starts beating again!"), span_userdanger("A jolt of lightning restarts your heart!"))
+		return TRUE
+
+	var/defib_result = victim.can_defib()
+	var/failure_feeling = get_failure_feeling(defib_result)
+	if(failure_feeling)
+		victim.visible_message(span_warning("The jolt rolls over [victim]'s body, but nothing stirs."))
+		intuit(failure_feeling)
+		return FALSE
+
+	// A body that is too damaged would just die again, so it is brought back to the edge of critical, the way a defibrillator does
+	var/total_brute = victim.getBruteLoss()
+	var/total_burn = victim.getFireLoss()
+	var/halfway_to_death = (victim.crit_threshold + victim.dead_threshold) * 0.5
+	if(victim.health > halfway_to_death)
+		victim.adjustOxyLoss(victim.health - halfway_to_death, 0)
+	else
+		var/overall_damage = total_brute + total_burn + victim.getToxLoss() + victim.getOxyLoss()
+		var/current_health = victim.health
+		victim.adjustOxyLoss((current_health - halfway_to_death) * (victim.getOxyLoss() / overall_damage), 0)
+		victim.adjustToxLoss((current_health - halfway_to_death) * (victim.getToxLoss() / overall_damage), 0, TRUE)
+		victim.adjustFireLoss((current_health - halfway_to_death) * (total_burn / overall_damage), 0)
+		victim.adjustBruteLoss((current_health - halfway_to_death) * (total_brute / overall_damage), 0)
+	victim.updatehealth()
+
+	victim.set_heartattack(FALSE)
+	// Whoever used to live in there is called back if they are still around. If they aren't, the body wakes up anyway.
+	if(defib_result == DEFIB_POSSIBLE)
+		victim.grab_ghost()
+	victim.revive()
+	victim.emote("gasp")
+	victim.set_jitter_if_lower(60 SECONDS)
+	SEND_SIGNAL(victim, COMSIG_LIVING_MINOR_SHOCK)
+	victim.visible_message(span_notice("[victim] jolts and gasps as [victim.p_their()] heart starts beating again!"), span_userdanger("A jolt of lightning restarts your heart!"))
+	var/mob/living/saver = owner
+	saver?.add_mood_event("saved_life", /datum/mood_event/saved_life)
+	log_combat(saver, victim, "revived", "Jolt")
+	if(!victim.client)
+		intuit("The body breathes again, but there is nobody home behind its eyes.")
+	return TRUE
