@@ -1786,10 +1786,10 @@
 /obj/machinery/airalarm/directional/east{
 	req_one_access = list("syndicate")
 	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
 /obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/dorm)
 "gp" = (
@@ -1852,9 +1852,6 @@
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "gy" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "gz" = (
@@ -1913,9 +1910,6 @@
 /obj/item/reagent_containers/blood/random,
 /obj/item/reagent_containers/blood/random,
 /obj/item/reagent_containers/blood/random,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 5
 	},
@@ -2267,6 +2261,9 @@
 	pixel_x = 0;
 	pixel_y = -6
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/iron/white/textured,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "kk" = (
@@ -2549,19 +2546,6 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/hydroponics)
-"pn" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 1
-	},
-/turf/open/floor/iron/white,
-/area/ruin/space/has_grav/deepstorage/pharmacy)
 "po" = (
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
@@ -2670,6 +2654,9 @@
 /turf/open/floor/iron/white/textured,
 /area/ruin/space/has_grav/deepstorage/xenobiology)
 "qN" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 4
+	},
 /turf/open/floor/iron/white/textured,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "qQ" = (
@@ -2753,6 +2740,9 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/north,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "rT" = (
@@ -3139,6 +3129,9 @@
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/power)
 "xp" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 1
+	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "xw" = (
@@ -3747,6 +3740,12 @@
 	name = "Surgery";
 	req_one_access = list("syndicate")
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "Gw" = (
@@ -4190,6 +4189,12 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "Qj" = (
@@ -4314,6 +4319,12 @@
 /area/ruin/space/has_grav/deepstorage/airlock)
 "Rw" = (
 /obj/machinery/light/floor/has_bulb,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
 "RF" = (
@@ -4533,6 +4544,12 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
@@ -5552,7 +5569,7 @@ gf
 gl
 Qr
 gx
-pn
+sw
 sw
 ML
 uG
