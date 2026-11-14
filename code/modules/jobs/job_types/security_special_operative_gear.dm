@@ -119,7 +119,7 @@
 	ammo_type = /obj/item/ammo_casing/sso_webley
 	caliber = CALIBER_SSO_WEBLEY
 	max_ammo = 6
-	multiple_sprites = AMMO_BOX_ONE_SPRITE
+	multiple_sprites = AMMO_BOX_PER_BULLET
 	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/gun/ballistic/shotgun/riot/security_special_operative
