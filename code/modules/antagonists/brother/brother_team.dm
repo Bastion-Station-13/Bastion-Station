@@ -37,10 +37,8 @@
 	if (!length(members))
 		qdel(src)
 		return
-	if (isnull(member.current))
-		return
 	for (var/datum/mind/brother_mind as anything in members)
-		to_chat(brother_mind, removal_message || span_warning("[span_bold("[member.current.real_name]")] is no longer your brother!"))
+		to_chat(brother_mind, removal_message || span_warning("[span_bold("[member.current?.real_name || member.name]")] is no longer your brother!"))
 	update_name()
 	update_ranks()
 
@@ -96,10 +94,10 @@
 	for(var/i = 1 to max(1, CONFIG_GET(number/brother_objectives_amount) + (length(members) > 2) - is_hijacker))
 		forge_single_objective()
 	if(is_hijacker)
-		if(!locate(/datum/objective/hijack) in objectives)
-			add_objective(new /datum/objective/hijack)
-	else if(!locate(/datum/objective/escape) in objectives)
-		add_objective(new /datum/objective/escape)
+		if(!locate(/datum/objective/hijack/onesurvivor) in objectives)
+			add_objective(new /datum/objective/hijack/onesurvivor)
+	else if(!locate(/datum/objective/escape/onesurvivor) in objectives)
+		add_objective(new /datum/objective/escape/onesurvivor)
 
 	for(var/datum/mind/brother as anything in members)
 		var/datum/antagonist/brother/blood_bond = brother.has_antag_datum(/datum/antagonist/brother)

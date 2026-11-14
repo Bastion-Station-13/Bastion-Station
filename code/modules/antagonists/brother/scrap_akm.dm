@@ -3,7 +3,7 @@
  */
 
 /// Percent chance that the gun will jam when firing. Yes, the travesty, an AKM jamming.
-#define SCRAP_AKM_JAM_CHANCE 11
+#define SCRAP_AKM_JAM_CHANCE 7
 /// How long racking out a jam takes. The do-after also cannot be done while moving so you gotta stand still
 #define SCRAP_AKM_UNJAM_TIME 1.5 SECONDS
 
