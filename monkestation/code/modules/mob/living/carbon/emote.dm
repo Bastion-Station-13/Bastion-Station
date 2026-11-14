@@ -76,6 +76,7 @@
 	eject_sound_volume = 0
 	bolt_drop_sound_volume = 0
 	dry_fire_sound = ""
+	pin = null
 	pinless = TRUE
 	clumsy_check = FALSE
 	trigger_guard = TRIGGER_GUARD_ALLOW_ALL

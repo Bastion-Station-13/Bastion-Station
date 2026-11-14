@@ -30,6 +30,10 @@
 		return NONE
 
 	var/obj/item/gun/targeted_gun = interacting_with
+	if(targeted_gun.pinless)
+		balloon_alert(user, "doesn't use a firing pin!")
+		return ITEM_INTERACT_BLOCKING
+
 	var/obj/item/firing_pin/old_pin = targeted_gun.pin
 	if(old_pin?.pin_removable && (force_replace || old_pin.pin_hot_swappable))
 		if(Adjacent(user))
