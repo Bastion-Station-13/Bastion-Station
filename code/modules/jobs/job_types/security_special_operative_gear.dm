@@ -5,18 +5,18 @@
 
 /obj/projectile/bullet/sso_boner
 	name = "7.12x82mm bullet"
-	damage = 20
-	armour_penetration = 10
-	armour_ignorance = 10
+	damage = 16
+	armour_penetration = 5
+	armour_ignorance = 5
 	wound_bonus = -60
-	bare_wound_bonus = 0
+	bare_wound_bonus = 5
 	wound_falloff_tile = 0
 
 /obj/projectile/bullet/sso_herstal
 	name = "6.2mm bullet"
-	damage = 30
-	armour_penetration = 5
-	armour_ignorance = 5
+	damage = 28
+	armour_penetration = 10
+	armour_ignorance = 10
 	wound_bonus = 10
 	bare_wound_bonus = 10
 	embed_falloff_tile = -4
@@ -24,7 +24,7 @@
 /obj/projectile/bullet/sso_macaroni
 	name = "9x20mm bullet"
 	damage = 10.5
-	wound_bonus = 0
+	wound_bonus = -5
 	bare_wound_bonus = 5
 
 /obj/projectile/bullet/sso_webley
@@ -102,7 +102,7 @@
 /obj/item/ammo_box/magazine/internal/shot/com/compact/security_special_operative
 	name = "Heavy Combat Shotgun internal shell storage"
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
-	max_ammo = 10
+	max_ammo = 12
 
 /obj/item/ammo_box/magazine/internal/cylinder/security_special_operative
 	name = "Webley MK VI cylinder"
@@ -122,9 +122,9 @@
 	multiple_sprites = AMMO_BOX_ONE_SPRITE
 	w_class = WEIGHT_CLASS_SMALL
 
-/obj/item/gun/ballistic/shotgun/automatic/combat/security_special_operative
+/obj/item/gun/ballistic/shotgun/riot/security_special_operative
 	name = "\improper Heavy Combat Shotgun"
-	desc = "A compact 12-gauge combat shotgun with a ten-shell capacity. It must be fired with both hands."
+	desc = "A compact 12-gauge combat shotgun with a twelve-shell capacity. It must be fired with both hands."
 	icon = 'bastionstation/icons/security_special_operative/weapon/ballistic.dmi'
 	icon_state = "heavyshot"
 	base_icon_state = "heavyshot"
@@ -135,9 +135,10 @@
 	inhand_y_dimension = 64
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_SUITSTORE
+	fire_sound = 'sound/items/weapons/gun/shotgun/shotgun_small.ogg'
+	load_sound = 'sound/items/weapons/gun/shotgun/shotgun_shell_insert.ogg'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com/compact/security_special_operative
 	spawn_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com/compact/security_special_operative
-	projectile_damage_multiplier = 1.05
 	weapon_weight = WEAPON_HEAVY
 	pin = /obj/item/firing_pin
 
@@ -162,9 +163,9 @@
 	actions_types = list()
 	can_suppress = FALSE
 	spread = 7
-	fire_sound = 'sound/weapons/gun/l6/shot.ogg'
-	rack_sound = 'sound/weapons/gun/l6/l6_rack.ogg'
-	suppressed_sound = 'sound/weapons/gun/general/heavy_shot_suppressed.ogg'
+	fire_sound = 'sound/items/weapons/gun/l6/shot.ogg'
+	rack_sound = 'sound/items/weapons/gun/l6/l6_rack.ogg'
+	suppressed_sound = 'sound/items/weapons/gun/general/heavy_shot_suppressed.ogg'
 	pin = /obj/item/firing_pin
 
 /obj/item/gun/ballistic/automatic/security_special_operative_lmg/update_overlays()
@@ -215,7 +216,7 @@
 	base_icon_state = "miniuzi"
 	bolt_type = BOLT_TYPE_OPEN
 	show_bolt_icon = FALSE
-	rack_sound = 'sound/weapons/gun/pistol/slide_lock.ogg'
+	rack_sound = 'sound/items/weapons/gun/pistol/slide_lock.ogg'
 	mag_display = TRUE
 	mag_display_ammo = FALSE
 	empty_indicator = FALSE
@@ -254,8 +255,13 @@
 	righthand_file = 'bastionstation/icons/security_special_operative/weapon/ssoinhand_right.dmi'
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
-	force = 24
-	throwforce = 16
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
+	pickup_sound = 'sound/items/unsheath.ogg'
+	drop_sound = 'sound/items/sheath.ogg'
+	sharpness = SHARP_EDGED
+	force = 22
+	throwforce = 20
+	armour_penetration = 15
 
 /obj/item/storage/toolbox/guncase/security_special_operative
 	name = "SSO weapon case"
@@ -285,7 +291,7 @@
 	name = "Heavy Combat Shotgun case"
 
 /obj/item/storage/toolbox/guncase/security_special_operative/heavy_combat_shotgun/PopulateContents()
-	new /obj/item/gun/ballistic/shotgun/automatic/combat/security_special_operative(src)
+	new /obj/item/gun/ballistic/shotgun/riot/security_special_operative(src)
 	new /obj/item/ammo_box/advanced/s12gauge/buckshot(src)
 
 /obj/item/melee/baton/security/security_special_operative
@@ -303,6 +309,10 @@
 	var/datum/weakref/overclock_user
 	var/overclock_timer
 	COOLDOWN_DECLARE(overclock_cooldown)
+
+/obj/item/melee/baton/telescopic/contractor_baton/attack_secondary(mob/living/victim, mob/living/user, params)
+	return BATON_DO_NORMAL_ATTACK
+
 
 /obj/item/melee/baton/security/security_special_operative/update_icon_state()
 	. = ..()
@@ -337,14 +347,14 @@
 	if(!user)
 		return
 
-	playsound(user, 'sound/effects/contractorbatonhit.ogg', 75, TRUE, -1)
+	playsound(user, 'sound/items/weapons/contractor_baton/contractorbatonhit.ogg', 75, TRUE, -1)
 	user.visible_message(span_warning("[src] backfires, stunning [user]!"))
-	user.Paralyze(3 SECONDS)
+	user.Paralyze(4 SECONDS)
 
 /obj/item/melee/baton/security/security_special_operative/finalize_baton_attack(mob/living/target, mob/living/user, modifiers, in_attack_chain = TRUE)
 	var/previous_stun_sound = on_stun_sound
 	if(overclock_active && overclock_user?.resolve() == user)
-		on_stun_sound = 'sound/effects/contractorbatonhit.ogg'
+		on_stun_sound = 'sound/items/weapons/contractor_baton/contractorbatonhit.ogg'
 	. = ..()
 	on_stun_sound = previous_stun_sound
 
@@ -362,8 +372,8 @@
 	target.Knockdown(1.5 SECONDS)
 
 /obj/item/gun/energy/recharge/security_special_operative/wavegun
-	name = "wavegun"
-	desc = "A self-recharging energy weapon with three non-lethal wave modes."
+	name = "Sancai Wavegun"
+	desc = "An experimental self-recharging energy weapon with three non-lethal wave modes, being developed as a replacement for the standard disabler. it's internal reactor requires time to cooldown before recharging. <font color='green'>Reflection</font> mode starts off very weak, but becomes stronger everytime it ricochets off a wall. <font color='red'>Transverse</font> mode is a medium power, short ranged option capable of piercing through walls, cannot travel very far. <font color='yellow'>Debilitate</font> mode is a high power, slow moving ball that hits like a truck."
 	icon = 'bastionstation/icons/security_special_operative/weapon/energy.dmi'
 	icon_state = "wavegun"
 	base_icon_state = "wavegun"
@@ -373,7 +383,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	cell_type = /obj/item/stock_parts/power_store/cell/security_special_operative_wavegun
 	holds_charge = TRUE
-	recharge_time = 3 SECONDS
+	recharge_time = 8 SECONDS
 	recoil = 0.15
 	ammo_type = list(
 		/obj/item/ammo_casing/energy/disabler/security_special_operative/debilitating,
@@ -407,22 +417,24 @@
 /obj/item/ammo_casing/energy/disabler/security_special_operative/debilitating
 	select_name = "Debilitate"
 	projectile_type = /obj/projectile/energy/security_special_operative/debilitating
+	fire_sound = 'sound/items/weapons/gun/hmg/hmg.ogg'
 	firing_effect_type = null
-	e_cost = STANDARD_CELL_CHARGE * 0.25
+	e_cost = STANDARD_CELL_CHARGE * 0.65
 	harmful = FALSE
 
 /obj/item/ammo_casing/energy/disabler/security_special_operative/transverse
 	select_name = "Transverse Wave"
 	projectile_type = /obj/projectile/energy/security_special_operative/transverse
+	fire_sound = 'sound/items/weapons/sonic_jackhammer.ogg'
 	firing_effect_type = null
-	e_cost = STANDARD_CELL_CHARGE * 0.15
+	e_cost = STANDARD_CELL_CHARGE * 0.25
 	harmful = FALSE
 
 /obj/item/ammo_casing/energy/disabler/security_special_operative/reflection
 	select_name = "Reflection Wave"
 	projectile_type = /obj/projectile/energy/security_special_operative/reflection
 	firing_effect_type = null
-	e_cost = STANDARD_CELL_CHARGE * 0.12
+	e_cost = STANDARD_CELL_CHARGE * 0.20
 	harmful = FALSE
 
 /obj/projectile/energy/security_special_operative
@@ -442,7 +454,8 @@
 	name = "debilitating wave"
 	icon_state = "wave_debilitate"
 	speed = 0.65
-	stamina = 55
+	stamina = 65
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
 
 /obj/projectile/energy/security_special_operative/debilitating/on_hit(atom/target, blocked = 0, pierce_hit)
 	. = ..()
@@ -453,21 +466,21 @@
 /obj/projectile/energy/security_special_operative/transverse
 	name = "transverse wave"
 	icon_state = "wave_transverse"
-	stamina = 35
+	stamina = 25
 	range = 4
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF
 	projectile_phasing = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
 
 /obj/projectile/energy/security_special_operative/reflection
 	name = "reflection wave"
 	icon_state = "wave_reflection"
-	stamina = 15
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
-	ricochets_max = 4
+	stamina = 10
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/green_laser
+	ricochets_max = 7
 	ricochet_chance = 140
-	ricochet_auto_aim_angle = 35
-	ricochet_auto_aim_range = 7
+	ricochet_auto_aim_angle = 20
+	ricochet_auto_aim_range = 5
 	ricochet_incidence_leeway = 0
 	ricochet_decay_chance = 1
 	ricochet_decay_damage = 1
@@ -476,7 +489,7 @@
 
 /obj/projectile/energy/security_special_operative/reflection/on_ricochet(atom/target)
 	. = ..()
-	stamina += 10
+	stamina += 7
 
 /obj/projectile/energy/security_special_operative/reflection/check_ricochet_flag(atom/reflecting_atom)
 	if((reflecting_atom.flags_ricochet & RICOCHET_HARD) || (reflecting_atom.flags_ricochet & RICOCHET_SHINY))
@@ -512,7 +525,7 @@
 
 /obj/item/stock_parts/power_store/cell/security_special_operative_xm05
 	name = "XM-05 power cell"
-	maxcharge = STANDARD_CELL_CHARGE * 0.6
+	maxcharge = STANDARD_CELL_CHARGE * 0.65
 
 /obj/item/stock_parts/power_store/cell/security_special_operative_wavegun
 	name = "Wavegun power cell"
@@ -597,6 +610,8 @@
 		/obj/item/reagent_containers/pill/patch/security_special_operative_omnizine = 2,
 		/obj/item/hypospray = 1,
 		/obj/item/reagent_containers/chemcanister/bluespace/security_special_operative = 1,
+		/obj/item/hypospray_upgrade/speed = 1,
+		/obj/item/hypospray_upgrade/piercing = 1,
 	)
 	generate_items_inside(items_inside, src)
 
@@ -661,7 +676,7 @@
 	name = "experimental energy shield module"
 	desc = "A prototype MOD shield with two protective charges and a slower recharge cycle."
 	max_charges = 2
-	recharge_start_delay = 30 SECONDS
+	recharge_start_delay = 40 SECONDS
 
 /datum/outfit/job/security_special_operative_support
 	name = "Special Operative Support Unit"
@@ -680,12 +695,13 @@
 	l_pocket = /obj/item/restraints/legcuffs/bola
 	r_pocket = /obj/item/restraints/handcuffs
 	box = /obj/item/storage/box/survival/security
+	implants = list(/obj/item/implant/mindshield)
 
 /obj/item/antag_spawner/loadout/security_special_operative_support
 	name = "Special Operative Support Beacon"
 	desc = "A single-use beacon that calls a ghost to the field as a security support officer."
 	outfit = /datum/outfit/job/security_special_operative_support
-	poll_role_check = ROLE_TRAITOR
+	poll_role_check = null
 	role_to_play = "Special Operative Support Unit"
 	fail_text = "No eligible ghosts responded to the support call. The beacon is still available to try again."
 
