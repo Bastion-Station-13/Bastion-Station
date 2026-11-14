@@ -82,7 +82,16 @@
 ///Moth wing bodypart overlay, including burn functionality!
 /datum/bodypart_overlay/mutant/wings/moth
 	feature_key = "moth_wings"
+<<<<<<< HEAD
 	layers = EXTERNAL_BEHIND | EXTERNAL_FRONT
+=======
+	layers = list(
+		EXTERNAL_BEHIND = BODY_BEHIND_LAYER,
+		EXTERNAL_FRONT = BODY_FRONT_LAYER,
+	)
+	palette = /datum/color_palette/generic_colors
+	palette_key = "wing_color"
+>>>>>>> 53c0f34f (moths are now EVEN MORE colourful + Antennae Reconstruction Surgery (#12846))
 	///Accessory datum of the burn sprite
 	var/datum/sprite_accessory/burn_datum = /datum/sprite_accessory/moth_wings/burnt_off
 	///Are we burned? If so we draw differently
