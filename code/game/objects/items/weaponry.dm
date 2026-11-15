@@ -833,7 +833,6 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_HUGE
 	slot_flags = ITEM_SLOT_BACK
-	w_class = WEIGHT_CLASS_HUGE
 	/// Are we able to do a homerun?
 	var/homerun_able = FALSE
 	/// Are we ready to do a homerun?
