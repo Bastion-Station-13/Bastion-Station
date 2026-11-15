@@ -79,7 +79,34 @@ GLOBAL_LIST_INIT(typecache_powerfailure_safe_areas, typecacheof(list(
 			return
 		counter += 1 //increment by one so the next loop will start at the next position in the list
 
+<<<<<<< HEAD
 /proc/create_area(mob/creator)
+=======
+/// Moves every turf in the list to new_area, filling affected_areas with the areas they came from (keyed by name)
+/proc/set_turfs_to_area(list/turf/turfs, area/new_area, list/area/affected_areas = list())
+	for(var/turf/the_turf as anything in turfs)
+		var/area/old_area = the_turf.loc
+
+		//keep rack of all areas affected by turf changes
+		affected_areas[old_area.name] = old_area
+
+		//move the turf to its new area and unregister it from the old one
+		the_turf.change_area(old_area, new_area)
+
+		//inform atoms on the turf that their area has changed
+		for(var/atom/stuff as anything in the_turf)
+			//unregister the stuff from its old area
+			SEND_SIGNAL(stuff, COMSIG_EXIT_AREA, old_area)
+
+			//register the stuff to its new area. special exception for apc as its not registered to this signal
+			if(istype(stuff, /obj/machinery/power/apc))
+				var/obj/machinery/power/apc/area_apc = stuff
+				area_apc.assign_to_area()
+			else
+				SEND_SIGNAL(stuff, COMSIG_ENTER_AREA, new_area)
+
+/proc/create_area(mob/creator,area/new_area_type = /area)
+>>>>>>> a926fb65 (Free the golems [The free ones] (#13004))
 	// Passed into the above proc as list/break_if_found
 	var/static/list/area_or_turf_fail_types = typecacheof(list(
 		/turf/open/space,
@@ -103,7 +130,7 @@ GLOBAL_LIST_INIT(typecache_powerfailure_safe_areas, typecacheof(list(
 		return
 
 	var/list/apc_map = list()
-	var/list/areas = list("New Area" = /area)
+	var/list/areas = list("New Area" = new_area_type)
 	for(var/i in 1 to turf_count)
 		var/turf/the_turf = turfs[i]
 		var/area/place = get_area(the_turf)
@@ -132,7 +159,12 @@ GLOBAL_LIST_INIT(typecache_powerfailure_safe_areas, typecacheof(list(
 		var/str = tgui_input_text(creator, "New area name", "Blueprint Editing", max_length = MAX_NAME_LEN)
 		if(!str)
 			return
+<<<<<<< HEAD
 		newA = new area_choice
+=======
+		newA = new new_area_type
+		newA.AddComponent(/datum/component/custom_area)
+>>>>>>> a926fb65 (Free the golems [The free ones] (#13004))
 		newA.setup(str)
 		newA.has_gravity = oldA.has_gravity
 		require_area_resort() //new area registered. resort the names
