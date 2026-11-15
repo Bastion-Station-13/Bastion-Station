@@ -283,7 +283,7 @@
 
 /datum/supply_pack/goody/fishing_toolbox
 	name = "Fishing toolbox"
-	desc = "Complete toolbox set for your fishing adventure. Advanced hooks and lines sold separetely."
+	desc = "Complete toolbox set for your fishing adventure. Contains a valuable tip. Advanced hooks and lines sold separetely."
 	cost = PAYCHECK_CREW * 2
 	contains = list(/obj/item/storage/toolbox/fishing)
 
@@ -298,6 +298,12 @@
 	desc = "Set of various fishing lines."
 	cost = PAYCHECK_CREW
 	contains = list(/obj/item/storage/box/fishing_lines)
+
+/datum/supply_pack/goody/fishing_lure_set
+	name = "Fishing Lures Set"
+	desc = "A set of bite-resistant fishing lures to fish all (most) sort of fish. Beat randomness to a curb today!"
+	cost = PAYCHECK_CREW * 8
+	contains = list(/obj/item/storage/box/fishing_lures)
 
 /datum/supply_pack/goody/fishing_hook_rescue
 	name = "Rescue Fishing Hook"
@@ -317,6 +323,27 @@
 	cost = PAYCHECK_CREW * 8
 	contains = list(/obj/item/fishing_rod/telescopic)
 
+<<<<<<< HEAD
+=======
+/datum/supply_pack/goody/fish_analyzer
+	name = "Fish Analyzer"
+	desc = "A single analyzer to monitor fish's status and traits with, in case you don't have the technology to print one."
+	cost = PAYCHECK_CREW * 2.5
+	contains = list(/obj/item/fish_analyzer)
+
+/datum/supply_pack/goody/fish_catalog
+	name = "Fishing Catalog"
+	desc = "A catalog containing all the fishy info you'll ever need."
+	cost = PAYCHECK_LOWER
+	contains = list(/obj/item/book/manual/fish_catalog)
+
+/datum/supply_pack/goody/aquarium_props
+	name = "Aquarium Props Single-Pack"
+	desc = "A box containing generic aquarium props. You'll still need an aquarium or fish tank for these."
+	cost = PAYCHECK_LOWER
+	contains = list(/obj/item/storage/box/aquarium_props)
+
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 /datum/supply_pack/goody/coffee_mug
 	name = "Coffee Mug"
 	desc = "A bog standard coffee mug, for drinking coffee."

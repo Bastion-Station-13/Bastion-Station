@@ -7,4 +7,9 @@
 
 /obj/item/clothing/shoes/laceup/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddComponent(/datum/component/shoesteps/tap_shoes/default_off)
+=======
+	AddComponent(/datum/component/adjust_fishing_difficulty, 3) //You aren't going to fish with these are you?
+	AddComponent(/datum/component/shoesteps/tap_shoes)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))

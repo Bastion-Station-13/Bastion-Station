@@ -116,5 +116,6 @@
 		/obj/item/reagent_containers/cup/blastoff_ampoule = 5,
 		/obj/item/food/drug/moon_rock = 5,
 		/obj/item/grenade/empgrenade = 5,
+		/obj/item/survivalcapsule/fishing/hacked = 1,
 		/obj/effect/spawner/random/contraband/armory = 1,
 	)

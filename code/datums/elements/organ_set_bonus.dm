@@ -57,9 +57,19 @@
 	var/required_biotype = MOB_ORGANIC
 	/// A list of traits added to the mob upon bonus activation, can be of any length.
 	var/list/bonus_traits = list()
+<<<<<<< HEAD
 	/// Limb overlay to apply upon activation
 	var/limb_overlay
 	/// Color priority for limb overlay
+=======
+	/// Bonus biotype to add on bonus activation.
+	var/bonus_biotype
+	/// If the biotype was added - used to check if we should remove the biotype or not, on organ set loss.
+	var/biotype_added = FALSE
+	/// Limb texture to apply upon activation
+	var/limb_texture
+	/// Color priority for limb texture
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 	var/color_overlay_priority
 
 /datum/status_effect/organ_set_bonus/proc/set_organs(new_value)
@@ -80,11 +90,25 @@
 		if((required_biotype == MOB_ORGANIC) && !owner.can_mutate())
 			return FALSE
 	bonus_active = TRUE
+	// Add traits
 	if(length(bonus_traits))
 		owner.add_traits(bonus_traits, REF(src))
+
+	// Add biotype
+	if(owner.mob_biotypes & bonus_biotype)
+		biotype_added = FALSE
+	owner.mob_biotypes |= bonus_biotype
+	biotype_added = TRUE
+
 	if(bonus_activate_text)
 		to_chat(owner, bonus_activate_text)
+<<<<<<< HEAD
 	if(!iscarbon(owner) || !limb_overlay)
+=======
+
+	// Add limb texture
+	if(!iscarbon(owner) || !limb_texture)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 		return TRUE
 
 	var/mob/living/carbon/carbon_owner = owner
@@ -104,11 +128,23 @@
 /datum/status_effect/organ_set_bonus/proc/disable_bonus()
 	SHOULD_CALL_PARENT(TRUE)
 	bonus_active = FALSE
+
+	// Remove traits
 	if(length(bonus_traits))
 		owner.remove_traits(bonus_traits, REF(src))
+	// Remove biotype (if added)
+	if(biotype_added)
+		owner.mob_biotypes &= ~bonus_biotype
+
 	if(bonus_deactivate_text)
 		to_chat(owner, bonus_deactivate_text)
+<<<<<<< HEAD
 	if(!iscarbon(owner) || !limb_overlay)
+=======
+
+	// Remove limb texture
+	if(!iscarbon(owner) || !limb_texture)
+>>>>>>> 3c2bdfb6 (Fish update part 2 (#12888))
 		return
 
 	var/mob/living/carbon/carbon_owner = owner
