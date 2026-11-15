@@ -818,6 +818,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	name = "baseball bat"
 	desc = "There ain't a skull in the league that can withstand a swatter."
 	icon = 'icons/obj/weapons/bat.dmi'
+	icon_state = "baseball_bat"
 	worn_icon_state="bostaff0"
 	inhand_icon_state = "baseball_bat"
 	icon_angle = -45
