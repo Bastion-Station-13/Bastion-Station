@@ -25,6 +25,7 @@
 
 	var/datum/armor/temp = new() //Scuffed, but no idea how to better.
 	set_armor(temp.generate_new_with_modifiers(list(
+<<<<<<< HEAD:monkestation/code/modules/smithing/anvil/smithed_parts/shields.dm
 		ACID = min(round((material_stats.density / 1.75) * (smithed_quality/100)), 40),
 		BOMB = min(round(((material_stats.density + material_stats.hardness)/3.5) * (smithed_quality/100)), 40),
 		BULLET = min(round(((material_stats.density + material_stats.hardness)/3.5) * (smithed_quality/100)), 40),
@@ -32,6 +33,16 @@
 		FIRE = min(round(((100-material_stats.thermal)/1.75) * (smithed_quality/100)), 40),
 		LASER = min(round(((material_stats.refractiveness + material_stats.density)/3.5) * (smithed_quality/100)), 40),
 		MELEE = min(round(((material_stats.density + material_stats.hardness)/2) * (smithed_quality/100)), 40)
+=======
+		ACID = clamp(round((material_stats.density / 1.6) * (smithed_quality/100)),10,100),
+		BOMB = clamp(round(((material_stats.density + material_stats.hardness)/3.2) * (smithed_quality/100)),10,100),
+		BULLET = clamp(round(((material_stats.density + material_stats.hardness)/6.4) * (smithed_quality/100)),10,50),
+		ENERGY = clamp(round((material_stats.refractiveness / 3.2) * (smithed_quality/100)),10,50),
+		FIRE = clamp(round(((100-material_stats.thermal)/1.6) * (smithed_quality/100)),10,100),
+		LASER = clamp(round(((material_stats.refractiveness + material_stats.density)/6.4) * (smithed_quality/100)),10,50),
+		MELEE = clamp(round(((material_stats.density + material_stats.hardness)/3.2) * (smithed_quality/100)),10,100),
+		WOUND = clamp(round((material_stats.density/1.6) * (smithed_quality/100)),10,100)
+>>>>>>> e3564302 (Forge Clamps, Artifacts and a really old bug for some reason. (#12996)):code/modules/smithing/anvil/smithed_parts/shields.dm
 	)))
 	QDEL_NULL(temp) //Thanks now back to the void with you
 	..()
@@ -63,6 +74,7 @@
 
 	var/datum/armor/temp = new() //Scuffed, but no idea how to better.
 	set_armor(temp.generate_new_with_modifiers(list(
+<<<<<<< HEAD:monkestation/code/modules/smithing/anvil/smithed_parts/shields.dm
 		ACID = min(round((material_stats.density / 1.5) * (smithed_quality/100)), 70),
 		BOMB = min(round(((material_stats.density + material_stats.hardness)/3) * (smithed_quality/100)), 70),
 		BULLET = min(round(((material_stats.density + material_stats.hardness)/3) * (smithed_quality/100)), 70),
@@ -70,6 +82,16 @@
 		FIRE = min(round(((100-material_stats.thermal)/1.5) * (smithed_quality/100)), 70),
 		LASER = min(round(((material_stats.refractiveness + material_stats.density)/3) * (smithed_quality/100)), 70),
 		MELEE = min(round(((material_stats.density + material_stats.hardness)/2) * (smithed_quality/100)), 70)
+=======
+		ACID = clamp(round((material_stats.density / 1.6) * (smithed_quality/100)),10,100),
+		BOMB = clamp(round(((material_stats.density + material_stats.hardness)/3.2) * (smithed_quality/100)),10,100),
+		BULLET = clamp(round(((material_stats.density + material_stats.hardness)/6.4) * (smithed_quality/100)),10,50),
+		ENERGY = clamp(round((material_stats.refractiveness / 3.2) * (smithed_quality/100)),10,50),
+		FIRE = clamp(round(((100-material_stats.thermal)/1.6) * (smithed_quality/100)),10,100),
+		LASER = clamp(round(((material_stats.refractiveness + material_stats.density)/6.4) * (smithed_quality/100)),10,50),
+		MELEE = clamp(round(((material_stats.density + material_stats.hardness)/3.2) * (smithed_quality/100)),10,100),
+		WOUND = clamp(round((material_stats.density/1.6) * (smithed_quality/100)),10,100)
+>>>>>>> e3564302 (Forge Clamps, Artifacts and a really old bug for some reason. (#12996)):code/modules/smithing/anvil/smithed_parts/shields.dm
 	)))
 	QDEL_NULL(temp) //Thanks now back to the void with you
 	..()
