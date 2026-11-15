@@ -819,12 +819,12 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	desc = "There ain't a skull in the league that can withstand a swatter."
 	icon = 'icons/obj/weapons/bat.dmi'
 	icon_state = "baseball_bat"
+	worn_icon_state="bostaff0"
 	inhand_icon_state = "baseball_bat"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
-	force = 12
-	wound_bonus = -10
-	throwforce = 12
+	force = 13
+	throwforce = 13
 	demolition_mod = 1.25
 	attack_verb_continuous = list("beats", "smacks")
 	attack_verb_simple = list("beat", "smack")
