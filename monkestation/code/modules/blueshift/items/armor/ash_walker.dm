@@ -296,7 +296,7 @@
 #define LANGUAGE_TRANSLATOR "translator"
 /obj/item/clothing/neck/necklace/ashwalker
 	name = "ashen necklace"
-	desc = "A necklace crafted from ash, connected to the Necropolis through the core of a Legion."
+	desc = "A decorative necklace crafted from ash, connected to the Necropolis through the core of a Legion."
 	icon = 'monkestation/code/modules/blueshift/icons/obj/clothing/neck.dmi'
 	icon_state = "ashnecklace"
 	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/neck.dmi'
@@ -305,7 +305,7 @@
 
 /obj/item/clothing/neck/necklace/ashwalker/cursed
 	name = "cursed ashen necklace"
-	desc = "A necklace crafted from ash, connected to the Necropolis through the core of a Legion. Cannot be removed!"
+	desc = "A decorativenecklace crafted from ash, connected to the Necropolis through the core of a Legion. Cannot be removed!"
 
 /obj/item/clothing/neck/necklace/ashwalker/cursed/Initialize(mapload)
 	. = ..()
