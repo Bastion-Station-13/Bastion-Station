@@ -1,8 +1,6 @@
 
 /datum/centcom_announcer/duke
-	welcome_sounds = list('sound/announcer/duke/welcome/bonus1.ogg',
-						'sound/announcer/duke/welcome/welcome1.ogg',
-						'sound/announcer/duke/welcome/welcome2.ogg')
+	welcome_sounds = list('sound/announcer/duke//bonus1.ogg',)
 
 	alert_sounds = list('sound/announcer/duke/alerts/bonus2.ogg',
 						'sound/announcer/duke/alerts/headsup1.ogg',
