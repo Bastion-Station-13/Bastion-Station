@@ -685,9 +685,9 @@ GLOBAL_LIST_INIT(prototype_language_holders, init_language_holder_prototypes())
 	selected_language = /datum/language/beachbum
 
 /datum/language_holder/ashwalker
-	understood_languages = list(/datum/language/draconic = list(LANGUAGE_ATOM))
-	spoken_languages = list(/datum/language/draconic = list(LANGUAGE_ATOM))
-	selected_language = /datum/language/draconic
+	understood_languages = list(/datum/language/ashtongue = list(LANGUAGE_ATOM))
+	spoken_languages = list(/datum/language/ashtongue = list(LANGUAGE_ATOM))
+	selected_language = /datum/language/ashtongue
 
 /// Language holder for borers, that let them understand any language their host understands.
 /datum/language_holder/borer

@@ -34,6 +34,7 @@ GLOBAL_LIST_INIT(allowed_translations, list(
 	/datum/language/machine,
 	/datum/language/draconic,
 	/datum/language/uncommon,
+	/datum/language/ashtongue,
 ))
 
 /datum/n_Interpreter/TCS_Interpreter
@@ -199,8 +200,8 @@ GLOBAL_LIST_INIT(allowed_translations, list(
 			oldlangbits = CALCIC
 		if(/datum/language/moffic)
 			oldlangbits = MOTH
-		if(/datum/language/draconic)
-			oldlangbits = DRACONIC
+		if(/datum/language/ashtongue)
+			oldlangbits = ASH_TONGUE
 		if(/datum/language/yangyu)
 			oldlangbits = YANGYU
 		if(/datum/language/uncommon)
@@ -349,7 +350,7 @@ GLOBAL_LIST_INIT(allowed_translations, list(
 		if(MOTH)
 			return /datum/language/moffic
 		if(ASH_TONGUE)
-			return /datum/language/draconic
+			return /datum/language/ashtongue
 		if(YANGYU)
 			return /datum/language/yangyu
 		if(UNCOMMON)
