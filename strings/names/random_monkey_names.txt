@@ -16,7 +16,7 @@ Mincing Monkey
 Normal Guy
 Babbels
 Funky Monkey
-Kilgor Monkeyman
+Hitmonkey
 Monkey McFly
 Chunky Monkey
 Monkey-anda Jones
@@ -24,6 +24,7 @@ Thelonious Monkey
 Alexander the Monkey
 Tarzan Mokeysha
 Potassium Phil
+Water Walter
 ExcAPE
 OranguTim
 Ook Operative
