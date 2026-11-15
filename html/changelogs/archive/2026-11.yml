@@ -298,3 +298,17 @@
       again.
   Tractor-Maam:
   - code_imp: undefined some chameleon bomb definitions.
+2026-11-15:
+  hexakats:
+  - rscdel: Removed the advanced ballistics tech node
+  - rscdel: Deleted WT AP rounds, WT lethal ammo has innate AP with falloff the more
+      it travels.
+  - rscdel: Deleted WT Incendiary rounds.
+  - rscdel: Deleted WT Saltshot rounds.
+  - rscadd: AP fall off now exists (only present on some WT ammo for now)
+  - balance: AP ammo deals less damage but has high AP with falloff
+  - balance: Reworked the WT to be a very fast firing close quarters combat specialized
+      weapon
+  - balance: Replaced the boring rubber bullets with stingballs that embed and hurt
+      dealing stamina damage
+  - rscadd: Added WT laser ammo, has innate AP like normal WT ammo but worse AP falloff
