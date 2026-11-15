@@ -821,7 +821,6 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	icon_state = "baseball_bat"
 	worn_icon_state="bostaff0"
 	inhand_icon_state = "baseball_bat"
-	icon_angle = -45
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
 	force = 13
