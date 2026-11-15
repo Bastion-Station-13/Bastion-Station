@@ -208,7 +208,7 @@
 	name = "Syndicate Lootbox Crate"
 	desc = "A dusty crate from the back of the Syndicate warehouse. Rumored to contain a valuable assortment of items, \
 			With their all new kit, codenamed 'scam' the syndicate attempted to extract the energy of the die of fate to \
-			make a loot-box style system but failed, so instead just fake their randomness using ook's evil twin brother to sniff out the items to shove in it. \
+			make a loot-box style system but failed, so instead just fake their randomness using a mothroach to sniff out the items to shove in it. \
 			Item price not guaranteed. Can contain normally unobtainable items. Purchasing this will prevent you from purchasing any non-random item. \
 			Cannot be purchased if you have already bought another item."
 
