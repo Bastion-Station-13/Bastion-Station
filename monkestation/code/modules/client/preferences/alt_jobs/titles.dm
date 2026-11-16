@@ -139,6 +139,7 @@
 		"Rabbi",
 		"Monk",
 		"Mortician",
+		"Witch",
 	)
 
 /datum/job/chemist

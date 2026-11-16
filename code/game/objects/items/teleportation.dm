@@ -349,6 +349,7 @@
 	var/maximum_teleport_distance = 8
 	//How far the emergency teleport checks for a safe position
 	var/parallel_teleport_distance = 3
+	layer = BELOW_MOB_LAYER //Environmental storytelling
 
 /obj/item/syndicate_teleporter/Initialize(mapload)
 	. = ..()
