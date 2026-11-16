@@ -64,7 +64,7 @@
 
 /obj/item/gun/ballistic/automatic/proto/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.2 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.25 SECONDS)
 
 /obj/item/gun/ballistic/automatic/proto/unrestricted
 	pin = /obj/item/firing_pin
@@ -111,7 +111,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	inhand_icon_state = "arg"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/wt550m9
-	fire_delay = 0.1 SECONDS
+	fire_delay = 0.2 SECONDS
 	can_suppress = FALSE
 	burst_size = 1
 	spread = 10
@@ -257,7 +257,7 @@
 
 /obj/item/gun/ballistic/automatic/rostokov/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.2 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.25 SECONDS)
 
 /obj/item/gun/ballistic/automatic/rostokov/unrestricted
 	pin = /obj/item/firing_pin
@@ -292,7 +292,7 @@
 
 /obj/item/gun/ballistic/automatic/tommygun/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.1 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.15 SECONDS)
 
 /**
  * Weak uzi for syndicate chimps. It comes in a 4 TC kit.
@@ -333,7 +333,7 @@
 	fire_sound = 'monkestation/code/modules/blueshift/sounds/smg_heavy.ogg'
 	can_suppress = TRUE
 	suppressor_x_offset = 9
-	fire_delay = 0.3 SECONDS
+	fire_delay = 0.35 SECONDS
 	burst_size = 1
 	actions_types = list()
 	spread = 14.5
@@ -389,7 +389,7 @@
 	suppressor_x_offset = 0
 	suppressor_y_offset = 0
 	burst_size = 1
-	fire_delay = 0.2 SECONDS
+	fire_delay = 0.25 SECONDS
 	actions_types = list()
 	spread = 5
 
@@ -664,7 +664,7 @@
 	can_suppress = TRUE
 	suppressor_x_offset = 12
 	burst_size = 1
-	fire_delay = 0.4 SECONDS
+	fire_delay = 0.45 SECONDS
 	actions_types = list()
 	spread = 7.5
 	projectile_wound_bonus = -10
@@ -754,7 +754,7 @@
 /obj/item/gun/ballistic/automatic/l6_saw/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
-	AddComponent(/datum/component/automatic_fire, 0.2 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.25 SECONDS)
 
 /obj/item/gun/ballistic/automatic/l6_saw/examine(mob/user)
 	. = ..()
@@ -830,7 +830,7 @@
 	suppressor_x_offset = 12
 	actions_types = list()
 	burst_size = 1
-	fire_delay = 0.2 SECONDS
+	fire_delay = 0.25 SECONDS
 	recoil = 3
 	wield_recoil = 0.75
 	spread = 12.5
@@ -896,7 +896,7 @@
 
 /obj/item/gun/ballistic/automatic/minigun22/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.1 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.15 SECONDS)
 
 
 

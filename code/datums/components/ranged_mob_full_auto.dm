@@ -45,8 +45,9 @@
 /datum/component/ranged_mob_full_auto/proc/try_shooting()
 	if (!is_firing)
 		return FALSE
-	if (!COOLDOWN_FINISHED(src, next_shot_cooldown))
-		return TRUE // Don't fire but also keep processing
+	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 1 decisecond longer than intended
+	if(!(src.next_shot_cooldown <= world.time))
+		return TRUE
 
 	var/mob/living/living_parent = parent
 
@@ -56,9 +57,6 @@
 	if (get_dist(living_parent, target) <= 0)
 		set_target(get_step(living_parent, living_parent.dir)) // Shoot in the direction faced if the mouse is on the same tile as we are.
 		target_loc = target
-	else if (!CAN_THEY_SEE(target, living_parent))
-		stop_firing()
-		return FALSE // Can't see shit
 
 	living_parent.face_atom(target)
 	COOLDOWN_START(src, next_shot_cooldown, autofire_shot_delay)
@@ -114,8 +112,6 @@
 		return
 
 	if (isnull(location) || istype(target, /atom/movable/screen)) // Clicking on a screen object.
-		if (target.plane != CLICKCATCHER_PLANE) // The clickcatcher is a special case. We want the click to trigger then, under it.
-			return // If we click and drag on our worn backpack, for example, we want it to open instead.
 		set_target(parse_caught_click_modifiers(modifiers, get_turf(source.eye), source))
 		params = list2params(modifiers)
 		if (isnull(target))

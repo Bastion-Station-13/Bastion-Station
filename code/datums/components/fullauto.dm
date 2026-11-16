@@ -139,8 +139,6 @@
 		return
 
 	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
-		if(_target.plane != CLICKCATCHER_PLANE) //The clickcatcher is a special case. We want the click to trigger then, under it.
-			return //If we click and drag on our worn backpack, for example, we want it to open instead.
 		_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
 		if(!_target)
@@ -242,16 +240,14 @@
 /datum/component/automatic_fire/proc/process_shot()
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
 		return FALSE
-	if(!COOLDOWN_FINISHED(src, next_shot_cd))
+	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 1 decisecond longer than intended
+	if(!(src.next_shot_cd <= world.time))
 		return TRUE
 	if(QDELETED(target) || get_turf(target) != target_loc) //Target moved or got destroyed since we last aimed.
 		target = target_loc //So we keep firing on the emptied tile until we move our mouse and find a new target.
 	if(get_dist(shooter, target) <= 0)
 		target = get_step(shooter, shooter.dir) //Shoot in the direction faced if the mouse is on the same tile as we are.
 		target_loc = target
-	else if(!CAN_THEY_SEE(target, shooter))
-		stop_autofiring() //Elvis has left the building.
-		return FALSE
 	shooter.face_atom(target)
 	var/next_delay = autofire_shot_delay
 	if(windup_autofire)
