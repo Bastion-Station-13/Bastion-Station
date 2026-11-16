@@ -1188,6 +1188,7 @@
 		if(held_thing.wash(clean_types))
 			. = TRUE
 
+<<<<<<< HEAD
 	if(back?.wash(clean_types))
 		update_worn_back(0)
 		. = TRUE
@@ -1223,6 +1224,18 @@
 	if(gloves && !(obscured & ITEM_SLOT_GLOVES) && gloves.wash(clean_types))
 		update_worn_gloves()
 		. = TRUE
+=======
+	// Check and wash stuff that isn't covered
+	var/covered = check_covered_slots()
+	for(var/obj/item/worn as anything in get_equipped_items())
+		var/slot = get_slot_by_item(worn)
+		// Don't wash glasses if something other than them is covering our eyes
+		if(slot == ITEM_SLOT_EYES && is_eyes_covered(ITEM_SLOT_MASK|ITEM_SLOT_HEAD))
+			continue
+		if(!(covered & slot))
+			// /obj/item/wash() already updates our clothing slot
+			. = worn.wash(clean_types) || .
+>>>>>>> cb2fd084 (Fix cleaning mobs not cleaning all their equipment (#91395) (#12908))
 
 /// if any of our bodyparts are bleeding
 /mob/living/carbon/proc/is_bleeding()
