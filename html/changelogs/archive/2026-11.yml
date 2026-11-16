@@ -312,3 +312,16 @@
   - balance: Replaced the boring rubber bullets with stingballs that embed and hurt
       dealing stamina damage
   - rscadd: Added WT laser ammo, has innate AP like normal WT ammo but worse AP falloff
+2026-11-16:
+  AitorLogedo:
+  - bugfix: venomous fish keep their venom when they die instead of runtiming
+  Tractor-Maam:
+  - rscadd: Frontier Kitchen supply crates now come with a oven tray, cutting board,
+      knife, rolling pin, and wrench.
+  big-boss-crate:
+  - rscadd: added "Disassemble" admin smite (basically a bloodless gib)
+  - sound: added fall_apart.ogg
+  - code_imp: Added a new option in the gib() proc allowing for bloodless gibbing
+      (no_blood), false by default
+  tattax:
+  - qol: handcuff sprites for each ui
