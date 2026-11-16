@@ -9,6 +9,7 @@ import {
   hotkeysAtom,
   initializeCommandBarAtom,
   type Target,
+  tabAutocompleteAtom,
   typepathsAtom,
   type Verb,
 } from './atoms';
