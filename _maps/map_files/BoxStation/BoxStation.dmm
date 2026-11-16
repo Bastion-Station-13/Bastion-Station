@@ -2533,6 +2533,20 @@
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
+"aSl" = (
+/obj/effect/turf_decal/tile/green,
+/obj/structure/table,
+/obj/item/reagent_containers/cup/fish_feed{
+	pixel_y = 3
+	},
+/obj/item/fishing_hook,
+/obj/item/fishing_line,
+/obj/item/fishing_rod,
+/obj/item/aquarium_kit,
+/turf/open/floor/iron/dark/side{
+	dir = 9
+	},
+/area/station/service/hydroponics/chicken)
 "aSr" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 6
@@ -13302,12 +13316,6 @@
 /obj/item/kirbyplants/random,
 /turf/open/floor/wood,
 /area/station/service/chapel/funeral)
-"enE" = (
-/obj/machinery/atmospherics/components/unary/passive_vent{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/space)
 "enT" = (
 /obj/structure/tank_dispenser,
 /turf/open/floor/iron,
@@ -17824,6 +17832,12 @@
 /obj/machinery/airalarm/directional/east,
 /turf/closed/wall,
 /area/station/maintenance/starboard/aft)
+"fOu" = (
+/obj/machinery/atmospherics/components/unary/passive_vent{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "fOA" = (
 /turf/closed/wall/r_wall,
 /area/space/nearstation)
@@ -19685,6 +19699,7 @@
 /obj/effect/mapping_helpers/airlock/access/any/service/lawyer,
 /turf/open/floor/plating,
 /area/station/service/lawoffice)
+<<<<<<< HEAD
 "gtA" = (
 /obj/effect/turf_decal/tile/green,
 /obj/structure/table,
@@ -19699,6 +19714,8 @@
 	dir = 9
 	},
 /area/station/service/hydroponics/chicken)
+=======
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 "gtM" = (
 /obj/machinery/light/small/directional/west,
 /obj/structure/easel,
@@ -41699,6 +41716,18 @@
 /obj/machinery/duct,
 /turf/open/floor/iron/white,
 /area/station/medical/exam_room)
+"nvT" = (
+/obj/machinery/light/directional/east,
+/obj/structure/sign/painting/parting{
+	pixel_x = 32
+	},
+/obj/structure/table/wood/fancy/green,
+/obj/item/reagent_containers/cup/fish_feed,
+/obj/item/reagent_containers/cup/fish_feed{
+	pixel_y = 9
+	},
+/turf/open/floor/iron/dark,
+/area/station/command/heads_quarters/nt_rep)
 "nwa" = (
 /obj/effect/turf_decal/trimline/neutral/filled/line,
 /obj/effect/turf_decal/trimline/neutral/line{
@@ -44016,6 +44045,7 @@
 /obj/effect/spawner/random/trash/garbage,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
+<<<<<<< HEAD
 "ogy" = (
 /obj/machinery/light/directional/east,
 /obj/structure/sign/painting/parting{
@@ -44028,6 +44058,8 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/nt_rep)
+=======
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 "ogz" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -86887,7 +86919,7 @@ xuA
 uDO
 pGu
 wUn
-ogy
+nvT
 duQ
 pGu
 qds
@@ -91824,7 +91856,7 @@ kgn
 nJa
 xqS
 pff
-gtA
+aSl
 wuS
 sBx
 ohF
@@ -116310,7 +116342,7 @@ ksa
 ksa
 ksa
 xXP
-enE
+fOu
 ksa
 ksa
 ksa

@@ -31799,6 +31799,7 @@
 	},
 /turf/open/floor/iron,
 /area/station/command/bridge)
+<<<<<<< HEAD
 "jKw" = (
 /obj/structure/table,
 /obj/structure/railing,
@@ -31812,6 +31813,8 @@
 /obj/item/fishing_line,
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
+=======
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 "jKz" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/holopad,
@@ -35963,6 +35966,19 @@
 "lbO" = (
 /turf/closed/wall,
 /area/station/service/library)
+"lbR" = (
+/obj/structure/table,
+/obj/structure/railing,
+/obj/effect/turf_decal/bot,
+/obj/item/aquarium_kit,
+/obj/item/fishing_rod,
+/obj/item/reagent_containers/cup/fish_feed{
+	pixel_y = 3
+	},
+/obj/item/fishing_hook,
+/obj/item/fishing_line,
+/turf/open/floor/iron,
+/area/station/service/hydroponics)
 "lca" = (
 /obj/structure/sink/directional/south,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
@@ -46626,6 +46642,22 @@
 /obj/structure/lattice/catwalk,
 /turf/open/misc/asteroid/airless,
 /area/space/nearstation)
+"oxU" = (
+/obj/structure/railing{
+	dir = 8
+	},
+/obj/effect/decal/cleanable/blood/old,
+/mob/living/basic/clown{
+	name = "John Gamer The Prisoner Terminator";
+	limb_destroyer = 1;
+	desc = "Whenever you look at him you can sense an incomprehensible eldrich presence...";
+	maxHealth = 200;
+	wound_bonus = 10;
+	health = 200;
+	emotes = list("emote_say" = list("HONK","Honk!","Welcome to clown planet!","Punch me, I dare you..."), "emote_hear" = list("honks","squeaks"), "emote_sound" = list('sound/items/bikehorn.ogg'), "emote_chance" = 5)
+	},
+/turf/open/ballpit,
+/area/station/security/bitden)
 "oxW" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/decal/cleanable/dirt,
@@ -47670,10 +47702,6 @@
 /obj/structure/sign/departments/medbay/alt,
 /turf/closed/wall,
 /area/station/medical/office)
-"oRy" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space)
 "oRz" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -70022,10 +70050,6 @@
 /obj/machinery/computer/security/qm,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/supply)
-"vNT" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space)
 "vOn" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/sign/poster/contraband/random/directional/north,
@@ -83086,7 +83110,11 @@ kYY
 bpC
 gbu
 vlE
+<<<<<<< HEAD
 vvO
+=======
+oxU
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 hyT
 miD
 nEP
@@ -112869,7 +112897,7 @@ fLv
 dfU
 lJJ
 cAu
-jKw
+lbR
 xvj
 aMe
 ncY
@@ -123650,9 +123678,9 @@ cmU
 aeU
 aeU
 aaQ
-oRy
-vNT
-oRy
+acK
+acm
+acK
 acm
 aeu
 aeu
