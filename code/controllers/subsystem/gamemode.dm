@@ -182,7 +182,7 @@ SUBSYSTEM_DEF(gamemode)
 		else if(!sch_event.alerted_admins && world.time >= sch_event.start_time - 1 MINUTES)
 			///Alert admins 1 minute before running and allow them to cancel or refund the event, once again.
 			sch_event.alerted_admins = TRUE
-			message_admins("Scheduled Event: [sch_event.event] will run in [DisplayTimeText(sch_event.start_time - world.time)]. (<a href='byond://?src=[REF(sch_event)];action=cancel'>CANCEL</a>) (<a href='byond://?src=[REF(sch_event)];action=refund'>REFUND</a>)")
+			message_admins("Scheduled Event: [sch_event.event] will run in [DisplayTimeText(sch_event.start_time - world.time)]. (<a href='byond://?src=[REF(sch_event)];[HrefToken(forceGlobal = TRUE)];action=cancel'>CANCEL</a>) (<a href='byond://?src=[REF(sch_event)];[HrefToken(forceGlobal = TRUE)];action=refund'>REFUND</a>)")
 
 	if(!halted_storyteller && current_storyteller)
 		// We update crew information here to adjust population scalling and event thresholds for the storyteller.
@@ -365,14 +365,18 @@ SUBSYSTEM_DEF(gamemode)
 	var/datum/scheduled_event/scheduled = new (passed_event, world.time + passed_time, passed_cost, passed_ignore, passed_announce)
 	var/round_started = SSticker.HasRoundStarted()
 	if(round_started)
+<<<<<<< HEAD
 		message_admins("Event: [passed_event] has been scheduled to run in [DisplayTimeText(passed_time)]. (<a href='byond://?src=[REF(scheduled)];action=cancel'>CANCEL</a>) (<a href='byond://?src=[REF(scheduled)];action=refund'>REFUND</a>)")
 		if (passed_event.track != EVENT_TRACK_MUNDANE)
 			//Play sound to admins to let them know
 			for(var/client/X in GLOB.admins)
 				if(X.prefs.toggles & SOUND_ADMINHELP)
 					X.mob.playsound_local(null, 'sound/misc/prompt.ogg', 70, vary = FALSE, channel = CHANNEL_ADMIN_SOUNDS, pressure_affected = FALSE, use_reverb = FALSE)
+=======
+		message_admins("Event: [passed_event] has been scheduled to run in [DisplayTimeText(passed_time)]. (<a href='byond://?src=[REF(scheduled)];[HrefToken(forceGlobal = TRUE)];action=cancel'>CANCEL</a>) (<a href='byond://?src=[REF(scheduled)];[HrefToken(forceGlobal = TRUE)];action=refund'>REFUND</a>)")
+>>>>>>> e7c43d54 (Some more fixes (#12993))
 	else //Only roundstart events can be scheduled before round start
-		message_admins("Event: [passed_event] has been scheduled to run on roundstart. (<a href='byond://?src=[REF(scheduled)];action=cancel'>CANCEL</a>)")
+		message_admins("Event: [passed_event] has been scheduled to run on roundstart. (<a href='byond://?src=[REF(scheduled)];[HrefToken(forceGlobal = TRUE)];action=cancel'>CANCEL</a>)")
 	scheduled_events += scheduled
 
 //simplified version of `get_active_player_count()`

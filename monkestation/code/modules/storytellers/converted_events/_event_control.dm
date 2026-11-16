@@ -138,6 +138,28 @@
 	if(length(candidates) < antag_amt)
 		return FALSE
 
+<<<<<<< HEAD
+=======
+/datum/round_event_control/antagonist/run_event(random = FALSE, announce_chance_override = null, admin_forced = FALSE, event_cause, list/candidate_pool)
+	// New() is the only thing between here and the event's setup() that we can hand anything to
+	next_candidate_pool = candidate_pool
+	var/datum/round_event/antagonist/round_event = ..()
+	next_candidate_pool = null
+	if(!istype(round_event) || length(round_event.setup_minds))
+		return round_event
+	// refund occurence (duh)
+	subtract_occurrence()
+	round_event.processing = FALSE
+	round_event.kill()
+	return null
+
+/datum/round_event_control/antagonist/get_href_actions()
+	// firing or scheduling one of these with no latejoiner would just grab someone already aboard, unprompted
+	if(track == EVENT_TRACK_LATEJOIN)
+		return "<a href='byond://?src=[REF(src)];[HrefToken()];action=force_next'>Force Next</a>"
+	return ..()
+
+>>>>>>> e7c43d54 (Some more fixes (#12993))
 /datum/round_event_control/antagonist/get_weight()
 	. = ..()
 	var/static/last_round_high_threat
