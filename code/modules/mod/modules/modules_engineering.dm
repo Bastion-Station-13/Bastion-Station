@@ -25,7 +25,11 @@
 	incompatible_modules = list(/obj/item/mod/module/welding, /obj/item/mod/module/welding/syndicate, /obj/item/mod/module/stealth/wraith)
 	overlay_state_inactive = "module_armorbooster_on"
 	use_mod_colors = TRUE
+<<<<<<< HEAD
 	/* mask_worn_overlay = TRUE */
+=======
+	/* mask_worn_overlay = TRUE */ // monkestation edit: our booster sprite is just the visor lights, which sit over the hole in the helmet sprite, so masking would cut them off
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /obj/item/mod/module/welding/syndicate/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
 	overlay_state_inactive = "[initial(overlay_state_inactive)]-[mod.skin]"

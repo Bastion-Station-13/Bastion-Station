@@ -24,6 +24,7 @@
 	atom_storage.set_locked(STORAGE_FULLY_LOCKED)
 
 /obj/item/mod/module/storage/on_install()
+	. = ..()
 	var/datum/storage/modstorage = mod.create_storage(max_specific_storage = max_w_class, max_total_storage = max_combined_w_class, max_slots = max_items)
 	modstorage.set_real_location(src)
 	modstorage.allow_big_nesting = big_nesting
@@ -32,6 +33,7 @@
 	RegisterSignal(mod.chestplate, COMSIG_ITEM_PRE_UNEQUIP, PROC_REF(on_chestplate_unequip))
 
 /obj/item/mod/module/storage/on_uninstall(deleting = FALSE)
+	. = ..()
 	var/datum/storage/modstorage = mod.atom_storage
 	atom_storage.set_locked(STORAGE_FULLY_LOCKED)
 	qdel(modstorage)
@@ -314,12 +316,29 @@
 	var/former_visor_flags = NONE
 
 /obj/item/mod/module/mouthhole/on_install()
+<<<<<<< HEAD
 	former_flags = mod.helmet.flags_cover
 	former_visor_flags = mod.helmet.visor_flags_cover
 	mod.helmet.flags_cover &= ~(HEADCOVERSMOUTH|PEPPERPROOF)
 	mod.helmet.visor_flags_cover &= ~(HEADCOVERSMOUTH|PEPPERPROOF)
+=======
+	. = ..()
+	var/obj/item/clothing/helmet = mod.get_part_from_slot(ITEM_SLOT_HEAD)
+	if(istype(helmet))
+		former_helmet_flags = helmet.flags_cover
+		former_visor_helmet_flags = helmet.visor_flags_cover
+		helmet.flags_cover &= ~(HEADCOVERSMOUTH|PEPPERPROOF)
+		helmet.visor_flags_cover &= ~(HEADCOVERSMOUTH|PEPPERPROOF)
+	var/obj/item/clothing/mask = mod.get_part_from_slot(ITEM_SLOT_MASK)
+	if(istype(mask))
+		former_mask_flags = mask.flags_cover
+		former_visor_mask_flags = mask.visor_flags_cover
+		mask.flags_cover &= ~(MASKCOVERSMOUTH |PEPPERPROOF)
+		mask.visor_flags_cover &= ~(MASKCOVERSMOUTH |PEPPERPROOF)
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /obj/item/mod/module/mouthhole/on_uninstall(deleting = FALSE)
+	. = ..()
 	if(deleting)
 		return
 	mod.helmet.flags_cover |= former_flags
@@ -337,9 +356,11 @@
 	incompatible_modules = list(/obj/item/mod/module/emp_shield)
 
 /obj/item/mod/module/emp_shield/on_install()
+	. = ..()
 	mod.AddElement(/datum/element/empprotection, EMP_PROTECT_SELF|EMP_PROTECT_WIRES|EMP_PROTECT_CONTENTS)
 
 /obj/item/mod/module/emp_shield/on_uninstall(deleting = FALSE)
+	. = ..()
 	mod.RemoveElement(/datum/element/empprotection, EMP_PROTECT_SELF|EMP_PROTECT_WIRES|EMP_PROTECT_CONTENTS)
 
 /obj/item/mod/module/emp_shield/advanced
@@ -405,7 +426,7 @@
 	active_power_cost = base_power * light_outer_range
 	return ..()
 
-/obj/item/mod/module/flashlight/generate_worn_overlay(mutable_appearance/standing)
+/obj/item/mod/module/flashlight/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
 	. = ..()
 	if(!active)
 		return
@@ -429,7 +450,7 @@
 				balloon_alert(mod.wearer, "too dark!")
 				return
 			set_light_color(value)
-			mod.wearer.update_clothing(mod.slot_flags)
+			update_clothing_slots()
 		if("light_range")
 			set_light_range(clamp(value, min_range, max_range))
 
@@ -557,12 +578,14 @@
 	var/dna = null
 
 /obj/item/mod/module/dna_lock/on_install()
+	. = ..()
 	RegisterSignal(mod, COMSIG_MOD_ACTIVATE, PROC_REF(on_mod_activation))
 	RegisterSignal(mod, COMSIG_MOD_MODULE_REMOVAL, PROC_REF(on_mod_removal))
 	RegisterSignal(mod, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp))
 	RegisterSignal(mod, COMSIG_ATOM_EMAG_ACT, PROC_REF(on_emag))
 
 /obj/item/mod/module/dna_lock/on_uninstall(deleting = FALSE)
+	. = ..()
 	UnregisterSignal(mod, COMSIG_MOD_ACTIVATE)
 	UnregisterSignal(mod, COMSIG_MOD_MODULE_REMOVAL)
 	UnregisterSignal(mod, COMSIG_ATOM_EMP_ACT)
@@ -632,7 +655,7 @@
 	incompatible_modules = list(/obj/item/mod/module/plasma_stabilizer)
 	overlay_state_inactive = "module_plasma"
 
-/obj/item/mod/module/plasma_stabilizer/generate_worn_overlay()
+/obj/item/mod/module/plasma_stabilizer/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
 	if(locate(/obj/item/mod/module/infiltrator) in mod.modules)
 		return list()
 	return ..()
@@ -700,9 +723,9 @@
 		mod.helmet.flags_cover |= attached_hat.flags_cover
 		mod.helmet.visor_flags_cover |= attached_hat.visor_flags_cover
 		balloon_alert(user, "hat attached, right-click to remove")
-		mod.wearer.update_clothing(mod.slot_flags)
+		update_clothing_slots()
 
-/obj/item/mod/module/hat_stabilizer/generate_worn_overlay()
+/obj/item/mod/module/hat_stabilizer/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
 	. = ..()
 	if(attached_hat)
 		. += attached_hat.build_worn_icon(default_layer = ABOVE_BODY_FRONT_HEAD_LAYER-0.1, default_icon_file = 'icons/mob/clothing/head/default.dmi')
@@ -718,9 +741,17 @@
 	else
 		balloon_alert_to_viewers("the hat falls to the floor!")
 	attached_hat = null
+<<<<<<< HEAD
 	mod.helmet.flags_cover = former_flags
 	mod.helmet.visor_flags_cover = former_visor_flags
 	mod.wearer.update_clothing(mod.slot_flags)
+=======
+	var/obj/item/clothing/helmet = mod.get_part_from_slot(ITEM_SLOT_HEAD)
+	if(istype(helmet))
+		helmet.flags_cover = former_flags
+		helmet.visor_flags_cover = former_visor_flags
+	update_clothing_slots()
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 ///Sign Language Translator - allows people to sign over comms using the modsuit's gloves.
 /obj/item/mod/module/signlang_radio

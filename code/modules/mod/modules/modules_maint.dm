@@ -12,10 +12,19 @@
 	incompatible_modules = list(/obj/item/mod/module/springlock)
 
 /obj/item/mod/module/springlock/on_install()
+<<<<<<< HEAD
 	mod.activation_step_time *= 0.5
 
 /obj/item/mod/module/springlock/on_uninstall(deleting = FALSE)
 	mod.activation_step_time *= 2
+=======
+	. = ..()
+	mod.activation_step_time *= step_change
+
+/obj/item/mod/module/springlock/on_uninstall(deleting = FALSE)
+	. = ..()
+	mod.activation_step_time /= step_change
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 
 /obj/item/mod/module/springlock/on_suit_activation()
 	RegisterSignal(mod.wearer, COMSIG_ATOM_EXPOSE_REAGENTS, PROC_REF(on_wearer_exposed))
@@ -167,7 +176,7 @@
 			return
 		SEND_SOUND(mod.wearer, sound('sound/machines/terminal/terminal_off.ogg', volume = 50, channel = CHANNEL_JUKEBOX))
 
-/obj/item/mod/module/visor/rave/generate_worn_overlay(mutable_appearance/standing)
+/obj/item/mod/module/visor/rave/generate_worn_overlay(obj/item/source, mutable_appearance/standing)
 	. = ..()
 	for(var/mutable_appearance/appearance as anything in .)
 		appearance.color = active ? rainbow_order[rave_number] : null
@@ -176,7 +185,7 @@
 	rave_number++
 	if(rave_number > length(rainbow_order))
 		rave_number = 1
-	mod.wearer.update_clothing(mod.slot_flags)
+	update_clothing_slots()
 	rave_screen.update_colour(rainbow_order[rave_number])
 
 /obj/item/mod/module/visor/rave/get_configuration()

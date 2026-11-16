@@ -424,9 +424,15 @@
 	addtimer(CALLBACK(src, PROC_REF(boost_aftereffects), mod.wearer), 7 SECONDS)
 
 /obj/item/mod/module/adrenaline_boost/on_install()
+	. = ..()
 	RegisterSignal(mod, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attackby))
 
+<<<<<<< HEAD
 /obj/item/mod/module/adrenaline_boost/on_uninstall(deleting)
+=======
+/obj/item/mod/module/adrenaline_boost/on_uninstall(deleting = FALSE)
+	. = ..()
+>>>>>>> 8ad5cd08 ([PORT] MODsuit module rendering + fixes (#12938))
 	UnregisterSignal(mod, COMSIG_ATOM_ATTACKBY)
 
 /obj/item/mod/module/adrenaline_boost/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
