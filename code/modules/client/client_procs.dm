@@ -129,10 +129,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
-	//Monkestation Edit Begin
 	if(mentor_friend(href_list))
 		return
-	//Monkestation Edit End
+	if(mentor_client_procs(href_list))
+		return
 
 	switch(href_list["_src_"])
 		if("holder")

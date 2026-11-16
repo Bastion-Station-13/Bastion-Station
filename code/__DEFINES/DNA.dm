@@ -167,7 +167,6 @@
 #define ORGAN_SLOT_EXTERNAL_FEATHERS "feathers"
 #define ORGAN_SLOT_EXTERNAL_EARS "external_ears"
 
-
 /// Xenomorph organ slots
 #define ORGAN_SLOT_XENO_ACIDGLAND "acid_gland"
 #define ORGAN_SLOT_XENO_EGGSAC "eggsac"

@@ -20,11 +20,15 @@
 	var/sinking = FALSE
 	///If we have one then what should our player_sink max_sinkage be set to, leave unset for default sinkage
 	var/max_sinkage
+	///How many pixels mobs standing in us are moved down, WATER_DEPTH_LAND for none. Not used by sinking water
+	var/depth = WATER_DEPTH_SHALLOW
 
 /turf/open/water/Initialize(mapload)
 	. = ..()
 	if(sinking)
 		RegisterSignal(src, COMSIG_ATOM_ENTERED, PROC_REF(try_add_sinking))
+	else if(depth < WATER_DEPTH_LAND)
+		AddElement(/datum/element/water_turf)
 
 /turf/open/water/AfterChange(flags, oldType)
 	. = ..()
