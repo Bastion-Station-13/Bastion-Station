@@ -313,7 +313,7 @@
 	var/overclock_timer
 	COOLDOWN_DECLARE(overclock_cooldown)
 
-/obj/item/melee/baton/telescopic/contractor_baton/attack_secondary(mob/living/victim, mob/living/user, params)
+/obj/item/melee/baton/security/security_special_operative/attack_secondary(mob/living/victim, mob/living/user, params)
 	return BATON_DO_NORMAL_ATTACK
 
 
