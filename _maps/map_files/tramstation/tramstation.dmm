@@ -33640,6 +33640,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/monastery)
+<<<<<<< HEAD
 "jtP" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 5
@@ -33647,6 +33648,12 @@
 /obj/machinery/slime_extract_requestor,
 /turf/open/floor/iron/white,
 /area/station/science/lobby)
+=======
+"jua" = (
+/obj/machinery/computer/extract_orders/directional/east,
+/turf/open/floor/iron/white,
+/area/station/science/xenobiology)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "jur" = (
 /obj/effect/turf_decal/trimline/brown/filled/line,
 /obj/effect/turf_decal/siding/thinplating{
@@ -48600,6 +48607,16 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
+<<<<<<< HEAD
+=======
+"obb" = (
+/obj/effect/turf_decal/trimline/purple/filled/line{
+	dir = 5
+	},
+/obj/machinery/computer/extract_requests,
+/turf/open/floor/iron/white,
+/area/station/science/lobby)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "obh" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
@@ -49565,6 +49582,10 @@
 "osk" = (
 /turf/closed/wall,
 /area/station/maintenance/department/eva)
+"osm" = (
+/obj/machinery/computer/extract_orders/directional/west,
+/turf/open/floor/iron/white,
+/area/station/science/xenobiology)
 "oss" = (
 /obj/structure/mirror/directional/east,
 /obj/structure/sink/directional/west,
@@ -127799,6 +127820,7 @@ hWI
 bFQ
 hNw
 sqI
+<<<<<<< HEAD
 uqB
 aHr
 nDM
@@ -127809,6 +127831,18 @@ uon
 whd
 fOg
 whn
+=======
+qVr
+xPQ
+nJv
+qYw
+qVr
+fmP
+pbt
+xcM
+dtN
+osm
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 whn
 fof
 aMB
@@ -128320,9 +128354,17 @@ qVr
 qVr
 wET
 pbt
+<<<<<<< HEAD
 cyU
 cZE
 jiQ
+=======
+dQK
+dtN
+jua
+whn
+kHX
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 asv
 asv
 jiQ

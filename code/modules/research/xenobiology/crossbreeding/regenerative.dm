@@ -44,7 +44,12 @@ Regenerative extracts:
 	effect_desc = "Rapidly heals the target and does nothing else." // monkestation edit: updates effect_desc to reflect the rework
 
 /obj/item/slimecross/regenerative/orange
+<<<<<<< HEAD
 	colour = "orange"
+=======
+	slime_type = /datum/slime_type/orange
+	effect_desc = "Heals the target, then boils over and starts fires on the tiles around them."
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 
 /obj/item/slimecross/regenerative/orange/core_effect_before(mob/living/target, mob/user)
 	target.visible_message(span_warning("\The [src] boils over!"))

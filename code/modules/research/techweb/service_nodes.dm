@@ -107,6 +107,7 @@
 		"smartfridge",
 		"stove",
 		"biomass_recycler",
+<<<<<<< HEAD
 		"corral_corner",
 		"slime_extract_requestor",
 		"slime_market_pad",
@@ -114,6 +115,15 @@
 		"slimevac",
 		"slime_compressor",
 
+=======
+		"extract_compressor",
+		"slime_pen_post",
+		"extract_requests_console",
+		"extract_orders_console",
+		"slime_rancher_scanner",
+		"vacuum_pack",
+		"vacuum_upgrade_printer",
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_2_POINTS)
 	discount_experiments = list(/datum/experiment/scanning/random/cytology = TECHWEB_TIER_2_POINTS) //Big discount to reinforce doing it.

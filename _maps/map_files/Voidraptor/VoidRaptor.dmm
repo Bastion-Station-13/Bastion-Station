@@ -48772,6 +48772,7 @@
 "nJx" = (
 /obj/effect/turf_decal/trimline/purple/filled/line,
 /obj/structure/extinguisher_cabinet/directional/south,
+/obj/machinery/computer/extract_requests,
 /turf/open/floor/iron/white/textured_edge{
 	dir = 1
 	},
@@ -51489,6 +51490,30 @@
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/service/theater)
+<<<<<<< HEAD
+=======
+"owp" = (
+/obj/effect/turf_decal/trimline/purple/filled/line,
+/obj/effect/turf_decal/bot_red,
+/obj/structure/rack,
+/obj/item/vacuum_pack{
+	pixel_x = -8
+	},
+/obj/item/vacuum_pack{
+	pixel_x = 8
+	},
+/obj/item/disk/vacuum_upgrade/printer{
+	pixel_x = -4
+	},
+/obj/item/disk/vacuum_upgrade/printer{
+	pixel_x = 4
+	},
+/obj/machinery/computer/extract_orders/directional/south,
+/turf/open/floor/iron/white/textured_edge{
+	dir = 1
+	},
+/area/station/science/xenobiology)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "ows" = (
 /obj/machinery/rnd/production/techfab/department/medical,
 /obj/effect/turf_decal/delivery,

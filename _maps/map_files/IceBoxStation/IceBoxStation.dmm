@@ -7593,6 +7593,10 @@
 	},
 /turf/open/floor/iron/smooth_large,
 /area/station/cargo/warehouse)
+"clB" = (
+/obj/machinery/computer/extract_requests,
+/turf/open/floor/iron,
+/area/station/hallway/primary/starboard)
 "clE" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -24138,6 +24142,18 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/main)
+<<<<<<< HEAD
+=======
+"hqF" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/biomass_recycler,
+/obj/item/stack/biomass/twenty,
+/obj/machinery/computer/extract_orders/directional/south,
+/turf/open/floor/iron,
+/area/station/science/xenobiology)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "hqV" = (
 /obj/structure/sign/warning/radiation/rad_area,
 /turf/closed/wall/r_wall,
@@ -76089,6 +76105,17 @@
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/aisat_interior)
+<<<<<<< HEAD
+=======
+"xla" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/extract_compressor,
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/iron,
+/area/station/science/xenobiology)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "xlf" = (
 /obj/machinery/lapvend,
 /obj/effect/turf_decal/tile/purple/half/contrasted{
@@ -258055,7 +258082,11 @@ eha
 aJQ
 aJQ
 lso
+<<<<<<< HEAD
 bOq
+=======
+clB
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 qaE
 mBQ
 eag

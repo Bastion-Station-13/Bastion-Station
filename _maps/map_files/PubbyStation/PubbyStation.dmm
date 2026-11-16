@@ -60,6 +60,26 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/engine,
 /area/station/science/lab)
+<<<<<<< HEAD
+=======
+"aar" = (
+/obj/effect/turf_decal/tile/purple/half/contrasted{
+	dir = 1
+	},
+/obj/machinery/reagentgrinder,
+/obj/structure/table,
+/obj/structure/noticeboard{
+	pixel_y = 32
+	},
+/obj/item/stack/sheet/mineral/plasma/five,
+/obj/machinery/requests_console/directional/east{
+	department = "Xenobiology";
+	name = "Xenobiology Requests Console"
+	},
+/obj/effect/mapping_helpers/requests_console/ore_update,
+/turf/open/floor/iron/white,
+/area/station/science/xenobiology)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "aas" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -15364,6 +15384,7 @@
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/aft)
 "bkr" = (
+/obj/machinery/computer/extract_requests,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/aft)
 "bks" = (
@@ -35511,11 +35532,7 @@
 /area/station/hallway/primary/central/fore)
 "ilD" = (
 /obj/machinery/smartfridge/extract/preloaded,
-/obj/machinery/requests_console/directional/east{
-	department = "Xenobiology";
-	name = "Xenobiology Requests Console"
-	},
-/obj/effect/mapping_helpers/requests_console/ore_update,
+/obj/machinery/computer/extract_orders/directional/east,
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "imd" = (

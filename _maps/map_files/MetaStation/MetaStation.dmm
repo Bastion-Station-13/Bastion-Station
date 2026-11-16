@@ -32635,6 +32635,15 @@
 /obj/item/stock_parts/power_store/cell/high,
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
+<<<<<<< HEAD
+=======
+"lol" = (
+/obj/structure/cable,
+/obj/machinery/vending/wardrobe/xeno_wardrobe,
+/obj/machinery/computer/extract_orders/directional/west,
+/turf/open/floor/iron/white,
+/area/station/science/cytology)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "lop" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -35693,6 +35702,21 @@
 /obj/item/clothing/neck/stethoscope,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
+<<<<<<< HEAD
+=======
+"mri" = (
+/obj/effect/turf_decal/tile/green/fourcorners,
+/obj/machinery/light/floor/has_bulb,
+/turf/open/floor/iron,
+/area/station/science/xenobiology)
+"mrA" = (
+/obj/effect/turf_decal/tile/purple/half/contrasted{
+	dir = 4
+	},
+/obj/machinery/computer/extract_requests,
+/turf/open/floor/iron/white,
+/area/station/science/lobby)
+>>>>>>> b00e6132 (adds a proper xenobio extract request console! (#12960))
 "mrC" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
