@@ -3,13 +3,14 @@
 	var/stub_file = "data/ytdl_test_stub.sh"
 	var/runs_file = "data/ytdl_test_runs.txt"
 	var/pwned_file = "data/ytdl_test_pwned"
+	var/args_file = "data/ytdl_test_args.txt"
 	var/old_ytdl
 	var/finished = 0
 	var/list/results = list()
 
 /datum/unit_test/cassette_media/Destroy()
 	CONFIG_SET(string/invoke_youtubedl, old_ytdl)
-	for(var/file in list(stub_file, runs_file, pwned_file))
+	for(var/file in list(stub_file, runs_file, pwned_file, args_file))
 		fdel(file)
 	GLOB.ytdl_cache.Cut()
 	GLOB.ytdl_cooldowns.Cut()
@@ -88,6 +89,21 @@
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/dash"), "A dash stream was handed out, clients can't play it")
 	write_stub(song_json(live = TRUE))
 	TEST_ASSERT_NULL(ytdl_lookup("https://youtu.be/live"), "A live stream was put on a tape")
+
+	// a set gives its songs as entries and the first one is played
+	write_stub("echo \"$@\" > [args_file]\necho '{\"_type\":\"playlist\",\"title\":\"A set\",\"entries\":\[{\"url\":\"https://media.example.com/first.m3u8\",\"protocol\":\"m3u8_native\",\"title\":\"First\",\"webpage_url\":\"https://soundcloud.com/some-artist/first\"},{\"url\":\"https://media.example.com/second.m3u8\",\"title\":\"Second\"}]}'")
+	info = ytdl_lookup("https://soundcloud.com/some-artist/sets/a-set")
+	TEST_ASSERT_NOTNULL(info, "A link to a set wasn't played, its first song should be")
+	TEST_ASSERT_EQUAL(info["endpoints"][1], "https://media.example.com/first.m3u8", "A set doesn't play its first song")
+	metadata = info["metadata"]
+	TEST_ASSERT_EQUAL(metadata["title"], "First", "A set doesn't use the title of its first song")
+	TEST_ASSERT_EQUAL(metadata["url"], "https://soundcloud.com/some-artist/first", "A song from a set doesn't point back at its own page")
+	TEST_ASSERT(metadata["playlist"], "A song from a set isn't marked as coming from one")
+	TEST_ASSERT(findtext(file2text(args_file), "--playlist-items 1"), "yt-dlp is asked for every song of a set")
+	write_stub("echo '{\"_type\":\"playlist\",\"title\":\"Empty\",\"entries\":\[]}'")
+	TEST_ASSERT_NULL(ytdl_lookup("https://soundcloud.com/some-artist/sets/empty"), "A set without songs gave a song")
+	write_stub("echo '{\"_type\":\"playlist\",\"title\":\"Locked\",\"entries\":\[null]}'")
+	TEST_ASSERT_NULL(ytdl_lookup("https://soundcloud.com/some-artist/sets/locked"), "A set whose first song can't be played gave a song")
 
 	// the server keeps running while yt-dlp works, and only so many run at once
 	write_stub("sleep 1\n[song_json()]")
