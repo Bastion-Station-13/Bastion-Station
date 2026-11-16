@@ -40,6 +40,17 @@
 	strip_delay = 70
 	equip_delay_other = 70
 	resistance_flags = ACID_PROOF
+<<<<<<< HEAD
+=======
+	supports_variations_flags = CLOTHING_DIGITIGRADE_MASK
+	bodyshapes_with_variations = BODYSHAPE_DIGITIGRADE
+	/// Type of texture applied by this
+	var/texture_type = /datum/bodypart_texture/mesh/biosuit
+
+/obj/item/clothing/suit/bio_suit/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_CHEST, texture_type)
+>>>>>>> fded3060 ([PORT] Worn items know which bodyshapes they can render (#12800))
 
 //Standard biosuit, orange stripe
 /datum/armor/suit_bio_suit

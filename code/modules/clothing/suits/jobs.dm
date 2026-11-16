@@ -29,6 +29,15 @@
 	)
 	species_exception = list(/datum/species/golem)
 	armor_type = /datum/armor/suit_apron
+<<<<<<< HEAD
+=======
+	supports_variations_flags = CLOTHING_DIGITIGRADE_MASK
+	bodyshapes_with_variations = BODYSHAPE_DIGITIGRADE
+
+/obj/item/clothing/suit/apron/generate_digitigrade_icons(icon/base_icon, greyscale_colors)
+	var/icon/legs = icon(SSgreyscale.GetColoredIconByType(/datum/greyscale_config/digitigrade, greyscale_colors), "apron_worn")
+	return replace_icon_legs(base_icon, legs)
+>>>>>>> fded3060 ([PORT] Worn items know which bodyshapes they can render (#12800))
 
 /datum/armor/suit_apron
 	bio = 50
@@ -170,7 +179,7 @@
 	resistance_flags = NONE
 	species_exception = list(/datum/species/golem)
 
-/obj/item/clothing/suit/hazardvest/worn_overlays(mutable_appearance/standing, isinhands, icon_file)
+/obj/item/clothing/suit/hazardvest/worn_overlays(mutable_appearance/standing, isinhands, icon_file, bodyshape = NONE)
 	. = ..()
 	if(!isinhands)
 		. += emissive_appearance(icon_file, "[icon_state]-emissive", src, alpha = src.alpha)

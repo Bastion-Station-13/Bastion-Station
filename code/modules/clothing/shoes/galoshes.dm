@@ -13,6 +13,12 @@
 	custom_price = PAYCHECK_CREW * 3
 	can_be_tied = FALSE
 	supports_variations_flags = CLOTHING_DIGITIGRADE_MASK
+<<<<<<< HEAD
+=======
+	bodyshapes_with_variations = BODYSHAPE_DIGITIGRADE
+	/// How much wearing these galoshes affects fishing difficulty
+	var/fishing_modifier = -3
+>>>>>>> fded3060 ([PORT] Worn items know which bodyshapes they can render (#12800))
 
 /obj/item/clothing/shoes/galoshes/generate_digitigrade_icons(icon/base_icon, greyscale_colors)
 	return icon(SSgreyscale.GetColoredIconByType(/datum/greyscale_config/digitigrade, greyscale_colors), "galoshes")
