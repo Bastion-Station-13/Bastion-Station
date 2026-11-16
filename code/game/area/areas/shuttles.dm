@@ -23,6 +23,16 @@
 		return // More complicated larger changes indicate this isn't a player
 	if(ispath(new_baseturfs[1], /turf/open/floor/plating))
 		new_baseturfs.Insert(1, /turf/baseturf_skipover/shuttle)
+<<<<<<< HEAD
+=======
+		. |= CHANGETURF_GENERATE_SHUTTLE_CEILING
+
+////////////////////////////Custom Shuttles////////////////////////////
+
+/area/shuttle/custom
+	requires_power = TRUE
+	area_flags = parent_type::area_flags | ALWAYS_VALID_BLOODSUCKER_LAIR
+>>>>>>> 0903d1fb (vampires are now sovereign citizens of space (custom shuttle lairs) (#12978))
 
 ////////////////////////////Multi-area shuttles////////////////////////////
 
