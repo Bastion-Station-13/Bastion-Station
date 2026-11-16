@@ -97,7 +97,18 @@ const WireArea = () => {
 
 const MainMenu = () => {
   const { act, data } = useBackend<Data>();
+<<<<<<< HEAD
   const { area_notice, area_name, fluff_notice, station_name, viewing } = data;
+=======
+  const {
+    area_notice,
+    area_name,
+    area_allows_shuttle_docking,
+    fluff_notice,
+    station_name,
+    viewing,
+  } = data;
+>>>>>>> b4a1ab42 (update vscode build tooling/flag stuff (#13029))
 
   return (
     <Section title={`${station_name} blueprints`}>

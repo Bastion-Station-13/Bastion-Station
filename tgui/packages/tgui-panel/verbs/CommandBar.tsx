@@ -18,6 +18,7 @@ import {
   focusCommandBarAtom,
   hotkeysAtom,
   initializeCommandBarAtom,
+  tabAutocompleteAtom,
   typepathsAtom,
   type Verb,
   type VerbArg,
