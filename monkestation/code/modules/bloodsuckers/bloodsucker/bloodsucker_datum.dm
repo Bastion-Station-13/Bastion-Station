@@ -508,11 +508,8 @@
 
 /datum/antagonist/bloodsucker/proc/forge_bloodsucker_objectives()
 	// Claim a Lair Objective
-	objectives += new /datum/objective/bloodsucker/lair(null, owner)
-	// Escape Objective
-	var/datum/objective/escape/escape_objective = new
-	escape_objective.owner = owner
-	objectives += escape_objective
+	var/datum/objective/bloodsucker/lair/lair_objective = new(null, owner)
+	objectives += lair_objective
 
 	// Conversion objective.
 	// Most likely to just be "have X living vassals", but can also be "vassalize command" or "vassalize X members of Y department"
@@ -523,6 +520,37 @@
 	var/conversion_objective_type = pick_weight_recursive(weighted_objectives)
 	var/datum/objective/bloodsucker/conversion_objective = new conversion_objective_type(null, owner)
 	objectives += conversion_objective
+
+	// Kill objective
+	var/datum/objective/assassinate/kill_objective = new()
+	kill_objective.owner = owner
+	kill_objective.find_target()
+	kill_objective.explanation_text += " They have angered the vampire clans!"
+	objectives += kill_objective
+
+	// Either get escape alive or die a glorious death
+	var/datum/objective/ending_objective
+	var/martyr_compatibility = TRUE
+	for(var/datum/objective/bloodsucker_objective in objectives)
+		if(!bloodsucker_objective.martyr_compatible)
+			martyr_compatibility = FALSE
+			break
+
+	if (martyr_compatibility && prob(MARTYR_PROB))
+		ending_objective = new /datum/objective/martyr
+		ending_objective.owner = owner
+		ending_objective.explanation_text = "This immortal life bores you. Die a glorious death."
+
+		// No conversion or lair objective if we get this one - we don't care about our vassals or lair surviving to the end
+		objectives -= conversion_objective
+		objectives -= lair_objective
+		qdel(conversion_objective)
+		qdel(lair_objective)
+	else
+		ending_objective = new /datum/objective/escape
+		ending_objective.owner = owner
+
+	objectives += ending_objective
 
 /datum/antagonist/bloodsucker/proc/on_moved(datum/source)
 	SIGNAL_HANDLER
