@@ -240,7 +240,7 @@
 /datum/component/automatic_fire/proc/process_shot()
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
 		return FALSE
-	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 1 decisecond longer than intended
+	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 0.5 decisecond longer than intended
 	if(!(src.next_shot_cd <= world.time))
 		return TRUE
 	if(QDELETED(target) || get_turf(target) != target_loc) //Target moved or got destroyed since we last aimed.

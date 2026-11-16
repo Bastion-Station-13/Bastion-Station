@@ -45,7 +45,7 @@
 /datum/component/ranged_mob_full_auto/proc/try_shooting()
 	if (!is_firing)
 		return FALSE
-	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 1 decisecond longer than intended
+	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 0.5 deciseconds longer than intended
 	if(!(src.next_shot_cooldown <= world.time))
 		return TRUE
 
