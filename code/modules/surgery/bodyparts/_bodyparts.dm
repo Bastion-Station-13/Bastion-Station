@@ -1215,6 +1215,7 @@
 		for(var/datum/bodypart_overlay/overlay as anything in bodypart_overlays)
 			if(!overlay.can_draw_on_bodypart(src, owner))
 				continue
+<<<<<<< HEAD
 			//Some externals have multiple layers for background, foreground and between
 			for(var/external_layer in overlay.all_layers)
 				if(!(overlay.layers & external_layer))
@@ -1232,6 +1233,23 @@
 					. += extended_overlay
 			for(var/datum/layer in .)
 				overlay.modify_bodypart_appearance(layer)
+=======
+			for(var/image/actual_overlay as anything in overlay.get_all_overlays(src))
+				if(has_height)
+					owner.apply_height(actual_overlay, overlay.offset_location)
+				. += actual_overlay
+
+		// Then texture everything at once, including bodypart overlays
+		for(var/datum/bodypart_texture/texture as anything in bodypart_textures)
+			if(!texture.can_texture_bodypart(src))
+				continue
+			for(var/image/generated_overlay as anything in .)
+				var/appearance_plane = PLANE_TO_TRUE(generated_overlay.plane)
+				if(appearance_plane != FLOAT_PLANE && appearance_plane != GAME_PLANE)
+					continue
+
+				texture.modify_bodypart_appearance(generated_overlay)
+>>>>>>> 9185c73a ([PORT] Bodypart overlays can use any number of layers (#12780))
 
 	return .
 
