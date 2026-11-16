@@ -15,6 +15,7 @@
 
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	species_exception = list(/datum/species/golem)
+	has_coat_pockets = TRUE
 
 /obj/item/clothing/suit/toggle/jacket/sweater
 	name = "sweater jacket"
