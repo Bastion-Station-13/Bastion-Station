@@ -82,6 +82,7 @@
 /obj/item/bodypart/leg/left/lizard/ashwalker
 	bodypart_traits = list(TRAIT_HARD_SOLES)
 
+<<<<<<< HEAD
 /// Checks if this mob is wearing anything that does not have a valid sprite set for digitigrade legs
 /// (In other words, is the mob's digitigrade body squished by its clothing?)
 /mob/living/carbon/proc/is_digitigrade_squished()
@@ -110,6 +111,12 @@
 	icon_greyscale = 'icons/mob/human/species/lizard/bodyparts.dmi'
 	limb_id = BODYPART_ID_DIGITIGRADE
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
+=======
+/obj/item/bodypart/leg/left/digitigrade
+	icon_greyscale = 'icons/mob/human/species/lizard/bodyparts.dmi'
+	limb_id = BODYPART_ID_DIGITIGRADE
+	bodyshape = BODYSHAPE_HUMANOID
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 	footprint_sprite = FOOTPRINT_SPRITE_CLAWS
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 	palette = /datum/color_palette/generic_colors
@@ -121,14 +128,18 @@
 		'sound/effects/footstep/hardclaw4.ogg',
 	)
 
-/obj/item/bodypart/leg/left/digitigrade/update_limb(dropping_limb = FALSE, is_creating = FALSE)
+/obj/item/bodypart/leg/left/digitigrade/Initialize(mapload)
 	. = ..()
-	limb_id = owner?.is_digitigrade_squished() ? SPECIES_LIZARD : BODYPART_ID_DIGITIGRADE
+	AddComponent(/datum/component/digitigrade_limb, SPECIES_LIZARD, initial(limb_id))
 
 /obj/item/bodypart/leg/right/digitigrade
 	icon_greyscale = 'icons/mob/human/species/lizard/bodyparts.dmi'
 	limb_id = BODYPART_ID_DIGITIGRADE
+<<<<<<< HEAD
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
+=======
+	bodyshape = BODYSHAPE_HUMANOID
+>>>>>>> 7908b32c ([PORT] State based digitigrade and snout bodyshape (#12799))
 	footprint_sprite = FOOTPRINT_SPRITE_CLAWS
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 	palette = /datum/color_palette/generic_colors
@@ -140,6 +151,6 @@
 		'sound/effects/footstep/hardclaw4.ogg',
 	)
 
-/obj/item/bodypart/leg/right/digitigrade/update_limb(dropping_limb = FALSE, is_creating = FALSE)
+/obj/item/bodypart/leg/right/digitigrade/Initialize(mapload)
 	. = ..()
-	limb_id = owner?.is_digitigrade_squished() ? SPECIES_LIZARD : BODYPART_ID_DIGITIGRADE
+	AddComponent(/datum/component/digitigrade_limb, SPECIES_LIZARD, initial(limb_id))
