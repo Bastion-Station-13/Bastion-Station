@@ -124,6 +124,7 @@
 	color_source = ORGAN_COLOR_ANIME_HALO
 	layers = EXTERNAL_FRONT | EXTERNAL_BEHIND
 	feature_key = "anime_halo"
+	overlay_flags = NONE
 
 /datum/bodypart_overlay/mutant/anime_halo/get_global_feature_list()
 	return GLOB.anime_halo_list

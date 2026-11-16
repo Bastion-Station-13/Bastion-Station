@@ -1,10 +1,30 @@
 ///Bodypart ovarlay datum. These can be added to any limb to give them a proper overlay, that'll even stay if the limb gets removed
 ///This is the abstract parent, don't use it!!
 /datum/bodypart_overlay
+<<<<<<< HEAD
 	///Sometimes we need multiple layers, for like the back, middle and front of the person (EXTERNAL_FRONT, EXTERNAL_ADJACENT, EXTERNAL_BEHIND)
 	var/layers
 	///List of all possible layers. Used for looping through in drawing
 	var/static/list/all_layers = list(EXTERNAL_FRONT, EXTERNAL_ADJACENT, EXTERNAL_BEHIND)
+=======
+	/**
+	 * Assoc list [icon state postfix] to [layer of overlay].
+	 *
+	 * For simple overlays this will be a list of one element,
+	 * but for more complicated overlays, this can be any number of component layers.
+	 *
+	 * Example:
+	 * layers = list("front" = BODY_LAYER_FRONT) // - one layer, with icon state "[iconstate]_front"
+	 * layers = list("adjacent" = BODY_LAYER_ADJACENT, "behind" = BODY_LAYER_BEHIND) // - two layers, one is "[iconstate]_adjacent", the other is "[iconstate]_behind"
+	 * layers = list("layer1" = BODY_LAYER_ADJACENT, "layer2" = BODY_LAYER_BEHIND) // - two layers, with icon states "[iconstate]_layer1" and "[iconstate]_layer2"
+	 * layers = list("" = BODY_LAYER_FRONT) // - one layer, with icon state "[iconstate]"
+	 *
+	 * This is cached, so be careful editing it at runtime (use the helpers!)
+	 */
+	VAR_PROTECTED/list/layers
+	/// Flags that determine how the overlay is handled by the bodypart.
+	var/overlay_flags = LIMB_OVERLAY_TEXTURED
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
 
 	///Key of the icon states of all the sprite_datums for easy caching
 	var/cache_key = ""
@@ -25,7 +45,76 @@
 	. = get_image(layer, limb)
 	color_image(., layer, limb)
 
+<<<<<<< HEAD
 /datum/bodypart_overlay/proc/get_emissive_overlay(layer, obj/item/bodypart/limb)
+=======
+/// Used for adding a layer at runtime
+/datum/bodypart_overlay/proc/set_layer(layer_postfix, layer_number)
+	var/list/existing_layers = LAZYCOPY(layers)
+	existing_layers[layer_postfix] = layer_number
+	layers = string_assoc_list(existing_layers)
+
+/// Used for adding a layer at runtime without replacing existing layers
+/datum/bodypart_overlay/proc/add_layer(layer_postfix, layer_number)
+	if(isnull(LAZYACCESS(layers, layer_postfix)))
+		set_layer(layer_postfix, layer_number)
+
+/// Used for adding layers at runtime
+/datum/bodypart_overlay/proc/set_layers(list/layer_list)
+	if(!length(layer_list))
+		return
+
+	layers = string_assoc_list(layer_list)
+
+/// Used for removing layers at runtime
+/datum/bodypart_overlay/proc/clear_layer(layer_postfix)
+	var/list/existing_layers = LAZYCOPY(layers)
+	existing_layers -= layer_postfix
+	if(!length(existing_layers))
+		layers = null
+		return
+
+	layers = string_assoc_list(existing_layers)
+
+/**
+ * Returns a list of overlays that this overlay datum draws
+ *
+ * * limb: the limb we're drawing onto
+ *
+ * Returns an assoc list of images/mutable appearances to their overlay flags
+ */
+/datum/bodypart_overlay/proc/get_all_overlays(obj/item/bodypart/limb)
+	var/list/overlays = list()
+	for(var/overlay_postfix, overlay_layer in layers)
+		overlays[get_overlay(limb, overlay_postfix, -overlay_layer)] = overlay_flags
+		var/emissive_overlay = get_emissive_overlay(limb, overlay_postfix, -overlay_layer)
+		if(emissive_overlay)
+			overlays[emissive_overlay] = LIMB_OVERLAY_META
+		var/secondary_overlay = get_secondary_overlay(limb, overlay_postfix, -overlay_layer)
+		if(secondary_overlay)
+			overlays[secondary_overlay] = overlay_flags
+		for(var/image/extended_overlay as anything in get_extended_overlay(limb, overlay_postfix, -overlay_layer))
+			overlays[extended_overlay] = PLANE_TO_TRUE(extended_overlay.plane) == EMISSIVE_PLANE ? LIMB_OVERLAY_META : overlay_flags
+	return overlays
+
+/**
+ * Handles generating an individual overlay
+ *
+ * * limb: the limb we're drawing onto, can be null if we're just drawing a general overlay for the mob and not a specific limb
+ * * layer_index: the index of the layer we're drawing on, used for generating the image
+ * * layer_real: the actual layer we're drawing on, used for generating the image
+ *
+ * Returns an image/mutable appearance
+ */
+/datum/bodypart_overlay/proc/get_overlay(obj/item/bodypart/limb, layer_index, layer_real)
+	PROTECTED_PROC(TRUE)
+	. = get_image(limb, layer_index, layer_real)
+	color_image(., limb, layer_index)
+
+/// Returns an emissive overlay to draw along with the main one, if we have one
+/datum/bodypart_overlay/proc/get_emissive_overlay(obj/item/bodypart/limb, layer_index, layer_real)
+	PROTECTED_PROC(TRUE)
+>>>>>>> de308e97 ([PORT] Bodypart overlay flags, wings get fully textured (#12781))
 	return
 
 ///Wrapper for getting the proper image, colored and everything

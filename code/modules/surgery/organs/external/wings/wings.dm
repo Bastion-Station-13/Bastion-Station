@@ -17,6 +17,7 @@
 /datum/bodypart_overlay/mutant/wings
 	layers = ALL_EXTERNAL_OVERLAYS
 	feature_key = "wings"
+	overlay_flags = parent_type::overlay_flags | LIMB_OVERLAY_WIDE_ICON | LIMB_OVERLAY_TALL_ICON
 
 /datum/bodypart_overlay/mutant/wings/can_draw_on_bodypart(obj/item/bodypart/bodypart_owner)
 	var/mob/living/carbon/human/human = bodypart_owner.owner
