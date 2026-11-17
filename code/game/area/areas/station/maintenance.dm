@@ -1,4 +1,5 @@
 /area/station/maintenance
+	nav_cost_flags = NAV_COST_MAINTENANCE
 	name = "Generic Maintenance"
 	ambience_index = AMBIENCE_MAINT
 	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED | PERSISTENT_ENGRAVINGS
@@ -10,7 +11,6 @@
 	forced_ambience = TRUE
 	ambient_buzz = 'sound/ambience/maintenance/source_corridor2.ogg'
 	ambient_buzz_vol = 50
-	astar_weight = 10
 	anchor_roundstart_lockers = FALSE
 
 /*

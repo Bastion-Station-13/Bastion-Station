@@ -15,7 +15,21 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	rust_resistance = RUST_RESISTANCE_ORGANIC
+<<<<<<< HEAD
 	astar_weight = 75
+=======
+	/// Whether we can dig a fishing hole on this turf
+	var/can_make_hole = TRUE
+	/// Screentips for the tools that can dig a fishing hole
+	var/static/list/tool_screentips = list(
+		TOOL_SHOVEL = list(
+			SCREENTIP_CONTEXT_LMB = "Dig fishing hole",
+		),
+		TOOL_MINING = list(
+			SCREENTIP_CONTEXT_LMB = "Dig fishing hole",
+		),
+	)
+>>>>>>> f7ad36b6 ([PORT] Implements baking navigational data into turf, and uses this for a DLL-based A* implementation (With Multi-Z support) (#13032))
 
 /turf/open/misc/ice/Initialize(mapload)
 	. = ..()
