@@ -1,0 +1,4 @@
+author: "TyrantCerberus"
+delete-after: True
+changes:
+  - bugfix: "Easels drop wood when destroyed or deconstructed."
