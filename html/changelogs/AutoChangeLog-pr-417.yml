@@ -1,0 +1,4 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - rscadd: "Sleeping in a bed now gives you a positive mood buff, higher the more cozy you are."
