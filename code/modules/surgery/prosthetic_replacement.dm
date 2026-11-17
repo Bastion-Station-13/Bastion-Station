@@ -33,10 +33,34 @@
 	implements = list(
 		/obj/item/bodypart = 100,
 		/obj/item/borg/apparatus/organ_storage = 100,
-		/obj/item/chainsaw = 100,
-		/obj/item/melee/synthetic_arm_blade = 100)
-	time = 32
-	var/organ_rejection_dam = 0
+		/obj/item = 100,
+	)
+	time = 3.2 SECONDS
+	/// Toxin damage incurred by the target if an organic limb is attached
+	VAR_FINAL/organ_rejection_dam = 0
+	/// List of items that are always allowed to be an arm replacement, even if they fail another requirement.
+	var/list/always_accepted_prosthetics = list(
+		/obj/item/chainsaw, // the OG, too large otherwise
+		/obj/item/melee/synthetic_arm_blade, // also too large otherwise
+		/obj/item/food/pizzaslice, // he's turning her into a papa john's
+	)
+
+/datum/surgery_step/add_prosthetic/tool_check(mob/user, obj/item/tool)
+	if(istype(tool, /obj/item/borg/apparatus/organ_storage))
+		if(!length(tool.contents))
+			return FALSE
+		tool = tool.contents[1]
+	if(tool.item_flags & (ABSTRACT|HAND_ITEM|DROPDEL))
+		return FALSE
+	if(isbodypart(tool))
+		return TRUE // auto pass - "intended" use case
+	if(is_type_in_list(tool, always_accepted_prosthetics))
+		return TRUE // auto pass - soulful prosthetics
+	if(tool.w_class < WEIGHT_CLASS_NORMAL || tool.w_class > WEIGHT_CLASS_BULKY)
+		return FALSE // too large or too small items don't make sense as a limb replacement
+	if(HAS_TRAIT(tool, TRAIT_WIELDED))
+		return FALSE // prevents exploits from weird edge cases - either unwield or get out
+	return TRUE
 
 /datum/surgery_step/add_prosthetic/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	if(istype(tool, /obj/item/borg/apparatus/organ_storage))
