@@ -24,6 +24,8 @@ SUBSYSTEM_DEF(holomaps)
 	var/static/list/station_holomaps = list()
 	var/static/list/holomap_z_transitions = list()
 	var/static/list/list/holomap_position_to_name = list()
+	/// Z level (as text) -> list(min_x, min_y, max_x, max_y) of the turf coordinates that have something drawn on that holomap.
+	var/static/list/list/holomap_bounds = list()
 
 /datum/controller/subsystem/holomaps/Recover()
 	flags |= SS_NO_INIT // Make extra sure we don't initialize twice.
@@ -73,6 +75,10 @@ SUBSYSTEM_DEF(holomaps)
 	var/list/z_transition_positions = SSholomaps.holomap_z_transitions["[z_level]"]
 
 	var/list/position_to_name = list()
+	var/min_x = world.maxx
+	var/min_y = world.maxy
+	var/max_x = 1
+	var/max_y = 1
 	if(world.maxx > canvas.Width())
 		stack_trace("Minimap for z=[z_level] : world.maxx ([world.maxx]) must be <= [canvas.Width()]")
 	if(world.maxy > canvas.Height())
@@ -88,21 +94,33 @@ SUBSYSTEM_DEF(holomaps)
 			if(!tile || !tile_area.holomap_should_draw)
 				continue
 
+			var/drawn = FALSE
 			if(tile_area.holomap_color)
 				area_canvas.DrawBox(tile_area.holomap_color, offset_x, offset_y)
 				position_to_name["[offset_x]:[offset_y]"] = tile_area.holomap_color == HOLOMAP_AREACOLOR_MAINTENANCE ? "Maintenance" : tile_area.name
+				drawn = TRUE
 
 			if(IS_ROCK(tile))
 				canvas.DrawBox(HOLOMAP_ROCK, offset_x, offset_y)
+				drawn = TRUE
 
 			else if(IS_OBSTACLE(tile))
 				canvas.DrawBox(HOLOMAP_OBSTACLE, offset_x, offset_y)
+				drawn = TRUE
 
 			else if(IS_SOFT_OBSTACLE(tile))
 				canvas.DrawBox(HOLOMAP_SOFT_OBSTACLE, offset_x, offset_y)
+				drawn = TRUE
 
 			else if(IS_PATH(tile))
 				canvas.DrawBox(HOLOMAP_PATH, offset_x, offset_y)
+				drawn = TRUE
+
+			if(drawn)
+				min_x = min(min_x, x)
+				min_y = min(min_y, y)
+				max_x = max(max_x, x)
+				max_y = max(max_y, y)
 
 			var/z_transition_obj = HAS_Z_TRANSITION(tile)
 			if(!z_transition_obj)
@@ -154,6 +172,10 @@ SUBSYSTEM_DEF(holomaps)
 	valid_map_indexes += z_level
 	holomaps["[z_level]"] = canvas
 	holomap_position_to_name["[z_level]"] = position_to_name
+	if(min_x <= max_x && min_y <= max_y)
+		holomap_bounds["[z_level]"] = list(min_x, min_y, max_x, max_y)
+	else
+		holomap_bounds -= "[z_level]"
 	return setup_station_map(area_canvas, z_level)
 
 
