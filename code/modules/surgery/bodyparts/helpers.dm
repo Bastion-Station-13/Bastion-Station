@@ -108,6 +108,10 @@
 /mob/proc/has_right_hand(check_disabled = TRUE)
 	return TRUE
 
+	/// Returns the bodypart holding the passed item
+/mob/living/carbon/proc/get_hand_of_item(obj/item/I)
+	return get_bodypart(get_hand_zone_of_item(I))
+
 
 /mob/living/carbon/has_right_hand(check_disabled = TRUE)
 	for(var/obj/item/bodypart/hand_instance in hand_bodyparts)

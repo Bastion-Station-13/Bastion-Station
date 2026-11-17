@@ -61,6 +61,9 @@
 		if(user.dna.check_mutation(/datum/mutation/hulk))
 			to_chat(user, span_warning("You lack the grace to wield this!"))
 			return COMPONENT_TWOHANDED_BLOCK_WIELD
+			if(HAS_TRAIT_FROM(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT))
+		to_chat(user, span_warning("You can't seem to hold [src] properly!"))
+		return COMPONENT_TWOHANDED_BLOCK_WIELD
 	w_class = w_class_on
 	hitsound = 'sound/items/weapons/blade1.ogg'
 	START_PROCESSING(SSobj, src)
