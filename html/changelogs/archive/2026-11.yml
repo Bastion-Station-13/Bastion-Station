@@ -325,3 +325,21 @@
       (no_blood), false by default
   tattax:
   - qol: handcuff sprites for each ui
+2026-11-17:
+  DrDiasyl:
+  - rscadd: Added JUSTICE skillchip given to HoS and is a Lawyer traitor item. It
+      allows you to beat up Shitcurity with bonus of beating THE LAW into their minds!
+      Will backfire if used against civvies.
+  - rscadd: You can now swear on the Space Law to get law enforcement metabolism,
+      or grind the book down in a grinder and drink it for the same effect.
+  - bugfix: You can burn down the books again
+  HIDgamer:
+  - rscadd: 'adds water wade and overlay effects
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'

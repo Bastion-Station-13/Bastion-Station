@@ -1,6 +1,0 @@
-author: "DrDiasyl"
-delete-after: True
-changes:
-  - rscadd: "Added JUSTICE skillchip given to HoS and is a Lawyer traitor item. It allows you to beat up Shitcurity with bonus of beating THE LAW into their minds! Will backfire if used against civvies."
-  - rscadd: "You can now swear on the Space Law to get law enforcement metabolism, or grind the book down in a grinder and drink it for the same effect."
-  - bugfix: "You can burn down the books again"
