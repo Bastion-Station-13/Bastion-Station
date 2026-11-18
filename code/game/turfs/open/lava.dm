@@ -7,6 +7,7 @@
 /turf/open/lava
 	name = "lava"
 	icon_state = "lava"
+	nav_cost_flags = NAV_COST_LAVA
 	desc = "Looks painful to step in. Don't mine down."
 	gender = PLURAL //"That's some lava."
 	baseturfs = /turf/open/lava //lava all the way down
@@ -59,6 +60,22 @@
 		REMOVE_TRAIT(leaving_mob, TRAIT_NO_EXTINGUISH, TURF_TRAIT)
 	return ..()
 
+<<<<<<< HEAD
+=======
+/turf/open/lava/get_nav_cost_flags()
+	. = ..()
+	if(HAS_TRAIT(src, TRAIT_LAVA_STOPPED))
+		. &= ~NAV_COST_LAVA
+
+///We lazily add the immerse element when something is spawned or crosses this turf and not before.
+/turf/open/lava/proc/on_atom_inited(datum/source, atom/movable/movable)
+	SIGNAL_HANDLER
+	if(immerse_added || is_type_in_typecache(movable, GLOB.immerse_ignored_movable))
+		return
+	AddElement(/datum/element/immerse, icon, icon_state, "immerse", immerse_overlay_color)
+	immerse_added = TRUE
+
+>>>>>>> f7ad36b6 ([PORT] Implements baking navigational data into turf, and uses this for a DLL-based A* implementation (With Multi-Z support) (#13032))
 /turf/open/lava/update_overlays()
 	. = ..()
 	. += emissive_appearance(mask_icon, mask_state, src)

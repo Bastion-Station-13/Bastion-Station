@@ -46,6 +46,7 @@
 	name = "Syndicate Infiltrator EVA"
 
 /area/shuttle/syndicate/hallway
+	nav_cost_flags = parent_type::nav_cost_flags | NAV_COST_HALLWAY
 	name = "Syndicate Infiltrator Hall"
 
 /area/shuttle/syndicate/engineering
