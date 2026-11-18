@@ -328,5 +328,5 @@
 	name = "adamantine-tipped exosuit drill"
 	desc = "Equipment for combat exosuits. This is an upgraded version of the drill that'll pierce the universe itself!"
 	icon_state = "mecha_diamond_drill"
-	drill_delay = 2
+	drill_delay = 1 SECONDS
 	force = 60

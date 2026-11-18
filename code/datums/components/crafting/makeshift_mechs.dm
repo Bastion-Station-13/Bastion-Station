@@ -83,7 +83,7 @@
 
 /datum/crafting_recipe/makeshift_sleeper
 	name = "Makeshift Sleeper Module"
-	result = /obj/item/mecha_parts/mecha_equipment/medical/sleeper/makeshift
+	result = /obj/item/mecha_parts/mecha_equipment/sleeper/medical/makeshift
 	reqs = list(/obj/item/stock_parts/power_store/cell = 1,
 		/obj/item/stack/sheet/cloth = 5,
 		/obj/item/stack/rods = 10,

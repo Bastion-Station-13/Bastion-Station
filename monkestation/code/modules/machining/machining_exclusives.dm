@@ -173,8 +173,8 @@
 	name = "Hardened Exosuit Part"
 	desc = "Hardened internal parts that boosts the maximum exosuit internal integrity of an exosuit, it appears to be custom-made"
 	icon_state = "mecha_abooster_proj"
-	iconstate_name = "shield"
-	protect_name = "Extra Integrity"
+//	iconstate_name = "shield"
+//	protect_name = "Extra Integrity"
 	icon = 'icons/obj/machining_intermediates.dmi'
 	icon_state = "hardenedexosuit_part"
 	armor_mod = /datum/armor/mecha_equipment_parts

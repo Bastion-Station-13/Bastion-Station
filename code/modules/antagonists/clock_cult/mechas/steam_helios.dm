@@ -5,7 +5,7 @@
 	base_icon_state = "savannah_ivanov"
 	icon_state = "savannah_ivanov_0_0"
 	color = rgb(190, 135, 0)
-	mecha_flags = CANSTRAFE | IS_ENCLOSED | NOT_ABLE_TO_REMOVE_STOCK_PARTS
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | NOT_ABLE_TO_REMOVE_STOCK_PARTS
 	mech_type = EXOSUIT_MODULE_SAVANNAH
 	movedelay = 3
 	max_integrity = 450
@@ -23,6 +23,10 @@
 		MECHA_POWER = 0,
 		MECHA_ARMOR = 1,
 	)
+
+	/// Power we use every time we phaze through something
+	var/phasing_energy_drain = 0.2 * STANDARD_CELL_CHARGE
+
 	phasing_energy_drain = 0
 	possible_int_damage = MECHA_INT_FIRE | MECHA_INT_CONTROL_LOST //fire is the only one that really makes sense but I dont want to have only one int damage possible
 	equip_by_category = list(

@@ -1,7 +1,7 @@
 /obj/vehicle/sealed/mecha/mob_try_enter(mob/M)
 	if(!ishuman(M)) // no silicons or drones in mechas.
 		return
-	if(HAS_TRAIT(M, TRAIT_PRIMITIVE) && (!(HAS_TRAIT(M, TRAIT_ADVANCEDTOOLUSER)) || !(HAS_TRAIT(M, TRAIT_LITERATE)))) //no lavalizards either.
+	if(HAS_TRAIT(M, TRAIT_PRIMITIVE)) //no lavalizards either.
 		to_chat(M, span_warning("The knowledge to use this device eludes you!"))
 		return
 	log_message("[M] tried to move into [src].", LOG_MECHA)
@@ -33,9 +33,10 @@
 		to_chat(M, span_warning("You can't enter the exosuit with other creatures attached to you!"))
 		log_message("Permission denied (Attached mobs).", LOG_MECHA)
 		return FALSE
+
 	return ..()
 
-///proc called when a new non-mmi/AI mob enters this mech
+///proc called when a new non-mmi mob enters this mech
 /obj/vehicle/sealed/mecha/proc/moved_inside(mob/living/newoccupant)
 	if(!(newoccupant?.client))
 		return FALSE
@@ -170,25 +171,26 @@
 
 	return ..()
 
-/obj/vehicle/sealed/mecha/add_occupant(mob/M, control_flags)
-	RegisterSignal(M, COMSIG_MOB_CLICKON, PROC_REF(on_mouseclick), TRUE)
-	RegisterSignal(M, COMSIG_MOB_SAY, PROC_REF(display_speech_bubble), TRUE)
-	RegisterSignal(M, COMSIG_MOVABLE_KEYBIND_FACE_DIR, PROC_REF(on_turn), TRUE)
+/obj/vehicle/sealed/mecha/add_occupant(mob/driver, control_flags)
+	RegisterSignal(driver, COMSIG_MOB_CLICKON, PROC_REF(on_mouseclick), TRUE)
+	RegisterSignal(driver, COMSIG_MOB_SAY, PROC_REF(display_speech_bubble), TRUE)
+	RegisterSignal(driver, COMSIG_MOVABLE_KEYBIND_FACE_DIR, PROC_REF(on_turn), TRUE)
+	RegisterSignal(driver, COMSIG_MOB_ALTCLICKON, PROC_REF(on_click_alt))
 	. = ..()
 	update_appearance()
 
-/obj/vehicle/sealed/mecha/remove_occupant(mob/M)
-	UnregisterSignal(M, list(
+/obj/vehicle/sealed/mecha/remove_occupant(mob/driver)
+	UnregisterSignal(driver, list(
 		COMSIG_MOB_CLICKON,
 		COMSIG_MOB_SAY,
 		COMSIG_MOVABLE_KEYBIND_FACE_DIR,
+		COMSIG_MOB_ALTCLICKON,
 	))
-	M.clear_alert(ALERT_CHARGE)
-	M.clear_alert(ALERT_MECH_DAMAGE)
-	if(M.client)
-		M.update_mouse_pointer()
-		M.client.view_size.resetToDefault()
-		zoom_mode = FALSE
+	driver.clear_alert(ALERT_CHARGE)
+	driver.clear_alert(ALERT_MECH_DAMAGE)
+	if(driver.client)
+		driver.update_mouse_pointer()
+		driver.client.view_size.resetToDefault()
 	. = ..()
 	update_appearance()
 

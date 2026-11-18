@@ -16,6 +16,7 @@ import {
 } from '../../components';
 import { formatPower } from '../../format';
 import type { MainData, MechModule } from './data';
+import { useSharedState } from '../../backend';
 
 const moduleSlotIcon = (param) => {
   switch (param) {
@@ -53,23 +54,41 @@ const moduleSlotLabel = (param) => {
 
 export const ModulesPane = (props) => {
   const { act, data } = useBackend<MainData>();
+  const [showModuleList, setShowModuleList] = useSharedState(
+    'showModuleList',
+    true,
+  );
   const { modules, selected_module_index, weapons_safety } = data;
   return (
     <Section
-      title="Equipment"
+      title= {
+        showModuleList ? "Equipment" :
+        <Icon name="screwdriver-wrench" />}
       fill
       style={{ overflowY: 'auto' }}
       buttons={
+        <>
         <Button
           icon={!weapons_safety ? 'triangle-exclamation' : 'helmet-safety'}
           color={!weapons_safety ? 'red' : 'default'}
           onClick={() => act('toggle_safety')}
-          content={
+          content={ showModuleList ? <> {
             !weapons_safety
               ? 'Safety Protocols Disabled'
               : 'Safety Protocols Enabled'
           }
+              </> :
+           null
+          }
         />
+        <Button
+          icon={showModuleList ? 'arrow-left' : 'arrow-right'}
+          content={ showModuleList ?
+            'Minimize' : 'Max'
+          }
+          onClick={() => setShowModuleList(!showModuleList)}
+        />
+        </>
       }
     >
       <Stack>
@@ -93,16 +112,20 @@ export const ModulesPane = (props) => {
                       name={moduleSlotIcon(module.slot)}
                     />
                   </Stack.Item>
-                  <Stack.Item
-                    lineHeight="32px"
-                    style={{
-                      textTransform: 'capitalize',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {`${moduleSlotLabel(module.slot)} Slot`}
-                  </Stack.Item>
+                  {showModuleList?
+                    <Stack.Item
+                      lineHeight="32px"
+                      style={{
+                        textTransform: 'capitalize',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {`${moduleSlotLabel(module.slot)} Slot`}
+                    </Stack.Item>
+                    :
+                    null
+                  }
                 </Stack>
               </Button>
             ) : (
@@ -125,23 +148,27 @@ export const ModulesPane = (props) => {
                       className={classes(['mecha_equipment32x32', module.icon])}
                     />
                   </Stack.Item>
-                  <Stack.Item
-                    lineHeight="32px"
-                    style={{
-                      textTransform: 'capitalize',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {module.name}
-                  </Stack.Item>
+                  {showModuleList?
+                    <Stack.Item
+                      lineHeight="32px"
+                      style={{
+                        textTransform: 'capitalize',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {module.name}
+                    </Stack.Item>
+                    :
+                    null
+                  }
                 </Stack>
               </Button>
             ),
           )}
         </Stack.Item>
         <Stack.Item grow pl={1}>
-          {selected_module_index !== null && modules[selected_module_index] && (
+          {selected_module_index !== null && modules[selected_module_index] && ( showModuleList &&
             <ModuleDetails module={modules[selected_module_index]} />
           )}
         </Stack.Item>

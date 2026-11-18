@@ -419,7 +419,8 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 		return FALSE
 	var/beam
 	if(ranged)
-		beam = user.Beam(target,icon_state="rped_upgrade", time = delay)
+		var/atom/beam_source = owner ? owner : user
+		beam = beam_source.Beam(target,icon_state="rped_upgrade", time = delay)
 	if(!do_after(user, delay, target = target))
 		qdel(rcd_effect)
 		if(!isnull(beam))
