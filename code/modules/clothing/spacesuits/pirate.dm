@@ -32,3 +32,8 @@
 	armor_type = /datum/armor/space_pirate
 	strip_delay = 40
 	equip_delay_other = 20
+<<<<<<< HEAD
+=======
+	cerulean_flipper_palette = "#86563b"
+	fishing_modifier = -3
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))

@@ -237,9 +237,16 @@
 	if(!istype(user))
 		return
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+<<<<<<< HEAD
 	for(var/trait in clothing_traits)
 		REMOVE_CLOTHING_TRAIT(user, trait)
 
+=======
+	remove_clothing_traits(user)
+	if(iscarbon(user) && tint)
+		var/mob/living/carbon/carbon_user = user
+		carbon_user.update_tint()
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 	if(LAZYLEN(user_vars_remembered))
 		for(var/variable in user_vars_remembered)
 			if(variable in user.vars)
@@ -267,8 +274,15 @@
 	if(slot_flags & slot) //Was equipped to a valid slot for this item?
 		if(iscarbon(user) && LAZYLEN(zones_disabled))
 			RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(bristle), override = TRUE)
+<<<<<<< HEAD
 		for(var/trait in clothing_traits)
 			ADD_CLOTHING_TRAIT(user, trait)
+=======
+		give_clothing_traits(user, slot)
+		if(iscarbon(user) && tint)
+			var/mob/living/carbon/carbon_user = user
+			carbon_user.update_tint()
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 		if (LAZYLEN(user_vars_to_edit))
 			for(var/variable in user_vars_to_edit)
 				if(variable in user.vars)
@@ -299,6 +313,16 @@
 
 	wearer.update_clothing(slot_flags)
 
+
+/// Gives the wearer all the clothing traits associated with this item
+/obj/item/clothing/proc/give_clothing_traits(mob/living/wearer, slot)
+	for(var/trait in clothing_traits)
+		ADD_CLOTHING_TRAIT(wearer, trait)
+
+/// Removes all the clothing traits associated with this item from the wearer
+/obj/item/clothing/proc/remove_clothing_traits(mob/living/wearer)
+	for(var/trait in clothing_traits)
+		REMOVE_CLOTHING_TRAIT(wearer, trait)
 
 /**
  * Inserts a trait (or multiple traits) into the clothing traits list

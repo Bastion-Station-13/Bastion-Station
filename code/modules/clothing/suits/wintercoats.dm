@@ -12,6 +12,11 @@
 	allowed = list()
 	armor_type = /datum/armor/hooded_wintercoat
 	// hood_down_overlay_suffix = "_hood"
+<<<<<<< HEAD
+=======
+	bodyshapes_with_variations = NONE
+	has_coat_pockets = TRUE
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 /datum/armor/hooded_wintercoat
 	bio = 10

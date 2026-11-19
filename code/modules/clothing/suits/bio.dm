@@ -40,6 +40,19 @@
 	strip_delay = 70
 	equip_delay_other = 70
 	resistance_flags = ACID_PROOF
+<<<<<<< HEAD
+=======
+	supports_variations_flags = CLOTHING_DIGITIGRADE_MASK
+	bodyshapes_with_variations = BODYSHAPE_DIGITIGRADE
+	/// Type of texture applied by this
+	var/texture_type = /datum/bodypart_texture/mesh/biosuit
+	bodyshapes_with_variations = BODYSHAPE_DIGITIGRADE|BODYSHAPE_CERULEAN
+	cerulean_flipper_palette = "#eeeeee"
+
+/obj/item/clothing/suit/bio_suit/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/equipment_bodypart_texture, BODY_ZONE_CHEST, texture_type)
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 //Standard biosuit, orange stripe
 /datum/armor/suit_bio_suit
@@ -125,6 +138,11 @@
 	inhand_icon_state = "bio_suit"
 	strip_delay = 40
 	equip_delay_other = 20
+<<<<<<< HEAD
+=======
+	texture_type = /datum/bodypart_texture/mesh/black
+	supports_variations_flags = NONE
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 /obj/item/clothing/suit/bio_suit/plaguedoctorsuit/Initialize(mapload)
 	. = ..()

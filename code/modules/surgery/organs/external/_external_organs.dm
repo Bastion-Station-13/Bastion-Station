@@ -230,6 +230,7 @@
 /datum/bodypart_overlay/mutant/frills
 	layers = EXTERNAL_ADJACENT
 	feature_key = "frills"
+	color_source = ORGAN_COLOR_OVERRIDE
 	offset_location = UPPER_BODY
 
 /datum/bodypart_overlay/mutant/frills/can_draw_on_bodypart(obj/item/bodypart/bodypart_owner)
@@ -239,6 +240,11 @@
 	if(!(human.head?.flags_inv & HIDEEARS))
 		return TRUE
 	return FALSE
+
+/datum/bodypart_overlay/mutant/frills/override_color(obj/item/bodypart/bodypart_owner)
+	if(bodypart_owner.owner?.get_organ_by_type(/obj/item/organ/external/tail/fish/cerulean)) //if we are fish frills
+		return bodypart_owner.owner.dna.features["fish_tail_color"]
+	return bodypart_owner.draw_color
 
 /datum/bodypart_overlay/mutant/frills/get_global_feature_list()
 	return GLOB.frills_list
