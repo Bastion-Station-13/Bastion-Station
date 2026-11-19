@@ -212,7 +212,6 @@
 	source.icon_state = "[source.icon_state]_on"
 	if(inhand_icon_change && source.inhand_icon_state)
 		source.inhand_icon_state = "[source.inhand_icon_state]_on"
-	source.update_appearance()
 	source.update_inhand_icon()
 
 /*
@@ -241,8 +240,9 @@
 	source.w_class = initial(source.w_class)
 	source.icon_state = initial(source.icon_state)
 	source.inhand_icon_state = initial(source.inhand_icon_state)
-		source.update_appearance()
-	source.update_inhand_icon()
+	if(ismob(source.loc))
+		var/mob/loc_mob = source.loc
+		loc_mob.update_held_items()
 
 /*
  * If [clumsy_check] is set to TRUE, attempt to cause a side effect for clumsy people activating this item.

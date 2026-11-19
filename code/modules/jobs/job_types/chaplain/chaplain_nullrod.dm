@@ -385,17 +385,26 @@
 
 /obj/item/nullrod/chainsaw
 	name = "chainsaw hand"
-	 desc = "Good? Bad? You're the guy with the chainsaw hand."
+	desc = "Good? Bad? You're the guy with the chainsaw hand."
 	icon = 'icons/obj/weapons/chainsaw.dmi'
 	icon_state = "chainsaw_on"
-	base_icon_state = "chainsaw_on"
+	inhand_icon_state = "mounted_chainsaw"
 	lefthand_file = 'icons/mob/inhands/weapons/chainsaw_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/chainsaw_righthand.dmi'
 	w_class = WEIGHT_CLASS_HUGE
+	slot_flags = null
+	item_flags = ABSTRACT
+	sharpness = SHARP_EDGED
+	attack_verb_continuous = list("saws", "tears", "lacerates", "cuts", "chops", "dices")
+	attack_verb_simple = list("saw", "tear", "lacerate", "cut", "chop", "dice")
+	hitsound = 'sound/items/weapons/chainsawhit.ogg'
+	tool_behaviour = TOOL_SAW
+	toolspeed = 2 //slower than a real saw
+	menu_description = "An undroppable sharp chainsaw hand. Can be used as a very slow saw tool. Capable of slowly butchering bodies. Disappears if the arm holding it is cut off."
 
 /obj/item/nullrod/chainsaw/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/prosthetic_icon, "mounted", 180)
+	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
 	AddComponent(/datum/component/butchering, \
 	speed = 3 SECONDS, \
 	effectiveness = 100, \
@@ -403,22 +412,6 @@
 	butcher_sound = hitsound, \
 	)
 
-/obj/item/nullrod/chainsaw/on_selected(obj/item/nullrod/old_weapon, mob/living/picker)
-	if(!iscarbon(picker))
-		return
-	var/obj/item/bodypart/active = picker.get_active_hand()
-	var/mob/living/carbon/new_hero = picker
-	new_hero.make_item_prosthetic(src, active.body_zone)
-
-/obj/item/nullrod/chainsaw/equipped(mob/living/carbon/user, slot, initial)
-	. = ..()
-	if(!iscarbon(user))
-		return
-	if(!(slot & ITEM_SLOT_HANDS))
-		return
-	to_chat(user, span_warning("As you lay your hands on [src], it latches onto your arm!"))
-	var/obj/item/bodypart/active = user.get_active_hand()
-	user.make_item_prosthetic(src, active.body_zone)
 /obj/item/nullrod/clown
 	name = "clown dagger"
 	desc = "Used for absolutely hilarious sacrifices."
