@@ -139,6 +139,7 @@
 	bare_wound_bonus = 5
 	wound_falloff_tile = -3
 
+<<<<<<< HEAD
 // Used by WT laser rounds
 /obj/projectile/beam/scatter/rapidfire
 	name = "laser pellet"
@@ -149,6 +150,13 @@
 	bare_wound_bonus = 5
 	armour_penetration = 50
 	armour_penetration_falloff_tile = -10
+=======
+/obj/projectile/beam/scatter/weak
+	icon_state = "purple_laser"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/purple_laser
+	light_color = COLOR_STRONG_VIOLET
+	damage = 7.2
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 /obj/projectile/beam/scatter/pathetic
 	name = "extremely weak laser pellet"

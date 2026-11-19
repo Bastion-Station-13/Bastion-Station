@@ -26,10 +26,20 @@
 	)
 
 	var/list/possible_organ_slots = organ_slots.Copy()
+<<<<<<< HEAD
 	if(HAS_TRAIT(human_holder, TRAIT_NOBLOOD) && organ_slot == ORGAN_SLOT_HEART)
 		possible_organ_slots -= ORGAN_SLOT_HEART
 		incompatible = TRUE
 	if(HAS_TRAIT(human_holder, TRAIT_NOBREATH) && organ_slot == ORGAN_SLOT_LUNGS)
+=======
+	for(var/slot in possible_organ_slots)
+		if(!human_holder.get_organ_slot(slot))
+			possible_organ_slots -= slot
+
+	if(HAS_TRAIT(human_holder, TRAIT_NOBLOOD))
+		possible_organ_slots -= ORGAN_SLOT_HEART
+	if(HAS_TRAIT(human_holder, TRAIT_NOBREATH) || human_holder.dna.species.breathid != "o2")
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 		possible_organ_slots -= ORGAN_SLOT_LUNGS
 		incompatible = TRUE
 	if(HAS_TRAIT(human_holder, TRAIT_LIVERLESS_METABOLISM) && organ_slot == ORGAN_SLOT_LIVER)
@@ -40,9 +50,15 @@
 		incompatible = TRUE
 	if(HAS_TRAIT(human_holder, TRAIT_SPLEENLESS_METABOLISM) && organ_slot == ORGAN_SLOT_SPLEEN)
 		possible_organ_slots -= ORGAN_SLOT_SPLEEN
+<<<<<<< HEAD
 		incompatible = TRUE
 	if(!length(organ_slots)) //what the hell
 		return
+=======
+
+	if(!length(possible_organ_slots)) // you get NOTHING I guess
+		CRASH("Prosthetic organ applied to a mob who had no available organ slots, consider blacklisting their species ([human_holder.dna.species.type]) from this quirk")
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 	if(isnull(organ_slot) || organ_slot == "Random" || incompatible)
 		organ_slot = pick(possible_organ_slots)

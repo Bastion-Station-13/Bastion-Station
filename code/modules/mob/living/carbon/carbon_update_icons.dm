@@ -314,7 +314,11 @@
 		if(get_held_index_of_item(I) % 2 == 0)
 			icon_file = I.righthand_file
 
+<<<<<<< HEAD
 		hands += I.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = TRUE)
+=======
+		hands += I.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = get_held_index_of_item(I), bodyshape = bodyshape)
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 	return hands
 
 /mob/living/carbon/get_fire_overlay(stacks, on_fire)

@@ -77,9 +77,18 @@
 #define DNA_AVIAN_EARS_BLOCK 18 // NON-MODULE CHANGE
 #define DNA_AVIAN_TAIL_BLOCK 19 // NON-MODULE CHANGE
 #define DNA_FEATHER_COLOR_BLOCK 20 // NON-MODULE CHANGE
+<<<<<<< HEAD
 
 /// This number needs to equal the total number of DNA blocks
 #define DNA_FEATURE_BLOCKS 20
+=======
+#define DNA_FISH_TAIL_BLOCK 21
+#define DNA_IPC_SCREEN_BLOCK 22
+#define DNA_FISH_TAIL_COLOR_BLOCK 23
+
+/// This number needs to equal the total number of DNA blocks
+#define DNA_FEATURE_BLOCKS 23
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 #define DNA_SEQUENCE_LENGTH 4
 #define DNA_MUTATION_BLOCKS 8

@@ -24,13 +24,25 @@ GLOBAL_LIST_INIT_TYPED(chasm_detritus_types, /datum/chasm_detritus, init_chasm_d
 	/// Stuff which you can always fish up even if nothing fell into a hole. Associative by type.
 	var/static/list/default_contents = list(
 		NORMAL_CONTENTS = list(
+<<<<<<< HEAD
 			/obj/item/stack/sheet/bone = 3,
 			/obj/item/stack/ore/slag = 2,
+=======
+			/obj/item/stack/sheet/bone = 6,
+			/obj/item/stack/ore/slag = 4,
+			/obj/effect/mob_spawn/corpse/human/skeleton = 2,
+			/obj/effect/mob_spawn/corpse/human/skeleton/cerulean = 1,
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 			/mob/living/basic/mining/lobstrosity/lava = 1,
 			/obj/effect/mob_spawn/corpse/human/skeleton = 1,
 		),
 		BODIES_ONLY = list(
+<<<<<<< HEAD
 			/obj/effect/mob_spawn/corpse/human/skeleton = 3,
+=======
+			/obj/effect/mob_spawn/corpse/human/skeleton = 6,
+			/obj/effect/mob_spawn/corpse/human/skeleton/cerulean = 1,
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 			/mob/living/basic/mining/lobstrosity/lava = 1,
 		),
 		NO_CORPSES = list(

@@ -50,10 +50,16 @@
 	SIGNAL_HANDLER
 
 	var/list/held_overlays = list()
+<<<<<<< HEAD
 	for(var/obj/item/held in holding_mob.held_items)
 		var/is_right = holding_mob.get_held_index_of_item(held) % 2 == 0
+=======
+	for(var/obj/item/held as anything in holding_mob.get_held_items())
+		var/hand_index = holding_mob.get_held_index_of_item(held)
+		var/is_right = hand_index % 2 == 0
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 		var/icon_file = is_right ? held.righthand_file : held.lefthand_file
-		var/mutable_appearance/held_overlay = held.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = TRUE)
+		var/mutable_appearance/held_overlay = held.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = hand_index)
 		held_overlay.pixel_y += y_offset
 		held_overlay.pixel_x += x_offset * (is_right ? 1 : -1)
 		held_overlays += held_overlay

@@ -11,7 +11,12 @@
 	var/next_extinguish = 0
 	var/extinguish_cooldown = 100
 	var/extinguishes_left = 10
+<<<<<<< HEAD
 
+=======
+	bodyshapes_with_variations = NONE
+	fishing_modifier = 0
+>>>>>>> 3cc181a17 ([PORT] Ceruleans and the Siren Shimai pirates (#12801))
 
 /datum/armor/eva_plasmaman
 	bio = 100
