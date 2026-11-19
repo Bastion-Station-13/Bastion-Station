@@ -38,7 +38,7 @@ async function main() {
   const bot = new MWBot();
 
   await bot.loginGetEditToken({
-    apiUrl: "https://wiki.monkestation.com/api.php",
+    apiUrl: "https://wiki.bastionstation.com/api.php",
     username: USERNAME,
     password: PASSWORD,
   });
