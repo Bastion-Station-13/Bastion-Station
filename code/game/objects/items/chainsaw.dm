@@ -1,48 +1,89 @@
+
 // CHAINSAW
 /obj/item/chainsaw
 	name = "chainsaw"
 	desc = "A versatile power tool. Useful for limbing trees and delimbing humans."
 	icon = 'icons/obj/weapons/chainsaw.dmi'
-	icon_state = "chainsaw"
-	inhand_icon_state = "chainsaw"
-	base_icon_state = "chainsaw"
-	icon_angle = 180
+	icon_state = "chainsaw_off"
 	lefthand_file = 'icons/mob/inhands/weapons/chainsaw_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/chainsaw_righthand.dmi'
-	obj_flags = CONDUCTS_ELECTRICITY
+	flags_1 = CONDUCT_1
 	force = 13
+	var/force_on = 24
 	w_class = WEIGHT_CLASS_HUGE
 	throwforce = 13
 	throw_speed = 2
 	throw_range = 4
-	demolition_mod = 1.5
+	demolition_mod = 1.4
 	custom_materials = list(/datum/material/iron= SHEET_MATERIAL_AMOUNT * 6.5)
 	attack_verb_continuous = list("saws", "tears", "lacerates", "cuts", "chops", "dices")
 	attack_verb_simple = list("saw", "tear", "lacerate", "cut", "chop", "dice")
-	hitsound = /datum/sound_effect/swing_hit
+	hitsound = SFX_SWING_HIT
 	sharpness = SHARP_EDGED
 	actions_types = list(/datum/action/item_action/startchainsaw)
 	tool_behaviour = TOOL_SAW
 	toolspeed = 1.5 //Turn it on first you dork
-	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5, /datum/material/alloy/plasteel =  SHEET_MATERIAL_AMOUNT * 5, /datum/material/glass =  SHEET_MATERIAL_AMOUNT * 3)
-	var/force_on = 24
-	/// The looping sound for our chainsaw when running
+	var/on = FALSE
+	///The looping sound for our chainsaw when running
 	var/datum/looping_sound/chainsaw/chainsaw_loop
-	/// How long it takes to behead someone with this chainsaw.
-	var/behead_time = 15 SECONDS
+
+/obj/item/chainsaw/apply_fantasy_bonuses(bonus)
+	. = ..()
+	force_on = modify_fantasy_variable("force_on", force_on, bonus)
+	if(on)
+		force = force_on
+
+/obj/item/chainsaw/remove_fantasy_bonuses(bonus)
+	force_on = reset_fantasy_variable("force_on", force_on)
+	if(on)
+		force = force_on
+	return ..()
 
 /obj/item/chainsaw/Initialize(mapload)
 	. = ..()
 	chainsaw_loop = new(src)
-	AddComponent( \
-		/datum/component/transforming, \
-		force_on = force_on, \
-		throwforce_on = force_on, \
-		throw_speed_on = throw_speed, \
-		sharpness_on = SHARP_EDGED, \
-		hitsound_on = 'sound/items/weapons/chainsawhit.ogg', \
-		w_class_on = w_class, \
-	)
+	apply_components()
+
+/obj/item/chainsaw/suicide_act(mob/living/carbon/user)
+	if(on)
+		user.visible_message(span_suicide("[user] begins to tear [user.p_their()] head off with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
+		playsound(src, 'sound/items/weapons/chainsawhit.ogg', 100, TRUE)
+		var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
+		if(myhead)
+			myhead.dismember()
+	else
+		user.visible_message(span_suicide("[user] smashes [src] into [user.p_their()] neck, destroying [user.p_their()] esophagus! It looks like [user.p_theyre()] trying to commit suicide!"))
+		playsound(src, 'sound/items/weapons/genhit1.ogg', 100, TRUE)
+	return BRUTELOSS
+
+/obj/item/chainsaw/attack_self(mob/user)
+	on = !on
+	to_chat(user, span_notice("As you pull the starting cord dangling from [src], [on ? "it begins to whirr." : "the chain stops moving."]")) // monkestation edit
+	force = on ? force_on : initial(force)
+	throwforce = on ? force_on : initial(force)
+	icon_state = "chainsaw_[on ? "on" : "off"]"
+	var/datum/component/butchering/butchering = src.GetComponent(/datum/component/butchering)
+	butchering.butchering_enabled = on
+
+	if(on)
+		hitsound = 'sound/items/weapons/chainsawhit.ogg'
+		chainsaw_loop.start()
+	else
+		hitsound = SFX_SWING_HIT
+		chainsaw_loop.stop()
+
+	toolspeed = on ? 0.5 : initial(toolspeed) //Turning it on halves the speed
+	if(src == user.get_active_held_item()) //update inhands
+		user.update_held_items()
+	update_item_action_buttons()
+
+/**
+ * Handles adding components to the chainsaw. Added in Initialize()
+ *
+ * Applies components to the chainsaw. Added as a seperate proc to allow for
+ * variance between subtypes
+ */
+/obj/item/chainsaw/proc/apply_components()
 	AddComponent(/datum/component/butchering, \
 		speed = 3 SECONDS, \
 		effectiveness = 100, \
@@ -50,188 +91,89 @@
 		butcher_sound = 'sound/items/weapons/chainsawhit.ogg', \
 		disabled = TRUE, \
 	)
-	AddElement(/datum/element/prosthetic_icon, "mounted", 180, TRUE)
-	AddComponent(/datum/component/two_handed, require_twohands = TRUE)
-	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
-	RegisterSignal(src, COMSIG_ITEM_PRE_USED_AS_PROSTHETIC, PROC_REF(disable_twohanded_comp))
-	RegisterSignal(src, COMSIG_ITEM_DROPPED_FROM_PROSTHETIC, PROC_REF(enable_twohanded_comp))
-
-/obj/item/chainsaw/proc/on_transform(obj/item/source, mob/user, active)
-	SIGNAL_HANDLER
-
-	to_chat(user, span_notice("As you pull the starting cord dangling from [src], [active ? "it begins to whirr" : "the chain stops moving"]."))
-	var/datum/component/butchering/butchering = GetComponent(/datum/component/butchering)
-	butchering.butchering_enabled = active
-	if (active)
-		chainsaw_loop.start()
-	else
-		chainsaw_loop.stop()
-
-	toolspeed = active ? 0.5 : initial(toolspeed)
-	update_item_action_buttons()
-
-	return COMPONENT_NO_DEFAULT_MESSAGE
-
-/obj/item/chainsaw/proc/disable_twohanded_comp()
-	SIGNAL_HANDLER
-
-	qdel(GetComponent(/datum/component/two_handed))
-
-/obj/item/chainsaw/proc/enable_twohanded_comp()
-	SIGNAL_HANDLER
-
-	AddComponent(/datum/component/two_handed, require_twohands = TRUE)
-
-/obj/item/chainsaw/get_demolition_modifier(obj/target)
-	return HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) ? demolition_mod : 0.8
-
-/obj/item/chainsaw/suicide_act(mob/living/user)
-	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
-		user.visible_message(span_suicide("[user] smashes [src] into [user.p_their()] neck, destroying [user.p_their()] esophagus! It looks like [user.p_theyre()] trying to commit suicide!"))
-		playsound(src, 'sound/items/weapons/genhit1.ogg', 100, TRUE)
-		return BRUTELOSS
-
-	if (!iscarbon(user))
-		user.visible_message(span_suicide("[user] begins to shred [user.p_themselves()] with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-		return BRUTELOSS
-
-	user.visible_message(span_suicide("[user] begins to tear [user.p_their()] head off with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
-	if(!myhead)
-		visible_message(span_suicide("[user] realises that [user.p_they()] cannot cut off [user.p_their()] head because [user.p_they()] [user.p_do()]n't have one!"))
-		return SHAME
-
-	playsound(src, 'sound/items/weapons/chainsawhit.ogg', 100, TRUE)
-	if(myhead.dismember())
-		return BRUTELOSS
-
-	var/datum/wound/slash/crit_wound = new ()
-	crit_wound.apply_wound(myhead)
-	visible_message(span_suicide("[user] tries in vain to cut off [user.p_their()] head but perishes in the attempt!"))
-	return BRUTELOSS
-
-/obj/item/chainsaw/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
-		return ..()
-
-	if (target_mob.stat != DEAD)
-		return ..()
-
-	if (user.zone_selected != BODY_ZONE_HEAD)
-		return ..()
-
-	var/obj/item/bodypart/head = target_mob.get_bodypart(BODY_ZONE_HEAD)
-	if (!head)
-		return ..()
-
-	playsound(src, 'sound/items/weapons/chainsawhit.ogg', vol = 100, vary = TRUE)
-	target_mob.balloon_alert(user, "cutting off head...")
-
-	if (!do_after(user, behead_time, target_mob, extra_checks = CALLBACK(src, PROC_REF(has_same_head), target_mob, head)))
-		return TRUE
-
-	if (head.dismember(silent = FALSE))
-		playsound(src, 'sound/items/weapons/chainsawhit.ogg', vol = 100, vary = TRUE)
-	else
-		to_chat(user, span_warning("[target_mob]'s head is attached too firmly to cut off!"))
-
-	return TRUE
-
-/obj/item/chainsaw/proc/has_same_head(mob/living/target_mob, obj/item/bodypart/head)
-	return target_mob.get_bodypart(BODY_ZONE_HEAD) == head
-
-/**
- * Handles adding components to the chainsaw. Added in Initialize()
- *
- * Applies components to the chainsaw. Added as a separate proc to allow for
- * variance between subtypes
- */
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/chainsaw/doomslayer
 	name = "THE GREAT COMMUNICATOR"
-	desc = span_warning("VRRRRRRR!!!")
+	desc = "<span class='warning'>VRRRRRRR!!!</span>"
 	armour_penetration = 100
 	force_on = 30
-	behead_time = 2 SECONDS
+	var/list/nemesis_factions = list(FACTION_MINING, FACTION_BOSS)
+	var/nemesis_damage_multiplier = 5 // Makes it deal 30 * 5 (150) damage to fauna.
 
-/obj/item/chainsaw/doomslayer/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == PROJECTILE_ATTACK)
-		owner.visible_message(span_danger("Ranged attacks just make [owner] angrier!"))
-		playsound(src, /datum/sound_effect/bullet_miss, 75, TRUE)
-		return TRUE
-	return FALSE
 
-/obj/item/chainsaw/dual
-	name = "double-ended chainsaw spear"
-	desc = "A dangerous, crazy contraption that could fall apart from a slight breeze. WHAT WERE THEY THINKING?!"
-	icon_state = "chainsawdual"
-	inhand_icon_state = "chainsawdual"
-	base_icon_state = "chainsawdual"
-	lefthand_file = 'icons/mob/inhands/weapons/chainsaw_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/chainsaw_righthand.dmi'
-	throw_range = 0
-	force_on = 40
-	armour_penetration = 20
-	block_chance = 50
-	block_sound = 'sound/items/weapons/parry.ogg'
-	item_flags = SLOWS_WHILE_IN_HAND
-	slowdown = 2
-	custom_materials = list(
-		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 12.3,
-		/datum/material/alloy/plasteel = SHEET_MATERIAL_AMOUNT * 10,
-		/datum/material/glass = SHEET_MATERIAL_AMOUNT * 6.3,
-		/datum/material/plastic = SMALL_MATERIAL_AMOUNT * 2
-	)
+/obj/item/chainsaw/doomslayer/attack_self(mob/user)
+	if(on && user.has_status_effect(/datum/status_effect/mayhem))
+		to_chat(user, span_warning("There is no escape. RIP. AND. TEAR."))
+		return
+	return ..()
 
-/obj/item/chainsaw/dual/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+/obj/item/chainsaw/doomslayer/attack(mob/living/target_mob, mob/living/user, params)
+	if(target_mob == user) // Prevents you from hitting yourself with it. (as well as getting lifesteal from doing so)
+		return
+
+	var/bonus_applied = FALSE
+	for(var/faction in target_mob.faction)
+		if(faction in nemesis_factions)
+			bonus_applied = TRUE
+			force *= nemesis_damage_multiplier
+			break
+
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_HULK))
-		to_chat(user, span_warning("You grip the weapon too hard and accidentally drop it!"))
-		user.dropItemToGround(src, force=TRUE)
-		return TRUE
 
-/obj/item/chainsaw/dual/attack(mob/target, mob/living/carbon/human/user)
-	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
-		return ..()
+	if(bonus_applied)
+		force /= nemesis_damage_multiplier
 
-	if(prob(50))
-		impale(user)
-		return TRUE
+	var/healing_amount = force / initial(force) * 3 // 3 healing per hit on people and 15 on fauna.
+	user.heal_overall_damage(healing_amount, healing_amount)
 
-	return ..()
+/obj/item/chainsaw/doomslayer/equipped(mob/user, slot, initial)
+	. = ..()
+	if(slot != ITEM_SLOT_HANDS)
+		return
+	ADD_TRAIT(user, TRAIT_CANT_STRIP, REF(src)) // Pairs well with returning early when you try to attack yourself. LET THE SHUFFLEFEST COMMENCE!!
 
-/obj/item/chainsaw/dual/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
-	if(prob(50))
-		INVOKE_ASYNC(src, PROC_REF(jedi_spin), user)
+/obj/item/chainsaw/doomslayer/dropped(mob/user, silent)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_CANT_STRIP, REF(src))
 
-/obj/item/chainsaw/dual/proc/jedi_spin(mob/living/user)
-	dance_rotate(user, CALLBACK(user, TYPE_PROC_REF(/mob, dance_flip)))
+/obj/item/chainsaw/doomslayer/proc/has_same_head(mob/living/target_mob, obj/item/bodypart/head)
+	return target_mob.get_bodypart(BODY_ZONE_HEAD) == head
 
-/obj/item/chainsaw/dual/proc/impale(mob/living/user)
-	to_chat(user, span_warning("You horrifically tear yourself with [src]!"))
-	user.take_bodypart_damage(45,check_armor = TRUE, wound_bonus = 20, sharpness = SHARP_EDGED)
-	user.do_attack_animation(user)
-	user.Stun(1 SECONDS)
-	user.Knockdown(5 SECONDS)
+/obj/item/chainsaw/mounted_chainsaw
+	name = "mounted chainsaw"
+	desc = "A chainsaw that has replaced your arm."
+	inhand_icon_state = "mounted_chainsaw"
+	item_flags = ABSTRACT | DROPDEL
+	throwforce = 0
+	throw_range = 0
+	throw_speed = 0
+	toolspeed = 1
 
-/obj/item/chainsaw/dual/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK || attack_type == OVERWHELMING_ATTACK)
-		final_block_chance = 0
-	if(attack_type != PROJECTILE_ATTACK && prob(30))
-		atom_destruction(MELEE)
-		return FALSE
+/obj/item/chainsaw/mounted_chainsaw/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
 
-	return ..()
+/obj/item/chainsaw/mounted_chainsaw/Destroy()
+	var/obj/item/bodypart/part
+	new /obj/item/chainsaw(get_turf(src))
+	if(iscarbon(loc))
+		var/mob/living/carbon/holder = loc
+		var/index = holder.get_held_index_of_item(src)
+		if(index)
+			part = holder.hand_bodyparts[index]
+	. = ..()
+	if(part)
+		part.drop_limb()
 
-/obj/item/chainsaw/dual/atom_destruction(damage_flag)
-	playsound(src, 'sound/effects/grillehit.ogg', 50)
-	new /obj/item/chainsaw(drop_location())
-	new /obj/item/chainsaw(drop_location())
-	new /obj/item/restraints/handcuffs/cable(drop_location())
-	if(isliving(loc))
-		loc.balloon_alert(loc, "weapon broken!")
-	return ..()
+/obj/item/chainsaw/mounted_chainsaw/apply_components()
+	AddComponent(/datum/component/butchering, \
+		speed = 3 SECONDS, \
+		effectiveness = 100, \
+		bonus_modifier = 0, \
+		butcher_sound = 'sound/items/weapons/chainsawhit.ogg', \
+		disabled = TRUE, \
+	)
 
 /datum/action/item_action/startchainsaw
 	name = "Pull The Starting Cord"
-

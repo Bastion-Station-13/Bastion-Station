@@ -262,9 +262,3 @@
 
 ///sent by the ark SS whenever an anchoring crystal is created (/obj/structure/destructible/clockwork/anchoring_crystal/charged_crystal)
 #define COMSIG_ANCHORING_CRYSTAL_CREATED "anchoring_crystal_created"
-/// Before an item has been equipped as a prosthetic limb
-#define COMSIG_ITEM_PRE_USED_AS_PROSTHETIC "item_used_as_prosthetic"
-/// After an item has been equipped as a prosthetic limb
-#define COMSIG_ITEM_POST_USED_AS_PROSTHETIC "item_post_used_as_prosthetic"
-/// Item has been unequipped from a mob as a prosthetic limb
-#define COMSIG_ITEM_DROPPED_FROM_PROSTHETIC "item_dropped_from_prosthetic"
