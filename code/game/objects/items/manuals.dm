@@ -282,7 +282,7 @@
 	</head>
 	<body>
 		<p>You start skimming through the manual...</p>
-		<iframe src="[wikiurl]/[link_identifier]?useskin=vector" onload="document.body.classList.add('loaded')"></iframe>
+		<iframe src="[wikiurl]/wiki/[link_identifier]?useskin=vector" onload="document.body.classList.add('loaded')"></iframe>
 	</body>
 </html>
 "}

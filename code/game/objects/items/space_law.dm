@@ -11,7 +11,7 @@
 	icon_state = "bookSpaceLaw"
 	starting_author = "Nanotrasen"
 	starting_title = "Space Law"
-	page_link = "Space_law"
+	page_link = "Space_Law"
 	attack_verb_continuous = list("prosecutes", "disciplines", "sues")
 	attack_verb_simple = list("prosecute", "discipline", "sue")
 	grind_results = list(/datum/reagent/cellulose = 15, /datum/reagent/the_law = 2)
