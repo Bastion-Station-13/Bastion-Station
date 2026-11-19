@@ -122,8 +122,8 @@ const HivemindSection = (props) => {
             greater humiliation.{'\n'}
           </NoticeBox>
           Additionally changeling rules can be found under{' '}
-          <a href="https://wiki.monkestation.com/#specific-stuff-for-antagonists">
-            Antagonist Guidance.
+          <a href="https://wiki.bastionstation.com/wiki/Server_Rules#tabber-Antagonist_Policy">
+            Antagonist Policy.
           </a>
         </Stack.Item>
       </Stack>

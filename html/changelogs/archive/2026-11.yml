@@ -349,3 +349,8 @@
       cozy you are.
   TyrantCerberus:
   - bugfix: Easels drop wood when destroyed or deconstructed.
+2026-11-19:
+  JupiterJaeden:
+  - config: Updates (nearly) all references to the monkestation wiki to use the bastionstation
+      wiki instead. This includes the manual books that open wiki pages (such as the
+      space law book).
