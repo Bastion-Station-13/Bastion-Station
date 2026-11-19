@@ -1,0 +1,4 @@
+author: "JupiterJaeden"
+delete-after: True
+changes:
+  - config: "Updates (nearly) all references to the monkestation wiki to use the bastionstation wiki instead. This includes the manual books that open wiki pages (such as the space law book)."
