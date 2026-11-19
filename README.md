@@ -11,7 +11,7 @@
 | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Home Website            | [https://www.bastionstation.com/](https://www.bastionstation.com/)                                             |
 | Code                    | [https://github.com/Bastion-Station-13/Bastion-Station](https://github.com/Bastion-Station-13/Bastion-Station) |
-| Monke Wiki              | [https://wiki.monkestation.com/](https://wiki.monkestation.com/)                                               |
+| Wiki                    | [https://wiki.bastionstation.com](https://wiki.bastionstation.com)                                             |
 | Codedocs                | [https://codedocs.tgstation13.org/](https://codedocs.tgstation13.org/)                                         |
 | Bastion Station Discord | [https://discord.gg/55Z4R5Xtsw](https://discord.gg/55Z4R5Xtsw)                                                 |
 

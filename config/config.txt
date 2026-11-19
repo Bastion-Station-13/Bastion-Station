@@ -181,7 +181,7 @@ GUEST_BAN
 # FORUMURL http://tgstation13.org/phpBB/index.php
 
 ## Wiki address
-# WIKIURL http://www.tgstation13.org/wiki
+# WIKIURL https://wiki.bastionstation.com
 
 ## Rules address
 # RULESURL http://www.tgstation13.org/wiki/Rules

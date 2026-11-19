@@ -343,3 +343,14 @@
       - [x] This code did not runtime during testing.
 
       - [x] You documented all of your changes.'
+2026-11-18:
+  JupiterJaeden:
+  - rscadd: Sleeping in a bed now gives you a positive mood buff, higher the more
+      cozy you are.
+  TyrantCerberus:
+  - bugfix: Easels drop wood when destroyed or deconstructed.
+2026-11-19:
+  JupiterJaeden:
+  - config: Updates (nearly) all references to the monkestation wiki to use the bastionstation
+      wiki instead. This includes the manual books that open wiki pages (such as the
+      space law book).
