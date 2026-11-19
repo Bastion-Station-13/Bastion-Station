@@ -200,13 +200,22 @@
 	if(methods & VAPOR)
 		exposed_mob.adjust_wet_stacks(reac_volume * WATER_TO_WET_STACKS_FACTOR_VAPOR) // Spraying someone with water with the hope to put them out is just simply too funny to me not to add it.
 
+<<<<<<< HEAD
 		exposed_mob.incapacitate(1) // startles the felinid, canceling any do_after
 		exposed_mob.add_mood_event("watersprayed", /datum/mood_event/watersprayed)
 
 	if(!exposed_mob.is_cat_enough(include_all_anime = TRUE))
+=======
+	if((methods & INGEST) && HAS_TRAIT(exposed_mob, TRAIT_WATER_ADAPTATION) && reac_volume >= 4)
+		exposed_mob.adjust_wet_stacks(0.15 * reac_volume)
+
+	if(!exposed_mob.is_cat_enough(include_all_anime = TRUE) || HAS_TRAIT(exposed_mob, TRAIT_WATER_ADAPTATION)) // fish infused people don't fear water
+>>>>>>> 8962f3d84 (Random bugs I've found (#13037))
 		return
 
 	var/mob/living/victim = exposed_mob
+	if(methods & VAPOR)
+		victim.incapacitate(1) // startles the felinid, canceling any do_after
 	if((methods & (TOUCH|VAPOR)) && !victim.is_pepper_proof())
 		victim.apply_status_effect(/datum/status_effect/cat_water_sprayed)
 
