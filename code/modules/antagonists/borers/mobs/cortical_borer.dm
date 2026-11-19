@@ -340,7 +340,18 @@
 /mob/living/basic/cortical_borer/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	var/loc_temp
 	if(human_host)
+<<<<<<< HEAD
 		loc_temp = human_host.bodytemperature // set the local temp to that of the host's core temp
+=======
+		if(ishuman(human_host))
+			var/mob/living/carbon/human/host = human_host
+			loc_temp = host.coretemperature // set the local temp to that of the host's core temp
+		else
+			loc_temp = human_host.bodytemperature
+		// a corpse stays as cold as wherever it was left, so a body pulled out of the cold would freeze us in a warm room
+		if(human_host.stat == DEAD)
+			loc_temp = max(loc_temp, get_temperature(environment))
+>>>>>>> 2fd3fac8b (Borers don't freeze inside cold corpses (#13079))
 	else
 		loc_temp = get_temperature(environment)
 	var/temp_delta = loc_temp - bodytemperature
