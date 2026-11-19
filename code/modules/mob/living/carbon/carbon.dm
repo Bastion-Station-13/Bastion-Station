@@ -214,6 +214,9 @@
 	var/timed_action_flags = IGNORE_HELD_ITEM
 	if(cuffs.breakout_while_moving)
 		timed_action_flags |= IGNORE_USER_LOC_CHANGE
+	if(istype(cuffs, /obj/item/restraints/legcuffs))
+		timed_action_flags |= IGNORE_USER_LOC_CHANGE
+		RegisterSignal(src, COMSIG_MOB_INTERRUPT_BOLA_RESIST, PROC_REF(bola_resist_interrupt))
 	if(!cuff_break)
 		visible_message(span_warning("[src] attempts to remove [cuffs]!"))
 		to_chat(src, span_notice("You attempt to remove [cuffs]... (This will take around [DisplayTimeText(breakouttime)]" + (cuffs.breakout_while_moving ? ".)" : " and you need to stand still.)")))
@@ -234,6 +237,15 @@
 	else if(cuff_break == INSTANT_CUFFBREAK)
 		. = clear_cuffs(cuffs, cuff_break)
 	cuffs.item_flags &= ~BEING_REMOVED
+	UnregisterSignal(src, COMSIG_MOB_INTERRUPT_BOLA_RESIST)
+
+/// Interrupts the removal of any bolas currently being resisted out of.
+/mob/living/carbon/proc/bola_resist_interrupt()
+	SIGNAL_HANDLER
+
+	var/obj/item/legcuffs = get_item_by_slot(ITEM_SLOT_LEGCUFFED)
+	if (legcuffs)
+		legcuffs.item_flags &= ~BEING_REMOVED
 
 /mob/living/carbon/proc/cuff_resist_check_continue()
 	var/obj/item/handcuffs = get_item_by_slot(ITEM_SLOT_HANDCUFFED)

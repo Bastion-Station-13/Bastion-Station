@@ -306,3 +306,6 @@
 #define COMSIG_SOULCATCHER_CHECK_SOUL "soulcatcher_check_soul"
 /// Whenever we need to get the soul of the mob inside of the soulcatcher.
 #define COMSIG_SOULCATCHER_SCAN_BODY "soulcatcher_scan_body"
+
+/// Sent when a mob makes a movement that we want to interrupt resisting out of bolas. Generally applies when the mob voluntarily makes the movement.
+#define COMSIG_MOB_INTERRUPT_BOLA_RESIST "mob_interrupt_bola_resist"

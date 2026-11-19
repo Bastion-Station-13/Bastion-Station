@@ -81,6 +81,7 @@
 
 	// This needs to happen at the end, after all the traits and stuff is handled
 	SEND_SIGNAL(jaunter, COMSIG_MOB_ENTER_JAUNT, src, jaunt)
+	SEND_SIGNAL(jaunter, COMSIG_MOB_INTERRUPT_BOLA_RESIST)
 	if(gib_from_internal_explosion)
 		RegisterSignal(jaunter, COMSIG_ATOM_INTERNAL_EXPLOSION, PROC_REF(poof), jaunter)
 	return jaunt
