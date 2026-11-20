@@ -1,5 +1,0 @@
-author: "HIDgamer"
-delete-after: True
-changes:
-  - qol: "added new tools to the repo"
-  - refactor: "refactored the mirror bot"
