@@ -252,7 +252,18 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 		qdel(query_add_admin_log)
 
 /datum/admins/proc/remove_admin(admin_ckey, admin_key, use_db, datum/admins/D)
+<<<<<<< HEAD
 	if(!check_rights(R_PERMISSIONS))
+=======
+	if(!check_rights(R_PERMISSIONS) || (use_db && !check_rights(R_DBRANKS)))
+		return
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Admin Removal blocked: Advanced ProcCall detected.</span>", confidential = TRUE)
+		return
+	if(!check_if_greater_rights_than_holder(D || GLOB.admin_datums[admin_ckey] || GLOB.deadmins[admin_ckey]))
+		message_admins("[key_name_admin(usr)] attempted to remove [admin_key] from the admins list without sufficient rights.")
+		log_admin("[key_name(usr)] attempted to remove [admin_key] from the admins list without sufficient rights.")
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 		return
 	if(tgui_alert(usr,"Are you sure you want to remove [admin_ckey]?","Confirm Removal",list("Do it","Cancel")) == "Do it")
 		GLOB.admin_datums -= admin_ckey
@@ -310,7 +321,14 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 #define RANK_DONE ":) I'm Done"
 
 /datum/admins/proc/change_admin_rank(admin_ckey, admin_key, use_db, datum/admins/D, legacy_only)
-	if(!check_rights(R_PERMISSIONS))
+	if(!check_rights(R_PERMISSIONS) || (use_db && !check_rights(R_DBRANKS)))
+		return
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Rank Modification blocked: Advanced ProcCall detected.</span>", confidential = TRUE)
+		return
+	if(!check_if_greater_rights_than_holder(D || GLOB.admin_datums[admin_ckey] || GLOB.deadmins[admin_ckey]))
+		message_admins("[key_name_admin(usr)] attempted to change the rank of [admin_key] without sufficient rights.")
+		log_admin("[key_name(usr)] attempted to change the rank of [admin_key] without sufficient rights.")
 		return
 
 	var/list/rank_names = list()
@@ -359,6 +377,15 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 
 			var/datum/admin_rank/custom_rank = rank_names[new_rank_name]
 			if (isnull(custom_rank))
+				// the final lookup goes by name and a joined rank string splits on "+", so either one would hand out a rank they can't edit
+				var/name_taken = findtext(new_rank_name, "+")
+				for (var/datum/admin_rank/existing_rank as anything in GLOB.admin_ranks)
+					if (LOWER_TEXT(existing_rank.name) == LOWER_TEXT(new_rank_name))
+						name_taken = TRUE
+						break
+				if (name_taken)
+					to_chat(usr, span_danger("[html_encode(new_rank_name)] can't be used as a new rank name."), confidential = TRUE)
+					continue
 				if (D)
 					custom_rank = new(new_rank_name, D.rank_flags())
 				else
@@ -480,7 +507,11 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 		picked_from = admin_flags_bitfield.Value()
 	)
 
-	if(isnull(new_flags) || old_flags == new_flags)
+	if(isnull(new_flags))
+		return
+	var/editable_flags = usr.client.holder.can_edit_rights_flags()
+	new_flags = (new_flags & editable_flags) | (old_flags & ~editable_flags)
+	if(old_flags == new_flags)
 		return
 
 	admin_holder.disassociate()
@@ -512,6 +543,13 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 
 /datum/admins/proc/remove_rank(admin_rank)
 	if(!admin_rank)
+		return
+	if(!check_rights(R_PERMISSIONS) || !check_rights(R_DBRANKS))
+		message_admins("[key_name_admin(usr)] attempted to remove a rank without sufficient rights.")
+		log_admin("[key_name(usr)] attempted to remove a rank without sufficient rights.")
+		return
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Rank Deletion blocked: Advanced ProcCall detected.</span>", confidential = TRUE)
 		return
 	for(var/datum/admin_rank/R in GLOB.admin_ranks)
 		if(R.name == admin_rank && ((R.rights & usr.client.holder.can_edit_rights_flags()) != R.rights))

@@ -363,7 +363,7 @@
 		return list("error" = PLEXORA_ERROR_BAD_PARAM, "param" = "event", "reason" = "missing required parameter")
 
 	// cant be bothered, lets just call the topic.
-	var/outgoing = list("TWITCH-API", CONFIG_GET(string/twitch_key), event,)
+	var/outgoing = list("TWITCH-API", CONFIG_GET(string/twitch_key), event, input["executor"] || "Discord")
 	SStwitch.handle_topic(outgoing)
 
 /datum/world_topic/plx_smite
@@ -514,7 +514,7 @@
 	// We're kind of copying /proc/TgsPm here...
 	var/ticketid = text2num(input["ticket_id"])
 	var/input_ckey = input["ckey"]
-	var/sender = input["sender_ckey"]
+	var/sender = html_encode(input["sender_ckey"])
 	var/stealth = input["stealth"]
 	var/message = input["message"]
 
@@ -597,6 +597,8 @@
 	if (QDELETED(recipient))
 		return list("error" = PLEXORA_ERROR_CLIENTNOTEXIST)
 
+	message = sanitize(copytext_char(message, 1, MAX_MESSAGE_LEN))
+
 	// var/datum/request/request = GLOB.mentor_requests.requests_by_id[num2text(ticketid)]
 
 	SEND_SOUND(recipient, 'sound/items/bikehorn.ogg')
@@ -614,7 +616,7 @@
 	require_comms_key = TRUE
 
 /datum/world_topic/plx_relayadminsay/Run(list/input)
-	var/sender = input["sender"]
+	var/sender = html_encode(input["sender"])
 	var/msg = input["message"]
 
 	if (!sender || !msg)
@@ -654,7 +656,7 @@
 	require_comms_key = TRUE
 
 /datum/world_topic/plx_relaymentorsay/Run(list/input)
-	var/sender = input["sender"]
+	var/sender = html_encode(input["sender"])
 	var/msg = input["message"]
 
 	if (!sender || !msg)
