@@ -1042,7 +1042,7 @@
 	TEST_ASSERT(jolt.Activate(corpse), "Jolt should go ahead on a corpse with no soul")
 	TEST_ASSERT(!jolt.charged, "Jolt should use up its charge")
 	TEST_ASSERT(corpse.stat != DEAD, "The corpse should have been brought back")
-	TEST_ASSERT_EQUAL(antag.power, power_before - 400, "Jolt should cost 400 power")
+	TEST_ASSERT_EQUAL(antag.power, power_before - jolt.power_cost, "Jolt should cost its power")
 
 	// A husk can't be revived. The power is still spent, and nothing comes back.
 	var/mob/living/carbon/human/husk = allocate(/mob/living/carbon/human/consistent)
@@ -1053,8 +1053,28 @@
 	jolt.charged = TRUE
 	power_before = antag.power
 	TEST_ASSERT(jolt.Activate(husk), "Jolt should go ahead even though it will fail")
-	TEST_ASSERT_EQUAL(antag.power, power_before - 200, "Power should still be spent when the revival fails")
+	TEST_ASSERT_EQUAL(antag.power, power_before - jolt.power_cost, "Power should still be spent when the revival fails")
 	TEST_ASSERT_EQUAL(husk.stat, DEAD, "A husk should stay dead")
+
+/// Someone shock immune (insulated gene, nerve grounding, a powered voltaic cyberheart) takes nothing from Jolt, but the charge, power and cooldown are still spent
+/datum/unit_test/arcfiend/jolt_shock_immune/Run()
+	if(!make_arcfiend())
+		return
+	antag.power = 2500
+	antag.bonus_minds_drained = 3
+	TEST_ASSERT(antag.purchase_power(/datum/action/cooldown/arcfiend/jolt), "Could not buy Jolt")
+	var/datum/action/cooldown/arcfiend/jolt/jolt = locate() in user.actions
+	user.istate |= ISTATE_HARM
+	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human/consistent)
+	ADD_TRAIT(victim, TRAIT_SHOCKIMMUNE, TRAIT_SOURCE_UNIT_TESTS)
+	jolt.charged = TRUE
+	var/power_before = antag.power
+	TEST_ASSERT(jolt.Activate(victim), "Jolt should still go off on someone shock immune")
+	TEST_ASSERT(!jolt.charged, "Jolt should use up its charge on someone shock immune")
+	TEST_ASSERT_EQUAL(antag.power, power_before - jolt.power_cost, "Power should be spent on someone shock immune")
+	TEST_ASSERT_EQUAL(victim.getFireLoss(), 0, "Someone shock immune should take no burns from Jolt")
+	TEST_ASSERT(!victim.undergoing_cardiac_arrest(), "Someone shock immune should keep a beating heart")
+	TEST_ASSERT(jolt.next_use_time > world.time, "The cooldown should start on someone shock immune")
 
 /// The lateral laser only does its big damage at exactly the end of its range, hits everything and is set from the gun
 /datum/unit_test/arcfiend/lateral_laser/Run()

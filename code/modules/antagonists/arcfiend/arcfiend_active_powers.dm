@@ -1050,7 +1050,7 @@
 		span_notice("You start gathering a massive charge in your hand..."),
 	)
 	playsound(user, ARCFIEND_SOUND_JOLT_WINDUP, 60, TRUE)
-	var/finished = do_after(user, list(10 SECONDS, 8 SECONDS, 6 SECONDS)[get_level()], timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_jolt")
+	var/finished = do_after(user, list(12 SECONDS, 10 SECONDS, 8 SECONDS)[get_level()], timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_jolt")
 	charging = FALSE
 	if(QDELETED(src) || owner != user)
 		return
@@ -1090,11 +1090,8 @@
 	var/mob/living/carbon/victim = target
 	var/mob/living/user = owner
 	var/lethal = !!(user.istate & ISTATE_HARM)
-	if(lethal)
-		if(HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE))
-			user.balloon_alert(user, "they're immune!")
-			return FALSE
-	else if(victim.stat != DEAD && !victim.undergoing_cardiac_arrest())
+	var/nullified = lethal && HAS_TRAIT(victim, TRAIT_SHOCKIMMUNE)
+	if(!lethal && victim.stat != DEAD && !victim.undergoing_cardiac_arrest())
 		user.balloon_alert(user, "they don't need it!")
 		return FALSE
 	// Any dead body can be tried. Why it failed is only told after the charge is spent, see get_failure_feeling().
@@ -1110,7 +1107,13 @@
 	do_sparks(5, FALSE, victim)
 	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
 	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
-	if(lethal)
+	if(nullified)
+		victim.visible_message(
+			span_warning("The lightning washes over [victim] and harmlessly bleeds away!"),
+			span_notice("The lightning crawls over your body and finds nowhere to go."),
+		)
+		to_chat(user, span_warning("The charge pours into [victim] and vanishes. Something is grounding them completely."))
+	else if(lethal)
 		stop_heart(victim, 45)
 	else
 		restart_heart(victim)
