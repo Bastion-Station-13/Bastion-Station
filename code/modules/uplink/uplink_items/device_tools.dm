@@ -275,6 +275,7 @@
 	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
 	restricted = TRUE
 	refundable = TRUE
+	population_minimum = 20
 
 /datum/uplink_item/device_tools/syndie_glue
 	name = "Glue"
@@ -297,6 +298,20 @@
 	surplus = 40
 	refundable = TRUE
 
+<<<<<<< HEAD
+=======
+/datum/uplink_item/device_tools/plasma_license
+	name = "License to Plasmaflood"
+	desc = "A contract abusing a loophole found by plasmamen to invade halls with harmful gases \
+			without repercussion or warning, garnering no attention from any higher powers. \
+			Has to be signed by purchaser to be considered valid. \
+			The plasmamen offering this item refuse to sell it to operatives operating on stations with less than 25 active crewmembers."
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SPY)
+	item = /obj/item/card/plasma_license
+	cost = 25
+	population_minimum = 25
+
+>>>>>>> 1c3dc68b3 (Poplocks a bunch of traitor items  (#12928))
 /datum/uplink_item/device_tools/magboots
 	name = "Blood-Red Magboots"
 	desc = "A pair of magnetic boots with a Syndicate paintjob that assist with freer movement in space or on-station \
@@ -338,6 +353,7 @@
 	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SPY)
 	cant_discount = TRUE
 	progression_minimum = 30 MINUTES
+	population_minimum = 30
 
 /datum/uplink_item/device_tools/dehy_carp
 	name = "Dehydrated Space Carp"
