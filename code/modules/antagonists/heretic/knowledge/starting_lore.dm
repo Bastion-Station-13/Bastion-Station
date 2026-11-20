@@ -57,7 +57,11 @@ GLOBAL_LIST_INIT(heretic_start_knowledge, initialize_starting_knowledge())
 		item.remove_filter("mansus_infusion")
 		REMOVE_TRAIT(item, TRAIT_ROD_MANSUS_INFUSED, REF(item))
 		item.difficulty_modifier += 20
+<<<<<<< HEAD
  */
+=======
+		UnregisterSignal(item, COMSIG_FISHING_ROD_CAUGHT_FISH)
+>>>>>>> 4fafabf7 (The Mansus no longer makes your Rod increasingly harder (#13114))
 
 /**
  * The Living Heart heretic knowledge.
