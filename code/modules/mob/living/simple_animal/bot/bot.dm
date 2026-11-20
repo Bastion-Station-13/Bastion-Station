@@ -253,6 +253,7 @@
 			title = "Name change",
 			default = real_name,
 			max_length = MAX_NAME_LEN,
+			encode = FALSE,
 		)),
 		allow_numbers = TRUE
 	)

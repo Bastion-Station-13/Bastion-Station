@@ -119,6 +119,7 @@
 		return ITEM_INTERACT_SUCCESS
 	return ..()
 
+<<<<<<< HEAD
 /obj/machinery/camera/attackby(obj/item/attacking_item, mob/living/user, params)
 	if(camera_construction_state != CAMERA_STATE_FINISHED || panel_open)
 		if(attacking_item.tool_behaviour == TOOL_ANALYZER)
@@ -128,6 +129,105 @@
 				upgradeXRay(FALSE, TRUE)
 				to_chat(user, span_notice("You attach [attacking_item] into [name]'s inner circuits."))
 				qdel(attacking_item)
+=======
+/// Adds the X-ray upgrade by putting an analyzer in the open camera
+/obj/machinery/camera/proc/gas_analyzer_act(mob/living/user, obj/item/tool)
+	if(camera_construction_state == CAMERA_STATE_FINISHED && !panel_open)
+		return NONE
+	if(isXRay(TRUE))
+		to_chat(user, span_warning("[src] already has that upgrade!"))
+		return ITEM_INTERACT_BLOCKING
+	if(!user.temporarilyRemoveItemFromInventory(tool))
+		return ITEM_INTERACT_BLOCKING
+	upgradeXRay(FALSE, TRUE)
+	to_chat(user, span_notice("You attach [tool] into [src]'s inner circuits."))
+	qdel(tool)
+	return ITEM_INTERACT_SUCCESS
+
+/// Adds the EMP proofing upgrade by using a sheet of plasma on the open camera
+/obj/machinery/camera/proc/plasma_act(mob/living/user, obj/item/tool)
+	if(camera_construction_state == CAMERA_STATE_FINISHED && !panel_open)
+		return NONE
+	if(isEmpProof(TRUE))
+		to_chat(user, span_warning("[src] already has that upgrade!"))
+		return ITEM_INTERACT_BLOCKING
+	if(!tool.use_tool(src, user, 0, amount = 1))
+		return ITEM_INTERACT_BLOCKING
+	upgradeEmpProof(FALSE, TRUE)
+	to_chat(user, span_notice("You attach [tool] into [src]'s inner circuits."))
+	return ITEM_INTERACT_SUCCESS
+
+/// Adds the motion sensor upgrade by putting a proximity sensor in the open camera
+/obj/machinery/camera/proc/prox_act(mob/living/user, obj/item/tool)
+	if(camera_construction_state == CAMERA_STATE_FINISHED && !panel_open)
+		return NONE
+	if(isMotion())
+		to_chat(user, span_warning("[src] already has that upgrade!"))
+		return ITEM_INTERACT_BLOCKING
+	if(!user.temporarilyRemoveItemFromInventory(tool))
+		return ITEM_INTERACT_BLOCKING
+	upgradeMotion()
+	to_chat(user, span_notice("You attach [tool] into [src]'s inner circuits."))
+	qdel(tool)
+	return ITEM_INTERACT_SUCCESS
+
+/// Wires up a welded camera assembly with two lengths of cable
+/obj/machinery/camera/proc/cable_act(mob/living/user, obj/item/tool)
+	if(camera_construction_state != CAMERA_STATE_WELDED)
+		return NONE
+	if(!astype(tool, /obj/item/stack/cable_coil)?.use(2))
+		to_chat(user, span_warning("You need two lengths of cable to wire [src]!"))
+		return ITEM_INTERACT_BLOCKING
+	to_chat(user, span_notice("You add wires to [src]."))
+	camera_construction_state = CAMERA_STATE_WIRED
+	return ITEM_INTERACT_SUCCESS
+
+/// Shows the note of a modular computer's notepad to whoever is watching the camera
+/obj/machinery/camera/proc/computer_act(mob/living/user, obj/item/tool)
+	if(camera_construction_state != CAMERA_STATE_FINISHED)
+		return NONE
+	var/obj/item/modular_computer/computer = tool
+	var/note_name = sanitize(computer.name)
+	var/datum/computer_file/program/notepad/notepad_app = locate() in computer.stored_files
+	if(!notepad_app)
+		return ITEM_INTERACT_BLOCKING
+	var/note_text = sanitize(notepad_app.written_note)
+	if(!note_text)
+		return ITEM_INTERACT_BLOCKING
+	display_note(user, note_name, note_text, TRUE)
+	return ITEM_INTERACT_SUCCESS
+
+/// Shows a copy of a paper to whoever is watching the camera
+/obj/machinery/camera/proc/paper_act(mob/living/user, obj/item/tool)
+	if(camera_construction_state != CAMERA_STATE_FINISHED)
+		return NONE
+	var/obj/item/paper/paper = tool
+	last_shown_paper = paper.copy(paper.type, null)
+	var/note_name = last_shown_paper.name
+	last_shown_paper.camera_holder = WEAKREF(src)
+	display_note(user, note_name, null, FALSE)
+	return ITEM_INTERACT_SUCCESS
+
+/// Sends a held up note or paper to every AI and console user watching through this camera
+/obj/machinery/camera/proc/display_note(mob/living/user, title, text, is_computer)
+	to_chat(user, span_notice("You hold up \the [title] up to the camera..."))
+	user.log_talk(title, LOG_GAME, "Pressed to camera", TRUE)
+	user.changeNext_move(CLICK_CD_MELEE)
+
+	// Iterate over all living mobs and check if anyone is elibile to view the paper.
+	// This is backwards, but cameras don't store a list of people that are looking through them,
+	// and we'll have to iterate this list anyway so we can use it to pull out AIs too.
+	for(var/mob/potential_viewer as anything in GLOB.player_list)
+		// All AIs view through cameras, so we need to check them regardless.
+		if(isAI(potential_viewer))
+			var/mob/living/silicon/ai/ai = potential_viewer
+			if(ai.control_disabled || ai.stat == DEAD)
+				continue
+
+			ai.log_talk(title, LOG_VICTIM, "Pressed to camera from [key_name(user)]", FALSE)
+			if(is_computer)
+				ai.last_tablet_note_seen = "<HTML><HEAD><TITLE>[title]</TITLE></HEAD><BODY><TT>[text]</TT></BODY></HTML>"
+>>>>>>> 7bb1eca1 (fix a bunch of double html encodes (#13104))
 			else
 				to_chat(user, span_warning("[src] already has that upgrade!"))
 			return

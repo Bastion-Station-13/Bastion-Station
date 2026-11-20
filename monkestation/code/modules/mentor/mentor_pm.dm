@@ -84,8 +84,13 @@
 				html = "<font color='green'>Mentor PM to-<b>[key_name_mentor(chosen_client, chosen_client, TRUE, FALSE)]</b>: <span class='message linkify'>[msg]</span></font>",
 				avoid_highlighting = TRUE,
 				confidential = TRUE)
+<<<<<<< HEAD
 			var/datum/request/request = chosen_requests[chosen_requests_len]
 			SSplexora.mticket_pm(request, src.mob, chosen_client.mob, msg)
+=======
+			if(request)
+				SSplexora.mticket_pm(request, src.mob, chosen_client.mob, html_decode(msg))
+>>>>>>> 7bb1eca1 (fix a bunch of double html encodes (#13104))
 	else
 		if(check_mentor_rights_for(src, R_MENTOR))
 			/// Reciever is a Non-Mentor - Left unsorted so people that Mentorhelp with Mod chat off will still get it, otherwise they'll complain.
