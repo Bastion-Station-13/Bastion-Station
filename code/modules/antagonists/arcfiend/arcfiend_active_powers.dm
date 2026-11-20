@@ -193,8 +193,8 @@
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint
 	name = "Overdrive Sprint"
-	desc = "Current surges through your legs, letting you run far faster and protecting you from all slipping. Drains power every second."
-	shop_desc = "Grants you Overdrive Sprint, a toggle that lets you run much faster and protects you from all slipping. Drains power every second while active."
+	desc = "Current surges through your legs, letting you run far faster and protecting you from all slipping. Replaces your normal sprint while active. Drains power every second."
+	shop_desc = "Grants you Overdrive Sprint, a toggle that lets you run much faster and protects you from all slipping. It replaces your normal sprint while active, so it can't stack. Drains power every second while active."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_overdrive_sprint.dmi'
 	button_icon_state = "overdrive_sprint"
 	shop_listed = TRUE
@@ -220,12 +220,18 @@
 	add_glow(user, "arcfiend_overdrive_glow")
 	add_visual(user, "activate", effect_icon, "overdrive_activate", 6)
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_overdrive_move))
+	RegisterSignal(user, COMSIG_CARBON_PRE_SPRINT, PROC_REF(on_overdrive_pre_sprint))
 
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/remove_effect(mob/living/user)
 	user.remove_movespeed_modifier(/datum/movespeed_modifier/arcfiend_overdrive)
 	REMOVE_TRAIT(user, TRAIT_NO_SLIP_ALL, ARCFIEND_OVERDRIVE_TRAIT)
-	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(user, list(COMSIG_MOVABLE_MOVED, COMSIG_CARBON_PRE_SPRINT))
 	remove_glow(user, "arcfiend_overdrive_glow")
+
+/// Overdrive replaces the normal sprint instead of stacking on top of it
+/datum/action/cooldown/arcfiend/toggle/overdrive_sprint/proc/on_overdrive_pre_sprint(mob/living/source)
+	SIGNAL_HANDLER
+	return INTERRUPT_SPRINT
 
 /// Leaves a trail of sparks on the tile they just left
 /datum/action/cooldown/arcfiend/toggle/overdrive_sprint/proc/on_overdrive_move(mob/living/source, atom/old_loc, movement_dir, forced, list/old_locs)
@@ -993,21 +999,21 @@
 /datum/action/cooldown/arcfiend/jolt
 	name = "Jolt"
 	desc = "Build up a powerful charge in your hand to stop or restart a heart."
-	shop_desc = "Grants you Jolt, which charges up your hand over a few seconds while you keep moving. Touch someone in combat mode to stop their heart and burn them badly, or out of combat mode to restart it like a defibrillator, even reviving the dead. Use the charge quickly, or it fades. A failed revival still costs the power, but you will sense why it failed."
+	shop_desc = "Grants you Jolt, which charges up your hand for a long time while you keep moving. Touch someone in combat mode to stop their heart and burn them badly, or out of combat mode to restart it like a defibrillator, even reviving the dead. Use the charge quickly, or it fades. A failed revival still costs the power, but you will sense why it failed."
 	button_icon = 'bastionstation/icons/mob/actions/arcfiend/action_jolt.dmi'
 	button_icon_state = "jolt"
 	click_to_activate = TRUE
 	needs_mob_target = TRUE
 	shows_hand = TRUE
 	hand_message = "Your hand is charged. Touch someone next to you to jolt them, or use the power again to let the charge go. In combat mode it stops their heart, otherwise it restarts it."
-	cooldown_time = 45 SECONDS
-	power_cost = 200
+	cooldown_time = ARCFIEND_JOLT_COOLDOWN
+	power_cost = 400
 	shop_tier = 3
 	unlock_cost = 700
 	upgrade_costs = list(1000, 1200)
 	upgrade_descriptions = list(
-		"Faster charge and cooldown, more burn.",
-		"Faster still, even more burn.",
+		"Cheaper and faster to charge.",
+		"Cheaper and even faster to charge still.",
 	)
 	/// Whether we are in the middle of charging up
 	var/charging = FALSE
@@ -1018,6 +1024,11 @@
 
 /datum/action/cooldown/arcfiend/jolt/Destroy()
 	deltimer(charge_timer)
+	return ..()
+
+/// DONT REDUCE THE COOLDOWN I MADE AN AWFUL MISTAKE
+/datum/action/cooldown/arcfiend/jolt/on_upgraded()
+	power_cost = by_level(list(400, 325, 250))
 	return ..()
 
 /datum/action/cooldown/arcfiend/jolt/Trigger(trigger_flags, atom/target)
@@ -1039,7 +1050,7 @@
 		span_notice("You start gathering a massive charge in your hand..."),
 	)
 	playsound(user, ARCFIEND_SOUND_JOLT_WINDUP, 60, TRUE)
-	var/finished = do_after(user, list(6 SECONDS, 5 SECONDS, 4 SECONDS)[get_level()], timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_jolt")
+	var/finished = do_after(user, list(10 SECONDS, 8 SECONDS, 6 SECONDS)[get_level()], timed_action_flags = IGNORE_USER_LOC_CHANGE | IGNORE_HELD_ITEM, interaction_key = "arcfiend_jolt")
 	charging = FALSE
 	if(QDELETED(src) || owner != user)
 		return
@@ -1092,7 +1103,6 @@
 		return FALSE
 	discharge()
 
-	var/level = get_level()
 	user.visible_message(
 		span_danger("[user] slams a crackling hand into [victim]'s chest!"),
 		span_notice("You release the charge into [victim]."),
@@ -1101,10 +1111,10 @@
 	playsound(victim, lethal ? ARCFIEND_SOUND_JOLT_STOP : ARCFIEND_SOUND_JOLT_RESTART, 70, TRUE)
 	user.Beam(victim, icon_state = "lightning[rand(1, 12)]", time = 5)
 	if(lethal)
-		stop_heart(victim, list(45, 55, 65)[level])
+		stop_heart(victim, 45)
 	else
 		restart_heart(victim)
-	StartCooldown(list(45 SECONDS, 35 SECONDS, 25 SECONDS)[level])
+	StartCooldown(ARCFIEND_JOLT_COOLDOWN)
 	return TRUE
 
 /datum/action/cooldown/arcfiend/jolt/proc/stop_heart(mob/living/carbon/victim, burn_damage)

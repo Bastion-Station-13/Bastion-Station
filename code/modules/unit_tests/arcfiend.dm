@@ -1042,7 +1042,7 @@
 	TEST_ASSERT(jolt.Activate(corpse), "Jolt should go ahead on a corpse with no soul")
 	TEST_ASSERT(!jolt.charged, "Jolt should use up its charge")
 	TEST_ASSERT(corpse.stat != DEAD, "The corpse should have been brought back")
-	TEST_ASSERT_EQUAL(antag.power, power_before - 200, "Jolt should cost 200 power")
+	TEST_ASSERT_EQUAL(antag.power, power_before - 400, "Jolt should cost 400 power")
 
 	// A husk can't be revived. The power is still spent, and nothing comes back.
 	var/mob/living/carbon/human/husk = allocate(/mob/living/carbon/human/consistent)

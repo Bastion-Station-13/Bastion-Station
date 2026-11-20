@@ -63,6 +63,8 @@
 #define ARCFIEND_RIDE_CUT_STUN (3 SECONDS)
 
 #define ARCFIEND_JOLT_CHARGE_DURATION (10 SECONDS)
+/// How long Jolt is unusable after a touch.
+#define ARCFIEND_JOLT_COOLDOWN (2 MINUTES)
 
 /// How much the dark is lifted by Ampullary Sense. Ordinary night vision is LIGHTING_CUTOFF_HIGH (30).
 #define ARCFIEND_NIGHT_VISION_CUTOFF 50
