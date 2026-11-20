@@ -188,7 +188,13 @@
 	icon_state = "mining"
 	has_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED
+=======
+	area_flags = NONE
+	area_flags_mapping = UNIQUE_AREA | FLORA_ALLOWED
+	ambience_index = AMBIENCE_ICEMOON
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 	sound_environment = SOUND_AREA_ICEMOON
 	ambient_buzz = 'sound/ambience/lavaland/magma.ogg'
 
@@ -200,16 +206,48 @@
 	power_equip = FALSE
 	power_light = FALSE
 	requires_power = TRUE
+<<<<<<< HEAD
 	ambience_index = AMBIENCE_MINING
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED
 	min_ambience_cooldown = 70 SECONDS
 	max_ambience_cooldown = 220 SECONDS
+=======
+	area_flags = NONE
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 
 /area/icemoon/surface/outdoors // parent that defines if something is on the exterior of the station.
 	name = "Icemoon Wastes"
 	outdoors = TRUE
 
-/area/icemoon/surface/outdoors/nospawn // this is the area you use for stuff to not spawn, but if you still want weather.
+/area/icemoon/surface/outdoors/Initialize(mapload)
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_BRIGHT_DAY))
+		base_lighting_alpha = 145
+	return ..()
+
+/// this is the area you use for stuff to not spawn, but if you still want weather.
+/area/icemoon/surface/outdoors/nospawn
+
+/area/icemoon/surface/outdoors/less_spawns
+	icon_state = "less_spawns"
+
+/area/icemoon/surface/outdoors/less_spawns/New()
+	. = ..()
+	// this area SOMETIMES does map generation. Often it doesn't at all
+	// so it SHOULD NOT be used with the genturf turf type, as it is not always replaced
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_FORESTED))
+		map_generator = /datum/map_generator/cave_generator/icemoon/surface/forested
+		// flip this on, the generator has already disabled dangerous fauna
+		area_flags_mapping = MOB_SPAWN_ALLOWED | FLORA_ALLOWED
+
+/area/icemoon/surface/outdoors/always_forested
+	icon_state = "forest"
+	map_generator = /datum/map_generator/cave_generator/icemoon/surface/forested
+	area_flags_mapping = MOB_SPAWN_ALLOWED | FLORA_ALLOWED | CAVES_ALLOWED
+
+/area/icemoon/surface/outdoors/rocky
+	icon_state = "rocky"
+	map_generator = /datum/map_generator/cave_generator/icemoon/surface/rocky
+	area_flags_mapping = MOB_SPAWN_ALLOWED | FLORA_ALLOWED | CAVES_ALLOWED
 
 /area/icemoon/surface/outdoors/noteleport // for places like the cursed spring water
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED | NOTELEPORT
@@ -231,8 +269,17 @@
 	icon_state = "danger"
 	map_generator = /datum/map_generator/cave_generator/icemoon/surface
 
+/area/icemoon/surface/outdoors/unexplored/rivers/New()
+	. = ..()
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_FORESTED))
+		map_generator = /datum/map_generator/cave_generator/icemoon/surface/forested
+		area_flags_mapping |= MOB_SPAWN_ALLOWED //flip this on, the generator has already disabled dangerous fauna
+
 /area/icemoon/surface/outdoors/unexplored/rivers/no_monsters
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED | CAVES_ALLOWED
+
+/area/icemoon/surface/outdoors/unexplored/rivers/wilderness
+	map_generator = /datum/map_generator/cave_generator/icemoon/surface/wilderness
 
 /area/icemoon/underground
 	name = "Icemoon Caves"
@@ -242,10 +289,14 @@
 	power_environ = FALSE
 	power_equip = FALSE
 	power_light = FALSE
+<<<<<<< HEAD
 	ambience_index = AMBIENCE_MINING
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED
 	min_ambience_cooldown = 70 SECONDS
 	max_ambience_cooldown = 220 SECONDS
+=======
+	area_flags = NONE
+>>>>>>> 71c3d92f (icebox wilderness!!!! (#12985))
 
 /area/icemoon/underground/unexplored // mobs and megafauna and ruins spawn here
 	name = "Icemoon Caves"
