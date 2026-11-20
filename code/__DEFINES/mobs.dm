@@ -131,17 +131,9 @@
 ///A placeholder bodytype for xeno larva, so their limbs cannot be attached to anything.
 #define BODYTYPE_LARVA_PLACEHOLDER (1<<2)
 ///The limb is from a xenomorph.
-<<<<<<< HEAD
-#define BODYTYPE_ALIEN (1<<7)
-///The limb fits a modular custom shape
-#define BODYTYPE_CUSTOM (1<<8)
-//The limb is a peg limb
-#define BODYTYPE_PEG (1<<9)
-
-#define BODYTYPE_LIST_PROSTHETIC (BODYTYPE_ROBOTIC | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
-#define BODYTYPE_LIST_PEG (BODYTYPE_PEG | BODYTYPE_HUMANOID | BODYTYPE_MONKEY)
-=======
 #define BODYTYPE_ALIEN (1<<3)
+///The limb is a peg limb
+#define BODYTYPE_PEG (1<<4)
 
 // Bodyshape defines for how things can be worn, i.e., what "shape" the mob sprite is
 ///The limb fits the human mold. This is not meant to be literal, if the sprite "fits" on a human, it is "humanoid", regardless of origin.
@@ -154,7 +146,6 @@
 #define BODYSHAPE_SNOUTED (1<<3)
 ///The limb fits a modular custom shape
 #define BODYSHAPE_CUSTOM (1<<4)
->>>>>>> cf1ba052 ([PORT] Bodyshape gets its own var (#12793))
 
 // Robotic limb brute & burn examines
 #define ROBOTIC_LIGHT_BRUTE_MSG "marred"
