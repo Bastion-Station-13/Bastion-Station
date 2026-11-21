@@ -212,6 +212,10 @@
 	applied_gun.attack_verb_continuous = list("slashes", "cuts")
 	applied_gun.attack_verb_simple = list("slash", "cut")
 	applied_gun.hitsound = 'sound/items/weapons/rapierhit.ogg'
+	var/datum/component/seclite_attachable/seclite_point = applied_gun.GetComponent(/datum/component/seclite_attachable)
+	if (seclite_point)
+		seclite_point.overlay_x = 12
+		seclite_point.update_light()
 
 /datum/laser_weapon_mode/sword/remove_from_weapon(obj/item/gun/energy/modular_laser_rifle/applied_gun)
 	playsound(src, 'sound/items/sheath.ogg', 25, TRUE)
@@ -222,6 +226,10 @@
 	applied_gun.attack_verb_continuous = initial(applied_gun.attack_verb_continuous)
 	applied_gun.attack_verb_simple = initial(applied_gun.attack_verb_simple)
 	applied_gun.hitsound = initial(applied_gun.hitsound)
+	var/datum/component/seclite_attachable/seclite_point = applied_gun.GetComponent(/datum/component/seclite_attachable)
+	if (seclite_point)
+		seclite_point.overlay_x = 18
+		seclite_point.update_light()
 
 // Flare mode for the small laser
 /datum/laser_weapon_mode/flare

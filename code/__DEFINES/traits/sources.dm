@@ -206,6 +206,8 @@
 #define BERSERK_TRAIT "berserk_trait"
 /// Trait granted by [/obj/item/rod_of_asclepius]
 #define HIPPOCRATIC_OATH_TRAIT "hippocratic_oath"
+/// Trait granted by [/obj/item/book/manual/wiki/security_space_law]
+#define SPACE_LAW_TRAIT "space_law_trait"
 /// Trait granted by lipstick
 #define LIPSTICK_TRAIT "lipstick_trait"
 /// Self-explainatory.

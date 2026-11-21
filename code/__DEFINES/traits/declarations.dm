@@ -691,6 +691,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Given to the detective, if they have this, they can see syndicate special descriptions.
 #define TRAIT_DETECTIVE "detective_ability"
 #define TRAIT_OVERDOSEIMMUNE "overdose_immune"
+/// Allows to beat people with Space Law book
+#define TRAIT_JUSTICE "justice"
 
 // Traits related to food
 /// Trait for Fire Burps
@@ -1413,3 +1415,18 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 /// Trait to apply to mechs after a diagnostic scan has been created, to prevent you from generating duplicates of a scan on the same machine.
 #define TRAIT_MECHA_DIAGNOSTIC_CREATED "trait_mecha_diagnostic_created"
+/**
+ * This trait is given to turfs that have had shuttle frame parts built on them, but are not yet part of a shuttle.
+ * When attempting custom shuttle creation, a flood fill algorithm
+ * checks for turfs with this trait to determine the turfs
+ * that will constitute the created shuttle.
+ */
+#define TRAIT_SHUTTLE_CONSTRUCTION_TURF "shuttle_construction_turf"
+
+// Trait given to areas with a shuttle construction turf in them
+#define TRAIT_HAS_SHUTTLE_CONSTRUCTION_TURF "has_shuttle_construction_turf"
+
+///A trait given to users as a mutex to prevent repeated unresolved attempts to christen a shuttle
+#define TRAIT_ATTEMPTING_CHRISTENING "attempting_christening"
+
+

@@ -181,6 +181,22 @@
 		tick_interval = STATUS_EFFECT_NO_TICK
 	else
 		ADD_TRAIT(owner, TRAIT_KNOCKEDOUT, TRAIT_STATUS_EFFECT(id))
+
+	// Taking a cozy nap in a bed makes us feel better
+	if((locate(/obj/structure/bed) in owner.loc))
+		var/coziness = 0
+		if(locate(/obj/item/bedsheet) in owner.loc)
+			coziness += 1
+		if(locate(/obj/item/pillow) in owner.loc)
+			coziness += 1
+		switch(coziness)
+			if(0)
+				owner.add_mood_event("nap", /datum/mood_event/nap)
+			if(1)
+				owner.add_mood_event("nap", /datum/mood_event/nap/cozy)
+			if(2)
+				owner.add_mood_event("nap", /datum/mood_event/nap/heavenly)
+
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_SLEEPIMMUNE), PROC_REF(on_owner_insomniac))
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_SLEEPIMMUNE), PROC_REF(on_owner_sleepy))
 	RegisterSignal(owner, COMSIG_LIVING_DEATH, PROC_REF(on_owner_death))

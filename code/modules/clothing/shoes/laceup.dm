@@ -7,4 +7,4 @@
 
 /obj/item/clothing/shoes/laceup/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/shoesteps/tap_shoes)
+	AddComponent(/datum/component/shoesteps/tap_shoes/default_off)

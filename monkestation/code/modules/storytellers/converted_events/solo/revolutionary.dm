@@ -40,8 +40,8 @@
 	min_players = 35
 	roundstart = TRUE
 	earliest_start = 0 SECONDS
-	weight = 0
-	max_occurrences = 0
+	weight = 3
+	max_occurrences = 1
 	event_icon_state = "revolution"
 
 /datum/antagonist/rev/head/event_trigger
@@ -52,6 +52,7 @@
 	end_when = 60000 /// we will end on our own when revs win
 	var/static/datum/team/revolution/revolution
 	var/static/finished = FALSE
+	var/static/gps_marked = FALSE
 
 /datum/round_event/antagonist/revolutionary/setup()
 	. = ..()
@@ -68,6 +69,8 @@
 /datum/round_event/antagonist/revolutionary/tick()
 	if(finished)
 		return
+	if(!gps_marked)
+		gps_marked = revolution.check_gps_mark()
 	var/winner = revolution.process_victory()
 	if(isnull(winner))
 		return

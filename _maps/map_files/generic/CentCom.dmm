@@ -12722,7 +12722,9 @@
 	name = "Glitchy's Office"
 	},
 /obj/effect/mapping_helpers/airlock/access/any/admin/captain,
-/obj/structure/holosign/barrier/engineering,
+/obj/effect/turf_decal/siding/dark_blue/end{
+	dir = 8
+	},
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/adminroom)
 "aIX" = (
@@ -19477,6 +19479,16 @@
 /obj/structure/chair/sofa/corp,
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/evacuation)
+"bCE" = (
+/obj/machinery/modular_computer/preset/id/centcom{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 6
+	},
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "bCO" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 4
@@ -20133,6 +20145,16 @@
 /obj/structure/table/reinforced/plastitaniumglass,
 /turf/open/floor/iron/dark/smooth_large,
 /area/centcom/central_command_areas/mentor)
+"cBp" = (
+/obj/machinery/jukebox/unlocked{
+	desc = "A old jukebox... why does it look like it was left underwater? Filled with songs both past and present, unlocked for your convenience!"
+	},
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 10
+	},
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "cCn" = (
 /obj/effect/turf_decal/weather,
 /obj/effect/turf_decal/weather,
@@ -20614,6 +20636,29 @@
 	dir = 1
 	},
 /area/centcom/central_command_areas/evacuation)
+"dkI" = (
+/obj/structure/closet/crate/secure,
+/obj/item/clothing/head/collectable/captain{
+	desc = "A old hat. This one smells like seawater?";
+	name = "Old dirty captain's hat";
+	color = "#36454F"
+	},
+/obj/item/clothing/suit/hooded/wintercoat/nova/blueshield{
+	name = "Old Captain's winter coat";
+	desc = "A old armored coat, it bears a unknown signia of a ship steering wheel."
+	},
+/obj/item/clothing/shoes/workboots/black,
+/obj/effect/turf_decal{
+	dir = 5
+	},
+/obj/effect/turf_decal/box/blue,
+/obj/effect/turf_decal/sand/volcanic,
+/obj/item/banner/cargo{
+	pixel_x = 0;
+	pixel_y = 30
+	},
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "dnC" = (
 /obj/item/canvas/twentyfour_twentyfour,
 /obj/item/canvas/twentyfour_twentyfour,
@@ -20676,6 +20721,17 @@
 	dir = 4
 	},
 /area/centcom/central_command_areas/evacuation)
+"drd" = (
+/obj/effect/turf_decal,
+/obj/effect/turf_decal/sand/volcanic,
+/mob/living/simple_animal/pet/cat/space{
+	name = "Florence"
+	},
+/obj/structure/bed/dogbed{
+	name = "Florence's bed"
+	},
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "dro" = (
 /obj/machinery/computer/communications{
 	dir = 8;
@@ -20753,6 +20809,10 @@
 /obj/structure/flora/bush/large/style_3,
 /turf/open/floor/grass,
 /area/centcom/central_command_areas/retirement_yard)
+"dxp" = (
+/obj/effect/turf_decal/lunar_sand,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "dxL" = (
 /obj/machinery/vending/cigarette/syndicate,
 /obj/effect/turf_decal/bot_white,
@@ -21612,6 +21672,38 @@
 	name = "curtain"
 	},
 /turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
+"eSE" = (
+/obj/structure/table/survival_pod,
+/obj/item/seeds/coffee/robusta{
+	pixel_x = -8;
+	pixel_y = 0
+	},
+/obj/item/seeds/coffee/robusta{
+	pixel_x = -9;
+	pixel_y = 0
+	},
+/obj/item/seeds/coffee/robusta{
+	pixel_x = -9;
+	pixel_y = 0
+	},
+/obj/item/seeds/coffee/robusta{
+	pixel_x = -9;
+	pixel_y = 0
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/banner/command{
+	pixel_x = 0;
+	pixel_y = 31
+	},
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 9
+	},
+/turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/adminroom)
 "eTJ" = (
 /obj/effect/turf_decal/siding/wood{
@@ -22792,6 +22884,96 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/centcom/central_command_areas/medical)
+"gJy" = (
+/obj/structure/closet/crate/secure,
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar{
+	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge! This one lacks any sort of branding and seems homemade?";
+	pixel_x = 6;
+	pixel_y = 3
+	},
+/obj/effect/turf_decal/delivery,
+/obj/effect/turf_decal/sand/volcanic,
+/obj/effect/turf_decal{
+	dir = 9
+	},
+/obj/machinery/light/directional/north,
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "gJI" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
@@ -23066,6 +23248,14 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/centcom/syndicate_mothership/firebase_trident)
+"hbq" = (
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/lunar_sand,
+/obj/effect/turf_decal/floorsign/arrow,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "hbP" = (
 /obj/item/storage/toolbox/syndicate,
 /obj/effect/decal/cleanable/blood/oil/slippery,
@@ -24051,6 +24241,20 @@
 	},
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/centcom/syndicate_mothership/expansion_bulldozer)
+"ijC" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/mob/living/basic/slugcat{
+	dir = 8;
+	name = "Scug"
+	},
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/lunar_sand,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "ijH" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -25856,6 +26060,14 @@
 /obj/structure/shipping_container/gorlex/red,
 /turf/open/floor/plating,
 /area/centcom/syndicate_mothership/firebase_trident)
+"kSt" = (
+/obj/structure/bed/maint{
+	desc = "An old grubby mattress. It appears to have had coffee spilled all over it."
+	},
+/obj/effect/turf_decal/siding/dark_blue,
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "kSK" = (
 /obj/structure/mineral_door/wood{
 	name = "TheProfit's Shithole";
@@ -26280,6 +26492,12 @@
 	},
 /turf/open/water/arena,
 /area/centcom/central_command_areas/admin)
+"lDI" = (
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "lEm" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -26738,6 +26956,22 @@
 	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/centcom/central_command_areas/mentor)
+"mue" = (
+/obj/machinery/coffeemaker/impressa{
+	pixel_x = 2;
+	pixel_y = 12
+	},
+/obj/structure/table/reinforced/plastitaniumglass,
+/obj/item/reagent_containers/cup/coffeepot/bluespace{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 5
+	},
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "mvd" = (
 /obj/effect/decal/cleanable/blood/gibs/limb{
 	dir = 8;
@@ -27282,6 +27516,14 @@
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/iron/dark/textured_large,
 /area/centcom/syndicate_mothership/golden_eye)
+"nmt" = (
+/obj/structure/table/reinforced,
+/obj/machinery/computer/records/security/laptop{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/dark_blue,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "nmQ" = (
 /obj/structure/fans/tiny/forcefield{
 	color = "#276c87";
@@ -27304,6 +27546,32 @@
 "npc" = (
 /turf/open/floor/iron/dark/smooth_large,
 /area/centcom/central_command_areas/mentor)
+"npA" = (
+/obj/structure/closet/crate/secure/gear,
+/obj/structure/sign/poster/contraband/revolver/directional/north,
+/obj/item/gun/ballistic/revolver/mateba{
+	name = "Handcannon";
+	desc = "A retro high-powered autorevolver typically used by officers of the New Russia military. Uses .357 ammo. This one looks unusually handcrafted?"
+	},
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/item/ammo_box/a357,
+/obj/effect/turf_decal{
+	dir = 1
+	},
+/obj/effect/turf_decal/box/red,
+/obj/effect/turf_decal/sand/volcanic,
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "npG" = (
 /obj/effect/turf_decal/box/corners{
 	dir = 8
@@ -27328,6 +27596,13 @@
 	pixel_y = 8
 	},
 /turf/open/floor/carpet/red,
+/area/centcom/central_command_areas/adminroom)
+"nsT" = (
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/lunar_sand,
+/turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/adminroom)
 "nsW" = (
 /obj/effect/decal/cleanable/blood/splatter,
@@ -28836,6 +29111,35 @@
 	},
 /turf/open/floor/wood,
 /area/centcom/central_command_areas/adminroom)
+"pOt" = (
+/obj/structure/table/reinforced/titaniumglass,
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = -7;
+	pixel_y = 13
+	},
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = 8;
+	pixel_y = 13
+	},
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = 2;
+	pixel_y = 11
+	},
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = -6;
+	pixel_y = 5
+	},
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = 0;
+	pixel_y = 3
+	},
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = 9;
+	pixel_y = 7
+	},
+/obj/effect/turf_decal/siding/dark_blue,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "pOA" = (
 /obj/structure/table/wood,
 /obj/item/toy/plush/duckyplush{
@@ -29708,6 +30012,22 @@
 /obj/effect/turf_decal/sand/plating,
 /turf/open/floor/sandy_dirt,
 /area/centcom/central_command_areas/admin)
+"raF" = (
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/dark_blue/corner{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
+"rbn" = (
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/lunar_sand,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "rcc" = (
 /obj/machinery/chem_master,
 /turf/open/floor/iron/dark/textured,
@@ -30676,6 +30996,13 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/centcom/syndicate_mothership/firebase_trident/hangar)
+"sCM" = (
+/obj/effect/turf_decal{
+	dir = 6
+	},
+/obj/effect/turf_decal/sand/volcanic,
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "sCN" = (
 /obj/effect/spawner/random/vending/colavend,
 /obj/effect/turf_decal/bot_white,
@@ -30721,6 +31048,11 @@
 	},
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/hall)
+"sHt" = (
+/obj/structure/table/reinforced,
+/obj/item/infinite_cigar_box,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "sHQ" = (
 /obj/structure/sign{
 	name = "wall";
@@ -32338,6 +32670,16 @@
 /obj/effect/turf_decal/siding/thinplating/dark,
 /turf/open/floor/iron/dark/textured,
 /area/centcom/central_command_areas/hall/tutorial_chamber)
+"vld" = (
+/obj/structure/table/reinforced,
+/obj/machinery/computer/records/medical/laptop{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/dark_blue/corner{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "vlG" = (
 /mob/living/basic/lizard{
 	name = "Eats-The-Flies"
@@ -32346,6 +32688,13 @@
 	dir = 1
 	},
 /turf/open/floor/wood/large,
+/area/centcom/central_command_areas/adminroom)
+"vnc" = (
+/obj/machinery/computer/cargo,
+/obj/effect/turf_decal/sand/volcanic,
+/obj/effect/turf_decal/stripes/full,
+/obj/machinery/light/directional/north,
+/turf/open/floor/plating,
 /area/centcom/central_command_areas/adminroom)
 "vnT" = (
 /obj/machinery/door/window{
@@ -32723,6 +33072,12 @@
 	},
 /turf/open/floor/plastic,
 /area/centcom/central_command_areas/admin)
+"vLg" = (
+/obj/effect/turf_decal/siding/dark_blue{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "vLz" = (
 /obj/structure/chair/comfy/black,
 /turf/open/floor/carpet/lone/star,
@@ -33016,6 +33371,15 @@
 "weD" = (
 /turf/open/indestructible/event/plating,
 /area/centcom/central_command_areas/hall)
+"wfe" = (
+/obj/machinery/door/poddoor/shutters/indestructible/preopen{
+	id = "donutstealthisid"
+	},
+/obj/machinery/vending/coffee,
+/obj/machinery/door/window/left/directional/west,
+/obj/machinery/door/window/right/directional/east,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "wft" = (
 /obj/machinery/door/window/brigdoor/right/directional/north{
 	req_access = list("cent_captain");
@@ -33913,6 +34277,13 @@
 /obj/machinery/coffeemaker/impressa,
 /turf/open/floor/carpet/royalblue,
 /area/centcom/central_command_areas/admin)
+"xBo" = (
+/obj/effect/turf_decal/sand/volcanic,
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "xBK" = (
 /obj/effect/turf_decal/tile/hot_pink/full,
 /obj/effect/turf_decal/siding/purple/corner{
@@ -34049,6 +34420,16 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/centcom/central_command_areas/adminroom)
+"xOk" = (
+/obj/item/instrument/accordion{
+	name = "Special Accordion";
+	desc = "A older looking accordion with the initials CH inscribed into them. Looks well taken care of too."
+	},
+/obj/structure/table/reinforced/titaniumglass,
+/obj/effect/turf_decal/siding/dark_blue,
+/obj/effect/turf_decal/lunar_sand,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/adminroom)
 "xOQ" = (
 /obj/structure/window/spawner/directional/east,
 /obj/structure/window/spawner/directional/east,
@@ -34087,6 +34468,21 @@
 	},
 /turf/open/floor/plastic,
 /area/centcom/central_command_areas/admin)
+"xRt" = (
+/obj/structure/closet/crate/secure,
+/obj/item/seeds/coffee/robusta,
+/obj/item/seeds/coffee/robusta,
+/obj/item/seeds/coffee/robusta,
+/obj/item/seeds/coffee/robusta,
+/obj/item/seeds/coffee/robusta,
+/obj/item/seeds/coffee/robusta,
+/obj/effect/turf_decal{
+	dir = 10
+	},
+/obj/effect/turf_decal/sand/volcanic,
+/obj/item/bikehorn,
+/turf/open/floor/plating,
+/area/centcom/central_command_areas/adminroom)
 "xSw" = (
 /obj/machinery/door/poddoor/shutters/indestructible,
 /turf/open/floor/plating,
@@ -63774,7 +64170,7 @@ kpH
 kpH
 kpH
 aIW
-aIS
+wfe
 kpH
 kpH
 xoZ
@@ -64028,11 +64424,11 @@ kuO
 aXN
 aHp
 kpH
-aki
-aki
-aki
-aki
-aki
+gJy
+xRt
+raF
+vLg
+cBp
 kpH
 aJv
 aUv
@@ -64285,11 +64681,11 @@ aeU
 aXN
 aHp
 kpH
-aki
-aki
-aki
-aki
-aki
+npA
+drd
+lDI
+eqk
+xOk
 kpH
 oJi
 sVm
@@ -64542,11 +64938,11 @@ aNK
 aJC
 tOn
 kpH
-aki
-aki
-aki
-aki
-aki
+dkI
+sCM
+nsT
+dxp
+pOt
 kpH
 aPR
 aNa
@@ -64799,11 +65195,11 @@ lSF
 jsr
 tYb
 kpH
-aki
-aki
-aki
-aki
-aki
+vnc
+xBo
+lDI
+dxp
+kSt
 kpH
 wpP
 nnN
@@ -65056,11 +65452,11 @@ lSF
 ydI
 aLy
 kpH
-aki
-aki
-aki
-aki
-aki
+eSE
+vLg
+vld
+sHt
+nmt
 kpH
 aPR
 aNa
@@ -65313,11 +65709,11 @@ kpH
 kpH
 kpH
 kpH
-aki
-aki
-aki
-aki
-aki
+mue
+rbn
+hbq
+ijC
+bCE
 kpH
 cLJ
 sVm
