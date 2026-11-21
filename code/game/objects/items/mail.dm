@@ -124,9 +124,20 @@
 	if(!do_after(user, 1.5 SECONDS, target = user))
 		return
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
+<<<<<<< HEAD
 	if(contents.len)
 		user.put_in_hands(contents[1])
 	user.put_in_hands(new /obj/item/cargo/mail_token) // MONKESTATION EDIT
+=======
+	if(length(contents))
+		var/obj/stuff = contents[1]
+		if(isitem(stuff))
+			user.put_in_hands(stuff)
+		else
+			stuff.forceMove(user.drop_location())
+	if(postmarked) // dead mail from the strike isn't ours to pay out on
+		user.put_in_hands(new /obj/item/cargo/mail_token) // MONKESTATION EDIT
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 	playsound(loc, 'sound/items/poster/poster_ripped.ogg', 50, TRUE)
 	qdel(src)
 

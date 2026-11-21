@@ -127,7 +127,14 @@
 	if (wearer.is_holding(parent_gear))
 		parent_gear.balloon_alert(wearer, "wear it first!")
 		return
+<<<<<<< HEAD
 	var/obj/item/worn_item = wearer.get_item_by_slot(equipped_slot)
+=======
+	var/obj/item/clothing/worn_item = wearer.get_item_by_slot(equipped_slot)
+	if (isclothing(worn_item) && (worn_item.clothing_flags & SNUG_FIT))
+		parent_gear.balloon_alert(wearer, "hat fit too snugly!") //academy award
+		return
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 	// this has to come off before our equipment even exists, the void cloak already hides itself the moment its hood gets made
 	if (worn_item && !wearer.transferItemToLoc(worn_item, null))
 		parent_gear.balloon_alert(wearer, "slot occupied!")

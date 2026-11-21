@@ -17,7 +17,19 @@ SUBSYSTEM_DEF(greyscale_previews)
 		return SS_INIT_SUCCESS
 #endif
 
+<<<<<<< HEAD
 	ExportMapPreviews()
+=======
+// the navmap bake compile watches icons/, so rewriting these would make juke rebuild it before every map
+#ifndef NAVMAP_BAKE_GENERATION
+// without CBT every preview fails and the export would blank icons/map_icons/
+#if defined(CBT) || defined(UNIT_TESTS)
+	ExportMapPreviews()
+#else
+	log_world("Skipping map preview export: built without CBT.")
+#endif
+#endif
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/greyscale_previews/proc/ExportMapPreviews()
