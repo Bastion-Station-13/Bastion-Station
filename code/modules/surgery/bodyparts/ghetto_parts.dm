@@ -6,7 +6,7 @@
 	icon_state = "peg_l_arm"
 	body_zone = BODY_ZONE_L_ARM
 	limb_id = BODYPART_ID_PEG
-	bodytype = BODYTYPE_LIST_PEG
+	bodytype = BODYTYPE_PEG
 	should_draw_greyscale = FALSE
 	plaintext_zone = "left arm"
 	aux_zone = BODY_ZONE_PRECISE_L_HAND
@@ -34,7 +34,7 @@
 	icon_state = "peg_r_arm"
 	body_zone = BODY_ZONE_R_ARM
 	limb_id = BODYPART_ID_PEG
-	bodytype = BODYTYPE_LIST_PEG
+	bodytype = BODYTYPE_PEG
 	should_draw_greyscale = FALSE
 	plaintext_zone = "right arm"
 	aux_zone = BODY_ZONE_PRECISE_R_HAND
@@ -62,7 +62,7 @@
 	icon_state = "peg_l_leg"
 	body_zone = BODY_ZONE_L_LEG
 	limb_id = BODYPART_ID_PEG
-	bodytype = BODYTYPE_LIST_PEG
+	bodytype = BODYTYPE_PEG
 	should_draw_greyscale = FALSE
 	plaintext_zone = "left leg"
 	can_be_disabled = TRUE
@@ -87,7 +87,7 @@
 	icon_state = "peg_r_leg"
 	body_zone = BODY_ZONE_R_LEG
 	limb_id = BODYPART_ID_PEG
-	bodytype = BODYTYPE_LIST_PEG
+	bodytype = BODYTYPE_PEG
 	should_draw_greyscale = FALSE
 	plaintext_zone = "right leg"
 	bodypart_trait_source = RIGHT_LEG_TRAIT
