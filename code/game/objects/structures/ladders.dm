@@ -65,15 +65,36 @@
 				L.update_appearance()
 
 	update_appearance()
+<<<<<<< HEAD
+=======
+	update_minimap_blip()
+	register_nav_links()
+>>>>>>> 10a8edce ([PORT] Tactical maps for nukies and the station maps (#12891))
 
 /obj/structure/ladder/proc/disconnect()
 	if(up && up.down == src)
 		up.down = null
 		up.update_appearance()
+<<<<<<< HEAD
 	if(down && down.up == src)
 		down.up = null
 		down.update_appearance()
+=======
+		up.update_minimap_blip()
+		up.register_nav_links()
+	if(down && down.up == src)
+		down.up = null
+		down.update_appearance()
+		down.update_minimap_blip()
+		down.register_nav_links()
+>>>>>>> 10a8edce ([PORT] Tactical maps for nukies and the station maps (#12891))
 	up = down = null
+
+/// Adds or removes our minimap blip depending on if we are linked to another ladder
+/obj/structure/ladder/proc/update_minimap_blip()
+	remove_minimap_blip(MINIMAP_LADDER_BLIP, src)
+	if(up || down)
+		add_minimap_blip(src, MINIMAP_LADDER_BLIP, "ladder")
 
 /obj/structure/ladder/update_icon_state()
 	icon_state = "ladder[up ? 1 : 0][down ? 1 : 0]"

@@ -11,7 +11,12 @@ Unused icons for new areas are "awaycontent1" ~ "awaycontent30"
 	has_gravity = STANDARD_GRAVITY
 	ambience_index = AMBIENCE_AWAY
 	sound_environment = SOUND_ENVIRONMENT_ROOM
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA
+=======
+	skip_minimap_rendering = TRUE
+	area_flags = NONE
+>>>>>>> 10a8edce ([PORT] Tactical maps for nukies and the station maps (#12891))
 
 /area/awaymission/beach
 	name = "Beach"

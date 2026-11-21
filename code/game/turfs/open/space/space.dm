@@ -31,7 +31,11 @@ GLOBAL_VAR_INIT(starlight_color, pick(COLOR_TEAL, COLOR_GREEN, COLOR_CYAN, COLOR
 	vis_flags = VIS_INHERIT_ID //when this be added to vis_contents of something it be associated with something on clicking, important for visualisation of turf in openspace and interraction with openspace that show you turf.
 
 	force_no_gravity = TRUE
+<<<<<<< HEAD
 	astar_weight = 200
+=======
+	skip_minimap_rendering = TRUE
+>>>>>>> 10a8edce ([PORT] Tactical maps for nukies and the station maps (#12891))
 
 /turf/open/space/basic/New() //Do not convert to Initialize
 	SHOULD_CALL_PARENT(FALSE)
