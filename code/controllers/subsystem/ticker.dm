@@ -795,9 +795,20 @@ SUBSYSTEM_DEF(ticker)
 
 	to_chat(world, span_boldannounce("Rebooting World in [DisplayTimeText(delay)]. [reason]"))
 
+<<<<<<< HEAD
 	var/start_wait = world.time
 	UNTIL(round_end_sound_sent || (world.time - start_wait) > (delay * 2)) //don't wait forever
 	reboot_timer = addtimer(CALLBACK(src, PROC_REF(reboot_callback), reason, end_string), delay - (world.time - start_wait), TIMER_STOPPABLE)
+=======
+	reboot_timer = addtimer(CALLBACK(src, PROC_REF(reboot_callback), reason, end_string), delay, TIMER_STOPPABLE)
+	// SetRoundEndSound() schedules the sound itself once every client has it
+	if(!round_end_sound)
+		var/song = choose_round_end_song()
+		if(song)
+			SetRoundEndSound(song)
+	else if(round_end_sound_sent)
+		schedule_round_end_sound(delay)
+>>>>>>> 705913a6 (Fixes round end sitting on Reboot: DELAYED (#13128))
 
 
 /datum/controller/subsystem/ticker/proc/reboot_callback(reason, end_string)
