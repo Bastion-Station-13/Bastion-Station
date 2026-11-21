@@ -144,6 +144,11 @@
 			return
 		return COMPONENT_ALLOW_EXAMINATE
 
+/mob/living/silicon/ai/run_examinate(atom/examinify)
+	if(ishuman(examinify) && !canExamineHumans && eyeobj && client?.eye == eyeobj)
+		return
+	return ..()
+
 /atom/proc/move_camera_by_click()
 	if(!isAI(usr))
 		return
