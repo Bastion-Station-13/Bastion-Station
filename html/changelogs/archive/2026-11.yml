@@ -455,3 +455,35 @@
         it being able to be dragged and moved around.
     - bugfix: Shuttle engines no longer provide negative power to your shuttles if
         you unwrench them.
+2026-11-21:
+  AitorLogedo:
+  - bugfix: Balaclavas, emotion masks, clown and mime masks, vapes and facehuggers
+      no longer reset their look when changing z levels.
+  - rscdel: Tundra moths are no longer a separate species. Moths can pick tundra fur
+      in the new Body style option instead, which only changes how they look.
+  - qol: The moth mutant colors checkbox is now part of the Body style option.
+  - bugfix: Pushing up a kitsune mask or bandana while wearing it updates your sprite
+      again.
+  - bugfix: Alt-clicking the kitsune mask puts it above your hair like using it in
+      hand does.
+  - bugfix: Recoloring, washing or spraypainting a pushed up mask you're wearing updates
+      your sprite.
+  EnterTheJake:
+  - bugfix: Gluon grenades now irradiate again.
+  - bugfix: Brig Physicians no longer spawn with a blank PDA
+  - bugfix: Hardly wounded people no longer take worse wounds than normal people from
+      heavy hits.
+  - balance: Easily wounded and hardly wounded now raise or lower the maximum wound
+      severity a single hit can roll, instead of scaling the hit's damage.
+  - bugfix: Players with a fresh character save no longer spawn as ghosts at roundstart.
+  - bugfix: Viscerators no longer body-block people.
+  - balance: Viscerators can now fly over machines and through plastic flaps.
+  HoggyHart:
+  - bugfix: voice sensor nanites work now
+  - spellcheck: species sensor description "singal" -> "signal"
+  SirNightKnight:
+  - balance: buffed .38 less lethal rounds to do 35 stamina damage instead of 25.
+  SmArtKar:
+  - bugfix: Fixed explorer masks going invisible when you put on a goliath hood
+  - qol: 'Improved the strip menu: items you can see but can''t reach show up semi
+      transparent instead of hidden, and icons are no longer blurry'
