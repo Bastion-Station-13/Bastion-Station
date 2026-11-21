@@ -7,8 +7,27 @@
 #define OVERWRITES_COLOR (1<<6)
 #define NOEVOLVE_SLIME (1<<7)
 
+<<<<<<< HEAD
 #define TRAIT_ON_DEATH (1<<0)
 #define TRAIT_VISUAL (1<<1)
+=======
+///The maximum amount of nutrition a slime can contain
+#define SLIME_MAX_NUTRITION 200
+///The starting nutrition of a slime
+#define SLIME_STARTING_NUTRITION 100
+/// Above it we grow our amount_grown and our power_level, below it we can eat
+#define SLIME_GROW_NUTRITION 150
+/// Below this, we feel hungry
+#define SLIME_HUNGER_NUTRITION 50
+/// Below this, we feel starving
+#define SLIME_STARVE_NUTRITION 10
+///How much nutrition growing up from a baby costs
+#define SLIME_EVOLUTION_COST 100
+///How many other slimes on our tile stop us from splitting
+#define SLIME_OVERCROWD_AMOUNT 2
+///How many transformative extracts one slime can hold
+#define SLIME_MAX_TRANSFORMATIONS 3
+>>>>>>> 25d902c6 ((re)adds gentle, warping, crystalline, and transformative slime crossbreeds (#12922))
 
 #define TRAIT_MUTATOR_USED "mutator_trait"
 #define TRAIT_IN_STACK "inside_mob_stack"
