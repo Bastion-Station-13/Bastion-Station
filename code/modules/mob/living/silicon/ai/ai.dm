@@ -131,11 +131,6 @@
 
 	var/jobtitles = TRUE
 
-	///This action opens menu to modify the settings.
-	var/datum/action/innate/internal_nanite_menu/nanite_menu
-	///This action actually uses the remote.
-	var/datum/action/innate/ai/ranged/internal_nanite_remote/nanite_remote
-
 	/* ROBOT CONTROL */
 	/// UI for robot controls
 	VAR_FINAL/datum/robot_control/robot_control
@@ -225,11 +220,6 @@
 
 	dashboard = new(src)
 
-	nanite_remote = new
-	nanite_menu = new(nanite_remote)
-	nanite_menu.Grant(src)
-	nanite_remote.Grant(src)
-
 	if(isvalidAIloc(loc))
 		ASSIGN_GAME_VERB(src, /mob/living/silicon/ai, ai_network_change)
 		ASSIGN_GAME_VERB(src, /mob/living/silicon/ai, ai_hologram_change)
@@ -296,8 +286,12 @@
 	QDEL_NULL(alert_control)
 	QDEL_NULL(ai_tracking_tool)
 	QDEL_NULL(dashboard)
+<<<<<<< HEAD
 	QDEL_NULL(nanite_menu)
 	QDEL_NULL(nanite_remote)
+=======
+	QDEL_NULL(ai_pen)
+>>>>>>> 0488d769 (Minor-ish AI rebalancing (#12372))
 	malfhack = null
 	current = null
 	bot_ref = null
