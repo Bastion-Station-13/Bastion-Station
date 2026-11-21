@@ -212,6 +212,7 @@
 #include "plantgrowth_tests.dm"
 #include "preference_species.dm"
 #include "preferences.dm"
+#include "preferences_import.dm"
 #include "projectiles.dm"
 #include "quirks.dm"
 #include "range_return.dm"
