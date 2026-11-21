@@ -95,11 +95,11 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 		return list(1, "", "url isn't safe to pass to the shell")
 	var/static/run_id = 0
 	if(world.system_type != UNIX)
-		return world.shelleo("[ytdl] --geo-bypass --format \"[YTDL_FORMAT]\" --dump-single-json --no-playlist --extractor-args \"youtube:lang=en\" -- \"[url]\"")
+		return world.shelleo("[ytdl] --geo-bypass --format \"[YTDL_FORMAT]\" --dump-single-json --no-playlist --playlist-items 1 --extractor-args \"youtube:lang=en\" -- \"[url]\"")
 	run_id++
 	var/base = "data/ytdl_[run_id]"
 	var/done_file = "[base].done"
-	shell("( timeout [YTDL_TIMEOUT] [ytdl] --geo-bypass --format '[YTDL_FORMAT]' --dump-single-json --no-playlist --extractor-args 'youtube:lang=en' -- '[url]' > [base].out 2> [base].err && echo 0 > [done_file] || echo 1 > [done_file] ) < /dev/null > /dev/null 2>&1 &")
+	shell("( timeout [YTDL_TIMEOUT] [ytdl] --geo-bypass --format '[YTDL_FORMAT]' --dump-single-json --no-playlist --playlist-items 1 --extractor-args 'youtube:lang=en' -- '[url]' > [base].out 2> [base].err && echo 0 > [done_file] || echo 1 > [done_file] ) < /dev/null > /dev/null 2>&1 &")
 	UNTIL_OR_TIMEOUT(fexists(done_file), (YTDL_TIMEOUT + 5) SECONDS)
 	var/errorcode = 1
 	var/stdout = ""
@@ -124,7 +124,16 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 		data = json_decode(json)
 	catch
 		return null
-	if(!islist(data) || data["is_live"])
+	if(!islist(data))
+		return null
+	// a set gives its songs as entries, only the first one is used
+	var/is_playlist = data["_type"] == "playlist"
+	if(is_playlist)
+		var/list/entries = data["entries"]
+		data = length(entries) ? entries[1] : null
+		if(!islist(data))
+			return null
+	if(data["is_live"])
 		return null
 	var/protocol = data["protocol"]
 	if(istext(protocol) && findtext(protocol, "dash"))
@@ -147,6 +156,7 @@ GLOBAL_VAR_INIT(ytdl_running, 0)
 			"duration" = duration,
 			"artist" = ytdl_text(data["artist"]) || ytdl_text(data["uploader"]),
 			"album" = ytdl_text(data["album"]),
+			"playlist" = is_playlist,
 		),
 	)
 
