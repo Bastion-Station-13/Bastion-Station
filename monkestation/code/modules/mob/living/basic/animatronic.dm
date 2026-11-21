@@ -4,7 +4,7 @@
 #define SOUNDS_TO_ADD_ON_HUNGER list('sound/music/antag/bloodcult/ghost_whisper.ogg', 'sound/effects/hallucinations/radio_static.ogg')
 //very similar to living statues however we cant make it a subtype due to needing to handle a few things differently, mainly say()
 /mob/living/basic/monkey_animatronic
-	name = "Monke"
+	name = "Albert II"
 	desc = "A lovable and legally distinct mascot!"
 	icon = 'icons/mob/basic/monkey_animatronic.dmi'
 	icon_state = "monkey_animatronic_1"

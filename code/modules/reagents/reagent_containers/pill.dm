@@ -301,7 +301,7 @@
 
 	var/drug_word = pick(GLOB.pill_names)
 	if(prob(10))
-		drug_word = "[pick("The", "All-Natural", "Kilgor's Favorite", "Tasty", "New & Improved", "Radical", "Double", "Triple", "Quad")] [drug_word]"
+		drug_word = "[pick("The", "All-Natural", "Lizard's Favorite", "Tasty", "New & Improved", "Radical", "Double", "Triple", "Quad")] [drug_word]"
 	else
 		drug_word = "[drug_word] [pick(GLOB.pill_names)]"
 	if(prob(25))

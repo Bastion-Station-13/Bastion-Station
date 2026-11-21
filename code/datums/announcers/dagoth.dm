@@ -1,8 +1,6 @@
 /datum/centcom_announcer/dagoth
 	welcome_sounds = list('sound/announcer/dagoth/welcome/welcome.ogg',
-						'sound/announcer/dagoth/welcome/welcome2.ogg',
-						'sound/announcer/dagoth/welcome/welcome3.ogg',
-						'sound/announcer/dagoth/welcome/welcome4.ogg')
+						'sound/announcer/dagoth/welcome/welcome3.ogg',)
 
 	alert_sounds = list('sound/announcer/dagoth/alerts/alert1.ogg',
 						'sound/announcer/dagoth/alerts/alert2.ogg',
