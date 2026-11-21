@@ -1343,9 +1343,29 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 	return TRUE
 
+/// Gives the player the highest job on their preferences that has a free slot and isn't in blocked_jobs. This is so rolling antag roles dosen't give them a job like barber when they had something like scientist set to medium and barber at never
+/datum/controller/subsystem/job/proc/give_preferred_job(mob/dead/new_player/player, list/blocked_jobs = list())
+	var/list/possible_jobs = shuffle(joinable_occupations - blocked_jobs)
+	for(var/level in level_order)
+		for(var/datum/job/job as anything in possible_jobs)
+			if(player.client?.prefs.job_preferences[job.title] != level)
+				continue
+			if(job.spawn_positions != -1 && job.current_positions >= job.spawn_positions)
+				continue
+			if(check_job_eligibility(player, job, "GPJ", add_job_to_log = TRUE) != JOB_AVAILABLE)
+				continue
+			if(handle_temp_assignments(player, job))
+				return TRUE
+	return FALSE
+
 /// Try and reassign the job of input player and return based on if we succeed or not, if need_new_enemy is passed then we will return FALSE if we cant find someone else to be an enemy
 /datum/controller/subsystem/job/proc/try_reassign_job(mob/dead/new_player/player, list/enemy_jobs = list(), list/restricted_jobs = list(), need_new_enemy = FALSE, list/enemy_players)
-	if(!GiveRandomJob(player, TRUE, enemy_jobs + restricted_jobs) && !handle_temp_assignments(player, GetJobType(overflow_role)))
+	var/list/blocked_jobs = enemy_jobs + restricted_jobs
+	var/datum/job/overflow_datum = GetJobType(overflow_role)
+	// Without a free preferred job, only go random if they asked for it or can't be the overflow role
+	var/use_random_job = player.client?.prefs.read_preference(/datum/preference/choiced/jobless_role) == BERANDOMJOB \
+		|| check_job_eligibility(player, overflow_datum, "TRJ", add_job_to_log = TRUE) != JOB_AVAILABLE
+	if(!give_preferred_job(player, blocked_jobs) && !(use_random_job && GiveRandomJob(player, TRUE, blocked_jobs)) && !handle_temp_assignments(player, overflow_datum))
 		log_storyteller("t_r_j failed, we were unable to give the reassigned player a new job, Player: [player]")
 		return FALSE
 

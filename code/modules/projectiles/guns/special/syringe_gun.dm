@@ -201,6 +201,7 @@
 	pixel_x = 0
 	force = 4
 	trigger_guard = TRIGGER_GUARD_ALLOW_ALL
+	pin = null
 	pinless = TRUE
 	has_manufacturer = FALSE
 
