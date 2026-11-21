@@ -69,8 +69,8 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
  *
  * Returns TRUE if they're a free person, or FALSE if they failed
  */
-/proc/considered_escaped(datum/mind/escapee)
-	if(!considered_alive(escapee))
+/proc/considered_escaped(datum/mind/escapee, needs_living = TRUE)
+	if(needs_living && !considered_alive(escapee))
 		return FALSE
 	if(considered_exiled(escapee))
 		return FALSE
@@ -403,6 +403,25 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 			return FALSE
 	return SSshuttle.emergency.is_hijacked()
 
+/// This is the hijack that blood brother teams get. Same rules as escape/onesurvivor, the whole team has to be on board but only one of them has to be alive
+/datum/objective/hijack/onesurvivor
+	name = "hijack team can die"
+	explanation_text = "Hijack the emergency shuttle by hacking its navigational protocols through the control console (alt click emergency shuttle console). Have all members of your team on board, with at least one surviving member."
+	team_explanation_text = "Hijack the emergency shuttle by hacking its navigational protocols through the control console (alt click emergency shuttle console). Have all members of your team on board, with at least one surviving member."
+
+/datum/objective/hijack/onesurvivor/check_completion()
+	if(completed)
+		return TRUE
+	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
+		return FALSE
+	var/has_survivor = FALSE
+	for(var/datum/mind/M as anything in get_owners())
+		if(!M.current || !SSshuttle.emergency.shuttle_areas[get_area(M.current)])
+			return FALSE
+		if(considered_alive(M))
+			has_survivor = TRUE
+	return has_survivor && SSshuttle.emergency.is_hijacked()
+
 /datum/objective/elimination
 	name = "elimination"
 	explanation_text = "Slaughter all loyalist crew aboard the shuttle. You, and any likeminded individuals, must be the only remaining people on the shuttle."
@@ -490,6 +509,23 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 		if(!considered_escaped(M))
 			return FALSE
 	return TRUE
+
+/// This is the escape that blood brother teams get. The whole team has to escape, dead or alive, but only one of them has to be alive
+/datum/objective/escape/onesurvivor
+	name = "escape team can die"
+	explanation_text = "Have all members of your team escape outside custody on a shuttle or pod, with at least one surviving member."
+	team_explanation_text = "Have all members of your team escape outside custody on a shuttle or pod, with at least one surviving member."
+
+/datum/objective/escape/onesurvivor/check_completion()
+	if(completed)
+		return TRUE
+	var/has_survivor = FALSE
+	for(var/datum/mind/M as anything in get_owners())
+		if(!considered_escaped(M, needs_living = FALSE))
+			return FALSE
+		if(considered_alive(M))
+			has_survivor = TRUE
+	return has_survivor
 
 /datum/objective/escape/escape_with_identity
 	name = "escape with identity"

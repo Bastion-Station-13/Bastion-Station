@@ -1,0 +1,27 @@
+/**
+ * Bond beacon for Blood Brothers. Shares your location with your team for the rest of the round.
+ */
+/obj/item/bond_beacon
+	name = "bond beacon"
+	desc = "A tiny tracking chip that broadcasts your location to your conspirators."
+	icon = 'bastionstation/icons/obj/antags/blood_brother.dmi'
+	icon_state = "bond_beacon"
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/bond_beacon/attack_self(mob/user, modifiers)
+	. = ..()
+	if(.)
+		return
+	var/datum/antagonist/brother/bond = user.mind?.has_antag_datum(/datum/antagonist/brother)
+	if(!bond)
+		balloon_alert(user, "nothing happens")
+		return TRUE
+	if(bond.sharing_location)
+		balloon_alert(user, "already sharing location!")
+		return TRUE
+
+	bond.sharing_location = TRUE
+	to_chat(user, span_notice("You press [src] against your skin. Your brothers can now see where you are."))
+	playsound(user, 'sound/machines/click.ogg', 30, TRUE)
+	qdel(src)
+	return TRUE
