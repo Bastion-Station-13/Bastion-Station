@@ -779,6 +779,35 @@ SUBSYSTEM_DEF(ticker)
 			continue
 		C.Export("##action=load_rsc", round_end_sound)
 	round_end_sound_sent = TRUE
+<<<<<<< HEAD
+=======
+	if(reboot_timer)
+		schedule_round_end_sound(timeleft(reboot_timer))
+
+/datum/controller/subsystem/ticker/proc/schedule_round_end_sound(time_left)
+	deltimer(round_end_sound_timer)
+	// no idea how long it is, so play it now while the server's still around to send it
+	var/wait = round_end_sound_length ? max(time_left - round_end_sound_length, 0) : 0
+	round_end_sound_timer = addtimer(CALLBACK(src, PROC_REF(play_round_end_sound)), wait, TIMER_STOPPABLE)
+
+/// Plays the round end sound to everyone with lobby music turned on.
+/datum/controller/subsystem/ticker/proc/play_round_end_sound()
+	round_end_sound_played = TRUE
+	if(!round_end_sound)
+		round_end_sound = choose_round_end_song()
+	for(var/mob/player as anything in GLOB.player_list)
+		play_round_end_sound_to(player)
+
+/// Its own proc so one player's client runtiming only skips that player, not everyone after them.
+/datum/controller/subsystem/ticker/proc/play_round_end_sound_to(mob/player)
+	var/client/player_client = player?.client
+	if(!player_client)
+		return
+	var/volume = calculate_mixed_volume(player_client, 100, CHANNEL_LOBBYMUSIC)
+	if(!volume)
+		return
+	SEND_SOUND(player_client, sound(round_end_sound, wait = 0, channel = CHANNEL_LOBBYMUSIC, volume = clamp(volume, 15, 100)))
+>>>>>>> c9dc43473 (Makes it so muting lobby music actually mutes it. (#13110))
 
 /datum/controller/subsystem/ticker/proc/Reboot(reason, end_string, delay)
 	set waitfor = FALSE
