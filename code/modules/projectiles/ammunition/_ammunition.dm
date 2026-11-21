@@ -44,6 +44,9 @@
 	var/bullet_bounce_sound = null
 	var/bullet_bounce_sound_volume = 50
 
+	/// Whether or not this casing is being fired as a dual wielded shot
+	var/dual_wield_shot = FALSE
+
 /obj/item/ammo_casing/spent
 	name = "spent bullet casing"
 	loaded_projectile = null
