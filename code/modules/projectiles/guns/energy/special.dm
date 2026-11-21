@@ -332,7 +332,7 @@
 /obj/item/gun/energy/printer/Initialize(mapload)
 	AddElement(/datum/element/update_icon_blocker)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.3 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.35 SECONDS)
 
 /obj/item/gun/energy/printer/emp_act()
 	return
@@ -396,7 +396,7 @@
 
 /obj/item/gun/energy/tesla_cannon/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.1 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.15 SECONDS)
 
 /obj/item/gun/energy/marksman_revolver
 	name = "marksman revolver"

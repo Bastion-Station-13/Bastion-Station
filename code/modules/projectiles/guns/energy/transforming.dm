@@ -337,7 +337,7 @@
 /obj/projectile/beam/cybersun_laser/disable
 	icon_state = "disable_large"
 	damage = 0
-	stamina = 25
+	stamina = 24
 	armor_flag = ENERGY
 	damage_type = STAMINA
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
