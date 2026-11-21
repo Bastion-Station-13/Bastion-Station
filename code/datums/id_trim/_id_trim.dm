@@ -14,6 +14,8 @@
 	var/assignment
 	/// The name of the job for interns. If unset it will default to "[assignment] (Intern)".
 	var/intern_alt_name = null
+	/// Icon file containing the SecHUD icon state.
+	var/sechud_icon = 'icons/mob/huds/hud.dmi'
 	/// The icon_state associated with this trim, as it will show on the security HUD.
 	var/sechud_icon_state = SECHUD_UNKNOWN
 
