@@ -102,3 +102,66 @@
 /obj/item/bodypart/leg/right/ghetto/Initialize(mapload, ...)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_EASY_ATTACH, INNATE_TRAIT)
+
+/obj/item/bodypart/leg/right/ghetto/toolbox
+	name = "right toolbox leg"
+	desc = "A makeshift limb wrapped in tape, with a toolbox."
+	disabling_threshold_percentage = 1
+	bodypart_flags = BODYPART_UNHUSKABLE
+	brute_modifier = 1
+	burn_modifier = 1
+	force = 12
+	throwforce = 12
+	w_class = WEIGHT_CLASS_BULKY
+	attack_verb_continuous = list("robusts")
+	attack_verb_simple = list("robust")
+	light_brute_msg = ROBOTIC_LIGHT_BRUTE_MSG
+	medium_brute_msg = ROBOTIC_MEDIUM_BRUTE_MSG
+	heavy_brute_msg = ROBOTIC_HEAVY_BRUTE_MSG
+
+	light_burn_msg = ROBOTIC_LIGHT_BURN_MSG
+	medium_burn_msg = ROBOTIC_MEDIUM_BURN_MSG
+	heavy_burn_msg = ROBOTIC_HEAVY_BURN_MSG
+
+	biological_state = (BIO_ROBOTIC|BIO_JOINTED)
+
+	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+
+/obj/item/bodypart/leg/right/ghetto/toolbox/Initialize(mapload)
+	. = ..()
+	name = initial(name)
+	create_storage()
+	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL
+
+
+
+/obj/item/bodypart/leg/left/ghetto/toolbox
+	name = "left toolbox leg"
+	desc = "A makeshift limb wrapped in tape, with a toolbox."
+	disabling_threshold_percentage = 1
+	bodypart_flags = BODYPART_UNHUSKABLE
+	brute_modifier = 1
+	burn_modifier = 1
+	force = 12
+	throwforce = 12
+	w_class = WEIGHT_CLASS_BULKY
+	attack_verb_continuous = list("robusts")
+	attack_verb_simple = list("robust")
+	light_brute_msg = ROBOTIC_LIGHT_BRUTE_MSG
+	medium_brute_msg = ROBOTIC_MEDIUM_BRUTE_MSG
+	heavy_brute_msg = ROBOTIC_HEAVY_BRUTE_MSG
+
+	light_burn_msg = ROBOTIC_LIGHT_BURN_MSG
+	medium_burn_msg = ROBOTIC_MEDIUM_BURN_MSG
+	heavy_burn_msg = ROBOTIC_HEAVY_BURN_MSG
+
+	biological_state = (BIO_ROBOTIC|BIO_JOINTED)
+
+	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT, CLONE = DEFAULT_CLONE_EXAMINE_TEXT)
+
+/obj/item/bodypart/leg/left/ghetto/toolbox/Initialize(mapload)
+	. = ..()
+	name = initial(name)
+	create_storage()
+	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL
+
