@@ -145,6 +145,7 @@ GAME_VERB_DESC(/client, trigger_token_event, "Trigger Token Event", "Opens a ui 
 			/datum/antagonist/bloodsucker,
 			/datum/antagonist/changeling,
 			/datum/antagonist/cortical_borer/hivemind,
+			/datum/antagonist/arcfiend,
 		)),
 		LOW_THREAT = init_antag_list(list(
 			/datum/antagonist/florida_man,
