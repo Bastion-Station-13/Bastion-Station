@@ -13,7 +13,7 @@
 	custom_premium_price = PAYCHECK_CREW * 6
 
 /obj/item/sensor_device/attack_self(mob/user)
-	GLOB.crewmonitor.show(user,src) //Proc already exists, just had to call it
+	GLOB.crewmonitor.show(user, src, has_map = FALSE) //Proc already exists, just had to call it
 
 /obj/item/sensor_device/security
 	name = "security handheld crew monitor"
@@ -21,7 +21,7 @@
 	icon_state = "scanner_sec"
 
 /obj/item/sensor_device/security/attack_self(mob/user)
-	GLOB.crewmonitor_security.show(user,src)
+	GLOB.crewmonitor_security.show(user, src, has_map = FALSE)
 
 /obj/item/sensor_device/command
 	name = "specialized handheld crew monitor"
@@ -29,4 +29,4 @@
 	icon_state = "scanner_command"
 
 /obj/item/sensor_device/command/attack_self(mob/user)
-	GLOB.crewmonitor_command.show(user,src)
+	GLOB.crewmonitor_command.show(user, src, has_map = FALSE)

@@ -1,10 +1,17 @@
 import type { BooleanLike } from 'common/react';
 import { createSearch } from 'common/string';
+import { useState } from 'react';
 
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Icon, Input, Section, Table } from '../components';
+import { Box, Button, Flex, Icon, Input, Section, Table } from '../components';
 import { COLORS } from '../constants';
 import { Window } from '../layouts';
+import { StationMap } from './common/StationMap';
+import {
+  type MapFocus,
+  type StationMapData,
+  tileToPercent,
+} from './common/stationMapUtils';
 
 const HEALTH_COLOR_BY_LEVEL = [
   '#17d568',
@@ -113,14 +120,171 @@ const HealthStat = (props: HealthStatProps) => {
 };
 
 export const CrewConsoleNova = () => {
+  const { data } = useBackend<CrewConsoleData>();
+  const { map, sensors, z } = data;
+
+  const [showMap, setShowMap] = useState(true);
+  const [hoveredRef, setHoveredRef] = useState<string | null>(null);
+  const [focus, setFocus] = useState<MapFocus>();
+
+  const mapVisible = !!map && showMap;
+
+  const track = (sensor: CrewSensor) => {
+    const position = getPosition(map, z, sensor);
+    if (!position) {
+      return;
+    }
+    setShowMap(true);
+    setFocus(position);
+  };
+
+  const table = (
+    <CrewTable
+      hoveredRef={hoveredRef}
+      setHoveredRef={setHoveredRef}
+      mapShown={mapVisible}
+      toggleMap={map ? () => setShowMap(!showMap) : undefined}
+      onTrack={track}
+    />
+  );
+
+  if (!mapVisible) {
+    return (
+      <Window title="Crew Monitor" width={600} height={600}>
+        <Window.Content scrollable>
+          <Section minHeight="540px">{table}</Section>
+        </Window.Content>
+      </Window>
+    );
+  }
+
   return (
-    <Window title="Crew Monitor" width={600} height={600}>
-      <Window.Content scrollable>
-        <Section minHeight="540px">
-          <CrewTable />
-        </Section>
+    <Window title="Crew Monitor" width={1100} height={720}>
+      <Window.Content>
+        <Flex height="100%" gap={1}>
+          <Flex.Item
+            width="520px"
+            shrink={0}
+            height="100%"
+            style={{ overflowY: 'auto' }}
+          >
+            <Section>{table}</Section>
+          </Flex.Item>
+          <Flex.Item grow height="100%">
+            <StationMap map={map} focus={focus}>
+              {(zoom) =>
+                sensors.map((sensor) => (
+                  <CrewBlip
+                    key={sensor.ref}
+                    sensor={sensor}
+                    map={map}
+                    mapZ={z}
+                    zoom={zoom}
+                    hovered={hoveredRef === sensor.ref}
+                    setHoveredRef={setHoveredRef}
+                    onTrack={track}
+                  />
+                ))
+              }
+            </StationMap>
+          </Flex.Item>
+        </Flex>
       </Window.Content>
     </Window>
+  );
+};
+
+/** A sensor's place on the map, if it is on the level the map is of */
+const getPosition = (
+  map: StationMapData | null | undefined,
+  z: number,
+  sensor: CrewSensor,
+) => {
+  if (!map || map.z !== z || sensor.x === undefined || sensor.y === undefined) {
+    return undefined;
+  }
+  return tileToPercent(map, sensor.x, sensor.y);
+};
+
+const SPRITE_SIZE = 8;
+
+// The job icons are 8x8 sprites of the job_icons spritesheet, shown bigger
+const JobIcon = (props: { iconClass: string; size?: number }) => {
+  const { iconClass, size = 16 } = props;
+  return (
+    <Box inline verticalAlign="middle" width={`${size}px`} height={`${size}px`}>
+      <Box
+        className={iconClass}
+        style={{
+          transform: `scale(${size / SPRITE_SIZE})`,
+          transformOrigin: 'top left',
+          imageRendering: 'pixelated',
+        }}
+      />
+    </Box>
+  );
+};
+
+type CrewBlipProps = {
+  sensor: CrewSensor;
+  map: StationMapData;
+  mapZ: number;
+  zoom: number;
+  hovered: boolean;
+  setHoveredRef: (ref: string | null) => void;
+  onTrack: (sensor: CrewSensor) => void;
+};
+
+const CrewBlip = (props: CrewBlipProps) => {
+  const { act, data } = useBackend<CrewConsoleData>();
+  const { sensor, map, mapZ, zoom, hovered, setHoveredRef, onTrack } = props;
+  const position = getPosition(map, mapZ, sensor);
+  if (!position) {
+    return null;
+  }
+
+  return (
+    <div
+      onClick={(event) => {
+        event.stopPropagation();
+        if (data.link_allowed) {
+          act('select_person', { ref: sensor.ref });
+          return;
+        }
+        onTrack(sensor);
+      }}
+      onMouseEnter={() => setHoveredRef(sensor.ref)}
+      onMouseLeave={() => setHoveredRef(null)}
+      style={{
+        position: 'absolute',
+        left: `${position.left}%`,
+        bottom: `${position.bottom}%`,
+        // the icon stays the same size on screen however far the map is zoomed
+        transform: `translate(-50%, 50%) scale(${1 / zoom})`,
+        transformOrigin: 'center center',
+        cursor: 'pointer',
+        zIndex: hovered ? 20 : 2,
+      }}
+    >
+      <div
+        style={{
+          opacity: hovered ? 1 : 0.85,
+          transform: hovered ? 'scale(1.25)' : 'scale(1)',
+          transition: 'transform 0.1s ease-in-out',
+        }}
+      >
+        {sensor.job_icon ? (
+          <JobIcon iconClass={sensor.job_icon} />
+        ) : (
+          <Box
+            width="8px"
+            height="8px"
+            backgroundColor={jobToColor(sensor.ijob)}
+            style={{ borderRadius: '50%', border: '1px solid #000000' }}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -137,14 +301,28 @@ type CrewSensor = {
   area: string | undefined;
   health: number;
   ref: string;
+  job_icon?: string;
+  x?: number;
+  y?: number;
 };
 
 type CrewConsoleData = {
   sensors: CrewSensor[];
   link_allowed: BooleanLike;
+  z: number;
+  map?: StationMapData | null;
 };
 
-const CrewTable = () => {
+type CrewTableProps = {
+  hoveredRef: string | null;
+  setHoveredRef: (ref: string | null) => void;
+  mapShown: boolean;
+  toggleMap?: () => void;
+  onTrack: (sensor: CrewSensor) => void;
+};
+
+const CrewTable = (props: CrewTableProps) => {
+  const { hoveredRef, setHoveredRef, mapShown, toggleMap, onTrack } = props;
   const { data } = useBackend<CrewConsoleData>();
   const { sensors } = data;
 
@@ -164,6 +342,9 @@ const CrewTable = () => {
     if (idx === SORT_OPTIONS.length) idx = 0;
     setSortBy(SORT_OPTIONS[idx]);
   };
+
+  // the console can track people for an AI, everyone else needs the map for it
+  const canTrack = !!data.link_allowed || !!toggleMap;
 
   const nameSearch = createSearch(
     searchQuery,
@@ -213,6 +394,14 @@ const CrewTable = () => {
               'All'
             )}
           </Button>
+          {!!toggleMap && (
+            <Button
+              icon={mapShown ? 'chevron-right' : 'chevron-left'}
+              tooltip={mapShown ? 'Hide map' : 'Show map'}
+              selected={mapShown}
+              onClick={toggleMap}
+            />
+          )}
         </>
       }
     >
@@ -227,14 +416,21 @@ const CrewTable = () => {
           <Table.Cell bold textAlign="center">
             Position
           </Table.Cell>
-          {!!data.link_allowed && (
+          {canTrack && (
             <Table.Cell bold collapsing textAlign="center">
               Tracking
             </Table.Cell>
           )}
         </Table.Row>
         {sorted.map((sensor) => (
-          <CrewTableEntry sensor_data={sensor} key={sensor.ref} />
+          <CrewTableEntry
+            sensor_data={sensor}
+            key={sensor.ref}
+            hovered={hoveredRef === sensor.ref}
+            setHoveredRef={setHoveredRef}
+            canTrack={canTrack}
+            onTrack={onTrack}
+          />
         ))}
       </Table>
     </Section>
@@ -243,12 +439,16 @@ const CrewTable = () => {
 
 type CrewTableEntryProps = {
   sensor_data: CrewSensor;
+  hovered: boolean;
+  setHoveredRef: (ref: string | null) => void;
+  canTrack: boolean;
+  onTrack: (sensor: CrewSensor) => void;
 };
 
 const CrewTableEntry = (props: CrewTableEntryProps) => {
   const { act, data } = useBackend<CrewConsoleData>();
-  const { link_allowed } = data;
-  const { sensor_data } = props;
+  const { link_allowed, map, z } = data;
+  const { sensor_data, hovered, setHoveredRef, canTrack, onTrack } = props;
   const {
     name,
     assignment,
@@ -261,11 +461,24 @@ const CrewTableEntry = (props: CrewTableEntryProps) => {
     brutedam,
     area,
     ref,
+    job_icon,
   } = sensor_data;
 
   return (
-    <Table.Row className="candystripe">
+    <Table.Row
+      className="candystripe"
+      onMouseOver={() => setHoveredRef(ref)}
+      onMouseLeave={() => setHoveredRef(null)}
+      style={{
+        backgroundColor: hovered ? 'rgba(255, 255, 255, 0.12)' : undefined,
+      }}
+    >
       <Table.Cell bold={jobIsHead(ijob)} color={jobToColor(ijob)}>
+        {!!job_icon && (
+          <>
+            <JobIcon iconClass={job_icon} />{' '}
+          </>
+        )}
         {name}
         {assignment !== undefined ? ` (${assignment})` : ''}
       </Table.Cell>
@@ -315,13 +528,16 @@ const CrewTableEntry = (props: CrewTableEntryProps) => {
           <Icon name="question" color="#ffffff" size={1} />
         )}
       </Table.Cell>
-      {!!link_allowed && (
+      {canTrack && (
         <Table.Cell collapsing>
           <Button
+            disabled={!link_allowed && !getPosition(map, z, sensor_data)}
             onClick={() =>
-              act('select_person', {
-                ref: ref,
-              })
+              link_allowed
+                ? act('select_person', {
+                    ref: ref,
+                  })
+                : onTrack(sensor_data)
             }
           >
             Track
