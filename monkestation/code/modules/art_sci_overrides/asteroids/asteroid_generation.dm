@@ -14,6 +14,7 @@
 
 /turf/closed/mineral/random/asteroid/tospace/mineral_chances()
 	return list(
+<<<<<<< HEAD:monkestation/code/modules/art_sci_overrides/asteroids/asteroid_generation.dm
 		/obj/item/stack/ore/diamond = 2.5,
 		/obj/item/stack/ore/gold = 5,
 		/obj/item/stack/ore/iron = 15,
@@ -24,6 +25,18 @@
 		/obj/item/stack/ore/uranium = 5,
 		/turf/closed/mineral/artifact = 5,
 		/turf/closed/mineral/mineral_sample = 5,
+=======
+		/obj/item/stack/ore/diamond = 5,
+		/obj/item/stack/ore/gold = 7,
+		/obj/item/stack/ore/iron = 12,
+		/obj/item/stack/ore/plasma = 5,
+		/obj/item/stack/ore/bluespace_crystal = 2,
+		/obj/item/stack/ore/silver = 10,
+		/obj/item/stack/ore/titanium = 13,
+		/obj/item/stack/ore/uranium = 10,
+		/turf/closed/mineral/artifact = 15,
+		/turf/closed/mineral/mineral_sample = 15,
+>>>>>>> d9130251 ([Forging] Forging RE-FORGED (#12901)):code/modules/art_sci/asteroids/asteroid_generation.dm
 	)
 /// Mapping Stuff
 /turf/closed/mineral/asteroid/tospace
