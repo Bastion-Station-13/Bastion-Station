@@ -199,7 +199,8 @@
 		log_message("Injecting [patient] with [to_inject] units of [reagent_to_inject.name].", LOG_MECHA)
 		for(var/driver in chassis.return_drivers())
 			log_combat(driver, patient, "injected", "[name] ([reagent_to_inject] - [to_inject] units)")
-		SG.reagents.trans_to(patient, to_inject, target_id = reagent_to_inject.type)
+	for(var/driver in chassis.return_drivers())
+		SG.reagents.trans_to(src, SG.reagents.total_volume, transferred_by = driver)
 
 ///////////////////////////////// Syringe Gun ///////////////////////////////////////////////////////////////
 

@@ -6898,6 +6898,7 @@
 #include "code\modules\vehicles\mecha\equipment\weapons\mecha_ammo.dm"
 #include "code\modules\vehicles\mecha\equipment\weapons\weapons.dm"
 #include "code\modules\vehicles\mecha\medical\odysseus.dm"
+#include "code\modules\vehicles\mecha\miniature\vim.dm"
 #include "code\modules\vehicles\mecha\working\clarke.dm"
 #include "code\modules\vehicles\mecha\working\locker_mech.dm"
 #include "code\modules\vehicles\mecha\working\makeshift_ambulance.dm"

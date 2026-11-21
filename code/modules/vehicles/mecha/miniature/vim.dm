@@ -14,7 +14,7 @@
 	enter_delay = 2 SECONDS
 	movedelay = 0.6
 	light_system = OVERLAY_LIGHT_DIRECTIONAL
-	light_range = 4
+	light_outer_range = 4
 	light_power = 1.5
 	light_on = FALSE
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 10.55, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 0.7)
@@ -29,7 +29,8 @@
 	density = FALSE
 	pass_flags = PASSVEHICLE | PASSMOB | PASSTABLE
 	pass_flags_self = PASSVEHICLE | PASSMOB | PASSTABLE
-	inertia_force_weight = 0.5 // lighter than other mechs and people
+	move_force = MOVE_FORCE_STRONG
+	move_resist = MOVE_FORCE_VERY_STRONG// lighter than other mechs and people
 	accesses = list(ACCESS_MECH_ENGINE, ACCESS_MECH_SCIENCE, ACCESS_MECH_MINING)
 	ui_theme = PDA_THEME_CAT // since the mech is for pets ~NYAAAA~
 	equip_by_category = list(

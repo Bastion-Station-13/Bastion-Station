@@ -55,6 +55,8 @@
 // Module is compatbile with the giant fucking walkers
 #define EXOSUIT_MODULE_SENTINEL (1<<17)
 //monkestation edit end
+/// Module is compatible with VIM models
+#define EXOSUIT_MODULE_VIM (1<<12)
 
 /// Module is compatible with "Working" Exosuit models - Ripley and Clarke
 #define EXOSUIT_MODULE_WORKING (EXOSUIT_MODULE_RIPLEY | EXOSUIT_MODULE_CLARKE)
