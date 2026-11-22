@@ -21,7 +21,7 @@
 /obj/vehicle/sealed/mecha
 	name = "exosuit"
 	desc = "Exosuit"
-	icon = 'icons/mob/rideables/mecha.dmi'
+	icon = 'bastionstation/icons/mob/rideables/mecha.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_integrity = 300
 	armor_type = /datum/armor/sealed_mecha

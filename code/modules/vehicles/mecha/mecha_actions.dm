@@ -7,7 +7,7 @@
 		mecha_action.set_chassis(src)
 
 /datum/action/vehicle/sealed/mecha
-	button_icon = 'icons/mob/actions/actions_mecha.dmi'
+	button_icon = 'bastionstation/icons/mob/actions/actions_mecha.dmi'
 	var/obj/vehicle/sealed/mecha/chassis
 
 /datum/action/vehicle/sealed/mecha/Destroy()

@@ -659,11 +659,11 @@
 
 /datum/sound_effect/generic_device_pickup
 	file_paths = list(
-		'sound/items/generic_device/generic_device_pickup1.ogg',
-		'sound/items/generic_device/generic_device_pickup2.ogg',
-		'sound/items/generic_device/generic_device_pickup3.ogg',
-		'sound/items/generic_device/generic_device_pickup4.ogg',
-		'sound/items/generic_device/generic_device_pickup5.ogg',
+		'bastionstation/sound/generic_device/generic_device_pickup1.ogg',
+		'bastionstation/sound/generic_device/generic_device_pickup2.ogg',
+		'bastionstation/sound/generic_device/generic_device_pickup3.ogg',
+		'bastionstation/sound/generic_device/generic_device_pickup4.ogg',
+		'bastionstation/sound/generic_device/generic_device_pickup5.ogg',
 	)
 
 /datum/sound_effect/generic_device_drop
