@@ -634,7 +634,7 @@
 				balloon_alert(user, "assembly finished!")
 				var/obj/vehicle/sealed/mecha/vim/new_vim = new(drop_location())
 				new_vim.name = created_name
-				new_vim.tank = tank
+//				new_vim.tank = tank
 				tank.forceMove(new_vim)
 				qdel(src)
 		//MONKESTATION EDIT STOP
