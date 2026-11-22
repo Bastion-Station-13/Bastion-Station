@@ -28,6 +28,7 @@
 
 /obj/machinery/portable_atmospherics/canister/mecha
 	custom_materials = null
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
 
 /obj/item/mecha_parts/mecha_equipment/air_tank/Initialize(mapload)
 	. = ..()

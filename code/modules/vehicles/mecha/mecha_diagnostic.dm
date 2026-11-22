@@ -1,7 +1,7 @@
 /obj/item/mecha_diagnostic
 	name = "mecha holodiagnostic"
 	desc = "A holographic datasheet of unique data related to the mecha's construction and any production differences between the published designs to increment improvements."
-	icon = 'icons/obj/devices/scanner.dmi'
+	icon = 'bastionstation/icons/obj/devices/scanner.dmi'
 	icon_state = "holosheet"
 	w_class = WEIGHT_CLASS_SMALL
 	layer = ABOVE_MOB_LAYER
