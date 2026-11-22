@@ -1,9 +1,9 @@
 /datum/action/changeling/biodegrade
 	name = "Biodegrade"
-	desc = "Dissolves restraints or other objects preventing free movement. Costs 20 chemicals." // monkestation edit
+	desc = "Dissolves restraints or other objects preventing free movement. Costs 30 chemicals."
 	helptext = "This is obvious to nearby people, and can destroy standard restraints and closets."
 	button_icon_state = "biodegrade"
-	chemical_cost = 20 // monkestation edit
+	chemical_cost = 30
 	dna_cost = 2
 	req_human = TRUE
 	disabled_by_fire = FALSE
@@ -22,7 +22,7 @@
 		user.visible_message(span_warning("[user] vomits a glob of acid on [user.p_their()] [O]!"), \
 			span_warning("We vomit acidic ooze onto our restraints!"))
 
-		addtimer(CALLBACK(src, PROC_REF(dissolve_handcuffs), user, O), 30)
+		dissolve_handcuffs(user, O)
 		used = TRUE
 
 	if(user.legcuffed)
@@ -32,7 +32,7 @@
 		user.visible_message(span_warning("[user] vomits a glob of acid on [user.p_their()] [O]!"), \
 			span_warning("We vomit acidic ooze onto our restraints!"))
 
-		addtimer(CALLBACK(src, PROC_REF(dissolve_legcuffs), user, O), 30)
+		dissolve_legcuffs(user, O)
 		used = TRUE
 
 	if(user.wear_suit && user.wear_suit.breakouttime && !used)
