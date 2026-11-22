@@ -19,7 +19,6 @@
 			/obj/effect/decal/cleanable/greenglow,
 			/obj/effect/decal/cleanable/insectguts,
 			/obj/effect/decal/cleanable/molten_object,
-			/obj/effect/decal/cleanable/piss_stain,
 			/obj/effect/decal/cleanable/shreds,
 			/obj/effect/decal/cleanable/vomit,
 			/obj/effect/decal/cleanable/wrapping,
