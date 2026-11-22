@@ -7,6 +7,7 @@
 /obj/vehicle/sealed/mecha/vim
 	name = "\improper Vim"
 	desc = "A miniature exosuit from Nanotrasen, developed to let the irreplaceable station pets live a little longer."
+	icon = 'bastionstation/icons/mecha/mecha.dmi'
 	icon_state = "vim"
 	base_icon_state = "vim"
 	max_integrity = 50
