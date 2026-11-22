@@ -159,10 +159,10 @@
 			eye_right.color = parent.get_right_eye_color() || eye_color_right
 			eye_left.color = parent.get_left_eye_color() || eye_color_left
 
-		var/obscured = parent.check_obscured_slots(TRUE)
+		var/obscured = parent.check_obscured_slots()
 		if(overlay_ignore_lighting && !(obscured & ITEM_SLOT_EYES))
-			overlays += emissive_appearance_copy(eye_left, parent, NONE)
-			overlays += emissive_appearance_copy(eye_right, parent, NONE)
+			overlays += emissive_appearance_copy(eye_left, src, NONE)
+			overlays += emissive_appearance_copy(eye_right, src, NONE)
 
 		if(my_head?.worn_face_offset)
 			for(var/mutable_appearance/overlay in overlays)
@@ -699,13 +699,21 @@
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
 
+/obj/item/organ/internal/eyes/moth/generate_body_overlay(mob/living/carbon/human/parent)
+	// tundra fur comes with its own eyes
+	if(HAS_TRAIT(parent, TRAIT_GREYSCALE_TOGGLE) && parent.limb_style == LIMB_STYLE_TUNDRA)
+		eye_icon_state = "tundramotheyes"
+	else
+		eye_icon_state = initial(eye_icon_state)
+	return ..()
+
 /obj/item/organ/internal/eyes/shadekin
 	name = "shadekin eyes"
 	desc = "The eyes of a shadekin, you heard they are adapted to darkness better than most other species, however they are also more sensitive to light."
-	icon = 'bastionstation/icons/obj/medical/organs/organs.dmi'
+	icon = 'icons/obj/medical/organs/organs.dmi'
 	eye_icon_state = "shadekin_eyes"
 	icon_state = "eyeballs-shadekin"
-	lighting_cutoff = LIGHTING_CUTOFF_MEDIUM
+	lighting_cutoff = LIGHTING_CUTOFF_HIGH
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	overlay_ignore_lighting = TRUE
 

@@ -75,6 +75,9 @@
 /obj/item/stack/Initialize(mapload, new_amount, merge = TRUE, list/mat_override=null, mat_amt=1)
 	if(new_amount != null && isnum(new_amount))
 		amount = new_amount
+	if(isnan(amount))
+		stack_trace("[sanitize(name)] generated with NaN sheets!")
+		return INITIALIZE_HINT_QDEL
 	while(amount > max_amount)
 		amount -= max_amount
 		new type(loc, max_amount, FALSE)
@@ -409,7 +412,7 @@
 		var/turf/covered_turf = builder.drop_location()
 		if(!isturf(covered_turf))
 			return
-		var/turf/created_turf = covered_turf.PlaceOnTop(recipe.result_type, flags = CHANGETURF_INHERIT_AIR)
+		var/turf/created_turf = covered_turf.place_on_top(recipe.result_type, flags = CHANGETURF_INHERIT_AIR)
 		builder.balloon_alert(builder, "placed [ispath(recipe.result_type, /turf/open) ? "floor" : "wall"]")
 		if(recipe.applies_mats && LAZYLEN(mats_per_unit))
 			created_turf.set_custom_materials(mats_per_unit, recipe.req_amount / recipe.res_amount)

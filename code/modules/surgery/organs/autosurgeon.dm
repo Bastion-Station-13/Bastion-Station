@@ -307,6 +307,9 @@
 /obj/item/autosurgeon/skillchip/syndicate/engineer
 	starting_skillchip = /obj/item/skillchip/job/engineer
 
+/obj/item/autosurgeon/skillchip/syndicate/lawyer
+	starting_skillchip = /obj/item/skillchip/job/security
+
 ///////////////////////////
 // SYNDICATE AUTOSURGEON //
 ///////////////////////////

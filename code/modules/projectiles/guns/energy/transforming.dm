@@ -86,6 +86,13 @@
 	last_charge = cell.charge
 	create_weapon_mode_stuff()
 
+/obj/item/gun/energy/modular_laser_rifle/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 28, \
+		overlay_y = 9)
+
 /obj/item/gun/energy/modular_laser_rifle/examine(mob/user)
 	. = ..()
 	. += span_notice("You can <b>examine closer</b> to learn a little more about this weapon.")
@@ -269,6 +276,13 @@
 		ineffective at ranged combat. Her onboard machine intelligence, at first devised to support the operator and \
 		manage the internal reactor, was originally shipped with a more energetic personality-- since influenced by 'negligence' \
 		from users in wiping the intelligence's memory before resale or transport."
+
+/obj/item/gun/energy/modular_laser_rifle/carbine/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 18, \
+		overlay_y = 12)
 
 /obj/item/gun/energy/modular_laser_rifle/carbine/emp_act(severity)
 	. = ..()

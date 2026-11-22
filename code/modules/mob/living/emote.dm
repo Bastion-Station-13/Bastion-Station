@@ -194,8 +194,11 @@
 	vary = TRUE
 	mob_type_allowed_typecache = list(/mob/living/carbon, /mob/living/silicon/pai)
 
+/datum/emote/living/mar/can_run_emote(mob/user, status_check, intentional)
+	return ..() && isshadekin(user)
+
 /datum/emote/living/mar/get_sound(mob/living/user)
-	return 'bastionstation/sound/creatures/mar.ogg'
+	return 'sound/creatures/mar.ogg'
 
 /datum/emote/living/frown
 	key = "frown"

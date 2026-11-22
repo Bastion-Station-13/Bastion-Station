@@ -33,8 +33,6 @@
 	. = ..()
 	blueprints += new /datum/design/fss
 	blueprints += new /datum/design/mag_autorifle_fss
-	blueprints += new /datum/design/mag_autorifle_fss/ap_mag
 	blueprints += new /datum/design/mag_autorifle_fss/ic_mag
 	blueprints += new /datum/design/mag_autorifle_fss/rub_mag
-	blueprints += new /datum/design/mag_autorifle_fss/salt_mag
 

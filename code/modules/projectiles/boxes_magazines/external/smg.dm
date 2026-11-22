@@ -15,48 +15,26 @@
 	. = ..()
 	icon_state = "[base_icon_state]-[round(ammo_count(), 4)]"
 
-/obj/item/ammo_box/magazine/wt550m9/wtap
-	name = "wt550 magazine (Armour Piercing 4.6x30mm)"
-	icon_state = "46x30mmtA-20"
-	base_icon_state = "46x30mmtA"
-	ammo_type = /obj/item/ammo_casing/c46x30mm/ap
-
-/obj/item/ammo_box/magazine/wt550m9/wtap/update_icon_state()
-	. = ..()
-	icon_state = "[base_icon_state]-[round(ammo_count(), 4)]"
-
-/obj/item/ammo_box/magazine/wt550m9/wtic
-	name = "wt550 magazine (Incendiary 4.6x30mm)"
+/obj/item/ammo_box/magazine/wt550m9/laser
+	name = "wt550 magazine (Laser 4.6x30mm)"
 	icon_state = "46x30mmtI-20"
 	base_icon_state = "46x30mmtI"
-	ammo_type = /obj/item/ammo_casing/c46x30mm/inc
+	ammo_type = /obj/item/ammo_casing/c46x30mm/laser
 
-/obj/item/ammo_box/magazine/wt550m9/wtic/update_icon_state()
+/obj/item/ammo_box/magazine/wt550m9/laser/update_icon_state()
 	. = ..()
 	icon_state = "[base_icon_state]-[round(ammo_count(), 4)]"
 
-/obj/item/ammo_box/magazine/wt550m9/wtrub
-	name = "wt550 magazine (Rubber 4.6x30mm)"
+/obj/item/ammo_box/magazine/wt550m9/stingball
+	name = "wt550 magazine (Stingball 4.6x30mm)"
 	icon = 'icons/obj/guns/ammo.dmi'
 	icon_state = "46x30mmtR-20"
 	base_icon_state = "46x30mmtR"
-	ammo_type = /obj/item/ammo_casing/c46x30mm/rub
+	ammo_type = /obj/item/ammo_casing/c46x30mm/stingball
 
-/obj/item/ammo_box/magazine/wt550m9/wtic/update_icon_state()
+/obj/item/ammo_box/magazine/wt550m9/stingball/update_icon_state()
 	. = ..()
 	icon_state = "[base_icon_state]-[round(ammo_count(), 4)]"
-
-/obj/item/ammo_box/magazine/wt550m9/wtsalt
-	name = "wt550 magazine (Saltshot 4.6x30mm)"
-	icon = 'icons/obj/guns/ammo.dmi'
-	icon_state = "46x30mmtS-20"
-	base_icon_state = "46x30mmtS"
-	ammo_type = /obj/item/ammo_casing/c46x30mm/salt
-
-/obj/item/ammo_box/magazine/wt550m9/wtic/update_icon_state()
-	. = ..()
-	icon_state = "[base_icon_state]-[round(ammo_count(), 4)]"
-
 
 ///Plastikov mags
 
