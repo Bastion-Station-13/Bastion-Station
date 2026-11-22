@@ -668,9 +668,9 @@
 
 /datum/sound_effect/generic_device_drop
 	file_paths = list(
-		'bastionstation/sound/items/generic_device/generic_device_drop1.ogg',
-		'bastionstation/sound/items/generic_device/generic_device_drop2.ogg',
-		'bastionstation/sound/items/generic_device/generic_device_drop3.ogg',
-		'bastionstation/sound/items/generic_device/generic_device_drop4.ogg',
-		'bastionstation/sound/items/generic_device/generic_device_drop5.ogg',
+		'bastionstation/sound/generic_device/generic_device_drop1.ogg',
+		'bastionstation/sound/generic_device/generic_device_drop2.ogg',
+		'bastionstation/sound/generic_device/generic_device_drop3.ogg',
+		'bastionstation/sound/generic_device/generic_device_drop4.ogg',
+		'bastionstation/sound/generic_device/generic_device_drop5.ogg',
 	)
