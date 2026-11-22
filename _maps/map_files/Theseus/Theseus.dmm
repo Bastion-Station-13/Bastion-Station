@@ -2284,12 +2284,6 @@
 /area/station/command/heads_quarters/captain/private)
 "aKv" = (
 /obj/structure/flora/bush/flowers_br,
-/obj/item/reagent_containers/cup/glass/bottle/holywater{
-	volume = 400;
-	list_reagents = list(/datum/reagent/ammonia/urine = 400);
-	name = "strange flask";
-	desc = "A flask of some strange liquid?"
-	},
 /turf/open/floor/grass,
 /area/station/maintenance/department/medical)
 "aKB" = (
