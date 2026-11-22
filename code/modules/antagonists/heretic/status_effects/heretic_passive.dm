@@ -336,6 +336,129 @@
 		heretic.physiology.damage_resistance -= 25
 		REMOVE_TRAIT(heretic, TRAIT_BATON_RESISTANCE, TRAIT_STATUS_EFFECT(id))
 
+<<<<<<< HEAD
+=======
+/datum/status_effect/heretic_passive/flesh/proc/is_physical_projectile(obj/projectile/proj)
+	return proj.armor_flag == BULLET && proj.damage_type == BRUTE && proj.damage > 0
+
+/datum/status_effect/heretic_passive/flesh/proc/on_pre_bullet_act(mob/living/carbon/human/source, obj/projectile/proj, def_zone, piercing_hit, blocked)
+	SIGNAL_HANDLER
+	if(!HAS_TRAIT(source, TRAIT_FAT) || piercing_hit || !is_physical_projectile(proj))
+		return NONE
+	proj.damage *= FLESH_PROJECTILE_DAMAGE_MULT
+	proj.stamina *= FLESH_PROJECTILE_DAMAGE_MULT
+	var/shrapnel_type = proj.shrapnel_type || /obj/item/shrapnel/bullet
+	var/obj/item/payload = new shrapnel_type(get_turf(source))
+	if(istype(payload, /obj/item/shrapnel/bullet))
+		payload.name = proj.name
+	var/datum/embedding/heretic_flesh/flesh_embed = new()
+	flesh_embed.projectile_type = proj.type
+	flesh_embed.hit_angle = proj.angle + proj.projectile_angle
+	flesh_embed.register_on(payload)
+	payload.set_embed(flesh_embed)
+	payload.force_embed(source, source.check_hit_limb_zone_name(def_zone))
+	// hey it would be funny if you get hit by a rocket and it doesn't blow you up
+	return COMPONENT_BULLET_ACTED
+
+// too thick to get a bola around you
+/datum/status_effect/heretic_passive/flesh/proc/on_pre_hitby(mob/living/carbon/human/source, obj/item/restraints/legcuffs/bola/bola, datum/thrownthing/throwingdatum)
+	SIGNAL_HANDLER
+	if(!HAS_TRAIT(source, TRAIT_FAT) || !istype(bola))
+		return NONE
+	var/datum/embedding/heretic_flesh/bola/bola_embed = new()
+	bola_embed.register_on(bola)
+	bola.set_embed(bola_embed)
+	bola.force_embed(source, pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
+	return COMSIG_HIT_PREVENTED
+
+/datum/status_effect/heretic_passive/flesh/proc/on_damage_modifiers(mob/living/carbon/human/source, list/damage_mods, damage_amount, damagetype, def_zone, sharpness, attack_direction, obj/item/attacking_item)
+	SIGNAL_HANDLER
+	if(!HAS_TRAIT(source, TRAIT_FAT) || !istype(attacking_item))
+		return
+	if(attacking_item.get_embed()?.owner == source)
+		damage_mods += FLESH_PROJECTILE_DAMAGE_MULT
+
+/datum/status_effect/heretic_passive/flesh/proc/on_embed_added(mob/living/carbon/source, obj/item/embedded, obj/item/bodypart/limb)
+	SIGNAL_HANDLER
+	add_embed_visual(embedded)
+	source.update_appearance(UPDATE_OVERLAYS)
+	if(!HAS_TRAIT(source, TRAIT_FAT) || LAZYLEN(embed_visuals) < FLESH_EMBED_BURST_THRESHOLD)
+		return
+	addtimer(CALLBACK(src, PROC_REF(expel_embeds)), 0.1 SECONDS, TIMER_UNIQUE)
+
+/datum/status_effect/heretic_passive/flesh/proc/on_embed_removed(mob/living/carbon/source, obj/item/embedded, obj/item/bodypart/limb)
+	SIGNAL_HANDLER
+	LAZYREMOVE(embed_visuals, embedded)
+	source.update_appearance(UPDATE_OVERLAYS)
+
+/datum/status_effect/heretic_passive/flesh/proc/add_embed_visual(obj/item/embedded)
+	if(LAZYACCESS(embed_visuals, embedded))
+		return
+	LAZYSET(embed_visuals, embedded, list(rand(-7, 7), rand(-9, 7), rand(0, 359)))
+
+/datum/status_effect/heretic_passive/flesh/proc/on_update_overlays(atom/source, list/overlays)
+	SIGNAL_HANDLER
+	for(var/obj/item/embedded as anything in embed_visuals)
+		var/list/visual = embed_visuals[embedded]
+		var/overlay_icon = embedded.icon
+		var/overlay_state = embedded.icon_state
+		var/overlay_scale = 0.5
+		var/overlay_angle = visual[3]
+		var/datum/embedding/heretic_flesh/flesh_embed = embedded.get_embed()
+		if(istype(flesh_embed) && flesh_embed.projectile_type)
+			overlay_icon = initial(flesh_embed.projectile_type.icon)
+			overlay_state = initial(flesh_embed.projectile_type.icon_state)
+			overlay_scale = 1 // Projectile sprites are already tiny (usually)
+			overlay_angle = flesh_embed.hit_angle
+		var/mutable_appearance/embed_overlay = mutable_appearance(overlay_icon, overlay_state, -HIGHEST_LAYER)
+		embed_overlay.pixel_w = visual[1]
+		embed_overlay.pixel_z = visual[2]
+		var/matrix/embed_matrix = matrix()
+		embed_matrix.Scale(overlay_scale, overlay_scale)
+		// looks cute if it points at the source
+		embed_matrix.Turn(overlay_angle)
+		embed_overlay.transform = embed_matrix
+		overlays += embed_overlay
+
+/datum/status_effect/heretic_passive/flesh/proc/expel_embeds()
+	var/mob/living/carbon/carbon_owner = owner
+	if(QDELETED(carbon_owner))
+		return
+	var/list/to_expel = LAZYCOPY(embed_visuals)
+	if(!length(to_expel))
+		return
+
+	var/turf/our_turf = get_turf(carbon_owner)
+	carbon_owner.visible_message(
+		span_danger("[carbon_owner]'s flesh convulses and violently spits out everything lodged in it!"),
+		span_hypnophrase("Your flesh heaves and hurls out everything lodged within it!"),
+	)
+	playsound(carbon_owner, 'sound/effects/splat.ogg', 70, TRUE)
+	carbon_owner.add_splatter_floor(our_turf)
+
+	var/angle_step = 360 / length(to_expel)
+	var/current_angle = rand(0, 359)
+	for(var/obj/item/embedded as anything in to_expel)
+		current_angle += angle_step
+		var/datum/embedding/embed_data = embedded.get_embed()
+		if(embed_data?.owner != carbon_owner)
+			continue
+		var/datum/embedding/heretic_flesh/flesh_embed = embed_data
+		var/projectile_type = istype(flesh_embed) ? flesh_embed.projectile_type : null
+		embed_data.remove_embedding()
+		if(projectile_type)
+			if(!QDELETED(embedded))
+				qdel(embedded)
+			var/obj/projectile/expelled = new projectile_type(our_turf)
+			expelled.starting = our_turf
+			expelled.firer = carbon_owner
+			expelled.fired_from = carbon_owner
+			expelled.original = get_turf_in_angle(current_angle, our_turf, 7) || our_turf
+			expelled.fire(current_angle)
+		else if(!QDELETED(embedded) && embedded.loc == our_turf)
+			embedded.throw_at(get_turf_in_angle(current_angle, our_turf, 7), 7, EMBED_THROWSPEED_THRESHOLD, carbon_owner)
+
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 /datum/status_effect/heretic_passive/flesh/on_remove()
 	. = ..()
 	owner.remove_traits(list(TRAIT_VIRUSIMMUNE, TRAIT_SPACE_ANT_IMMUNITY, TRAIT_FAT_IGNORE_SLOWDOWN, TRAIT_VORACIOUS, TRAIT_GLUTTON, TRAIT_BATON_RESISTANCE), TRAIT_STATUS_EFFECT(id))

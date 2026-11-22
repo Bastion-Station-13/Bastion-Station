@@ -577,12 +577,21 @@
 	completion = clamp(completion, 0, 100)
 
 ///update the vertical pixel position of both fish and bait, and the icon state of the completion bar
+<<<<<<< HEAD
 /datum/fishing_challenge/proc/update_visuals()
 	var/bait_offset_mult = bait_position/FISHING_MINIGAME_AREA
 	fishing_hud.hud_bait.pixel_y = round(MINIGAME_SLIDER_HEIGHT * bait_offset_mult, 1)
 	var/fish_offset_mult = fish_position/FISHING_MINIGAME_AREA
 	fishing_hud.hud_fish.pixel_y = round(MINIGAME_SLIDER_HEIGHT * fish_offset_mult, 1)
 	fishing_hud.hud_completion.icon_state = "completion_[FLOOR(completion, 5)]"
+=======
+/datum/fishing_challenge/proc/update_visuals(seconds_per_tick)
+	var/bait_offset_mult = bait_position / FISHING_MINIGAME_AREA
+	animate(fishing_hud.hud_bait, pixel_z = MINIGAME_SLIDER_HEIGHT * bait_offset_mult, time = seconds_per_tick SECONDS)
+	var/fish_offset_mult = fish_position / FISHING_MINIGAME_AREA
+	animate(fishing_hud.hud_fish, pixel_z = MINIGAME_SLIDER_HEIGHT * fish_offset_mult, time = seconds_per_tick SECONDS)
+	fishing_hud.hud_completion.update_state(completion, seconds_per_tick)
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 
 ///The screen object which bait, fish, and completion bar are visually attached to.
 /atom/movable/screen/fishing_hud
@@ -623,6 +632,7 @@
 	. = ..()
 	if(!challenge || challenge.bait_pixel_height == MINIGAME_BAIT_HEIGHT)
 		return
+<<<<<<< HEAD
 	var/static/icon_height
 	if(!icon_height)
 		var/alist/icon_dimensions = get_icon_dimensions(icon)
@@ -630,6 +640,25 @@
 	var/height_percent_diff = challenge.bait_pixel_height/MINIGAME_BAIT_HEIGHT
 	transform = transform.Scale(1, height_percent_diff)
 	pixel_z = -icon_height * (1 - height_percent_diff) * 0.5
+=======
+
+	adjust_to_difficulty(challenge)
+
+/// Resizes the bait to the height set by the difficulty of the minigame
+/atom/movable/screen/hud_bait/proc/adjust_to_difficulty(datum/fishing_challenge/challenge)
+	cur_height = challenge.bait_pixel_height
+	update_icon()
+
+/atom/movable/screen/hud_bait/update_overlays()
+	. = ..()
+	var/mutable_appearance/bait_top = mutable_appearance(icon, "bait_top")
+	bait_top.pixel_z += cur_height - MINIGAME_BAIT_TOP_AND_BOTTOM_HEIGHT
+	. += bait_top
+	for (var/i in 1 to (cur_height - MINIGAME_BAIT_TOP_AND_BOTTOM_HEIGHT))
+		var/mutable_appearance/bait_bar = mutable_appearance(icon, "bait_bar")
+		bait_bar.pixel_z += i
+		. += bait_bar
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 
 /atom/movable/screen/hud_fish
 	icon = 'icons/hud/fishing_hud.dmi'
@@ -665,6 +694,18 @@
 	set_glide_size(source.glide_size)
 	forceMove(source.loc)
 
+<<<<<<< HEAD
+=======
+/obj/effect/fishing_float/update_overlays()
+	. = ..()
+	if(!spin_frequency)
+		return
+	var/mutable_appearance/overlay = mutable_appearance(icon, "lure_light")
+	overlay.color = spin_ready ? COLOR_GREEN : COLOR_RED
+	. += overlay
+	. += emissive_appearance(icon, "lure_light_emissive", src, alpha = src.alpha, effect_type = EMISSIVE_NO_BLOOM)
+
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 #undef WAIT_PHASE
 #undef BITING_PHASE
 #undef MINIGAME_PHASE

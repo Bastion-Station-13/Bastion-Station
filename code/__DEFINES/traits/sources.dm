@@ -368,3 +368,18 @@
 #define NISOFT_TRAIT "nifsoft"
 // Trait sources
 #define GHOSTROLE_TRAIT "ghostrole"
+<<<<<<< HEAD
+=======
+/// Pauses a slime's AI during a split or mutation wind-up
+#define SLIME_WINDUP_TRAIT "slime_windup"
+/// Pauses a slime's AI while it sits in a vacuum pack
+#define VACUUM_STORED_TRAIT "vacuum_stored"
+/// Trait from an engraving
+#define ENGRAVED_TRAIT "engraved"
+
+/// From the aquarium component
+#define AQUARIUM_TRAIT "aquarium"
+
+/// From grabbing someone
+#define GRABBING_TRAIT "grabbing"
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))

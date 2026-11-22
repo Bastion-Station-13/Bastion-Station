@@ -183,6 +183,7 @@
 	else
 		icon_state = initial(icon_state)
 
+<<<<<<< HEAD
 		if(!holomap_datum.bogus)
 			small_station_map = image(SSholomaps.extra_holomaps["[HOLOMAP_EXTRA_STATIONMAPSMALL]_[current_z_level]"], dir = src.dir)
 			add_overlay(small_station_map)
@@ -193,6 +194,41 @@
 		floor_markings.pixel_x = -src.pixel_x
 		floor_markings.pixel_y = -src.pixel_y
 		add_overlay(floor_markings)
+=======
+/obj/machinery/station_map/update_overlays()
+	. = ..()
+	// The little "map" painted on the floor below us
+	var/mutable_appearance/floor_markings = mutable_appearance('monkestation/code/modules/holomaps/icons/stationmap.dmi', "decal_station_map")
+	floor_markings.dir = dir
+	floor_markings.pixel_w = -pixel_x
+	floor_markings.pixel_z = -pixel_y
+	. += floor_markings
+
+	if((machine_stat & (BROKEN | NOPOWER)) || panel_open || !anchored || isnull(minimap))
+		return
+	var/icon/small_map = get_small_map(minimap)
+	var/mutable_appearance/screen_map = mutable_appearance(small_map)
+	screen_map.pixel_w = round((ICON_SIZE_X - small_map.Width()) / 2)
+	screen_map.pixel_z = round((ICON_SIZE_Y - small_map.Height()) / 2)
+	screen_map.color = light_color
+	. += screen_map
+	var/mutable_appearance/screen_glow = emissive_appearance(small_map, "", src)
+	screen_glow.pixel_w = screen_map.pixel_w
+	screen_glow.pixel_z = screen_map.pixel_z
+	. += screen_glow
+
+/// Returns the passed minimap shrunk down to fit our screen, cached per z-level
+/obj/machinery/station_map/proc/get_small_map(datum/minimap/minimap)
+	var/static/alist/small_maps = alist()
+	var/icon/small_map = small_maps[minimap.z]
+	if(small_map)
+		return small_map
+	small_map = icon(minimap.base_map)
+	var/scale = STATION_MAP_SCREEN_SIZE / max(small_map.Width(), small_map.Height())
+	small_map.Scale(max(round(small_map.Width() * scale), 1), max(round(small_map.Height() * scale), 1))
+	small_maps[minimap.z] = small_map
+	return small_map
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 
 /obj/machinery/station_map/screwdriver_act(mob/living/user, obj/item/tool)
 	if(!default_deconstruction_screwdriver(user, "station_map_opened", "station_map_off", tool))

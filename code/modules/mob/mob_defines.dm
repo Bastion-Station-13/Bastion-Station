@@ -9,7 +9,11 @@
 /mob
 	density = TRUE
 	layer = MOB_LAYER
+<<<<<<< HEAD
 	plane = GAME_PLANE_FOV_HIDDEN
+=======
+	flags_1 = NAV_IRRELEVANT_1 //Mobs move too much and are really not relevant for navigation
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 	animate_movement = SLIDE_STEPS
 	hud_possible = list(ANTAG_HUD)
 	pressure_resistance = 8

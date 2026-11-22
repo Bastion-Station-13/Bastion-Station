@@ -41,3 +41,12 @@
 
 /// Checks icon states generated at runtime are valid
 /datum/unit_test/focus_only/runtime_icon_states
+<<<<<<< HEAD
+=======
+
+///Checks primarily that emissives aren't mistakenly not tagged with the meta flag
+/datum/unit_test/focus_only/bodypart_overlay_flags
+
+/// Ensures only whitelisted planes can have TOPDOWN_LAYERing, and vis versa
+/datum/unit_test/focus_only/topdown_filtering
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))

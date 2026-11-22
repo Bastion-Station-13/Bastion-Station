@@ -5,7 +5,12 @@
  * as much as possible to the components/elements system
  */
 /atom
+<<<<<<< HEAD
 	layer = TURF_LAYER
+=======
+	abstract_type = /atom
+	layer = ABOVE_NORMAL_TURF_LAYER
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 	plane = GAME_PLANE
 	appearance_flags = TILE_BOUND|LONG_GLIDE
 
