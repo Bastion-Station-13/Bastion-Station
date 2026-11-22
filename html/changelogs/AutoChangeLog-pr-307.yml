@@ -1,0 +1,4 @@
+author: "HIDgamer"
+delete-after: True
+changes:
+  - rscadd: "Added Import Preferences verb to the OOC tab"
