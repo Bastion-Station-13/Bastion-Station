@@ -17762,6 +17762,9 @@
 /area/centcom/central_command_areas/medical)
 "aWw" = (
 /mob/living/basic/slime,
+/obj/structure/slime_pen_post/premade{
+	dir = 6
+	},
 /turf/open/floor/circuit/red/off,
 /area/centcom/syndicate_mothership/expansion_bioterrorism)
 "aWx" = (
@@ -18634,7 +18637,7 @@
 /area/centcom/central_command_areas/hall)
 "aYY" = (
 /obj/machinery/computer/atmos_control/noreconnect{
-	atmos_chambers = list("nukiebase"="Burn                                Chamber");
+	atmos_chambers = list("nukiebase" = "Burn                                Chamber");
 	desc = "Used to monitor the Syndicate Ordnance Laboratory's burn chamber.";
 	dir = 1;
 	name = "Ordnance Chamber Monitor"
@@ -19050,12 +19053,6 @@
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/adminroom)
-"bbC" = (
-/obj/machinery/corral_corner{
-	mapping_id = "13"
-	},
-/turf/open/floor/circuit/red/off,
-/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "bcU" = (
 /obj/structure/closet/cabinet,
 /obj/item/clothing/mask/hheart,
@@ -19346,15 +19343,6 @@
 	},
 /turf/open/floor/mineral/titanium/purple,
 /area/centcom/central_command_areas/adminroom)
-"bsr" = (
-/obj/machinery/corral_corner{
-	mapping_id = "11"
-	},
-/obj/machinery/corral_corner{
-	mapping_id = "13"
-	},
-/turf/open/floor/circuit/red/off,
-/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "btE" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/grass,
@@ -19680,6 +19668,12 @@
 /obj/vehicle/sealed/mecha/clarke,
 /turf/open/floor/iron/recharge_floor,
 /area/centcom/central_command_areas/adminroom)
+"bTM" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 9
+	},
+/turf/open/floor/circuit/red/off,
+/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "bTX" = (
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/iron/white/small,
@@ -20693,12 +20687,6 @@
 	},
 /turf/open/floor/wood,
 /area/centcom/central_command_areas/adminroom)
-"dpU" = (
-/obj/machinery/corral_corner{
-	mapping_id = "12"
-	},
-/turf/open/floor/circuit/red/off,
-/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "dqh" = (
 /obj/structure/closet/firecloset,
 /turf/open/floor/iron/dark/textured_large,
@@ -23901,16 +23889,6 @@
 	},
 /turf/open/floor/black,
 /area/centcom/central_command_areas/adminroom)
-"hKH" = (
-/obj/machinery/corral_corner{
-	mapping_id = "12"
-	},
-/obj/machinery/slime_pen_controller{
-	mapping_id = "12"
-	},
-/obj/machinery/duct,
-/turf/open/floor/circuit/red/off,
-/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "hLu" = (
 /obj/structure/chair/office/tactical{
 	dir = 8
@@ -24149,7 +24127,6 @@
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/admin)
 "iam" = (
-/obj/machinery/computer/slime_market,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -24455,16 +24432,6 @@
 "iDg" = (
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/ferry)
-"iDN" = (
-/obj/machinery/corral_corner{
-	mapping_id = "13"
-	},
-/obj/machinery/slime_pen_controller{
-	mapping_id = "13"
-	},
-/obj/machinery/duct,
-/turf/open/floor/circuit/red/off,
-/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "iDX" = (
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/centcom/syndicate_mothership/golden_eye)
@@ -26723,6 +26690,12 @@
 /obj/structure/flora/bush/sparsegrass/style_3,
 /turf/open/misc/dirt/jungle/dark/arena,
 /area/centcom/central_command_areas/admin)
+"lYz" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 5
+	},
+/turf/open/floor/circuit/red/off,
+/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "lYR" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/mineral/plastitanium,
@@ -26921,7 +26894,7 @@
 /turf/open/floor/wood/tile,
 /area/centcom/central_command_areas/adminroom)
 "mni" = (
-/obj/machinery/slime_compressor,
+/obj/machinery/extract_compressor,
 /turf/open/floor/engine,
 /area/centcom/syndicate_mothership/expansion_bioterrorism)
 "mqz" = (
@@ -28432,8 +28405,8 @@
 /area/centcom/central_command_areas/adminroom)
 "oLl" = (
 /obj/structure/table/glass/plasmaglass,
-/obj/item/vacuum_pack/backpack,
-/obj/item/disk/vacuum_upgrade/biomass,
+/obj/item/vacuum_pack,
+/obj/item/disk/vacuum_upgrade/printer,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -30686,6 +30659,12 @@
 	},
 /turf/open/floor/iron/dark/herringbone,
 /area/centcom/central_command_areas/evacuation)
+"saW" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 6
+	},
+/turf/open/floor/circuit/red/off,
+/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "sbW" = (
 /obj/machinery/door/poddoor/shutters/indestructible/preopen{
 	dir = 8;
@@ -32235,6 +32214,12 @@
 /obj/item/bait_can/worm/premium,
 /turf/open/misc/dirt/jungle/dark/arena,
 /area/centcom/central_command_areas/admin)
+"uyO" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 10
+	},
+/turf/open/floor/circuit/red/off,
+/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "uyQ" = (
 /obj/structure/railing/wood{
 	dir = 8
@@ -32487,7 +32472,6 @@
 /turf/open/floor/glass/plasma,
 /area/centcom/central_command_areas/evacuation)
 "uTl" = (
-/obj/machinery/slime_market_pad,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -33031,6 +33015,13 @@
 	},
 /turf/closed/indestructible/syndicate,
 /area/centcom/syndicate_mothership/golden_eye)
+"vKp" = (
+/mob/living/basic/slime,
+/obj/structure/slime_pen_post/premade{
+	dir = 9
+	},
+/turf/open/floor/circuit/red/off,
+/area/centcom/syndicate_mothership/expansion_bioterrorism)
 "vKN" = (
 /obj/structure/flora/bush/stalky,
 /turf/open/misc/dirt/station,
@@ -36227,14 +36218,14 @@ pIf
 gvh
 mMH
 arU
-bbC
+amT
 amT
 oZg
-bbC
-dpU
+amT
+amT
 oZg
 amT
-dpU
+amT
 aPL
 aOL
 aaa
@@ -36485,12 +36476,12 @@ aqs
 kCL
 auG
 amT
-aWw
+vKp
+uyO
 amT
 amT
-amT
-amT
-amT
+bTM
+uyO
 amT
 aPL
 aOL
@@ -36742,11 +36733,11 @@ aeO
 qfZ
 auG
 amT
+lYz
+saW
 amT
 amT
-amT
-amT
-amT
+lYz
 aWw
 amT
 aPL
@@ -36998,14 +36989,14 @@ acX
 aeO
 aex
 auG
-bsr
 amT
 amT
-iDN
-hKH
 amT
 amT
-dpU
+amT
+amT
+amT
+amT
 aPL
 aOL
 aaa
