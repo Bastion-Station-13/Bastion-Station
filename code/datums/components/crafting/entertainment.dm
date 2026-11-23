@@ -193,7 +193,7 @@
 
 /datum/crafting_recipe/stacklifter
 	name = "Chest Press"
-	result = /obj/structure/weightmachine/stacklifter
+	result = /obj/structure/weightmachine
 	tool_behaviors = list(TOOL_SCREWDRIVER)
 	reqs = list(
 		/obj/item/stack/sheet/iron = 5,

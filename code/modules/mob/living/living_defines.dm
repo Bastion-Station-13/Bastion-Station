@@ -266,3 +266,15 @@
 	var/datum/component/team_monitor/team_monitor
 	///a reference to a stored /datum/component/tracking_beacon used by victims of antags
 	var/datum/component/tracking_beacon/tracking_beacon
+<<<<<<< HEAD
+=======
+
+	/// Lazylist of martial arts this mob knows
+	/// First element is the current martial art - any other elements are "saved" for if they unlearn the first one
+	/// Reference handling is done by the martial arts themselves
+	var/list/datum/martial_art/martial_arts
+	/// Lazylists of pixel offsets this mob is currently using
+	/// Modify this via add_offsets and remove_offsets,
+	/// NOT directly (and definitely avoid modifying offsets directly)
+	VAR_PRIVATE/list/offsets
+>>>>>>> 7221e5c1d (Athletics, gym rework, martial arts refactor, tg punching and boxing (#12825))
