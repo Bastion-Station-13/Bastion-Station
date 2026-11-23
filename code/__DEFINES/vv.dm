@@ -140,6 +140,17 @@
 #define VV_HK_GIVE_DELUSION_HALLUCINATION "give_hallucination_delusion"
 #define VV_HK_GIVE_GUARDIAN_SPIRIT "give_guardian_spirit"
 
+<<<<<<< HEAD
+=======
+// /mob/living/basic/slime
+#define VV_HK_SLIME_SET_TYPE "slime_set_type"
+#define VV_HK_SLIME_ADD_TRANSFORMATION "slime_add_transformation"
+#define VV_HK_SLIME_SET_LIFE_STAGE "slime_set_life_stage"
+#define VV_HK_SLIME_SET_BEHAVIOR "slime_set_behavior"
+#define VV_HK_SLIME_FILL_GROWTH "slime_fill_growth"
+#define VV_HK_SLIME_FORCE_SPLIT "slime_force_split"
+
+>>>>>>> 25d902c6 ((re)adds gentle, warping, crystalline, and transformative slime crossbreeds (#12922))
 // /mob/living/carbon
 #define VV_HK_MAKE_AI "aiify"
 #define VV_HK_MODIFY_BODYPART "mod_bodypart"
