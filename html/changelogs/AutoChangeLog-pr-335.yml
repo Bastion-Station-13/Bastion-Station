@@ -1,5 +1,0 @@
-author: "HIDgamer"
-delete-after: True
-changes:
-  - qol: "Loadout items are now sorted alphabetically in every category."
-  - rscadd: "Loadout items now get a preview thumbnail icon in the loadout menu."
