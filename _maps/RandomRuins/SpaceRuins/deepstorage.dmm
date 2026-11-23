@@ -1711,7 +1711,7 @@
 /area/ruin/space/has_grav/deepstorage/power)
 "gb" = (
 /obj/machinery/computer/atmos_control/noreconnect{
-	atmos_chambers = list("deepn2"="Nitrogen Supply");
+	atmos_chambers = list("deepn2" = "Nitrogen Supply");
 	dir = 8
 	},
 /turf/open/floor/iron,
@@ -2437,6 +2437,12 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
+"nc" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 6
+	},
+/turf/open/floor/engine,
+/area/ruin/space/has_grav/deepstorage/xenobiology)
 "ne" = (
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage)
@@ -2500,15 +2506,6 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/deepstorage/kitchen)
-"on" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s2"
-	},
-/obj/machinery/slime_pen_controller{
-	mapping_id = "s2"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "or" = (
 /obj/structure/closet/emcloset,
 /obj/effect/turf_decal/bot_white,
@@ -2588,6 +2585,12 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/deepstorage/armory)
+"pF" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 5
+	},
+/turf/open/floor/engine,
+/area/ruin/space/has_grav/deepstorage/xenobiology)
 "pP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -2760,13 +2763,11 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
-"sd" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s4"
+"sf" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 10
 	},
-/obj/machinery/slime_pen_controller{
-	mapping_id = "s4"
-	},
+/obj/effect/mapping_helpers/slime_pen_color/green,
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/deepstorage/xenobiology)
 "sj" = (
@@ -2940,6 +2941,13 @@
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
+"uK" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 10
+	},
+/obj/effect/mapping_helpers/slime_pen_color/purple,
+/turf/open/floor/engine,
+/area/ruin/space/has_grav/deepstorage/xenobiology)
 "uM" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/yellow/hidden{
 	dir = 4
@@ -3111,7 +3119,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 10
 	},
-/obj/machinery/slime_compressor,
+/obj/machinery/extract_compressor,
 /turf/open/floor/iron/white/textured,
 /area/ruin/space/has_grav/deepstorage/xenobiology)
 "xg" = (
@@ -3123,7 +3131,7 @@
 /area/ruin/space/has_grav/deepstorage/hydroponics)
 "xn" = (
 /obj/machinery/computer/atmos_control/noreconnect{
-	atmos_chambers = list("deepo2"="Oxygen Supply");
+	atmos_chambers = list("deepo2" = "Oxygen Supply");
 	dir = 8
 	},
 /turf/open/floor/iron,
@@ -3235,6 +3243,9 @@
 /area/ruin/space/has_grav/deepstorage/dorm)
 "yA" = (
 /mob/living/basic/slime,
+/obj/structure/slime_pen_post/premade{
+	dir = 9
+	},
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/deepstorage/xenobiology)
 "yN" = (
@@ -3299,7 +3310,6 @@
 /turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/deepstorage/storage)
 "Ad" = (
-/obj/machinery/slime_market_pad,
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/white/textured,
 /area/ruin/space/has_grav/deepstorage/xenobiology)
@@ -3483,10 +3493,6 @@
 /obj/item/storage/part_replacer/bluespace/tier4,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/aux_storage)
-"CQ" = (
-/obj/machinery/computer/slime_market,
-/turf/open/floor/iron/white/textured,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "CY" = (
 /obj/structure/cable,
 /obj/effect/spawner/structure/electrified_grille,
@@ -3679,12 +3685,6 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/storage)
-"Fv" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s3"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "FI" = (
 /obj/machinery/growing/tray,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
@@ -4026,12 +4026,6 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage)
-"Nw" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s1"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "NA" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 4
@@ -4171,6 +4165,13 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
+"PL" = (
+/obj/structure/slime_pen_post/premade{
+	dir = 10
+	},
+/obj/effect/mapping_helpers/slime_pen_color/blue,
+/turf/open/floor/engine,
+/area/ruin/space/has_grav/deepstorage/xenobiology)
 "PN" = (
 /obj/machinery/computer/operating{
 	dir = 1
@@ -4367,15 +4368,6 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/aux_storage)
-"RH" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s3"
-	},
-/obj/machinery/slime_pen_controller{
-	mapping_id = "s3"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "RT" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 10
@@ -4385,15 +4377,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/deepstorage/pharmacy)
-"Sp" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s1"
-	},
-/obj/machinery/slime_pen_controller{
-	mapping_id = "s1"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "St" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible{
 	dir = 9
@@ -4418,12 +4401,6 @@
 /obj/structure/sign/warning/secure_area/directional/west,
 /turf/open/misc/asteroid/airless,
 /area/ruin/space)
-"Ta" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s2"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "Tc" = (
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /obj/structure/table/wood,
@@ -4560,12 +4537,6 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/aux_storage)
-"Ve" = (
-/obj/machinery/corral_corner{
-	mapping_id = "s4"
-	},
-/turf/open/floor/engine,
-/area/ruin/space/has_grav/deepstorage/xenobiology)
 "Vu" = (
 /obj/structure/closet/cardboard,
 /obj/item/storage/box/syringes,
@@ -4684,10 +4655,10 @@
 	dir = 10
 	},
 /obj/structure/table/glass,
-/obj/item/vacuum_pack/backpack,
-/obj/item/vacuum_pack/backpack,
-/obj/item/disk/vacuum_upgrade/biomass,
-/obj/item/disk/vacuum_upgrade/biomass,
+/obj/item/vacuum_pack,
+/obj/item/vacuum_pack,
+/obj/item/disk/vacuum_upgrade/printer,
+/obj/item/disk/vacuum_upgrade/printer,
 /turf/open/floor/iron/white/textured,
 /area/ruin/space/has_grav/deepstorage/xenobiology)
 "Zb" = (
@@ -5173,15 +5144,15 @@ aa
 Iy
 ab
 uU
-Fv
 iK
 iK
-Fv
+iK
+iK
 ic
-Ta
 iK
 iK
-Ta
+iK
+iK
 wV
 uU
 KZ
@@ -5227,12 +5198,12 @@ ab
 uU
 Ps
 yA
-iK
+uK
 iK
 tm
 iK
 yA
-iK
+sf
 iK
 Mv
 uU
@@ -5278,13 +5249,13 @@ ab
 ab
 uU
 iK
-iK
-iK
+pF
+nc
 iK
 tm
 iK
-iK
-iK
+pF
+nc
 iK
 Mv
 uU
@@ -5329,15 +5300,15 @@ wQ
 ab
 uU
 uU
-Fv
 iK
 iK
-RH
+iK
+iK
 tm
-Ta
 iK
 iK
-on
+iK
+iK
 qM
 uU
 ZF
@@ -5432,7 +5403,7 @@ ab
 Iy
 ab
 uU
-CQ
+sy
 sy
 KO
 gp
@@ -5641,15 +5612,15 @@ ab
 ab
 uU
 uU
-Ve
 iK
 iK
-sd
+iK
+iK
 tm
-Nw
 iK
 iK
-Sp
+iK
+iK
 Mv
 uU
 aV
@@ -5695,12 +5666,12 @@ ab
 uU
 iK
 yA
-iK
+sf
 iK
 tm
 iK
 yA
-iK
+PL
 iK
 Mv
 uU
@@ -5746,13 +5717,13 @@ ab
 ab
 uU
 Ps
-iK
-iK
+pF
+nc
 iK
 tm
 iK
-iK
-iK
+pF
+nc
 iK
 Mv
 uU
@@ -5797,15 +5768,15 @@ ab
 aa
 ab
 uU
-Ve
 iK
 iK
-Ve
+iK
+iK
 Ot
-Nw
 iK
 iK
-Nw
+iK
+iK
 gs
 uU
 aX
