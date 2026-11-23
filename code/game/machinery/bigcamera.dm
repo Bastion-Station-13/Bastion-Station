@@ -46,7 +46,11 @@
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+<<<<<<< HEAD
 	broadcast_name = tgui_input_text(user = user, title = "Broadcast Name", message = "What will be the name of your broadcast?", default = "[broadcast_name]", max_length = MAX_CHARTER_LEN, encode = FALSE)
+=======
+	broadcast_name = tgui_input_text(user = user, title = "Broadcast Name", message = "What will be the name of your broadcast?", default = html_decode(broadcast_name), max_length = MAX_CHARTER_LEN)
+>>>>>>> 7bb1eca1 (fix a bunch of double html encodes (#13104))
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/machinery/big_broadcast_camera/examine(mob/user)
