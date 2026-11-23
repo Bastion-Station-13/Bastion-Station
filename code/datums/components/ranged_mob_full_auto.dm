@@ -108,7 +108,9 @@
 	if (LAZYACCESS(modifiers, ALT_CLICK))
 		return
 	var/mob/living/living_parent = parent
-	if (!isturf(living_parent.loc) || living_parent.Adjacent(target))
+	if (!isturf(living_parent.loc))
+		return
+	if(living_parent.Adjacent(target) && !(istype(target, /mob) || istype(target, /turf))) //Adjacent clicking.
 		return
 
 	if (isnull(location) || istype(target, /atom/movable/screen)) // Clicking on a screen object.

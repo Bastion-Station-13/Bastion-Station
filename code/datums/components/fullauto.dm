@@ -135,7 +135,7 @@
 		return
 	if(!isturf(source.mob.loc)) //No firing inside lockers and stuff.
 		return
-	if(get_dist(source.mob, _target) < 2) //Adjacent clicking.
+	if(source.mob.Adjacent(_target) && !(istype(_target, /mob) || istype(_target, /turf))) //Adjacent clicking.
 		return
 
 	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
