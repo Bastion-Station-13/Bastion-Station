@@ -215,6 +215,7 @@
 #include "preferences.dm"
 #include "preferences_import.dm"
 #include "projectiles.dm"
+#include "prosthetic_items.dm"
 #include "quirks.dm"
 #include "range_return.dm"
 #include "rcd.dm"
