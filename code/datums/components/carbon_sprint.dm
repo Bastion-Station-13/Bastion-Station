@@ -67,10 +67,14 @@
 		stopSprint()
 
 /datum/component/carbon_sprint/proc/keyDown()
+<<<<<<< HEAD
 	if(key_held)
 		return
 	key_held = TRUE
 	RegisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE, PROC_REF(onMobMove))
+=======
+	RegisterSignal(carbon_parent, COMSIG_MOB_CLIENT_PRE_MOVE, PROC_REF(onMobMove), override = TRUE)
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 
 /datum/component/carbon_sprint/proc/keyUp()
 	key_held = FALSE

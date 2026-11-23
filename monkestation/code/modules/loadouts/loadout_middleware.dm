@@ -96,6 +96,17 @@
 		message_admins("LOADOUT SYSTEM: Possible exploit detected, non-donator [preferences.parent_ckey] tried loading [interacted_item.item_path], but this is ckey locked.")
 		return null
 
+<<<<<<< HEAD
+=======
+	if(interacted_item.requires_purchase && !(interacted_item.item_path in preferences.inventory))
+		message_admins("LOADOUT SYSTEM: Possible exploit detected, [preferences.parent_ckey] has tried loading [interacted_item.item_path], but does not own that item.")
+		return null
+
+	if((interacted_item.admin_only || (interacted_item.mentor_only && !is_mentor(preferences.parent))) && !is_admin(preferences.parent))
+		message_admins("LOADOUT SYSTEM: Possible exploit detected, [preferences.parent_ckey] has tried loading [interacted_item.item_path], but this is staff only.")
+		return null
+
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 	return interacted_item
 
 /datum/preference_middleware/loadout/proc/select_item(list/params, mob/user)

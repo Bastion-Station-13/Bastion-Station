@@ -919,9 +919,17 @@ GAME_VERB_NATIVE(/mob, DisDblClick, ".dblclick", null, argu = null as anything, 
 /mob/proc/swap_hand(held_index)
 	SHOULD_NOT_OVERRIDE(TRUE) // Override perform_hand_swap instead
 
+<<<<<<< HEAD
 	var/obj/item/held_item = get_active_held_item()
 	if(SEND_SIGNAL(src, COMSIG_MOB_SWAPPING_HANDS, held_item) & COMPONENT_BLOCK_SWAP)
 		to_chat(src, span_warning("Your other hand is too busy holding [held_item]."))
+=======
+	if(!length(held_items))
+		return FALSE
+
+	if(!isnum(held_index))
+		stack_trace("You passed [held_index] into swap_hand instead of a number. WTF man")
+>>>>>>> 30eae2c0 (another batch of meownificant~ bugfixes! (#12977))
 		return FALSE
 
 	var/result = perform_hand_swap(held_index)
