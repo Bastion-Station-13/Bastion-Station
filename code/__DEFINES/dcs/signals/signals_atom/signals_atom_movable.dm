@@ -130,3 +130,17 @@
 ///from base of /atom/movable/living/can_track(): (mob/user)
 #define COMSIG_MOVABLE_CAN_TRACK "movable_cantrack"
 	#define COMPONENT_CANT_TRACK (1<<0)
+<<<<<<< HEAD
+=======
+
+///from base of /datum/component/splat/splat: (hit_atom)
+#define COMSIG_MOVABLE_SPLAT "movable_splat"
+///from /atom/movable/proc/throw_impact() after hitby() was called on the hit atom: (atom/hit_atom, datum/thrownthing/throwingdatum, caught)
+#define COMSIG_MOVABLE_POST_IMPACT "movable_post_impact"
+
+/// From /datum/element/immerse/proc/add_immerse_overlay(): (atom/movable/immerse_mask/effect_relay)
+#define COMSIG_MOVABLE_EDIT_UNIQUE_IMMERSE_OVERLAY "movable_edit_unique_submerge_overlay"
+
+/// From base of area/Exited(): (area/left, direction)
+#define COMSIG_MOVABLE_EXITED_AREA "movable_exited_area"
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))

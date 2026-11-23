@@ -12,7 +12,12 @@
 	light_outer_range = 5
 	anchored = TRUE
 	density = FALSE
+<<<<<<< HEAD
 	layer = TURF_LAYER + 0.1
+=======
+	can_astar_pass = CANASTARPASS_ALWAYS_PROC
+	layer = ABOVE_NORMAL_TURF_LAYER
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 	var/item_value_consumed = 0
 	var/current_pit_size = 1 // 1 = 1x1, 2 = 2x2, 3 = 3x3 can go higher
 	var/list/pit_overlays = list()
@@ -348,7 +353,7 @@
 /obj/structure/bingle_pit_overlay
 	name = "bingle pit"
 	icon = 'monkestation/code/modules/veth_misc_items/bingle/icons/binglepit.dmi'
-	layer = TURF_LAYER + 0.5
+	layer = LOW_OBJ_LAYER
 	plane = GAME_PLANE
 	anchored = TRUE
 	density = FALSE

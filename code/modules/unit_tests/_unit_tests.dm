@@ -210,6 +210,7 @@
 #include "pills.dm"
 #include "plane_double_transform.dm"
 #include "plane_dupe_detector.dm"
+#include "plane_sanity.dm"
 #include "plantgrowth_tests.dm"
 #include "preference_species.dm"
 #include "preferences.dm"
@@ -283,7 +284,11 @@
 #include "vendor_boards.dm"
 #include "verify_config_tags.dm"
 #include "verify_emoji_names.dm"
+<<<<<<< HEAD
 #include "voiced_emotes.dm"
+=======
+#include "washing.dm"
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 #include "wizard_loadout.dm"
 #include "worn_icons.dm"
 // END_INCLUDE

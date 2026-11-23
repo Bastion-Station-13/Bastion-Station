@@ -43,6 +43,11 @@
 	var/mask_state = "lava-lightmask"
 	/// The type for the preset fishing spot of this type of turf.
 	var/fish_source_type = /datum/fish_source/lavaland
+<<<<<<< HEAD
+=======
+	/// Whether the immerse element has been added yet or not
+	var/immerse_added = FALSE
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 
 /turf/open/lava/Initialize(mapload)
 	. = ..()
@@ -59,6 +64,22 @@
 		REMOVE_TRAIT(leaving_mob, TRAIT_NO_EXTINGUISH, TURF_TRAIT)
 	return ..()
 
+<<<<<<< HEAD
+=======
+/turf/open/lava/get_nav_cost_flags()
+	. = ..()
+	if(HAS_TRAIT(src, TRAIT_LAVA_STOPPED))
+		. &= ~NAV_COST_LAVA
+
+///We lazily add the immerse element when something is spawned or crosses this turf and not before.
+/turf/open/lava/proc/on_atom_inited(datum/source, atom/movable/movable)
+	SIGNAL_HANDLER
+	if(immerse_added || is_type_in_typecache(movable, GLOB.immerse_ignored_movable))
+		return
+	AddElement(/datum/element/immerse, "immerse", 215)
+	immerse_added = TRUE
+
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 /turf/open/lava/update_overlays()
 	. = ..()
 	. += emissive_appearance(mask_icon, mask_state, src)
@@ -142,6 +163,12 @@
 
 /turf/open/lava/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
+<<<<<<< HEAD
+=======
+	if(!immerse_added && !is_type_in_typecache(arrived, GLOB.immerse_ignored_movable))
+		AddElement(/datum/element/immerse, "immerse", 215)
+		immerse_added = TRUE
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 	if(burn_stuff(arrived))
 		START_PROCESSING(SSobj, src)
 

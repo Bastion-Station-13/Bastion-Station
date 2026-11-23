@@ -532,6 +532,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 // Being close enough to the supermatter makes it heal at higher temperatures
 // and emit less heat. Present on /mob or /datum/mind
 #define TRAIT_SUPERMATTER_SOOTHER "supermatter_soother"
+/// Mob has fov applied to it
+#define TRAIT_FOV_APPLIED "fov_applied"
 /// Mob is using the scope component
 #define TRAIT_USER_SCOPED "user_scoped"
 /// Mob is unable to feel pain
@@ -674,8 +676,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_MAGICALLY_PHASED "magically_phased"
 /// Whether or not the user is in a MODlink call, prevents making more calls
 #define TRAIT_IN_CALL "in_call"
-/// Is the mob standing on an elevated surface? This prevents them from dropping down if not elevated first.
-#define TRAIT_ON_ELEVATED_SURFACE "on_elevated_surface"
+/// Is the mob currently elevated? (eg standing on a table)
+#define TRAIT_MOB_ELEVATED "mob_elevated"
 /// Does the mob ignore elevation? (e.g. xeno larvas on hiding)
 #define TRAIT_IGNORE_ELEVATION "ignore_elevation"
 /// Makes the user handcuff others faster
@@ -777,6 +779,13 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 ///Lava will be safe to cross while it has this trait.
 #define TRAIT_LAVA_STOPPED "lava_stopped"
+<<<<<<< HEAD
+=======
+///The effects of the immerse element will be halted while this trait is present.
+#define TRAIT_IMMERSE_STOPPED "immerse_stopped"
+/// If this movable is currently treading in a turf with the immerse element.
+#define TRAIT_IMMERSED "immersed"
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 ///Chasms will be safe to cross while they've this trait.
 #define TRAIT_CHASM_STOPPED "chasm_stopped"
 ///Chasms will be safe to cross if there is something with this trait on it
@@ -1422,5 +1431,16 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 ///A trait given to users as a mutex to prevent repeated unresolved attempts to christen a shuttle
 #define TRAIT_ATTEMPTING_CHRISTENING "attempting_christening"
+
+/// Apply to movables to say "hey, this movable is technically flat on the floor, so it'd be mopped up by a mop"
+#define TRAIT_MOPABLE "mopable"
+
+/// Trait that signals to objects on this turf that its open (has UNDERFLOOR_INTERACTIBLE) but still covers them
+#define TRAIT_UNCOVERED_TURF "uncovered_turf"
+
+/// Apply this trait to mobs which can "buckle" to humans
+#define TRAIT_CAN_MOUNT_HUMANS "can_mount_humans"
+/// Apply this trait to mobs which can "buckle" to cyborgs
+#define TRAIT_CAN_MOUNT_CYBORGS "can_mount_cyborgs"
 
 

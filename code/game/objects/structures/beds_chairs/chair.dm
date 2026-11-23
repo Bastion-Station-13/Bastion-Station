@@ -72,7 +72,7 @@
 	if(!user.temporarilyRemoveItemFromInventory(input_shock_kit))
 		return
 	if(!overlays_from_child_procs || overlays_from_child_procs.len == 0)
-		var/image/echair_over_overlay = image('icons/obj/chairs.dmi', loc, "echair_over")
+		var/image/echair_over_overlay = image('icons/obj/chairs.dmi', loc, "echair_over", OBJ_LAYER)
 		AddComponent(/datum/component/electrified_buckle, (SHOCK_REQUIREMENT_ITEM | SHOCK_REQUIREMENT_LIVE_CABLE | SHOCK_REQUIREMENT_SIGNAL_RECEIVED_TOGGLE), input_shock_kit, list(echair_over_overlay), FALSE)
 	else
 		AddComponent(/datum/component/electrified_buckle, (SHOCK_REQUIREMENT_ITEM | SHOCK_REQUIREMENT_LIVE_CABLE | SHOCK_REQUIREMENT_SIGNAL_RECEIVED_TOGGLE), input_shock_kit, overlays_from_child_procs, FALSE)
@@ -109,10 +109,8 @@
 /obj/structure/chair/proc/handle_layer()
 	if(has_buckled_mobs() && dir == NORTH)
 		layer = ABOVE_MOB_LAYER
-		SET_PLANE_IMPLICIT(src, GAME_PLANE_UPPER_FOV_HIDDEN)
 	else
 		layer = OBJ_LAYER
-		SET_PLANE_IMPLICIT(src, GAME_PLANE)
 
 /obj/structure/chair/post_buckle_mob(mob/living/M)
 	. = ..()
@@ -179,7 +177,6 @@
 /obj/structure/chair/comfy/proc/gen_armrest()
 	armrest = GetArmrest()
 	armrest.layer = ABOVE_MOB_LAYER
-	SET_PLANE_EXPLICIT(armrest, GAME_PLANE_UPPER, src)
 	update_armrest()
 
 /obj/structure/chair/comfy/proc/GetArmrest()
@@ -226,7 +223,7 @@
 
 /obj/structure/chair/comfy/shuttle/electrify_self(obj/item/assembly/shock_kit/input_shock_kit, mob/user, list/overlays_from_child_procs)
 	if(!overlays_from_child_procs)
-		overlays_from_child_procs = list(image('icons/obj/chairs.dmi', loc, "echair_over", pixel_x = -1))
+		overlays_from_child_procs = list(image('icons/obj/chairs.dmi', loc, "echair_over", pixel_x = -1, layer = OBJ_LAYER))
 	. = ..()
 
 /obj/structure/chair/comfy/shuttle/tactical
@@ -252,7 +249,7 @@
 
 /obj/structure/chair/office/electrify_self(obj/item/assembly/shock_kit/input_shock_kit, mob/user, list/overlays_from_child_procs)
 	if(!overlays_from_child_procs)
-		overlays_from_child_procs = list(image('icons/obj/chairs.dmi', loc, "echair_over", pixel_x = -1))
+		overlays_from_child_procs = list(image('icons/obj/chairs.dmi', loc, "echair_over", pixel_x = -1, layer = OBJ_LAYER))
 	. = ..()
 
 /obj/structure/chair/office/tactical
@@ -301,10 +298,10 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool, 0)
 	can_buckle = TRUE
 
 /obj/structure/chair/stool/bar/post_buckle_mob(mob/living/M)
-	M.pixel_y += 4
+	M.add_offsets(type, z_add = 4)
 
 /obj/structure/chair/stool/bar/post_unbuckle_mob(mob/living/M)
-	M.pixel_y -= 4
+	M.remove_offsets(type)
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 
@@ -506,11 +503,10 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	alpha = 0
 
 /obj/structure/chair/mime/post_buckle_mob(mob/living/M)
-	M.pixel_y += 5
+	M.add_offsets(type, z_add = 5)
 
 /obj/structure/chair/mime/post_unbuckle_mob(mob/living/M)
-	M.pixel_y -= 5
-
+	M.remove_offsets(type)
 
 /obj/structure/chair/plastic
 	icon_state = "plastic_chair"
@@ -524,13 +520,13 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	item_chair = /obj/item/chair/plastic
 
 /obj/structure/chair/plastic/post_buckle_mob(mob/living/Mob)
-	Mob.pixel_y += 2
-	.=..()
+	Mob.add_offsets(type, z_add = 2)
+	. = ..()
 	if(iscarbon(Mob))
 		INVOKE_ASYNC(src, PROC_REF(snap_check), Mob)
 
 /obj/structure/chair/plastic/post_unbuckle_mob(mob/living/Mob)
-	Mob.pixel_y -= 2
+	Mob.remove_offsets(type)
 
 /obj/structure/chair/plastic/proc/snap_check(mob/living/carbon/Mob)
 	if (Mob.nutrition >= NUTRITION_LEVEL_FAT)

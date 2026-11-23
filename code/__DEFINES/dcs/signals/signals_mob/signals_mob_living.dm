@@ -268,3 +268,20 @@
 
 /// Sent when the [/datum/status_effect/silver_bullet] status effect is applied or refresh.
 #define COMSIG_LIVING_BLOODSILVER_HIT "living_bloodsilver_hit"
+<<<<<<< HEAD
+=======
+
+///From mob/living/carbon/proc/throw_mode_on and throw_mode_off
+#define COMSIG_LIVING_THROW_MODE_TOGGLE "living_throw_mode_toggle"
+///From /datum/component/happiness()
+#define COMSIG_MOB_HAPPINESS_CHANGE "happiness_change"
+
+/// From /datum/component/edible/get_perceived_food_quality(): (datum/component/edible/edible, list/extra_quality)
+#define COMSIG_LIVING_GET_PERCEIVED_FOOD_QUALITY "get_perceived_food_quality"
+
+/// From /obj/machinery/gibber/startgibbing(): (mob/living/user, /obj/machinery/gibber, list/results)
+#define COMSIG_LIVING_GIBBER_ACT "living_gibber_act"
+
+/// From /mob/living/update_offsets(animate) : (new_x, new_y, new_w, new_z, animate)
+#define COMSIG_LIVING_UPDATE_OFFSETS "living_update_offsets"
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))

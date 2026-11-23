@@ -269,6 +269,14 @@
 	SIGNAL_HANDLER
 	refresh_gravity()
 
+<<<<<<< HEAD
+=======
+/mob/living/proc/edit_immerse_overlay(datum/source, atom/movable/immerse_mask/effect_relay)
+	SIGNAL_HANDLER
+	effect_relay.transform = effect_relay.transform.Scale(1 / current_size)
+	effect_relay.transform = effect_relay.transform.Turn(-lying_angle)
+
+>>>>>>> aa805132 (plane master catch-up: side map, flat floors, sourced mob offsets, additive flashlights, emissive bloom, fov blur (#13059))
 /// Called when [TRAIT_UNDENSE] is gained or lost
 /mob/living/proc/undense_changed(datum/source)
 	SIGNAL_HANDLER
