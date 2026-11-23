@@ -85,6 +85,13 @@
 			return ITEM_INTERACT_BLOCKING
 
 	target_holosign = create_holosign(interacting_with, user)
+<<<<<<< HEAD
+=======
+	signs.Add(target_holosign)
+	var/obj/structure/holosign/new_sign = target_holosign
+	if(istype(new_sign))
+		new_sign.projector = src
+>>>>>>> 215dfad8 (Fixes holo projectors losing track of their holograms (#13111))
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/holosign_creator/interact_with_atom_secondary(atom/interacting_with, mob/living/user, list/modifiers)
