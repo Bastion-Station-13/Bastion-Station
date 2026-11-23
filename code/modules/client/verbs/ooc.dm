@@ -464,5 +464,11 @@ GAME_VERB_PROC_DESC(/client, export_preferences, "Export Preferences", "Export y
 
 	prefs.savefile.export_json_to_client(usr, ckey)
 
+GAME_VERB_PROC_DESC(/client, import_preferences, "Import Preferences", "Import your preferences from a file you exported.", "OOC")
+
+	ASSERT(prefs, "User attempted to import preferences while preferences were null!")
+
+	prefs.start_preferences_import(usr)
+
 GAME_VERB_DESC(/client, map_vote_tally_count, "Show Map Vote Tallies", "View the current map vote tally counts.", "OOC")
 	to_chat(mob, SSmap_vote.tally_printout)
