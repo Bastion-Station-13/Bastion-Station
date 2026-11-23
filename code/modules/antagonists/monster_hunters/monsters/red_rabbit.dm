@@ -13,6 +13,11 @@
 	attack_sound = 'sound/effects/magic/demon_attack1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	speak_emote = list("roars")
+<<<<<<< HEAD
+=======
+	mob_size = MOB_SIZE_HUGE
+	mob_biotypes = MOB_ORGANIC | MOB_BEAST | MOB_SPECIAL
+>>>>>>> 7221e5c1d (Athletics, gym rework, martial arts refactor, tg punching and boxing (#12825))
 
 	armour_penetration = 40
 	melee_damage_upper = 40

@@ -268,3 +268,24 @@
 
 /// Sent when the [/datum/status_effect/silver_bullet] status effect is applied or refresh.
 #define COMSIG_LIVING_BLOODSILVER_HIT "living_bloodsilver_hit"
+<<<<<<< HEAD
+=======
+
+///From mob/living/carbon/proc/throw_mode_on and throw_mode_off
+#define COMSIG_LIVING_THROW_MODE_TOGGLE "living_throw_mode_toggle"
+///From /datum/component/happiness()
+#define COMSIG_MOB_HAPPINESS_CHANGE "happiness_change"
+
+/// From /datum/component/edible/get_perceived_food_quality(): (datum/component/edible/edible, list/extra_quality)
+#define COMSIG_LIVING_GET_PERCEIVED_FOOD_QUALITY "get_perceived_food_quality"
+
+/// From /obj/machinery/gibber/startgibbing(): (mob/living/user, /obj/machinery/gibber, list/results)
+#define COMSIG_LIVING_GIBBER_ACT "living_gibber_act"
+
+/// When a living mob is table slamming another mob: (mob/living/slammed, obj/structure/table/slammed_table)
+#define COMSIG_LIVING_TABLE_SLAMMING "living_table_slamming"
+/// When a living mob is table slamming another mob, neck grab (so a limb slam): (mob/living/slammed, obj/structure/table/slammed_table)
+#define COMSIG_LIVING_TABLE_LIMB_SLAMMING "living_table_limb_slamming"
+/// From /mob/living/update_offsets(animate) : (new_x, new_y, new_w, new_z, animate)
+#define COMSIG_LIVING_UPDATE_OFFSETS "living_update_offsets"
+>>>>>>> 7221e5c1d (Athletics, gym rework, martial arts refactor, tg punching and boxing (#12825))

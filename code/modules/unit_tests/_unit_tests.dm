@@ -181,6 +181,11 @@
 #include "machinery_zero_integrity.dm"
 #include "mapload_space_verification.dm"
 #include "mapping.dm"
+<<<<<<< HEAD
+=======
+#include "mapping_nearstation_test.dm"
+#include "martial_arts.dm"
+>>>>>>> 7221e5c1d (Athletics, gym rework, martial arts refactor, tg punching and boxing (#12825))
 #include "mecha_damage.dm"
 #include "medical_wounds.dm"
 #include "merge_type.dm"
@@ -258,6 +263,7 @@
 #include "spell_timestop.dm"
 #include "spritesheets.dm"
 #include "stack_singular_name.dm"
+#include "stamina.dm"
 #include "station_trait_tests.dm"
 #include "status_effect_validity.dm"
 #include "stomach.dm"
