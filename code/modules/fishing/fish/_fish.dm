@@ -2,8 +2,14 @@
 /obj/item/fish
 	name = "generic looking aquarium fish"
 	desc = "very bland"
+<<<<<<< HEAD
 	icon = 'icons/obj/aquarium.dmi'
 	icon_state = "bugfish"
+=======
+	abstract_type = /obj/item/fish
+	icon = 'icons/obj/aquarium/fish.dmi'
+	icon_angle = 180
+>>>>>>> 00a6e218 (ports tg's better attack animations (#13135))
 	lefthand_file = 'icons/mob/inhands/fish_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/fish_righthand.dmi'
 	inhand_icon_state = "fish_normal"
