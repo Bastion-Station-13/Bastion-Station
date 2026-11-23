@@ -3030,6 +3030,7 @@
 		exposed_mob.AddElement(/datum/element/squish, reac_volume * 5 SECONDS)
 		exposed_mob.visible_message(span_warning("[exposed_mob] is violently compacted for no apparent reason!"), span_warning("Your flesh and bone suddenly collapse inwards, scrunching you flat!"))
 
+<<<<<<< HEAD
 /datum/reagent/the_law
 	name = "Law Concentrate"
 	description = "Pure concentrate of various laws, glossaries, addendums, and other sleep-inducing stuff Lawyers unironically read."
@@ -3049,3 +3050,15 @@
 		liver.add_traits(list(TRAIT_LAW_ENFORCEMENT_METABOLISM), SPACE_LAW_TRAIT)
 		to_chat(affected_mob, span_notice("You feel extreme hunger for justice and donuts..."))
 		return
+=======
+//Literally stops pain. Thats it.
+/datum/reagent/medex
+	name = "Med-x"
+	description = "Sweet release from the pain."
+	reagent_state = LIQUID
+	color = "#78dee6"
+	metabolization_rate = 0.25 * REAGENTS_METABOLISM
+	ph = 1
+	chemical_flags = REAGENT_NO_RANDOM_RECIPE | REAGENT_IGNORE_STASIS | REAGENT_DONOTSPLIT
+	metabolized_traits = list(TRAIT_ANALGESIA)
+>>>>>>> 42b9a83d (Just cram it all in one PR: Bugs, Improvements and Larp. (#13076))

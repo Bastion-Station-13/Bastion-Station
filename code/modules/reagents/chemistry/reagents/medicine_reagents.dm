@@ -75,6 +75,43 @@
 	taste_description = "science"
 	full_heal_flags = ~(HEAL_ADMIN|HEAL_BRUTE|HEAL_BURN|HEAL_TOX|HEAL_RESTRAINTS|HEAL_ALL_REAGENTS|HEAL_REFRESH_ORGANS)
 
+<<<<<<< HEAD
+=======
+///Datum used in /obj/item/reagent_containers/medipen/ancient
+/datum/reagent/medicine/lonehope
+	name = "Lone Hope"
+	description = "Who knows what this is...seems able to heal anyone..."
+	reagent_state = LIQUID
+	color = "#DCDCDC"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	var/healing = 1.25
+	ph = 1
+	chemical_flags = REAGENT_NO_RANDOM_RECIPE|REAGENT_DEAD_PROCESS|REAGENT_IGNORE_STASIS|REAGENT_DONOTSPLIT
+
+/datum/reagent/medicine/lonehope/proc/dohealing(mob/living/carbon/affected_mob,seconds_per_tick)
+	var/healed = healing * REM * seconds_per_tick
+	affected_mob.adjustToxLoss(-healed, FALSE, TRUE, ALL)
+	affected_mob.adjustOxyLoss(-2*healed, FALSE, TRUE, ALL, required_respiration_type = affected_respiration_type)
+	affected_mob.adjustBruteLoss(-healed, FALSE, TRUE, ALL)
+	affected_mob.adjustFireLoss(-healed, FALSE, TRUE, ALL)
+	affected_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healed)
+	affected_mob.adjustOrganLoss(ORGAN_SLOT_HEART, -healed)
+	affected_mob.adjustOrganLoss(ORGAN_SLOT_EARS, -healed)
+	affected_mob.adjustOrganLoss(ORGAN_SLOT_EYES, -healed)
+	affected_mob.adjustOrganLoss(ORGAN_SLOT_LIVER, -healed)
+	affected_mob.adjustOrganLoss(ORGAN_SLOT_LUNGS, -healed)
+	if(affected_mob.blood_volume < BLOOD_VOLUME_NORMAL - (4*healed))
+		affected_mob.blood_volume += (4*healed)
+/datum/reagent/medicine/lonehope/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
+	dohealing(affected_mob,seconds_per_tick)
+	..()
+	. = TRUE
+/datum/reagent/medicine/lonehope/on_mob_dead(mob/living/carbon/affected_mob, seconds_per_tick)
+	dohealing(affected_mob,seconds_per_tick)
+	..()
+	. = TRUE
+
+>>>>>>> 42b9a83d (Just cram it all in one PR: Bugs, Improvements and Larp. (#13076))
 /datum/reagent/medicine/synaptizine
 	name = "Synaptizine"
 	description = "Increases resistance to stuns as well as reducing drowsiness and hallucinations."

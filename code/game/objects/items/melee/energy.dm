@@ -168,6 +168,66 @@
 	user.visible_message(span_suicide("[user] swings [src] towards [user.p_their()] head! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return (BRUTELOSS|FIRELOSS)
 
+<<<<<<< HEAD
+=======
+///Lone wander jaunt axe, used in /datum/outfit/myststranger
+/obj/item/melee/energy/axe/prot_inv_axe
+	name = "experimental protonic inversal axe"
+	///Fallout NV OWB refrence FTW.
+	desc = "Yes, because the intellectually challenged see an M and a T next to each other and take Occam's razor to it!"
+	desc_controls = "Right-Click to dash. Activate in hand to turn on."
+	var/datum/effect_system/spark_spread/spark_system
+	var/datum/action/innate/dash/prot_inv_axe/jaunt
+	force = 5
+	throwforce = 1
+	throw_speed = 3
+	throw_range = 7
+	armour_penetration = 40
+	active_force = 35
+	active_throwforce = 70
+
+/obj/item/melee/energy/axe/prot_inv_axe/Initialize(mapload)
+	. = ..()
+	jaunt = new(src)
+	spark_system = new /datum/effect_system/spark_spread()
+	spark_system.set_up(5, 0, src)
+	spark_system.attach(src)
+
+/obj/item/melee/energy/axe/prot_inv_axe/ranged_interact_with_atom_secondary(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!interacting_with.density)
+		jaunt?.teleport(user, interacting_with)
+		return ITEM_INTERACT_SUCCESS
+	return NONE
+
+/obj/item/melee/energy/axe/prot_inv_axe/equipped(mob/user, slot, initial)
+	. = ..()
+	if(!QDELETED(jaunt))
+		jaunt.Grant(user, src)
+
+/obj/item/melee/energy/axe/prot_inv_axe/dropped(mob/user)
+	. = ..()
+	if(!QDELETED(jaunt))
+		jaunt.Remove(user)
+
+/obj/item/melee/energy/axe/prot_inv_axe/Destroy()
+	QDEL_NULL(spark_system)
+	QDEL_NULL(jaunt)
+	return ..()
+
+/datum/action/innate/dash/prot_inv_axe
+	current_charges = 5
+	max_charges = 5
+	charge_rate = 400
+	beam_length = 0.5 SECONDS
+	recharge_sound = null
+
+/datum/action/innate/dash/prot_inv_axe/GiveAction(mob/viewer)
+	return
+
+/datum/action/innate/dash/prot_inv_axe/HideFrom(mob/viewer)
+	return
+
+>>>>>>> 42b9a83d (Just cram it all in one PR: Bugs, Improvements and Larp. (#13076))
 /// Energy swords.
 /datum/embedding/esword
 	embed_chance = 75
