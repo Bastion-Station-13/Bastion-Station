@@ -91,5 +91,27 @@ GLOBAL_LIST_EMPTY(roundstart_station_borgcharger_areas)
 /// List of area names of roundstart station mech rechargers, for the low charge/no charge mech screen alert tooltips.
 GLOBAL_LIST_EMPTY(roundstart_station_mechcharger_areas)
 
+<<<<<<< HEAD
 /// Associative list of alcoholic container typepath to instances, currently used by the alcoholic quirk
 GLOBAL_LIST_INIT(alcohol_containers, init_alcohol_containers())
+=======
+// List of organ typepaths that are not unit test-able, and shouldn't be spawned by some things, such as certain class prototypes.
+GLOBAL_LIST_INIT(prototype_organs, typecacheof(list(
+	/obj/item/organ,
+	/obj/item/organ/internal,
+	/obj/item/organ/external,
+	/obj/item/organ/external/wings,
+	/obj/item/organ/external/wings/functional,
+	/obj/item/organ/internal/cyberimp,
+	/obj/item/organ/internal/cyberimp/brain,
+	/obj/item/organ/internal/cyberimp/mouth,
+	/obj/item/organ/internal/cyberimp/arm,
+	/obj/item/organ/internal/cyberimp/chest,
+	/obj/item/organ/internal/cyberimp/eyes,
+	/obj/item/organ/internal/alien,
+	/obj/item/organ/internal/brain/dullahan,
+	/obj/item/organ/internal/ears/dullahan,
+	/obj/item/organ/internal/tongue/dullahan,
+	/obj/item/organ/internal/eyes/dullahan,
+), only_root_path = TRUE))
+>>>>>>> 255921e92 ([PORT] Quirkification and personalities (#12963))
