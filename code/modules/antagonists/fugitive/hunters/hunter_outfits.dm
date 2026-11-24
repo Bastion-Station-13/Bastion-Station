@@ -2,17 +2,23 @@
 	name = "Spacepol Officer"
 	uniform = /obj/item/clothing/under/rank/security/officer/spacepol
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
-	belt = /obj/item/gun/ballistic/automatic/pistol/m1911
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/m1911
+	belt = /obj/item/storage/belt/security //elective storage (shuttle has some bonus supplies)
 	head = /obj/item/clothing/head/hats/warden/spacepol
 	gloves = /obj/item/clothing/gloves/tackler/combat
 	shoes = /obj/item/clothing/shoes/jackboots
 	mask = /obj/item/clothing/mask/gas/sechailer/swat/spacepol
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset
-	l_pocket = /obj/item/ammo_box/magazine/m45
+	l_pocket = /obj/item/tank/internals/emergency_oxygen/double
 	r_pocket = /obj/item/restraints/handcuffs
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/spacepol
+	back = /obj/item/storage/backpack/security/private/spacepol
+	backpack_contents = list(
+		/obj/item/ammo_box/magazine/m45 = 3
+		)
+
 
 /datum/outfit/spacepol/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
@@ -70,7 +76,7 @@
 
 	if(istype(equip_to.wear_id, /obj/item/card/id))
 		var/obj/item/card/id/equipped_card = equip_to.wear_id
-		equipped_card.assignment = "Russian Bounty Hunter"
+		equipped_card.assignment = "Freighter Crew"
 		equipped_card.registered_name = equip_to.real_name
 		equipped_card.access = list(ACCESS_BOUNTY_HUNTER)
 		equipped_card.update_label()
@@ -92,7 +98,7 @@
 /datum/outfit/bountyarmor
 	name = "Bounty Hunter - Armored"
 	uniform = /obj/item/clothing/under/rank/prisoner
-	back = /obj/item/storage/backpack
+	back = /obj/item/storage/backpack/satchel
 	head = /obj/item/clothing/head/cowboy
 	suit = /obj/item/clothing/suit/space/hunter
 	belt = /obj/item/gun/ballistic/automatic/pistol/fire_mag
