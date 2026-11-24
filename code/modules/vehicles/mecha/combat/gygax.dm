@@ -1,7 +1,6 @@
 /obj/vehicle/sealed/mecha/gygax
 	desc = "A lightweight, security exosuit. Popular among private and corporate security."
 	name = "\improper Gygax"
-	icon = 'icons/mob/rideables/mecha.dmi'
 	icon_state = "gygax"
 	base_icon_state = "gygax"
 	movedelay = 3
@@ -24,6 +23,8 @@
 	)
 	step_energy_drain = 4
 	can_use_overclock = TRUE
+	overclock_safety_available = TRUE
+	overclock_safety = TRUE
 
 /datum/armor/mecha_gygax
 	melee = 25
@@ -34,7 +35,7 @@
 	acid = 100
 
 /obj/vehicle/sealed/mecha/gygax/dark
-	desc = "A lightweight security exosuit, repainted in the colours of the Syndicate. Optimised for hit and run attacks and is more durable than the civilian model."
+	desc = "A lightweight exosuit, painted in a dark scheme. This model's armor has been upgraded with a cutting-edge armor composite, resulting in greater protection and performance at the cost of modularity."
 	name = "\improper Dark Gygax"
 	ui_theme = "syndicate"
 	icon_state = "darkgygax"
@@ -47,27 +48,27 @@
 	force = 30
 	accesses = list(ACCESS_SYNDICATE)
 	wreckage = /obj/structure/mecha_wreckage/gygax/dark
-	mecha_flags = ID_LOCK_ON | CANSTRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE
+	mecha_flags = ID_LOCK_ON | CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | AI_COMPATIBLE
 	max_equip_by_category = list(
 		MECHA_L_ARM = 1,
 		MECHA_R_ARM = 1,
 		MECHA_UTILITY = 4,
 		MECHA_POWER = 1,
-		MECHA_ARMOR = 3,
+		MECHA_ARMOR = 1,
 	)
 	equip_by_category = list(
 		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot,
 		MECHA_R_ARM = null,
 		MECHA_UTILITY = list(/obj/item/mecha_parts/mecha_equipment/radio, /obj/item/mecha_parts/mecha_equipment/air_tank/full, /obj/item/mecha_parts/mecha_equipment/thrusters/ion),
 		MECHA_POWER = list(),
-		MECHA_ARMOR = list(/obj/item/mecha_parts/mecha_equipment/armor/anticcw_armor_booster, /obj/item/mecha_parts/mecha_equipment/armor/antiproj_armor_booster),
+		MECHA_ARMOR = list(/obj/item/mecha_parts/mecha_equipment/armor/antiemp_armor_booster/clandestine),
 	)
 	destruction_sleep_duration = 20
 
 /datum/armor/gygax_dark
-	melee = 40
-	bullet = 40
-	laser = 50
+	melee = 70
+	bullet = 50
+	laser = 55
 	energy = 35
 	bomb = 20
 	fire = 100

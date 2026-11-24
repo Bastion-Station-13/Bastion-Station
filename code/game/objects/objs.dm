@@ -372,3 +372,13 @@ GLOBAL_LIST_EMPTY(objects_by_id_tag)
 	if(HAS_TRAIT(target, TRAIT_INVERTED_DEMOLITION))
 		return (1 / demolition_mod)
 	return demolition_mod
+
+/obj/proc/mech_shock(mob/living/shocking, chance = 100, shock_source, siemens_coeff = 1)
+	SHOULD_CALL_PARENT(TRUE)
+	if(!isliving(shocking))
+		return FALSE
+	if(!prob(chance))
+		return FALSE // you lucked out, no shock for you
+
+	do_sparks(5, TRUE, src)
+	return electrocute_mob(shocking, shock_source || get_cell() || get_area(src), src, siemens_coeff, TRUE)

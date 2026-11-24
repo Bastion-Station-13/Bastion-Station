@@ -19,6 +19,8 @@ export type MainData = {
   mechflag_keys: Record<string, number>;
 
   can_use_overclock: boolean;
+  overclock_safety_available: boolean;
+  overclock_safety: boolean;
   overclock_mode: boolean;
   overclock_temp_percentage: number;
 
@@ -50,6 +52,7 @@ export type MainData = {
   modules: MechModule[];
   selected_module_index: number;
   sheet_material_amount: number;
+  diagnostic_status: boolean;
 };
 
 export type MechModule = {

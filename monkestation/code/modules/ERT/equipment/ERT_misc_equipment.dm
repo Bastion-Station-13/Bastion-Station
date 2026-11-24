@@ -305,14 +305,14 @@
 	max_equip_by_category = list(
 		MECHA_L_ARM = 1,
 		MECHA_R_ARM = 1,
-		MECHA_UTILITY = 3,
+		MECHA_UTILITY = 4,
 		MECHA_POWER = 2,
 		MECHA_ARMOR = 3,
 	)
 	equip_by_category = list(
 		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/kill/elite,
-		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/drill/diamonddrill/admantium,
-		MECHA_UTILITY = list(/obj/item/mecha_parts/mecha_equipment/ejector, /obj/item/mecha_parts/mecha_equipment/thrusters/ion),
+		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/kill/elite,
+		MECHA_UTILITY = list(/obj/item/mecha_parts/mecha_equipment/ejector, /obj/item/mecha_parts/mecha_equipment/thrusters/ion, /obj/item/mecha_parts/mecha_equipment/drill/diamonddrill/admantium),
 		MECHA_POWER = list(),
 		MECHA_ARMOR = list(/obj/item/mecha_parts/mecha_equipment/armor/antiproj_armor_booster, /obj/item/mecha_parts/mecha_equipment/armor/anticcw_armor_booster),
 	)
@@ -328,5 +328,5 @@
 	name = "adamantine-tipped exosuit drill"
 	desc = "Equipment for combat exosuits. This is an upgraded version of the drill that'll pierce the universe itself!"
 	icon_state = "mecha_diamond_drill"
-	drill_delay = 2
+	drill_delay = 1 SECONDS
 	force = 60

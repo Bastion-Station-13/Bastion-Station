@@ -1,11 +1,13 @@
 /obj/vehicle/sealed/mecha/ripley
 	desc = "Autonomous Power Loader Unit MK-I. Designed primarily around heavy lifting, the Ripley can be outfitted with utility equipment to fill a number of roles."
 	name = "\improper APLU MK-I \"Ripley\""
+	icon = 'icons/mecha/mecha.dmi'
 	icon_state = "ripley"
 	base_icon_state = "ripley"
 	silicon_icon_state = "ripley-empty"
 	movedelay = 1.5 //Move speed, lower is faster.
 	encumbrance_gap = 1.6
+	overclock_coeff = 1.25
 	max_temperature = 20000
 	max_integrity = 200
 	lights_power = 7
@@ -17,10 +19,10 @@
 		MECHA_POWER = 1,
 		MECHA_ARMOR = 1,
 	)
+	mecha_flags = CAN_STRAFE | HAS_LIGHTS | BEACON_TRACKABLE
 	wreckage = /obj/structure/mecha_wreckage/ripley
 	mech_type = EXOSUIT_MODULE_RIPLEY
 	possible_int_damage = MECHA_INT_FIRE|MECHA_INT_CONTROL_LOST|MECHA_INT_SHORT_CIRCUIT
-	enclosed = FALSE //Normal ripley has an open cockpit design
 	enter_delay = 10 //can enter in a quarter of the time of other mechs
 	exit_delay = 10
 	/// Custom Ripley step and turning sounds (from TGMC)
@@ -72,15 +74,15 @@
 	icon_state = "ripleymkii"
 	base_icon_state = "ripleymkii"
 	fast_pressure_step_in = 2 //step_in while in low pressure conditions
-	slow_pressure_step_in = 4 //step_in while in normal pressure conditions
-	movedelay = 4
+	slow_pressure_step_in = 3 //step_in while in normal pressure conditions
+	movedelay = 3 // Bastion edit, down from 4
 	encumbrance_gap = 2.4
 	max_temperature = 30000
 	max_integrity = 250
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | BEACON_TRACKABLE | AI_COMPATIBLE | BEACON_CONTROLLABLE
 	possible_int_damage = MECHA_INT_FIRE|MECHA_INT_TEMP_CONTROL|MECHA_CABIN_AIR_BREACH|MECHA_INT_CONTROL_LOST|MECHA_INT_SHORT_CIRCUIT
 	armor_type = /datum/armor/mecha_ripley_mk2
 	wreckage = /obj/structure/mecha_wreckage/ripley/mk2
-	enclosed = TRUE
 	enter_delay = 40
 	silicon_icon_state = null
 
@@ -101,6 +103,11 @@
 	base_icon_state = "paddy"
 	max_temperature = 20000
 	max_integrity = 250
+	overclock_name = "siren"
+	can_use_overclock = TRUE
+	overclock_coeff = 1.5
+	overclock_safety = TRUE
+	overclock_action_type = /datum/action/vehicle/sealed/mecha/mech_overclock/siren
 	mech_type = EXOSUIT_MODULE_PADDY
 	possible_int_damage = MECHA_INT_FIRE|MECHA_INT_CONTROL_LOST|MECHA_INT_SHORT_CIRCUIT
 	accesses = list(ACCESS_MECH_SCIENCE, ACCESS_MECH_SECURITY)
@@ -114,10 +121,6 @@
 		MECHA_POWER = list(),
 		MECHA_ARMOR = list(),
 	)
-	///Siren Lights/Sound State
-	var/siren = FALSE
-	///Overlay for Siren Lights
-	var/mutable_appearance/sirenlights
 	///Looping sound datum for the Siren audio
 	var/datum/looping_sound/siren/weewooloop
 
@@ -135,62 +138,46 @@
 	weewooloop = new(src, FALSE, FALSE)
 	weewooloop.volume = 100
 
-/obj/vehicle/sealed/mecha/ripley/paddy/generate_actions()
-	. = ..()
-	initialize_passenger_action_type(/datum/action/vehicle/sealed/mecha/siren)
-
 /obj/vehicle/sealed/mecha/ripley/paddy/mob_exit(mob/M, silent = FALSE, randomstep = FALSE, forced = FALSE)
 	var/obj/item/mecha_parts/mecha_equipment/ejector/seccage/cargo_holder = locate(/obj/item/mecha_parts/mecha_equipment/ejector/seccage) in equip_by_category[MECHA_UTILITY]
 	for(var/mob/contained in cargo_holder)
 		cargo_holder.cheese_it(contained)
-	togglesiren(force_off = TRUE)
+	if(overclock_mode)
+		toggle_overclock(FALSE)
 	return ..()
 
-/obj/vehicle/sealed/mecha/ripley/paddy/proc/togglesiren(force_off = FALSE)
-	if(force_off || siren)
-		weewooloop.stop()
-		siren = FALSE
-	else
+/obj/vehicle/sealed/mecha/ripley/paddy/toggle_overclock(forced_state)
+	. = ..()
+	if(!.)
+		return
+
+	if(overclock_mode)
 		weewooloop.start()
-		siren = TRUE
-	for(var/mob/occupant as anything in occupants)
-		balloon_alert(occupant, "siren [siren ? "activated" : "disabled"]")
-		var/datum/action/act = locate(/datum/action/vehicle/sealed/mecha/siren) in occupant.actions
-		act.button_icon_state = "mech_siren_[siren ? "on" : "off"]"
-		act.build_all_button_icons()
+	else
+		weewooloop.stop()
 	update_appearance(UPDATE_OVERLAYS)
 
 /obj/vehicle/sealed/mecha/ripley/paddy/update_overlays()
 	. = ..()
-	if(!siren)
+	if(!overclock_mode)
 		return
-	sirenlights = new()
-	sirenlights.icon = icon
-	sirenlights.icon_state = "paddy_sirens"
-	SET_PLANE_EXPLICIT(sirenlights, ABOVE_LIGHTING_PLANE, src)
-	. += sirenlights
+	. += mutable_appearance(icon, "paddy_sirens", null, src, ABOVE_LIGHTING_PLANE)
 
 /obj/vehicle/sealed/mecha/ripley/paddy/Destroy()
 	QDEL_NULL(weewooloop)
 	return ..()
 
-/datum/action/vehicle/sealed/mecha/siren
-	name = "Toggle External Siren and Lights"
-	button_icon = 'bastionstation/icons/mob/actions/actions_mecha.dmi'
+/datum/action/vehicle/sealed/mecha/mech_overclock/siren
+	name = "Toggle Chase Siren"
 	button_icon_state = "mech_siren_off"
 
-/datum/action/vehicle/sealed/mecha/siren/New()
-	. = ..()
+/datum/action/vehicle/sealed/mecha/mech_overclock/siren/get_button_icon_state()
 	var/obj/vehicle/sealed/mecha/ripley/paddy/secmech = chassis
-	button_icon_state = "mech_siren_[secmech?.siren ? "on" : "off"]"
-
-/datum/action/vehicle/sealed/mecha/siren/Trigger(trigger_flags, forced_state = FALSE)
-	var/obj/vehicle/sealed/mecha/ripley/paddy/secmech = chassis
-	secmech.togglesiren()
+	return "mech_siren_[secmech.overclock_mode ? "on" : "off"]"
 
 /obj/vehicle/sealed/mecha/ripley/paddy/preset
 	accesses = list(ACCESS_SECURITY)
-	mecha_flags = CANSTRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | ID_LOCK_ON
+	mecha_flags = CAN_STRAFE | HAS_LIGHTS | ID_LOCK_ON
 	equip_by_category = list(
 		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/energy/disabler,
 		MECHA_R_ARM = /obj/item/mecha_parts/mecha_equipment/weapon/paddy_claw,
@@ -211,7 +198,7 @@
 	lights_power = 7
 	wreckage = /obj/structure/mecha_wreckage/ripley/deathripley
 	step_energy_drain = 0
-	enclosed = TRUE
+	mecha_flags = CAN_STRAFE | IS_ENCLOSED | HAS_LIGHTS | MMI_COMPATIBLE | AI_COMPATIBLE
 	enter_delay = 40
 	silicon_icon_state = null
 	equip_by_category = list(
@@ -223,7 +210,6 @@
 	)
 
 /obj/vehicle/sealed/mecha/ripley/deathripley/real
-	accesses = list(ACCESS_CENT_SPECOPS)
 	desc = "OH SHIT IT'S THE DEATHSQUAD WE'RE ALL GONNA DIE. FOR REAL"
 	equip_by_category = list(
 		MECHA_L_ARM = /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/kill,
@@ -263,10 +249,11 @@
 GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 
 /obj/vehicle/sealed/mecha/ripley/cargo
-	desc = "An ailing, old, repurposed cargo hauler. Most of its equipment wires are frayed or missing and its frame is rusted."
 	name = "\improper APLU \"Big Bess\""
+	desc = "An ailing, old, repurposed cargo hauler. Most of its equipment wires are frayed or missing and its frame is rusted."
 	icon_state = "hauler"
 	base_icon_state = "hauler"
+	silicon_icon_state = "hauler-empty"
 	max_integrity = 100 //Has half the health of a normal RIPLEY mech, so it's harder to use as a weapon.
 
 /obj/vehicle/sealed/mecha/ripley/cargo/Initialize(mapload)
@@ -301,6 +288,8 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 	icon_state = "mecha_bin"
 	equipment_slot = MECHA_UTILITY
 	detachable = FALSE
+	can_be_triggered = TRUE
+	action_type = /datum/action/vehicle/sealed/mecha/equipment/cargo_module
 	///Number of atoms we can store
 	var/cargo_capacity = 15
 
@@ -309,22 +298,39 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 	var/obj/vehicle/sealed/mecha/ripley/workmech = chassis
 	workmech.cargo_hold = src
 
+/obj/item/mecha_parts/mecha_equipment/ejector/detach(atom/moveto)
+	var/obj/vehicle/sealed/mecha/ripley/workmech = chassis
+	workmech.cargo_hold = null
+	drop_contents(isturf(moveto) ? moveto : moveto?.drop_location())
+	return ..()
 
 /obj/item/mecha_parts/mecha_equipment/ejector/Destroy()
-	for(var/atom/stored in contents)
-		forceMove(stored, drop_location())
-		step_rand(stored)
+	// Failsafe so we don't delete players
+	var/atom/droploc = drop_location() || get_turf(src)
+	for(var/mob/stored in get_all_contents())
+		if(stored.client)
+			stack_trace("[stored] was in [src] when it was deleted! We skipped deconstruct(), or something.")
+			stored.forceMove(droploc)
+	return ..()
+
+/obj/item/mecha_parts/mecha_equipment/ejector/Destroy(damage_flag)
+	drop_contents()
 	return ..()
 
 /obj/item/mecha_parts/mecha_equipment/ejector/contents_explosion(severity, target)
-	for(var/obj/stored in contents)
-		if(prob(10 * severity))
-			stored.forceMove(drop_location())
+	drop_contents(drop_prob = 10 * severity)
 	return ..()
+
+/// Spit out everything in our storage
+/obj/item/mecha_parts/mecha_equipment/ejector/proc/drop_contents(atom/drop_loc = drop_location(), drop_prob = 100)
+	for(var/atom/movable/stored in src)
+		if(prob(drop_prob))
+			stored.forceMove(drop_loc || get_turf(src))
+			step_rand(stored)
 
 /obj/item/mecha_parts/mecha_equipment/ejector/relay_container_resist_act(mob/living/user, obj/container)
 	to_chat(user, span_notice("You lean on the back of [container] and start pushing so it falls out of [src]."))
-	if(do_after(user, 300, target = container))
+	if(do_after(user, 30 SECONDS, target = container))
 		if(!user || user.stat != CONSCIOUS || user.loc != src || container.loc != src )
 			return
 		to_chat(user, span_notice("You successfully pushed [container] out of [src]!"))
@@ -407,15 +413,8 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 	return ..()
 
 /obj/item/mecha_parts/mecha_equipment/ejector/seccage/container_resist_act(mob/living/user)
-	// If you're a carbon, not handcuffed, and have access to the mech you can just walk out
-	if (iscarbon(user))
-		var/mob/living/carbon/carbon_user = user
-		if (!carbon_user.handcuffed && carbon_user.check_access_list(chassis.accesses))
-			to_chat(carbon_user, span_notice("You unlock and get out of the [src]."))
-			carbon_user.forceMove(drop_location())
-			return
-
 	var/breakout_time = 1 MINUTES
+
 	if (user.mob_size > MOB_SIZE_HUMAN)
 		breakout_time = 6 SECONDS
 
@@ -458,17 +457,12 @@ GLOBAL_DATUM(cargo_ripley, /obj/vehicle/sealed/mecha/ripley/cargo)
 /obj/vehicle/sealed/mecha/ripley/proc/update_pressure()
 	var/turf/T = get_turf(loc)
 
-	//monkestation edit start
-	if(!uses_variable_speed_pressure)
-		return
-	//monkestation edit end
-
 	if(lavaland_equipment_pressure_check(T))
-		movedelay = fast_pressure_step_in
+		movedelay = !overclock_mode ? fast_pressure_step_in : fast_pressure_step_in / overclock_coeff
 		for(var/obj/item/mecha_parts/mecha_equipment/drill/drill in flat_equipment)
 			drill.equip_cooldown = initial(drill.equip_cooldown) * 0.5
 
 	else
-		movedelay = slow_pressure_step_in
+		movedelay = !overclock_mode ? slow_pressure_step_in : slow_pressure_step_in / overclock_coeff
 		for(var/obj/item/mecha_parts/mecha_equipment/drill/drill in flat_equipment)
 			drill.equip_cooldown = initial(drill.equip_cooldown)
