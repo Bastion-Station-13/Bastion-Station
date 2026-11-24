@@ -61,7 +61,6 @@
 	TEST_ASSERT(!wader.vis_contents.Find(effect.the_water), "The water is still shown on a human that left the water")
 
 	wader.forceMove(sinking_spot)
-	sleep(1 SECONDS)
 	TEST_ASSERT_NULL(wader.GetComponent(/datum/component/water_overlay_effect), "A human in sinking water got the water overlay")
 	wader.forceMove(get_step(water_spot, NORTH))
 
