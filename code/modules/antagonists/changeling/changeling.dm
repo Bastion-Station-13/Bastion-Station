@@ -40,7 +40,7 @@
 	/// The max chemical storage the changeling currently has.
 	var/total_chem_storage = 75
 	/// The chemical recharge rate per life tick.
-	var/chem_recharge_rate = 0.5
+	var/chem_recharge_rate = 0.75
 	/// Any additional modifiers triggered by changelings that modify the chem_recharge_rate.
 	var/chem_recharge_slowdown = 0
 	/// The range this ling can sting things.
@@ -282,9 +282,9 @@
 
 	var/delta_time = DELTA_WORLD_TIME(SSclient_mobs)
 
-	// If dead, we only regenerate up to half chem storage.
+	// If dead, we only regenerate up to 70% of our normal chem storage.
 	if(owner.current.stat == DEAD)
-		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time, total_chem_storage * 0.5)
+		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time, total_chem_storage * 0.7)
 
 	// If we're not dead - we go up to the full chem cap.
 	else
@@ -401,11 +401,6 @@
 		to_chat(owner.current, span_warning("We cannot evolve this ability!"))
 		return FALSE
 
-	//To avoid potential exploits by buying new powers while in stasis, which clears your verblist. // Probably not a problem anymore, but whatever.
-	if(HAS_TRAIT(owner.current, TRAIT_DEATHCOMA))
-		to_chat(owner.current, span_warning("We lack the energy to evolve new abilities right now!"))
-		return FALSE
-
 	var/success = give_power(sting_path)
 	if(success)
 		genetic_points -= initial(sting_path.dna_cost)
@@ -441,10 +436,6 @@
 /datum/antagonist/changeling/proc/readapt()
 	if(!ishuman(owner.current) || ismonkeybasic(owner.current))
 		to_chat(owner.current, span_warning("We can't remove our evolutions in this form!"))
-		return FALSE
-
-	if(HAS_TRAIT_FROM(owner.current, TRAIT_DEATHCOMA, CHANGELING_TRAIT))
-		to_chat(owner.current, span_warning("We are too busy reforming ourselves to readapt right now!"))
 		return FALSE
 
 	if(!can_respec)
