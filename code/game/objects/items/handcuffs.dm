@@ -743,6 +743,7 @@
 	righthand_file = 'icons/mob/inhands/weapons/thrown_righthand.dmi'
 	breakouttime = 3.5 SECONDS//easy to apply, easy to break out of
 	gender = NEUTER
+	slowdown = 3
 	///Amount of time to knock the target down for once it's hit in deciseconds.
 	var/knockdown = 0
 
@@ -796,7 +797,6 @@
 	hitsound = 'sound/items/weapons/taserhit.ogg'
 	w_class = WEIGHT_CLASS_SMALL
 	breakouttime = 2 SECONDS
-	slowdown = 5
 	custom_price = PAYCHECK_COMMAND * 0.35
 
 /obj/item/restraints/legcuffs/bola/energy/Initialize(mapload)
