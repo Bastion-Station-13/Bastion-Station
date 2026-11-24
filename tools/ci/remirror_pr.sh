@@ -1,6 +1,6 @@
 #!/bin/bash
 # Makes a fresh mirror of the Monkestation PR behind a mirror PR: a new branch off the current master with the PR
-# cherry-picked again, a new mirror PR from it, and the old mirror PR closed.
+# cherry-picked again, a new mirror PR from it, and the old mirror PR closed and its branch deleted.
 # Run it from a checkout of master. Needs UPSTREAM and GH_TOKEN, like mirror_pr.sh.
 # usage: remirror_pr.sh <mirror PR number> <its branch>
 set -eu
@@ -22,3 +22,5 @@ while [ -n "$(git ls-remote --heads origin "refs/heads/upstream-mirror-$num-$n")
 done
 
 bash "$(dirname "$0")/mirror_pr.sh" "$num" "upstream-mirror-$num-$n" "$old_pr"
+
+git push origin --delete "$old_branch" || echo "Could not delete $old_branch"
