@@ -54,3 +54,6 @@
 	F.icon_state = initial(F.icon_state) + "_active"
 	playsound(user.loc, F.grenade_arm_sound, 75, F.grenade_sound_vary, -3)
 	addtimer(CALLBACK(F, TYPE_PROC_REF(/obj/item/grenade, detonate)), 15)
+
+	//Normally handled in /obj/item/ammo_casing/proc/fire_casing(), but since we don't use a regular ammo_casing, we have to handle it here
+	user.changeNext_move(CLICK_CD_RANGE)
