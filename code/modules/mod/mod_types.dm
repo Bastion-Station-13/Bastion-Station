@@ -239,6 +239,23 @@
 		/obj/item/mod/module/jetpack,
 	)
 
+/obj/item/mod/control/pre_equipped/security_special_operative
+	theme = /datum/mod_theme/security_special_operative
+	starting_frequency = MODLINK_FREQ_NANOTRASEN
+	applied_cell = /obj/item/stock_parts/power_store/cell/hyper
+	applied_modules = list(
+		/obj/item/mod/module/projectile_dampener,
+		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/storage/large_capacity,
+		/obj/item/mod/module/holster,
+		/obj/item/mod/module/magnetic_harness,
+	)
+	default_pins = list(
+		/obj/item/mod/module/projectile_dampener,
+		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/holster,
+	)
+
 /obj/item/mod/control/pre_equipped/traitor_elite
 	theme = /datum/mod_theme/elite
 	starting_frequency = MODLINK_FREQ_SYNDICATE

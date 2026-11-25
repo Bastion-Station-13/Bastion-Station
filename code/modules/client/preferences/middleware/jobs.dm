@@ -19,6 +19,8 @@
 		return TRUE
 
 	for (var/datum/job/job as anything in SSjob.joinable_occupations)
+		if(job.latejoin_only)
+			continue
 		job_prefs[job.title] = JP_LOW
 
 	return TRUE
@@ -38,6 +40,9 @@
 	var/datum/job/job = SSjob.GetJob(job_title)
 
 	if (isnull(job))
+		return FALSE
+
+	if(job.latejoin_only)
 		return FALSE
 
 	if (job.faction != FACTION_STATION)
@@ -84,6 +89,9 @@
 	var/list/jobs = list()
 
 	for (var/datum/job/job as anything in SSjob.joinable_occupations)
+		if(job.latejoin_only)
+			continue
+
 		var/datum/job_department/department_type = job.department_for_prefs || job.departments_list?[1]
 		if (isnull(department_type))
 			stack_trace("[job] does not have a department set, yet is a joinable occupation!")

@@ -296,7 +296,7 @@ GAME_VERB(/mob/dead/new_player, observe, "Observe", "IC")
 		qdel(client)
 		return FALSE
 
-	var/error = IsJobUnavailable(rank)
+	var/error = IsJobUnavailable(rank, latejoin = TRUE)
 	if(error != JOB_AVAILABLE)
 		tgui_alert(usr, get_job_unavailable_error_message(error, rank))
 		return FALSE

@@ -21,6 +21,7 @@
 		JOB_PRISONER,
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 	)
 	restricted_roles = list(
 		JOB_AI,
@@ -113,6 +114,7 @@
 		JOB_PRISONER,
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 		JOB_SECURITY_ASSISTANT,
 		JOB_BRIG_PHYSICIAN,
 	)
@@ -173,6 +175,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
 		JOB_SECURITY_ASSISTANT,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 		JOB_BRIG_PHYSICIAN,
 	)
 	restricted_roles = list(
@@ -231,6 +234,7 @@
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
 		JOB_SECURITY_ASSISTANT,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 		JOB_BRIG_PHYSICIAN,
 		JOB_CHAPLAIN
 	)
@@ -290,6 +294,7 @@
 	restricted_roles = list(
 		JOB_CAPTAIN,
 		JOB_HEAD_OF_SECURITY,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 	) // Just to be sure that a wizard getting picked won't ever imply a Captain or HoS not getting drafted
 	required_candidates = 1
 	weight = 2
@@ -360,6 +365,7 @@
 		JOB_HEAD_OF_PERSONNEL,
 		JOB_HEAD_OF_SECURITY,
 		JOB_PRISONER,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
 	)
@@ -437,6 +443,7 @@
 	restricted_roles = list(
 		JOB_CAPTAIN,
 		JOB_HEAD_OF_SECURITY,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 	) // Just to be sure that a nukie getting picked won't ever imply a Captain or HoS not getting drafted
 	required_candidates = 5
 	weight = 3
@@ -539,6 +546,7 @@
 		JOB_RESEARCH_DIRECTOR,
 		JOB_SECURITY_OFFICER,
 		JOB_WARDEN,
+		JOB_SECURITY_SPECIAL_OPERATIVE,
 	)
 	required_candidates = 3
 	weight = 1

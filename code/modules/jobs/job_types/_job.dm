@@ -143,6 +143,8 @@
 
 	/// If TRUE, then this job will latejoin "normally" on Oshan, instead of via pod.
 	var/oshan_normal_latejoin = FALSE
+	/// If TRUE, this job cannot be assigned during roundstart.
+	var/latejoin_only = FALSE
 
 /datum/job/New()
 	. = ..()
