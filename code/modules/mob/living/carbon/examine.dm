@@ -236,12 +236,13 @@
 	if(reagents.has_reagent(/datum/reagent/teslium, needs_metabolizing = TRUE))
 		. += span_smallnoticeital("[t_He] [t_is] emitting a gentle blue glow!") // this should be signalized
 
+	var/mob/living/living_user = user
+	SEND_SIGNAL(living_user, COMSIG_CARBON_MID_EXAMINE, src, .) // Adds examine text after clothing and wounds but before death and scars
 	if(just_sleeping)
 		. += span_notice("[t_He] [t_is]n't responding to anything around [t_him] and seem[p_s()] to be asleep.")
-
 	else if(!appears_dead)
-		var/mob/living/living_user = user
 		if(src != user)
+<<<<<<< HEAD
 			if(HAS_TRAIT(user, TRAIT_EMPATH))
 				if ((istate & ISTATE_HARM))
 					. += "[t_He] seem[p_s()] to be on guard."
@@ -275,6 +276,9 @@
 							living_user.set_jitter_if_lower(15 SECONDS)
 
 			if(HAS_TRAIT(user, TRAIT_SPIRITUAL) && mind?.holy_role)
+=======
+			if(HAS_TRAIT(user, TRAIT_SPIRITUAL) && mind?.holy_role && user != src)
+>>>>>>> 255921e92 ([PORT] Quirkification and personalities (#12963))
 				. += "[t_He] [t_has] a holy aura about [t_him]."
 				living_user.add_mood_event("religious_comfort", /datum/mood_event/religiously_comforted)
 
@@ -332,7 +336,11 @@
 	if(length(hud_info))
 		. += hud_info
 
+<<<<<<< HEAD
 	if(HAS_TRAIT(user, TRAIT_EMPATH) && src.is_face_visible())
+=======
+	if(user.GetComponent(/datum/component/empathy) && !(obscured_slots & HIDEFACE))
+>>>>>>> 255921e92 ([PORT] Quirkification and personalities (#12963))
 		ADD_NEWLINE_IF_NECESSARY(.)
 		. += "<b>Quirks:</b> [get_quirk_string(FALSE, CAT_QUIRK_ALL)]"
 	if(isobserver(user))

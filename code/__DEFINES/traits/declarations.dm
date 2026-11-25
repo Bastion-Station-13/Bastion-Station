@@ -293,9 +293,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_MAGICALLY_GIFTED "magically_gifted"
 /// This object innately spawns with fantasy variables already applied (the magical component is given to it on initialize), and thus we never want to give it the component again.
 #define TRAIT_INNATELY_FANTASTICAL_ITEM "innately_fantastical_item"
-#define TRAIT_DEPRESSION "depression"
 #define TRAIT_BLOOD_DEFICIENCY "blood_deficiency"
-#define TRAIT_JOLLY "jolly"
 #define TRAIT_NOCRITDAMAGE "no_crit"
 ///Added to mob or mind, changes the icons of the fish shown in the minigame UI depending on the possible reward.
 #define TRAIT_REVEAL_FISH "reveal_fish"
@@ -954,7 +952,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_PHOTOGRAPHER "photographer"
 #define TRAIT_MUSICIAN "musician"
 #define TRAIT_LIGHT_DRINKER "light_drinker"
-#define TRAIT_EMPATH "empath"
 #define TRAIT_EVIL "evil"
 #define TRAIT_FRIENDLY "friendly"
 #define TRAIT_GRABWEAKNESS "grab_weakness"
@@ -1196,6 +1193,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Simple trait that just holds if we came into growth from a specific mob type. Should hold a REF(src) to the type of mob that caused the growth, not anything else.
 #define TRAIT_WAS_EVOLVED "was_evolved_from_the_mob_we_hold_a_textref_to"
 
+/// slapped on anything a slime has latched onto, and it never comes back off. if it's a monkey, nobody feels bad when it dies
+#define TRAIT_WAS_SLIME_FOOD "was_slime_food"
+
 // Traits to heal for
 
 /// This mob heals from carp rifts.
@@ -1423,4 +1423,21 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 ///A trait given to users as a mutex to prevent repeated unresolved attempts to christen a shuttle
 #define TRAIT_ATTEMPTING_CHRISTENING "attempting_christening"
 
+<<<<<<< HEAD
+=======
+/// Apply to movables to say "hey, this movable is technically flat on the floor, so it'd be mopped up by a mop"
+#define TRAIT_MOPABLE "mopable"
+
+/// Trait that signals to objects on this turf that its open (has UNDERFLOOR_INTERACTIBLE) but still covers them
+#define TRAIT_UNCOVERED_TURF "uncovered_turf"
+
+/// Apply this trait to mobs which can "buckle" to humans
+#define TRAIT_CAN_MOUNT_HUMANS "can_mount_humans"
+/// Apply this trait to mobs which can "buckle" to cyborgs
+#define TRAIT_CAN_MOUNT_CYBORGS "can_mount_cyborgs"
+
+/// Mob gets far less severe negative moodlets from seeing death / blood
+#define TRAIT_DESENSITIZED "desensitized"
+
+>>>>>>> 255921e92 ([PORT] Quirkification and personalities (#12963))
 
