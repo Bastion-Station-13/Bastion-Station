@@ -218,7 +218,7 @@
 	var/datum/atom_hud/borer_hud = GLOB.huds[DATA_HUD_BORER]
 	borer_hud.show_to(src)
 
-/mob/living/basic/cortical_borer/Destroy()
+/mob/living/basic/cortical_borer/Destroy(force)
 	QDEL_NULL(reagent_holder)
 	body_focuses = null
 	if(human_host)
@@ -365,8 +365,14 @@
 		borer_organ.Remove(human_host)
 
 	REMOVE_TRAIT(src, TRAIT_WEATHER_IMMUNE, "borer_in_host")
+<<<<<<< HEAD
 	bodytemp_heat_damage_limit = initial(bodytemp_heat_damage_limit) //reset body tempature
 	bodytemp_cold_damage_limit = initial(bodytemp_cold_damage_limit)
+=======
+	set_survivable_temperatures(initial(minimum_survivable_temperature), initial(maximum_survivable_temperature)) //reset body tempature
+	if(has_status_effect(/datum/status_effect/borer_sugar))
+		remove_status_effect(/datum/status_effect/borer_sugar)
+>>>>>>> 13e19161 (Removes the round-start borer ability that makes you invisible (#13146))
 	human_host = null
 	SEND_SIGNAL(src, COMSIG_HOST_CHANGED)
 
