@@ -27,13 +27,12 @@
 	SIGNAL_HANDLER
 	set_blackboard_key(BB_MOTHROACH_NEXT_EAT, world.time + MOTHROACH_EAT_TIMER)
 
-/datum/ai_planning_subtree/find_food/mothroach
-	finding_behavior = /datum/ai_behavior/find_and_set/in_list/mothroach_food
-
 /datum/ai_planning_subtree/find_food/mothroach/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	if(world.time < controller.blackboard[BB_MOTHROACH_NEXT_EAT])
 		return
-	return ..()
+	if(controller.blackboard_key_exists(BB_BASIC_MOB_CURRENT_TARGET))
+		return
+	controller.queue_behavior(/datum/ai_behavior/find_and_set/in_list/mothroach_food, BB_BASIC_MOB_CURRENT_TARGET, controller.blackboard[BB_BASIC_FOODS])
 
 /datum/ai_behavior/find_and_set/in_list/mothroach_food
 
