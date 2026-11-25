@@ -134,7 +134,13 @@
 		return FALSE
 
 	var/antag_amt = get_antag_amount()
+<<<<<<< HEAD
 	var/list/candidates = get_candidates()
+=======
+	var/list/candidates = get_candidates(candidate_pool)
+	if(prompted_picking)
+		candidates = SSgamemode.remove_recent_decliners(candidates)
+>>>>>>> 3f66f20aa (Lowpop antag cap and antag prompt cooldown (#13125))
 	if(length(candidates) < antag_amt)
 		return FALSE
 
