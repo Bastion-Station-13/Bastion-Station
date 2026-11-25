@@ -32,6 +32,8 @@
 
 /obj/projectile/bullet/shrapnel/mothlet/on_hit(atom/target, blocked = 0, pierce_hit)
 	. = ..()
+	if(prob(33))
+		new /mob/living/basic/mothroach(target.loc)
 	if(iscarbon(target) && prob(50))
 		var/mob/living/carbon/carbon_owner = target
 		carbon_owner.unequip_everything()
