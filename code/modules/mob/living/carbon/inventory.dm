@@ -170,11 +170,35 @@
 /mob/living/carbon/get_equipped_speed_mod_items()
 	return ..() + get_equipped_items()
 
+<<<<<<< HEAD
 /// This proc is called after an item has been successfully handled and equipped to a slot.
 /mob/living/carbon/proc/has_equipped(obj/item/item, slot, initial = FALSE)
 	. = item.on_equipped(src, slot, initial)
 	// The item only counts as equipped from here on, so the slots it hides have to be redrawn now
 	update_obscured_slots(item.flags_inv)
+=======
+/mob/living/carbon/has_equipped(obj/item/item, slot, initial = FALSE)
+	. = ..()
+	if(!.)
+		return
+
+	update_equipment_speed_mods()
+	hud_used?.update_locked_slots()
+	add_item_coverage(item)
+	if(item.hair_mask && (slot & item.slot_flags))
+		update_body_parts()
+
+/mob/living/carbon/has_unequipped(obj/item/item)
+	. = ..() // NB: ATP the item is still in the slot, but no longer has the IN_INVENTORY flag (so is not returned by get_equipped_items)
+	if(!.)
+		return
+
+	update_equipment_speed_mods()
+	hud_used?.update_locked_slots()
+	remove_item_coverage(item)
+	if(item.hair_mask)
+		update_body_parts()
+>>>>>>> 15e02e49 ([PORT] Cerulean extras: hair layers, deep water, platforms and the GMM spotlight (#13136))
 
 /mob/living/carbon/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
 	. = ..() //Sets the default return value to what the parent returns.

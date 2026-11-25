@@ -507,3 +507,26 @@
 	for(var/datum/job/ai/ai_datum in SSjob.joinable_occupations)
 		ai_datum.spawn_positions = 3
 		ai_datum.total_positions = 3
+<<<<<<< HEAD
+=======
+
+/// Tells the area map generator to ADD MORE TREEEES
+/datum/station_trait/forested
+	name = "Forested"
+	trait_type = STATION_TRAIT_NEUTRAL
+	trait_to_give = STATION_TRAIT_FORESTED
+	trait_flags = STATION_TRAIT_PLANETARY
+	weight = 10
+	show_in_report = TRUE
+	report_message = "There sure are a lot of trees out there."
+
+/// We're pulling a Jim Kramer with this one boys
+/datum/station_trait/gmm_spotlight
+	name = "GMM Economic Spotlight"
+	report_message = "This shift, the Galactic Mineral Market is doing a showcase on your crew's affulence! Every paycheck, the station newscasters will alert the crew who has the most credits."
+	trait_type = STATION_TRAIT_NEUTRAL
+	trait_to_give = STATION_TRAIT_ECONOMY_ALERTS
+	weight = 2
+	cost = STATION_TRAIT_COST_LOW
+	show_in_report = TRUE
+>>>>>>> 15e02e49 ([PORT] Cerulean extras: hair layers, deep water, platforms and the GMM spotlight (#13136))

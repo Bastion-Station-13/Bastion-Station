@@ -680,3 +680,168 @@
 /datum/status_effect/gutted/proc/stop_gutting()
 	SIGNAL_HANDLER
 	qdel(src)
+<<<<<<< HEAD
+=======
+
+/datum/status_effect/moodlet_in_area
+	id = "moodlet_in_area"
+	duration = STATUS_EFFECT_PERMANENT
+	tick_interval = STATUS_EFFECT_NO_TICK
+	status_type = STATUS_EFFECT_MULTIPLE
+	alert_type = null
+	/// Moodlet to apply while in the area
+	VAR_PRIVATE/moodlet_type
+	/// Typecache of areas that will trigger the moodlet while in them
+	VAR_PRIVATE/list/allowed_areas
+	/// Optional callback to run when checking if the moodlet should be applied. Should return TRUE to apply, FALSE to not.
+	VAR_PRIVATE/datum/callback/special_check
+
+/datum/status_effect/moodlet_in_area/on_creation(mob/living/new_owner, moodlet_type, list/allowed_areas, datum/callback/special_check)
+	src.moodlet_type = moodlet_type
+	src.allowed_areas = typecacheof(allowed_areas)
+	src.special_check = special_check
+	return ..()
+
+/datum/status_effect/moodlet_in_area/before_remove(moodlet_type, ...)
+	return moodlet_type == src.moodlet_type
+
+/datum/status_effect/moodlet_in_area/on_apply()
+	if(!length(allowed_areas))
+		return FALSE
+
+	for(var/datum/status_effect/moodlet_in_area/other_effect in owner.status_effects)
+		if(other_effect.moodlet_type == moodlet_type)
+			return FALSE
+
+	owner.become_area_sensitive("[id]_[moodlet_type]")
+	RegisterSignal(owner, COMSIG_ENTER_AREA, PROC_REF(check_area))
+	return TRUE
+
+/datum/status_effect/moodlet_in_area/on_remove()
+	UnregisterSignal(owner, COMSIG_ENTER_AREA)
+	owner.lose_area_sensitivity("[id]_[moodlet_type]")
+	owner.clear_mood_event("[id]_[moodlet_type]")
+
+/// Adds the moodlet when entering an allowed area and clears it otherwise.
+/datum/status_effect/moodlet_in_area/proc/check_area(datum/source, area/new_area)
+	SIGNAL_HANDLER
+
+	if(special_check && !special_check.Invoke(owner, new_area))
+		return
+
+	if(is_type_in_typecache(new_area, allowed_areas))
+		owner.add_mood_event("[id]_[moodlet_type]", moodlet_type)
+	else
+		owner.clear_mood_event("[id]_[moodlet_type]")
+/datum/status_effect/washing_regen
+	id = "shower_regen"
+	duration = -1
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/washing_regen
+	///The screen alert shown if you hate water
+	var/hater_alert = /atom/movable/screen/alert/status_effect/washing_regen/hater
+	/// How much stamina we regain from washing
+	var/stamina_heal_per_tick = -4
+	/// How much brute, tox and fie damage we heal from this
+	var/heal_per_tick = 0
+
+/datum/status_effect/washing_regen/on_apply()
+	. = ..()
+	if(owner.is_cat_enough(include_all_anime = TRUE) && !HAS_TRAIT(owner, TRAIT_WATER_ADAPTATION))
+		alert_type = hater_alert
+
+/datum/status_effect/washing_regen/tick(seconds_between_ticks)
+	. = ..()
+	var/water_adaptation = HAS_TRAIT(owner, TRAIT_WATER_ADAPTATION)
+	var/water_hater = owner.is_cat_enough(include_all_anime = TRUE)
+	var/stam_recovery = (water_hater && !water_adaptation ? -stamina_heal_per_tick : stamina_heal_per_tick) * seconds_between_ticks
+	var/recovery = heal_per_tick
+	if(water_adaptation)
+		recovery -= 1
+		stam_recovery *= 1.5
+	else if(water_hater)
+		recovery *= 0
+	recovery *= seconds_between_ticks
+
+	var/healed = 0
+	if(recovery) //very mild healing for those with the water adaptation trait (fish infusion)
+		healed += owner.adjustOxyLoss(recovery * (water_adaptation ? 1.5 : 1), updating_health = FALSE, required_biotype = MOB_ORGANIC)
+		healed += owner.adjustFireLoss(recovery, updating_health = FALSE, required_bodytype = BODYTYPE_ORGANIC)
+		healed += owner.adjustToxLoss(recovery, updating_health = FALSE, required_biotype = MOB_ORGANIC)
+		healed += owner.adjustBruteLoss(recovery, updating_health = FALSE, required_bodytype = BODYTYPE_ORGANIC)
+	owner.stamina.adjust(-stam_recovery) // MONKESTATION EDIT: stamina component
+	if(healed)
+		owner.updatehealth()
+
+/atom/movable/screen/alert/status_effect/washing_regen
+	name = "Washing"
+	desc = "A good wash fills me with energy!"
+	icon_state = "shower_regen"
+
+/atom/movable/screen/alert/status_effect/washing_regen/hater
+	desc = "Waaater... Fuck this WATER!!"
+	icon_state = "shower_regen_catgirl"
+
+/datum/status_effect/washing_regen/hot_spring
+	alert_type = /atom/movable/screen/alert/status_effect/washing_regen/hotspring
+	hater_alert = /atom/movable/screen/alert/status_effect/washing_regen/hotspring/hater
+	stamina_heal_per_tick = -4.5
+	heal_per_tick = -0.4
+
+/datum/status_effect/washing_regen/hot_spring/tick(seconds_between_ticks)
+	. = ..()
+	owner.adjust_bodytemperature(10 * seconds_between_ticks, 0, T0C + 45)
+
+/atom/movable/screen/alert/status_effect/washing_regen/hotspring
+	name = "Hotspring"
+	desc = "Hot Springs are so relaxing..."
+	icon_state = "hotspring_regen"
+
+/atom/movable/screen/alert/status_effect/washing_regen/hotspring/hater
+	name = "Hotspring"
+	desc = "Waaater... FUCK THIS HOT WATER!!"
+	icon_state = "hotspring_regen_catgirl"
+
+#define BEAM_ALPHA 62
+
+///Makes the mob luminescent for the duration of the effect, and project a large spotlight overtop them.
+/datum/status_effect/spotlight_light
+	id = "spotlight_light"
+	processing_speed = STATUS_EFFECT_NORMAL_PROCESS
+	alert_type = null
+	/// Dummy lighting object to simulate the spotlight highlighting the mob.
+	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+	/// First visual overlay, this one sits on the back of the mob.
+	var/obj/effect/overlay/spotlight/beam_from_above_a
+	/// Second visual overlay, this one sits on the front of the mob.
+	var/obj/effect/overlay/spotlight/beam_from_above_b
+
+/datum/status_effect/spotlight_light/on_creation(mob/living/new_owner, duration)
+	if(duration)
+		src.duration = duration
+	return ..()
+
+/datum/status_effect/spotlight_light/on_apply()
+	mob_light_obj = owner.mob_light(2, 1.5, "#e2e2ca")
+
+	beam_from_above_a = new /obj/effect/overlay/spotlight
+	beam_from_above_a.alpha = BEAM_ALPHA
+	owner.vis_contents += beam_from_above_a
+	beam_from_above_a.layer = BELOW_MOB_LAYER
+
+	beam_from_above_b = new /obj/effect/overlay/spotlight
+	beam_from_above_b.alpha = BEAM_ALPHA
+	beam_from_above_b.layer = ABOVE_MOB_LAYER
+	beam_from_above_b.pixel_y = -2 //Slight vertical offset for an illusion of volume
+	owner.vis_contents += beam_from_above_b
+
+	return TRUE
+
+/datum/status_effect/spotlight_light/on_remove()
+	if(beam_from_above_a || beam_from_above_b)
+		owner.vis_contents -= beam_from_above_a
+		owner.vis_contents -= beam_from_above_b
+	QDEL_NULL(mob_light_obj)
+
+#undef BEAM_ALPHA
+>>>>>>> 15e02e49 ([PORT] Cerulean extras: hair layers, deep water, platforms and the GMM spotlight (#13136))

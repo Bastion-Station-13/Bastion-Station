@@ -13,6 +13,11 @@
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+<<<<<<< HEAD
+=======
+	fishing_modifier = 0
+	hair_mask = /datum/hair_mask/standard_hat_middle
+>>>>>>> 15e02e49 ([PORT] Cerulean extras: hair layers, deep water, platforms and the GMM spotlight (#13136))
 
 /datum/armor/space_beret
 	melee = 80

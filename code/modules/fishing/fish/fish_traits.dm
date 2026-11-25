@@ -356,6 +356,17 @@ GLOBAL_LIST_INIT(fish_traits, init_subtypes_w_path_keys(/datum/fish_trait, list(
 	if(fish.required_fluid_type == AQUARIUM_FLUID_AIR)
 		fish.required_fluid_type = AQUARIUM_FLUID_FRESHWATER
 
+<<<<<<< HEAD
+=======
+/datum/fish_trait/amphibious/remove_from_fish(obj/item/fish/fish)
+	. = ..()
+	fish.required_fluid_type = initial(fish.required_fluid_type)
+
+/datum/fish_trait/amphibious/apply_to_mob(mob/living/basic/mob)
+	. = ..()
+	ADD_TRAIT(mob, TRAIT_NODROWN, FISH_TRAIT_DATUM)
+
+>>>>>>> 15e02e49 ([PORT] Cerulean extras: hair layers, deep water, platforms and the GMM spotlight (#13136))
 /datum/fish_trait/mixotroph
 	name = "Mixotroph"
 	inheritability = 75
