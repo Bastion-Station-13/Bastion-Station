@@ -91,7 +91,7 @@
 	clicker = null
 
 /// On mouse down start shooting!
-/datum/component/ranged_mob_full_auto/proc/on_mouse_down(client/source, atom/target, turf/location, control, params)
+/datum/component/ranged_mob_full_auto/proc/on_mouse_down(client/source, atom/_target, turf/location, control, params)
 	SIGNAL_HANDLER
 	if (awaiting_status != AUTOFIRE_MOUSEDOWN)
 		return // Avoid a double mousedown with no mouseup
@@ -110,13 +110,17 @@
 	var/mob/living/living_parent = parent
 	if (!isturf(living_parent.loc))
 		return
-	if(living_parent.Adjacent(target) && !(istype(target, /mob) || istype(target, /turf))) //Adjacent clicking.
+	if(living_parent.Adjacent(_target) && !(istype(_target, /mob) || istype(_target, /turf))) //Adjacent clicking.
 		return
 
-	if (isnull(location) || istype(target, /atom/movable/screen)) // Clicking on a screen object.
-		set_target(parse_caught_click_modifiers(modifiers, get_turf(source.eye), source))
+	if (isnull(location) || istype(_target, /atom/movable/screen)) // Clicking on a screen object.
+		if(_target.plane != CLICKCATCHER_PLANE)
+			return //If we click and drag on our worn backpack, for example, we want it to open instead.
+
+		//If we landed on the clickcatcher plane, we want the click to trigger then, but under it.
+		_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
-		if (isnull(target))
+		if (isnull(_target))
 			CRASH("Failed to get the turf under clickcatcher")
 
 	awaiting_status = AUTOFIRE_MOUSEUP
@@ -124,7 +128,7 @@
 	if (is_firing)
 		stop_firing()
 
-	set_target(target)
+	set_target(_target)
 	target_loc = get_turf(target)
 	INVOKE_ASYNC(src, PROC_REF(start_firing))
 
@@ -148,7 +152,7 @@
 /// When the mouse moved let's try and shift our aim
 /datum/component/ranged_mob_full_auto/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
 	SIGNAL_HANDLER
-	if (!isnull(over_location))
+	if (!(isnull(over_location) || istype(over_object, /atom/movable/screen)))
 		set_target(over_object)
 		target_loc = get_turf(over_object)
 		return
@@ -160,7 +164,7 @@
 
 	if (!isnull(new_target))
 		set_target(new_target)
-		target_loc = new_target
+		target_loc = new_target //new_target is guaranteed to be a turf from parse_caught_click_modifiers()
 		return
 
 	if (QDELETED(target)) //No new target acquired, and old one was deleted, get us out of here.

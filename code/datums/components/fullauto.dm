@@ -137,8 +137,11 @@
 		return
 	if(source.mob.Adjacent(_target) && !(istype(_target, /mob) || istype(_target, /turf))) //Adjacent clicking.
 		return
-
 	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
+		if(_target.plane != CLICKCATCHER_PLANE)
+			return //If we click and drag on our worn backpack, for example, we want it to open instead.
+
+		//If we landed on the clickcatcher plane, we want the click to trigger then, but under it.
 		_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
 		if(!_target)
@@ -217,7 +220,7 @@
 
 /datum/component/automatic_fire/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
 	SIGNAL_HANDLER
-	if(isnull(over_location)) //This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
+	if(isnull(over_location) || istype(over_object, /atom/movable/screen)) //This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
 		var/list/modifiers = params2list(params)
 		var/new_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
@@ -230,7 +233,7 @@
 			target_loc = target
 			CRASH("on_mouse_drag failed to get the turf under screen object [over_object.type]")
 		target = new_target
-		target_loc = new_target
+		target_loc = new_target //new_target is guaranteed to be a turf from parse_caught_click_modifiers()
 		return
 	target = over_object
 	target_loc = get_turf(over_object)
