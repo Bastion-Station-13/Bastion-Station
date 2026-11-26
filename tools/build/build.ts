@@ -81,6 +81,27 @@ export const DmMapsIncludeTarget = new Juke.Target({
   },
 });
 
+<<<<<<< HEAD
+=======
+export const BehaviorTreeCompilerTarget = new Juke.Target({
+  inputs: [
+    'code/**/*.bt.json',
+    'monkestation/code/**/*.bt.json',
+    'code/__DEFINES/**/*.dm',
+    'tools/build_bt.py',
+  ],
+  outputs: () => {
+    return Juke.glob('code/**/*.bt.json').map((file) => {
+      const rel = file.replace(/\.bt\.json$/, '');
+      return `build/behavior_trees/${rel}.bt.compiled.json`;
+    });
+  },
+  executes: async () => {
+    await Juke.exec('python', ['tools/build_bt.py']);
+  },
+});
+
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
 export const DmTarget = new Juke.Target({
   parameters: [
     DefineParameter,

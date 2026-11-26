@@ -38,6 +38,10 @@ jobs:
           sparse-checkout: |
             _maps
             .github
+<<<<<<< HEAD
+=======
+            build/behavior_trees
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
             code/datums/greyscale/json_configs
             data/cassette_storage
             goon/icons
