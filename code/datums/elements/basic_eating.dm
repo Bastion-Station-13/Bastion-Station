@@ -88,6 +88,7 @@
 		stack.use(1)
 		return
 
+	eater.log_message("has eaten [target]!", LOG_ATTACK)
 	qdel(target)
 
 /proc/get_drink_sound(mob/living/drinker, force_enhanced = FALSE)

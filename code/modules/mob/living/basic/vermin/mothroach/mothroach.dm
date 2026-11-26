@@ -37,6 +37,10 @@
 /mob/living/basic/mothroach/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/pet_bonus, "squeaks happily!")
+	var/static/list/food_types = list(/obj/item/clothing)
+	AddElement(/datum/element/basic_eating, food_types = food_types)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_types))
+	AddElement(/datum/element/ai_retaliate)
 	add_verb(src, /mob/living/proc/toggle_resting)
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
