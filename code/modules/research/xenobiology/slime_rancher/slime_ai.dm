@@ -51,6 +51,7 @@
 		return
 	set_blackboard_key_assoc_lazylist(BB_TEMPORARY_IGNORE_LIST, target, expires_at)
 
+<<<<<<< HEAD
 /// Whether the target is still on the ignore list.
 /datum/ai_controller/basic_controller/slime/proc/is_ignoring(atom/target)
 	return LAZYACCESS(blackboard[BB_TEMPORARY_IGNORE_LIST], target) > world.time
@@ -58,6 +59,15 @@
 /// remove_thing_from_blackboard_key() crashes on things that aren't there, this doesn't
 /datum/ai_controller/basic_controller/slime/proc/forget(key, atom/thing)
 	if(!(thing in blackboard[key]))
+=======
+/datum/ai_controller/basic_controller/slime/note_unreachable_target(atom/target)
+	// without this every search paths to the same mess behind a window again
+	ignore_target(target, 30 SECONDS)
+
+/// Drops a chase exclusion we set, unless something longer-lived (a friend peeling us off) overwrote it since.
+/datum/ai_controller/basic_controller/slime/proc/expire_chase_exclusion(atom/target, expires_at)
+	if(LAZYACCESS(blackboard[BB_TEMPORARY_IGNORE_LIST], target) != expires_at)
+>>>>>>> 270b2b20f (Slimes stop pathing to stuff they can't reach (#13183))
 		return
 	remove_thing_from_blackboard_key(key, thing)
 
