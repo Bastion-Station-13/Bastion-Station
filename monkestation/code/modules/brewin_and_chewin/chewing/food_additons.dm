@@ -2,9 +2,6 @@
 	///can in rare cases be on an item so generalizing onto items
 	var/food_quality = 1
 
-/obj/item/food/examine(mob/user)
-	. = ..()
-	. += span_notice("The food's level of quality is [food_quality]")
 
 	var/food_descriptor
 	if(food_quality < 0)
@@ -16,7 +13,7 @@
 			if(0)
 				food_descriptor = "It looks like an unappetizing a meal."
 			if(1 to 10)
-				food_descriptor = "The food is edible, but frozen dinners have been reheated with more skill."
+				food_descriptor = "This is edible food."
 			if(11 to 20)
 				food_descriptor = "It looks adequately made."
 			if(21 to 30)
