@@ -11,6 +11,16 @@
 /mob/proc/get_inactive_held_item()
 	return get_item_for_held_index(get_inactive_hand_index())
 
+<<<<<<< HEAD
+=======
+/// Returns the items in your "active hand set", essentially your active hand and offhand
+/mob/proc/get_active_handset_items() as /list
+	RETURN_TYPE(/list/obj/item)
+
+	var/list/ret = list(get_active_held_item(), get_inactive_held_item())
+	ret.RemoveAll(null)
+	return ret
+>>>>>>> 1e505906 ([Loadout] Holo-Candle Projector & Holo-projector fixes. (#13001))
 
 //Finds the opposite index for the active one (eg: upper left arm will find the item in upper right arm)
 //So we're treating each "pair" of limbs as a team, so "both" refers to them
