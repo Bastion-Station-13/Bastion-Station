@@ -1,4 +1,5 @@
 /datum/ai_controller/basic_controller/bot
+	behavior_tree_json = "code/modules/mob/living/basic/bots/bot.bt.json"
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
 		BB_SALUTE_MESSAGES = list(
@@ -9,6 +10,7 @@
 		BB_UNREACHABLE_LIST_COOLDOWN = 45 SECONDS,
 	)
 
+<<<<<<< HEAD
 	ai_movement = /datum/ai_movement/jps/bot
 	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
 	planning_subtrees = list(
@@ -17,29 +19,85 @@
 		/datum/ai_planning_subtree/find_patrol_beacon,
 		/datum/ai_planning_subtree/manage_unreachable_list,
 	)
+=======
+	ai_movement = /datum/ai_movement/navmap_astar/bot
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 	max_target_distance = AI_BOT_PATH_LENGTH
-	///keys to be reset when the bot is reseted
+	ai_traits = DEFAULT_AI_FLAGS | RUN_WHILE_UNWATCHED
+	///keys to be reset when the bot is reset
 	var/list/reset_keys = list(
 		BB_BEACON_TARGET,
 		BB_PREVIOUS_BEACON_TARGET,
 		BB_BOT_SUMMON_TARGET,
 	)
-	///how many times we tried to reach the target
-	var/current_pathing_attempts = 0
-	///if we cant reach it after this many attempts, add it to our ignore list
-	var/max_pathing_attempts = 25
-	can_idle = FALSE // we want these to be running always
+
+/datum/targeting_strategy/basic/bot/is_valid_target(mob/living/living_mob, atom/the_target, vision_range, datum/ai_controller/controller = null)
+	var/datum/ai_controller/basic_controller/bot/my_controller = living_mob.ai_controller
+	if(isnull(my_controller))
+		return FALSE
+	if(!ishuman(the_target) || LAZYACCESS(my_controller.blackboard[BB_TEMPORARY_IGNORE_LIST], the_target))
+		return FALSE
+	var/mob/living/living_target = the_target
+	if(isnull(living_target.mind))
+		return FALSE
+	if(get_turf(living_mob) == get_turf(living_target))
+		return ..()
+	if(!my_controller.can_reach_target(living_target, distance = 10))
+		my_controller.add_to_blacklist(living_target)
+		return FALSE
+	return ..()
 
 /datum/ai_controller/basic_controller/bot/TryPossessPawn(atom/new_pawn)
 	. = ..()
 	if(. & AI_CONTROLLER_INCOMPATIBLE)
 		return
 	RegisterSignal(new_pawn, COMSIG_BOT_RESET, PROC_REF(reset_bot))
+	RegisterSignal(new_pawn, COMSIG_AI_BLACKBOARD_KEY_CLEARED(BB_BOT_SUMMON_TARGET), PROC_REF(clear_summon))
+	RegisterSignal(new_pawn, COMSIG_MOB_AI_MOVEMENT_STARTED, PROC_REF(on_movement_start))
 
-/datum/ai_controller/basic_controller/bot/able_to_run()
+/datum/ai_controller/basic_controller/bot/proc/on_movement_start(mob/living/basic/bot/source, atom/target)
+	SIGNAL_HANDLER
+
+	if(target == blackboard[BB_BEACON_TARGET])
+		source.update_bot_mode(new_mode = BOT_PATROL)
+		return
+
+	source.clear_path_hud()
+
+/datum/ai_controller/basic_controller/bot/proc/add_to_blacklist(atom/target, duration)
+	if(QDELETED(target))
+		return
+	var/final_duration = duration || blackboard[BB_UNREACHABLE_LIST_COOLDOWN]
+	set_blackboard_key_assoc_lazylist(BB_TEMPORARY_IGNORE_LIST, target, TRUE)
+	addtimer(CALLBACK(src, PROC_REF(remove_from_blacklist), target), final_duration)
+
+/// Unreachable targets get added to the temporary ignore list so we stop pathing to them. Subtypes override to skip blacklisting in stationary mode.
+/datum/ai_controller/basic_controller/bot/note_unreachable_target(atom/target)
+	add_to_blacklist(target)
+
+/datum/ai_controller/basic_controller/bot/proc/remove_from_blacklist(atom/target)
+	if(QDELETED(target))
+		return
+	remove_from_blackboard_lazylist_key(BB_TEMPORARY_IGNORE_LIST, target)
+
+/datum/ai_controller/basic_controller/bot/proc/clear_summon()
+	SIGNAL_HANDLER
+
+	var/mob/living/basic/bot/bot_pawn = pawn
+	bot_pawn.bot_reset()
+
+/datum/ai_controller/basic_controller/bot/setup_able_to_run()
+	. = ..()
+	RegisterSignal(pawn, COMSIG_BOT_MODE_FLAGS_SET, PROC_REF(update_able_to_run))
+
+/datum/ai_controller/basic_controller/bot/clear_able_to_run()
+	UnregisterSignal(pawn, list(COMSIG_BOT_MODE_FLAGS_SET))
+	return ..()
+
+/datum/ai_controller/basic_controller/bot/get_able_to_run()
 	var/mob/living/basic/bot/bot_pawn = pawn
 	if(!(bot_pawn.bot_mode_flags & BOT_MODE_ON))
-		return FALSE
+		return AI_UNABLE_TO_RUN
 	return ..()
 
 /datum/ai_controller/basic_controller/bot/get_access()
@@ -48,29 +106,22 @@
 
 /datum/ai_controller/basic_controller/bot/proc/reset_bot()
 	SIGNAL_HANDLER
-
+	cancel_current_plan()
 	if(!length(reset_keys))
 		return
 	for(var/key in reset_keys)
 		clear_blackboard_key(key)
 
 ///set the target if we can reach them
-/datum/ai_controller/basic_controller/bot/proc/set_if_can_reach(key, target, distance = 10, bypass_add_to_blacklist = FALSE)
-	if(can_reach_target(target, distance))
+/datum/ai_controller/basic_controller/bot/proc/set_if_can_reach(key, target, duration, distance = 10, bypass_add_to_blacklist = FALSE, minimum_distance = 0)
+	if(can_reach_target(target, distance, minimum_distance))
+		EVLOG_MAPTEXT(src, EVLOG_CATEGORY_AI_TARGETING, "[pawn] has selected [target] as a target for blackboard key [key]!", get_turf(target), "Target: [target]")
+		EVLOG_LINES(src, EVLOG_CATEGORY_AI_TARGETING, "Line to target", get_turf(pawn), get_turf(target))
 		set_blackboard_key(key, target)
 		return TRUE
-	if(!bypass_add_to_blacklist)
-		set_blackboard_key_assoc_lazylist(BB_TEMPORARY_IGNORE_LIST, REF(target), TRUE)
-	return FALSE
-
-/datum/ai_controller/basic_controller/bot/proc/can_reach_target(target, distance = 10)
-	if(!isdatum(target)) //we dont need to check if its not a datum!
-		return TRUE
-	if(get_turf(pawn) == get_turf(target))
-		return TRUE
-	var/list/path = get_path_to(pawn, target, max_distance = distance, access = get_access())
-	if(!length(path))
+	if(bypass_add_to_blacklist)
 		return FALSE
+<<<<<<< HEAD
 	return TRUE
 
 /// subtree to manage our list of unreachables, we reset it every 15 seconds
@@ -243,3 +294,10 @@
 /datum/ai_behavior/salute_authority/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()
 	controller.clear_blackboard_key(target_key)
+=======
+	var/final_duration = duration || blackboard[BB_UNREACHABLE_LIST_COOLDOWN]
+	EVLOG_MAPTEXT(src, EVLOG_CATEGORY_AI_TARGETING, "[pawn] has added [target] to its targetting blacklist!", get_turf(target), "Target: [target]")
+	EVLOG_LINES(src, EVLOG_CATEGORY_AI_TARGETING, "Line to target", get_turf(pawn), get_turf(target))
+	add_to_blacklist(target, final_duration)
+	return FALSE
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

@@ -240,3 +240,14 @@ GLOBAL_LIST_INIT(announcer_keys, list(
 #define SFX_CASSETTE_TAKE_OUT "cassette_tape_take_out"
 #define SFX_CASSETTE_DUMP "cassette_tape_dump"
 #define SFX_CASSETTE_ASMR "cassette_tape_asmr"
+<<<<<<< HEAD
+=======
+#define SFX_REEL "reel"
+#define SFX_DEFAULT_FISH_SLAP "default_fish_slap"
+#define SFX_ALT_FISH_SLAP "alt_fish_slap"
+#define SFX_FISH_PICKUP "fish_pickup"
+
+#define SFX_CAT_MEOW "cat_meow"
+#define SFX_GENERIC_DEVICE_PICKUP "generic_device_pickup"
+#define SFX_GENERIC_DEVICE_DROP "generic_device_drop"
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

@@ -372,3 +372,17 @@
 #define SLIME_WINDUP_TRAIT "slime_windup"
 /// Pauses a slime's AI while it sits in a vacuum pack
 #define VACUUM_STORED_TRAIT "vacuum_stored"
+<<<<<<< HEAD
+=======
+/// Pauses a slime's AI while it lies dazed after falling off a slime stack
+#define SLIME_TUMBLE_TRAIT "slime_tumble"
+
+/// Trait from an engraving
+#define ENGRAVED_TRAIT "engraved"
+
+/// From the aquarium component
+#define AQUARIUM_TRAIT "aquarium"
+
+/// From grabbing someone
+#define GRABBING_TRAIT "grabbing"
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

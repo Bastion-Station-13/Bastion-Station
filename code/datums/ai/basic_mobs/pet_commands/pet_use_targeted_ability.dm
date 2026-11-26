@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /// Pet owners can't see their pet's ability cooldowns so we keep attempting to use an ability until we succeed
 /datum/ai_behavior/pet_use_ability
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM
@@ -22,3 +23,5 @@
 /datum/ai_behavior/pet_use_ability/finish_action(datum/ai_controller/controller, succeeded, ability_key, target_key)
 	. = ..()
 	controller.clear_blackboard_key(target_key)
+=======
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

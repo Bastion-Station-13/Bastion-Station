@@ -38,6 +38,11 @@ jobs:
           sparse-checkout: |
             _maps
             .github
+<<<<<<< HEAD
+=======
+            build/behavior_trees
+            build/navmaps
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
             code/datums/greyscale/json_configs
             data/cassette_storage
             goon/icons

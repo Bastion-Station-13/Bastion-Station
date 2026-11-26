@@ -76,3 +76,6 @@
 #define PAYMENT_CLINICAL "clinical"
 #define PAYMENT_FRIENDLY "friendly"
 #define PAYMENT_ANGRY "angry"
+
+/// The name for the default type of money used in the code.
+#define MONEY_NAME "credits"

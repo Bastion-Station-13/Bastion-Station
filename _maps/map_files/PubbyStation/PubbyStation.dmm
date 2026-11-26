@@ -1413,7 +1413,7 @@
 /area/station/cargo/drone_bay)
 "afP" = (
 /obj/machinery/holopad/secure,
-/mob/living/simple_animal/bot/secbot/pingsky,
+/mob/living/basic/bot/secbot/pingsky,
 /obj/structure/cable/layer1,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
@@ -6970,7 +6970,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/security/brig)
 "azZ" = (
-/mob/living/simple_animal/bot/secbot/beepsky{
+/mob/living/basic/bot/secbot/beepsky{
 	name = "Officer Beepsky"
 	},
 /turf/open/floor/plating,
@@ -12502,7 +12502,7 @@
 	location = "QM #1"
 	},
 /obj/effect/turf_decal/bot,
-/mob/living/simple_animal/bot/mulebot,
+/mob/living/basic/bot/mulebot,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aXy" = (
@@ -12980,7 +12980,7 @@
 	location = "QM #3"
 	},
 /obj/effect/turf_decal/bot,
-/mob/living/simple_animal/bot/mulebot,
+/mob/living/basic/bot/mulebot,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aZr" = (
@@ -29010,7 +29010,7 @@
 	dir = 8
 	},
 /obj/structure/bed/dogbed/runtime,
-/mob/living/simple_animal/pet/cat/runtime,
+/mob/living/basic/pet/cat/runtime,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "cSK" = (
@@ -50331,7 +50331,7 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "tSN" = (
-/mob/living/simple_animal/hostile/retaliate/goose/vomit,
+/mob/living/basic/goose/vomit,
 /turf/open/floor/wood,
 /area/station/service/abandoned_gambling_den)
 "tSR" = (
@@ -50883,7 +50883,7 @@
 /area/station/medical/morgue)
 "ulV" = (
 /obj/effect/landmark/event_spawn,
-/mob/living/simple_animal/bot/secbot/beepsky/armsky,
+/mob/living/basic/bot/secbot/beepsky/armsky,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "umd" = (

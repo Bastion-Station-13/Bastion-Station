@@ -5,6 +5,7 @@
 		BB_WEEDLEVEL_THRESHOLD = 3,
 		BB_WATERLEVEL_THRESHOLD = 90,
 	)
+<<<<<<< HEAD
 
 	ai_movement = /datum/ai_movement/jps // monkestation edit: use jps instead of basic avoidance
 	idle_behavior = /datum/idle_behavior/idle_random_walk
@@ -161,30 +162,20 @@
 /datum/ai_behavior/hunt_target/unarmed_attack_target/water_source
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 	hunt_cooldown = 5 SECONDS
+=======
+	ai_movement = /datum/ai_movement/navmap_astar // use navmap instead of basic avoidance
+	behavior_tree_json = "code/modules/mob/living/basic/jungle/seedling/seedling.bt.json"
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 
 /datum/ai_controller/basic_controller/seedling/meanie
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
 		BB_PET_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
 	)
-	planning_subtrees = list(
-		/datum/ai_planning_subtree/pet_planning,
-		/datum/ai_planning_subtree/simple_find_target,
-		/datum/ai_planning_subtree/targeted_mob_ability/seedling_rapid,
-		/datum/ai_planning_subtree/targeted_mob_ability/solarbeam,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree,
-	)
-
-/datum/ai_planning_subtree/targeted_mob_ability/seedling_rapid
-	ability_key = BB_RAPIDSEEDS_ABILITY
-	finish_planning = FALSE
-
-/datum/ai_planning_subtree/targeted_mob_ability/solarbeam
-	ability_key = BB_SOLARBEAM_ABILITY
-	finish_planning = FALSE
+	behavior_tree_json = "code/modules/mob/living/basic/jungle/seedling/seedling_meanie.bt.json"
 
 ///pet commands
-/datum/pet_command/point_targeting/use_ability/solarbeam
+/datum/pet_command/use_ability/solarbeam
 	command_name = "Launch solarbeam"
 	command_desc = "Command your pet to launch a solarbeam at your target!"
 	radial_icon = 'icons/effects/beam.dmi'
@@ -192,7 +183,7 @@
 	speech_commands = list("beam", "solar")
 	pet_ability_key = BB_SOLARBEAM_ABILITY
 
-/datum/pet_command/point_targeting/use_ability/rapidseeds
+/datum/pet_command/use_ability/rapidseeds
 	command_name = "Rapid seeds"
 	command_desc = "Command your pet to launch a volley of seeds at your target!"
 	radial_icon = 'icons/obj/weapons/guns/projectiles.dmi'

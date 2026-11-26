@@ -66,7 +66,43 @@
 	timeout = 5 MINUTES
 
 /datum/mood_event/pet_animal/add_effects(mob/animal)
+<<<<<<< HEAD
 	description = "\The [animal.name] is adorable! I can't stop petting [animal.p_them()]!"
+=======
+	animal_type = animal?.type
+
+	if(HAS_PERSONALITY(owner, /datum/personality/animal_disliker))
+		mood_change = -1
+		description = "Ewww, [animal.name] is so dirty! I don't want to touch it!"
+		return
+
+	var/dog_fan = HAS_PERSONALITY(owner, /datum/personality/dog_fan)
+	var/isdog = istype(animal, /mob/living/basic/pet/dog)
+	var/cat_fan = HAS_PERSONALITY(owner, /datum/personality/cat_fan)
+	var/iscat = istype(animal, /mob/living/basic/pet/cat)
+	if((dog_fan && isdog) || (cat_fan && iscat) || HAS_PERSONALITY(owner, /datum/personality/animal_friend))
+		mood_change = 3
+		description = "I love [animal.name] so much, [animal.p_theyre()] so adorable! I can't stop petting [animal.p_them()]!"
+		return
+	if(dog_fan && iscat)
+		mood_change = -1
+		description = "I don't like [animal.name]! I prefer dogs!"
+		return
+	if(cat_fan && isdog)
+		mood_change = -1
+		description = "I don't like [animal.name]! I prefer cats!"
+		return
+
+	mood_change = 1
+	description = "[animal.name] is adorable!"
+
+// Change the moodlet if we get refreshed (we may have pet another type of animal)
+/datum/mood_event/pet_animal/be_refreshed(datum/mood/home, mob/animal)
+	. = ..()
+	if(animal_type == animal?.type)
+		return
+	add_effects(animal)
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 
 /datum/mood_event/honk
 	description = "I've been honked!"

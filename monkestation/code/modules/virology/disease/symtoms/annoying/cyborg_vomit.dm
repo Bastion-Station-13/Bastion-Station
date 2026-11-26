@@ -19,8 +19,14 @@
 		sleep(100)
 		var/list/possible_bots = list(
 			/mob/living/basic/bot/medbot,
+<<<<<<< HEAD
 			/mob/living/simple_animal/bot/secbot,
 			/mob/living/simple_animal/bot/floorbot,
+=======
+			/mob/living/basic/bot/secbot,
+			/mob/living/basic/bot/repairbot,
+			/mob/living/basic/bot/buttbot
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 		)
 		var/chosen_bot = pick(possible_bots)
 		var/mob/living/newbot = new chosen_bot(get_turf(mob))

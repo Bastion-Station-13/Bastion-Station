@@ -7,14 +7,9 @@ have ways of interacting with a specific mob and control it.
 /datum/ai_controller/monkey
 	ai_movement = /datum/ai_movement/basic_avoidance
 	movement_delay = 0.4 SECONDS
-	planning_subtrees = list(
-		/datum/ai_planning_subtree/generic_resist,
-		/datum/ai_planning_subtree/monkey_combat,
-		/datum/ai_planning_subtree/generic_hunger,
-		/datum/ai_planning_subtree/generic_play_instrument,
-		/datum/ai_planning_subtree/monkey_shenanigans,
-	)
+	behavior_tree_json = "code/datums/ai/monkey/monkey.bt.json"
 	blackboard = list(
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/monkey,
 		BB_MONKEY_AGGRESSIVE = FALSE,
 		BB_MONKEY_BEST_FORCE_FOUND = 0,
 		BB_MONKEY_ENEMIES = list(),
@@ -27,8 +22,23 @@ have ways of interacting with a specific mob and control it.
 		BB_MONKEY_GUN_NEURONS_ACTIVATED = FALSE,
 		BB_MONKEY_GUN_WORKED = TRUE,
 		BB_SONG_LINES = MONKEY_SONG,
+		BB_MONKEY_GIVE_CHANCE = 5,
+		BB_MONKEY_PICKUP_IS_PICKPOCKET = null,
+		BB_MONKEY_IDLE_COMMON_EMOTES = list("screech", "roar"),
+		BB_MONKEY_IDLE_RARE_EMOTES = list("scratch", "jump", "roll", "tail"),
 	)
-	idle_behavior = /datum/idle_behavior/idle_monkey
+
+/datum/targeting_strategy/basic/monkey
+	custom_faction_check = TRUE
+
+/datum/targeting_strategy/basic/monkey/faction_check(datum/ai_controller/controller, mob/living/living_mob, mob/living/the_target)
+	// if they wronged us, all bets are off
+	if(controller.blackboard[BB_MONKEY_ENEMIES][the_target])
+		return FALSE
+	// target was forcibly set, all bets are off again
+	if(controller.blackboard[BB_CURRENT_TARGET] == the_target)
+		return FALSE
+	return ..()
 
 /datum/ai_controller/monkey/New(atom/new_pawn)
 	AddElement(/datum/element/ai_control_examine, list(
@@ -36,16 +46,18 @@ have ways of interacting with a specific mob and control it.
 	))
 	return ..()
 
-/datum/ai_controller/monkey/pun_pun
-	movement_delay = 0.7 SECONDS //pun pun moves slower so the bartender can keep track of them
-	planning_subtrees = list(
-		/datum/ai_planning_subtree/generic_resist,
-		/datum/ai_planning_subtree/monkey_combat,
-		/datum/ai_planning_subtree/generic_hunger,
-		/datum/ai_planning_subtree/generic_play_instrument,
-		/datum/ai_planning_subtree/punpun_shenanigans,
-	)
-	idle_behavior = /datum/idle_behavior/idle_monkey/pun_pun
+/datum/ai_controller/monkey/pun_pun/TryPossessPawn(atom/new_pawn)
+	. = ..()
+	if(. & AI_CONTROLLER_INCOMPATIBLE)
+		return
+	pawn = new_pawn
+	set_blackboard_key(BB_IGNORE_DRINKS, TRUE)
+	set_blackboard_key(BB_MONKEY_TAMED, TRUE)
+	set_blackboard_key(BB_MONKEY_GIVE_CHANCE, 30)
+	set_blackboard_key(BB_MONKEY_PRESS_TYPEPATH, /obj/structure/desk_bell)
+	override_blackboard_key(BB_MONKEY_IDLE_COMMON_EMOTES, list("tunesing", "dance", "bow"))
+	override_blackboard_key(BB_MONKEY_IDLE_RARE_EMOTES, list("clear", "sign", "tail"))
+	set_trip_mode(mode = FALSE)
 
 /datum/ai_controller/monkey/angry
 
@@ -89,11 +101,25 @@ have ways of interacting with a specific mob and control it.
 	. = ..()
 	set_trip_mode(mode = TRUE)
 
-/datum/ai_controller/monkey/able_to_run()
-	var/mob/living/living_pawn = pawn
+/datum/ai_controller/monkey/setup_able_to_run()
+	. = ..()
+	RegisterSignals(pawn, list(SIGNAL_ADDTRAIT(TRAIT_INCAPACITATED), SIGNAL_REMOVETRAIT(TRAIT_INCAPACITATED)), PROC_REF(update_able_to_run))
 
-	if(IS_DEAD_OR_INCAP(living_pawn))
-		return FALSE
+/datum/ai_controller/monkey/clear_able_to_run()
+	UnregisterSignal(pawn, list(SIGNAL_ADDTRAIT(TRAIT_INCAPACITATED), SIGNAL_REMOVETRAIT(TRAIT_INCAPACITATED)))
+	return ..()
+
+/datum/ai_controller/monkey/get_able_to_run()
+	var/mob/living/living_pawn = pawn
+	if(living_pawn.stat || HAS_TRAIT(living_pawn, TRAIT_INCAPACITATED))
+		return AI_UNABLE_TO_RUN
+	return ..()
+
+/// There's no signal for incapacitation changes, so it gets checked every tick instead
+/datum/ai_controller/monkey/SelectBehaviors(seconds_per_tick)
+	var/mob/living/living_pawn = pawn
+	if(living_pawn.incapacitated(IGNORE_RESTRAINTS|IGNORE_STASIS|IGNORE_GRAB))
+		return
 	return ..()
 
 /datum/ai_controller/monkey/proc/set_trip_mode(mode = TRUE)
@@ -103,6 +129,7 @@ have ways of interacting with a specific mob and control it.
 		var/obj/item/organ/internal/brain/primate/monkeybrain = brain
 		monkeybrain.tripping = mode
 
+<<<<<<< HEAD
 ///re-used behavior pattern by monkeys for finding a weapon
 /datum/ai_controller/monkey/proc/TryFindWeapon()
 	var/mob/living/living_pawn = pawn
@@ -147,6 +174,8 @@ have ways of interacting with a specific mob and control it.
 		queue_behavior(/datum/ai_behavior/monkey_equip/ground)
 	return TRUE
 
+=======
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 ///Reactive events to being hit
 /datum/ai_controller/monkey/proc/retaliate(mob/living/living_mob)
 	// just to be safe
