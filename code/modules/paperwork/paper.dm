@@ -522,6 +522,10 @@ GAME_VERB_SRC(/obj/item/paper, rename, usr, "Rename paper", "Object")
 	var/list/data = list()
 
 	var/obj/item/holding = user.get_active_held_item()
+	if(isAI(user))
+		var/mob/living/silicon/ai/hal = user
+		holding = hal.ai_pen
+
 	// Use a clipboard's pen, if applicable
 	if(istype(loc, /obj/item/clipboard))
 		var/obj/item/clipboard/clipboard = loc
@@ -596,6 +600,13 @@ GAME_VERB_SRC(/obj/item/paper, rename, usr, "Rename paper", "Object")
 					return TRUE
 
 			var/obj/item/holding = user.get_active_held_item()
+
+			//ai is able to write
+			if(isAI(user))
+				var/mob/living/silicon/ai/hal = user
+				holding = hal.ai_pen
+
+
 			// Use a clipboard's pen, if applicable
 			if(istype(loc, /obj/item/clipboard))
 				var/obj/item/clipboard/clipboard = loc
@@ -871,3 +882,14 @@ GAME_VERB_SRC(/obj/item/paper, rename, usr, "Rename paper", "Object")
 	desc = "You cant bear to look at it..."
 	icon_state = "paper_words"
 	armed = TRUE
+
+//a bit of jank. FUCK
+/obj/item/paper/ai
+	name = "generated paper"
+	desc = "an odd piece of paper, it seems to be a repurposed code logs for Nanotrasen-branded AI mainframes."
+	var/interactive = TRUE
+
+/obj/item/paper/ai/ui_status(action, params, datum/tgui/ui)
+	. = ..()
+	if(interactive)
+		return UI_INTERACTIVE
