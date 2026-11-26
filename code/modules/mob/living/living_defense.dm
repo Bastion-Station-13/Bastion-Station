@@ -200,8 +200,19 @@
 
 ///LEGACY HELPER
 /mob/living/proc/set_combat_mode(new_mode, silent = TRUE)
+<<<<<<< HEAD
 	if(!client?.imode.set_combat_mode(new_mode, silent))
+=======
+	if(HAS_TRAIT(src, TRAIT_COMBAT_MODE_LOCK))
+		return
+
+	if(client?.imode.set_combat_mode(new_mode, silent))
+		return
+	if(new_mode)
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 		istate = ISTATE_HARM|ISTATE_BLOCKING
+	else
+		istate &= ~(ISTATE_HARM|ISTATE_BLOCKING)
 
 /mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)
 	if(!isitem(AM))

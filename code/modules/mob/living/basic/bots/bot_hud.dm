@@ -36,13 +36,26 @@
 			holder.icon_state = ""
 
 ///proc that handles drawing and transforming the bot's path onto diagnostic huds
+<<<<<<< HEAD
 /mob/living/basic/bot/proc/generate_bot_path(datum/move_loop/has_target/jps/source)
+=======
+/mob/living/basic/bot/proc/generate_bot_path(datum/move_loop/has_target/navmap_astar/source, list/path)
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 	SIGNAL_HANDLER
 
 	UnregisterSignal(src, COMSIG_MOVELOOP_FINISHED_PATHING)
 
 	if(isnull(ai_controller))
 		return
+
+	if(!length(path))
+		return
+
+
+	var/atom/move_target = path[path.len]
+	if(move_target != get_turf(ai_controller.blackboard[BB_BEACON_TARGET]))
+		return
+
 
 	//Removes path images and handles removing hud client images
 	clear_path_hud()
@@ -51,11 +64,6 @@
 
 	var/list/path_images = active_hud_list[DIAG_PATH_HUD]
 	LAZYCLEARLIST(path_images)
-
-
-	var/atom/move_target = ai_controller.current_movement_target
-	if(move_target != ai_controller.blackboard[BB_BEACON_TARGET])
-		return
 
 	var/list/our_path = source.movement_path
 	if(!length(our_path))
@@ -95,11 +103,6 @@
 /mob/living/basic/bot/proc/handle_hud_path()
 	if(client || !length(current_pathed_turfs) || isnull(ai_controller))
 		return
-
-	var/atom/move_target = ai_controller.current_movement_target
-
-	if(move_target != ai_controller.blackboard[BB_BEACON_TARGET])
-		clear_path_hud()
 
 	var/turf/our_turf = get_turf(src)
 	var/image/target_image = current_pathed_turfs[our_turf]

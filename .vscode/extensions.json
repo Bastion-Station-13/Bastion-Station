@@ -8,6 +8,13 @@
 		"Donkie.vscode-tgstation-test-adapter",
 		"anturk.dmi-editor",
 		"esbenp.prettier-vscode",
+<<<<<<< HEAD
 		"biomejs.biome"
+=======
+		"biomejs.biome",
+		"BehaviorTreeG.behaviortreeg",
+		"ss13.ss13buildflags",
+		"sohpea.auxtools"
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 	]
 }

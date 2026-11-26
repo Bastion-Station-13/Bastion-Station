@@ -49,3 +49,17 @@
 
 ///from base of /datum/preference_middleware/jobs/proc/set_job_title() and /datum/preference_middleware/jobs/proc/set_job_preference: ()
 #define COMSIG_JOB_PREF_UPDATED "job_pref_updated"
+<<<<<<< HEAD
+=======
+
+///from /datum/component/bubble_icon_override/get_bubble_icon(): (list/holder)
+#define COMSIG_GET_BUBBLE_ICON "get_bubble_icon"
+
+/// fired on a datum when event-logger tracking is enabled on it [/datum/proc/enable_evlogging]: ()
+#define COMSIG_EVLOGGING_ENABLED "evlogging_enabled"
+/// fired on a datum when event-logger tracking is disabled on it [/datum/proc/disable_evlogging]: ()
+#define COMSIG_EVLOGGING_DISABLED "evlogging_disabled"
+
+/// fired on the source datum whenever an event is added for it in the event logger: (/datum/event_logger_track/track, list/event_data)
+#define COMSIG_EVLOG_EVENT_ADDED "evlog_event_added"
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

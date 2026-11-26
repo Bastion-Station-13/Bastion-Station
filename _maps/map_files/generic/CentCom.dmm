@@ -21808,6 +21808,7 @@
 	id = "fendahl_mechbay";
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -21822,6 +21823,14 @@
 /obj/effect/turf_decal/vg_decals/numbers/two,
 /turf/open/floor/iron/herringbone,
 /area/centcom/central_command_areas/mentor)
+=======
+/turf/open/floor/iron/white/textured,
+/area/centcom/central_command_areas/admin)
+"fbd" = (
+/mob/living/basic/pet/gondola,
+/turf/open/floor/eighties/red,
+/area/centcom/central_command_areas/admin)
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 "fbx" = (
 /obj/structure/sign{
 	name = "wall";
@@ -21913,7 +21922,7 @@
 /turf/open/floor/iron/dark/small,
 /area/centcom/central_command_areas/adminroom)
 "fgN" = (
-/mob/living/simple_animal/pet/cat/kitten{
+/mob/living/basic/pet/cat/kitten{
 	name = "Kbity :3";
 	desc = "D'aaawwww. Fortune's best friend"
 	},
@@ -30747,6 +30756,7 @@
 	},
 /turf/open/floor/pod/dark,
 /area/centcom/central_command_areas/prison/cells)
+<<<<<<< HEAD
 "shV" = (
 /obj/structure/closet/syndicate,
 /obj/item/ammo_box/magazine/c980_grenade/drum/thunderdome_gas,
@@ -30767,6 +30777,11 @@
 /obj/item/storage/box/beanbag,
 /obj/item/storage/box/beanbag,
 /turf/open/floor/mineral/plastitanium/red,
+=======
+"shW" = (
+/mob/living/basic/pet/gondola/funky,
+/turf/open/floor/eighties/red,
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 /area/centcom/central_command_areas/admin)
 "shZ" = (
 /obj/structure/table/wood,

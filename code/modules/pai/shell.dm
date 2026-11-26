@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+/mob/living/silicon/pai/mob_try_stash(mob/living/carrier, instant = FALSE)
+	if(!possible_chassis[chassis])
+		to_chat(src, span_warning("Your current form isn't able to be carried!"))
+		return FALSE
+	return ..()
+
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 /mob/living/silicon/pai/mob_try_pickup(mob/living/user, instant=FALSE)
 	if(!possible_chassis[chassis])
 		to_chat(user, span_warning("[src]'s current form isn't able to be carried!"))

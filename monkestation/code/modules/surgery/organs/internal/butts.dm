@@ -117,3 +117,99 @@
 		dyn_explosion(turf, 1, 0)
 	if(!QDELETED(butt))
 		butt.cooling_down = FALSE
+<<<<<<< HEAD
+=======
+
+//Buttbot Production
+/obj/item/organ/internal/butt/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+	if(istype(attacking_item, /obj/item/bodypart/arm/left/robot) || istype(attacking_item, /obj/item/bodypart/arm/right/robot))
+		var/mob/living/basic/bot/buttbot/new_butt = new(get_turf(src))
+		qdel(attacking_item)
+		switch(src.type) //A BUTTBOT FOR EVERYONE!
+			if(/obj/item/organ/internal/butt/atomic)
+				new_butt.name = "Atomic Buttbot"
+				new_butt.desc = "Science has gone too far."
+				new_butt.icon_state = "buttbot_atomic"
+			if(/obj/item/organ/internal/butt/bluespace)
+				new_butt.name = "Bluespace Buttbot"
+				new_butt.desc = "The peak of Nanotrasen design."
+				new_butt.icon_state = "buttbot_bluespace"
+			if(/obj/item/organ/internal/butt/clown)
+				new_butt.name = "Bananium Buttbot"
+				new_butt.desc = "Didn't you know clown asses were made out of Bananium?"
+				new_butt.icon_state = "buttbot_clown"
+				new_butt.AddComponent(/datum/component/slippery, 40)
+			if(/obj/item/organ/internal/butt/cyber)
+				new_butt.name = "Cybernetic Buttbot"
+				new_butt.desc = "LAW ONE: BUTT"
+				new_butt.icon_state = "buttbot_cyber"
+			if(/obj/item/organ/internal/butt/iron)
+				new_butt.name = "Iron Buttbot"
+				new_butt.desc = "We can rebutt him, we have the technology."
+				new_butt.icon_state = "buttbot_iron"
+			if(/obj/item/organ/internal/butt/plasma)
+				new_butt.name = "Plasma Buttbot"
+				new_butt.desc = "Safer here than on it's owner."
+				new_butt.icon_state = "buttbot_plasma"
+			if(/obj/item/organ/internal/butt/skeletal)
+				new_butt.name = "Skeletal Buttbot"
+				new_butt.desc = "Rattle Me Booty!"
+				new_butt.icon_state = "buttbot_skeleton"
+			if(/obj/item/organ/internal/butt/xeno)
+				new_butt.name = "Xenomorph Buttbot"
+				new_butt.desc = "hiss!"
+				new_butt.icon_state = "buttbot_xeno"
+
+		playsound(src, pick('sound/misc/fart1.ogg', 'sound/effects/fart2.ogg', 'sound/effects/fart3.ogg', 'sound/effects/fart4.ogg'), 25 ,use_reverb = TRUE, mixer_channel = CHANNEL_PRUDE)
+		qdel(src)
+
+
+/mob/living/basic/bot/buttbot
+	name = "\improper buttbot"
+	desc = "butts"
+	icon = 'icons/obj/butts.dmi'
+	icon_state = "buttbot"
+	density = FALSE
+	anchored = FALSE
+	health = 25
+	maxHealth = 25
+	bot_type = BUTT_BOT
+	pass_flags = PASSMOB
+	var/butt_probability = 15
+	var/listen_probability = 30
+	COOLDOWN_DECLARE(repeat_cooldown)
+
+/mob/living/basic/bot/buttbot/Initialize(mapload)
+	. = ..()
+	REMOVE_TRAIT(src, TRAIT_SILICON_ACCESS, INNATE_TRAIT)
+
+/mob/living/basic/bot/buttbot/emag_act(mob/user, obj/item/card/emag/emag_card)
+	if(!(bot_access_flags & BOT_COVER_EMAGGED))
+		visible_message(span_warning("[user] swipes a card through \the [src]'s crack!"), span_notice("You swipe a card through \the [src]'s crack."))
+		listen_probability = 75
+		butt_probability = 30
+		bot_access_flags |= BOT_COVER_EMAGGED
+		var/turf/butt = get_turf(src)
+		butt.atmos_spawn_air("miasma=5;TEMP=310.15")
+		playsound(src, pick('sound/misc/fart1.ogg', 'sound/effects/fart2.ogg', 'sound/effects/fart3.ogg', 'sound/effects/fart4.ogg'), 100 ,use_reverb = TRUE, mixer_channel = CHANNEL_PRUDE)
+		return TRUE
+	return FALSE
+
+/mob/living/basic/bot/buttbot/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, list/message_mods, message_range)
+	. = ..()
+	if(COOLDOWN_FINISHED(src, repeat_cooldown) && prob(listen_probability))
+		COOLDOWN_START(src, repeat_cooldown, 2 SECONDS)
+		var/list/split_message = splittext_char(html_decode(raw_message), " ")
+		for (var/i in 1 to length(split_message))
+			if(prob(butt_probability))
+				split_message[i] = pick("butt", "butts")
+		if((bot_access_flags & BOT_COVER_EMAGGED))
+			var/turf/butt = get_turf(src)
+			butt.atmos_spawn_air("miasma=5;TEMP=310.15")
+		var/joined_text = jointext(split_message, " ")
+		if(!findtext_char(joined_text, "butt")) //We must butt, or else.
+			COOLDOWN_RESET(src, repeat_cooldown)
+			return
+		say(joined_text)
+		playsound(src, pick('sound/misc/fart1.ogg', 'sound/effects/fart2.ogg', 'sound/effects/fart3.ogg', 'sound/effects/fart4.ogg'), 25 , use_reverb = TRUE, mixer_channel = CHANNEL_PRUDE)
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

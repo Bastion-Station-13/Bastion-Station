@@ -121,6 +121,53 @@
 	ash.pixel_z = -5
 	ash.pixel_w = rand(-1, 1)
 
+<<<<<<< HEAD
+=======
+/**
+ * Sends a moodlet to all nearby living mobs that are not blind or unconscious
+ * to indicate that they saw this mob die (and thus feel bad about it)
+ *
+ * Note: If the mob already has a death moodlet, and the same moodlet is applied, the existing moodlet will simply worsen.
+ * Note: If the mob has a death moodlet, and a worse moodlet is applied, the worse moodlet will take priority.
+ *
+ * Arguments:
+ * * dusted - Was the mob dusted?
+ * * gibbed - Was the mob gibbed?
+ */
+/mob/living/proc/send_death_moodlets(dusted = FALSE, gibbed = FALSE)
+	if(flags_1 & HOLOGRAM_1)
+		return
+
+	for(var/mob/living/nearby in viewers(src))
+		if(nearby.stat >= UNCONSCIOUS || nearby.is_blind())
+			continue
+		nearby.add_mood_event("saw_death", /datum/mood_event/conditional/see_death, src, dusted, gibbed)
+
+/mob/living/silicon/send_death_moodlets(dusted = FALSE, gibbed = FALSE)
+	return // You are a machine (Future todo, roboticists feel sad though)
+
+/mob/living/basic/send_death_moodlets(dusted = FALSE, gibbed = FALSE)
+	if(!(basic_mob_flags & SENDS_DEATH_MOODLETS))
+		return
+	. = ..()
+	add_memory_in_range(src, 7, /datum/memory/pet_died, deuteragonist = src)
+
+/mob/living/simple_animal/send_death_moodlets(dusted = FALSE, gibbed = FALSE)
+	return // I don't care about you anymore
+
+/mob/living/carbon/human/send_death_moodlets(dusted = FALSE, gibbed = FALSE)
+	for(var/datum/surgery/organ_manipulation/manipulation in surgeries)
+		// This check exists so debraining someone doesn't make the surgeon super sad
+		if(manipulation.location == BODY_ZONE_HEAD && body_position == LYING_DOWN)
+			return
+	// monkeys in xenobio are food, don't make people sad about the buffet working
+	if(ismonkey(src) && HAS_TRAIT(src, TRAIT_WAS_SLIME_FOOD))
+		return
+
+	. = ..()
+	add_memory_in_range(src, 7, (gibbed ? /datum/memory/witness_gib : /datum/memory/witnessed_death), protagonist = src)
+
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 /*
  * Called when the mob dies. Can also be called manually to kill a mob.
  *

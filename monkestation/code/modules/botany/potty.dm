@@ -9,7 +9,7 @@
 
 	dexterous = TRUE
 
-	ai_controller = /datum/ai_controller/basic_controller/craig
+	ai_controller = /datum/ai_controller/basic_controller/seedling
 
 	/// Instructions you can give to dogs
 	var/static/list/pet_commands = list(
@@ -18,8 +18,8 @@
 		/datum/pet_command/free,
 		/datum/pet_command/good_boy/dog,
 		/datum/pet_command/follow/dog,
-		/datum/pet_command/point_targeting/attack/dog,
-		/datum/pet_command/point_targeting/fetch,
+		/datum/pet_command/attack/dog,
+		/datum/pet_command/fetch,
 		/datum/pet_command/play_dead,
 	)
 
@@ -95,12 +95,12 @@
 
 		if(info.plant_state == HYDROTRAY_PLANT_DEAD)
 			balloon_alert_to_viewers("dead plant removed")
-			SEND_SIGNAL(hydro, COMSIG_REMOVE_PLANT, seed_item)
+			SEND_SIGNAL(hydro, COMSIG_REMOVE_PLANT, _item)
 			return
 
 		if(growing.weed_level > 0)
 			balloon_alert_to_viewers("weeds uprooted")
-			SEND_SIGNAL(hydro, COMSIG_PLANT_ADJUST_WEED, -10)
+			SEND_SIGNAL(hydro, COMSIG_GROWING_ADJUST_WEED, -10)
 			return
 
 // craig's living icons are movement states, so we gotta ensure icon2html handles that properly
@@ -120,8 +120,8 @@
 	var/mob/living/pawn = controller.pawn
 	pawn.Shake(2, 2, 3 SECONDS)
 	SEND_SIGNAL(pawn, COMSIG_TRY_HARVEST_SEEDS, pawn)
-	return SUBTREE_RETURN_FINISH_PLANNING // This cancels further AI planning
 
+<<<<<<< HEAD
 /datum/ai_controller/basic_controller/craig
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
@@ -138,3 +138,5 @@
 		/datum/ai_planning_subtree/find_and_hunt_target/fill_watercan,
 		/datum/ai_planning_subtree/find_and_hunt_target/treat_hydroplants,
 	)
+=======
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

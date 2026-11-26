@@ -6,40 +6,19 @@
 
 	/// if the mob is protected from being renamed by collars.
 	var/unique_pet = FALSE
-	/// If the mob has collar sprites, this is the base of the icon states.
-	var/collar_icon_state = null
-	/// We have a seperate _rest collar icon state when the pet is resting.
-	var/has_collar_resting_icon_state = FALSE
-
-	/// Our collar
-	var/obj/item/clothing/neck/petcollar/collar
 	var/static/list/pet_foods = list(
 		/obj/item/food/
 	)
 
 /mob/living/basic/pet/Initialize(mapload)
 	. = ..()
-
-	/// Can set the collar var beforehand to start the pet with a collar.
-	if(collar)
-		collar = new(src)
 	add_traits(list(TRAIT_ADVANCEDTOOLUSER, TRAIT_CAN_STRIP), ROUNDSTART_TRAIT)
 	AddElement(/datum/element/dextrous)
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_BAREFOOT)
 	AddElement(/datum/element/basic_eating, heal_amt = 10, food_types = pet_foods)
 	AddComponent(/datum/component/personal_crafting)
-	update_icon(UPDATE_OVERLAYS)
-
-/mob/living/basic/pet/Destroy()
-	. = ..()
-
-	QDEL_NULL(collar)
 
 /mob/living/basic/pet/attackby(obj/item/thing, mob/user, params)
-	if(istype(thing, /obj/item/clothing/neck/petcollar) && !collar)
-		add_collar(thing, user)
-		return TRUE
-
 	if(istype(thing, /obj/item/newspaper) && !stat)
 		user.visible_message(span_notice("[user] baps [name] on the nose with the rolled up [thing]."))
 		dance_rotate(src)
@@ -47,6 +26,7 @@
 
 	return ..()
 
+<<<<<<< HEAD
 /mob/living/basic/pet/update_overlays()
 	. = ..()
 
@@ -138,3 +118,5 @@
 		update_icon(UPDATE_OVERLAYS)
 
 	return old_collar
+=======
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))

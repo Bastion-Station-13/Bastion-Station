@@ -11,6 +11,8 @@
 	var/lube_flags
 	/// A proc callback to call on slip.
 	var/datum/callback/callback
+	/// Optional callback asked before slipping someone, returning FALSE stops the slip
+	var/datum/callback/can_slip_callback
 	/// If parent is an item, this is the person currently holding/wearing the parent (or the parent if no one is holding it)
 	var/mob/living/holder
 	/// Whitelist of item slots the parent can be equipped in that make the holder slippery. If null or empty, it will always make the holder slippery.
@@ -25,15 +27,20 @@
 		COMSIG_ATOM_ENTERED = PROC_REF(Slip_on_wearer),
 	)
 
+<<<<<<< HEAD
 	/// The connect_loc_behalf component for the holder_connections list.
 	var/datum/weakref/holder_connect_loc_behalf
 
 /datum/component/slippery/Initialize(knockdown, lube_flags = NONE, datum/callback/callback, paralyze, force_drop = FALSE, slot_whitelist)
+=======
+/datum/component/slippery/Initialize(knockdown, lube_flags = NONE, datum/callback/callback, paralyze, force_drop = FALSE, slot_whitelist, datum/callback/can_slip_callback)
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 	src.knockdown_time = max(knockdown, 0)
 	src.paralyze_time = max(paralyze, 0)
 	src.force_drop_items = force_drop
 	src.lube_flags = lube_flags
 	src.callback = callback
+	src.can_slip_callback = can_slip_callback
 	if(slot_whitelist)
 		src.slot_whitelist = slot_whitelist
 
@@ -49,6 +56,7 @@
 
 /datum/component/slippery/Destroy(force)
 	callback = null
+	can_slip_callback = null
 	holder = null
 	return ..()
 
@@ -75,11 +83,12 @@
 	if(ismovable(parent))
 		AddComponent(/datum/component/connect_loc_behalf, parent, default_connections)
 
-/datum/component/slippery/InheritComponent(datum/component/slippery/component, i_am_original, knockdown, lube_flags = NONE, datum/callback/callback, paralyze, force_drop = FALSE, slot_whitelist)
+/datum/component/slippery/InheritComponent(datum/component/slippery/component, i_am_original, knockdown, lube_flags = NONE, datum/callback/callback, paralyze, force_drop = FALSE, slot_whitelist, datum/callback/can_slip_callback)
 	if(component)
 		knockdown = component.knockdown_time
 		lube_flags = component.lube_flags
 		callback = component.callback
+		can_slip_callback = component.can_slip_callback
 		paralyze = component.paralyze_time
 		force_drop = component.force_drop_items
 		slot_whitelist = component.slot_whitelist
@@ -89,6 +98,7 @@
 	src.force_drop_items = force_drop
 	src.lube_flags = lube_flags
 	src.callback = callback
+	src.can_slip_callback = can_slip_callback
 	if(slot_whitelist)
 		src.slot_whitelist = slot_whitelist
 /*
@@ -106,6 +116,8 @@
 		if(HAS_TRAIT(turf, TRAIT_TURF_IGNORE_SLIPPERY))
 			return
 	var/mob/living/victim = arrived
+	if(can_slip_callback && !can_slip_callback.Invoke(victim))
+		return
 	if(!(victim.movement_type & (FLYING | FLOATING)) && victim.slip(knockdown_time, parent, lube_flags, paralyze_time, force_drop_items) && callback)
 		callback.Invoke(victim)
 

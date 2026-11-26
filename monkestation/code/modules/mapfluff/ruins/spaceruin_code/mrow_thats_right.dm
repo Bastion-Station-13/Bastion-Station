@@ -116,25 +116,25 @@
 	spell_requirements = SPELL_CASTABLE_WITHOUT_INVOCATION
 
 	possible_shapes = list(
-		/mob/living/simple_animal/pet/cat/super,
-		/mob/living/simple_animal/pet/cat/breadcat/super,
-		/mob/living/simple_animal/pet/cat/original/super,
+		/mob/living/basic/pet/cat/super,
+		/mob/living/basic/pet/cat/breadcat/super,
+		/mob/living/basic/pet/cat/original/super,
 	)
 	keep_name = TRUE
 
-/mob/living/simple_animal/pet/cat/super
+/mob/living/basic/pet/cat/super
 	maxHealth = SUPER_KITTY_HEALTH
 	health = SUPER_KITTY_HEALTH
 	speed = 0
 	gold_core_spawnable = NO_SPAWN
 
-/mob/living/simple_animal/pet/cat/breadcat/super
+/mob/living/basic/pet/cat/breadcat/super
 	maxHealth = SUPER_KITTY_HEALTH
 	health = SUPER_KITTY_HEALTH
 	speed = 0
 	gold_core_spawnable = NO_SPAWN
 
-/mob/living/simple_animal/pet/cat/original/super
+/mob/living/basic/pet/cat/original/super
 	maxHealth = SUPER_KITTY_HEALTH
 	health = SUPER_KITTY_HEALTH
 	speed = 0
@@ -147,20 +147,26 @@
 	name = "SYNDICATE KITTY POWER!!"
 	desc = "Take on the shape of an kitty cat, clad in blood-red armor! Gain their powers at a loss of vitality."
 	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	possible_shapes = list(/mob/living/simple_animal/hostile/syndicat/super)
+	possible_shapes = list(/mob/living/basic/pet/cat/syndicat/super)
 
-/mob/living/simple_animal/hostile/syndicat/super
+/mob/living/basic/pet/cat/syndicat/super
 	maxHealth = SYNDIE_SUPER_KITTY_HEALTH
 	health = SYNDIE_SUPER_KITTY_HEALTH
 	speed = 0
 	// it's clad in blood-red armor
 	damage_coeff = list(BRUTE = 0.8, BURN = 0.9, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+<<<<<<< HEAD
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = INFINITY
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+>>>>>>> 01b29f44 ([PORT] Behavior trees and more basic mobs (#12982))
 	unsuitable_atmos_damage = 0
 
-/mob/living/simple_animal/hostile/syndicat/super/Initialize(mapload)
+/mob/living/basic/pet/cat/syndicat/super/Initialize(mapload)
 	. = ..()
 	// get rid of the microbomb normal syndie cats have
 	for(var/obj/item/implant/explosive/implant_to_remove in implants)
