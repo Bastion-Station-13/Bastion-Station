@@ -58,9 +58,134 @@ GLOBAL_VAR_INIT(wonderland_apocalypse, FALSE)
 			continue
 		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, apply_status_effect), /datum/status_effect/wonderland_district), rand(5 SECONDS, 10 SECONDS))
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_CREATED, PROC_REF(apply_pressure_to_new_mob))
+<<<<<<< HEAD
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_WONDERLAND_APOCALYPSE)
 
 /datum/round_event/wonderlandapocalypse/proc/apply_pressure_to_new_mob(datum/source, mob/living/target)
+=======
+	SSweather.run_weather(/datum/weather/wonderland)
+	var/list/white_rabbits = list()
+	for(var/mob/living/basic/wonderland_rabbit/rabbit in GLOB.mob_living_list)
+		white_rabbits += rabbit
+	shuffle_inplace(white_rabbits)
+	for(var/i in 1 to min(length(white_rabbits), 8))
+		addtimer(CALLBACK(white_rabbits[i], TYPE_PROC_REF(/mob/living/basic/wonderland_rabbit, turn_killer)), rand(10 SECONDS, 60 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(open_rabbit_holes)), 1 MINUTES, TIMER_LOOP)
+	dock_timer = addtimer(CALLBACK(src, PROC_REF(check_shuttle_docked)), 10 SECONDS, TIMER_LOOP | TIMER_STOPPABLE | TIMER_DELETE_ME)
+	seal_endings()
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_WONDERLAND_APOCALYPSE)
+
+/// Only new rituals are refused, one already under way is left to finish so it cannot strand the shuttle
+/datum/wonderland_apocalypse/proc/seal_endings()
+	var/static/alist/decrees = alist(
+		/datum/antagonist/wizard = list(
+			"You, in the ridiculous hat - put the wand away. I have seen better magic from a pack of cards, and I had those beheaded.",
+			"You have bent reality your whole life, and now it will not bend. The Grand Ritual is closed to you, and even your simplest spell will bite back.",
+		),
+		/datum/antagonist/cult = list(
+			"You wanted the veil torn, and now it is. How ungrateful of you to look so disappointed at who came through.",
+			"The Geometer's voice thins to nothing in your head. She cannot be summoned while this thing holds the station, and her magic will tear at you if you call on it.",
+		),
+		/datum/antagonist/clock_cultist = list(
+			"Stop that ticking at once. Your rusty old engine may keep his own time elsewhere - here it is always six o'clock, and he is not invited to tea.",
+			"The ticking you have marched to all this time skips, then stalls. The Ark will not open while this thing holds the station.",
+		),
+		/datum/antagonist/heretic = list(
+			"Go on, peek through one of your little cracks in the world. Whatever used to whisper back is gone. There is only me now.",
+			"You reach for the Mansus out of habit, and nothing reaches back. There will be no ascension while this thing holds the station.",
+		),
+		/datum/antagonist/bloodsucker = list(
+			"A Masquerade in my court, and I was not invited? Masks off, Kindred. Without my word of acceptance you are nothing.",
+			"The Blood in your veins shrinks from her voice like prey. Every power you call on will cost you dearly now.",
+		),
+		/datum/antagonist/changeling = list(
+			"I know what you are under that borrowed face. Pick one and keep it - I will not have my executioner guessing which head is yours.",
+			"She is looking straight at you, and no face you own will change that. Your flesh will fight you every time you ask it to shift.",
+		),
+		/datum/antagonist/darkspawn = list(
+			"You come from the nothing between places. My garden has grown over it now. There is nowhere left for you to crawl back to.",
+			"You listen for the Void and hear birdsong. The Sacrament cannot be performed while this thing holds the station.",
+		),
+		/datum/antagonist/nightmare = list(
+			"A nightmare, in my dream? I think not. Leave my lamps alone - I intend to see every moment of your trial.",
+			"For the first time since you crawled out of it, the dark does not feel like yours.",
+		),
+	)
+	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
+		var/mob/target = antag.owner?.current
+		if(QDELETED(target))
+			continue
+		for(var/antag_type, lines in decrees)
+			if(istype(antag, antag_type))
+				to_chat(target, span_hearts_decree(lines[1]), type = MESSAGE_TYPE_WARNING)
+				to_chat(target, span_warning(lines[2]), type = MESSAGE_TYPE_WARNING)
+				break
+
+/datum/wonderland_apocalypse/proc/open_rabbit_holes()
+	if(wave_rabbits >= 20)
+		return
+	var/list/victims = list()
+	for(var/mob/living/player as anything in GLOB.alive_player_list)
+		var/turf/player_turf = get_turf(player)
+		if(!player_turf || !is_station_level(player_turf.z) || (FACTION_RABBITS in player.faction))
+			continue
+		victims += player
+	for(var/i in 1 to min(2, length(victims)))
+		var/mob/living/victim = pick_n_take(victims)
+		var/turf/hole_turf = pick_open_turf(view(4, victim) - range(1, victim))
+		if(!hole_turf)
+			continue
+		new /obj/effect/temp_visual/wonderland_hole(hole_turf)
+		for(var/j in 1 to 2)
+			var/mob/living/basic/killer_rabbit/rabbit = new(hole_turf)
+			wave_rabbits++
+			RegisterSignal(rabbit, COMSIG_QDELETING, PROC_REF(wave_rabbit_gone))
+			climb_out_of_rabbit_hole(rabbit)
+
+/datum/wonderland_apocalypse/proc/wave_rabbit_gone(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(source, COMSIG_QDELETING)
+	wave_rabbits--
+
+/datum/wonderland_apocalypse/proc/pick_open_turf(list/turfs)
+	var/list/open_turfs = list()
+	for(var/turf/open/candidate in turfs)
+		if(isgroundlessturf(candidate) || !istype(get_area(candidate), /area/station) || candidate.is_blocked_turf(exclude_mobs = TRUE))
+			continue
+		open_turfs += candidate
+	return pick(open_turfs)
+
+/// There is no docking signal, so we poll
+/datum/wonderland_apocalypse/proc/check_shuttle_docked()
+	if(!EMERGENCY_AT_LEAST_DOCKED || EMERGENCY_ESCAPED_OR_ENDGAMED)
+		return
+	if(open_gate())
+		deltimer(dock_timer)
+		dock_timer = null
+
+/datum/wonderland_apocalypse/proc/open_gate()
+	var/turf/gate_turf = pick_open_turf(RANGE_TURFS(12, SSshuttle.emergency)) || pick(pick_noise_station_turfs(1, 4))
+	if(!gate_turf)
+		return FALSE
+	var/obj/structure/wonderland_rift/gate/gate = new(gate_turf)
+	priority_announce(
+		text = span_hearts_announcement("You are keeping me waiting, and I do not wait. Open the gate. Let the rest of my court in."),
+		title = "Higher Dimensional Affairs",
+		sound = 'sound/music/antag/monster_hunter.ogg',
+		encode_text = FALSE,
+		color_override = "purple"
+	)
+	notify_ghosts(
+		"A gate to Wonderland has opened. Every ghost may come through, once.",
+		source = gate,
+		action = NOTIFY_ORBIT,
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
+		header = "Wonderland Gate Opened",
+	)
+	return TRUE
+
+/datum/wonderland_apocalypse/proc/apply_pressure_to_new_mob(datum/source, mob/living/target)
+>>>>>>> 5351c683 (fix mh spam announcements (#13195))
 	SIGNAL_HANDLER
 	if(!istype(target) || QDELING(target))
 		return
