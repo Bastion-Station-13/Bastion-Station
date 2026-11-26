@@ -30,7 +30,7 @@
 	var/atom/movable/currently_hooked
 
 	/// Fishing line visual for the hooked item
-	var/datum/beam/fishing_line/fishing_line
+	var/datum/beam/held/fishing_line
 
 	/// Are we currently casting
 	var/casting = FALSE
@@ -149,12 +149,23 @@
 	if(fishing_line)
 		QDEL_NULL(fishing_line)
 	var/beam_color = line?.line_color || default_line_color
+<<<<<<< HEAD
 	fishing_line = new(user, target, icon_state = "fishing_line", beam_color = beam_color,  emissive = FALSE, override_target_pixel_y = target_py)
 	fishing_line.lefthand = user.get_held_index_of_item(src) % 2 == 1
 	RegisterSignal(fishing_line, COMSIG_BEAM_BEFORE_DRAW, PROC_REF(check_los))
 	RegisterSignal(fishing_line, COMSIG_QDELETING, PROC_REF(clear_line))
 	INVOKE_ASYNC(fishing_line, TYPE_PROC_REF(/datum/beam/, Start))
 	user.update_held_items()
+=======
+	fishing_line = new(firer, target, icon_state = "fishing_line", beam_color = beam_color, emissive = NONE, override_target_pixel_y = target_py)
+	fishing_line.lefthand = firer.get_held_index_of_item(src) % 2 == 1
+	RegisterSignal(fishing_line, COMSIG_BEAM_BEFORE_DRAW, PROC_REF(check_los))
+	RegisterSignal(fishing_line, COMSIG_QDELETING, PROC_REF(clear_line))
+	INVOKE_ASYNC(fishing_line, TYPE_PROC_REF(/datum/beam, Start))
+	if(QDELETED(fishing_line))
+		return null
+	firer.update_held_items()
+>>>>>>> a7c7a98f0 (beams (#13144))
 	return fishing_line
 
 /obj/item/fishing_rod/proc/clear_line(datum/source)
@@ -585,6 +596,7 @@
 	our_line = owner.create_fishing_line(src)
 
 /obj/projectile/fishing_cast/Destroy()
+<<<<<<< HEAD
 	. = ..()
 	QDEL_NULL(our_line)
 	owner?.casting = FALSE
@@ -648,3 +660,10 @@
 		if(NORTH)
 			override_origin_pixel_x = lefthand ? lefthand_n_px : righthand_n_px
 			override_origin_pixel_y = lefthand ? lefthand_n_py : righthand_n_py
+=======
+	if(owner?.casting)
+		owner.casting = FALSE
+		QDEL_NULL(owner.fishing_line)
+	owner = null
+	return ..()
+>>>>>>> a7c7a98f0 (beams (#13144))
