@@ -469,6 +469,9 @@
 			overlays_standing[HEAD_LAYER] = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = 'icons/mob/clothing/head/default.dmi')
 		update_hud_head(head)
 
+	if(wear_neck)
+		update_worn_neck()
+
 	apply_overlay(HEAD_LAYER)
 
 
