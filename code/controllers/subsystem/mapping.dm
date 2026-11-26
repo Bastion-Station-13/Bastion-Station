@@ -156,6 +156,17 @@ SUBSYSTEM_DEF(mapping)
 		++space_levels_so_far
 	SStitle.add_init_text("Empty Space", "> Space", "<font color='green'>DONE</font>", (REALTIMEOFDAY - start_time) / (1 SECONDS))
 
+<<<<<<< HEAD
+=======
+	if(current_map.wilderness_levels)
+		var/list/FailedZs = list()
+
+		LoadGroup(FailedZs, "Wilderness Area", current_map.wilderness_directory, current_map.wilderness_maps_to_spawn, default_traits = current_map.wilderness_z_traits, height_autosetup = FALSE)
+
+		if(LAZYLEN(FailedZs))
+			CRASH("Ice wilds failed to load!")
+
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
 	start_time = REALTIMEOFDAY
 	// Pick a random away mission.
 	if(CONFIG_GET(flag/roundstart_away))
@@ -168,6 +179,7 @@ SUBSYSTEM_DEF(mapping)
 
 	start_time = REALTIMEOFDAY
 	SStitle.add_init_text("Ruins", "> Ruins", "<font color='yellow'>LOADING...</font>")
+<<<<<<< HEAD
 	loading_ruins = TRUE
 	setup_ruins()
 	loading_ruins = FALSE
@@ -178,6 +190,21 @@ SUBSYSTEM_DEF(mapping)
 	run_map_terrain_generation()
 	// Generate our rivers, we do this here so the map doesn't load on top of them
 	setup_rivers()
+=======
+	setup_ruins()
+	SStitle.add_init_text("Ruins", "> Ruins", "<font color='green'>DONE</font>", (REALTIMEOFDAY - start_time) / (1 SECONDS))
+
+#endif
+	// Run map generation after ruin space is reserved, since this space is used for the cave gen.
+	run_map_terrain_generation()
+	// Generate our rivers, we do this here so the map doesn't load on top of them
+	setup_rivers()
+	// Now that terrain generation is done, actually load the ruin maps in.
+	var/ruin_load_start = REALTIMEOFDAY
+	SStitle.add_init_text("Ruin Loading", "> Ruin Loading", "<font color='yellow'>LOADING...</font>")
+	load_reserved_ruins()
+	SStitle.add_init_text("Ruin Loading", "> Ruin Loading", "<font color='green'>DONE</font>", (REALTIMEOFDAY - ruin_load_start) / (1 SECONDS))
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
 	// now that the terrain is generated, including rivers, we can safely populate it with objects and mobs
 	run_map_terrain_population()
 	// Add the first transit level
@@ -551,7 +578,11 @@ Used by the AI doomsday and the self-destruct nuke.
 
 	// load the station
 	station_start = world.maxz + 1
+<<<<<<< HEAD
 	LoadGroup(FailedZs, "Station", current_map.map_path, current_map.map_file, current_map.traits, ZTRAITS_STATION)
+=======
+	LoadGroup(FailedZs, "Station", current_map.map_path, current_map.map_file, current_map.traits, ZTRAITS_STATION, height_autosetup = current_map.height_autosetup)
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
 
 	LoadStationRoomTemplates()
 	LoadStationRooms()

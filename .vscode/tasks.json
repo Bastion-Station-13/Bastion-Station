@@ -27,7 +27,15 @@
 		{
 			"type": "process",
 			"command": "tools/build/build.sh",
+<<<<<<< HEAD
 			"args": ["-DLOWMEMORYMODE"],
+=======
+			"args": [
+				"-DSKIP_LAVALAND",
+				"-DSKIP_SPACE_LEVELS",
+				"-DFORCE_MAP=\"runtimestation\""
+			],
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
 			"windows": {
 				"command": ".\\tools\\build\\build.bat",
 				"args": ["-DLOWMEMORYMODE"]

@@ -17,7 +17,16 @@ SUBSYSTEM_DEF(greyscale_previews)
 		return SS_INIT_SUCCESS
 #endif
 
+<<<<<<< HEAD
 	ExportMapPreviews()
+=======
+// without CBT every preview fails and the export would blank icons/map_icons/
+#if defined(CBT) || defined(UNIT_TESTS)
+	ExportMapPreviews()
+#else
+	log_world("Skipping map preview export: built without CBT.")
+#endif
+>>>>>>> 9fdf06a11 (removes navmap pre-baking (#13182))
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/greyscale_previews/proc/ExportMapPreviews()
