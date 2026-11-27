@@ -2952,20 +2952,6 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron/recharge_floor,
 /area/station/science/robotics/mechbay)
-"aTW" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable,
-/obj/structure/railing{
-	dir = 1
-	},
-/obj/structure/railing{
-	dir = 4;
-	layer = 4.1
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/space/basic,
-/area/space/nearstation)
 "aUh" = (
 /obj/effect/turf_decal/bot,
 /obj/structure/safe{
@@ -7654,6 +7640,16 @@
 /obj/effect/mob_spawn/corpse/human/assistant,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
+"coW" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/sink/directional/west,
+/obj/effect/decal/cleanable/cobweb/cobweb2,
+/obj/effect/decal/cleanable/vomit/old,
+/obj/structure/sign/poster/contraband/random/directional/north,
+/mob/living/basic/goose/vomit,
+/obj/effect/mapping_helpers/burnt_floor,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard)
 "cpb" = (
 /obj/structure/weightmachine/weightlifter,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
@@ -7905,6 +7901,7 @@
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
 /turf/open/floor/iron/showroomfloor,
 /area/station/medical/medbay/lobby)
+<<<<<<< HEAD
 "cta" = (
 /obj/machinery/airalarm/directional/west,
 /obj/structure/bed/dogbed/runtime,
@@ -7916,6 +7913,8 @@
 /obj/structure/cable,
 /turf/open/floor/iron/showroomfloor,
 /area/station/command/heads_quarters/cmo)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "ctf" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -10220,6 +10219,25 @@
 	},
 /turf/open/floor/engine/vacuum,
 /area/station/science/ordnance/bomb)
+"diN" = (
+/obj/effect/turf_decal/tile/brown/half/contrasted{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown/half/contrasted{
+	dir = 8
+	},
+/obj/effect/turf_decal/delivery,
+/mob/living/basic/bot/mulebot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	location = "QM #1"
+	},
+/obj/machinery/digital_clock/directional/north,
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "diQ" = (
 /obj/effect/turf_decal/delivery,
 /obj/effect/turf_decal/stripes/line{
@@ -15347,6 +15365,7 @@
 /obj/structure/cable/layer3,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
+<<<<<<< HEAD
 "ePW" = (
 /obj/structure/cable,
 /mob/living/simple_animal/bot/secbot/beepsky/armsky,
@@ -15356,6 +15375,8 @@
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai_monitored/security/armory)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "ePY" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -21281,6 +21302,17 @@
 /obj/machinery/vending/coffee,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/port)
+"gGe" = (
+/obj/machinery/airalarm/directional/west,
+/obj/structure/bed/dogbed/runtime,
+/obj/item/toy/cattoy,
+/mob/living/basic/pet/cat/runtime,
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/iron/showroomfloor,
+/area/station/command/heads_quarters/cmo)
 "gGf" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -24353,6 +24385,16 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/station/science/ordnance)
+"hCx" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/railing{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/misc/asteroid/airless,
+/area/space/nearstation)
 "hCD" = (
 /obj/structure/table,
 /obj/structure/sign/departments/medbay/alt/directional/east,
@@ -26397,6 +26439,14 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/morgue,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/port/fore)
+"ieo" = (
+/obj/structure/chair,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/mob/living/basic/bot/secbot/beepsky/officer,
+/turf/open/floor/iron/dark,
+/area/station/security/office)
 "ieV" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable,
@@ -27237,6 +27287,15 @@
 /obj/item/storage/box/lights/mixed,
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/station/maintenance/starboard)
+"iqw" = (
+/obj/structure/cable,
+/mob/living/basic/bot/secbot/beepsky/armsky,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/stripes/red/corner{
+	dir = 4
+	},
+/turf/open/floor/iron/dark/textured_large,
+/area/station/ai_monitored/security/armory)
 "iqN" = (
 /obj/structure/girder,
 /obj/effect/turf_decal/stripes/corner,
@@ -34806,17 +34865,6 @@
 /obj/machinery/power/apc/auto_name/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/rd)
-"kHe" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/railing{
-	dir = 4;
-	layer = 4.1
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/misc/asteroid/airless,
-/area/space/nearstation)
 "kHl" = (
 /obj/machinery/door/window{
 	dir = 4
@@ -41272,6 +41320,7 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted,
 /turf/open/floor/iron/dark,
 /area/station/commons/fitness/recreation)
+<<<<<<< HEAD
 "mIX" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -41280,6 +41329,8 @@
 /obj/structure/cable/layer3,
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/aisat_interior)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "mJb" = (
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -41700,6 +41751,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
+"mQi" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
+/mob/living/basic/bot/secbot/pingsky,
+/obj/structure/cable/layer3,
+/turf/open/floor/engine,
+/area/station/ai_monitored/turret_protected/aisat_interior)
 "mQk" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -48967,6 +49026,7 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
+<<<<<<< HEAD
 "pjN" = (
 /obj/effect/turf_decal/trimline/hot_pink/filled/line,
 /obj/structure/cable,
@@ -48976,6 +49036,8 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/security/prison)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "pjP" = (
 /obj/effect/decal/cleanable/dirt,
 /mob/living/basic/pet/dog/pug{
@@ -50832,6 +50894,7 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
+<<<<<<< HEAD
 "pLw" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/sink/directional/west,
@@ -50842,6 +50905,8 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "pLJ" = (
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
 /turf/open/floor/iron/dark,
@@ -58355,6 +58420,19 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/station/service/kitchen)
+"sdk" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable,
+/obj/structure/railing{
+	dir = 1
+	},
+/obj/structure/railing{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/space/basic,
+/area/space/nearstation)
 "sdm" = (
 /obj/structure/table/wood,
 /obj/machinery/computer/libraryconsole/bookmanagement{
@@ -68722,6 +68800,15 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
+"vtO" = (
+/obj/effect/turf_decal/trimline/hot_pink/filled/line,
+/obj/structure/cable,
+/mob/living/basic/pet/cat{
+	name = "Pawtton";
+	desc = "Given as a sign of friendship by The Fleet, with love"
+	},
+/turf/open/floor/iron/dark/textured,
+/area/station/security/prison)
 "vuj" = (
 /obj/effect/landmark/event_spawn,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
@@ -70226,6 +70313,7 @@
 	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
+<<<<<<< HEAD
 "vOL" = (
 /obj/structure/sign/poster/contraband/the_griffin/directional/north,
 /obj/effect/turf_decal/tile/yellow{
@@ -70248,6 +70336,8 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "vOM" = (
 /obj/structure/extinguisher_cabinet/directional/east,
 /obj/machinery/status_display/evac/directional/north,
@@ -70878,6 +70968,7 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/fitness/recreation)
+<<<<<<< HEAD
 "vYs" = (
 /obj/structure/chair,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
@@ -70886,6 +70977,8 @@
 /mob/living/simple_animal/bot/secbot/beepsky/officer,
 /turf/open/floor/iron/dark,
 /area/station/security/office)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "vYu" = (
 /obj/structure/window/reinforced/spawner/directional/north,
 /obj/structure/nestbox,
@@ -71563,6 +71656,7 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/engineering/atmos)
+<<<<<<< HEAD
 "wjb" = (
 /obj/effect/turf_decal/tile/brown/half/contrasted{
 	dir = 1
@@ -71585,6 +71679,8 @@
 /obj/machinery/digital_clock/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "wjj" = (
 /obj/effect/spawner/structure/window/hollow/reinforced/directional{
 	dir = 5
@@ -72231,6 +72327,25 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/fitness/recreation)
+"wsw" = (
+/obj/structure/sign/poster/contraband/the_griffin/directional/north,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown/anticorner/contrasted{
+	dir = 4
+	},
+/mob/living/basic/bot/mulebot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	location = "QM #2"
+	},
+/obj/effect/decal/cleanable/blood/oil,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/delivery,
+/obj/effect/decal/cleanable/blood/old,
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "wsx" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -84521,7 +84636,7 @@ ghT
 wRH
 wRH
 wRH
-pjN
+vtO
 mWy
 aeU
 aeU
@@ -96287,7 +96402,7 @@ mvD
 xxk
 cJq
 dye
-cta
+gGe
 hGy
 xxk
 uHM
@@ -96344,7 +96459,7 @@ cXN
 bRV
 bKC
 duq
-vYs
+ieo
 dYB
 dUE
 ehz
@@ -99949,7 +100064,7 @@ lnv
 aka
 fCT
 hiK
-ePW
+iqw
 oGw
 wUa
 tpM
@@ -106793,7 +106908,7 @@ xmB
 acu
 flL
 acx
-mIX
+mQi
 aKI
 kQQ
 adI
@@ -118155,7 +118270,7 @@ rWS
 bad
 bZT
 lKq
-wjb
+diN
 tRe
 vYk
 sPf
@@ -118669,7 +118784,7 @@ tOJ
 bad
 exQ
 lKq
-vOL
+wsw
 sUf
 bzY
 mWI
@@ -120684,8 +120799,8 @@ aaa
 aaa
 aaa
 aaa
-aTW
-kHe
+sdk
+hCx
 egQ
 aeu
 uHJ
@@ -122248,7 +122363,7 @@ aeu
 aeu
 vOX
 rZV
-pLw
+coW
 kVk
 vOX
 sJS
