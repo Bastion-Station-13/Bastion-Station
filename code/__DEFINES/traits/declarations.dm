@@ -1423,4 +1423,30 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 ///A trait given to users as a mutex to prevent repeated unresolved attempts to christen a shuttle
 #define TRAIT_ATTEMPTING_CHRISTENING "attempting_christening"
 
+<<<<<<< HEAD
+=======
+/// Apply to movables to say "hey, this movable is technically flat on the floor, so it'd be mopped up by a mop"
+#define TRAIT_MOPABLE "mopable"
 
+/// Trait that signals to objects on this turf that its open (has UNDERFLOOR_INTERACTIBLE) but still covers them
+#define TRAIT_UNCOVERED_TURF "uncovered_turf"
+
+/// Apply this trait to mobs which can "buckle" to humans
+#define TRAIT_CAN_MOUNT_HUMANS "can_mount_humans"
+/// Apply this trait to mobs which can "buckle" to cyborgs
+#define TRAIT_CAN_MOUNT_CYBORGS "can_mount_cyborgs"
+
+/// Turf is one that ai mobs will generally avoid pathing through
+/// Doesn't need to be applied to any turfs that override can_cross_safely
+#define TRAIT_AI_AVOID_TURF "warning_turf"
+
+
+///Attached to objects currently on tables and such, allowing them to walk on other objects without the climbing delay
+#define TRAIT_ON_CLIMBABLE "on_climbable"
+
+/// Mob is artificially spawned rather than being created through more natural means - applied to monkey cubes and such
+#define TRAIT_SPAWNED_MOB "spawned_mob"
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
+
+/// Makes the owner desensetized to death, but happy whenever someone gets blown to pieces (as a sacrifice to the necropolis) unless its another worshipper
+#define TRAIT_NECROPOLIS_WORSHIP "necropolis_worship"

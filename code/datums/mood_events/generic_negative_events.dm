@@ -508,3 +508,92 @@
 	description = "What... what was that ominous feeling?"
 	mood_change = -10
 	timeout = 5 MINUTES
+<<<<<<< HEAD
+=======
+
+/datum/mood_event/empathetic_sad
+	description = "Seeing sad people makes me sad."
+	mood_change = -2
+	timeout = 3 MINUTES
+
+/datum/mood_event/misanthropic_sad
+	description = "Seeing happy people makes me uneasy."
+	mood_change = -2
+	timeout = 3 MINUTES
+
+/datum/mood_event/paranoid/one_on_one
+	description = "I'm alone with someone - what if they want to kill me?"
+	mood_change = -3
+	event_flags = MOOD_EVENT_FEAR
+
+/datum/mood_event/paranoid/large_group
+	description = "There are so many people around - any one of them could be out to get me!"
+	mood_change = -3
+	event_flags = MOOD_EVENT_FEAR
+
+/datum/mood_event/nt_disillusioned
+	description = "I hate the company, and everything it stands for."
+	mood_change = -2
+
+/datum/mood_event/disillusioned_revs_lost
+	description = "The revolution was defeated... greaaaat."
+	mood_change = -2
+	timeout = 10 MINUTES
+
+/datum/mood_event/loyalist_revs_win
+	description = "The revolution was a success... This will hurt quarterly profits."
+	mood_change = -2
+	timeout = 10 MINUTES
+
+/datum/mood_event/slacking_off_diligent
+	description = "I should get back to work."
+	mood_change = -1
+
+/datum/mood_event/unimaginative_patronage
+	description = "That felt like a waste of money."
+	mood_change = -2
+	timeout = 5 MINUTES
+
+/datum/mood_event/unimaginative_framing
+	description = "I could've hung something more useful there."
+	mood_change = -2
+	timeout = 5 MINUTES
+
+/datum/mood_event/unimaginative_sculpting
+	description = "That felt like a waste of materials."
+	mood_change = -2
+	timeout = 5 MINUTES
+
+/datum/mood_event/splattered_with_blood
+	description = "Eugh, I just got coated in blood!"
+	mood_change = -4
+	timeout = 4 MINUTES
+
+/datum/mood_event/splattered_with_blood/can_effect_mob(datum/mood/home, mob/living/who, ...)
+	if(isvampire(who))
+		return FALSE
+
+	return ..()
+
+/datum/mood_event/splattered_with_blood/add_effects(...)
+	if(HAS_TRAIT(owner, TRAIT_CULT_HALO))
+		mood_change = 2
+		description = "Blood, blood! The Geometer will be pleased."
+		return
+	if(HAS_TRAIT(owner, TRAIT_MORBID) || HAS_TRAIT(owner, TRAIT_EVIL))
+		mood_change = 0
+		description = "I just got coated in blood. Fascinating!"
+		return
+	if(IS_DESENSITIZED(owner))
+		mood_change *= 0.5
+
+/datum/mood_event/teetotal_hangover
+	description = "What a disgraceful display! This is what happens when one indulges in alcohol!"
+	mood_change = -4
+	timeout = 10 MINUTES
+
+/datum/mood_event/normal_hangover
+	description = "Ugh, what a night."
+	mood_change = 0
+	timeout = 10 MINUTES
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))

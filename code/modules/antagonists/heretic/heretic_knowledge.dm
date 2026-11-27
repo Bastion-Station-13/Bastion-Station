@@ -684,7 +684,11 @@
 	if(!isnull(ascension_achievement))
 		user.client?.give_award(ascension_achievement, user)
 	heretic_datum.rust_strength = RUST_RESISTANCE_ORGANIC // Ascended heretics can rust whatever they want (below RUST_RESISTANCE_ABSOLUTE)
+<<<<<<< HEAD
 	// user.apply_status_effect(/datum/status_effect/desensitized, type, DESENSITIZED_THRESHOLD * 0.4)
+=======
+	user.apply_status_effect(/datum/status_effect/desensitized, type, DESENSITIZED_THRESHOLD * 0.4)
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 
 	user.update_appearance(UPDATE_OVERLAYS)
 	return TRUE

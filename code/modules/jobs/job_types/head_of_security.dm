@@ -24,6 +24,10 @@
 		/datum/job_department/command,
 		)
 
+<<<<<<< HEAD
+=======
+	desensitized_base = DESENSITIZED_THRESHOLD
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM, TRAIT_ROYAL_METABOLISM)
 
 	paycheck = PAYCHECK_COMMAND

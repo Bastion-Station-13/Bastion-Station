@@ -23,6 +23,10 @@
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_CMD
 
+<<<<<<< HEAD
+=======
+	desensitized_base = DESENSITIZED_THRESHOLD
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 	liver_traits = list(TRAIT_ROYAL_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN

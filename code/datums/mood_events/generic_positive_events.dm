@@ -66,7 +66,43 @@
 	timeout = 5 MINUTES
 
 /datum/mood_event/pet_animal/add_effects(mob/animal)
+<<<<<<< HEAD
 	description = "\The [animal.name] is adorable! I can't stop petting [animal.p_them()]!"
+=======
+	animal_type = animal?.type
+
+	if(HAS_PERSONALITY(owner, /datum/personality/animal_disliker))
+		mood_change = -1
+		description = "Ewww, [animal] is so dirty! I don't want to touch it!"
+		return
+
+	var/dog_fan = HAS_PERSONALITY(owner, /datum/personality/dog_fan)
+	var/isdog = istype(animal, /mob/living/basic/pet/dog)
+	var/cat_fan = HAS_PERSONALITY(owner, /datum/personality/cat_fan)
+	var/iscat = istype(animal, /mob/living/basic/pet/cat)
+	if((dog_fan && isdog) || (cat_fan && iscat) || HAS_PERSONALITY(owner, /datum/personality/animal_friend))
+		mood_change = 3
+		description = "I love [animal] so much, [animal.p_theyre()] so adorable! I can't stop petting [animal.p_them()]!"
+		return
+	if(dog_fan && iscat)
+		mood_change = -1
+		description = "I don't like [animal]! I prefer dogs!"
+		return
+	if(cat_fan && isdog)
+		mood_change = -1
+		description = "I don't like [animal]! I prefer cats!"
+		return
+
+	mood_change = 1
+	description = "[animal] is adorable!"
+
+// Change the moodlet if we get refreshed (we may have pet another type of animal)
+/datum/mood_event/pet_animal/be_refreshed(datum/mood/home, mob/animal)
+	. = ..()
+	if(animal_type == animal?.type)
+		return
+	add_effects(animal)
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 
 /datum/mood_event/honk
 	description = "I've been honked!"
@@ -166,6 +202,10 @@
 	description = "The gods are pleased with this offering!"
 	mood_change = 5
 	timeout = 3 MINUTES
+
+/datum/mood_event/sacrifice_good/add_effects(...)
+	if(owner.mind?.holy_role && GLOB.deity)
+		description = "[GLOB.deity] is pleased with this offering!"
 
 /datum/mood_event/artok
 	description = "It's nice to see people are making art around here."
@@ -390,3 +430,110 @@
 /datum/mood_event/wishgranter
 	description = span_hierophant("MY POWER IS LIMITLESS... IT'S ALL MINE!")
 	mood_change = 50
+<<<<<<< HEAD
+=======
+
+/datum/mood_event/slots
+	description = "Let's go gambling!"
+	mood_change = 1
+	timeout = 1 MINUTES
+	event_flags = MOOD_EVENT_GAMING
+
+/datum/mood_event/slots/add_effects()
+	if(HAS_PERSONALITY(owner, /datum/personality/gambler))
+		mood_change *= 2
+	else if(HAS_PERSONALITY(owner, /datum/personality/industrious) || HAS_PERSONALITY(owner, /datum/personality/slacking/diligent))
+		mood_change *= -1
+		description = "Why am I gambling my time and money away?"
+
+
+/datum/mood_event/slots/win
+	description = "Aw yeah I won!"
+	mood_change = 2
+	timeout = 5 MINUTES
+	event_flags = MOOD_EVENT_GAMING
+
+/datum/mood_event/slots/win/be_replaced(datum/mood/home, datum/mood_event/new_event, ...)
+	if(new_event.mood_change < mood_change)
+		return BLOCK_NEW_MOOD
+	return ..()
+
+/datum/mood_event/slots/win/big
+	mood_change = 3
+	timeout = 10 MINUTES
+
+/datum/mood_event/slots/win/jackpot
+	description = "JACKPOT! AW YEAH!"
+	mood_change = 6
+	timeout = 30 MINUTES
+
+/datum/mood_event/empathetic_happy
+	description = "Seeing happy people makes me happy."
+	mood_change = 2
+	timeout = 2 MINUTES
+
+/datum/mood_event/misanthropic_happy
+	description = "Seeing sad people makes me glad."
+	mood_change = 2
+	timeout = 2 MINUTES
+
+/datum/mood_event/paranoid/alone
+	description = "Peace and quiet, no one around to threaten me."
+	mood_change = 1
+
+/datum/mood_event/paranoid/small_group
+	description = "I feel safer in this small group. We've got each other's backs."
+	mood_change = 2
+
+/datum/mood_event/nt_loyalist
+	description = "I feel proud to be part of the NT™ family!"
+	mood_change = 2
+
+/datum/mood_event/loyalist_revs_lost
+	description = "The revolution was defeated! Long live the Nanotrasen!"
+	mood_change = 4
+	timeout = 10 MINUTES
+
+/datum/mood_event/disillusioned_revs_win
+	description = "The revolution was a success! Viva la revolution!"
+	mood_change = 4
+	timeout = 10 MINUTES
+
+/datum/mood_event/enjoying_department_area
+	description = "I love my job."
+	mood_change = 1
+
+/datum/mood_event/slacking_off_lazy
+	description = "Boss makes a dollar, I make a dime. That's why I slack on company time."
+	mood_change = 1
+
+/datum/mood_event/working_diligent
+	description = "Working hard is its own reward."
+	mood_change = 1
+
+/datum/mood_event/creative_patronage
+	description = "Support artists!"
+	mood_change = 2
+	timeout = 5 MINUTES
+
+/datum/mood_event/creative_framing
+	description = "Hanging up art really ties the room together."
+	mood_change = 2
+	timeout = 5 MINUTES
+
+/datum/mood_event/creative_sculpting
+	description = "Sculpting is a great creative outlet."
+	mood_change = 2
+	timeout = 5 MINUTES
+
+/datum/mood_event/whimsical_slip
+	description = "Haha! That guy fell over!"
+	mood_change = 3
+	timeout = 2 MINUTES
+	event_flags = MOOD_EVENT_WHIMSY
+
+/datum/mood_event/bibulous_hangover
+	description = "What a night! I can't wait to do it all again!"
+	mood_change = 2
+	timeout = 10 MINUTES
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))

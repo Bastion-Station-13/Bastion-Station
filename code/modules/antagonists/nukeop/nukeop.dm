@@ -10,6 +10,7 @@
 	suicide_cry = "FOR THE SYNDICATE!!"
 	remove_from_manifest = TRUE
 	stinger_sound = 'sound/music/antag/ops.ogg'
+	desensitized_modifier = DESENSITIZED_THRESHOLD * 0.5
 	antag_count_points = 12
 	/// Which nukie team are we on?
 	var/datum/team/nuclear/nuke_team

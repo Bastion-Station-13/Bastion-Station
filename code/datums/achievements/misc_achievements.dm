@@ -224,3 +224,19 @@
 	desc = "Cantelopes dumb friend they insist on bringing to the party. The worst part of everything it is in."
 	database_id = MEDAL_JARED_LETO
 	icon_state = "jared_leto"
+<<<<<<< HEAD
+=======
+
+/datum/award/achievement/misc/sharkdragon
+	name = "You're What You Eat"
+	desc = "Nutritionists often recommend a balanced and varied diet. However that clearly isn't the case for some creatures."
+	database_id = MEDAL_SHARKDRAGON
+	icon_state = "dragon_plus_fish"
+
+/datum/award/achievement/misc/desensitized
+	name = "In Flanders Fields"
+	desc = "You have witnessed more death and despair in one shift than most TerraGov marines have seen across an entire tour of duty. \
+		Perhaps one day you'll find peace. But not today."
+	database_id = MEDAL_DESENSITIZED
+	icon_state = "desensitized"
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))

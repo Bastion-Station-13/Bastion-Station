@@ -16,6 +16,10 @@
 	paycheck = PAYCHECK_CREW
 	paycheck_department = ACCOUNT_SRV
 
+<<<<<<< HEAD
+=======
+	desensitized_base = DESENSITIZED_THRESHOLD // butcher
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 	liver_traits = list(TRAIT_CULINARY_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_COOK
