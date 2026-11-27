@@ -6,6 +6,8 @@
 	var/mob/living/shooter
 	var/atom/target
 	var/turf/target_loc //For dealing with locking on targets due to BYOND engine limitations (the mouse input only happening when mouse moves).
+	/// TRUE if the current target was underneath a screen object or clickcatcher (the fog of war), FALSE otherwise
+	var/fog_of_war = FALSE
 	var/autofire_stat = AUTOFIRE_STAT_IDLE
 	var/mouse_parameters
 	/// Time between individual shots.
@@ -57,6 +59,27 @@
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
 		STOP_PROCESSING(SSprojectiles, src)
 		return
+
+	/* This code is needed in case we are holding our cursor down inside the fog of war/clickcatcher.
+	*  Despite the fact that we set a target already with parse_caught_click_modifiers(), we still try to re-calculate a new one.
+	*  Why? Because BYOND does not trigger the proc for "click dragging" if you are only moving your cursor along the same object.
+	*  In this case, if we are moving our cursor along the clickcatcher (i.e. inside the fog of war), our target will never be updated, which leads to a bug.
+	*  Unfortunately, winget() takes time to query the client and sleeps the proc, so we want to avoid doing this if we need to fire a shot immediately.
+	*  Therefore, we only do this if we have time before the next shot, i.e. our cooldown isn't up yet. Otherwise we just call process_shot() with the best target we have.
+	*  We also still use our unique implementation of COOLDOWN_FINISHED to prevent a bug where fire delay was 0.5 decisecond longer than intended.
+	*/
+	if(!(src.next_shot_cd <= world.time) && (fog_of_war || isnull(target_loc) || istype(target, /atom/movable/screen)))
+		//Note that winget() has to query the client, so this sleeps the proc
+		var/list/click_info = params2list(winget(shooter.client, "map", "mouse-pos;size"))
+		var/list/mouse_coords = splittext(click_info["mouse-pos"], ",")
+		var/list/window_size = splittext(click_info["size"], "x")
+
+		//Getting a turf under the clickcatcher/other screen object based on mouse coordinates
+		target = (get_loc_from_mousepos(text2num(mouse_coords[1]), text2num(mouse_coords[2]), text2num(window_size[1]), text2num(window_size[2]), shooter.client))[1]
+		target_loc = target
+
+		if(isnull(target))
+			CRASH("Failed to get the turf under the clickcatcher or another screen object.")
 	process_shot()
 
 /datum/component/automatic_fire/proc/wake_up(datum/source, mob/user, slot)
@@ -142,10 +165,13 @@
 			return //If we click and drag on our worn backpack, for example, we want it to open instead.
 
 		//If we landed on the clickcatcher plane, we want the click to trigger then, but under it.
+		fog_of_war = TRUE
 		_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
 		if(!_target)
 			CRASH("Failed to get the turf under clickcatcher")
+	else
+		fog_of_war = FALSE
 
 	if(SEND_SIGNAL(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, source, _target, location, control, params) & COMPONENT_AUTOFIRE_ONMOUSEDOWN_BYPASS)
 		return
@@ -217,10 +243,12 @@
 	target = null
 	target_loc = null
 	mouse_parameters = null
+	fog_of_war = FALSE
 
 /datum/component/automatic_fire/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
 	SIGNAL_HANDLER
 	if(isnull(over_location) || istype(over_object, /atom/movable/screen)) //This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
+		fog_of_war = TRUE
 		var/list/modifiers = params2list(params)
 		var/new_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
@@ -235,10 +263,10 @@
 		target = new_target
 		target_loc = new_target //new_target is guaranteed to be a turf from parse_caught_click_modifiers()
 		return
+	fog_of_war = FALSE
 	target = over_object
 	target_loc = get_turf(over_object)
 	mouse_parameters = params
-
 
 /datum/component/automatic_fire/proc/process_shot()
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
