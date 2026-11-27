@@ -58,6 +58,7 @@
 #define MEDAL_DEBT_EXTINGUISHED "Debt Extinguished"
 #define MEDAL_ARCHMAGE "Archmage"
 #define MEDAL_THEORETICAL_LIMITS "All Within Theoretical Limits"
+#define MEDAL_DESENSITIZED "In Flanders Fields"
 #define MEDAL_JARED_LETO "Jared Leto"
 #define MEDAL_GOOD_BIRD "Embrace The Bird"
 #define MEDAL_BAD_BIRD "Silence Bird"

@@ -700,3 +700,96 @@
 /datum/status_effect/rev_resilience/on_remove()
 	to_chat(owner, span_notice("You feel your surge of revolutionary zeal fade. You hope you don't get shot in the foot..."))
 	owner.remove_traits(list(TRAIT_HARDLY_WOUNDED,TRAIT_ANALGESIA,TRAIT_FEARLESS), TRAIT_STATUS_EFFECT(id))
+<<<<<<< HEAD
+=======
+
+/// Heal in darkness and potentially trigger other effects, persists for a short duration after leaving
+/datum/status_effect/shadow_regeneration
+	id = "shadow_regeneration"
+	duration = 2 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = /atom/movable/screen/alert/status_effect/shadow_regeneration
+
+/datum/status_effect/shadow_regeneration/on_apply()
+	. = ..()
+	if (!.)
+		return FALSE
+	heal_owner()
+	return TRUE
+
+/datum/status_effect/shadow_regeneration/refresh(effect)
+	. = ..()
+	heal_owner()
+
+/// Regenerate health whenever this status effect is applied or reapplied
+/datum/status_effect/shadow_regeneration/proc/heal_owner()
+	owner.heal_overall_damage(brute = 1, burn = 1, required_bodytype = BODYTYPE_ORGANIC)
+
+/atom/movable/screen/alert/status_effect/shadow_regeneration
+	name = "Shadow Regeneration"
+	desc = "Bathed in soothing darkness, you will slowly heal yourself."
+	icon_state = "lightless"
+
+/// Makes the mob immune to radiation for a short bit to help with safely spawning in hazardous areas
+/datum/status_effect/radiation_immunity
+	id = "radiation_immunity"
+	duration = 1 MINUTES
+	show_duration = TRUE
+	alert_type = null
+
+/datum/status_effect/radiation_immunity/on_apply()
+	ADD_TRAIT(owner, TRAIT_RADIMMUNE, TRAIT_STATUS_EFFECT(id))
+	return TRUE
+
+/datum/status_effect/radiation_immunity/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_RADIMMUNE, TRAIT_STATUS_EFFECT(id))
+
+/datum/status_effect/radiation_immunity/radnebula
+	alert_type = /atom/movable/screen/alert/status_effect/radiation_immunity
+
+/atom/movable/screen/alert/status_effect/radiation_immunity
+	name = "Radiation shielding"
+	desc = "You're immune to radiation, get settled quick!"
+	icon_state = "radiation_shield"
+
+/// Applies desensitized mood modifier to the mob, carrying between mind transfers
+/datum/status_effect/desensitized
+	id = "desensitized"
+	duration = STATUS_EFFECT_PERMANENT
+	status_type = STATUS_EFFECT_MULTIPLE
+	alert_type = null
+	/// How much to multiply desensitization level by
+	var/magnitude = 1.0
+	/// Effect ID for removal purposes
+	var/effect_id
+
+/datum/status_effect/desensitized/on_creation(mob/living/new_owner, effect_id, magnitude)
+	src.effect_id = effect_id
+	src.magnitude = max(DESENSITIZED_MINIMUM, magnitude)
+	return ..()
+
+/datum/status_effect/desensitized/on_apply()
+	owner.mind?.desensitized_level *= magnitude
+	RegisterSignal(owner, COMSIG_MOB_MIND_TRANSFERRED_INTO, PROC_REF(add_magnitude))
+	RegisterSignal(owner, COMSIG_MOB_MIND_TRANSFERRED_OUT_OF, PROC_REF(remove_magnitude))
+	return TRUE
+
+/datum/status_effect/desensitized/on_remove()
+	owner.mind?.desensitized_level /= magnitude
+	UnregisterSignal(owner, list(COMSIG_MOB_MIND_TRANSFERRED_INTO, COMSIG_MOB_MIND_TRANSFERRED_OUT_OF))
+
+/datum/status_effect/desensitized/before_remove(effect_id, magnitude)
+	if(istext(src.effect_id) && istext(effect_id)) // if an id is set, they must match
+		return src.effect_id == effect_id
+	if(isnum(magnitude)) // otherwise if a magnitude is passed, it must match
+		return src.magnitude == magnitude
+	return FALSE
+
+/datum/status_effect/desensitized/proc/add_magnitude(datum/source, mob/living/old_body, datum/mind/swapping)
+	SIGNAL_HANDLER
+	swapping.desensitized_level *= magnitude
+
+/datum/status_effect/desensitized/proc/remove_magnitude(datum/source, mob/living/old_body, datum/mind/swapping)
+	SIGNAL_HANDLER
+	swapping.desensitized_level /= magnitude
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))

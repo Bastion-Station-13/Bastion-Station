@@ -41,6 +41,10 @@
 	antagonist.forge_objectives(obsession.mind)
 	antagonist.greet()
 	RegisterSignal(owner, COMSIG_CARBON_HELPED, PROC_REF(on_hug))
+<<<<<<< HEAD
+=======
+	owner.apply_status_effect(/datum/status_effect/desensitized, REF(src), DESENSITIZED_THRESHOLD)
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 
 /datum/brain_trauma/special/obsessed/on_life(seconds_per_tick, times_fired)
 	if(!obsession || obsession.stat == DEAD)
@@ -82,6 +86,10 @@
 	owner.mind.remove_antag_datum(/datum/antagonist/obsessed)
 	if(obsession)
 		UnregisterSignal(obsession, COMSIG_MOB_EYECONTACT)
+<<<<<<< HEAD
+=======
+	owner.remove_status_effect(/datum/status_effect/desensitized, REF(src))
+>>>>>>> 457484c32 ([PORT] People get desensitized to death (#13191))
 
 /datum/brain_trauma/special/obsessed/handle_speech(datum/source, list/speech_args)
 	if(!viewing)
