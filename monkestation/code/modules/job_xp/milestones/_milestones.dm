@@ -36,8 +36,32 @@
 		user.prefs.save_preferences()
 		qdel(milestone_item)
 
+<<<<<<< HEAD
 /client
 	var/list/redeemed_rewards = list()
+=======
+	user.prefs.save_preferences()
+
+/// Adds the item to the metacoin inventory of the user, returns FALSE if the database didn't take it
+/datum/job_milestone/proc/give_loadout_reward(item_path, client/user)
+	if(item_path in user.prefs.inventory)
+		return TRUE
+	var/datum/db_query/query_add_gear_purchase = SSdbcore.NewQuery({"
+		INSERT INTO [format_table_name("metacoin_item_purchases")] (`ckey`, `item_id`, `amount`) VALUES (:ckey, :item_id, :amount)
+		ON DUPLICATE KEY UPDATE amount = 1"},
+		list("ckey" = user.ckey, "item_id" = item_path, "amount" = 1))
+	if(!query_add_gear_purchase.Execute())
+		to_chat(user, span_warning("Failed to add level up reward to the database, contact coders. Use Reload Job Rewards to try again."))
+		qdel(query_add_gear_purchase)
+		return FALSE
+	qdel(query_add_gear_purchase)
+	user.prefs.inventory |= item_path
+	return TRUE
+
+/datum/preferences
+	/// Per round rewards already claimed this round. Lives on the prefs and not the client so reconnecting doesn't let you claim them again.
+	var/list/job_rewards_redeemed = list()
+>>>>>>> e26f1581 (a bunch of sql optimizations (#13200))
 
 GAME_VERB_DESC(/client, open_xp_menu, "Open XP Menu", "List job xp.", "IC")
 
