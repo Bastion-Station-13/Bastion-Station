@@ -101,32 +101,6 @@
 	if(length(req_access))
 		locked = TRUE
 	new_core?.install(src)
-<<<<<<< HEAD
-	helmet = new /obj/item/clothing/head/mod(src)
-	mod_parts += helmet
-	chestplate = new /obj/item/clothing/suit/mod(src)
-	chestplate.allowed += theme.allowed_suit_storage
-	mod_parts += chestplate
-	gauntlets = new /obj/item/clothing/gloves/mod(src)
-	mod_parts += gauntlets
-	boots = new /obj/item/clothing/shoes/mod(src)
-	mod_parts += boots
-	var/list/all_parts = mod_parts + src
-	for(var/obj/item/part as anything in all_parts)
-		part.name = "[theme.name] [part.name]"
-		part.desc = "[part.desc] [theme.desc]"
-		part.set_armor(theme.armor_type)
-		part.resistance_flags = theme.resistance_flags
-		part.flags_1 |= theme.atom_flags //flags like initialization or admin spawning are here, so we cant set, have to add
-		part.max_heat_protection_temperature = theme.max_heat_protection_temperature
-		part.min_cold_protection_temperature = theme.min_cold_protection_temperature
-		part.siemens_coefficient = theme.siemens_coefficient
-	for(var/obj/item/part as anything in mod_parts)
-		RegisterSignal(part, COMSIG_ATOM_DESTRUCTION, PROC_REF(on_part_destruction))
-		RegisterSignal(part, COMSIG_QDELETING, PROC_REF(on_part_deletion))
-	set_mod_skin(new_skin || theme.default_skin)
-=======
->>>>>>> bf0c5981 ([PORT] MODsuits no longer need all parts deployed + portable suit (#12903))
 	update_speed()
 	RegisterSignal(src, COMSIG_ATOM_EXITED, PROC_REF(on_exit))
 	RegisterSignal(src, COMSIG_SPEED_POTION_APPLIED, PROC_REF(on_potion))
