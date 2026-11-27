@@ -206,6 +206,8 @@
 #define BERSERK_TRAIT "berserk_trait"
 /// Trait granted by [/obj/item/rod_of_asclepius]
 #define HIPPOCRATIC_OATH_TRAIT "hippocratic_oath"
+/// Trait granted by [/obj/item/book/manual/wiki/security_space_law]
+#define SPACE_LAW_TRAIT "space_law_trait"
 /// Trait granted by lipstick
 #define LIPSTICK_TRAIT "lipstick_trait"
 /// Self-explainatory.
@@ -366,3 +368,7 @@
 #define NISOFT_TRAIT "nifsoft"
 // Trait sources
 #define GHOSTROLE_TRAIT "ghostrole"
+/// Pauses a slime's AI during a split or mutation wind-up
+#define SLIME_WINDUP_TRAIT "slime_windup"
+/// Pauses a slime's AI while it sits in a vacuum pack
+#define VACUUM_STORED_TRAIT "vacuum_stored"

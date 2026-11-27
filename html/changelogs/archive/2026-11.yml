@@ -312,3 +312,208 @@
   - balance: Replaced the boring rubber bullets with stingballs that embed and hurt
       dealing stamina damage
   - rscadd: Added WT laser ammo, has innate AP like normal WT ammo but worse AP falloff
+2026-11-16:
+  AitorLogedo:
+  - bugfix: venomous fish keep their venom when they die instead of runtiming
+  Tractor-Maam:
+  - rscadd: Frontier Kitchen supply crates now come with a oven tray, cutting board,
+      knife, rolling pin, and wrench.
+  big-boss-crate:
+  - rscadd: added "Disassemble" admin smite (basically a bloodless gib)
+  - sound: added fall_apart.ogg
+  - code_imp: Added a new option in the gib() proc allowing for bloodless gibbing
+      (no_blood), false by default
+  tattax:
+  - qol: handcuff sprites for each ui
+2026-11-17:
+  DrDiasyl:
+  - rscadd: Added JUSTICE skillchip given to HoS and is a Lawyer traitor item. It
+      allows you to beat up Shitcurity with bonus of beating THE LAW into their minds!
+      Will backfire if used against civvies.
+  - rscadd: You can now swear on the Space Law to get law enforcement metabolism,
+      or grind the book down in a grinder and drink it for the same effect.
+  - bugfix: You can burn down the books again
+  HIDgamer:
+  - rscadd: 'adds water wade and overlay effects
+
+      ## Pre-Merge Checklist
+
+      - [x] You tested this on a local server.
+
+      - [x] This code did not runtime during testing.
+
+      - [x] You documented all of your changes.'
+2026-11-18:
+  JupiterJaeden:
+  - rscadd: Sleeping in a bed now gives you a positive mood buff, higher the more
+      cozy you are.
+  TyrantCerberus:
+  - bugfix: Easels drop wood when destroyed or deconstructed.
+2026-11-19:
+  JupiterJaeden:
+  - config: Updates (nearly) all references to the monkestation wiki to use the bastionstation
+      wiki instead. This includes the manual books that open wiki pages (such as the
+      space law book).
+2026-11-20:
+  13spacemen:
+  - refactor: Bodytypes to do with character sprite shape now have their own bodyshape
+      var, all sprite handling is done with bodyshape and not bodytype anymore
+  ArcaneMusic, CabinetOnFire, Kapu, grungussuss, Melbert, vinylspiders, EnnyDaiz:
+  - rscadd: Cargo can now buy a Nanomusic boombox! Comes with a demo tape, more tapes
+      can be found as goodies, on the black market, in the game vendor and in the
+      Pizza Party domain.
+  - rscadd: The boombox can also play approved cassettes.
+  - sound: Looping sounds like the supermatter, grav gen and kitchen machines now
+      update as you move, and you can hear long sounds even if you arrive halfway
+      through.
+  - sound: Sound falloff is softer.
+  - sound: The supermatter has start and stop sounds.
+  - sound: Ambience waits for the last sound to finish before playing a new one.
+  - sound: Sounds are stereo again and no longer get a forced echo, so positional
+      audio sounds a lot more 3D.
+  - sound: Most of the station no longer has hangar sized reverb.
+  - bugfix: Looping sounds and boombox tapes follow whoever is carrying them, and
+      cassettes no longer restart when you change z-levels.
+  - bugfix: Cassettes playing on a shuttle no longer cut out for the passengers when
+      it takes off.
+  - bugfix: Looping sounds no longer steal the voice, ringtone, siren, admin sound
+      and shuttle channels.
+  - bugfix: Ear damage makes things quieter instead of making you deaf past one tile.
+  - bugfix: Elevator music and other direct loops respect their volume and your volume
+      sliders.
+  - bugfix: Changing a volume slider updates sounds that follow you right away.
+  - bugfix: The alt siren starts on its start sound.
+  - bugfix: Randomly pitched sounds no longer lean low on 48 kHz files.
+  Fikou, Melbert, SmArtKar:
+  - refactor: Visors, masks and helmets all toggle the same way now, report anything
+      that doesn't change sprite or hide things right when you push it up or down
+  - bugfix: Bandanas no longer turn invisible when you push them up into a hat.
+  - bugfix: You can no longer adjust masks that don't have a pushed up sprite (surgery
+      mask, sec bandana and a few others) to turn them invisible.
+  HIDgamer:
+  - qol: added new tools to the repo
+  - refactor: refactored the mirror bot
+  ? LettuceWarlock, EssentialTomato, Y0SH1_M4S73R, jlsnow301, Kylerace, ArcaneMusic,
+    Paxilmaniac, Notamaniac, timothymtorres, Gboster-0, MrMelbert, SmArtKar, Cruix,
+    Ghommie
+  : - rscadd: Shuttle blueprints, the tool used to construct and modify custom shuttles.
+        Print a set at a science, engineering, or cargo techfab after researching
+        Shuttle Engineering, or craft a crude set from the crafting menu.
+    - rscadd: Shuttle blueprint database upgrade for engineering cyborgs, printable
+        from the Exosuit Fabricator after researching Shuttle Engineering. A version
+        of shuttle blueprints designed for use by cyborgs.
+    - rscadd: Shuttle frame rods, usable to construct custom shuttles. Hand-craft
+        by using 5 rods on 1 titanium sheet, or by printing them at a science, engineering,
+        or cargo techfab after researching Shuttle Engineering.
+    - rscadd: Custom shuttle flight control and navigation boards, printable from
+        a science, engineering, or cargo techfab after researching Shuttle Engineering.
+    - rscadd: Shuttle engine boards can be printed from a science, engineering, or
+        cargo techfab after researching shuttle engineering.
+    - rscadd: The shuttle engine supply pack is no longer locked behind the purchase
+        of the Build Your Own Shuttle kit.
+    - rscadd: Shuttle Construction Starter Kit goodie pack, containing a set of shuttle
+        blueprints, flight control and navigation console boards, and two engine boards,
+        can be purchased from cargo for 1200 credits. Requires aux base access to
+        purchase.
+    - refactor: Shuttles now keep track of what areas are underneath each of their
+        individual turfs, so that the areas left behind on movement are consistent
+        with what they were beforehand.
+    - refactor: Shuttle ceilings now place themselves down as baseturfs, instead of
+        only appearing if the turf above is open space.
+    - rscadd: The station blueprints can be used to toggle whether custom shuttles
+        can be built/expanded/docked within station areas.
+    - qol: Custom areas do not have to be completely contained within shuttle frames,
+        as long as the APC isn't attached to the frame.
+    - rscadd: Custom shuttles with functioning engines will fly off into the sunset
+        when the emergency shuttle leaves.
+    - rscadd: Custom shuttle navigation computers can view space levels adjacent to
+        the one the shuttle is currently docked at.
+    - rscadd: Shuttle navigation computers now show the location of airlocks, turrets,
+        and the shuttle control consoles on the ship outline while placing a custom
+        landing location.
+    - qol: Gigabeacons no longer need to be constructed like standard machines, instead
+        being printed as items that can be deployed quickly inhand without tools.
+    - image: Navigation gigabeacons now have their own unique sprites, inspired by
+        maritime EPIRB devices. If you find a yellow box with an antenna on it, you
+        probably found a nav beacon!
+    - qol: Explorers now start with a gigabeacon in their loadout.
+    - qol: Shuttle engines now tell you how to install them in their screentips and
+        their examine text.
+    - image: Shuttle and heat resistant (aka lavaproof) rods now have unique sprites.
+    - bugfix: Replaced floor tiles on shuttles no longer get left behind when the
+        shuttle moves.
+    - bugfix: Walls and floors made of custom materials keep their material when the
+        shuttle they're on moves.
+    - bugfix: The "Move Up" and "Move Down" verbs properly respect multi-z connectivity
+        when operating a remote camera.
+    - bugfix: Shuttle flight control computers will show you when the linked shuttle
+        cannot move.
+    - bugfix: Holodeck is slightly less likely to explode the server
+    - bugfix: Fix shuttle engines built from a circuit board having it's anchored
+        state not matching the correct engine_state. This would consider the engine
+        to be anchored already when it was not and allow someone to weld it despite
+        it being able to be dragged and moved around.
+    - bugfix: Shuttle engines no longer provide negative power to your shuttles if
+        you unwrench them.
+2026-11-21:
+  AitorLogedo:
+  - bugfix: Balaclavas, emotion masks, clown and mime masks, vapes and facehuggers
+      no longer reset their look when changing z levels.
+  - rscdel: Tundra moths are no longer a separate species. Moths can pick tundra fur
+      in the new Body style option instead, which only changes how they look.
+  - qol: The moth mutant colors checkbox is now part of the Body style option.
+  - bugfix: Pushing up a kitsune mask or bandana while wearing it updates your sprite
+      again.
+  - bugfix: Alt-clicking the kitsune mask puts it above your hair like using it in
+      hand does.
+  - bugfix: Recoloring, washing or spraypainting a pushed up mask you're wearing updates
+      your sprite.
+  EnterTheJake:
+  - bugfix: Gluon grenades now irradiate again.
+  - bugfix: Brig Physicians no longer spawn with a blank PDA
+  - bugfix: Hardly wounded people no longer take worse wounds than normal people from
+      heavy hits.
+  - balance: Easily wounded and hardly wounded now raise or lower the maximum wound
+      severity a single hit can roll, instead of scaling the hit's damage.
+  - bugfix: Players with a fresh character save no longer spawn as ghosts at roundstart.
+  - bugfix: Viscerators no longer body-block people.
+  - balance: Viscerators can now fly over machines and through plastic flaps.
+  HoggyHart:
+  - bugfix: voice sensor nanites work now
+  - spellcheck: species sensor description "singal" -> "signal"
+  SirNightKnight:
+  - balance: buffed .38 less lethal rounds to do 35 stamina damage instead of 25.
+  SmArtKar:
+  - bugfix: Fixed explorer masks going invisible when you put on a goliath hood
+  - qol: 'Improved the strip menu: items you can see but can''t reach show up semi
+      transparent instead of hidden, and icons are no longer blurry'
+2026-11-23:
+  Absolucy:
+  - rscadd: Xenobiology is now literally slime rancher.
+  - rscadd: Slime vacuum packs now have built-in extract storage, upgradable with
+      a matter bin.
+  - rscadd: Vacuum packs hold extracts now. shoot them into the fridge, dump them
+      in a bag, or right-click to grab one.
+  - rscadd: Slime pens now actually look decent and have more space.
+  - rscadd: Crossbreeds are now made with an "extract compressor", which consumes
+      both biomass and slime extracts.
+  - rscadd: Slime scanners are now used to remotely scan a slime and stay up to date
+      on that specific slime's stats and such.
+  - rscadd: Instead of mulching slimes for extracts, slimes now produce extracts when
+      fed enough.
+  - rscadd: Slimes won't split on their own - instead, you need to feed them "breeding
+      pellets" from the biomass recycler, or if you are the slime's friend, order
+      them to do so, and they will split or mutate whenever they can instead. This
+      does not apply to "wild" slimes that haven't been in a pen recently, and player
+      slimes can still manually split whenever.
+  - rscadd: Catslimes now harmlessly boop people nearby :3
+  - rscadd: Cleaner slimes go wander off to look for messes when there's nothing nearby,
+      and sometimes go find a random player
+  - rscadd: Cleaner slimes (and slimes you've sicced on something) can use stairs
+      now
+  - bugfix: Mobs no longer freeze up after changing floors until someone walks up
+      to them
+  HIDgamer:
+  - rscadd: Added Import Preferences verb to the OOC tab
+  - qol: Loadout items are now sorted alphabetically in every category.
+  - rscadd: Loadout items now get a preview thumbnail icon in the loadout menu.

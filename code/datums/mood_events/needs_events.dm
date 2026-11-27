@@ -79,3 +79,18 @@
 	description = "There's nothing like the feeling of a freshly laundered jumpsuit."
 	mood_change = 2
 	timeout = 10 MINUTES
+
+/datum/mood_event/nap
+	description = "I have recently taken a nap."
+	mood_change = 3
+	timeout = 10 MINUTES
+
+/datum/mood_event/nap/cozy
+	description = "I have recently taken a cozy nap."
+	mood_change = 4
+	timeout = 10 MINUTES
+
+/datum/mood_event/nap/heavenly
+	description = "I have recently taken a wonderful nap."
+	mood_change = 5
+	timeout = 10 MINUTES
