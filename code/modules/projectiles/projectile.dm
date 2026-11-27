@@ -332,13 +332,11 @@
 
 	if(armour_penetration - armour_penetration_falloff_tile <= 0)
 		armour_penetration = 0
-		weak_against_armour = TRUE
 	else if(armour_penetration)
 		armour_penetration += armour_penetration_falloff_tile
 
 	if(armour_ignorance - armour_ignorance_falloff_tile <= 0)
 		armour_ignorance = 0
-		weak_against_armour = TRUE
 	else if(armour_ignorance)
 		armour_ignorance += armour_ignorance_falloff_tile
 
@@ -804,7 +802,7 @@
 	if(!log_override && firer && original)
 		log_combat(firer, original, "fired at", src, "from [get_area_name(src, TRUE)]")
 			//note: mecha projectile logging is handled in /obj/item/mecha_parts/mecha_equipment/weapon/action(). try to keep these messages roughly the sameish just for consistency's sake.
-	if (direct_target && (get_dist(direct_target, get_turf(src)) <= 1)) // point blank shots
+	if (direct_target && (get_dist(direct_target, get_turf(src)) <= 1) && (!istype(direct_target, /turf) || can_hit_turfs)) // point blank shots
 		impact(direct_target)
 		if (QDELETED(src))
 			return

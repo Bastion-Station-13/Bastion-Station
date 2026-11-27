@@ -298,7 +298,7 @@
 	casing_ejector = FALSE
 	empty_indicator = FALSE
 	bolt_type = BOLT_TYPE_OPEN
-	fire_delay = 0.1 SECONDS
+	fire_delay = 0.15 SECONDS
 	spread = 15
 
 /obj/item/gun/ballistic/automatic/pistol/plasma_thrower/Initialize(mapload)

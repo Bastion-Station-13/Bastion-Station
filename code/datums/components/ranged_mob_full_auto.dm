@@ -15,6 +15,8 @@
 	var/atom/target
 	/// Where are we currently shooting at?
 	var/turf/target_loc
+	/// TRUE if the current target was underneath a screen object or clickcatcher (the fog of war), FALSE otherwise
+	var/fog_of_war = FALSE
 	/// When will we next try to shoot?
 	COOLDOWN_DECLARE(next_shot_cooldown)
 
@@ -38,6 +40,27 @@
 	UnregisterSignal(parent, list(COMSIG_MOB_LOGIN, COMSIG_MOB_LOGOUT))
 
 /datum/component/ranged_mob_full_auto/process(seconds_per_tick)
+	/* This code is needed in case we are holding our cursor down inside the fog of war/clickcatcher.
+	*  Despite the fact that we set a target already with parse_caught_click_modifiers(), we still try to re-calculate a new one.
+	*  Why? Because BYOND does not trigger the proc for "click dragging" if you are only moving your cursor along the same object.
+	*  In this case, if we are moving our cursor along the clickcatcher (i.e. inside the fog of war), our target will never be updated, which leads to a bug.
+	*  Unfortunately, winget() takes time to query the client and sleeps the proc, so we want to avoid doing this if we need to fire a shot immediately.
+	*  Therefore, we only do this if we have time before the next shot, i.e. our cooldown isn't up yet. Otherwise we just call try_shooting() with the best target we have.
+	*  We also still use our unique implementation of COOLDOWN_FINISHED to prevent a bug where fire delay was 0.5 decisecond longer than intended.
+	*/
+	if(!(src.next_shot_cooldown <= world.time) && (fog_of_war || isnull(target_loc) || istype(target, /atom/movable/screen)))
+		//Note that winget() has to query the client, so this sleeps the proc
+		var/list/click_info = params2list(winget(clicker, "map", "mouse-pos;size"))
+		var/list/mouse_coords = splittext(click_info["mouse-pos"], ",")
+		var/list/window_size = splittext(click_info["size"], "x")
+
+		//Getting a turf under the clickcatcher/other screen object based on mouse coordinates
+		target = (get_loc_from_mousepos(text2num(mouse_coords[1]), text2num(mouse_coords[2]), text2num(window_size[1]), text2num(window_size[2]), clicker))[1]
+		target_loc = target
+
+		if(isnull(target))
+			CRASH("Failed to get the turf under the clickcatcher or another screen object.")
+
 	if (!try_shooting())
 		return PROCESS_KILL
 
@@ -45,8 +68,9 @@
 /datum/component/ranged_mob_full_auto/proc/try_shooting()
 	if (!is_firing)
 		return FALSE
-	if (!COOLDOWN_FINISHED(src, next_shot_cooldown))
-		return TRUE // Don't fire but also keep processing
+	//Unique implementation of COOLDOWN_FINISHED to prevent bug where fire delay was 0.5 deciseconds longer than intended
+	if(!(src.next_shot_cooldown <= world.time))
+		return TRUE
 
 	var/mob/living/living_parent = parent
 
@@ -56,9 +80,6 @@
 	if (get_dist(living_parent, target) <= 0)
 		set_target(get_step(living_parent, living_parent.dir)) // Shoot in the direction faced if the mouse is on the same tile as we are.
 		target_loc = target
-	else if (!CAN_THEY_SEE(target, living_parent))
-		stop_firing()
-		return FALSE // Can't see shit
 
 	living_parent.face_atom(target)
 	COOLDOWN_START(src, next_shot_cooldown, autofire_shot_delay)
@@ -93,7 +114,7 @@
 	clicker = null
 
 /// On mouse down start shooting!
-/datum/component/ranged_mob_full_auto/proc/on_mouse_down(client/source, atom/target, turf/location, control, params)
+/datum/component/ranged_mob_full_auto/proc/on_mouse_down(client/source, atom/_target, turf/location, control, params)
 	SIGNAL_HANDLER
 	if (awaiting_status != AUTOFIRE_MOUSEDOWN)
 		return // Avoid a double mousedown with no mouseup
@@ -110,23 +131,30 @@
 	if (LAZYACCESS(modifiers, ALT_CLICK))
 		return
 	var/mob/living/living_parent = parent
-	if (!isturf(living_parent.loc) || living_parent.Adjacent(target))
+	if (!isturf(living_parent.loc))
+		return
+	if(living_parent.Adjacent(_target) && !(istype(_target, /mob) || istype(_target, /turf))) //Adjacent clicking.
 		return
 
-	if (isnull(location) || istype(target, /atom/movable/screen)) // Clicking on a screen object.
-		if (target.plane != CLICKCATCHER_PLANE) // The clickcatcher is a special case. We want the click to trigger then, under it.
-			return // If we click and drag on our worn backpack, for example, we want it to open instead.
-		set_target(parse_caught_click_modifiers(modifiers, get_turf(source.eye), source))
+	if (isnull(location) || istype(_target, /atom/movable/screen)) // Clicking on a screen object.
+		if(_target.plane > CLICKCATCHER_PLANE)
+			return //If we click and drag on our worn backpack, for example, we want it to open instead.
+
+		//If we landed on the clickcatcher plane, we want the click to trigger then, but under it.
+		fog_of_war = TRUE
+		_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 		params = list2params(modifiers)
-		if (isnull(target))
+		if (isnull(_target))
 			CRASH("Failed to get the turf under clickcatcher")
+	else
+		fog_of_war = FALSE
 
 	awaiting_status = AUTOFIRE_MOUSEUP
 	source.click_intercept_time = world.time // From this point onwards Click() will no longer be triggered.
 	if (is_firing)
 		stop_firing()
 
-	set_target(target)
+	set_target(_target)
 	target_loc = get_turf(target)
 	INVOKE_ASYNC(src, PROC_REF(start_firing))
 
@@ -150,19 +178,21 @@
 /// When the mouse moved let's try and shift our aim
 /datum/component/ranged_mob_full_auto/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
 	SIGNAL_HANDLER
-	if (!isnull(over_location))
+	if (!(isnull(over_location) || istype(over_object, /atom/movable/screen)))
+		fog_of_war = FALSE
 		set_target(over_object)
 		target_loc = get_turf(over_object)
 		return
 
 	//This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
+	fog_of_war = TRUE
 	var/list/modifiers = params2list(params)
 	var/new_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
 	params = list2params(modifiers)
 
 	if (!isnull(new_target))
 		set_target(new_target)
-		target_loc = new_target
+		target_loc = new_target //new_target is guaranteed to be a turf from parse_caught_click_modifiers()
 		return
 
 	if (QDELETED(target)) //No new target acquired, and old one was deleted, get us out of here.
@@ -190,6 +220,7 @@
 	is_firing = FALSE
 	set_target(null)
 	target_loc = null
+	fog_of_war = FALSE
 	STOP_PROCESSING(SSprojectiles, src)
 	awaiting_status = AUTOFIRE_MOUSEDOWN
 

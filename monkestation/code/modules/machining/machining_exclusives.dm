@@ -123,7 +123,7 @@
 		return INITIALIZE_HINT_QDEL //No pack, no gun
 	ammo_pack = loc
 	AddElement(/datum/element/update_icon_blocker)
-	AddComponent(/datum/component/automatic_fire, 0.2 SECONDS)
+	AddComponent(/datum/component/automatic_fire, 0.25 SECONDS)
 
 /obj/item/gun/energy/pulse/makeshift/Destroy()
 	//we do this check as a precaution (read: pass checks) since the backpack itself should have already deleted this
