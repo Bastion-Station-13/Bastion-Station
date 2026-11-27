@@ -114,7 +114,7 @@
 		return
 
 	if (isnull(location) || istype(_target, /atom/movable/screen)) // Clicking on a screen object.
-		if(_target.plane != CLICKCATCHER_PLANE)
+		if(_target.plane > CLICKCATCHER_PLANE)
 			return //If we click and drag on our worn backpack, for example, we want it to open instead.
 
 		//If we landed on the clickcatcher plane, we want the click to trigger then, but under it.
