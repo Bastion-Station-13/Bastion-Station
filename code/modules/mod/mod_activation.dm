@@ -257,37 +257,16 @@
 		part.clothing_flags |= part.visor_flags
 		part.flags_inv |= part.visor_flags_inv
 		part.flags_cover |= part.visor_flags_cover
-<<<<<<< HEAD
 		part.min_cold_protection_temperature = theme.min_cold_protection_temperature
 		part.max_heat_protection_temperature = theme.max_heat_protection_temperature
-		part.alternate_worn_layer = null
-=======
-		part.heat_protection = initial(part.heat_protection)
-		part.cold_protection = initial(part.cold_protection)
 		part.alternate_worn_layer = part_datum.sealed_layer
->>>>>>> bf0c5981 ([PORT] MODsuits no longer need all parts deployed + portable suit (#12903))
 	else
 		part.icon_state = "[skin]-[part.base_icon_state]"
 		part.flags_cover &= ~part.visor_flags_cover
 		part.flags_inv &= ~part.visor_flags_inv
 		part.clothing_flags &= ~part.visor_flags
-<<<<<<< HEAD
 		part.min_cold_protection_temperature = null
 		part.max_heat_protection_temperature = null
-		part.alternate_worn_layer = mod_parts[part]
-	wearer.update_clothing(part.slot_flags)
-	wearer.update_obscured_slots(part.visor_flags_inv)
-	if((part.clothing_flags & (MASKINTERNALS|HEADINTERNALS)) && wearer.invalid_internals())
-		wearer.cutoff_internals()
-	wearer.update_cached_insulation()
-
-/// Finishes the suit's activation
-/obj/item/mod/control/proc/finish_activation(on)
-	active = on
-	if(active)
-=======
-		part.heat_protection = NONE
-		part.cold_protection = NONE
 		part.alternate_worn_layer = part_datum.unsealed_layer
 	generate_suit_mask()
 	wearer.update_clothing(part.slot_flags | slot_flags)
@@ -298,7 +277,6 @@
 	if(is_sealed)
 		if (!active)
 			return
->>>>>>> bf0c5981 ([PORT] MODsuits no longer need all parts deployed + portable suit (#12903))
 		for(var/obj/item/mod/module/module as anything in modules)
 			if(module.part_activated || !module.has_required_parts(mod_parts, need_active = TRUE))
 				continue
