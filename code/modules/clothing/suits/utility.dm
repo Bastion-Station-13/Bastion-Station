@@ -93,12 +93,7 @@
 	clothing_flags = THICKMATERIAL | SNUG_FIT
 	armor_type = /datum/armor/utility_bomb_hood
 	flags_inv = HIDEFACE|HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
-<<<<<<< HEAD
 
-
-=======
-	cold_protection = HEAD
->>>>>>> b43bdec8 ([PORT] Tails and wings get meshed over by suits (#12778))
 	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
 
 	max_heat_protection_temperature = HELMET_MAX_TEMP_PROTECT
