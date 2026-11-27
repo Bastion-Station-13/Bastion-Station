@@ -40,7 +40,7 @@
 	AddComponent(/datum/component/stationloving, !fake)
 
 	if(!fake)
-		AddComponent(/datum/component/keep_me_secure, CALLBACK(src, PROC_REF(secured_process)), CALLBACK(src, PROC_REF(unsecured_process)))
+		AddComponent(/datum/component/keep_me_secure, CALLBACK(src, PROC_REF(secured_process)) , CALLBACK(src, PROC_REF(unsecured_process)), 15)
 		SSpoints_of_interest.make_point_of_interest(src)
 		//MONKESTATION EDIT START
 		unsecured_timer = new(src)
@@ -50,6 +50,7 @@
 		GLOB.nuke_disk_list += src
 		//MONKESTATION EDIT STOP
 	else
+		// Ensure fake disks still have examine text, but dont actually do anything
 		AddComponent(/datum/component/keep_me_secure)
 
 /obj/item/disk/nuclear/proc/secured_process(last_move)
