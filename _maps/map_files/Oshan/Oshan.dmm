@@ -4524,6 +4524,19 @@
 	},
 /turf/open/floor/wood/large,
 /area/station/security/warden)
+"bvv" = (
+/obj/effect/turf_decal/siding/thinplating_new/dark{
+	dir = 4
+	},
+/obj/structure/hedge,
+/obj/effect/turf_decal/siding/wood{
+	dir = 10
+	},
+/obj/structure/railing{
+	dir = 4
+	},
+/turf/open/floor/wood/parquet,
+/area/station/engineering/break_room)
 "bvB" = (
 /obj/effect/turf_decal/stripes,
 /obj/effect/turf_decal/siding/thinplating_new/dark,
@@ -7623,20 +7636,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/station/maintenance/port/central)
-"crg" = (
-/obj/effect/turf_decal/siding/thinplating_new/dark{
-	dir = 4
-	},
-/obj/structure/hedge,
-/obj/effect/turf_decal/siding/wood{
-	dir = 10
-	},
-/obj/structure/railing{
-	dir = 4;
-	layer = 4.1
-	},
-/turf/open/floor/wood/parquet,
-/area/station/engineering/break_room)
 "cri" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/trimline/yellow/line{
@@ -11153,6 +11152,15 @@
 	dir = 1
 	},
 /area/station/ai_monitored/security/armory)
+"dvX" = (
+/obj/structure/railing{
+	dir = 8
+	},
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/iron/dark/small,
+/area/station/engineering/atmospherics_engine)
 "dwb" = (
 /obj/effect/turf_decal/tile/green/fourcorners,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -19573,6 +19581,17 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/cargo/miningfoundry)
+"fXg" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	invisibility = 101
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/mob/living/basic/bot/secbot/beepsky/officer,
+/obj/effect/turf_decal/tile/blue/opposingcorners,
+/turf/open/floor/iron/white/textured,
+/area/station/medical/medbay/lobby)
 "fXj" = (
 /obj/effect/turf_decal/stripes,
 /turf/open/floor/engine,
@@ -22137,6 +22156,18 @@
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
 /area/station/cargo/storage)
+"gMQ" = (
+/obj/structure/bed/dogbed/runtime,
+/mob/living/basic/pet/cat/runtime,
+/obj/structure/filingcabinet/medical{
+	pixel_y = 24;
+	pixel_x = 11
+	},
+/obj/structure/filingcabinet{
+	pixel_y = 24
+	},
+/turf/open/floor/wood,
+/area/station/command/heads_quarters/cmo)
 "gMX" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -22508,6 +22539,7 @@
 /obj/machinery/light/floor/has_bulb,
 /turf/open/floor/iron/dark/textured,
 /area/station/hallway/primary/aft)
+<<<<<<< HEAD
 "gUh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -22521,6 +22553,8 @@
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai_monitored/security/armory)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "gUq" = (
 /obj/machinery/camera/autoname/directional/north,
 /obj/machinery/door/window/survival_pod/left/directional/east,
@@ -28410,6 +28444,7 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron/white/textured,
 /area/station/medical/patients_rooms)
+<<<<<<< HEAD
 "iNb" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -28421,6 +28456,8 @@
 /obj/effect/turf_decal/tile/blue/opposingcorners,
 /turf/open/floor/iron/white/textured,
 /area/station/medical/medbay/lobby)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "iNj" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -31716,6 +31753,23 @@
 	},
 /turf/open/floor/iron/white/textured,
 /area/station/medical/treatment_center)
+"jNe" = (
+/obj/effect/turf_decal/siding/thinplating_new/dark{
+	dir = 5
+	},
+/obj/structure/hedge,
+/obj/machinery/digital_clock/directional/west,
+/obj/effect/turf_decal/siding/wood{
+	dir = 9
+	},
+/obj/structure/railing{
+	dir = 4
+	},
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/wood/parquet,
+/area/station/engineering/break_room)
 "jNf" = (
 /obj/structure/cable,
 /obj/structure/chair/stool/directional/south,
@@ -34790,6 +34844,7 @@
 /obj/effect/spawner/random/engineering/tank,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/hallway/primary/central/aft)
+<<<<<<< HEAD
 "kLj" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -34802,6 +34857,8 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "kLF" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -37293,21 +37350,6 @@
 /obj/machinery/cart,
 /turf/open/floor/iron/dark/textured,
 /area/station/cargo/storage)
-"lrM" = (
-/obj/machinery/portable_atmospherics/scrubber,
-/obj/effect/turf_decal/bot,
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/structure/railing{
-	dir = 8;
-	layer = 4.1
-	},
-/obj/structure/railing{
-	dir = 1
-	},
-/turf/open/floor/iron/dark/textured_large,
-/area/station/science/ordnance/office)
 "lrO" = (
 /obj/machinery/door/airlock/security{
 	name = "Armory"
@@ -38961,24 +39003,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/starboard/upper)
-"lRw" = (
-/obj/effect/turf_decal/siding/thinplating_new/dark{
-	dir = 5
-	},
-/obj/structure/hedge,
-/obj/machinery/digital_clock/directional/west,
-/obj/effect/turf_decal/siding/wood{
-	dir = 9
-	},
-/obj/structure/railing{
-	dir = 4;
-	layer = 4.1
-	},
-/obj/structure/railing{
-	dir = 1
-	},
-/turf/open/floor/wood/parquet,
-/area/station/engineering/break_room)
 "lRR" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/lavendergrass/style_random,
@@ -40461,6 +40485,20 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/hallway/primary/port)
+"mrh" = (
+/obj/machinery/portable_atmospherics/scrubber,
+/obj/effect/turf_decal/bot,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/structure/railing{
+	dir = 8
+	},
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/iron/dark/textured_large,
+/area/station/science/ordnance/office)
 "mrr" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/box/white{
@@ -43755,6 +43793,17 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark/textured,
 /area/station/security/execution/transfer)
+"nrM" = (
+/obj/machinery/light/directional/south,
+/obj/effect/turf_decal/trimline/brown/filled/line,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=2";
+	location = "QM #1"
+	},
+/mob/living/basic/bot/mulebot,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/iron/dark/textured,
+/area/station/cargo/storage)
 "nrN" = (
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/conveyor_switch/oneway{
@@ -47984,6 +48033,11 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/dark/textured,
 /area/station/security/brig)
+"oGc" = (
+/obj/structure/window/spawner/directional/west,
+/mob/living/basic/pet/cat/cak,
+/turf/open/floor/iron/smooth_large,
+/area/station/maintenance/port/central)
 "oGi" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /obj/effect/turf_decal/siding/thinplating_new/dark/corner{
@@ -48214,6 +48268,15 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/security/office)
+"oIM" = (
+/obj/structure/railing{
+	dir = 10
+	},
+/obj/structure/railing{
+	dir = 8
+	},
+/turf/open/floor/iron/dark/small,
+/area/station/engineering/atmospherics_engine)
 "oIY" = (
 /obj/effect/turf_decal/trimline/orange/filled/line{
 	dir = 1
@@ -50325,6 +50388,19 @@
 /obj/effect/mapping_helpers/airlock/access/any/engineering/construction,
 /turf/open/floor/plating,
 /area/station/engineering/storage_shared)
+"por" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/siding/thinplating_new/dark{
+	dir = 8
+	},
+/mob/living/basic/bot/secbot/beepsky/armsky,
+/obj/effect/turf_decal/trimline/red/filled/warning{
+	dir = 4
+	},
+/turf/open/floor/iron/dark/textured_large,
+/area/station/ai_monitored/security/armory)
 "poN" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/iron/dark/smooth_large,
@@ -52810,6 +52886,7 @@
 /obj/structure/flora/bush/leavy/style_2,
 /turf/open/floor/grass,
 /area/station/engineering/atmos)
+<<<<<<< HEAD
 "qaY" = (
 /obj/effect/turf_decal/trimline/brown/filled/line,
 /obj/machinery/camera/autoname/directional/south,
@@ -52821,6 +52898,17 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/dark/textured,
 /area/station/cargo/storage)
+=======
+"qbe" = (
+/obj/effect/turf_decal/tile/dark_purple/opposingcorners,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/vomit/old,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
+/turf/open/floor/stone,
+/area/station/science/xenobiology)
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "qbg" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
 /turf/open/floor/eighties/red,
@@ -53168,11 +53256,14 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/hallway/primary/aft)
+<<<<<<< HEAD
 "qic" = (
 /obj/effect/turf_decal/trimline/red/corner,
 /mob/living/simple_animal/bot/secbot/beepsky,
 /turf/open/floor/iron/dark/textured,
 /area/station/security/brig)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "qig" = (
 /obj/effect/turf_decal/trimline/blue/filled/warning,
 /obj/effect/turf_decal/tile/orange/opposingcorners{
@@ -55493,11 +55584,14 @@
 /obj/effect/turf_decal/tile/blue/full,
 /turf/open/floor/iron/white/textured,
 /area/station/medical/treatment_center)
+<<<<<<< HEAD
 "qSH" = (
 /obj/structure/window/spawner/directional/west,
 /mob/living/simple_animal/pet/cat/cak,
 /turf/open/floor/iron/smooth_large,
 /area/station/maintenance/port/central)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "qSI" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -59082,6 +59176,7 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/iron,
 /area/station/maintenance/starboard/upper)
+<<<<<<< HEAD
 "rZS" = (
 /obj/structure/bed/dogbed/runtime,
 /mob/living/simple_animal/pet/cat/runtime,
@@ -59094,6 +59189,8 @@
 	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/cmo)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "say" = (
 /obj/effect/turf_decal/trimline/red/filled/warning{
 	dir = 4
@@ -59871,16 +59968,6 @@
 /obj/effect/mapping_helpers/airlock/access/any/supply/bit_den,
 /turf/open/floor/iron/dark/textured,
 /area/station/cargo/miningdock)
-"snu" = (
-/obj/structure/railing{
-	dir = 8;
-	layer = 4.1
-	},
-/obj/structure/railing{
-	dir = 1
-	},
-/turf/open/floor/iron/dark/small,
-/area/station/engineering/atmospherics_engine)
 "snB" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark/corner,
 /obj/effect/turf_decal/siding/thinplating_new/dark/corner{
@@ -60341,6 +60428,11 @@
 "svp" = (
 /turf/open/floor/carpet/donk,
 /area/station/science/lobby)
+"svz" = (
+/obj/effect/turf_decal/trimline/red/corner,
+/mob/living/basic/bot/secbot/beepsky,
+/turf/open/floor/iron/dark/textured,
+/area/station/security/brig)
 "svB" = (
 /obj/structure/toilet{
 	dir = 4;
@@ -60500,16 +60592,6 @@
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/grass,
 /area/station/science/genetics)
-"sxz" = (
-/obj/structure/railing{
-	dir = 10
-	},
-/obj/structure/railing{
-	dir = 8;
-	layer = 4.1
-	},
-/turf/open/floor/iron/dark/small,
-/area/station/engineering/atmospherics_engine)
 "sxB" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/siding/thinplating_new{
@@ -65758,6 +65840,18 @@
 	},
 /turf/open/floor/iron/dark/small,
 /area/station/engineering/atmospherics_engine)
+"ucT" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
+/obj/machinery/holopad/secure,
+/mob/living/basic/bot/secbot/pingsky,
+/obj/effect/turf_decal/tile/dark_blue/opposingcorners,
+/obj/effect/turf_decal/tile/blue/opposingcorners{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/station/ai_monitored/turret_protected/aisat_interior)
 "ucV" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -73991,6 +74085,7 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/commons/dorms)
+<<<<<<< HEAD
 "wAI" = (
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/trimline/brown/filled/line,
@@ -74002,6 +74097,8 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/dark/textured,
 /area/station/cargo/storage)
+=======
+>>>>>>> dbb60e0ab (getting railed: ports tg's railings that don't look like shit (#13149))
 "wAW" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/blue/opposingcorners,
@@ -78985,6 +79082,17 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/hallway/primary/central/aft)
+"ydd" = (
+/obj/effect/turf_decal/trimline/brown/filled/line,
+/obj/machinery/camera/autoname/directional/south,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	location = "QM #2"
+	},
+/mob/living/basic/bot/mulebot,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/iron/dark/textured,
+/area/station/cargo/storage)
 "ydh" = (
 /obj/effect/turf_decal/tile/red/opposingcorners,
 /obj/effect/turf_decal/tile/yellow/opposingcorners{
@@ -95927,7 +96035,7 @@ fKI
 hYJ
 rUj
 flJ
-qaY
+ydd
 mLC
 dOV
 pww
@@ -96184,7 +96292,7 @@ fKI
 iyv
 gCo
 flJ
-wAI
+nrM
 mLC
 lBo
 pJS
@@ -102837,7 +102945,7 @@ meJ
 kND
 kND
 kND
-qSH
+oGc
 kND
 meJ
 meJ
@@ -105344,7 +105452,7 @@ tGx
 bfx
 axp
 lTb
-rZS
+gMQ
 eVl
 juk
 wdj
@@ -105689,7 +105797,7 @@ xZe
 kHC
 exd
 pgk
-qic
+svz
 gaX
 wIy
 oWq
@@ -105701,7 +105809,7 @@ jhO
 qoO
 lmX
 srS
-gUh
+por
 urE
 cvU
 hsp
@@ -107197,7 +107305,7 @@ xnz
 iBM
 fHB
 nZu
-kLj
+ucT
 pJm
 bef
 kZV
@@ -107677,7 +107785,7 @@ cYV
 btQ
 lxb
 lio
-iNb
+fXg
 fqK
 ohP
 jze
@@ -122059,7 +122167,7 @@ gyS
 erx
 erx
 erx
-lrM
+mrh
 sjq
 imn
 imn
@@ -125196,8 +125304,8 @@ iwD
 aNu
 dOr
 gwC
-lRw
-crg
+jNe
+bvv
 ceZ
 ceZ
 cAP
@@ -133445,11 +133553,11 @@ aCV
 jCu
 omJ
 gQs
-sxz
+oIM
 epK
 epK
 epK
-snu
+dvX
 gQs
 hqZ
 nah
