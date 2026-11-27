@@ -297,7 +297,7 @@
 /datum/config_entry/string/banappeals
 
 /datum/config_entry/string/wikiurl
-	default = "http://www.tgstation13.org/wiki"
+	default = "https://wiki.bastionstation.com"
 
 /datum/config_entry/string/forumurl
 	//default = "http://tgstation13.org/phpBB/index.php"
@@ -483,6 +483,15 @@
 /// The number of seconds a player must wait between preference export attempts.
 /datum/config_entry/number/seconds_cooldown_for_preferences_export
 	default = 10
+	min_val = 1
+
+/// Allows players to import their own preferences from a JSON file they exported earlier.
+/datum/config_entry/flag/forbid_preferences_import
+	default = FALSE
+
+/// The number of seconds a player must wait between preference import attempts.
+/datum/config_entry/number/seconds_cooldown_for_preferences_import
+	default = 60
 	min_val = 1
 
 /datum/config_entry/number/client_warn_version

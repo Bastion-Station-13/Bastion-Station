@@ -25,6 +25,16 @@
 	else
 		return ..()
 
+/obj/structure/easel/screwdriver_act_secondary(mob/living/user, obj/item/tool)
+	if(!(flags_1 & NODECONSTRUCT_1))
+		tool.play_tool_sound(src)
+		deconstruct(disassembled = TRUE)
+	return TRUE
+
+/obj/structure/easel/deconstruct(disassembled)
+	if(!(flags_1 & NODECONSTRUCT_1))
+		new /obj/item/stack/sheet/mineral/wood(loc, 5)
+	return ..()
 
 //Stick to the easel like glue
 /obj/structure/easel/Move()

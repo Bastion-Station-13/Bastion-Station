@@ -1,0 +1,54 @@
+# Adding the RE-MIRROR label to a mirror PR opens a new one from a fresh copy of master and closes the old one.
+name: Re-mirror
+on:
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  remirror:
+    runs-on: ubuntu-latest
+    if: >-
+      github.repository == 'Bastion-Station-13/Bastion-Station' &&
+      github.event.label.name == 'RE-MIRROR' &&
+      github.event.pull_request.state == 'open' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'upstream-mirror-')
+    concurrency: remirror-${{ github.event.pull_request.number }}
+    env:
+      UPSTREAM: Monkestation/Monkestation2.0
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      # pull_request_target checks out master, nothing from the PR is run
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Mirror it again
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "upstream-mirror-bot"
+          git config user.email "upstream-mirror-bot@users.noreply.github.com"
+
+          bash tools/ci/remirror_pr.sh "$PR_NUMBER" "$PR_BRANCH"
+
+      - name: Take the label off
+        if: always()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh pr edit "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --remove-label "RE-MIRROR" || true
+
+      - name: Say that it failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
+            --body "Could not make a new mirror of this PR, see the [run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID). It is still open."
