@@ -70,12 +70,12 @@
 	*/
 	if(!(src.next_shot_cd <= world.time) && (fog_of_war || isnull(target_loc) || istype(target, /atom/movable/screen)))
 		//Note that winget() has to query the client, so this sleeps the proc
-		var/list/click_info = params2list(winget(shooter.client, "map", "mouse-pos;size"))
+		var/list/click_info = params2list(winget(clicker, "map", "mouse-pos;size"))
 		var/list/mouse_coords = splittext(click_info["mouse-pos"], ",")
 		var/list/window_size = splittext(click_info["size"], "x")
 
 		//Getting a turf under the clickcatcher/other screen object based on mouse coordinates
-		target = (get_loc_from_mousepos(text2num(mouse_coords[1]), text2num(mouse_coords[2]), text2num(window_size[1]), text2num(window_size[2]), shooter.client))[1]
+		target = (get_loc_from_mousepos(text2num(mouse_coords[1]), text2num(mouse_coords[2]), text2num(window_size[1]), text2num(window_size[2]), clicker))[1]
 		target_loc = target
 
 		if(isnull(target))
