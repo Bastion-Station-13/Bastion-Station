@@ -202,6 +202,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			parsed_favs += path
 	favorite_outfits = unique_list(parsed_favs)
 
+<<<<<<< HEAD
+=======
+	load_metacoins_and_inventory(parent_ckey)
+
+>>>>>>> e26f1581 (a bunch of sql optimizations (#13200))
 	load_preferences_monkestation() //MONKESTATION ADDITION - Monkestation-specific data
 
 	// Custom hotkeys

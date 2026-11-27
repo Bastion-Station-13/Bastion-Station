@@ -1786,9 +1786,6 @@ SUBSYSTEM_DEF(ticker)
 		sql_mentors += list(list("ckey" = A.target, "rank" = A.rank_names()))
 
 	SSdbcore.MassInsert(format_table_name("mentor"), sql_mentors, duplicate_key = TRUE)
-	var/datum/db_query/query_mentor_rank_update = SSdbcore.NewQuery("UPDATE [format_table_name("player")] p INNER JOIN [format_table_name("mentor")] a ON p.ckey = a.ckey SET p.lastmentorrank = a.rank")
-	query_mentor_rank_update.Execute()
-	qdel(query_mentor_rank_update)
 
 	//json format backup file generation stored per server
 	var/json_file = file("data/mentors_backup.json")
@@ -1857,12 +1854,57 @@ SUBSYSTEM_DEF(ticker)
 	for(var/client/client as anything in GLOB.clients)
 		distribute_rewards_to_client(client.ckey, added_xp)
 
+<<<<<<< HEAD
 /datum/controller/subsystem/ticker/proc/distribute_rewards_to_client(ckey, added_xp)
 	var/client/client = GLOB.directory[ckey]
 	if(!client)
 		return
+=======
+/datum/controller/subsystem/ticker/proc/calculate_station_goal_bonus(list/rewards)
+	var/list/joined_player_list = unique_list(GLOB.joined_player_list)
+	var/total_crew = length(joined_player_list)
+	if(total_crew < 5) // prevent wrecking the economy on like MRP2 - Changed to allow lower crews but still need a crew - veth
+		return
+	var/completed = FALSE
+	for(var/datum/station_goal/station_goal as anything in GLOB.station_goals)
+		if(station_goal.check_completion())
+			completed = TRUE
+			break
+	if(!completed)
+		return
+	// Note: The math for this is complicated, but if we have an average crew member size of like, 50, each crew member will get
+	// 1000. The 2nd paremter rounds up to that nearest number
+	var/amount = CEILING(50000 / total_crew, 50) // nice even number
+	for(var/ckey in joined_player_list)
+		LAZYINITLIST(rewards[ckey])
+		rewards[ckey] += list(list(amount, "Station Goal Completion Bonus"))
+
+	message_admins("As a result of the station goal being completed, [total_crew] players were rewarded [amount] monkecoins each.")
+	log_game("As a result of the station goal being completed, [total_crew] players were rewarded [amount] monkecoins each.")
+
+/datum/controller/subsystem/ticker/proc/distribute_rewards(list/coin_rewards)
+	var/minutes = round((world.time - SSticker.round_start_time) / (1 MINUTES))
+	var/added_xp = round(25 + (minutes ** 0.85))
+	var/list/totals = list()
+	for(var/ckey in coin_rewards)
+		totals[ckey] = distribute_rewards_to_client(ckey, added_xp, coin_rewards[ckey])
+	mass_adjust_metacoins(totals, "roundend rewards", announces = FALSE)
+	save_all_jobxp() // monkestation edit: nothing else saves the job xp
+
+/datum/controller/subsystem/ticker/proc/distribute_rewards_to_client(ckey, added_xp, list/rewards)
+	var/client/client = GLOB.directory[ckey]
+	if(!client)
+		return 0
+	var/total_amount = 0
+	for(var/reward in rewards)
+		var/amount = reward[1]
+		var/reason = reward[2]
+		total_amount += amount
+		to_chat(client, span_rose(span_bold("[abs(amount)] Monkecoins have been [amount >= 0 ? "deposited to" : "withdrawn from"] your account! Reason: [reason]")))
+>>>>>>> e26f1581 (a bunch of sql optimizations (#13200))
 	if(client?.mob?.mind?.assigned_role)
 		add_jobxp(client, added_xp, client?.mob?.mind?.assigned_role?.title)
+	return total_amount
 
 /datum/controller/subsystem/ticker/proc/refund_cassette()
 	if(!length(GLOB.cassette_reviews))
