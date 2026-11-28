@@ -48,7 +48,7 @@
 	var/firing_burst = 0 //Prevent the weapon from firing again while already firing
 	var/semicd = 0 //cooldown handler
 	var/weapon_weight = WEAPON_LIGHT
-	var/dual_wield_spread = 24 //additional spread when dual wielding
+	var/dual_wield_spread = 20 //additional spread when dual wielding
 	///Can we hold up our target with this? Default to yes
 	var/can_hold_up = TRUE
 
@@ -389,6 +389,8 @@
 				if(!(HAS_TRAIT(H, TRAIT_AKIMBO)))
 					bonus_spread += dual_wield_spread
 				loop_counter++
+				if (gun.chambered)
+					gun.chambered.dual_wield_shot = TRUE
 				addtimer(CALLBACK(gun, TYPE_PROC_REF(/obj/item/gun, process_fire), target, user, TRUE, params, null, bonus_spread), loop_counter)
 
 	return process_fire(target, user, TRUE, params, null, bonus_spread)

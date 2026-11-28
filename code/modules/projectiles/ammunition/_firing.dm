@@ -1,3 +1,5 @@
+/// How much a dual wielded shot increases click cooldown. For standard gun cooldown of 0.4 seconds, this is equal to 0.4 x 1.5 = 0.6.
+#define DUAL_WIELD_DELAY_MODIFIER 1.5
 
 /**
  * Fires the bullet in this casing
@@ -33,6 +35,9 @@
 	var/next_delay = click_cooldown_override || CLICK_CD_RANGE
 	if(HAS_TRAIT(user, TRAIT_DOUBLE_TAP))
 		next_delay = round(next_delay * 0.5)
+	if(dual_wield_shot)
+		next_delay = round(next_delay * DUAL_WIELD_DELAY_MODIFIER)
+		dual_wield_shot = FALSE
 	user.changeNext_move(next_delay)
 
 	if(!tk_firing(user, fired_from))
@@ -102,3 +107,5 @@
 	var/dx = abs(target.x - current.x)
 	var/dy = abs(target.y - current.y)
 	return locate(target.x + round(gaussian(0, distro) * (dy+2)/8, 1), target.y + round(gaussian(0, distro) * (dx+2)/8, 1), target.z)
+
+#undef DUAL_WIELD_DELAY_MODIFIER
