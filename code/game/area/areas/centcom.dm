@@ -7,8 +7,13 @@
 	icon_state = "centcom"
 	static_lighting = TRUE
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = UNIQUE_AREA | NOTELEPORT
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = NOTELEPORT
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	flags_1 = NONE
 
 // This is just to define the category
@@ -124,7 +129,7 @@
 	icon_state = "thunder"
 	static_lighting = TRUE
 	requires_power = FALSE
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 
 /area/centcom/tdome/arena
@@ -158,8 +163,13 @@
 	icon_state = "wizards_den"
 	static_lighting = TRUE
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = UNIQUE_AREA | NOTELEPORT
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = NOTELEPORT
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	flags_1 = NONE
 
 
@@ -171,7 +181,7 @@
 	area_flags = UNIQUE_AREA | NOTELEPORT | AREA_BLOCKS_OUTGOING_RADIO
 	static_lighting = FALSE
 	base_lighting_alpha = 255
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 
 //Syndicates
@@ -179,8 +189,13 @@
 	name = "Syndicate Mothership"
 	icon_state = "syndie-ship"
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = UNIQUE_AREA | NOTELEPORT
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = NOTELEPORT
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	flags_1 = NONE
 	ambience_index = AMBIENCE_DANGER
 
@@ -241,7 +256,7 @@
 	requires_power = FALSE
 	static_lighting = FALSE
 	base_lighting_alpha = 255
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 	area_flags = UNIQUE_AREA | NOTELEPORT | NO_DEATH_MESSAGE
 
@@ -286,8 +301,13 @@
 	name = "\improper Asteroid"
 	icon_state = "asteroid"
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = UNIQUE_AREA
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = NONE
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	ambience_index = AMBIENCE_MINING
 	flags_1 = CAN_BE_DIRTY_1
 	sound_environment = SOUND_AREA_ASTEROID

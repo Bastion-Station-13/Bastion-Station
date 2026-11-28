@@ -4,8 +4,13 @@
 	icon_state = "away"
 	static_lighting = TRUE
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = BLOBS_ALLOWED | UNIQUE_AREA
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = BLOBS_ALLOWED
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	flags_1 = CAN_BE_DIRTY_1
 
 //Survival Capsule

@@ -2,8 +2,14 @@
 /area/mine
 	icon = 'icons/area/areas_station.dmi'
 	icon_state = "mining"
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = VALID_TERRITORY | UNIQUE_AREA | FLORA_ALLOWED | CULT_PERMITTED
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = VALID_TERRITORY | CULT_PERMITTED
+	area_flags_mapping = UNIQUE_AREA | FLORA_ALLOWED
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	ambient_buzz = 'sound/ambience/lavaland/magma.ogg'
 
 /area/mine/lobby
@@ -126,7 +132,7 @@
 /area/lavaland
 	icon = 'icons/area/areas_station.dmi'
 	icon_state = "mining"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 	area_flags = VALID_TERRITORY | UNIQUE_AREA | FLORA_ALLOWED
 	sound_environment = SOUND_AREA_LAVALAND
@@ -183,7 +189,7 @@
 /area/icemoon
 	icon = 'icons/area/areas_station.dmi'
 	icon_state = "mining"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED
 	sound_environment = SOUND_AREA_ICEMOON

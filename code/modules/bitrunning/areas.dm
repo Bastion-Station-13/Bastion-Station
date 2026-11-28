@@ -13,8 +13,14 @@
 /area/virtual_domain
 	name = "Virtual Domain"
 	icon = 'icons/area/areas_station.dmi'
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA | NOTELEPORT | ABDUCTOR_PROOF | EVENT_PROTECTED | HIDDEN_AREA
 	has_gravity = STANDARD_GRAVITY
+=======
+	area_flags = NOTELEPORT | ABDUCTOR_PROOF | EVENT_PROTECTED | HIDDEN_AREA | UNLIMITED_FISHING
+	area_flags_mapping = UNIQUE_AREA | VIRTUAL_AREA
+	default_gravity = STANDARD_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 
 /area/virtual_domain/powered
 	name = "Virtual Domain Ruins"

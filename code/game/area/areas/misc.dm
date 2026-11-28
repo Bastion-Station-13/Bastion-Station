@@ -12,7 +12,11 @@
 	power_light = FALSE
 	power_equip = FALSE
 	power_environ = FALSE
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA
+=======
+	area_flags = NO_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	outdoors = TRUE
 	ambience_index = AMBIENCE_SPACE
 	flags_1 = CAN_BE_DIRTY_1
@@ -27,7 +31,11 @@
 
 /area/space/nearstation
 	icon_state = "space_near"
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA | AREA_USES_STARLIGHT
+=======
+	area_flags = AREA_USES_STARLIGHT|NO_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	static_lighting = TRUE
 
 /area/space/shipbreak
@@ -40,12 +48,12 @@
 	requires_power = FALSE
 	static_lighting = FALSE
 	base_lighting_alpha = 255
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	ambient_buzz = null
 
 /area/misc/testroom
 	requires_power = FALSE
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	// Mobs should be able to see inside the testroom
 	static_lighting = FALSE
 	base_lighting_alpha = 255

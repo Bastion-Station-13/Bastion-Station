@@ -1,8 +1,13 @@
 //Space Ruin Parents
 
 /area/ruin/space
+<<<<<<< HEAD
 	has_gravity = FALSE
 	area_flags = UNIQUE_AREA
+=======
+	default_gravity = ZERO_GRAVITY
+	area_flags = NONE
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 
 /area/ruin/space/unpowered
 	always_unpowered = TRUE
@@ -11,7 +16,7 @@
 	power_environ = FALSE
 
 /area/ruin/space/has_grav
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 
 /area/ruin/space/has_grav/powered
 	requires_power = FALSE
@@ -553,18 +558,23 @@
 /area/ruin/space/djstation
 	name = "\improper Ruskie DJ Station"
 	icon_state = "DJ"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 
 /area/ruin/space/djstation/solars
 	name = "\improper DJ Station Solars"
 	icon_state = "DJ"
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA | AREA_USES_STARLIGHT
 	has_gravity = STANDARD_GRAVITY
+=======
+	area_flags = AREA_USES_STARLIGHT
+	default_gravity = ZERO_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 
 /area/ruin/space/djstation/service
 	name = "\improper DJ Station Service"
 	icon_state = "DJ"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 
 //ABANDONED TELEPORTER
 

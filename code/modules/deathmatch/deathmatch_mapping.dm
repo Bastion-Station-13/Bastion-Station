@@ -1,8 +1,13 @@
 /area/deathmatch
 	name = "Deathmatch Arena"
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = UNIQUE_AREA | NOTELEPORT | ABDUCTOR_PROOF | EVENT_PROTECTED | QUIET_LOGS | NO_DEATH_MESSAGE | BINARY_JAMMING
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = NOTELEPORT | ABDUCTOR_PROOF | EVENT_PROTECTED | QUIET_LOGS | NO_DEATH_MESSAGE | BINARY_JAMMING
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 
 /area/deathmatch/fullbright
 	static_lighting = FALSE
