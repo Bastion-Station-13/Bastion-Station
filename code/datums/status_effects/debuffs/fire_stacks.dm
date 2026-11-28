@@ -320,16 +320,45 @@
 	enemy_turf = /turf/open/lava
 	/// particles applied
 	var/particles/applied_particles = /particles/droplets
+	///If the mob has the TRAIT_SLIPPERY_WHEN_WET trait, the mob gets this component while it's wet
+	var/datum/component/slippery/slipperiness
 
 /datum/status_effect/fire_handler/wet_stacks/on_apply()
 	. = ..()
 	var/obj/effect/abstract/shared_particle_holder/particles = owner.add_shared_particles(applied_particles, get_particle_key())
 	if(particles)
 		adjust_particles(particles)
+	RegisterSignals(owner, list(SIGNAL_ADDTRAIT(TRAIT_WET_FOR_LONGER), SIGNAL_REMOVETRAIT(TRAIT_WET_FOR_LONGER)), PROC_REF(update_wet_stack_modifier))
+	update_wet_stack_modifier()
+	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_SLIPPERY_WHEN_WET), PROC_REF(become_slippery))
+	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_SLIPPERY_WHEN_WET), PROC_REF(no_longer_slippery))
+	if(HAS_TRAIT(owner, TRAIT_SLIPPERY_WHEN_WET))
+		become_slippery()
+	ADD_TRAIT(owner, TRAIT_IS_WET, TRAIT_STATUS_EFFECT(id))
 
 /datum/status_effect/fire_handler/wet_stacks/on_remove()
 	. = ..()
 	owner.remove_shared_particles(get_particle_key())
+	REMOVE_TRAIT(owner, TRAIT_IS_WET, TRAIT_STATUS_EFFECT(id))
+	if(HAS_TRAIT(owner, TRAIT_SLIPPERY_WHEN_WET))
+		no_longer_slippery()
+
+///Wetness decays slower for mobs with TRAIT_WET_FOR_LONGER
+/datum/status_effect/fire_handler/wet_stacks/proc/update_wet_stack_modifier()
+	SIGNAL_HANDLER
+	stack_modifier = HAS_TRAIT(owner, TRAIT_WET_FOR_LONGER) ? initial(stack_modifier) * 3.5 : initial(stack_modifier)
+
+///Makes the wet mob slippery while lying down, and immune to slipping on water itself
+/datum/status_effect/fire_handler/wet_stacks/proc/become_slippery()
+	SIGNAL_HANDLER
+	slipperiness = owner.AddComponent(/datum/component/slippery, 5 SECONDS, lube_flags = SLIPPERY_WHEN_LYING_DOWN)
+	ADD_TRAIT(owner, TRAIT_NO_SLIP_WATER, TRAIT_STATUS_EFFECT(id))
+
+///Removes the slipperiness given by become_slippery()
+/datum/status_effect/fire_handler/wet_stacks/proc/no_longer_slippery()
+	SIGNAL_HANDLER
+	QDEL_NULL(slipperiness)
+	REMOVE_TRAIT(owner, TRAIT_NO_SLIP_WATER, TRAIT_STATUS_EFFECT(id))
 
 /datum/status_effect/fire_handler/wet_stacks/proc/get_particle_key()
 	return id
@@ -338,7 +367,8 @@
 	if(!check_enemy())
 		return TRUE
 
-	adjust_stacks(-0.5 * seconds_between_ticks)
+	var/decay = HAS_TRAIT(owner, TRAIT_WET_FOR_LONGER) ? -0.035 : -0.5
+	adjust_stacks(decay * seconds_between_ticks)
 
 	if(stacks <= 0)
 		qdel(src)
@@ -377,5 +407,20 @@
 	return "[id][owner.tag]"
 
 /datum/status_effect/fire_handler/wet_stacks/oozeling/get_examine_text()
-	if(stacks >= HYDROPHOBIA_WETNESS_STACKS)
-		return span_purple("[owner.p_They()] [owner.p_are()] oozing out an oily coating onto [owner.p_their()] outer membrane, water rolling right off.")
+	var/ratio = round((stacks / stack_limit) * 100)
+	var/msg = "Thin streaks of hydrophobic slime cling to [owner.p_their()] body."
+
+	switch(ratio)
+		if(76 to 100)
+			msg = "[owner.p_They()] [owner.p_are()] fully enveloped in thick hydrophobic slime."
+		if(51 to 75)
+			msg = "[owner.p_They()] [owner.p_are()] covered in a dense layer of hydrophobic slime."
+		if(26 to 50)
+			msg = "A noticeable layer of hydrophobic slime coats [owner.p_their()] body."
+
+	var/phobic_msg
+	if(stacks >= HYDROPHOBIA_WETNESS_STACKS + HYDROPHOBIA_WATER_EXPOSURE_COST)
+		phobic_msg = span_bold(" Water rolls right off [owner.p_their()] protective coating.")
+	else if(stacks > HYDROPHOBIA_WETNESS_STACKS)
+		phobic_msg = span_bold(" Small amounts of water bead against [owner.p_their()] coating, but larger splashes may penetrate it.")
+	return span_purple("[msg][phobic_msg]")

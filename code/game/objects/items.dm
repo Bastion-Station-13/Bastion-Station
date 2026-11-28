@@ -1,5 +1,6 @@
 /// Anything you can pick up and hold.
 /obj/item
+	abstract_type = /obj/item
 	name = "item"
 	icon = 'icons/obj/objects.dmi'
 	blocks_emissive = EMISSIVE_BLOCK_GENERIC
@@ -581,7 +582,8 @@ GAME_VERB_SRC(/obj/item, move_to_top, oview(1), "Move To Top", "Object")
 		return
 	return attempt_pickup(user)
 
-/obj/item/proc/attempt_pickup(mob/user)
+/// Tries to pick up the item, skip_grav skips the heavy gravity delay
+/obj/item/proc/attempt_pickup(mob/user, skip_grav = FALSE)
 	. = TRUE
 
 	if(resistance_flags & ON_FIRE)
@@ -607,14 +609,14 @@ GAME_VERB_SRC(/obj/item, move_to_top, oview(1), "Move To Top", "Object")
 	if(!(interaction_flags_item & INTERACT_ITEM_ATTACK_HAND_PICKUP)) //See if we're supposed to auto pickup.
 		return
 
-	//Heavy gravity makes picking up things very slow.
-	var/grav = user.has_gravity()
-	if(grav > STANDARD_GRAVITY)
-		var/grav_power = min(3,grav - STANDARD_GRAVITY)
-		to_chat(user,span_notice("You start picking up [src]..."))
-		if(!do_after(user, 30 * grav_power, src))
-			return
-
+	if(!skip_grav)
+		//Heavy gravity makes picking up things very slow.
+		var/grav = user.has_gravity()
+		if(grav > STANDARD_GRAVITY)
+			var/grav_power = min(3,grav - STANDARD_GRAVITY)
+			to_chat(user,span_notice("You start picking up [src]..."))
+			if(!do_after(user, 30 * grav_power, src))
+				return
 
 	//If the item is in a storage item, take it out
 	var/outside_storage = !loc.atom_storage
@@ -966,7 +968,7 @@ GAME_VERB_SRC(/obj/item, verb_pickup, oview(1), "Pick up", "Object")
 	if(ismob(location))
 		var/mob/pyromanic = location
 		var/success = FALSE
-		if(src == pyromanic.get_item_by_slot(ITEM_SLOT_MASK) || (src in pyromanic.held_items))
+		if(src == pyromanic.get_item_by_slot(ITEM_SLOT_MASK) || pyromanic.is_holding(src))
 			success = TRUE
 		if(success)
 			location = get_turf(pyromanic)
@@ -1191,18 +1193,10 @@ GAME_VERB_SRC(/obj/item, verb_pickup, oview(1), "Pick up", "Object")
 		return ..()
 
 	var/mob/M = loc
-	var/hand_index = M.get_held_index_of_item(src)
-	if(!hand_index)
+	if(!M.is_holding(src))
 		return ..()
 
-	M.held_items[hand_index] = null
-	M.update_held_items()
-	if(M.client)
-		M.client.screen -= src
-	layer = initial(layer)
-	SET_PLANE_IMPLICIT(src, initial(plane))
-	appearance_flags &= ~NO_CLIENT_COLOR
-	dropped(M, FALSE)
+	M.temporarilyRemoveItemFromInventory(src, force = TRUE)
 	return ..()
 
 /obj/item/proc/canStrip(mob/stripper, mob/owner)
