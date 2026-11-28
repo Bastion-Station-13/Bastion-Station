@@ -477,6 +477,8 @@
 #define SLIPPERY_TURF (1<<5)
 /// Slipping on this will send them sliding for a long time
 #define SUPER_DUPER_SLIDE (1<<6)
+/// For mobs who are slippery, this requires the mob holding it to be lying down.
+#define SLIPPERY_WHEN_LYING_DOWN (1<<7)
 
 #define MAX_CHICKENS 50
 
@@ -941,6 +943,7 @@ GLOBAL_ALIST_INIT(human_heights_to_offsets, alist(
 #define EXTERNAL_RESTYLE_FLESH (1 << 2)
 /// This organ allows restyling with enamel restyling (like a fucking file or something?). It's for horns and shit
 #define EXTERNAL_RESTYLE_ENAMEL (1 << 3)
+
 
 /// If gravity must be present to perform action (can't use pens without gravity)
 #define NEED_GRAVITY (1<<0)
