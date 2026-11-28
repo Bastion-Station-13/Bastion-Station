@@ -12,7 +12,7 @@
 #define MIN_PLANT_ENDURANCE 10
 
 /// Default reagent volume for grown plants
-#define PLANT_REAGENT_VOLUME 100
+#define PLANT_REAGENT_VOLUME 50
 
 /// -- Some botany trait value defines. --
 /// Weed Hardy can only reduce plants to 3 yield.

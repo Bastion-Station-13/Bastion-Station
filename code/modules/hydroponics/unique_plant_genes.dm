@@ -423,9 +423,9 @@
 	spawned_mob.health = spawned_mob.maxHealth
 	if(ishostile(spawned_mob))
 		var/mob/living/simple_animal/hostile/spawned_simplemob = spawned_mob
-		spawned_simplemob.melee_damage_lower += round(our_seed.potency * mob_melee_multiplier)
-		spawned_simplemob.melee_damage_upper += round(our_seed.potency * mob_melee_multiplier)
-		spawned_simplemob.move_to_delay -= round(our_seed.production * mob_speed_multiplier)
+		spawned_simplemob.melee_damage_lower += round(min(our_seed.potency, 200) * mob_melee_multiplier)
+		spawned_simplemob.melee_damage_upper += round(min(our_seed.potency, 200) * mob_melee_multiplier)
+		spawned_simplemob.move_to_delay -= round(min(our_seed.production, 200) * mob_speed_multiplier)
 
 	if(isbasicmob(spawned_mob))
 		var/damage_mid_point = 100
@@ -478,7 +478,7 @@
 	description = "It has more reagents than usual."
 	icon = "vials"
 	/// The new number we set the plant's max_volume to.
-	var/new_capcity = 100
+	var/new_capcity = 50
 
 /datum/plant_gene/trait/modified_volume/on_new_plant(obj/item/our_plant, newloc)
 	. = ..()
@@ -488,15 +488,15 @@
 	if(istype(grown_plant))
 		grown_plant.max_volume = new_capcity
 
-/// Omegaweed's funny 420 max volume gene
+/// no fun allowed
 /datum/plant_gene/trait/modified_volume/omega_weed
 	name = "Dank Vesicles"
-	new_capcity = 420
+	new_capcity = 100
 
 /// Cherry Bomb's increased max volume gene
 /datum/plant_gene/trait/modified_volume/cherry_bomb
 	name = "Powder-Filled Bulbs"
-	new_capcity = 125
+	new_capcity = 75
 
 /// Plants that explode when used (based on their reagent contents)
 /datum/plant_gene/trait/bomb_plant
