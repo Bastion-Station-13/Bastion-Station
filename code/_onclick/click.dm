@@ -446,7 +446,7 @@
 	. = SEND_SIGNAL(src, COMSIG_MOB_MIDDLECLICKON, A, params)
 	if(. & COMSIG_MOB_CANCEL_CLICKON)
 		return
-	swap_hand()
+	cycle_hand()
 
 /**
  * Shift click
@@ -462,7 +462,7 @@
 	var/shiftclick_flags = SEND_SIGNAL(user, COMSIG_CLICK_SHIFT, src)
 	if(shiftclick_flags & COMSIG_MOB_CANCEL_CLICKON)
 		return
-	if(user.client && (user.client.eye == user || user.client.eye == user.loc || shiftclick_flags & COMPONENT_ALLOW_EXAMINATE))
+	if(user.client)
 		user.examinate(src)
 
 /mob/proc/TurfAdjacent(turf/tile)
@@ -552,7 +552,7 @@
 	var/list/modifiers = params2list(params)
 	if(LAZYACCESS(modifiers, MIDDLE_CLICK) && iscarbon(usr))
 		var/mob/living/carbon/C = usr
-		C.swap_hand()
+		C.cycle_hand()
 	else
 		var/turf/click_turf = parse_caught_click_modifiers(modifiers, get_turf(usr.client ? usr.client.eye : usr), usr.client)
 		if (click_turf)
