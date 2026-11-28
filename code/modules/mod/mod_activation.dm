@@ -273,6 +273,7 @@
 	wearer.update_obscured_slots(part.visor_flags_inv)
 	if((part.clothing_flags & (MASKINTERNALS|HEADINTERNALS)) && wearer.invalid_internals())
 		wearer.cutoff_internals()
+	wearer.update_cached_insulation()
 	SEND_SIGNAL(src, COMSIG_MOD_PART_SEALED, part_datum)
 	if(is_sealed)
 		if (!active)
