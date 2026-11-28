@@ -2,7 +2,7 @@
 	name = "Mapping Contest Showcase Area"
 	area_flags = UNIQUE_AREA
 	base_lighting_alpha = 225
-	has_gravity = TRUE
+	default_gravity = STANDARD_GRAVITY
 	requires_power = FALSE
 
 /turf/open/indestructible/bluespace

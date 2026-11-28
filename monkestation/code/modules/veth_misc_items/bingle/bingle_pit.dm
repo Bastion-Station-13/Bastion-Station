@@ -517,8 +517,13 @@
 
 /area/misc/bingle_pit
 	name = "Bingle Pit"
+<<<<<<< HEAD
 	area_flags = NOTELEPORT | EVENT_PROTECTED | ABDUCTOR_PROOF | ALWAYS_VALID_BLOODSUCKER_LAIR | UNIQUE_AREA
 	has_gravity = TRUE
+=======
+	area_flags = NOTELEPORT | EVENT_PROTECTED | ABDUCTOR_PROOF | ALWAYS_VALID_BLOODSUCKER_LAIR
+	default_gravity = STANDARD_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	requires_power = FALSE
 	static_lighting = TRUE
 

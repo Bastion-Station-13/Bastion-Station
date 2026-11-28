@@ -6,7 +6,7 @@
 	name = "Shuttle"
 	requires_power = FALSE
 	static_lighting = TRUE
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
 	// Loading the same shuttle map at a different time will produce distinct area instances.
 	area_flags = NONE
@@ -71,6 +71,13 @@
 	name = "Flying Dutchman"
 	requires_power = FALSE
 
+<<<<<<< HEAD
+=======
+/area/shuttle/pirate/siren
+	default_gravity = ZERO_GRAVITY
+	area_flags = NO_GRAVITY
+
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 ////////////////////////////Bounty Hunter Shuttles////////////////////////////
 
 /area/shuttle/hunter
@@ -261,7 +268,7 @@
 // ----------- Arena Shuttle
 /area/shuttle/shuttle_arena
 	name = "arena"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	requires_power = FALSE
 
 /obj/effect/forcefield/arena_shuttle

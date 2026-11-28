@@ -117,7 +117,7 @@
 /area/station/medical/treatment_center)
 "acm" = (
 /turf/open/floor/iron/white,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "acs" = (
 /obj/structure/tank_holder/extinguisher,
 /obj/machinery/airalarm/directional/east,
@@ -519,7 +519,7 @@
 /obj/machinery/light/directional/south,
 /obj/structure/flora/bush/flowers_pp/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "ahN" = (
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
@@ -948,7 +948,7 @@
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/carpet/blue,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "apc" = (
 /obj/effect/mapping_helpers/burnt_floor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -1518,7 +1518,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/item/food/grown/banana,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "ayF" = (
 /obj/effect/spawner/random/trash/graffiti,
 /obj/effect/decal/cleanable/dirt,
@@ -1867,7 +1867,7 @@
 "aFr" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "aFt" = (
 /turf/open/floor/iron/dark/textured,
 /area/station/engineering/main)
@@ -1901,7 +1901,7 @@
 "aGo" = (
 /obj/item/food/grown/banana,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "aGp" = (
 /obj/machinery/teleport/hub,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
@@ -2182,7 +2182,7 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/blue,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "aKy" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/tile/purple/opposingcorners,
@@ -2515,7 +2515,7 @@
 	c_tag = "Bomb Testing Site - SouthEast"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "aQx" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/white/warning{
@@ -2542,7 +2542,7 @@
 "aRd" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "aRj" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/machinery/atmospherics/miner/oxygen,
@@ -6228,7 +6228,7 @@
 "bVg" = (
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "bVq" = (
 /obj/effect/gibspawner/xeno/bodypartless,
 /obj/structure/spider/stickyweb,
@@ -7430,7 +7430,7 @@
 "coH" = (
 /obj/structure/railing,
 /turf/open/floor/wood,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "coJ" = (
 /obj/machinery/vending/assist,
 /obj/effect/turf_decal/trimline/yellow/filled/line{
@@ -7549,7 +7549,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "cpV" = (
 /obj/structure/cable,
 /obj/effect/spawner/random/trash/graffiti,
@@ -7712,7 +7712,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "ctS" = (
 /obj/effect/spawner/random/trash/graffiti,
 /obj/effect/spawner/random/structure/crate,
@@ -8613,7 +8613,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/item/food/grown/banana,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "cKr" = (
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 4
@@ -9172,7 +9172,7 @@
 	dir = 5
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "cSA" = (
 /obj/effect/turf_decal/tile/red/opposingcorners,
 /obj/effect/turf_decal/tile/yellow/opposingcorners{
@@ -9394,7 +9394,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "cVD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -11385,7 +11385,7 @@
 "dAs" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "dAx" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/decal/cleanable/dirt,
@@ -11859,7 +11859,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/white,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "dGN" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/junction{
@@ -12119,7 +12119,7 @@
 /area/station/medical/storage)
 "dKR" = (
 /turf/open/floor/iron/stairs,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "dLa" = (
 /obj/effect/turf_decal/tile/yellow/fourcorners,
 /obj/structure/rack,
@@ -12961,7 +12961,7 @@
 "dWU" = (
 /obj/machinery/light/dim/directional/north,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "dXc" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 8
@@ -13014,7 +13014,7 @@
 "dXQ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "dXR" = (
 /obj/effect/turf_decal/siding/wood/end,
 /obj/structure/chair/office{
@@ -13665,7 +13665,25 @@
 "ehZ" = (
 /obj/item/food/grown/banana,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/station/science/ordnance/bomb)
+=======
+/area/station/science/ordnance/bomb/planet)
+"eij" = (
+/obj/effect/turf_decal/tile/green/fourcorners,
+/obj/effect/turf_decal/siding/wood{
+	dir = 2
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 8
+	},
+/obj/structure/slime_pen_post/premade{
+	dir = 10
+	},
+/obj/effect/mapping_helpers/slime_pen_color/green,
+/turf/open/floor/iron,
+/area/station/science/xenobiology)
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 "eim" = (
 /obj/machinery/door/airlock/public/glass{
 	name = "Dorms"
@@ -13836,7 +13854,7 @@
 	},
 /obj/structure/water_source/puddle,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "elt" = (
 /obj/effect/turf_decal/trimline/dark_blue/filled/warning{
 	dir = 9
@@ -14113,7 +14131,7 @@
 "erA" = (
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "erC" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -14990,7 +15008,7 @@
 "eDP" = (
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "eDZ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/trimline/dark_blue/warning,
@@ -15524,7 +15542,7 @@
 	c_tag = "Bomb Testing Site - North"
 	},
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "eLS" = (
 /turf/open/floor/iron/dark/textured,
 /area/station/hallway/primary/aft)
@@ -16191,7 +16209,7 @@
 "eWH" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "eWN" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/mapping_helpers/broken_floor,
@@ -16422,7 +16440,7 @@
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/carpet/blue,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "fav" = (
 /obj/effect/spawner/random/structure/table_or_rack,
 /obj/effect/decal/cleanable/cobweb/cobweb2,
@@ -17375,7 +17393,7 @@
 "foo" = (
 /obj/machinery/light/dim/directional/east,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "fos" = (
 /obj/effect/landmark/start/assistant,
 /obj/structure/cable,
@@ -17400,7 +17418,7 @@
 "foO" = (
 /obj/structure/table,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "foP" = (
 /obj/machinery/reagentgrinder{
 	pixel_y = 4
@@ -17506,7 +17524,7 @@
 "fqh" = (
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "fqn" = (
 /obj/structure/grille/broken,
 /obj/machinery/portable_atmospherics/canister/air,
@@ -19296,7 +19314,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "fTB" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -20294,7 +20312,7 @@
 /area/station/maintenance/starboard/upper)
 "gic" = (
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "gij" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 1
@@ -20437,6 +20455,7 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/station/science/ordnance/bomb)
 "glu" = (
 /obj/structure/disposalpipe/segment{
@@ -20450,6 +20469,9 @@
 	},
 /turf/open/floor/stone,
 /area/station/science/xenobiology)
+=======
+/area/station/science/ordnance/bomb/planet)
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 "glA" = (
 /obj/effect/turf_decal/siding/red,
 /obj/machinery/computer/crew{
@@ -21015,7 +21037,7 @@
 "guZ" = (
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "gvd" = (
 /obj/effect/turf_decal/trimline/dark_blue/filled/line{
 	dir = 4
@@ -21047,7 +21069,7 @@
 /obj/effect/decal/cleanable/dirt,
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "gvR" = (
 /obj/machinery/vending/dinnerware,
 /obj/effect/turf_decal/tile/red/opposingcorners,
@@ -21289,7 +21311,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "gzu" = (
 /obj/effect/turf_decal/trimline/blue/corner{
 	dir = 8
@@ -22609,7 +22631,7 @@
 /area/station/hallway/primary/aft)
 "gVU" = (
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "gVX" = (
 /obj/effect/turf_decal/trimline/brown/filled/line{
 	dir = 9
@@ -23484,7 +23506,7 @@
 "hjq" = (
 /obj/machinery/light/directional/east,
 /turf/open/floor/wood,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "hjt" = (
 /obj/effect/turf_decal/siding/dark/corner{
 	dir = 8
@@ -23674,7 +23696,7 @@
 "hmt" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "hmA" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/trimline/blue,
@@ -24929,7 +24951,7 @@
 "hGP" = (
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "hGR" = (
 /turf/closed/wall/r_wall,
 /area/station/security/prison/garden)
@@ -25012,7 +25034,7 @@
 "hHw" = (
 /obj/item/food/grown/banana,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "hHx" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/brown/filled/warning{
@@ -28662,7 +28684,7 @@
 "iRH" = (
 /obj/item/toy/plush/shrimp,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "iRO" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -31631,7 +31653,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "jLF" = (
 /obj/structure/statue/goliath{
 	dir = 8
@@ -32431,7 +32453,7 @@
 "jZs" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "jZB" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -32697,7 +32719,7 @@
 /area/station/service/hydroponics)
 "kep" = (
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "ket" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -33050,7 +33072,7 @@
 "kjB" = (
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/wood,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "kjE" = (
 /obj/effect/turf_decal/trimline/dark_blue/warning,
 /obj/structure/disposalpipe/segment{
@@ -33393,7 +33415,7 @@
 "kpf" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/closed/wall/r_wall,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "kpg" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/trimline/hot_pink/filled/line{
@@ -33490,7 +33512,7 @@
 	c_tag = "Bomb Testing Site - SouthWest"
 	},
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "kql" = (
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -34780,7 +34802,7 @@
 	c_tag = "Bomb Testing Site - South"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "kLh" = (
 /obj/machinery/light/directional/west,
 /obj/machinery/status_display/evac/directional/west,
@@ -35323,7 +35345,7 @@
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "kRv" = (
 /obj/structure/table/wood,
 /obj/effect/turf_decal/siding/dark{
@@ -35591,7 +35613,7 @@
 	c_tag = "Bomb Testing Site - Center #3"
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "kUz" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -40136,7 +40158,7 @@
 /area/station/security/medical)
 "mlQ" = (
 /turf/closed/wall/r_wall,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "mmf" = (
 /obj/effect/turf_decal/stripes{
 	dir = 4
@@ -40701,7 +40723,7 @@
 /obj/machinery/door/airlock/external,
 /obj/structure/fans/tiny/forcefield,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "muK" = (
 /obj/effect/turf_decal/tile/blue/opposingcorners,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -40996,7 +41018,7 @@
 "myr" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "myt" = (
 /obj/machinery/door/airlock/public/glass{
 	name = "Dorms"
@@ -42520,7 +42542,7 @@
 	c_tag = "Bomb Testing Site - True Center"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "mXL" = (
 /obj/effect/turf_decal/tile/green/opposingcorners,
 /turf/open/floor/iron/dark/textured,
@@ -42528,7 +42550,7 @@
 "mYk" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "mYo" = (
 /obj/effect/landmark/start/assistant,
 /obj/effect/turf_decal/tile/blue/diagonal_centre,
@@ -42872,7 +42894,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "ndi" = (
 /obj/structure/disposalpipe/junction/yjunction{
 	dir = 1
@@ -43713,7 +43735,7 @@
 "nra" = (
 /obj/machinery/light/dim/directional/north,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "nrc" = (
 /obj/effect/turf_decal/tile/dark_purple/opposingcorners,
 /obj/effect/turf_decal/stripes/corner{
@@ -45599,7 +45621,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "nWb" = (
 /obj/effect/turf_decal/tile/yellow/opposingcorners{
 	dir = 1
@@ -45903,7 +45925,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/item/food/grown/banana,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "obV" = (
 /obj/structure/grille/broken,
 /obj/structure/sign/warning/pods/directional/east,
@@ -46744,7 +46766,7 @@
 	name = "Test Chamber Blast Door"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "onf" = (
 /obj/effect/turf_decal/trimline/red/filled/line,
 /obj/machinery/firealarm/directional/south,
@@ -47257,7 +47279,7 @@
 /obj/item/crowbar/red,
 /obj/machinery/light_switch/directional/south,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "ouR" = (
 /obj/machinery/computer/pod/old/mass_driver_controller/chapelgun{
 	pixel_y = 24;
@@ -48678,7 +48700,7 @@
 "oRV" = (
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "oRY" = (
 /turf/closed/wall,
 /area/station/commons/storage/emergency/port)
@@ -49252,7 +49274,7 @@
 /area/station/science/xenobiology)
 "oZa" = (
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "oZc" = (
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible,
 /obj/effect/turf_decal/stripes,
@@ -49649,7 +49671,7 @@
 "pfr" = (
 /obj/structure/fans/tiny/forcefield,
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "pfs" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/effect/mapping_helpers/airlock/access/all/engineering/maintenance,
@@ -50765,7 +50787,7 @@
 "pvc" = (
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "pvd" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -50913,7 +50935,7 @@
 	c_tag = "Bomb Testing Site - Center #2"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "pwU" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/turf_decal/stripes/line{
@@ -51184,7 +51206,7 @@
 /obj/structure/railing,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "pCh" = (
 /turf/closed/wall/r_wall,
 /area/station/service/chapel)
@@ -51961,7 +51983,7 @@
 	c_tag = "Bomb Testing Site - Center #1"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "pOb" = (
 /obj/effect/mapping_helpers/burnt_floor,
 /obj/effect/decal/cleanable/dirt,
@@ -53332,7 +53354,7 @@
 "qkb" = (
 /obj/machinery/light/dim/directional/west,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "qkk" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
@@ -53497,7 +53519,7 @@
 "qmU" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/white,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "qmY" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
@@ -53866,7 +53888,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "qtQ" = (
 /obj/structure/table/reinforced,
 /obj/item/radio/intercom/directional/south,
@@ -55180,7 +55202,7 @@
 	c_tag = "Bomb Testing Site - NorthEast"
 	},
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "qOA" = (
 /obj/structure/table/glass,
 /obj/item/biopsy_tool{
@@ -56969,7 +56991,7 @@
 /obj/structure/flora/bush/jungle/b/style_random,
 /obj/structure/flora/bush/flowers_pp/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "rpB" = (
 /obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
 /obj/structure/cable,
@@ -57202,11 +57224,11 @@
 /turf/open/floor/iron/stairs{
 	dir = 8
 	},
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "rsS" = (
 /obj/machinery/holopad,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "rsV" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -57537,7 +57559,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "rAa" = (
 /obj/effect/turf_decal/stripes/blue/line{
 	dir = 8
@@ -58518,7 +58540,7 @@
 	c_tag = "Bomb Testing Site - Monkey Pen"
 	},
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "rQS" = (
 /obj/effect/spawner/random/maintenance,
 /obj/effect/decal/cleanable/dirt,
@@ -58528,7 +58550,7 @@
 "rQT" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "rQU" = (
 /obj/effect/spawner/random/trash,
 /obj/structure/grille/broken,
@@ -60955,7 +60977,7 @@
 /area/station/maintenance/port/central)
 "sDn" = (
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "sDw" = (
 /obj/structure/railing{
 	dir = 8
@@ -61498,7 +61520,7 @@
 "sLx" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "sLE" = (
 /obj/effect/decal/cleanable/cobweb,
 /obj/effect/spawner/random/trash/moisture_trap,
@@ -64480,7 +64502,7 @@
 /obj/effect/decal/cleanable/dirt,
 /mob/living/carbon/human/species/monkey,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "tGW" = (
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 8
@@ -64675,7 +64697,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "tJW" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -67004,6 +67026,7 @@
 "utU" = (
 /obj/machinery/holopad,
 /turf/open/floor/wood,
+<<<<<<< HEAD
 /area/station/science/ordnance/bomb)
 "utZ" = (
 /obj/effect/turf_decal/trimline/purple/filled/line,
@@ -67018,6 +67041,9 @@
 	},
 /turf/open/floor/stone,
 /area/station/science/xenobiology)
+=======
+/area/station/science/ordnance/bomb/planet)
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 "uub" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -67222,7 +67248,7 @@
 "uxK" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/white,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "uxR" = (
 /obj/structure/extinguisher_cabinet/directional/east,
 /obj/effect/turf_decal/trimline/white/line{
@@ -67499,7 +67525,7 @@
 /area/station/maintenance/starboard/aft)
 "uCx" = (
 /turf/open/floor/wood,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "uCB" = (
 /obj/structure/rack,
 /obj/machinery/light/small/directional/east,
@@ -68142,7 +68168,7 @@
 	c_tag = "Bomb Testing Site - Center #4"
 	},
 /turf/open/floor/engine,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "uLu" = (
 /obj/effect/turf_decal/trimline/white/line{
 	color = "#009dc4"
@@ -68563,7 +68589,7 @@
 	c_tag = "Bomb Testing Site - Kitchen"
 	},
 /turf/open/floor/iron/white,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "uRZ" = (
 /obj/effect/turf_decal/trimline/white/corner{
 	color = "#009dc4"
@@ -68755,7 +68781,7 @@
 "uUE" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "uUG" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -69200,7 +69226,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/light/dim/directional/west,
 /turf/open/floor/carpet/blue,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "vbg" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/monitored/nitrogen_input,
 /obj/effect/turf_decal/stripes{
@@ -69226,7 +69252,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "vbC" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 8
@@ -69842,7 +69868,7 @@
 "vkN" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "vkP" = (
 /obj/effect/turf_decal/trimline/dark_blue/line,
 /obj/structure/drain,
@@ -70480,7 +70506,7 @@
 "vvy" = (
 /obj/machinery/light/directional/west,
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "vvQ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -71332,7 +71358,7 @@
 /obj/structure/table/reinforced/plastitaniumglass,
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/plating,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "vKq" = (
 /obj/machinery/light/red/directional/east,
 /obj/structure/sink/kitchen/directional/west,
@@ -73059,7 +73085,7 @@
 "wlz" = (
 /obj/structure/flora/bush/flowers_pp/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "wlJ" = (
 /obj/machinery/door/airlock/wood{
 	name = "Reloading Room"
@@ -74167,7 +74193,7 @@
 	c_tag = "Bomb Testing Site - West"
 	},
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "wDA" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 8
@@ -74662,7 +74688,7 @@
 /obj/structure/flora/bush/jungle/b/style_random,
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "wNz" = (
 /obj/effect/turf_decal/tile/red/opposingcorners,
 /obj/effect/turf_decal/tile/yellow/opposingcorners{
@@ -75674,7 +75700,7 @@
 "xcX" = (
 /obj/structure/flora/bush/jungle/b/style_random,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "xcY" = (
 /obj/effect/turf_decal/trimline/red/filled/warning,
 /turf/open/floor/iron/dark/textured,
@@ -76197,7 +76223,7 @@
 /area/station/science/xenobiology)
 "xkj" = (
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "xkG" = (
 /obj/structure/table,
 /obj/item/holosign_creator/atmos{
@@ -76862,7 +76888,7 @@
 "xuj" = (
 /obj/machinery/light/directional/north,
 /turf/open/floor/grass,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "xul" = (
 /obj/effect/turf_decal/trimline/dark_red/filled/line,
 /turf/open/floor/iron/dark/textured,
@@ -77422,7 +77448,7 @@
 /obj/item/storage/box/monkeycubes,
 /obj/structure/table/glass,
 /turf/open/floor/iron/dark/textured,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "xBn" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 4
@@ -78048,7 +78074,7 @@
 /turf/open/floor/iron/stairs{
 	dir = 1
 	},
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "xMH" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -78173,7 +78199,7 @@
 "xOe" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
-/area/station/science/ordnance/bomb)
+/area/station/science/ordnance/bomb/planet)
 "xOg" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/mapping_helpers/broken_floor,

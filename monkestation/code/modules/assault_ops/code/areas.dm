@@ -39,8 +39,13 @@
 	name = "GoldenEye Satellite"
 	icon_state = "syndie-ship"
 	requires_power = FALSE
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
 	area_flags = VALID_TERRITORY | UNIQUE_AREA | NOTELEPORT
+=======
+	default_gravity = STANDARD_GRAVITY
+	area_flags = VALID_TERRITORY | NOTELEPORT
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 	ambientsounds = AMBIENCE_GENERIC
 
 /area/cruiser_dock/brig

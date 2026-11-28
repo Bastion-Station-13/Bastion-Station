@@ -68,8 +68,13 @@
 	icon = 'icons/area/areas_ruins.dmi'
 	icon_state = "anomaly_research"
 	requires_power = FALSE
+<<<<<<< HEAD
 	area_flags = HIDDEN_AREA | UNIQUE_AREA
 	has_gravity = TRUE
+=======
+	area_flags = HIDDEN_AREA
+	default_gravity = STANDARD_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 
 /obj/item/reagent_containers/cup/bottle/wittel
 	name = "wittel bottle"

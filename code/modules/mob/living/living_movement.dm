@@ -23,7 +23,11 @@
 	var/area/old_area = old_turf.loc
 	var/area/new_area = new_turf.loc
 	// If the area gravity has changed, then it's possible that our state has changed, so update
+<<<<<<< HEAD
 	if(old_area.has_gravity != new_area.has_gravity)
+=======
+	if(old_area.default_gravity != new_area.default_gravity || (old_area.area_flags & NO_GRAVITY) != (new_area.area_flags & NO_GRAVITY))
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
 		refresh_gravity()
 
 /mob/living/on_changed_z_level(turf/old_turf, turf/new_turf, same_z_layer, notify_contents)

@@ -129,4 +129,12 @@
 /area/station/science/ordnance/bomb
 	name = "\improper Ordnance Bomb Site"
 	icon_state = "ord_boom"
+<<<<<<< HEAD
 	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED
+=======
+	skip_minimap_rendering = TRUE
+	area_flags = BLOBS_ALLOWED | CULT_PERMITTED | NO_GRAVITY
+
+/area/station/science/ordnance/bomb/planet
+	area_flags = /area/station/science/ordnance/bomb::area_flags & ~NO_GRAVITY
+>>>>>>> 8c6c4d11 ([PORT] Fix gravity for areas in space near the station (#13180))
