@@ -130,6 +130,7 @@
 #include "connect_loc.dm"
 #include "container_sanity.dm"
 #include "create_and_destroy.dm"
+#include "crew_monitor_map.dm"
 #include "dcs_get_id_from_elements.dm"
 #include "designs.dm"
 #include "door_access.dm"
