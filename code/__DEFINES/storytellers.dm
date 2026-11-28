@@ -91,6 +91,7 @@
 #define SHARED_METEORS		"meteor event"
 #define SHARED_BSOD			"tech malfunction event"
 #define SHARED_CHANGELING	"changelings"
+#define SHARED_ARCFIEND		"arcfiends"
 
 ///the duration into the round for which roundstart events are still valid to run
 #define ROUNDSTART_VALID_TIMEFRAME 3 MINUTES
