@@ -22,7 +22,13 @@
 	melee_damage_lower = 5
 	melee_damage_upper = 15
 	can_buckle_to = FALSE
+<<<<<<< HEAD
 	can_be_held = TRUE
+=======
+	head_icon = 'icons/mob/clothing/head/slimes_head.dmi'
+	worn_slot_flags = ITEM_SLOT_HEAD
+	inhand_holder_type = /obj/item/clothing/head/mob_holder/slime
+>>>>>>> cb86dbe23 (adds a sprite for wearing slimes on your head (#13211))
 
 	damage_coeff = list(BRUTE = 1, BURN = -1, TOX = 1, CLONE = 1, STAMINA = 1, OXY = 1) //Healed by fire
 	unsuitable_cold_damage = 15
@@ -567,5 +573,14 @@
 		tgui_alert(admin, "The slime can't split right now (needs to be a conscious adult with room, and not blocked from splitting).", "Force Split")
 		return
 	log_admin("[key_name(admin)] forced [key_name(src)] to split.")
+
+/// What a slime turns into when it's picked up, so it can sit on someone's head.
+/obj/item/clothing/head/mob_holder/slime
+
+/obj/item/clothing/head/mob_holder/slime/update_visuals(mob/living/basic/slime/slime)
+	. = ..()
+	worn_icon_state = replacetext(slime.slime_type::color, " ", "_")
+	if(slime.life_stage == SLIME_LIFE_STAGE_ADULT)
+		worn_icon_state += "_adult"
 
 #undef SLIME_HAT_PIXEL_Y
