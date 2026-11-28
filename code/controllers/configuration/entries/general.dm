@@ -485,6 +485,15 @@
 	default = 10
 	min_val = 1
 
+/// Allows players to import their own preferences from a JSON file they exported earlier.
+/datum/config_entry/flag/forbid_preferences_import
+	default = FALSE
+
+/// The number of seconds a player must wait between preference import attempts.
+/datum/config_entry/number/seconds_cooldown_for_preferences_import
+	default = 60
+	min_val = 1
+
 /datum/config_entry/number/client_warn_version
 	default = null
 	min_val = 500

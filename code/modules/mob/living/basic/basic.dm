@@ -1,5 +1,6 @@
 ///Simple animals 2.0, This time, let's really try to keep it simple. This basetype should purely be used as a base-level for implementing simplified behaviours for things such as damage and attacks. Everything else should be in components or AI behaviours.
 /mob/living/basic
+	abstract_type = /mob/living/basic
 	name = "basic mob"
 	icon = 'icons/mob/simple/animal.dmi'
 	health = 20
@@ -10,6 +11,12 @@
 	fire_stack_decay_rate = -5 // Reasonably fast as NPCs will not usually actively extinguish themselves
 
 	var/basic_mob_flags = NONE
+
+	/// Biomass credited when this creature is recycled. Positive values also allow vacuum capture and printing.
+	var/biomass_value = 0
+
+	/// Scales how much a slime gets out of draining this creature. Over 1 is a fatter meal.
+	var/slime_meal_multiplier = 1
 
 	///Defines how fast the basic mob can move. This is not a multiplier
 	var/speed = 1

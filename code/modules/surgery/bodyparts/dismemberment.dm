@@ -146,7 +146,7 @@
 		qdel(src)
 		return
 
-	if((limb_id == SPECIES_OOZELING) && !special)
+	if((limb_id in list(SPECIES_OOZELING, SPECIES_SLIMEPERSON, SPECIES_LUMINESCENT)) && !special)
 		if(deprecise_zone(src.body_zone) in list(BODY_ZONE_HEAD, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG ))
 			var/list/limborgans = src.contents
 			if(limborgans) //Handle implants dropping when limb is dismembered
@@ -292,16 +292,18 @@
 	new_arm_owner.update_worn_gloves()
 
 
-/obj/item/bodypart/leg/drop_limb(special, dismembered, violent)
-	if(owner && !special)
-		if(owner.legcuffed)
-			owner.legcuffed.forceMove(owner.drop_location()) //At this point bodypart is still in nullspace
-			owner.legcuffed.dropped(owner)
-			owner.legcuffed = null
-			owner.update_worn_legcuffs()
-		if(owner.shoes)
-			owner.dropItemToGround(owner.shoes, TRUE, violent = violent)
-	return ..()
+/obj/item/bodypart/leg/drop_limb(special, dismembered, violent, move_to_floor = TRUE)
+	var/mob/living/carbon/leg_owner = owner
+	. = ..()
+	if(special || !leg_owner)
+		return
+	if(leg_owner.legcuffed)
+		leg_owner.legcuffed.forceMove(leg_owner.drop_location())
+		leg_owner.legcuffed.dropped(leg_owner)
+		leg_owner.legcuffed = null
+		leg_owner.update_worn_legcuffs()
+	if(leg_owner.shoes)
+		leg_owner.dropItemToGround(leg_owner.shoes, TRUE, violent = violent)
 
 /obj/item/bodypart/head/drop_limb(special, dismembered, violent)
 	if(!special)
@@ -348,7 +350,7 @@
 		return FALSE
 
 	var/obj/item/bodypart/chest/mob_chest = new_limb_owner.get_bodypart(BODY_ZONE_CHEST)
-	if(mob_chest && !(mob_chest.acceptable_bodytype & bodytype) && !special)
+	if(mob_chest && !(mob_chest.acceptable_bodytype & bodytype) && !(mob_chest.acceptable_bodyshape & bodyshape) && !special)
 		return FALSE
 	return TRUE
 

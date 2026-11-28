@@ -354,3 +354,377 @@
   - config: Updates (nearly) all references to the monkestation wiki to use the bastionstation
       wiki instead. This includes the manual books that open wiki pages (such as the
       space law book).
+2026-11-20:
+  13spacemen:
+  - refactor: Bodytypes to do with character sprite shape now have their own bodyshape
+      var, all sprite handling is done with bodyshape and not bodytype anymore
+  ArcaneMusic, CabinetOnFire, Kapu, grungussuss, Melbert, vinylspiders, EnnyDaiz:
+  - rscadd: Cargo can now buy a Nanomusic boombox! Comes with a demo tape, more tapes
+      can be found as goodies, on the black market, in the game vendor and in the
+      Pizza Party domain.
+  - rscadd: The boombox can also play approved cassettes.
+  - sound: Looping sounds like the supermatter, grav gen and kitchen machines now
+      update as you move, and you can hear long sounds even if you arrive halfway
+      through.
+  - sound: Sound falloff is softer.
+  - sound: The supermatter has start and stop sounds.
+  - sound: Ambience waits for the last sound to finish before playing a new one.
+  - sound: Sounds are stereo again and no longer get a forced echo, so positional
+      audio sounds a lot more 3D.
+  - sound: Most of the station no longer has hangar sized reverb.
+  - bugfix: Looping sounds and boombox tapes follow whoever is carrying them, and
+      cassettes no longer restart when you change z-levels.
+  - bugfix: Cassettes playing on a shuttle no longer cut out for the passengers when
+      it takes off.
+  - bugfix: Looping sounds no longer steal the voice, ringtone, siren, admin sound
+      and shuttle channels.
+  - bugfix: Ear damage makes things quieter instead of making you deaf past one tile.
+  - bugfix: Elevator music and other direct loops respect their volume and your volume
+      sliders.
+  - bugfix: Changing a volume slider updates sounds that follow you right away.
+  - bugfix: The alt siren starts on its start sound.
+  - bugfix: Randomly pitched sounds no longer lean low on 48 kHz files.
+  Fikou, Melbert, SmArtKar:
+  - refactor: Visors, masks and helmets all toggle the same way now, report anything
+      that doesn't change sprite or hide things right when you push it up or down
+  - bugfix: Bandanas no longer turn invisible when you push them up into a hat.
+  - bugfix: You can no longer adjust masks that don't have a pushed up sprite (surgery
+      mask, sec bandana and a few others) to turn them invisible.
+  HIDgamer:
+  - qol: added new tools to the repo
+  - refactor: refactored the mirror bot
+  ? LettuceWarlock, EssentialTomato, Y0SH1_M4S73R, jlsnow301, Kylerace, ArcaneMusic,
+    Paxilmaniac, Notamaniac, timothymtorres, Gboster-0, MrMelbert, SmArtKar, Cruix,
+    Ghommie
+  : - rscadd: Shuttle blueprints, the tool used to construct and modify custom shuttles.
+        Print a set at a science, engineering, or cargo techfab after researching
+        Shuttle Engineering, or craft a crude set from the crafting menu.
+    - rscadd: Shuttle blueprint database upgrade for engineering cyborgs, printable
+        from the Exosuit Fabricator after researching Shuttle Engineering. A version
+        of shuttle blueprints designed for use by cyborgs.
+    - rscadd: Shuttle frame rods, usable to construct custom shuttles. Hand-craft
+        by using 5 rods on 1 titanium sheet, or by printing them at a science, engineering,
+        or cargo techfab after researching Shuttle Engineering.
+    - rscadd: Custom shuttle flight control and navigation boards, printable from
+        a science, engineering, or cargo techfab after researching Shuttle Engineering.
+    - rscadd: Shuttle engine boards can be printed from a science, engineering, or
+        cargo techfab after researching shuttle engineering.
+    - rscadd: The shuttle engine supply pack is no longer locked behind the purchase
+        of the Build Your Own Shuttle kit.
+    - rscadd: Shuttle Construction Starter Kit goodie pack, containing a set of shuttle
+        blueprints, flight control and navigation console boards, and two engine boards,
+        can be purchased from cargo for 1200 credits. Requires aux base access to
+        purchase.
+    - refactor: Shuttles now keep track of what areas are underneath each of their
+        individual turfs, so that the areas left behind on movement are consistent
+        with what they were beforehand.
+    - refactor: Shuttle ceilings now place themselves down as baseturfs, instead of
+        only appearing if the turf above is open space.
+    - rscadd: The station blueprints can be used to toggle whether custom shuttles
+        can be built/expanded/docked within station areas.
+    - qol: Custom areas do not have to be completely contained within shuttle frames,
+        as long as the APC isn't attached to the frame.
+    - rscadd: Custom shuttles with functioning engines will fly off into the sunset
+        when the emergency shuttle leaves.
+    - rscadd: Custom shuttle navigation computers can view space levels adjacent to
+        the one the shuttle is currently docked at.
+    - rscadd: Shuttle navigation computers now show the location of airlocks, turrets,
+        and the shuttle control consoles on the ship outline while placing a custom
+        landing location.
+    - qol: Gigabeacons no longer need to be constructed like standard machines, instead
+        being printed as items that can be deployed quickly inhand without tools.
+    - image: Navigation gigabeacons now have their own unique sprites, inspired by
+        maritime EPIRB devices. If you find a yellow box with an antenna on it, you
+        probably found a nav beacon!
+    - qol: Explorers now start with a gigabeacon in their loadout.
+    - qol: Shuttle engines now tell you how to install them in their screentips and
+        their examine text.
+    - image: Shuttle and heat resistant (aka lavaproof) rods now have unique sprites.
+    - bugfix: Replaced floor tiles on shuttles no longer get left behind when the
+        shuttle moves.
+    - bugfix: Walls and floors made of custom materials keep their material when the
+        shuttle they're on moves.
+    - bugfix: The "Move Up" and "Move Down" verbs properly respect multi-z connectivity
+        when operating a remote camera.
+    - bugfix: Shuttle flight control computers will show you when the linked shuttle
+        cannot move.
+    - bugfix: Holodeck is slightly less likely to explode the server
+    - bugfix: Fix shuttle engines built from a circuit board having it's anchored
+        state not matching the correct engine_state. This would consider the engine
+        to be anchored already when it was not and allow someone to weld it despite
+        it being able to be dragged and moved around.
+    - bugfix: Shuttle engines no longer provide negative power to your shuttles if
+        you unwrench them.
+2026-11-21:
+  AitorLogedo:
+  - bugfix: Balaclavas, emotion masks, clown and mime masks, vapes and facehuggers
+      no longer reset their look when changing z levels.
+  - rscdel: Tundra moths are no longer a separate species. Moths can pick tundra fur
+      in the new Body style option instead, which only changes how they look.
+  - qol: The moth mutant colors checkbox is now part of the Body style option.
+  - bugfix: Pushing up a kitsune mask or bandana while wearing it updates your sprite
+      again.
+  - bugfix: Alt-clicking the kitsune mask puts it above your hair like using it in
+      hand does.
+  - bugfix: Recoloring, washing or spraypainting a pushed up mask you're wearing updates
+      your sprite.
+  EnterTheJake:
+  - bugfix: Gluon grenades now irradiate again.
+  - bugfix: Brig Physicians no longer spawn with a blank PDA
+  - bugfix: Hardly wounded people no longer take worse wounds than normal people from
+      heavy hits.
+  - balance: Easily wounded and hardly wounded now raise or lower the maximum wound
+      severity a single hit can roll, instead of scaling the hit's damage.
+  - bugfix: Players with a fresh character save no longer spawn as ghosts at roundstart.
+  - bugfix: Viscerators no longer body-block people.
+  - balance: Viscerators can now fly over machines and through plastic flaps.
+  HoggyHart:
+  - bugfix: voice sensor nanites work now
+  - spellcheck: species sensor description "singal" -> "signal"
+  SirNightKnight:
+  - balance: buffed .38 less lethal rounds to do 35 stamina damage instead of 25.
+  SmArtKar:
+  - bugfix: Fixed explorer masks going invisible when you put on a goliath hood
+  - qol: 'Improved the strip menu: items you can see but can''t reach show up semi
+      transparent instead of hidden, and icons are no longer blurry'
+2026-11-23:
+  Absolucy:
+  - rscadd: Xenobiology is now literally slime rancher.
+  - rscadd: Slime vacuum packs now have built-in extract storage, upgradable with
+      a matter bin.
+  - rscadd: Vacuum packs hold extracts now. shoot them into the fridge, dump them
+      in a bag, or right-click to grab one.
+  - rscadd: Slime pens now actually look decent and have more space.
+  - rscadd: Crossbreeds are now made with an "extract compressor", which consumes
+      both biomass and slime extracts.
+  - rscadd: Slime scanners are now used to remotely scan a slime and stay up to date
+      on that specific slime's stats and such.
+  - rscadd: Instead of mulching slimes for extracts, slimes now produce extracts when
+      fed enough.
+  - rscadd: Slimes won't split on their own - instead, you need to feed them "breeding
+      pellets" from the biomass recycler, or if you are the slime's friend, order
+      them to do so, and they will split or mutate whenever they can instead. This
+      does not apply to "wild" slimes that haven't been in a pen recently, and player
+      slimes can still manually split whenever.
+  - rscadd: Catslimes now harmlessly boop people nearby :3
+  - rscadd: Cleaner slimes go wander off to look for messes when there's nothing nearby,
+      and sometimes go find a random player
+  - rscadd: Cleaner slimes (and slimes you've sicced on something) can use stairs
+      now
+  - bugfix: Mobs no longer freeze up after changing floors until someone walks up
+      to them
+  HIDgamer:
+  - rscadd: Added Import Preferences verb to the OOC tab
+  - qol: Loadout items are now sorted alphabetically in every category.
+  - rscadd: Loadout items now get a preview thumbnail icon in the loadout menu.
+2026-11-28:
+  Absolucy:
+  - bugfix: Trying to fix more goddamn laggy bullshit.
+  - balance: oozeling jelly regen, limb self-cannibalizing, membrane regen and the
+      wetness hud now come from the core instead of the slime heart. swapping out
+      an oozeling's heart doesn't take those away anymore, and they go wherever the
+      core goes
+  - bugfix: regrowing only some of your limbs as an oozeling no longer spawns extra
+      pairs of eyes
+  - bugfix: oozeling regenerate limbs button now greys out when you don't have enough
+      blood to use it
+  - bugfix: oozeling retract limb button now greys out when you've got nothing left
+      to retract
+  - qol: the "too wet, dry off!" alert on oozelings doesn't spam every tick anymore
+  - spellcheck: fixed "it's" typo in the oozeling core signal messages
+  Absolucy, Melbert:
+  - bugfix: Cleaning a mob cleans all of their equipment again
+  AitorLogedo:
+  - bugfix: Taking stuff out of machines with your active hand full now puts it in
+      the other hand of the same pair instead of your first left hand (moths with
+      4 arms)
+  Fikou, FlufflesTheDog, Jackraxxus, mc-oofert, SmArtKar, necromanceranne, lelandkemble:
+  - refactor: MODsuit parts got refactored, report any bugs.
+  - balance: You no longer need all parts deployed to activate a MODsuit, you can
+      use them with missing limbs.
+  - rscadd: Added the portable suit, a deployable one-piece three-piece suit. Buy
+      it from the LawDrobe or print the plating after researching Civilian Modular
+      Suits.
+  - bugfix: MODules don't work or show overlays when the part they need isn't sealed.
+  - bugfix: Rad protection, ash accretion, sphere and stealth MODules need the full
+      suit out.
+  - bugfix: Springlock only activates when at least one part is sealed and no longer
+      damages body parts the suit doesn't cover.
+  - bugfix: MODsuit deactivation disables modules properly and deleted MODsuits delete
+      their parts.
+  - bugfix: An AI needs the boots out to move someone in a MODsuit.
+  - bugfix: Partially deployed MODsuits can be retracted with the deploy action.
+  - qol: You can extend or retract MODsuit parts from the UI, and cores have color
+      coded charge bars.
+  Ghommie, 00-Steven, SmArtKar, vinylspiders:
+  - rscadd: Fish infusion. Infusing fish in the DNA infuser gives you gills, a fish
+      stomach and a fish tail, plus a fish liver or semi aquatic lungs depending on
+      the fish traits.
+  - rscadd: 'With 3 fish organs you get a bonus: while wet you can''t slip, you''re
+      slippery when lying down, crawl faster, resist grabs and dry out slower, but
+      being dry makes you weaker.'
+  - rscadd: Water adapted fish people get healed a bit by showers and drinking water.
+  - rscadd: Squids, an ink producing fish you can catch in the ocean. Infusing one
+      gives you a tongue that spits ink to blind people.
+  - rscadd: Fish tails can be filleted with a knife, and gibbing someone with a fish
+      tail gives fish tail fillets.
+  - rscadd: Fish livers make tetrodotoxin heal you instead of poisoning you.
+  - qol: The DNA infuser now accepts fish.
+  - balance: Fishing rods hit fish infused people a bit harder.
+  - image: Fish tail sprites and fish organ sprites.
+  - sound: Fish flopping sounds when fish people crawl.
+  - code_imp: Reagents have a purge multiplier for how fast other reagents flush them
+      out.
+  ? Ghommie, MrMelbert, vinylspiders, ArcaneMusic, san7890, Ben10Omintrix, tralezab,
+    JohnFulpWillard, jwc1015, Zenitheevee, Paxilmaniac, homexp13, Y0SH1M4S73R
+  : - rscadd: Fish analyzers can be used for fish scanning experiments and can be
+        bought as a goodie.
+    - rscadd: Aquariums have a small feed storage that feeds the fish automatically,
+        also works with plumbing.
+    - rscadd: Fish catalogs can be bought as a goodie.
+    - rscadd: You can fish in hydroponics trays with water and nothing planted in
+        them.
+    - rscadd: Added a few fish related bounties.
+    - rscadd: Fish cases can be printed from the service techfab and the autolathe.
+    - rscadd: Most fishing rods come with a hook and line preinstalled. Hooks are
+        needed to fish.
+    - rscadd: The rescue and jawed hook can snag and reel in mobs. The jawed hook
+        also slows them down.
+    - rscadd: Added the auto-reel fishing line, it speeds up fishing and lets you
+        yank things towards you.
+    - rscadd: Fishes love kronkaine.
+    - rscadd: Examining a fishing spot twice with enough fishing skill (or the skillchip)
+        lists the fish you can catch there.
+    - rscadd: 'New fish: the lavaloop (lava and plasma rivers), the anxious zipzap
+        and the monocloning jumpercable.'
+    - rscadd: New aquarium, the bioelectricity generator.
+    - rscadd: Electric eels prefer used car batteries for bait.
+    - rscadd: Aquariums influence the beauty of the room based on their contents.
+        Morbid people like dead fish in them.
+    - rscadd: You can now fish with explosives.
+    - rscadd: Fish can be sold through cargo, bigger fish sell for more.
+    - rscdel: Removed the specific fish bounty, the other two pay a bit more.
+    - balance: Without a reel line the rod range is shorter. The master fishing rod
+        comes with a better line and hook.
+    - balance: Reacting fast when a fish bites gives you a head start in the minigame.
+        Clicking early only delays the bite a bit instead of resetting it.
+    - balance: Bait quality affects the chance of rarer fish. Any bait removes fishing
+        duds.
+    - balance: Tetrodotoxin can be synthesized and pufferfish give more of it.
+    - balance: The fishing skill is a bit stronger and the bait is easier to control.
+    - balance: Aquariums start unanchored with breeding enabled.
+    - qol: Fish analyzers have a UI.
+    - qol: You can unhook the hooked item of a fishing rod with right click.
+    - sound: Reeling in something plays a sound.
+    - image: Resprited fish and the aquarium.
+    - bugfix: Bait is actually used up when you catch a fish.
+    - bugfix: Fishing up spawners gives you the item instead of a broken spawner.
+    - bugfix: Fishing rods work on adjacent targets.
+    - bugfix: Grinding fish no longer gives a silly amount of blood and gibs.
+    - bugfix: Fixed fish prices using xor instead of a power.
+    - bugfix: Mixotrophic fish properly lack food requirements.
+  JohnFulpWillard, 00-Steven, timothymtorres, vinylspiders, PapaMichae1, TealSeer, LemonInTheDark, MrMelbert, Ghommie:
+  - bugfix: Advanced cameras show static right away.
+  - bugfix: Holding a PDA note up to a camera gives the AI a working link.
+  - balance: Camera upgrades use power, disabled cameras don't use any.
+  - bugfix: Camera tracking checks the person tracking instead of the program.
+  - qol: The AI's last camera hotkey takes you back to where you were before tracking
+      someone.
+  - qol: You can examine things through advanced camera consoles and holocalls.
+  - bugfix: Cameras looking through glass on the bottom z level don't break.
+  - image: Camera lights glow in the dark.
+  - bugfix: Body cameras and broadcast cameras update the AI's view when they move.
+  - admin: Toggling camera updates is logged.
+  - balance: Cyborgs and drones get a notification when someone is watching them through
+      a camera console.
+  - rscadd: Station drones have an internal camera that shows up on camera consoles.
+  - bugfix: Cutting a cyborg's camera wire disables it, and mending it enables it
+      again.
+  - refactor: Camera construction uses item interaction now.
+  Mantlecrawler:
+  - rscadd: Command announcements now allow newlines
+  Melbert:
+  - rscdel: Spacesuits no longer fully conceal lizard tails
+  - rscadd: Species features like wings and tails will appear "meshed over" when wearing
+      certain equipment like spacesuits or biosuits.
+  - rscadd: Biosuit and beekeeper suit sprites now alter when worn by digitigrade
+      mobs.
+  - rscadd: Apron sprites now alter when worn by digitigrade mobs.
+  - spellcheck: All heretic armor hoods are consistently known by their name, rather
+      than "ominous hood"
+  - refactor: Bodypart textures were refactored a tiny bit, report any oddities.
+  - bugfix: Fix riot armor using brown mesh (now black, matching the armor)
+  SmArtKar:
+  - rscadd: Fish infusion now gives you scales, and tail color if you get enough fish
+      organs
+  V2LenKagamine:
+  - refactor: Moves old modular art sci in monkestation/modules to just code/modules.
+  - bugfix: Size Change ++ Artifacts no longer anchor when too large to carry.
+  - bugfix: Fixes an issue where bomb artifacts had a good chance to just not bomb.
+  - bugfix: Fixes a bug where blood artifacts could not generate.
+  - bugfix: Fixed a bug that caused valid origins to make the effect unobtainable.
+  - bugfix: Small artifact effects can no longer roll on larger objects
+  - bugfix: radiation artifacts no longer always trigger at 1.
+  - bugfix: narsie artifact no longer steals all your blood.
+  - bugfix: attempts to stop some cases where artifacts try to activate on non-existing
+      artifacts.
+  - rscadd: Adds a couple more lines to artifact inspects.
+  - rscadd: Adds some more whisper fault lines.
+  - rscadd: Adds a "Do Not Roll" var for artifacts for base-class artifact effects.
+  - rscadd: A few new asteroid shapes for variety
+  - rscadd: Artifact that turns things into gold.
+  - rscadd: Artifact that grants a wizard spell from a list. Mostly defensive spells.
+  - rscadd: Artifact that makes things fantasy flavored
+  - balance: Nudges the weights around for item-like artifacts in spawn_artifact.
+  - balance: Asteroids are now considerably more mineral [and artifact] dense
+  - balance: blood artifacts now only need 3 bodies of blood to generate a reward
+  - balance: Its A secret [Literally] artifact is now slightly more common
+  - qol: New Medium chance rock for Asteroids
+  - qol: A few objects with forced artifact effects [For easier admin spawn or map
+      making]
+  - code_imp: Re-organised the artifact init to ensure artifacts are given the correct
+      naming and icon if given a forced effect somehow
+  - refactor: Artifact stimuli are no longer bitflags, but string lists to be compared.
+  - refactor: Rework artifact_activators in base class to dynamically compile from
+      all availible, and is now called "all_activators"
+  - bugfix: Artifacts no longer trigger faults from activators they don't have.
+  - bugfix: Artifact fourms no longer show un-achievable effects, and have a 'no fault'
+      option
+  - bugfix: smol_rock no longer uses the wrong asteroid rock.
+  - bugfix: soap artifacts work again.
+  - bugfix: add SINGULAR missing `.` in artifact wand text.
+  - balance: The average artifact is worth far more to cargo. Weapons[and things that
+      could be used as such] are worth more.
+  - balance: Flawless artifacts now sell for more than flawed artifacts.
+  - balance: powergen artifacts are harder to trigger instant death zapps.
+  - code_imp: try_add_effect on artifact now null-checks its 1 argument
+  - bugfix: Aritfact wands now properly summon weird type artifacts, like batteries
+      and generators, from disks.
+  - balance: Artifact wands are now considerably more expensive. Go mine them dammit!
+  - balance: Bomb artifacts are now 5% chance to be a dud. Fuck around find out.
+  - balance: dark altar artifacts made more common
+  - balance: Artifact wands can now summon a full copy of disks [for things like battery
+      artifacts]
+  - rscadd: New chaos smoke effect for artifacts. God save you.
+  - rscadd: New Mind swap effect for artifacts. Zipp zoop.
+  big-boss-crate:
+  - bugfix: borg limbs now show up on the correct side of endoskeletons when attached
+  chumtoadmonke:
+  - rscadd: Added setting to disable tab autocomplete on command bar
+  tattax:
+  - rscadd: you can now switch between plasmaman suit styles using metal and crowbars
+  - bugfix: winter hoods now don't set you ablaze anymore when you toggle them as
+      plasmaman
+  - image: changed bulky plasmaman helmet icon slightly (and all variants with it)
+  tontyGH:
+  - refactor: A lot of code relating to hands was altered for technical reasons
+  - bugfix: Items that could block did not correctly block push/shuffle attempts
+  - bugfix: The swap hands tutorial did not account for 3+ hands
+  - bugfix: High-tenning a mob did not account for more than 2 hands (you can high-twenty
+      now!)
+  - qol: Added multiple new keybinds for hand control
+  - qol: Hand-related keybinds were moved to DEXTROUS category
+  - bugfix: Cycling hands would get stuck on offhand items instead of skipping over
+      them
+  - bugfix: Tentacle's aggro grab had weird behaviour that made it ignore a lot of
+      systems

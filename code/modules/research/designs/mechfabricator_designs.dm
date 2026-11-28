@@ -1361,6 +1361,20 @@
 		RND_CATEGORY_MECHFAB_CYBORG_MODULES + RND_SUBCATEGORY_MECHFAB_CYBORG_MODULES_JANITOR
 	)
 
+/datum/design/borg_upgrade_shuttle_blueprints
+	name = "Engineering Shuttle Blueprints"
+	id = "borg_upgrade_engineering_shuttle_blueprints"
+	build_type = MECHFAB
+	build_path = /obj/item/borg/upgrade/shuttle_blueprints
+	materials = list(
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT*5,
+		/datum/material/glass = SHEET_MATERIAL_AMOUNT*2.5,
+	)
+	construction_time = 4 SECONDS
+	category = list(
+		RND_CATEGORY_MECHFAB_CYBORG_MODULES + RND_SUBCATEGORY_MECHFAB_CYBORG_MODULES_ENGINEERING
+	)
+
 /datum/design/borg_upgrade_expand
 	name = "Expand Module"
 	id = "borg_upgrade_expand"
@@ -1864,6 +1878,19 @@
 	var/obj/item/mod/construction/plating/armor_type = build_path
 	var/datum/mod_theme/theme = GLOB.mod_themes[initial(armor_type.theme)]
 	desc = "External plating for a MODsuit. [theme.desc]"
+
+/// Design for the portable suit plating.
+/datum/design/mod_plating/portable_suit
+	name = "MOD Portable Suit Plating"
+	id = "mod_plating_portable_suit"
+	build_path = /obj/item/mod/construction/plating/portable_suit
+	materials = list(
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 3,
+		/datum/material/plastic = SHEET_MATERIAL_AMOUNT * 1,
+		/datum/material/plasma = HALF_SHEET_MATERIAL_AMOUNT,
+		/datum/material/plastic = SHEET_MATERIAL_AMOUNT,
+	)
+	research_icon_state = "psuit-plating"
 
 /datum/design/mod_plating/engineering
 	name = "MOD Engineering Plating"

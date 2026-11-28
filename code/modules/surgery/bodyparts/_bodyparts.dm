@@ -2,6 +2,7 @@
 #define AUGGED_LIMB_EMP_BURN_DAMAGE 2
 
 /obj/item/bodypart
+	abstract_type = /obj/item/bodypart
 	name = "limb"
 	desc = "Why is it detached..."
 	force = 3
@@ -36,8 +37,10 @@
 	 * Set to BIO_STANDARD_UNJOINTED because most species have both flesh bone and blood in their limbs.
 	 */
 	var/biological_state = BIO_STANDARD_UNJOINTED
-	///A bitfield of bodytypes for clothing, surgery, and misc information
-	var/bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	///A bitfield of bodytypes for surgery, and misc information
+	var/bodytype = BODYTYPE_ORGANIC
+	///A bitfield of bodyshapes for clothing and other sprite information
+	var/bodyshape = BODYSHAPE_HUMANOID
 	///Defines when a bodypart should not be changed. Example: BP_BLOCK_CHANGE_SPECIES prevents the limb from being overwritten on species gain
 	var/change_exempt_flags = NONE
 	///Random flags that describe this bodypart
@@ -170,6 +173,8 @@
 	var/list/obj/item/organ/external/external_organs = list()
 	///A list of all bodypart overlays to draw
 	var/list/bodypart_overlays = list()
+	///A list of all bodypart textures to apply
+	var/list/bodypart_textures
 
 	/// Type of an attack from this limb does. Arms will do punches, Legs for kicks, and head for bites. (TO ADD: tactical chestbumps)
 	var/attack_type = BRUTE
@@ -211,13 +216,15 @@
 	///this is our color palette we pull colors from
 	var/datum/color_palette/palette
 	var/palette_key
+	///Icons used instead of icon_static for the limb styles of TRAIT_GREYSCALE_TOGGLE, limb style -> icon
+	var/list/style_icons
 
 	///limb flags for the specific limb
 	var/limb_flags
 	/// The cached info about the blood this organ belongs to, set during on_removal()
 	var/list/blood_dna_info
 	/// A potential texturing overlay to put on the limb
-	var/datum/bodypart_overlay/texture/texture_bodypart_overlay
+	var/datum/bodypart_texture/texture_bodypart_overlay
 
 /obj/item/bodypart/apply_fantasy_bonuses(bonus)
 	. = ..()
@@ -246,7 +253,7 @@
 
 	if(texture_bodypart_overlay)
 		texture_bodypart_overlay = new texture_bodypart_overlay()
-		add_bodypart_overlay(texture_bodypart_overlay)
+		add_bodypart_texture(texture_bodypart_overlay, update = FALSE)
 
 	if(!IS_ORGANIC_LIMB(src))
 		grind_results = null
@@ -1005,10 +1012,16 @@
 	var/mob/living/carbon/human/human_owner = owner
 	limb_gender = (human_owner.physique == MALE) ? "m" : "f"
 	if (HAS_TRAIT(human_owner, TRAIT_GREYSCALE_TOGGLE))
-		if (human_owner.greyscale_limbs)
-			should_draw_greyscale = TRUE
+		should_draw_greyscale = (human_owner.limb_style == LIMB_STYLE_MUTANT_COLORS)
+		var/style_icon = style_icons?[human_owner.limb_style]
+		if(style_icon)
+			icon_static = style_icon
 		else
-			should_draw_greyscale = FALSE
+			// back to normal from another style
+			for(var/style in style_icons)
+				if(icon_static == style_icons[style])
+					icon_static = initial(icon_static)
+					break
 	if(HAS_TRAIT(human_owner, TRAIT_USES_SKINTONES))
 		skin_tone = human_owner.skin_tone
 	else if(HAS_TRAIT(human_owner, TRAIT_MUTANT_COLORS))
@@ -1230,8 +1243,17 @@
 					if(has_height)
 						owner.apply_height(extended_overlay, ENTIRE_BODY)
 					. += extended_overlay
-			for(var/datum/layer in .)
-				overlay.modify_bodypart_appearance(layer)
+
+		// Then texture everything at once, including bodypart overlays
+		for(var/datum/bodypart_texture/texture as anything in bodypart_textures)
+			if(!texture.can_texture_bodypart(src))
+				continue
+			for(var/image/generated_overlay as anything in .)
+				var/appearance_plane = PLANE_TO_TRUE(generated_overlay.plane)
+				if(appearance_plane != FLOAT_PLANE && appearance_plane != GAME_PLANE)
+					continue
+
+				texture.modify_bodypart_appearance(generated_overlay)
 
 	return .
 
@@ -1255,6 +1277,50 @@
 /obj/item/bodypart/proc/remove_bodypart_overlay(datum/bodypart_overlay/overlay)
 	bodypart_overlays -= overlay
 	overlay.removed_from_limb(src)
+
+/**
+ * Adds a bodypart texture to the limb
+ *
+ * * texture: The texture to add. Either an instance of a bodypart texture or a typepath of a bodypart texture.
+ * If you pass a typepath, the proc will avoid creating duplicates.
+ * * update: Whether to call update procs after adding the texture.
+ * Set this to FALSE if you are adding multiple textures at once.
+ */
+/obj/item/bodypart/proc/add_bodypart_texture(datum/bodypart_texture/texture, update = TRUE)
+	if(ispath(texture, /datum/bodypart_texture))
+		if(locate(texture) in bodypart_textures)
+			return
+		texture = new texture()
+
+	LAZYADD(bodypart_textures, texture)
+	if(!update)
+		return
+	if(isnull(owner))
+		update_icon_dropped()
+	else
+		owner.update_body_parts()
+
+/**
+ * Removes a bodypart texture from the limb
+ *
+ * * texture: The texture to remove. Either an instance of a bodypart texture or a typepath of a bodypart texture.
+ * If you pass a typepath, the first texture of that typepath found will be removed.
+ * * update: Whether to call update procs after removing the texture.
+ * Set this to FALSE if you are removing multiple textures at once.
+ */
+/obj/item/bodypart/proc/remove_bodypart_texture(datum/bodypart_texture/texture, update = TRUE)
+	if(ispath(texture, /datum/bodypart_texture))
+		texture = locate(texture) in bodypart_textures
+		if(isnull(texture))
+			return
+
+	LAZYREMOVE(bodypart_textures, texture)
+	if(!update)
+		return
+	if(isnull(owner))
+		update_icon_dropped()
+	else
+		owner.update_body_parts()
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)
 	SHOULD_CALL_PARENT(TRUE)
