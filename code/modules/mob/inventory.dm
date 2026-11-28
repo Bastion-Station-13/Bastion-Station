@@ -133,6 +133,14 @@
 /mob/proc/get_held_index_of_item(obj/item/I)
 	return held_items.Find(I)
 
+/// Returns what body zone is holding the passed item
+/mob/proc/get_hand_zone_of_item(obj/item/I)
+	var/hand_index = get_held_index_of_item(I)
+	if(!hand_index)
+		return null
+	if(IS_RIGHT_INDEX(hand_index))
+		return BODY_ZONE_R_ARM
+	return BODY_ZONE_L_ARM
 
 /// Returns the number of available hand slots
 /mob/proc/get_num_hand_slots() as num
@@ -142,8 +150,14 @@
 /mob/proc/get_num_held_items()
 	. = 0
 	for(var/i in 1 to held_items.len)
-		if(held_items[i])
-			.++
+		if(!held_items[i])
+			continue
+		var/obj/item/gripped_item = held_items[i]
+		if(HAS_TRAIT_FROM(gripped_item, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)) // prosthetic limbs are part of the body, not held items
+			continue
+		if(gripped_item.item_flags & ABSTRACT) // not really items
+			continue
+		.++
 
 /// Can this mob hold items?
 /mob/proc/can_hold_items(obj/item/I)
