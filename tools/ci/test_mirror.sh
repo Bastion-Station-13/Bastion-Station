@@ -264,18 +264,25 @@ echo "--- re-mirror"
 remirror 102 upstream-mirror-2; status=$?
 check "re-mirror: exits 0" "$([ "$status" -eq 0 ] && echo ok)"
 check "re-mirror: new branch is pushed" "$(pushed upstream-mirror-2-2 && echo ok)"
-check "re-mirror: the old branch is left alone" "$(pushed upstream-mirror-2 && echo ok)"
-new=$(grep -o '[0-9]*$' "$tmp/last.log" | tail -n 1)
+check "re-mirror: the old branch is deleted" "$(pushed upstream-mirror-2 || echo ok)"
+new=$(grep -o 'pull/[0-9]*$' "$tmp/last.log" | tail -n 1 | grep -o '[0-9]*$')
 check "re-mirror: the old PR is closed with a pointer to the new one" "$(grep -qx "102 Replaced by #$new, made again from the current master." "$GH_STUB/closed" && echo ok)"
 check_has "re-mirror: new body says what it replaces" "$(body upstream-mirror-2-2)" "Replaces #102, made again from the current master."
 check_has "re-mirror: new body still has the conflicts" "$(body upstream-mirror-2-2)" '| `code/a.dm` |'
 check_has "re-mirror: new title" "$GH_STUB/title-upstream-mirror-2-2" "[MIRROR] Content conflict"
 remirror "$new" upstream-mirror-2-2
 check "re-mirror again: the next number is used" "$(pushed upstream-mirror-2-3 && echo ok)"
+check "re-mirror again: the branch of the first re-mirror is deleted" "$(pushed upstream-mirror-2-2 || echo ok)"
 remirror 150 upstream-mirror-1
 check "re-mirror of a clean mirror: new branch" "$(pushed upstream-mirror-1-2 && echo ok)"
+check "re-mirror of a clean mirror: the old branch is deleted" "$(pushed upstream-mirror-1 || echo ok)"
 check_lacks "re-mirror of a clean mirror: no conflict note" "$(body upstream-mirror-1-2)" "merge conflicts"
 check_has "re-mirror of a clean mirror: says what it replaces" "$(body upstream-mirror-1-2)" "Replaces #150"
+
+echo "--- a branch that is already gone does not make the re-mirror fail"
+remirror 160 upstream-mirror-2; status=$?
+check "gone branch: exits 0" "$([ "$status" -eq 0 ] && echo ok)"
+check_has "gone branch: says it could not delete it" "$tmp/last.log" "Could not delete upstream-mirror-2"
 
 echo "--- re-mirror refuses what it should"
 closed_before=$(wc -l < "$GH_STUB/closed")
@@ -283,6 +290,10 @@ remirror 5 some-other-branch; status=$?
 check "not a mirror branch: fails" "$([ "$status" -ne 0 ] && echo ok)"
 remirror 9 upstream-mirror-9; status=$?
 check "skipped PR: fails" "$([ "$status" -eq 3 ] && echo ok)"
+git push -q origin origin/master:refs/heads/upstream-mirror-10
+remirror 110 upstream-mirror-10; status=$?
+check "nothing left: fails" "$([ "$status" -eq 3 ] && echo ok)"
+check "nothing left: the old branch is kept" "$(pushed upstream-mirror-10 && echo ok)"
 check "nothing was closed by those" "$([ "$(wc -l < "$GH_STUB/closed")" -eq "$closed_before" ] && echo ok)"
 
 echo
