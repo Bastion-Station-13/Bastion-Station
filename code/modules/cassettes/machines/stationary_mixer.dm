@@ -213,6 +213,8 @@
 	SStgui.update_uis(src)
 	balloon_alert(user, "track added!")
 	to_chat(user, span_notice("Added new track \"[html_encode(metadata["title"])]\" to [tape]"))
+	if(metadata["playlist"])
+		to_chat(user, span_notice("That link is a playlist, only its first track was added."))
 	playsound(src, 'sound/items/weapons/handcuffs.ogg', vol = 20, vary = TRUE, mixer_channel = CHANNEL_MACHINERY)
 	return TRUE
 
